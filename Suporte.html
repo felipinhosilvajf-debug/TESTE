@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="ico1.ico" />
+  <title>L2 Virtual Boost — Central de Suporte</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #3f8fe8;
+      --blue-light: #9fc9ff;
+      --blue-bright: #55aaff;
+      --blue-dark: #163d72;
+
+      --gold: #d6b15c;
+      --gold-light: #f3d98b;
+      --gold-dark: #8f6b25;
+
+      --bg: #02050d;
+      --bg-panel: rgba(5, 13, 28, .88);
+      --bg-panel-2: rgba(7, 18, 38, .75);
+
+      --text: #dceaff;
+      --muted: #8297b5;
+
+      --green: #69d17d;
+      --red: #e85b5b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================
+       FUNDO DARK FANTASY
+    ========================================================= */
+
+    .bg-fx {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+
+      background:
+        radial-gradient(
+          circle at 50% 15%,
+          rgba(45, 120, 220, .18),
+          transparent 40%
+        ),
+        radial-gradient(
+          circle at 10% 70%,
+          rgba(35, 90, 180, .12),
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 90% 75%,
+          rgba(75, 55, 170, .10),
+          transparent 40%
+        ),
+        linear-gradient(
+          180deg,
+          #02050d 0%,
+          #061225 48%,
+          #01030a 100%
+        );
+    }
+
+    .bg-fx::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(70, 145, 240, .08),
+          transparent 55%
+        );
+
+      filter: blur(45px);
+
+      animation: fantasyGlow 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes fantasyGlow {
+      0% {
+        opacity: .45;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: .85;
+        transform: scale(1.08);
+      }
+    }
+
+    /* Grid extremamente discreto */
+
+    .bg-fx::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(
+          rgba(80, 145, 220, .018) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(80, 145, 220, .018) 1px,
+          transparent 1px
+        );
+
+      background-size: 100px 100px;
+      opacity: .35;
+    }
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      z-index: 50;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 17px 6vw;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(2, 6, 15, .97),
+          rgba(2, 8, 20, .72)
+        );
+
+      backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid rgba(80, 145, 220, .35);
+
+      box-shadow:
+        0 5px 25px rgba(0, 0, 0, .35),
+        0 0 25px rgba(30, 100, 200, .08);
+    }
+
+    /* Linha mágica inferior */
+
+    nav::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(85, 170, 255, .8),
+          rgba(243, 217, 139, .7),
+          rgba(85, 170, 255, .8),
+          transparent
+        );
+
+      box-shadow: 0 0 10px rgba(70, 145, 240, .45);
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.45rem;
+
+      text-decoration: none;
+      letter-spacing: 1px;
+
+      color: var(--gold-light);
+
+      text-shadow:
+        0 0 7px rgba(230, 200, 120, .45),
+        0 0 16px rgba(55, 120, 220, .18);
+    }
+
+    .logo span {
+      color: var(--blue-bright);
+
+      text-shadow:
+        0 0 8px rgba(60, 145, 255, .9),
+        0 0 18px rgba(35, 100, 210, .6);
+    }
+
+    /* =========================================================
+       BOTÕES
+    ========================================================= */
+
+    .btn-shock,
+    .btn-ghost {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: .78rem;
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      transition:
+        .3s ease;
+
+      border-radius: 5px;
+    }
+
+    .btn-shock {
+      padding: 12px 24px;
+
+      color: #eaf4ff;
+
+      border: 1px solid var(--blue);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(50, 125, 220, .22),
+          rgba(20, 55, 110, .35)
+        );
+
+      box-shadow:
+        inset 0 0 12px rgba(70, 150, 240, .08),
+        0 0 12px rgba(45, 125, 230, .12);
+    }
+
+    .btn-shock:hover {
+      border-color: var(--blue-light);
+
+      color: #fff;
+
+      box-shadow:
+        0 0 12px rgba(60, 145, 255, .45),
+        inset 0 0 15px rgba(50, 125, 220, .15);
+
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+
+      color: #a9bad3;
+
+      border: 1px solid rgba(100, 140, 190, .3);
+
+      background:
+        rgba(3, 10, 22, .55);
+    }
+
+    .btn-ghost:hover {
+      color: var(--gold-light);
+
+      border-color:
+        rgba(210, 175, 90, .65);
+
+      box-shadow:
+        0 0 12px rgba(210, 175, 90, .12);
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    main {
+      flex: 1;
+
+      padding:
+        125px 6vw 70px;
+
+      max-width: 1000px;
+
+      margin: 0 auto;
+
+      width: 100%;
+    }
+
+    /* =========================================================
+       TÍTULO
+    ========================================================= */
+
+    .sec-title {
+      text-align: center;
+
+      font-family: 'Orbitron', sans-serif;
+
+      font-size: 2.15rem;
+
+      text-transform: uppercase;
+
+      margin-bottom: 8px;
+
+      letter-spacing: 1px;
+    }
+
+    .sec-title .grad {
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #bcdcff 38%,
+          #6eaef0 75%,
+          #d7b866 100%
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+
+      text-shadow:
+        0 0 15px rgba(70, 140, 230, .15);
+    }
+
+    .sec-lead {
+      text-align: center;
+
+      color: #91a5c0;
+
+      margin-bottom: 32px;
+
+      font-size: 1.02rem;
+
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       CARDS INFORMATIVOS
+    ========================================================= */
+
+    .info-cards-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 15px;
+
+      margin-bottom: 30px;
+    }
+
+    .info-card {
+      position: relative;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(8, 22, 45, .88),
+          rgba(3, 10, 22, .92)
+        );
+
+      border:
+        1px solid rgba(75, 135, 210, .3);
+
+      border-radius: 6px;
+
+      padding: 18px;
+
+      text-align: center;
+
+      overflow: hidden;
+
+      transition:
+        transform .3s,
+        border-color .3s,
+        box-shadow .3s;
+    }
+
+    .info-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 15%;
+      right: 15%;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(120, 180, 255, .7),
+          transparent
+        );
+    }
+
+    .info-card:hover {
+      transform: translateY(-3px);
+
+      border-color:
+        rgba(100, 165, 240, .65);
+
+      box-shadow:
+        0 8px 25px rgba(20, 90, 180, .15);
+    }
+
+    .info-card-icon {
+      font-size: 1.7rem;
+
+      margin-bottom: 8px;
+
+      filter:
+        drop-shadow(0 0 6px rgba(70, 145, 240, .4));
+    }
+
+    .info-card-title {
+      font-family: 'Orbitron', sans-serif;
+
+      font-size: .88rem;
+
+      color: var(--gold-light);
+
+      margin-bottom: 6px;
+    }
+
+    .info-card-desc {
+      font-size: .86rem;
+
+      color: #91a5c0;
+
+      line-height: 1.35;
+    }
+
+    /* =========================================================
+       CARDS PRINCIPAIS
+    ========================================================= */
+
+    .card {
+      position: relative;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(7, 19, 39, .93),
+          rgba(3, 9, 20, .95)
+        );
+
+      border:
+        1px solid rgba(80, 145, 220, .28);
+
+      border-radius: 7px;
+
+      padding: 30px;
+
+      box-shadow:
+        0 8px 35px rgba(0, 0, 0, .3),
+        inset 0 0 25px rgba(40, 100, 180, .025);
+
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 8%;
+      right: 8%;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(100, 175, 255, .7),
+          rgba(220, 190, 105, .55),
+          rgba(100, 175, 255, .7),
+          transparent
+        );
+
+      box-shadow:
+        0 0 10px rgba(70, 145, 240, .25);
+    }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif !important;
+
+      color: var(--gold-light) !important;
+
+      text-shadow:
+        0 0 8px rgba(215, 180, 90, .18);
+    }
+
+    /* =========================================================
+       INPUTS
+    ========================================================= */
+
+    input,
+    textarea {
+      outline: none;
+
+      border:
+        1px solid rgba(80, 145, 220, .28) !important;
+
+      background:
+        rgba(1, 7, 16, .8) !important;
+
+      color: #e5f1ff !important;
+
+      transition:
+        .25s;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #63758e;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color:
+        rgba(80, 160, 250, .8) !important;
+
+      box-shadow:
+        0 0 12px rgba(45, 125, 230, .12);
+
+      background:
+        rgba(3, 12, 27, .95) !important;
+    }
+
+    /* =========================================================
+       CHAVE
+    ========================================================= */
+
+    #ticketKeyContainer {
+      border:
+        1px dashed rgba(215, 177, 92, .65) !important;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(90, 65, 20, .10),
+          rgba(30, 20, 5, .08)
+        ) !important;
+
+      box-shadow:
+        inset 0 0 20px rgba(210, 175, 80, .04);
+    }
+
+    #generatedKeyDisplay {
+      color: var(--gold-light) !important;
+
+      text-shadow:
+        0 0 10px rgba(230, 195, 100, .45);
+    }
+
+    /* =========================================================
+       ÁREA DE CONVERSA
+    ========================================================= */
+
+    #conversationThread {
+      scrollbar-width: thin;
+      scrollbar-color: #315b8d transparent;
+    }
+
+    #conversationThread::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #conversationThread::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #conversationThread::-webkit-scrollbar-thumb {
+      background: #315b8d;
+      border-radius: 5px;
+    }
+
+    /* =========================================================
+       ADMIN
+    ========================================================= */
+
+    #adminPanel {
+      border-color:
+        rgba(215, 177, 92, .28);
+    }
+
+    #adminPanel::before {
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(220, 190, 105, .75),
+          rgba(90, 155, 235, .7),
+          transparent
+        );
+    }
+
+    #ticketsList > div {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(7, 18, 36, .95),
+          rgba(2, 8, 18, .95)
+        ) !important;
+
+      border:
+        1px solid rgba(75, 135, 210, .25) !important;
+    }
+
+    /* =========================================================
+       LOGIN ADMIN
+    ========================================================= */
+
+    .admin-login {
+      text-align: right;
+
+      margin-top: 15px;
+    }
+
+    .admin-login button {
+      background: none;
+
+      border: none;
+
+      color: var(--gold);
+
+      cursor: pointer;
+
+      font-family: 'Rajdhani', sans-serif;
+
+      font-size: .95rem;
+
+      transition: .25s;
+    }
+
+    .admin-login button:hover {
+      color: var(--gold-light);
+
+      text-shadow:
+        0 0 8px rgba(220, 185, 90, .35);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      position: relative;
+
+      text-align: center;
+
+      padding: 25px 6vw;
+
+      border-top:
+        1px solid rgba(70, 125, 195, .25);
+
+      color: #63758e;
+
+      font-size: .82rem;
+
+      background:
+        rgba(2, 6, 14, .55);
+    }
+
+    footer::before {
+      content: "";
+
+      position: absolute;
+
+      top: -1px;
+      left: 15%;
+      right: 15%;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(80, 150, 235, .55),
+          rgba(215, 177, 92, .45),
+          rgba(80, 150, 235, .55),
+          transparent
+        );
+    }
+
+    /* =========================================================
+       RESPONSIVO
+    ========================================================= */
+
+    @media (max-width: 800px) {
+
+      nav {
+        padding: 15px 5vw;
+      }
+
+      .logo {
+        font-size: 1.1rem;
+      }
+
+      main {
+        padding:
+          105px 4vw 50px;
+      }
+
+      .sec-title {
+        font-size: 1.55rem;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .btn-shock,
+      .btn-ghost {
+        padding: 10px 14px;
+        font-size: .7rem;
+      }
+    }
+
+    @media (max-width: 550px) {
+
+      nav {
+        position: relative;
+      }
+
+      main {
+        padding-top: 35px;
+      }
+
+      nav .btn-ghost {
+        padding: 8px 10px !important;
+      }
+
+      .info-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      #consultForm {
+        flex-direction: column !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bg-fx"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    L2 <span>VIRTUAL</span> BOOST
+  </a>
+
+  <a
+    href="index.html"
+    class="btn-ghost"
+    style="text-decoration:none;padding:8px 16px;"
+  >
+    ⬅ VOLTAR AO SITE
+  </a>
+</nav>
+
+<!-- CONTEÚDO -->
+<main>
+
+  <h1 class="sec-title">
+    <span class="grad">💬 SUPORTE & TICKETS</span>
+  </h1>
+
+  <p class="sec-lead">
+    Abra um ticket e receba uma chave de acesso única para acompanhar,
+    responder e verificar o status da sua solicitação a qualquer momento.
+  </p>
+
+  <!-- CARDS -->
+  <div class="info-cards-grid">
+
+    <div class="info-card">
+      <div class="info-card-icon">🛠️</div>
+
+      <div class="info-card-title">
+        Bugs & Erros
+      </div>
+
+      <div class="info-card-desc">
+        Reporte bugs no jogo, falhas de conexão ou problemas no client.
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-icon">💡</div>
+
+      <div class="info-card-title">
+        Dúvidas & Doações
+      </div>
+
+      <div class="info-card-desc">
+        Tire dúvidas gerais sobre o servidor, doações, eventos e regras.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SELEÇÃO -->
+  <div
+    style="
+      display:flex;
+      gap:15px;
+      margin-bottom:25px;
+      justify-content:center;
+      flex-wrap:wrap;
+    "
+  >
+
+    <button
+      onclick="showTicketSubTab('open')"
+      id="tabOpenBtn"
+      class="btn-shock"
+    >
+      ➕ ABRIR NOVO TICKET
+    </button>
+
+    <button
+      onclick="showTicketSubTab('consult')"
+      id="tabConsultBtn"
+      class="btn-ghost"
+    >
+      🔑 CONSULTAR / RESPONDER
+    </button>
+
+  </div>
+
+  <!-- =====================================================
+       ABRIR TICKET
+  ====================================================== -->
+
+  <div class="card" id="ticketFormCard">
+
+    <h3 style="margin-bottom:15px;">
+      ⚔️ Abrir Novo Ticket
+    </h3>
+
+    <form
+      id="ticketForm"
+      onsubmit="submitTicket(event)"
+      style="
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+      "
+    >
+
+      <input
+        type="text"
+        id="ticketName"
+        placeholder="Seu Nome / Char"
+        required
+        style="
+          padding:12px;
+          border-radius:5px;
+          font-family:'Rajdhani';
+          font-size:1rem;
+        "
+      >
+
+      <input
+        type="email"
+        id="ticketEmail"
+        placeholder="Seu email (Opcional)"
+        style="
+          padding:12px;
+          border-radius:5px;
+          font-family:'Rajdhani';
+          font-size:1rem;
+        "
+      >
+
+      <textarea
+        id="ticketMessage"
+        rows="5"
+        placeholder="Descreva seu problema ou dúvida..."
+        required
+        style="
+          padding:12px;
+          border-radius:5px;
+          font-family:'Rajdhani';
+          font-size:1rem;
+          resize:vertical;
+        "
+      ></textarea>
+
+      <button
+        type="submit"
+        class="btn-shock"
+      >
+        ⚔️ ENVIAR TICKET
+      </button>
+
+    </form>
+
+    <!-- CHAVE -->
+    <div
+      id="ticketKeyContainer"
+      style="
+        display:none;
+        margin-top:20px;
+        padding:20px;
+        border-radius:6px;
+        text-align:center;
+      "
+    >
+
+      <p
+        style="
+          color:var(--gold-light);
+          font-size:1.1rem;
+          margin-bottom:8px;
+          font-family:'Orbitron';
+        "
+      >
+        ✦ Ticket criado com sucesso!
+      </p>
+
+      <p
+        style="
+          color:#8498b2;
+          font-size:.9rem;
+        "
+      >
+        Guarde sua Chave de Registro para consultar e responder
+        o ticket mais tarde:
+      </p>
+
+      <div
+        style="
+          margin:15px 0;
+          font-family:'Orbitron';
+          font-size:1.8rem;
+          letter-spacing:3px;
+        "
+        id="generatedKeyDisplay"
+      >
+        VB-XXXXXX
+      </div>
+
+      <button
+        onclick="copyTicketKey()"
+        class="btn-ghost"
+        style="
+          padding:8px 16px;
+          font-size:.75rem;
+        "
+      >
+        📋 COPIAR CHAVE
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       CONSULTA
+  ====================================================== -->
+
+  <div
+    class="card"
+    id="ticketConsultCard"
+    style="display:none;"
+  >
+
+    <h3 style="margin-bottom:15px;">
+      🔑 Acessar Ticket Existente
+    </h3>
+
+    <form
+      id="consultForm"
+      onsubmit="consultTicket(event)"
+      style="
+        display:flex;
+        gap:10px;
+      "
+    >
+
+      <input
+        type="text"
+        id="accessKeyInput"
+        placeholder="Digite sua Chave (Ex: VB-A1B2C3)"
+        required
+        style="
+          flex:1;
+          padding:12px;
+          border-radius:5px;
+          font-family:'Orbitron';
+          font-size:.9rem;
+          text-transform:uppercase;
+        "
+      >
+
+      <button
+        type="submit"
+        class="btn-shock"
+      >
+        ENTRAR
+      </button>
+
+    </form>
+
+    <!-- DETALHES -->
+    <div
+      id="ticketViewDetails"
+      style="
+        display:none;
+        margin-top:25px;
+        border-top:1px solid rgba(80,145,220,.2);
+        padding-top:20px;
+      "
+    >
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:12px;
+          gap:10px;
+        "
+      >
+
+        <span
+          style="
+            font-family:'Orbitron';
+            color:var(--gold-light);
+          "
+          id="viewKeyTitle"
+        >
+          VB-XXXXXX
+        </span>
+
+        <span
+          id="viewStatusBadge"
+          style="
+            padding:4px 10px;
+            border-radius:12px;
+            font-size:.8rem;
+            font-weight:bold;
+          "
+        >
+          -
+        </span>
+
+      </div>
+
+      <p
+        style="
+          color:#63758e;
+          font-size:.85rem;
+        "
+      >
+        Autor:
+        <span
+          id="viewAuthorName"
+          style="color:#fff;"
+        ></span>
+      </p>
+
+      <!-- CONVERSA -->
+      <div
+        id="conversationThread"
+        style="
+          margin:20px 0;
+          display:flex;
+          flex-direction:column;
+          gap:12px;
+          max-height:350px;
+          overflow-y:auto;
+          padding-right:5px;
+        "
+      ></div>
+
+      <!-- RESPOSTA -->
+      <form
+        id="userReplyForm"
+        onsubmit="sendUserReply(event)"
+        style="
+          display:flex;
+          flex-direction:column;
+          gap:10px;
+          margin-top:15px;
+        "
+      >
+
+        <textarea
+          id="userReplyMessage"
+          rows="3"
+          placeholder="Escreva uma nova mensagem para a administração..."
+          required
+          style="
+            padding:10px;
+            border-radius:5px;
+            font-family:'Rajdhani';
+            font-size:1rem;
+            resize:vertical;
+          "
+        ></textarea>
+
+        <button
+          type="submit"
+          class="btn-shock"
+          style="align-self:flex-end;"
+        >
+          ENVIAR RESPOSTA
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- LOGIN ADMIN -->
+  <div class="admin-login">
+    <button
+      onclick="loginAdmin()"
+      title="Acesso Admin"
+    >
+      🔐 Painel Admin
+    </button>
+  </div>
+
+  <!-- =====================================================
+       ADMIN
+  ====================================================== -->
+
+  <div
+    class="card"
+    id="adminPanel"
+    style="
+      display:none;
+      margin-top:20px;
+    "
+  >
+
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:15px;
+      "
+    >
+
+      <h3>
+        🛡️ PAINEL ADMINISTRATIVO
+      </h3>
+
+      <button
+        onclick="logoutAdmin()"
+        style="
+          background:transparent;
+          border:1px solid rgba(80,145,220,.45);
+          color:#b9cbe1;
+          padding:6px 12px;
+          border-radius:4px;
+          cursor:pointer;
+          font-family:'Orbitron';
+          font-size:.7rem;
+        "
+      >
+        SAIR
+      </button>
+
+    </div>
+
+    <div
+      id="ticketsList"
+      style="
+        margin-top:20px;
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+      "
+    ></div>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>
+    © 2026 L2 Virtual Boost — Central de Atendimento.
+    Projeto não-oficial de fãs.
+  </p>
+</footer>
+
+<!-- =========================================================
+     FIREBASE
+========================================================= -->
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  query,
+  where,
+  orderBy,
+  arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBEm7CnJ1muljuTjX2zkeLduQ7d5BG_Mbk",
+  authDomain: "mascrypto.firebaseapp.com",
+  projectId: "mascrypto",
+  storageBucket: "mascrypto.firebasestorage.app",
+  messagingSenderId: "310906627126",
+  appId: "1:310906627126:web:12636e4682772e4119e497",
+  measurementId: "G-2XYJP1MKH7"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let currentActiveTicketId = null;
+
+
+/* =========================================================
+   GERAR CHAVE
+========================================================= */
+
+function generateTicketKey() {
+
+  const chars =
+    'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+  let result = 'VB-';
+
+  for (let i = 0; i < 6; i++) {
+
+    result +=
+      chars.charAt(
+        Math.floor(
+          Math.random() * chars.length
+        )
+      );
+
+  }
+
+  return result;
+}
+
+
+/* =========================================================
+   ABAS
+========================================================= */
+
+window.showTicketSubTab = function(tab) {
+
+  const formCard =
+    document.getElementById('ticketFormCard');
+
+  const consultCard =
+    document.getElementById('ticketConsultCard');
+
+  const btnOpen =
+    document.getElementById('tabOpenBtn');
+
+  const btnConsult =
+    document.getElementById('tabConsultBtn');
+
+
+  if (tab === 'open') {
+
+    formCard.style.display = 'block';
+    consultCard.style.display = 'none';
+
+    btnOpen.className = 'btn-shock';
+    btnConsult.className = 'btn-ghost';
+
+  } else {
+
+    formCard.style.display = 'none';
+    consultCard.style.display = 'block';
+
+    btnOpen.className = 'btn-ghost';
+    btnConsult.className = 'btn-shock';
+
+  }
+
+};
+
+
+/* =========================================================
+   CRIAR TICKET
+========================================================= */
+
+window.submitTicket = async function(e) {
+
+  e.preventDefault();
+
+  const name =
+    document.getElementById('ticketName').value;
+
+  const email =
+    document.getElementById('ticketEmail').value;
+
+  const message =
+    document.getElementById('ticketMessage').value;
+
+  const accessKey =
+    generateTicketKey();
+
+
+  try {
+
+    await addDoc(
+      collection(db, "tickets"),
+      {
+
+        accessKey: accessKey,
+
+        name: name,
+
+        email: email,
+
+        status: "Pendente",
+
+        createdAt: serverTimestamp(),
+
+        messages: [
+          {
+            sender: 'user',
+            text: message,
+            timestamp: new Date().toISOString()
+          }
+        ]
+
+      }
+    );
+
+
+    document
+      .getElementById('ticketForm')
+      .reset();
+
+    document
+      .getElementById('generatedKeyDisplay')
+      .innerText = accessKey;
+
+    document
+      .getElementById('ticketKeyContainer')
+      .style.display = 'block';
+
+
+  } catch (err) {
+
+    alert(
+      "Erro ao enviar ticket: " +
+      err.message
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   COPIAR CHAVE
+========================================================= */
+
+window.copyTicketKey = function() {
+
+  const key =
+    document
+      .getElementById('generatedKeyDisplay')
+      .innerText;
+
+  navigator.clipboard
+    .writeText(key)
+    .then(() => {
+
+      alert(
+        "Chave de registro copiada para a área de transferência!"
+      );
+
+    });
+
+};
+
+
+/* =========================================================
+   CONSULTAR
+========================================================= */
+
+window.consultTicket = async function(e) {
+
+  e.preventDefault();
+
+  const accessKeyInput =
+    document
+      .getElementById('accessKeyInput')
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  try {
+
+    const q = query(
+      collection(db, "tickets"),
+      where(
+        "accessKey",
+        "==",
+        accessKeyInput
+      )
+    );
+
+    const querySnapshot =
+      await getDocs(q);
+
+
+    if (querySnapshot.empty) {
+
+      alert(
+        "Chave inválida ou o ticket foi encerrado/deletado pela administração."
+      );
+
+      document
+        .getElementById('ticketViewDetails')
+        .style.display = 'none';
+
+      currentActiveTicketId = null;
+
+      return;
+    }
+
+
+    const ticketDoc =
+      querySnapshot.docs[0];
+
+    currentActiveTicketId =
+      ticketDoc.id;
+
+    renderTicketDetails(
+      ticketDoc.data()
+    );
+
+
+  } catch (err) {
+
+    alert(
+      "Erro ao consultar ticket: " +
+      err.message
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   RENDER TICKET
+========================================================= */
+
+function renderTicketDetails(data) {
+
+  document
+    .getElementById('viewKeyTitle')
+    .innerText = data.accessKey;
+
+  document
+    .getElementById('viewAuthorName')
+    .innerText = data.name;
+
+
+  const badge =
+    document.getElementById('viewStatusBadge');
+
+  badge.innerText =
+    data.status;
+
+
+  if (data.status === 'Respondido') {
+
+    badge.style.background =
+      'rgba(105,209,125,.12)';
+
+    badge.style.color =
+      'var(--green)';
+
+    badge.style.border =
+      '1px solid var(--green)';
+
+  } else {
+
+    badge.style.background =
+      'rgba(80,145,220,.12)';
+
+    badge.style.color =
+      'var(--blue-light)';
+
+    badge.style.border =
+      '1px solid var(--blue)';
+
+  }
+
+
+  const thread =
+    document.getElementById(
+      'conversationThread'
+    );
+
+  thread.innerHTML = '';
+
+
+  if (
+    data.messages &&
+    data.messages.length > 0
+  ) {
+
+    data.messages.forEach(msg => {
+
+      const msgBox =
+        document.createElement('div');
+
+      const isAdmin =
+        msg.sender === 'admin';
+
+
+      msgBox.style.cssText = `
+
+        padding:10px 14px;
+
+        border-radius:6px;
+
+        max-width:85%;
+
+        word-break:break-word;
+
+        ${
+          isAdmin
+            ? `
+              background:rgba(105,209,125,.08);
+              border:1px solid rgba(105,209,125,.35);
+              align-self:flex-start;
+              color:#fff;
+            `
+            : `
+              background:rgba(60,135,220,.10);
+              border:1px solid rgba(60,135,220,.35);
+              align-self:flex-end;
+              color:#fff;
+            `
+        }
+
+      `;
+
+
+      msgBox.innerHTML = `
+
+        <div
+          style="
+            font-size:.75rem;
+            color:${
+              isAdmin
+                ? 'var(--green)'
+                : 'var(--gold-light)'
+            };
+            margin-bottom:4px;
+            font-weight:bold;
+          "
+        >
+
+          ${
+            isAdmin
+              ? '🛡️ Suporte Virtual Boost'
+              : '👤 ' + data.name
+          }
+
+        </div>
+
+        <p
+          style="
+            font-size:.95rem;
+            margin:0;
+          "
+        >
+          ${msg.text}
+        </p>
+
+      `;
+
+
+      thread.appendChild(msgBox);
+
+    });
+
+  }
+
+
+  document
+    .getElementById('ticketViewDetails')
+    .style.display = 'block';
+
+}
+
+
+/* =========================================================
+   RESPOSTA USUÁRIO
+========================================================= */
+
+window.sendUserReply = async function(e) {
+
+  e.preventDefault();
+
+  if (!currentActiveTicketId)
+    return;
+
+
+  const replyMsg =
+    document
+      .getElementById('userReplyMessage')
+      .value;
+
+
+  try {
+
+    const docRef =
+      doc(
+        db,
+        "tickets",
+        currentActiveTicketId
+      );
+
+
+    const newMsg = {
+
+      sender: 'user',
+
+      text: replyMsg,
+
+      timestamp:
+        new Date().toISOString()
+
+    };
+
+
+    await updateDoc(
+      docRef,
+      {
+
+        messages:
+          arrayUnion(newMsg),
+
+        status:
+          "Pendente (Nova Resposta)"
+
+      }
+    );
+
+
+    document
+      .getElementById('userReplyMessage')
+      .value = '';
+
+
+    const updatedSnap =
+      await getDoc(docRef);
+
+
+    renderTicketDetails(
+      updatedSnap.data()
+    );
+
+
+    alert("Resposta enviada!");
+
+
+  } catch (err) {
+
+    alert(
+      "Erro ao enviar resposta: " +
+      err.message
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   LOGIN ADMIN
+========================================================= */
+
+window.loginAdmin = function() {
+
+  const password =
+    prompt(
+      "Digite a senha do administrador:"
+    );
+
+
+  if (password === "mas3510") {
+
+    document
+      .getElementById('adminPanel')
+      .style.display = "block";
+
+    loadTickets();
+
+  }
+
+  else if (password !== null) {
+
+    alert("Senha incorreta!");
+
+  }
+
+};
+
+
+/* =========================================================
+   LOGOUT ADMIN
+========================================================= */
+
+window.logoutAdmin = function() {
+
+  document
+    .getElementById('adminPanel')
+    .style.display = "none";
+
+};
+
+
+/* =========================================================
+   CARREGAR TICKETS
+========================================================= */
+
+async function loadTickets() {
+
+  const list =
+    document.getElementById(
+      'ticketsList'
+    );
+
+  list.innerHTML =
+    "<p style='color:#8297b5'>Carregando tickets...</p>";
+
+
+  try {
+
+    const q =
+      query(
+        collection(db, "tickets"),
+        orderBy(
+          "createdAt",
+          "desc"
+        )
+      );
+
+
+    const querySnapshot =
+      await getDocs(q);
+
+
+    list.innerHTML = "";
+
+
+    if (querySnapshot.empty) {
+
+      list.innerHTML =
+        "<p style='color:#8297b5'>Nenhum ticket encontrado.</p>";
+
+      return;
+
+    }
+
+
+    querySnapshot.forEach(
+      (ticketDoc) => {
+
+        const data =
+          ticketDoc.data();
+
+        const id =
+          ticketDoc.id;
+
+
+        const ticketEl =
+          document.createElement('div');
+
+
+        ticketEl.style.cssText = `
+
+          padding:15px;
+
+          border-radius:6px;
+
+          text-align:left;
+
+        `;
+
+
+        let conversationHTML = '';
+
+
+        if (
+          data.messages &&
+          data.messages.length > 0
+        ) {
+
+          data.messages.forEach(m => {
+
+            conversationHTML += `
+
+              <div
+                style="
+                  margin-top:6px;
+                  padding:7px 10px;
+                  border-radius:4px;
+                  background:
+                    ${
+                      m.sender === 'admin'
+                        ? 'rgba(105,209,125,.06)'
+                        : 'rgba(70,135,220,.06)'
+                    };
+                "
+              >
+
+                <b
+                  style="
+                    color:
+                      ${
+                        m.sender === 'admin'
+                          ? 'var(--green)'
+                          : 'var(--gold-light)'
+                      };
+
+                    font-size:.8rem;
+                  "
+                >
+                  ${
+                    m.sender === 'admin'
+                      ? 'Admin'
+                      : data.name
+                  }:
+                </b>
+
+                <span
+                  style="
+                    font-size:.9rem;
+                    color:#b5c6dc;
+                  "
+                >
+                  ${m.text}
+                </span>
+
+              </div>
+
+            `;
+
+          });
+
+        }
+
+
+        ticketEl.innerHTML = `
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+              margin-bottom:8px;
+              gap:10px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <strong
+              style="
+                color:var(--gold-light);
+              "
+            >
+              ${data.name}
+
+              ${
+                data.email
+                  ? '(' + data.email + ')'
+                  : ''
+              }
+
+            </strong>
+
+
+            <div>
+
+              <span
+                style="
+                  font-family:'Orbitron';
+                  font-size:.75rem;
+                  color:var(--gold);
+                  margin-right:10px;
+                "
+              >
+                Chave:
+                ${data.accessKey}
+              </span>
+
+              <span
+                style="
+                  color:
+                    ${
+                      data.status.includes(
+                        'Respondido'
+                      )
+                        ? 'var(--green)'
+                        : 'var(--blue-light)'
+                    };
+
+                  font-size:.8rem;
+                  font-weight:bold;
+                "
+              >
+                ${data.status}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div style="margin:10px 0;">
+            ${conversationHTML}
+          </div>
+
+
+          <div
+            style="
+              margin-top:12px;
+              display:flex;
+              gap:10px;
+            "
+          >
+
+            <button
+              onclick="replyTicket('${id}')"
+              class="btn-shock"
+              style="
+                padding:7px 12px;
+                font-size:.7rem;
+              "
+            >
+              RESPONDER
+            </button>
+
+
+            <button
+              onclick="deleteTicket('${id}')"
+              style="
+                background:rgba(150,35,35,.12);
+                border:1px solid rgba(220,80,80,.45);
+                color:#e88;
+                padding:7px 12px;
+                border-radius:4px;
+                cursor:pointer;
+                font-family:'Orbitron';
+                font-size:.7rem;
+              "
+            >
+              DELETAR TICKET
+            </button>
+
+          </div>
+
+        `;
+
+
+        list.appendChild(ticketEl);
+
+      }
+    );
+
+
+  } catch (err) {
+
+    list.innerHTML =
+      "<p style='color:#e88'>Erro ao carregar tickets: " +
+      err.message +
+      "</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   RESPONDER ADMIN
+========================================================= */
+
+window.replyTicket = async function(id) {
+
+  const replyText =
+    prompt(
+      "Digite a resposta da administração:"
+    );
+
+
+  if (replyText) {
+
+    try {
+
+      const docRef =
+        doc(
+          db,
+          "tickets",
+          id
+        );
+
+
+      const newMsg = {
+
+        sender: 'admin',
+
+        text: replyText,
+
+        timestamp:
+          new Date().toISOString()
+
+      };
+
+
+      await updateDoc(
+        docRef,
+        {
+
+          messages:
+            arrayUnion(newMsg),
+
+          status:
+            "Respondido"
+
+        }
+      );
+
+
+      alert("Resposta salva!");
+
+      loadTickets();
+
+
+    } catch (err) {
+
+      alert(
+        "Erro ao responder: " +
+        err.message
+      );
+
+    }
+
+  }
+
+};
+
+
+/* =========================================================
+   DELETAR
+========================================================= */
+
+window.deleteTicket = async function(id) {
+
+  if (
+    confirm(
+      "Tem certeza que deseja excluir este ticket?"
+    )
+  ) {
+
+    try {
+
+      await deleteDoc(
+        doc(
+          db,
+          "tickets",
+          id
+        )
+      );
+
+
+      alert("Ticket apagado!");
+
+      loadTickets();
+
+
+    } catch (err) {
+
+      alert(
+        "Erro ao excluir: " +
+        err.message
+      );
+
+    }
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
