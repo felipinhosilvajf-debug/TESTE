@@ -33,6 +33,7 @@ public class ItemInfo
 	private int[] enchantOptions = ItemInstance.EMPTY_ENCHANT_OPTIONS;
 
 	private ItemTemplate item;
+	private String creatorName;
 
 	public ItemInfo()
 	{}
@@ -59,7 +60,18 @@ public class ItemInfo
 		setDefenceUnholy(item.getDefenceUnholy());
 		setEquipSlot(item.getEquipSlot());
 		setTemporalLifeTime(item.getTemporalLifeTime());
+		setCreatorName(item.getCreatorName());
 		setEnchantOptions(item.getEnchantOptions());
+	}
+	
+		public String getCreatorName()
+	{
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName)
+	{
+		this.creatorName = creatorName;
 	}
 
 	public ItemTemplate getItem()
