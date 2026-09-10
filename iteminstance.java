@@ -94,6 +94,7 @@ public final class ItemInstance extends GameObject implements JdbcEntity
 	/** ID of the item */
 	private int itemId;
 	private int visualItemId = 0;
+	private String creatorName;
 	/** Quantity of the item */
 	private long count;
 	/** Level of enchantment of the item */
@@ -176,6 +177,16 @@ public final class ItemInstance extends GameObject implements JdbcEntity
 		itemId = id;
 		template = ItemHolder.getInstance().getTemplate(id);
 		setCustomFlags(getCustomFlags());
+	}
+	
+		public String getCreatorName()
+	{
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName)
+	{
+		this.creatorName = creatorName;
 	}
 
 	public long getCount()
@@ -1192,6 +1203,14 @@ public final class ItemInstance extends GameObject implements JdbcEntity
 	@Override
 	public void save()
 	{
+		if (creatorName == null && getOwnerId() > 0)
+		{
+			Player player = GameObjectsStorage.getPlayer(getOwnerId());
+
+			if (player != null)
+				creatorName = player.getName();
+		}
+
 		_itemsDAO.save(this);
 	}
 
