@@ -1,0 +1,81 @@
+	manufacturer.sendMessage(new CustomMessage("l2f.gameserver.RecipeController.GotOrder", manufacturer).addString(recipeList.getRecipeName()));
+
+		manufacturer.reduceCurrentMp(recipeList.getMpCost(), null);
+		manufacturer.sendStatusUpdate(false, false, StatusUpdate.CUR_MP);
+
+		int tryCount = 1, successCount = 0;
+		if (Rnd.chance(Config.CRAFT_DOUBLECRAFT_CHANCE))
+			tryCount++;
+
+		for (int i = 0; i < tryCount; i++)
+			if (Rnd.chance(recipeList.getSuccessRate()))
+			{
+				int itemId = recipeList.getFoundation() != 0 ? Rnd.chance(Config.CRAFT_MASTERWORK_CHANCE) ? recipeList.getFoundation() : recipeList.getItemId() : recipeList.getItemId();
+				long count = recipeList.getCount();
+				ItemFunctions.addItem(buyer, itemId, count, true, "RecipeShopMake");
+				success = 1;
+				successCount++;
+			}
+
+		SystemMessage2 sm;
+		if (successCount == 0)
+		{
+			sm = new SystemMessage2(SystemMsg.C1_HAS_FAILED_TO_CREATE_S2_AT_THE_PRICE_OF_S3_ADENA);
+			sm.addString(manufacturer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(_price);
+			buyer.sendPacket(sm);
+
+			sm = new SystemMessage2(SystemMsg.YOUR_ATTEMPT_TO_CREATE_S2_FOR_C1_AT_THE_PRICE_OF_S3_ADENA_HAS_FAILED);
+			sm.addString(buyer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(_price);
+			manufacturer.sendPacket(sm);
+			
+			// Alexander - Add a new craft failed only for recipes with less than 100% rate
+//			if (recipeList.getSuccessRate() < 100)
+//				buyer.addPlayerStats(Ranking.STAT_TOP_CRAFTS_FAILED);
+
+		}
+		else if (recipeList.getCount() > 1 || successCount > 1)
+		{
+			sm = new SystemMessage2(SystemMsg.C1_CREATED_S2_S3_AT_THE_PRICE_OF_S4_ADENA);
+			sm.addString(manufacturer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(recipeList.getCount() * successCount);
+			sm.addInteger(_price);
+			buyer.sendPacket(sm);
+
+			sm = new SystemMessage2(SystemMsg.S2_S3_HAVE_BEEN_SOLD_TO_C1_FOR_S4_ADENA);
+			sm.addString(buyer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(recipeList.getCount() * successCount);
+			sm.addInteger(_price);
+			manufacturer.sendPacket(sm);
+
+			// Alexander - Add a new craft succeed only for recipes with less than 100% rate
+//			if (recipeList.getSuccessRate() < 100)
+//				buyer.addPlayerStats(Ranking.STAT_TOP_CRAFTS_SUCCEED);	
+		}
+		else
+		{
+			sm = new SystemMessage2(SystemMsg.C1_CREATED_S2_AFTER_RECEIVING_S3_ADENA);
+			sm.addString(manufacturer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(_price);
+			buyer.sendPacket(sm);
+
+			sm = new SystemMessage2(SystemMsg.S2_IS_SOLD_TO_C1_FOR_THE_PRICE_OF_S3_ADENA);
+			sm.addString(buyer.getName());
+			sm.addItemName(recipeList.getItemId());
+			sm.addInteger(_price);
+			manufacturer.sendPacket(sm);
+			
+			// Alexander - Add a new craft succeed only for recipes with less than 100% rate
+//			if (recipeList.getSuccessRate() < 100)
+//				buyer.addPlayerStats(Ranking.STAT_TOP_CRAFTS_SUCCEED);	
+		}
+
+		buyer.sendChanges();
+		buyer.sendPacket(new RecipeShopItemInfo(buyer, manufacturer, _recipeId, _price, success));
+	}
