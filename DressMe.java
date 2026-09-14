@@ -836,18 +836,9 @@ public class DressMe implements IVoicedCommandHandler, ScriptFile
 		{
 			Inventory inv = player.getInventory();
 			ItemInstance chest = inv.getPaperdollItem(Inventory.PAPERDOLL_CHEST);
-			ItemInstance legs = inv.getPaperdollItem(Inventory.PAPERDOLL_LEGS);
-			ItemInstance gloves = inv.getPaperdollItem(Inventory.PAPERDOLL_GLOVES);
-			ItemInstance feet = inv.getPaperdollItem(Inventory.PAPERDOLL_FEET);
 
 			if (chest != null)
 				visuality(player, chest, 0);
-			if (legs != null)
-				visuality(player, legs, 0);
-			if (gloves != null)
-				visuality(player, gloves, 0);
-			if (feet != null)
-				visuality(player, feet, 0);
 
 			player.sendUserInfo(true);
 			player.broadcastUserInfo(true);
