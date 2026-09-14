@@ -644,7 +644,7 @@ public class DressMe implements IVoicedCommandHandler, ScriptFile
 
 			player.broadcastUserInfo(true);
 
-			player.sendMessage("Visual de armadura aplicado por 5 dias.");
+			player.sendMessage("Visual de armadura aplicado.");
 
 			return true;
 		}
