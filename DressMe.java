@@ -54,6 +54,8 @@ public class DressMe implements IVoicedCommandHandler, ScriptFile
 	private static Map<Integer, DressWeaponData> RAPIER;
 	private static Map<Integer, DressWeaponData> ANCIENTSWORD;
 	private static Map<Integer, DressWeaponData> DUALDAGGER;
+	private static final int DRESSME_DURATION_DAYS = 5;
+	private static final int DRESSME_DURATION_SECONDS = DRESSME_DURATION_DAYS * 24 * 60 * 60;
 
 	private final String[] _commandList = new String[] {
 			"dressme",
@@ -1067,14 +1069,45 @@ public class DressMe implements IVoicedCommandHandler, ScriptFile
 
 	private void visuality(Player player, ItemInstance item, int visual)
 	{
-		item.setVisualItemId(visual);
-		item.setJdbcState(JdbcEntityState.UPDATED);
-		item.update();
+		if (item == null)
+			return;
 
 		if (visual > 0)
-			player.sendMessage(item.getName() + " has been visual change to " + Util.getItemName(visual));
+		{
+			final int expiration =
+					(int) (System.currentTimeMillis() / 1000L)
+					+ DRESSME_DURATION_SECONDS;
+
+			item.setVisualItemId(visual);
+
+			item.setLifeTime(expiration);
+			item.setDressMeTemporary(true);
+
+			item.setJdbcState(JdbcEntityState.UPDATED);
+			item.update();
+
+			item.startDressMeTimer();
+
+			player.sendMessage(
+					"DressMe aplicado por " +
+					DRESSME_DURATION_DAYS +
+					" dias."
+			);
+		}
 		else
-			player.sendMessage("Visual change from " + item.getName() + " has been remove.");
+		{
+			item.setVisualItemId(0);
+			item.setLifeTime(0);
+			item.setDressMeTemporary(false);
+			item.stopTimer();
+
+			item.setJdbcState(JdbcEntityState.UPDATED);
+			item.update();
+
+			player.sendMessage(
+					"Visual do DressMe removido."
+			);
+		}
 	}
 
 	@Override
