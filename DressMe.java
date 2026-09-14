@@ -577,75 +577,76 @@ public class DressMe implements IVoicedCommandHandler, ScriptFile
 			final int set = Integer.parseInt(args.split(" ")[0]);
 
 			DressArmorData dress = DressArmorHolder.getInstance().getArmor(set);
+			if (dress == null)
+				return false;
+
 			Inventory inv = player.getInventory();
+
+			// =====================================================
+			// DRESSME ARMADURA
+			// Apenas o PEITO é obrigatório.
+			// Qualquer peito equipado pode receber o visual.
+			// =====================================================
 
 			ItemInstance chest = inv.getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 
 			if (chest == null)
 			{
-				player.sendMessage("Error: Chest must be equiped.");
+				player.sendMessage("Equipe qualquer armadura de peito para utilizar o DressMe.");
 				useVoicedCommand("dress-armorpage", player, args);
 				return false;
 			}
 
-			/*
-			ItemTemplate visual = ItemHolder.getInstance().getTemplate(dress.getChest());
-			if (chest.getTemplate().getBodyPart() != visual.getBodyPart())
+			// =====================================================
+			// PREÇO FIXO
+			// 10 Tickets de Donate
+			//
+			// IMPORTANTE:
+			// Se seus XMLs já possuem preço configurado, o código
+			// abaixo usa o ID configurado no DressArmorData,
+			// mas força a quantidade para 10.
+			// =====================================================
+
+			final int priceId = dress.getPriceId();
+			final int priceCount = 10;
+
+			if (inv.getCountOf(priceId) < priceCount)
 			{
-				player.sendMessage("Error: You can't change visual chest to full body and on the contrary!");
-				useVoicedCommand("dress-armorpage", player, args);
-				return false;
-			}
-			*/
-
-			ItemInstance legs = inv.getPaperdollItem(Inventory.PAPERDOLL_LEGS);
-
-			if (legs == null && chest.getBodyPart() != ItemTemplate.SLOT_FULL_ARMOR)
-			{
-				player.sendMessage("Error: Legs must be equiped.");
-				useVoicedCommand("dress-armorpage", player, args);
-				return false;
-			}
-
-			ItemInstance gloves = inv.getPaperdollItem(Inventory.PAPERDOLL_GLOVES);
-
-			if (gloves == null)
-			{
-				player.sendMessage("Error: Gloves must be equiped.");
-				useVoicedCommand("dress-armorpage", player, args);
+				player.sendMessage("Você precisa de 10 Tickets de Donate para utilizar este visual.");
 				return false;
 			}
 
-			ItemInstance feet = inv.getPaperdollItem(Inventory.PAPERDOLL_FEET);
+			// =====================================================
+			// REMOVE OS 10 TICKETS
+			// =====================================================
 
-			if (feet == null)
-			{
-				player.sendMessage("Error: Feet must be equiped.");
-				useVoicedCommand("dress-armorpage", player, args);
-				return false;
-			}
+			ItemFunctions.removeItem(player, priceId, priceCount, true, "DressMeArmor");
 
-			if (player.getInventory().getCountOf(dress.getPriceId()) >= dress.getPriceCount())
-			{
-				ItemFunctions.removeItem(player, dress.getPriceId(), dress.getPriceCount(), true, "VisualChange");
+			// =====================================================
+			// APLICA SOMENTE O VISUAL DO PEITO
+			//
+			// Não verifica:
+			// - pernas
+			// - luvas
+			// - botas
+			// - grade
+			// - tipo de armadura
+			// =====================================================
 
-				visuality(player, chest, dress.getChest());
-				if (legs != null)
-					visuality(player, legs, dress.getLegs());
-				visuality(player, gloves, dress.getGloves());
-				visuality(player, feet, dress.getFeet());
+			visuality(player, chest, dress.getChest());
 
-				player.getInventory().unEquipItem(chest);
-				player.getInventory().equipItem(chest);
+			// =====================================================
+			// ATUALIZA O PERSONAGEM
+			// =====================================================
 
-				player.broadcastUserInfo(true);
-				return true;
-			}
-			else
-			{
-				player.sendMessage("Error: You don't have items to pay.");
-				return false;
-			}
+			player.getInventory().unEquipItem(chest);
+			player.getInventory().equipItem(chest);
+
+			player.broadcastUserInfo(true);
+
+			player.sendMessage("Visual de armadura aplicado por 5 dias.");
+
+			return true;
 		}
 		else if (command.equals("dress-tryarmor"))
 		{
