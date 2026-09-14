@@ -86,6 +86,12 @@ public final class ItemInstance extends GameObject implements JdbcEntity
 	public static final int FLAG_NO_UNEQUIP = 1 << 6;
 	//public static final int FLAG_ALWAYS_DROP_ON_DIE = 1 << 7;
 	public static final int FLAG_EQUIP_ON_PICKUP = 1 << 7;
+	
+	/**
+ * Marca que o lifeTime deste item está sendo utilizado
+ * exclusivamente para controlar a validade do DressMe.
+ */
+
 	//public static final int FLAG_NO_RIDER_PICKUP = 1 << 9;
 	//public static final int FLAG_PET_EQUIPPED = 1 << 10;
 
@@ -1332,6 +1338,11 @@ public final class ItemInstance extends GameObject implements JdbcEntity
 	public void setVisualItemId(int visualItemId)
 	{
 		this.visualItemId = visualItemId;
+
+		if (visualItemId > 0 && isDressMeTemporary())
+			startDressMeTimer();
+		else if (visualItemId <= 0)
+			stopTimer();
 	}
 
 	public int getAugmentationMineralId()
