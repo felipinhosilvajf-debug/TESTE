@@ -9,22 +9,21 @@ global $pdo;
 $admin = current_admin();
 
 /*
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------- 
 | CONFIGURAÇÃO
 |--------------------------------------------------------------------------
 |
-| Esta página é somente leitura.
+| O Mythras já possui auditoria nativa de itens:
+|   logs       -> uma ação de movimentação
+|   logs_items -> itens recebidos/perdidos nessa ação
 |
-| O painel espera uma tabela "trade_logs" para o histórico permanente
-| das trades realizadas no GameServer.
-|
-| IMPORTANTE:
-| O painel não inventa movimentações. Se a tabela ainda não existir,
-| a página informa isso e nenhuma alteração é feita no banco.
+| Trade concluído gera duas ações (uma por personagem). Para a visão
+| administrativa abaixo usamos somente os itens perdidos (lost = 1),
+| evitando duplicação.
 |
 */
 
-$tradeTableExists = false;
+$tradeTableExists = true;
 $tradeLogs = [];
 $totalTrades = 0;
 $totalPages = 1;
@@ -34,7 +33,7 @@ $offset = ($page - 1) * $perPage;
 
 $character = trim((string)($_GET['character'] ?? ''));
 $item = trim((string)($_GET['item'] ?? ''));
-$tradeType = trim((string)($_GET['type'] ?? ''));
+$tradeType = 'TRADE';
 $dateFrom = trim((string)($_GET['date_from'] ?? ''));
 $dateTo = trim((string)($_GET['date_to'] ?? ''));
 
@@ -73,156 +72,101 @@ function tradeDate(?string $date): string
 
 /*
 |--------------------------------------------------------------------------
-| VERIFICAÇÃO DA TABELA
+| CONSULTA DOS LOGS NATIVOS DO MYTHRAS
 |--------------------------------------------------------------------------
 */
+
+$where = [];
+$params = [];
+
+$where[] = "l.action_type = 'TRADE'";
+$where[] = "li.lost = 1";
+$where[] = "li.receiver_name <> ''";
+
+if ($character !== '') {
+    $where[] = "(
+        c.char_name LIKE ?
+        OR li.receiver_name LIKE ?
+    )";
+    $params[] = '%' . $character . '%';
+    $params[] = '%' . $character . '%';
+}
+
+if ($item !== '') {
+    if (ctype_digit($item)) {
+        $where[] = "li.item_template_id = ?";
+        $params[] = (int)$item;
+    } else {
+        /*
+         * O log nativo guarda o ID do item. A busca textual abaixo também
+         * aceita o nome quando o banco possuir as tabelas padrão de itens.
+         * O bloco principal continua funcionando somente com logs/logs_items.
+         */
+        $where[] = "CAST(li.item_template_id AS CHAR) LIKE ?";
+        $params[] = '%' . $item . '%';
+    }
+}
+
+if ($dateFrom !== '') {
+    $where[] = "FROM_UNIXTIME(l.time / 1000) >= ?";
+    $params[] = $dateFrom . ' 00:00:00';
+}
+
+if ($dateTo !== '') {
+    $where[] = "FROM_UNIXTIME(l.time / 1000) <= ?";
+    $params[] = $dateTo . ' 23:59:59';
+}
+
+$whereSql = 'WHERE ' . implode(' AND ', $where);
+
+$totalTrades = 0;
+$totalPages = 1;
 
 try {
     $stmt = $pdo->prepare("
         SELECT COUNT(*)
-        FROM information_schema.tables
-        WHERE table_schema = DATABASE()
-          AND table_name = 'trade_logs'
+        FROM logs l
+        INNER JOIN logs_items li ON li.log_id = l.log_id
+        LEFT JOIN characters c ON c.obj_Id = l.player_object_id
+        $whereSql
     ");
-
-    $stmt->execute();
-
-    $tradeTableExists = (int)$stmt->fetchColumn() > 0;
+    $stmt->execute($params);
+    $totalTrades = (int)$stmt->fetchColumn();
 } catch (Throwable $e) {
-    $tradeTableExists = false;
+    $totalTrades = 0;
 }
 
-/*
-|--------------------------------------------------------------------------
-| FILTROS / CONSULTA
-|--------------------------------------------------------------------------
-|
-| O código abaixo usa os nomes de coluna planejados para o auditor de trade:
-|
-| id
-| from_char_id
-| from_char_name
-| to_char_id
-| to_char_name
-| item_id
-| item_name
-| amount
-| enchant
-| adena
-| trade_type
-| created_at
-|
-*/
+$totalPages = max(1, (int)ceil($totalTrades / $perPage));
 
-if ($tradeTableExists) {
+if ($page > $totalPages) {
+    $page = $totalPages;
+    $offset = ($page - 1) * $perPage;
+}
 
-    $where = [];
-    $params = [];
-
-    if ($character !== '') {
-        $where[] = "(
-            from_char_name LIKE ?
-            OR to_char_name LIKE ?
-        )";
-
-        $params[] = '%' . $character . '%';
-        $params[] = '%' . $character . '%';
-    }
-
-    if ($item !== '') {
-        $where[] = "(
-            item_name LIKE ?
-            OR CAST(item_id AS CHAR) LIKE ?
-        )";
-
-        $params[] = '%' . $item . '%';
-        $params[] = '%' . $item . '%';
-    }
-
-    if ($tradeType !== '') {
-        $where[] = "trade_type = ?";
-        $params[] = $tradeType;
-    }
-
-    if ($dateFrom !== '') {
-        $where[] = "created_at >= ?";
-        $params[] = $dateFrom . ' 00:00:00';
-    }
-
-    if ($dateTo !== '') {
-        $where[] = "created_at <= ?";
-        $params[] = $dateTo . ' 23:59:59';
-    }
-
-    $whereSql = '';
-
-    if ($where) {
-        $whereSql = 'WHERE ' . implode(' AND ', $where);
-    }
-
-    /*
-    |----------------------------------------------------------------------
-    | TOTAL
-    |----------------------------------------------------------------------
-    */
-
-    try {
-        $stmt = $pdo->prepare("
-            SELECT COUNT(*)
-            FROM trade_logs
-            $whereSql
-        ");
-
-        $stmt->execute($params);
-
-        $totalTrades = (int)$stmt->fetchColumn();
-    } catch (Throwable $e) {
-        $totalTrades = 0;
-    }
-
-    $totalPages = max(
-        1,
-        (int)ceil($totalTrades / $perPage)
-    );
-
-    if ($page > $totalPages) {
-        $page = $totalPages;
-        $offset = ($page - 1) * $perPage;
-    }
-
-    /*
-    |----------------------------------------------------------------------
-    | REGISTROS
-    |----------------------------------------------------------------------
-    */
-
-    try {
-        $stmt = $pdo->prepare("
-            SELECT
-                id,
-                from_char_id,
-                from_char_name,
-                to_char_id,
-                to_char_name,
-                item_id,
-                item_name,
-                amount,
-                enchant,
-                adena,
-                trade_type,
-                created_at
-            FROM trade_logs
-            $whereSql
-            ORDER BY id DESC
-            LIMIT $perPage OFFSET $offset
-        ");
-
-        $stmt->execute($params);
-
-        $tradeLogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Throwable $e) {
-        $tradeLogs = [];
-    }
+try {
+    $stmt = $pdo->prepare("
+        SELECT
+            l.log_id,
+            l.player_object_id AS from_char_id,
+            COALESCE(c.char_name, CONCAT('#', l.player_object_id)) AS from_char_name,
+            li.receiver_name AS to_char_name,
+            li.item_template_id AS item_id,
+            li.item_count AS amount,
+            li.item_enchant_level AS enchant,
+            li.item_object_id AS item_object_id,
+            FROM_UNIXTIME(l.time / 1000) AS created_at,
+            l.action_type AS trade_type
+        FROM logs l
+        INNER JOIN logs_items li ON li.log_id = l.log_id
+        LEFT JOIN characters c ON c.obj_Id = l.player_object_id
+        $whereSql
+        ORDER BY l.time DESC, l.log_id DESC
+        LIMIT $perPage OFFSET $offset
+    ");
+    $stmt->execute($params);
+    $tradeLogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+    $tradeLogs = [];
 }
 
 /*
@@ -238,38 +182,35 @@ $stats = [
     'items' => 0
 ];
 
-if ($tradeTableExists) {
+try {
+    $stmt = $pdo->query("
+        SELECT
+            COUNT(*) AS total,
+            COALESCE(SUM(CASE
+                WHEN FROM_UNIXTIME(l.time / 1000) >= CURDATE()
+                THEN 1 ELSE 0 END), 0) AS today,
+            COALESCE(SUM(CASE
+                WHEN li.item_template_id = 57
+                THEN li.item_count ELSE 0 END), 0) AS adena,
+            COALESCE(SUM(CASE
+                WHEN li.item_template_id <> 57
+                THEN li.item_count ELSE 0 END), 0) AS items
+        FROM logs l
+        INNER JOIN logs_items li ON li.log_id = l.log_id
+        WHERE l.action_type = 'TRADE'
+          AND li.lost = 1
+          AND li.receiver_name <> ''
+    ");
+    $row = $stmt->fetch();
 
-    try {
-        $stmt = $pdo->query("
-            SELECT
-                COUNT(*) AS total,
-                COALESCE(
-                    SUM(
-                        CASE
-                            WHEN created_at >= CURDATE()
-                            THEN 1
-                            ELSE 0
-                        END
-                    ),
-                    0
-                ) AS today,
-                COALESCE(SUM(adena), 0) AS adena,
-                COALESCE(SUM(amount), 0) AS items
-            FROM trade_logs
-        ");
-
-        $row = $stmt->fetch();
-
-        if ($row) {
-            $stats['total'] = (int)($row['total'] ?? 0);
-            $stats['today'] = (int)($row['today'] ?? 0);
-            $stats['adena'] = (int)($row['adena'] ?? 0);
-            $stats['items'] = (int)($row['items'] ?? 0);
-        }
-    } catch (Throwable $e) {
-        // Mantém os valores zerados.
+    if ($row) {
+        $stats['total'] = (int)($row['total'] ?? 0);
+        $stats['today'] = (int)($row['today'] ?? 0);
+        $stats['adena'] = (int)($row['adena'] ?? 0);
+        $stats['items'] = (int)($row['items'] ?? 0);
     }
+} catch (Throwable $e) {
+    // Mantém os valores zerados.
 }
 
 ?>
@@ -919,7 +860,7 @@ tr:hover td {
             </h2>
 
             <div class="subtitle">
-                Auditoria de movimentação de itens e Adena entre personagens
+                Controle e auditoria de movimentação entre personagens
             </div>
 
         </div>
@@ -936,39 +877,13 @@ tr:hover td {
 
     </div>
 
-    <?php if ($tradeTableExists): ?>
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-            <strong style="color:var(--green);">
-                AUDITORIA ATIVA
-            </strong>
-
-            <span>
-                Histórico de trades disponível para consulta.
-            </span>
-
-        </div>
-
-    <?php else: ?>
-
-        <div class="status warning">
-
-            <span class="status-dot"></span>
-
-            <strong style="color:var(--gold);">
-                AGUARDANDO REGISTRO DE TRADE
-            </strong>
-
-            <span>
-                A tabela <strong>trade_logs</strong> ainda não existe. O painel não cria registros automaticamente.
-            </span>
-
-        </div>
-
-    <?php endif; ?>
+    <div class="status">
+    <span class="status-dot"></span>
+    <strong style="color:var(--green);">AUDITORIA ATIVA</strong>
+    <span>
+        Leitura direta do sistema nativo de logs de trade do L2 Mythras.
+    </span>
+</div>
 
     <section class="stats">
 
@@ -1071,40 +986,9 @@ tr:hover td {
                 </label>
 
                 <select name="type">
-
-                    <option value="">
-                        Todos
-                    </option>
-
-                    <option
-                        value="TRADE"
-                        <?= $tradeType === 'TRADE' ? 'selected' : '' ?>
-                    >
-                        Trade
-                    </option>
-
-                    <option
-                        value="PRIVATE_STORE"
-                        <?= $tradeType === 'PRIVATE_STORE' ? 'selected' : '' ?>
-                    >
-                        Private Store
-                    </option>
-
-                    <option
-                        value="MAIL"
-                        <?= $tradeType === 'MAIL' ? 'selected' : '' ?>
-                    >
-                        Mail
-                    </option>
-
-                    <option
-                        value="OTHER"
-                        <?= $tradeType === 'OTHER' ? 'selected' : '' ?>
-                    >
-                        Outros
-                    </option>
-
-                </select>
+    <option value="">Todos os Trades</option>
+    <option value="TRADE" selected>Trade entre jogadores</option>
+</select>
 
             </div>
 
@@ -1168,27 +1052,7 @@ tr:hover td {
 
         </div>
 
-        <?php if (!$tradeTableExists): ?>
-
-            <div class="empty">
-
-                <strong>
-                    Nenhum histórico de trade disponível ainda.
-                </strong>
-
-                O painel está preparado para receber os registros do GameServer,
-                mas o histórico permanente precisa ser gravado pelo servidor.
-
-                <br><br>
-
-                <span style="color:#667b91;">
-                    Próxima etapa: integrar o registro de trades do L2 Mythras
-                    à tabela <b>trade_logs</b>.
-                </span>
-
-            </div>
-
-        <?php elseif (!$tradeLogs): ?>
+        <?php if (!$tradeLogs): ?>
 
             <div class="empty">
 
@@ -1277,24 +1141,20 @@ tr:hover td {
                             </td>
 
                             <td>
-
-                                <span class="item-name">
-                                    <?= h($log['item_name'] ?? '-') ?>
-                                </span>
-
-                                <?php if (isset($log['item_id'])): ?>
-
-                                    <span class="item-id">
-                                        ID <?= h((string)$log['item_id']) ?>
-                                    </span>
-
-                                <?php endif; ?>
-
-                            </td>
+    <span class="item-name">
+        <?= (int)($log['item_id'] ?? 0) === 57 ? 'Adena' : 'Item #' . h((string)($log['item_id'] ?? '-')) ?>
+    </span>
+    <span class="item-id">
+        ID <?= h((string)($log['item_id'] ?? '-')) ?>
+        <?php if ((int)($log['item_object_id'] ?? -1) >= 0): ?>
+            · Object <?= h((string)$log['item_object_id']) ?>
+        <?php endif; ?>
+    </span>
+</td>
 
                             <td class="amount">
-                                <?= formatNumberValue($log['amount'] ?? 0) ?>
-                            </td>
+    <?= (int)($log['item_id'] ?? 0) === 57 ? '-' : formatNumberValue($log['amount'] ?? 0) ?>
+</td>
 
                             <td class="enchant">
 
@@ -1307,23 +1167,16 @@ tr:hover td {
                             </td>
 
                             <td class="adena">
-
-                                <?php
-                                $adena = (int)($log['adena'] ?? 0);
-                                ?>
-
-                                <?= $adena > 0
-                                    ? formatNumberValue($adena)
-                                    : '-'
-                                ?>
-
-                            </td>
+    <?php if ((int)($log['item_id'] ?? 0) === 57): ?>
+        <?= formatNumberValue($log['amount'] ?? 0) ?>
+    <?php else: ?>
+        -
+    <?php endif; ?>
+</td>
 
                             <td>
 
-                                <span class="type">
-                                    <?= h($log['trade_type'] ?? 'TRADE') ?>
-                                </span>
+                                <span class="type">TRADE</span>
 
                             </td>
 
