@@ -352,7 +352,9 @@ public class AutoFarmCommunity
 			html.append(skill.getId());
 			html.append("\" width=32 height=32 back=\"");
 			html.append(getSkillIcon(skill));
-			html.append("\" fore=\"L2UI_CT1.Button_DF\" tooltip=\"");
+			html.append("\\" fore=\\\"");
+			html.append(getSkillIcon(skill));
+			html.append("\\\" tooltip=\\\"");
 			html.append(skill.getName().replace("\"", "'"));
 			html.append("\">");
 			html.append("</td>");
