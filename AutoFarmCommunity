@@ -287,7 +287,7 @@ public class AutoFarmCommunity
 			if (skill == null)
 				continue;
 
-			if (!skill.isActive())
+			if (!skill.isActive() && !skill.isToggle())
 				continue;
 
 			if (skill.getName() == null ||
@@ -351,9 +351,9 @@ public class AutoFarmCommunity
 			html.append(" ");
 			html.append(skill.getId());
 			html.append("\" width=36 height=36 back=\"");
-			html.append(getSkillIcon(skill.getId()));
+			html.append(getSkillIcon(skill));
 			html.append("\" fore=\"");
-			html.append(getSkillIcon(skill.getId()));
+			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
 			html.append("\">");
@@ -1071,29 +1071,23 @@ public class AutoFarmCommunity
 
 	private String getSkillIcon(int skillId)
 	{
-		if (skillId <= 0)
+		if (skillId <= 0 || self == null)
 			return "L2UI_CT1.Button_DF";
 
-		int iconId = skillId;
+		Skill skill = self.getKnownSkill(skillId);
 
-		if (skillId == 1517)
-			iconId = 1536;
-		else if (skillId == 1518)
-			iconId = 1537;
-		else if (skillId == 1547)
-			iconId = 65;
-		else if (skillId == 2076)
-			iconId = 195;
-		else if (skillId > 4550 && skillId < 4555)
-			iconId = 5739;
-		else if (skillId > 4698 && skillId < 4701)
-			iconId = 1331;
-		else if (skillId > 4701 && skillId < 4704)
-			iconId = 1332;
-		else if (skillId == 6049)
-			iconId = 94;
+		if (skill == null || skill.getIcon() == null || skill.getIcon().isEmpty())
+			return "L2UI_CT1.Button_DF";
 
-		return "Icon.skill" + String.format("%04d", iconId);
+		return skill.getIcon();
+	}
+
+	private String getSkillIcon(Skill skill)
+	{
+		if (skill == null || skill.getIcon() == null || skill.getIcon().isEmpty())
+			return "L2UI_CT1.Button_DF";
+
+		return skill.getIcon();
 	}
 
 	private String getSkillValue(int skillId)
