@@ -569,17 +569,23 @@ public class AutoFarmTask implements Runnable
 			}
 
 			/*
-			 * Interrompe ataque normal.
+			 * Interrompe ataque normal somente no momento do cast.
 			 */
 			if (_player.isAttackingNow())
 				_player.abortAttack(false, false);
 
 			/*
 			 * CAST NORMAL DO CORE.
+			 *
+			 * A skill só é marcada como usada depois que o cast
+			 * realmente foi iniciado. Isso evita avançar a rotação
+			 * em uma tentativa que não conseguiu lançar.
 			 */
 			_player.doCast(skill, target, true);
 
-			nextSkill(index);
+			_currentSkill = index + 2;
+			if (_currentSkill > skills.length)
+				_currentSkill = 1;
 
 			return true;
 		}
