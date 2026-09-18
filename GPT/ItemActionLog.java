@@ -8,7 +8,7 @@ public class ItemActionLog
 	private final long time;
 	private SingleItemLog[] itemsLost;
 	private SingleItemLog[] itemsReceived;
-	private final boolean isSavedInDatabase;
+	private boolean isSavedInDatabase;
 
 	public ItemActionLog(int actionId, int playerObjectId, ItemActionType actionType, long time, SingleItemLog[] itemsLost, SingleItemLog[] itemsReceived)
 	{
@@ -76,5 +76,10 @@ public class ItemActionLog
 	public boolean isSavedInDatabase()
 	{
 		return this.isSavedInDatabase;
+	}
+
+	public void markSavedInDatabase()
+	{
+		this.isSavedInDatabase = true;
 	}
 }
