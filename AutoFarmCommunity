@@ -334,7 +334,7 @@ public class AutoFarmCommunity
 		html.append("<font color=\"AAAAAA\" size=1>ESCOLHA UMA SKILL</font>");
 		html.append("</td></tr></table><br>");
 
-		html.append("<table width=220 border=1 cellpadding=2 cellspacing=1 bgcolor=\"000000\">");
+		html.append("<table width=220 border=0 cellpadding=1 cellspacing=1 bgcolor=\"000000\">");
 
 		int column = 0;
 
@@ -345,12 +345,13 @@ public class AutoFarmCommunity
 			if (column == 0)
 				html.append("<tr>");
 
-			html.append("<td width=52 height=42 align=center bgcolor=\"202020\">");
+			html.append("<td width=52 height=38 align=center bgcolor=\"202020\">");
 			html.append("<button value=\"\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
 			html.append(slot);
 			html.append(" ");
 			html.append(skill.getId());
-			html.append("\" width=36 height=36 back=\"");
+			html.append("\" width=34 height=34 back=\"");
+			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
 			html.append("\">");
