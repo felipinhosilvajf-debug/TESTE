@@ -70,6 +70,32 @@ function tradeDate(?string $date): string
     return date('d/m/Y H:i:s', $timestamp);
 }
 
+function parseTradeItems(?string $raw): array
+{
+    if (!$raw) {
+        return [];
+    }
+
+    $items = [];
+
+    foreach (explode('|', $raw) as $part) {
+        $values = explode(':', $part, 4);
+
+        if (count($values) !== 4) {
+            continue;
+        }
+
+        $items[] = [
+            'id' => (int)$values[0],
+            'amount' => (int)$values[1],
+            'enchant' => (int)$values[2],
+            'object_id' => (int)$values[3]
+        ];
+    }
+
+    return $items;
+}
+
 /*
 |--------------------------------------------------------------------------
 | CATÁLOGO REAL DE ITENS
@@ -221,7 +247,7 @@ $totalPages = 1;
 
 try {
     $stmt = $pdo->prepare("
-        SELECT COUNT(*)
+        SELECT COUNT(DISTINCT l.log_id)
         FROM logs l
         INNER JOIN logs_items li ON li.log_id = l.log_id
         LEFT JOIN characters c ON c.obj_Id = l.player_object_id
@@ -246,17 +272,24 @@ try {
             l.log_id,
             l.player_object_id AS from_char_id,
             COALESCE(c.char_name, CONCAT('#', l.player_object_id)) AS from_char_name,
-            li.receiver_name AS to_char_name,
-            li.item_template_id AS item_id,
-            li.item_count AS amount,
-            li.item_enchant_level AS enchant,
-            li.item_object_id AS item_object_id,
+            MAX(li.receiver_name) AS to_char_name,
             FROM_UNIXTIME(l.time / 1000) AS created_at,
-            l.action_type AS trade_type
+            l.action_type AS trade_type,
+            GROUP_CONCAT(
+                CONCAT(
+                    li.item_template_id, ':',
+                    li.item_count, ':',
+                    li.item_enchant_level, ':',
+                    li.item_object_id
+                )
+                ORDER BY li.item_template_id, li.item_object_id
+                SEPARATOR '|'
+            ) AS trade_items
         FROM logs l
         INNER JOIN logs_items li ON li.log_id = l.log_id
         LEFT JOIN characters c ON c.obj_Id = l.player_object_id
         $whereSql
+        GROUP BY l.log_id, l.player_object_id, c.char_name, l.time, l.action_type
         ORDER BY l.time DESC, l.log_id DESC
         LIMIT $perPage OFFSET $offset
     ");
@@ -730,6 +763,34 @@ tr:hover td {
     margin-top:4px;
 }
 
+.trade-items {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    min-width:360px;
+    max-width:620px;
+}
+
+.trade-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 9px;
+    border:1px solid rgba(130,170,220,.11);
+    background:rgba(130,170,220,.035);
+    border-radius:5px;
+}
+
+.item-meta {
+    color:#8295a9;
+    font-size:10px;
+}
+
+.item-meta b {
+    color:var(--gold);
+    margin-left:3px;
+}
+
 .enchant {
     color:var(--gold);
     font-weight:700;
@@ -1184,19 +1245,7 @@ tr:hover td {
                             </th>
 
                             <th>
-                                Item
-                            </th>
-
-                            <th>
-                                Qtd.
-                            </th>
-
-                            <th>
-                                Enchant
-                            </th>
-
-                            <th>
-                                Adena
+                                Itens enviados
                             </th>
 
                             <th>
@@ -1238,39 +1287,31 @@ tr:hover td {
                             </td>
 
                             <td>
-    <span class="item-name">
-        <?= (int)($log['item_id'] ?? 0) === 57
-    ? 'Adena'
-    : h($itemNames[(int)($log['item_id'] ?? 0)] ?? ('Item #' . (string)($log['item_id'] ?? '-'))) ?>
-    </span>
-    <span class="item-id">
-        ID <?= h((string)($log['item_id'] ?? '-')) ?>
-        <?php if ((int)($log['item_object_id'] ?? -1) >= 0): ?>
-            · Object <?= h((string)$log['item_object_id']) ?>
-        <?php endif; ?>
-    </span>
-</td>
-
-                            <td class="amount">
-    <?= (int)($log['item_id'] ?? 0) === 57 ? '-' : formatNumberValue($log['amount'] ?? 0) ?>
-</td>
-
-                            <td class="enchant">
-
-                                <?php
-                                $enchant = (int)($log['enchant'] ?? 0);
-                                ?>
-
-                                <?= $enchant > 0 ? '+' . $enchant : '-' ?>
-
-                            </td>
-
-                            <td class="adena">
-    <?php if ((int)($log['item_id'] ?? 0) === 57): ?>
-        <?= formatNumberValue($log['amount'] ?? 0) ?>
-    <?php else: ?>
-        -
-    <?php endif; ?>
+    <div class="trade-items">
+        <?php foreach (parseTradeItems($log['trade_items'] ?? null) as $tradeItem): ?>
+            <?php
+            $tradeItemId = $tradeItem['id'];
+            $tradeItemName = $tradeItemId === 57
+                ? 'Adena'
+                : ($itemNames[$tradeItemId] ?? 'Item #' . $tradeItemId);
+            ?>
+            <div class="trade-item">
+                <span class="item-name">
+                    <?= h($tradeItemName) ?>
+                </span>
+                <span class="item-meta">
+                    <?php if ($tradeItemId === 57): ?>
+                        <?= formatNumberValue($tradeItem['amount']) ?> Adena
+                    <?php else: ?>
+                        x<?= formatNumberValue($tradeItem['amount']) ?>
+                        <?php if ($tradeItem['enchant'] > 0): ?>
+                            <b>+<?= (int)$tradeItem['enchant'] ?></b>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </span>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </td>
 
                             <td>
