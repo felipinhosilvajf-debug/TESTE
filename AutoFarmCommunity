@@ -350,7 +350,9 @@ public class AutoFarmCommunity
 			html.append(slot);
 			html.append(" ");
 			html.append(skill.getId());
-			html.append("\" width=34 height=34 back=\"");
+			html.append("\" width=36 height=36 back=\"");
+			html.append(getSkillIcon(skill));
+			html.append("\" fore=\"");
 			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
