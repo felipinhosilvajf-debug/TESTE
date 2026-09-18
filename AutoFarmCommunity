@@ -352,8 +352,6 @@ public class AutoFarmCommunity
 			html.append(skill.getId());
 			html.append("\" width=36 height=36 back=\"");
 			html.append(getSkillIcon(skill));
-			html.append("\" fore=\"");
-			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
 			html.append("\">");
@@ -391,7 +389,7 @@ public class AutoFarmCommunity
 				html.append("skill2prev");
 			else
 				html.append("skill3prev");
-			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\"></td>");
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\"></td>");
 		}
 		else
 			html.append("<td width=70></td>");
