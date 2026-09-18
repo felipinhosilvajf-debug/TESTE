@@ -43,6 +43,10 @@ public class AutoFarmTask implements Runnable
 	 */
 	private long _lastPotionUse = 0;
 
+	/* Anti-travamento do ataque. */
+	private long _attackStateSince = 0L;
+	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
+
 	private static final long POTION_INTERVAL = 3000L;
 
 	public AutoFarmTask(Player player)
@@ -70,6 +74,7 @@ public class AutoFarmTask implements Runnable
 		_lastLootObjectId = 0;
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
+		_attackStateSince = 0L;
 	}
 
 	public void setSkills(int skill1, int skill2, int skill3)
@@ -117,6 +122,9 @@ public class AutoFarmTask implements Runnable
 
 		if (_player.isDead())
 			return;
+
+		/* Destrava estados de ataque presos sem interromper ataques normais. */
+		checkAttackWatchdog();
 
 		/*
 		 * Nunca faz outra ação durante um cast.
@@ -201,6 +209,29 @@ public class AutoFarmTask implements Runnable
 	 * 728 = MP
 	 * 0 = sem poção
 	 */
+	private void checkAttackWatchdog()
+	{
+		if (!_player.isAttackingNow())
+		{
+			_attackStateSince = 0L;
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+
+		if (_attackStateSince == 0L)
+		{
+			_attackStateSince = now;
+			return;
+		}
+
+		if (now - _attackStateSince < ATTACK_STUCK_TIMEOUT)
+			return;
+
+		_player.abortAttack(false, false);
+		_attackStateSince = 0L;
+	}
+
 	private boolean tryUsePotion()
 	{
 		String value = _player.getVar("autofarm_potion");
