@@ -245,9 +245,7 @@ public class AutoFarmCommunity
 			new Comparator<Skill>()
 			{
 				@Override
-				public int compare(
-					Skill a,
-					Skill b)
+				public int compare(Skill a, Skill b)
 				{
 					if (a == null && b == null)
 						return 0;
@@ -319,150 +317,42 @@ public class AutoFarmCommunity
 
 		html.append("<html noscrollbar>");
 		html.append("<title>Auto Farm - Skills</title>");
-		html.append("<body>");
-		html.append("<center>");
+		html.append("<body><center>");
 
-		/*
-		 * HEADER FIXO
-		 */
-		html.append(
-			"<table width=620 border=0 cellpadding=0 cellspacing=0>"
-		);
+		html.append("<table width=235 border=1 cellpadding=2 cellspacing=0 bgcolor=\"000000\">");
+		html.append("<tr><td align=center background=\"L2font-e.map_airship_harbor_gludio\">");
+		html.append("<font color=\"FFFFFF\" size=3><b>SKILLS</b></font><br>");
+		html.append("<font color=\"AAAAAA\" size=1>ESCOLHA UMA SKILL</font>");
+		html.append("</td></tr></table><br>");
 
-		html.append("<tr>");
-		html.append("<td height=38 align=center>");
-
-		html.append(
-			"<font name=\"hs12\" color=\"LEVEL\">"
-		);
-
-		html.append("-");
-
-		html.append("</font>");
-
-		html.append("</td>");
-		html.append("</tr>");
-
-		html.append("<tr>");
-		html.append("<td height=22 align=center>");
-
-		html.append(
-			"<font color=\"AAAAAA\">"
-		);
-
-		html.append(
-			"Selecione a skill que será usada no Auto Farm"
-		);
-
-		html.append("</font>");
-
-		html.append("</td>");
-		html.append("</tr>");
-
-		html.append("</table>");
-
-		html.append("<br>");
-
-		/*
-		 * SEM SKILL
-		 */
-		html.append(
-			"<button value=\"SEM SKILL\""
-		);
-
-		html.append(
-			" action=\"bypass _bbsscripts;"
-		);
-
-		html.append(
-			"l2f.gameserver.autofarm.AutoFarmCommunity:"
-		);
-
-		html.append("select ");
-
-		html.append(slot);
-		html.append(" 0\"");
-
-		html.append(
-			" width=285 height=28"
-		);
-
-		html.append(
-			" back=\"L2UI_CH3.Btn_BF_Down\""
-		);
-
-		html.append(
-			" fore=\"L2UI_CH3.Btn_BF\">"
-		);
-
-		html.append("<br><br>");
-
-		/*
-		 * LISTA
-		 */
-		html.append(
-			"<table width=600 border=0 cellpadding=1 cellspacing=2>"
-		);
+		html.append("<table width=220 border=1 cellpadding=2 cellspacing=1 bgcolor=\"000000\">");
 
 		int column = 0;
 
 		for (int i = start; i < end; i++)
 		{
-			Skill skill =
-				validSkills.get(i);
+			Skill skill = validSkills.get(i);
 
 			if (column == 0)
 				html.append("<tr>");
 
-			html.append(
-				"<td width=300 align=center>"
-			);
-
-			String name =
-				skill.getName();
-
-			if (name.length() > 25)
-			{
-				name =
-					name.substring(0, 25);
-			}
-
-			html.append(
-				"<button value=\""
-			);
-
-			html.append(name);
-
-			html.append("\" action=\"bypass _bbsscripts;"
-			);
-
-			html.append(
-				"l2f.gameserver.autofarm.AutoFarmCommunity:select "
-			);
-
+			html.append("<td width=52 height=42 align=center bgcolor=\"202020\">");
+			html.append("<button value=\"\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
 			html.append(slot);
 			html.append(" ");
 			html.append(skill.getId());
-
-			html.append("\"");
-
-			html.append(
-				" width=285 height=27"
-			);
-
-			html.append(
-				" back=\"L2UI_CH3.Btn_BF_Down\""
-			);
-
-			html.append(
-				" fore=\"L2UI_CH3.Btn_BF\">"
-			);
-
+			html.append("\" width=36 height=36 back=\"");
+			html.append(getSkillIcon(skill.getId()));
+			html.append("\" fore=\"");
+			html.append(getSkillIcon(skill.getId()));
+			html.append("\" tooltip=\"");
+			html.append(skill.getName().replace("\"", "'"));
+			html.append("\">");
 			html.append("</td>");
 
 			column++;
 
-			if (column == 2)
+			if (column == 4)
 			{
 				html.append("</tr>");
 				column = 0;
@@ -471,168 +361,61 @@ public class AutoFarmCommunity
 
 		if (column != 0)
 		{
-			html.append(
-				"<td width=300></td>"
-			);
-
+			while (column < 4)
+			{
+				html.append("<td width=52 height=42 bgcolor=\"202020\"></td>");
+				column++;
+			}
 			html.append("</tr>");
 		}
 
-		html.append("</table>");
+		html.append("</table><br>");
 
-		/*
-		 * PAGINAÇÃO
-		 */
-		html.append("<br>");
-
-		html.append(
-			"<table width=600 border=0 cellpadding=0 cellspacing=2>"
-		);
-
-		html.append("<tr>");
-
-		/*
-		 * ANTERIOR
-		 */
-		html.append("<td width=200 align=center>");
+		html.append("<table width=220 border=0 cellpadding=0 cellspacing=1><tr>");
 
 		if (page > 0)
 		{
-			html.append(
-				"<button value=\"< ANTERIOR\""
-			);
-
-			html.append(
-				" action=\"bypass _bbsscripts;"
-			);
-
-			html.append(
-				"l2f.gameserver.autofarm.AutoFarmCommunity:"
-			);
-
+			html.append("<td width=70 align=center><button value=\"<\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:");
 			if (slot == 1)
 				html.append("skill1prev");
 			else if (slot == 2)
 				html.append("skill2prev");
 			else
 				html.append("skill3prev");
-
-			html.append("\"");
-
-			html.append(
-				" width=150 height=27"
-			);
-
-			html.append(
-				" back=\"L2UI_CH3.Btn_BF_Down\""
-			);
-
-			html.append(
-				" fore=\"L2UI_CH3.Btn_BF\">"
-			);
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\"></td>");
 		}
+		else
+			html.append("<td width=70></td>");
 
-		html.append("</td>");
-
-		/*
-		 * PÁGINA
-		 */
-		html.append(
-			"<td width=200 align=center>"
-		);
-
-		html.append(
-			"<font color=\"AAAAAA\">"
-		);
-
-		html.append("Página ");
+		html.append("<td width=80 align=center><font color=\"AAAAAA\" size=1>");
 		html.append(page + 1);
 		html.append(" / ");
 		html.append(totalPages);
-
-		html.append("</font>");
-		html.append("</td>");
-
-		/*
-		 * PRÓXIMA
-		 */
-		html.append(
-			"<td width=200 align=center>"
-		);
+		html.append("</font></td>");
 
 		if (page + 1 < totalPages)
 		{
-			html.append(
-				"<button value=\"PRÓXIMA >\""
-			);
-
-			html.append(
-				" action=\"bypass _bbsscripts;"
-			);
-
-			html.append(
-				"l2f.gameserver.autofarm.AutoFarmCommunity:"
-			);
-
+			html.append("<td width=70 align=center><button value=\">\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:");
 			if (slot == 1)
 				html.append("skill1next");
 			else if (slot == 2)
 				html.append("skill2next");
 			else
 				html.append("skill3next");
-
-			html.append("\"");
-
-			html.append(
-				" width=150 height=27"
-			);
-
-			html.append(
-				" back=\"L2UI_CH3.Btn_BF_Down\""
-			);
-
-			html.append(
-				" fore=\"L2UI_CH3.Btn_BF\">"
-			);
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\"></td>");
 		}
+		else
+			html.append("<td width=70></td>");
 
-		html.append("</td>");
+		html.append("</tr></table><br>");
 
-		html.append("</tr>");
-		html.append("</table>");
+		html.append("<button value=\"SEM SKILL\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
+		html.append(slot);
+		html.append(" 0\" width=95 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\">");
+		html.append("<br><br>");
+		html.append("<button value=\"VOLTAR\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:back\" width=70 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\">");
 
-		html.append("<br>");
-
-		/*
-		 * VOLTAR
-		 */
-		html.append(
-			"<button value=\"VOLTAR\""
-		);
-
-		html.append(
-			" action=\"bypass _bbsscripts;"
-		);
-
-		html.append(
-			"l2f.gameserver.autofarm.AutoFarmCommunity:back\""
-		);
-
-		html.append(
-			" width=100 height=27"
-		);
-
-		html.append(
-			" back=\"L2UI_CH3.Btn_BF_Down\""
-		);
-
-		html.append(
-			" fore=\"L2UI_CH3.Btn_BF\">"
-		);
-
-		html.append("</center>");
-		html.append("</body>");
-		html.append("</html>");
+		html.append("</center></body></html>");
 
 		showHtml(html.toString());
 	}
@@ -1197,21 +980,57 @@ public class AutoFarmCommunity
 			);
 
 		html = html.replace(
-			"%skill1%",
+			"%skill1icon%",
+			getSkillIcon(
+				self.getAutoFarmSkill1()
+			)
+		);
+		html = html.replace(
+			"%skill2icon%",
+			getSkillIcon(
+				self.getAutoFarmSkill2()
+			)
+		);
+		html = html.replace(
+			"%skill3icon%",
+			getSkillIcon(
+				self.getAutoFarmSkill3()
+			)
+		);
+
+		html = html.replace(
+			"%skill1value%",
+			getSkillValue(
+				self.getAutoFarmSkill1()
+			)
+		);
+		html = html.replace(
+			"%skill2value%",
+			getSkillValue(
+				self.getAutoFarmSkill2()
+			)
+		);
+		html = html.replace(
+			"%skill3value%",
+			getSkillValue(
+				self.getAutoFarmSkill3()
+			)
+		);
+
+		html = html.replace(
+			"%skill1name%",
 			getSkillName(
 				self.getAutoFarmSkill1()
 			)
 		);
-
 		html = html.replace(
-			"%skill2%",
+			"%skill2name%",
 			getSkillName(
 				self.getAutoFarmSkill2()
 			)
 		);
-
 		html = html.replace(
-			"%skill3%",
+			"%skill3name%",
 			getSkillName(
 				self.getAutoFarmSkill3()
 			)
@@ -1242,6 +1061,38 @@ public class AutoFarmCommunity
 			html,
 			self
 		);
+	}
+
+	private String getSkillIcon(int skillId)
+	{
+		if (skillId <= 0)
+			return "L2UI_CT1.Button_DF";
+
+		int iconId = skillId;
+
+		if (skillId == 1517)
+			iconId = 1536;
+		else if (skillId == 1518)
+			iconId = 1537;
+		else if (skillId == 1547)
+			iconId = 65;
+		else if (skillId == 2076)
+			iconId = 195;
+		else if (skillId > 4550 && skillId < 4555)
+			iconId = 5739;
+		else if (skillId > 4698 && skillId < 4701)
+			iconId = 1331;
+		else if (skillId > 4701 && skillId < 4704)
+			iconId = 1332;
+		else if (skillId == 6049)
+			iconId = 94;
+
+		return "Icon.skill" + String.format("%04d", iconId);
+	}
+
+	private String getSkillValue(int skillId)
+	{
+		return skillId > 0 ? "" : "+";
 	}
 
 	private String getSkillName(int skillId)
