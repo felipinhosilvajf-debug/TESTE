@@ -982,6 +982,30 @@ public class AutoFarmCommunity
 		if (self == null)
 			return;
 
+		/*
+		 * Skills salvas anteriormente podem não pertencer mais
+		 * ao personagem atual. Nunca exibimos uma skill inválida.
+		 */
+		int skill1 = self.getAutoFarmSkill1();
+		int skill2 = self.getAutoFarmSkill2();
+		int skill3 = self.getAutoFarmSkill3();
+
+		if (skill1 > 0 && !isUsableAutoFarmSkill(skill1))
+			skill1 = 0;
+
+		if (skill2 > 0 && !isUsableAutoFarmSkill(skill2))
+			skill2 = 0;
+
+		if (skill3 > 0 && !isUsableAutoFarmSkill(skill3))
+			skill3 = 0;
+
+		if (skill1 != self.getAutoFarmSkill1() ||
+			skill2 != self.getAutoFarmSkill2() ||
+			skill3 != self.getAutoFarmSkill3())
+		{
+			self.setAutoFarmSkills(skill1, skill2, skill3);
+		}
+
 		String html =
 			HtmCache.getInstance().getNotNull(
 				"scripts/services/communityPVP/pages/AutoFarm.htm",
@@ -991,19 +1015,19 @@ public class AutoFarmCommunity
 		html = html.replace(
 			"%skill1icon%",
 			getSkillIcon(
-				self.getAutoFarmSkill1()
+				skill1
 			)
 		);
 		html = html.replace(
 			"%skill2icon%",
 			getSkillIcon(
-				self.getAutoFarmSkill2()
+				skill2
 			)
 		);
 		html = html.replace(
 			"%skill3icon%",
 			getSkillIcon(
-				self.getAutoFarmSkill3()
+				skill3
 			)
 		);
 
@@ -1090,9 +1114,22 @@ public class AutoFarmCommunity
 		return skill.getIcon();
 	}
 
+	private boolean isUsableAutoFarmSkill(int skillId)
+	{
+		if (skillId <= 0 || self == null)
+			return false;
+
+		Skill skill = self.getKnownSkill(skillId);
+
+		if (skill == null)
+			return false;
+
+		return skill.isActive() || skill.isToggle();
+	}
+
 	private String getSkillValue(int skillId)
 	{
-		return skillId > 0 ? "" : "+";
+		return isUsableAutoFarmSkill(skillId) ? "" : "+";
 	}
 
 	private String getSkillName(int skillId)
