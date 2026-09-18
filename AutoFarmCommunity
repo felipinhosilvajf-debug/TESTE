@@ -350,7 +350,9 @@ public class AutoFarmCommunity
 			html.append(slot);
 			html.append(" ");
 			html.append(skill.getId());
-			html.append("\" width=36 height=36 back=\"");
+			html.append("\" width=32 height=32 back=\"");
+			html.append(getSkillIcon(skill));
+			html.append("\" fore=\"");
 			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
@@ -370,7 +372,7 @@ public class AutoFarmCommunity
 		{
 			while (column < 4)
 			{
-				html.append("<td width=52 height=42 bgcolor=\"202020\"></td>");
+				html.append("<td width=52 height=38 bgcolor=\"202020\"></td>");
 				column++;
 			}
 			html.append("</tr>");
@@ -409,7 +411,7 @@ public class AutoFarmCommunity
 				html.append("skill2next");
 			else
 				html.append("skill3next");
-			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\"></td>");
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\"></td>");
 		}
 		else
 			html.append("<td width=70></td>");
