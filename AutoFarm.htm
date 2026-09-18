@@ -1,155 +1,137 @@
 <html noscrollbar>
-<title>Auto Farm HUD</title>
+<title>Auto Farm [Virtual Boost]</title>
 <body>
 <center>
 
-    <br><br>
+<table width=235 border=1 cellpadding=2 cellspacing=0 bgcolor="000000">
+<tr>
+<td align=center background="L2font-e.map_airship_harbor_gludio">
 
-    <!-- BORDA PRETA EXTERNA -->
-    <table width=500 border=0 cellpadding=0 cellspacing=1 bgcolor="000000">
-    <tr>
-    <td>
+<font color="FFFFFF" size=3><b>AUTO FARM</b></font>
+<br>
+<font color="AAAAAA" size=1>VIRTUAL BOOST</font>
+<br>
+<font color="AAAAAA" size=1>Status:</font>
+<font color="3ADF00" size=1><b>%status%</b></font>
 
-        <!-- PAINEL PRINCIPAL (Usando textura de fundo correta para janelas) -->
-        <table width=498 border=1 cellpadding=0 cellspacing=0 background="L2font-e.map_airship_harbor_gludio">
-        <tr>
-        <td align=center valign=center>
+<br>
 
-            <br>
+<!-- RAIO / POÇÃO -->
+<table width=220 border=1 cellpadding=2 cellspacing=1 bgcolor="000000">
+<tr>
 
-            <!-- TOPO: TÍTULO E STATUS -->
-            <table width=460 border=0 cellpadding=0 cellspacing=0>
-            <tr>
-                <td width=230 height=30 align=left valign=center>
-                    &nbsp; <font color="FFFFFF"><b>⚡ AUTO FARM HUD</b></font>
-                </td>
-                <td width=230 height=30 align=right valign=center>
-                    <font color="AAAAAA">STATUS:</font> <font color="3ADF00"><b>%status%</b></font> &nbsp;
-                </td>
-            </tr>
-            </table>
+<td align=center width=110 bgcolor="202020">
+<font color="AAAAAA" size=1>RAIO</font>
+<br>
+<font color="FFFFFF" size=1><b>%radius%</b></font>
+<br>
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:radius"
+width=60
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-            <br>
+<td align=center width=110 bgcolor="202020">
+<font color="AAAAAA" size=1>POÇÃO</font>
+<br>
+<font color="FFFFFF" size=1><b>%potion%</b></font>
+<br>
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:potion"
+width=60
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-            <!-- BLOCO DE CONFIGURAÇÕES (Raio + Poção) -->
-            <table width=470 border=1 cellpadding=5 cellspacing=0>
-            <tr>
-                <!-- Caixa de Raio -->
-                <td width=220 align=center valign=center back="L2UI_CT1.Button_DF_Down">
-                    <table width=210 border=0 cellpadding=0 cellspacing=0>
-                    <tr>
-                        <td width=130 height=32 align=left valign=center>
-                            &nbsp; <font color="FFFFFF">RAIO:</font> <font color="3ADF00">%radius%</font>
-                        </td>
-                        <td width=80 height=32 align=right valign=center>
-                            <button value="ALTERAR" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:radius" width=75 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF">
-                        </td>
-                    </tr>
-                    </table>
-                </td>
+</tr>
+</table>
 
-                <td width=20></td>
+<br>
 
-                <!-- Caixa de Poção/Recurso -->
-                <td width=220 align=center valign=center bback="L2UI_CT1.Button_DF_Down">
-                    <table width=210 border=0 cellpadding=0 cellspacing=0>
-                    <tr>
-                        <td width=120 height=32 align=left valign=center>
-                            &nbsp; <font color="FFFFFF">Potion</font>
-                        </td>
-                        <td width=90 height=32 align=right valign=center>
-                            <button value="%potion%" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:potion" width=85 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                        </td>
-                    </tr>
-                    </table>
-                </td>
-            </tr>
-            </table>
+<!-- SKILLS -->
+<table width=220 border=1 cellpadding=2 cellspacing=1 bgcolor="000000">
+<tr>
 
-            <br>
+<td align=center width=73 bgcolor="202020">
+<button
+value="%skill1%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill1"
+width=68
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-            <!-- SLOTS DE SKILLS (Larguras e espaçamentos perfeitamente simétricos) -->
-            <table width=460 border=1 cellpadding=0 cellspacing=0>
-            <tr>
-                <!-- Skill 1 -->
-                <td width=146 height=55 align=center valign=center>
-                    <table width=136 border=0 cellpadding=0 cellspacing=0>
-                    <tr>
-                        <td align=center valign=center>
-                            <font color="FFFFFF"></font><br><img src="L2UI.SquareBlank" width=1 height=2><br>
-                            <button value="%skill1%" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill1" width=130 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                        </td>
-                    </tr>
-                    </table>
-                </td>
+<td align=center width=73 bgcolor="202020">
+<button
+value="%skill2%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill2"
+width=68
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-                <td width=11></td>
+<td align=center width=73 bgcolor="202020">
+<button
+value="%skill3%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill3"
+width=68
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-                <!-- Skill 2 -->
-                <td width=146 height=55 align=center valign=center>
-                    <table width=136 border=0 cellpadding=0 cellspacing=0>
-                    <tr>
-                        <td align=center valign=center>
-                            <font color="FFFFFF"></font><br><img src="L2UI.SquareBlank" width=1 height=2><br>
-                            <button value="%skill2%" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill2" width=130 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                        </td>
-                    </tr>
-                    </table>
-                </td>
+</tr>
+</table>
 
-                <td width=11></td>
+<br>
 
-                <!-- Skill 3 -->
-                <td width=146 height=55 align=center valign=center>
-                    <table width=136 border=0 cellpadding=0 cellspacing=0>
-                    <tr>
-                        <td align=center valign=center>
-                            <font color="FFFFFF"></font><br><img src="L2UI.SquareBlank" width=1 height=2><br>
-                            <button value="%skill3%" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill3" width=130 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                        </td>
-                    </tr>
-                    </table>
-                </td>
-            </tr>
-            </table>
+<!-- ON / OFF -->
+<table width=220 border=1 cellpadding=2 cellspacing=1 bgcolor="000000">
+<tr>
 
-            <br>
+<td align=center bgcolor="202020">
+<button
+value="LIGAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:start"
+width=95
+height=20
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-            <!-- BOTÕES DE CONTROLE: LIGAR / DESLIGAR -->
-            <table width=460 border=0 cellpadding=0 cellspacing=0>
-            <tr>
-                <td width=220 align=center valign=center>
-                    <button value="▶ LIGAR [ON]" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:start" width=220 height=32 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                </td>
+<td align=center bgcolor="202020">
+<button
+value="DESLIGAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:stop"
+width=95
+height=20
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
+</td>
 
-                <td width=20></td>
+</tr>
+</table>
 
-                <td width=220 align=center valign=center>
-                    <button value="⏹ DESLIGAR [OFF]" action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:stop" width=220 height=32 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                </td>
-            </tr>
-            </table>
+<br>
 
-            <br>
+<button
+value="FECHAR"
+action="bypass _bbhome"
+width=65
+height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF_Down">
 
-            <!-- BOTÃO DE FECHAR -->
-            <table width=460 border=0 cellpadding=0 cellspacing=0>
-            <tr>
-                <td align=center height=30 valign=center>
-                    <button action="bypass _bbshome" value="✖ FECHAR PAINEL" width=140 height=22 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"/>
-                </td>
-            </tr>
-            </table>
-
-            <br>
-
-        </td>
-        </tr>
-        </table>
-
-    </td>
-    </tr>
-    </table>
+</td>
+</tr>
+</table>
 
 </center>
 </body>
