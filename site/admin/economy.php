@@ -16,6 +16,7 @@ $character = trim((string) ($_GET['character'] ?? ''));
 $account   = trim((string) ($_GET['account'] ?? ''));
 $type      = trim((string) ($_GET['type'] ?? ''));
 $severity  = trim((string) ($_GET['severity'] ?? ''));
+$category  = trim((string) ($_GET['category'] ?? ''));
 
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $perPage = 25;
@@ -60,6 +61,29 @@ function typeClass(string $type): string
     return strtoupper($type) === 'ADD'
         ? 'add'
         : 'remove';
+}
+
+function operationLabel(array $transaction): string
+{
+    $category = strtoupper((string)($transaction['category'] ?? ''));
+    return $category !== '' ? $category : strtoupper((string)($transaction['transaction_type'] ?? ''));
+}
+
+function operationClass(array $transaction): string
+{
+    $category = strtoupper((string)($transaction['category'] ?? ''));
+
+    if ($category === 'TRADE') {
+        return strtoupper((string)($transaction['transaction_type'] ?? '')) === 'ADD'
+            ? 'trade-add'
+            : 'trade-remove';
+    }
+
+    if ($category === 'DEPÓSITO' || $category === 'SAQUE') {
+        return 'warehouse';
+    }
+
+    return typeClass((string)($transaction['transaction_type'] ?? 'REMOVE'));
 }
 
 function riskClass(string $risk): string
@@ -527,102 +551,169 @@ function calculateEconomicRisk(
 |--------------------------------------------------------------------------
 */
 
-$where = [];
-$params = [];
-
-if ($character !== '') {
-    $where[] = "character_name LIKE ?";
-    $params[] = '%' . $character . '%';
-}
-
-if ($account !== '') {
-    $where[] = "account_name LIKE ?";
-    $params[] = '%' . $account . '%';
-}
-
-if ($type !== '') {
-    $where[] = "transaction_type = ?";
-    $params[] = $type;
-}
-
-if ($severity !== '') {
-    $where[] = "severity = ?";
-    $params[] = $severity;
-}
-
-$whereSql = '';
-
-if (!empty($where)) {
-    $whereSql = 'WHERE ' . implode(' AND ', $where);
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| CONTAGEM
-|--------------------------------------------------------------------------
-*/
-
-$totalHistory = 0;
-
-try {
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*)
-        FROM adena_transactions
-        $whereSql
-    ");
-
-    $stmt->execute($params);
-
-    $totalHistory = (int) $stmt->fetchColumn();
-} catch (Throwable $e) {
-}
-
-$totalPages = max(1, (int) ceil($totalHistory / $perPage));
-
-if ($page > $totalPages) {
-    $page = $totalPages;
-    $offset = ($page - 1) * $perPage;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| HISTÓRICO
-|--------------------------------------------------------------------------
-*/
-
 $transactions = [];
 
 try {
-    $stmt = $pdo->prepare("
+    $stmt = $pdo->query("
         SELECT
-            id,
-            character_name,
-            account_name,
-            ip_address,
-            hwid,
-            transaction_type,
-            amount,
-            balance_before,
-            balance_after,
-            severity,
-            details,
-            created_at
+            id, character_name, account_name, ip_address, hwid,
+            transaction_type, amount, balance_before, balance_after,
+            severity, details, created_at
         FROM adena_transactions
-
-        $whereSql
-
         ORDER BY id DESC
-
-        LIMIT $perPage OFFSET $offset
     ");
 
-    $stmt->execute($params);
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $details = (string)($row['details'] ?? '');
+        $transactionType = strtoupper((string)$row['transaction_type']);
+        $category = 'NORMAL';
 
-    $transactions = $stmt->fetchAll();
+        if ($transactionType === 'REMOVE' && strpos($details, 'PrivateWarehouseDepositFee') !== false) {
+            $category = 'DEPÓSITO';
+        } elseif ($transactionType === 'ADD' && strpos($details, 'PrivateWarehouseWithdraw') !== false) {
+            $category = 'SAQUE';
+        }
+
+        $row['category'] = $category;
+        $row['source'] = 'adena_transactions';
+        $row['sort_time'] = strtotime((string)$row['created_at']) ?: 0;
+        $transactions[] = $row;
+    }
 } catch (Throwable $e) {
 }
+
+try {
+    $stmt = $pdo->query("
+        SELECT
+            l.log_id,
+            l.player_object_id AS character_id,
+            COALESCE(c.char_name, CONCAT('#', l.player_object_id)) AS character_name,
+            COALESCE(c.account_name, '') AS account_name,
+            li.receiver_name,
+            li.item_count AS amount,
+            li.item_object_id,
+            l.time AS log_time
+        FROM logs l
+        INNER JOIN logs_items li ON li.log_id = l.log_id
+        LEFT JOIN characters c ON c.obj_Id = l.player_object_id
+        WHERE l.action_type = 'TRADE'
+          AND li.lost = 1
+          AND li.item_template_id = 57
+          AND li.receiver_name <> ''
+        ORDER BY l.time DESC, l.log_id DESC
+    ");
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $createdAt = date('Y-m-d H:i:s', (int)($row['log_time'] / 1000));
+        $base = [
+            'ip_address' => '-',
+            'hwid' => '-',
+            'balance_before' => null,
+            'balance_after' => null,
+            'severity' => 'LOW',
+            'details' => 'TRADE #' . (int)$row['log_id'],
+            'created_at' => $createdAt,
+            'source' => 'item_logs',
+            'source_id' => (int)$row['log_id'],
+            'sort_time' => (int)($row['log_time'] / 1000)
+        ];
+
+        $transactions[] = array_merge($base, [
+            'id' => 'T-' . (int)$row['log_id'] . '-OUT-' . (int)$row['item_object_id'],
+            'character_name' => $row['character_name'],
+            'account_name' => $row['account_name'],
+            'transaction_type' => 'REMOVE',
+            'amount' => (int)$row['amount'],
+            'category' => 'TRADE',
+            'counterparty' => $row['receiver_name']
+        ]);
+
+        $transactions[] = array_merge($base, [
+            'id' => 'T-' . (int)$row['log_id'] . '-IN-' . (int)$row['item_object_id'],
+            'character_name' => $row['receiver_name'],
+            'account_name' => '',
+            'transaction_type' => 'ADD',
+            'amount' => (int)$row['amount'],
+            'category' => 'TRADE',
+            'counterparty' => $row['character_name']
+        ]);
+    }
+} catch (Throwable $e) {
+}
+
+$currentBalances = [];
+
+try {
+    $stmt = $pdo->query("
+        SELECT owner_id, COALESCE(SUM(count), 0) AS balance
+        FROM items
+        WHERE item_id = 57
+          AND owner_id > 0
+          AND loc IN ('INVENTORY', 'WAREHOUSE')
+          AND count > 0
+        GROUP BY owner_id
+    ");
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $currentBalances[(int)$row['owner_id']] = (int)$row['balance'];
+    }
+} catch (Throwable $e) {
+}
+
+foreach ($transactions as &$transaction) {
+    if (($transaction['source'] ?? '') !== 'item_logs') {
+        continue;
+    }
+
+    $transaction['current_balance'] = null;
+
+    if (isset($transaction['character_id'])) {
+        $transaction['current_balance'] = $currentBalances[(int)$transaction['character_id']] ?? 0;
+    }
+}
+unset($transaction);
+
+$filteredTransactions = [];
+
+foreach ($transactions as $transaction) {
+    if ($character !== ''
+        && stripos((string)$transaction['character_name'], $character) === false
+        && stripos((string)($transaction['counterparty'] ?? ''), $character) === false) {
+        continue;
+    }
+
+    if ($account !== '' && stripos((string)$transaction['account_name'], $account) === false) {
+        continue;
+    }
+
+    if ($type !== '' && strtoupper((string)$transaction['transaction_type']) !== strtoupper($type)) {
+        continue;
+    }
+
+    if ($severity !== '' && strtoupper((string)$transaction['severity']) !== strtoupper($severity)) {
+        continue;
+    }
+
+    if ($category !== '' && strtoupper((string)$transaction['category']) !== strtoupper($category)) {
+        continue;
+    }
+
+    $filteredTransactions[] = $transaction;
+}
+
+usort($filteredTransactions, static function (array $a, array $b): int {
+    return ($b['sort_time'] <=> $a['sort_time']);
+});
+
+$totalHistory = count($filteredTransactions);
+$totalPages = max(1, (int)ceil($totalHistory / $perPage));
+
+if ($page > $totalPages) {
+    $page = $totalPages;
+}
+
+$offset = ($page - 1) * $perPage;
+$transactions = array_slice($filteredTransactions, $offset, $perPage);
 
 ?>
 
@@ -1278,6 +1369,29 @@ tr:hover td {
     border: 1px solid #5c2727;
 }
 
+.operation.trade-add {
+    background:#102d28;
+    color:#61e0b0;
+    border:1px solid #236c58;
+}
+
+.operation.trade-remove {
+    background:#302416;
+    color:#e5bd65;
+    border:1px solid #654d22;
+}
+
+.operation.warehouse {
+    background:#1b2030;
+    color:#9ab8ff;
+    border:1px solid #33446f;
+}
+
+.current-balance {
+    color:#4ddaff;
+    font-family:'Orbitron',sans-serif;
+}
+
 .severity.low {
     background: #14202d;
     color: #8da1b6;
@@ -1858,26 +1972,18 @@ tr:hover td {
         value="<?= h($account) ?>"
     >
 
+    <select name="category">
+        <option value="">Todas categorias</option>
+        <option value="TRADE" <?= $category === 'TRADE' ? 'selected' : '' ?>>Trade</option>
+        <option value="DEPÓSITO" <?= $category === 'DEPÓSITO' ? 'selected' : '' ?>>Depósito</option>
+        <option value="SAQUE" <?= $category === 'SAQUE' ? 'selected' : '' ?>>Saque</option>
+        <option value="NORMAL" <?= $category === 'NORMAL' ? 'selected' : '' ?>>Normal</option>
+    </select>
+
     <select name="type">
-
-        <option value="">
-            Todas operações
-        </option>
-
-        <option
-            value="ADD"
-            <?= $type === 'ADD' ? 'selected' : '' ?>
-        >
-            Adição
-        </option>
-
-        <option
-            value="REMOVE"
-            <?= $type === 'REMOVE' ? 'selected' : '' ?>
-        >
-            Remoção
-        </option>
-
+        <option value="">Entrada / saída</option>
+        <option value="ADD" <?= $type === 'ADD' ? 'selected' : '' ?>>ADD</option>
+        <option value="REMOVE" <?= $type === 'REMOVE' ? 'selected' : '' ?>>REMOVE</option>
     </select>
 
 
@@ -1946,11 +2052,11 @@ tr:hover td {
                 </th>
 
                 <th>
-                    Antes
+                    Saldo antes
                 </th>
 
                 <th>
-                    Depois
+                    Saldo depois
                 </th>
 
                 <th>
@@ -2010,67 +2116,45 @@ tr:hover td {
 
                     <td>
 
-                        <span
-                            class="operation <?= typeClass($transaction['transaction_type']) ?>"
-                        >
-                            <?= h($transaction['transaction_type']) ?>
+                        <span class="operation <?= operationClass($transaction) ?>">
+                            <?= h(operationLabel($transaction)) ?>
                         </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <?php
-                        $details = $transaction['details'] ?? '';
-
-                        $isWarehouseDeposit =
-                            strtoupper($transaction['transaction_type']) === 'REMOVE'
-                            && strpos($details, 'PrivateWarehouseDepositFee') !== false;
-
-                        $isWarehouseWithdraw =
-                            strtoupper($transaction['transaction_type']) === 'ADD'
-                            && strpos($details, 'PrivateWarehouseWithdraw') !== false;
-                        ?>
-
-                        <?php if ($isWarehouseDeposit): ?>
-
-                            <span class="amount-remove">
-                                DEPÓSITO
-                            </span>
-
-                        <?php elseif ($isWarehouseWithdraw): ?>
-
-                            <span class="amount-add">
-                                SAQUE
-                            </span>
-
-                        <?php else: ?>
-
-                            <span
-                                class="<?= strtoupper($transaction['transaction_type']) === 'ADD'
-                                    ? 'amount-add'
-                                    : 'amount-remove'
-                                ?>"
-                            >
-                                <?= strtoupper($transaction['transaction_type']) === 'ADD'
-                                    ? '+'
-                                    : '-'
-                                ?><?= formatAdena((int) $transaction['amount']) ?>
-                            </span>
-
+                        <?php if (!empty($transaction['counterparty'])): ?>
+                            <div class="account">
+                                <?= strtoupper($transaction['transaction_type']) === 'ADD' ? 'de ' : 'para ' ?>
+                                <?= h($transaction['counterparty']) ?>
+                            </div>
                         <?php endif; ?>
 
                     </td>
 
 
                     <td>
-                        <?= formatAdena((int) $transaction['balance_before']) ?>
+
+                        <span class="<?= strtoupper($transaction['transaction_type']) === 'ADD' ? 'amount-add' : 'amount-remove' ?>">
+                            <?= strtoupper($transaction['transaction_type']) === 'ADD' ? '+' : '-' ?><?= formatAdena((int)$transaction['amount']) ?>
+                        </span>
+
                     </td>
 
 
                     <td>
-                        <?= formatAdena((int) $transaction['balance_after']) ?>
+                        <?php if (($transaction['source'] ?? '') === 'item_logs'): ?>
+                            —
+                        <?php else: ?>
+                            <?= formatAdena((int)$transaction['balance_before']) ?>
+                        <?php endif; ?>
+                    </td>
+
+
+                    <td>
+                        <?php if (($transaction['source'] ?? '') === 'item_logs'): ?>
+                            <span class="current-balance">
+                                <?= $transaction['current_balance'] === null ? '—' : formatAdena((int)$transaction['current_balance']) ?>
+                            </span>
+                        <?php else: ?>
+                            <?= formatAdena((int)$transaction['balance_after']) ?>
+                        <?php endif; ?>
                     </td>
 
 
