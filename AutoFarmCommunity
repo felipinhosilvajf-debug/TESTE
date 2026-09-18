@@ -8,7 +8,7 @@ import java.util.List;
 import l2f.gameserver.data.htm.HtmCache;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.Skill;
-import l2f.gameserver.network.serverpackets.NpcHtmlMessage;
+import l2f.gameserver.network.serverpackets.ShowBoard;
 
 public class AutoFarmCommunity
 {
@@ -30,9 +30,7 @@ public class AutoFarmCommunity
 		if (self == null)
 			return;
 
-		NpcHtmlMessage msg = new NpcHtmlMessage(0);
-		msg.setHtml(html);
-		self.sendPacket(msg);
+		ShowBoard.separateAndSend(html, self);
 	}
 
 	/*
@@ -1240,9 +1238,10 @@ public class AutoFarmCommunity
 				: "DESATIVADO"
 		);
 
-		NpcHtmlMessage msg = new NpcHtmlMessage(0);
-		msg.setHtml(html);
-		self.sendPacket(msg);
+		ShowBoard.separateAndSend(
+			html,
+			self
+		);
 	}
 
 	private String getSkillName(int skillId)
