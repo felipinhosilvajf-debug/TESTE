@@ -72,6 +72,94 @@ function tradeDate(?string $date): string
 
 /*
 |--------------------------------------------------------------------------
+| CATÁLOGO REAL DE ITENS
+|--------------------------------------------------------------------------
+|
+| O log nativo grava apenas o item_template_id. O nome vem das tabelas
+| reais de itens do servidor. Detectamos as tabelas existentes para que
+| o painel continue funcionando mesmo sem tabelas custom_*.
+|
+*/
+
+$itemNames = [];
+$itemNameSources = [];
+
+try {
+    $catalogTables = [
+        'custom_weapon',
+        'custom_armor',
+        'custom_etcitem',
+        'weapon',
+        'armor',
+        'etcitem'
+    ];
+
+    $placeholders = implode(',', array_fill(0, count($catalogTables), '?'));
+    $stmt = $pdo->prepare("
+        SELECT TABLE_NAME
+        FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME IN ($placeholders)
+    ");
+    $stmt->execute($catalogTables);
+
+    $existingTables = [];
+    while ($table = $stmt->fetchColumn()) {
+        $existingTables[] = strtolower((string)$table);
+    }
+
+    foreach ($catalogTables as $table) {
+        if (in_array(strtolower($table), $existingTables, true)) {
+            $itemNameSources[] = $table;
+        }
+    }
+
+    foreach ($itemNameSources as $table) {
+        $stmt = $pdo->query("
+            SELECT item_id, name
+            FROM `$table`
+            WHERE name IS NOT NULL
+              AND name <> ''
+        ");
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $itemId = (int)$row['item_id'];
+
+            /*
+             * custom_* vem antes das tabelas padrão, então um item custom
+             * com o mesmo ID mantém o nome personalizado.
+             */
+            if (!isset($itemNames[$itemId])) {
+                $itemNames[$itemId] = (string)$row['name'];
+            }
+        }
+    }
+} catch (Throwable $e) {
+    /*
+     * O painel continua mostrando Item #ID caso o catálogo não possa
+     * ser carregado. O log nativo não é afetado.
+     */
+}
+
+$itemNameSql = '';
+
+if ($itemNameSources) {
+    $catalogQueries = [];
+
+    foreach ($itemNameSources as $table) {
+        $catalogQueries[] = "
+            SELECT item_id, name
+            FROM `$table`
+            WHERE name IS NOT NULL
+              AND name <> ''
+        ";
+    }
+
+    $itemNameSql = implode(" UNION ALL ", $catalogQueries);
+}
+
+/*
+|--------------------------------------------------------------------------
 | CONSULTA DOS LOGS NATIVOS DO MYTHRAS
 |--------------------------------------------------------------------------
 */
@@ -96,12 +184,21 @@ if ($item !== '') {
     if (ctype_digit($item)) {
         $where[] = "li.item_template_id = ?";
         $params[] = (int)$item;
-    } else {
+    } elseif ($itemNameSql !== '') {
         /*
-         * O log nativo guarda o ID do item. A busca textual abaixo também
-         * aceita o nome quando o banco possuir as tabelas padrão de itens.
-         * O bloco principal continua funcionando somente com logs/logs_items.
+         * Busca pelo nome real do item + ID.
          */
+        $where[] = "(
+            li.item_template_id IN (
+                SELECT catalog.item_id
+                FROM ($itemNameSql) AS catalog
+                WHERE catalog.name LIKE ?
+            )
+            OR CAST(li.item_template_id AS CHAR) LIKE ?
+        )";
+        $params[] = '%' . $item . '%';
+        $params[] = '%' . $item . '%';
+    } else {
         $where[] = "CAST(li.item_template_id AS CHAR) LIKE ?";
         $params[] = '%' . $item . '%';
     }
@@ -890,7 +987,7 @@ tr:hover td {
         <div class="stat">
 
             <div class="stat-title">
-                Total de registros
+                Total de movimentações
             </div>
 
             <div class="stat-value cyan">
@@ -902,7 +999,7 @@ tr:hover td {
         <div class="stat">
 
             <div class="stat-title">
-                Trades hoje
+                Movimentações hoje
             </div>
 
             <div class="stat-value green">
@@ -1142,7 +1239,9 @@ tr:hover td {
 
                             <td>
     <span class="item-name">
-        <?= (int)($log['item_id'] ?? 0) === 57 ? 'Adena' : 'Item #' . h((string)($log['item_id'] ?? '-')) ?>
+        <?= (int)($log['item_id'] ?? 0) === 57
+    ? 'Adena'
+    : h($itemNames[(int)($log['item_id'] ?? 0)] ?? ('Item #' . (string)($log['item_id'] ?? '-'))) ?>
     </span>
     <span class="item-id">
         ID <?= h((string)($log['item_id'] ?? '-')) ?>
