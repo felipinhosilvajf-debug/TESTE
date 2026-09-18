@@ -352,8 +352,6 @@ public class AutoFarmCommunity
 			html.append(skill.getId());
 			html.append("\" width=32 height=32 back=\"");
 			html.append(getSkillIcon(skill));
-			html.append("\" fore=\"");
-			html.append(getSkillIcon(skill));
 			html.append("\" tooltip=\"");
 			html.append(skill.getName().replace("\"", "'"));
 			html.append("\">");
@@ -420,7 +418,7 @@ public class AutoFarmCommunity
 
 		html.append("<button value=\"SEM SKILL\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
 		html.append(slot);
-		html.append(" 0\" width=95 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\">");
+		html.append(" 0\" width=95 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\">");
 		html.append("<br><br>");
 		html.append("<button value=\"VOLTAR\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:back\" width=70 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF_Down\">");
 
