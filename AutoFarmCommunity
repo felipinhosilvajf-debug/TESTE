@@ -8,7 +8,7 @@ import java.util.List;
 import l2f.gameserver.data.htm.HtmCache;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.Skill;
-import l2f.gameserver.network.serverpackets.ShowBoard;
+import l2f.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class AutoFarmCommunity
 {
@@ -30,7 +30,16 @@ public class AutoFarmCommunity
 		if (self == null)
 			return;
 
-		ShowBoard.separateAndSend(html, self);
+		/*
+		 * Auto Farm usa uma janela HTML pequena, no mesmo estilo
+		 * de uma janela de NPC. Não abrir no Community Board.
+		 */
+		NpcHtmlMessage message =
+			new NpcHtmlMessage(0);
+
+		message.setHtml(html);
+
+		self.sendPacket(message);
 	}
 
 	/*
@@ -1057,10 +1066,7 @@ public class AutoFarmCommunity
 				: "DESATIVADO"
 		);
 
-		ShowBoard.separateAndSend(
-			html,
-			self
-		);
+		showHtml(html);
 	}
 
 	private String getSkillIcon(int skillId)
