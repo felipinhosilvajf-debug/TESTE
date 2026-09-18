@@ -16,6 +16,8 @@ public class AutoFarmCommunity
 
 	private static final int SKILLS_PER_PAGE = 20;
 
+	private boolean minimized = false;
+
 	private static final String PAGE_SKILL1 =
 		"autofarm_skill_page_1";
 
@@ -977,10 +979,43 @@ public class AutoFarmCommunity
 	 * =============================================================
 	 */
 
+	public void minimize()
+	{
+		if (self == null)
+			return;
+
+		minimized = true;
+		back();
+	}
+
+	public void maximize()
+	{
+		if (self == null)
+			return;
+
+		minimized = false;
+		back();
+	}
+
 	public void back()
 	{
 		if (self == null)
 			return;
+
+		if (minimized)
+		{
+			String html =
+				"<html noscrollbar><body><center>" +
+				"<table width=210 border=1 cellpadding=1 cellspacing=0 bgcolor=\\\"000000\\\">" +
+				"<tr><td align=center bgcolor=\\\"202020\\\">" +
+				"<font color=\\\"FFFFFF\\\" size=2><b>AUTO FARM</b></font> " +
+				"<button value=\\\"+\\\" action=\\\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:maximize\\\" width=20 height=16 back=\\\"L2UI_CT1.Button_DF\\\" fore=\\\"L2UI_CT1.Button_DF\\\">" +
+				"</td></tr></table>" +
+				"</center></body></html>";
+
+			showHtml(html);
+			return;
+		}
 
 		/*
 		 * Skills salvas anteriormente podem não pertencer mais
