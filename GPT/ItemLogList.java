@@ -61,7 +61,80 @@ public class ItemLogList
 			this._logLists.put(playerObjectId, list);
 		}
 
+		if (logs.getActionType() == ItemActionType.TRADE && saveLogImmediately(logs))
+		{
+			logs.markSavedInDatabase();
+		}
+
 		list.add(logs);
+	}
+
+	/**
+	 * Persists a completed trade immediately. Other item log types keep the
+	 * original deferred-save behavior because some of them may receive their
+	 * receiver name after the initial log is created.
+	 */
+	private boolean saveLogImmediately(ItemActionLog log)
+	{
+		try (Connection con = DatabaseFactory.getInstance().getConnection())
+		{
+			try
+			{
+				try (PreparedStatement statement = con.prepareStatement("INSERT INTO `logs` VALUES (?, ?, ?, ?);"))
+				{
+					statement.setInt(1, log.getActionId());
+					statement.setInt(2, log.getPlayerObjectId());
+					statement.setString(3, log.getActionType().toString());
+					statement.setLong(4, log.getTime());
+					statement.executeUpdate();
+				}
+
+				try (PreparedStatement statement = BatchStatement.createPreparedStatement(con, "INSERT INTO `logs_items` VALUES (?, ?, ?, ?, ?, ?, ?);"))
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						boolean isLostItem = i == 1;
+						SingleItemLog[] items = isLostItem ? log.getItemsLost() : log.getItemsReceived();
+
+						for (SingleItemLog item : items)
+						{
+							statement.setInt(1, log.getActionId());
+							statement.setInt(2, item.getItemObjectId());
+							statement.setInt(3, item.getItemTemplateId());
+							statement.setLong(4, item.getItemCount());
+							statement.setInt(5, item.getItemEnchantLevel());
+							statement.setInt(6, isLostItem ? 1 : 0);
+							statement.setString(7, item.getReceiverName() == null ? "" : item.getReceiverName());
+							statement.addBatch();
+						}
+					}
+
+					statement.executeBatch();
+				}
+
+				con.commit();
+				return true;
+			}
+			catch (Exception e)
+			{
+				try
+				{
+					con.rollback();
+				}
+				catch (SQLException rollbackException)
+				{
+					LOG.error("Failed to rollback immediate Item Log save: ", rollbackException);
+				}
+
+				LOG.error("Failed to immediately save Item Log #" + log.getActionId() + ": ", e);
+				return false;
+			}
+		}
+		catch (SQLException e)
+		{
+			LOG.error("Failed to obtain database connection for Item Log #" + log.getActionId() + ": ", e);
+			return false;
+		}
 	}
 
 	public void fillReceiver(int itemObjectId, String playerName)
