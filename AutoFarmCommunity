@@ -578,7 +578,7 @@ public class AutoFarmCommunity
 		);
 
 		html.append(
-			"Escolha o recurso que será recuperado automaticamente"
+			"Recursos"
 		);
 
 		html.append("</font>");
@@ -719,7 +719,7 @@ public class AutoFarmCommunity
 		);
 
 		html.append(
-			"A poção será usada quando o recurso chegar a 60%."
+			"Recurso usado a 60%."
 		);
 
 		html.append("</font>");
