@@ -11,6 +11,8 @@
    L2 VIRTUAL BOOST — DARK FANTASY AZUL & PRETO
 ========================================================= */
 :root {
+    /* VELOCIDADE DA ROLETA — altere somente este valor */
+    --wheel-speed: 40s;
     --blue-base: #38bdf8;
     --blue-light: #bae6fd;
     --blue-dark: #0369a1;
@@ -1427,7 +1429,7 @@ transform:rotate(360deg)    }
     position:absolute;
     inset:0;
     z-index:8;
-animation: orbitRotate 40s linear infinite}
+animation: orbitRotate var(--wheel-speed) linear infinite}
 @keyframes orbitRotate {
     to {
 transform:rotate(360deg)    }
@@ -1457,7 +1459,7 @@ transform:rotate(360deg)    }
     box-shadow:0 0 0 5px rgba(3,8,16,.48),0 0 28px rgba(56,189,248,.14),0 12px 28px rgba(0,0,0,.8);
 transition:background .2s,border-color .2s,box-shadow .2s,scale .2s}
 .wheel-option .option-content {
-    animation: contentCounter 40s linear infinite;
+    animation: contentCounter var(--wheel-speed) linear infinite;
     display:flex;
     flex-direction:column;
     align-items:center;
