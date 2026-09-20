@@ -1340,7 +1340,7 @@ isolation:isolate}
     position:absolute;
     inset:0;
     z-index:-6;
-    background:url("herobg7.png") center/cover no-repeat;
+    background:url("herobg7.png") center/100% 100% no-repeat;
 }
 .wheel-background {
     position:absolute;
@@ -1351,6 +1351,12 @@ isolation:isolate}
     z-index:-5;
     filter:saturate(1.08) contrast(1.06) brightness(.7);
     pointer-events:none;
+}
+
+/* ENQUADRAMENTO DO BACKGROUND — mostra a arte inteira sem cortar rosto/corpo */
+@media (max-width: 900px){
+    .wheel-page::before{background-size:cover;background-position:40% 50%}
+    .wheel-background{object-fit:cover;object-position:40% 50%}
 }
 .wheel-page::after {
     content:"";
