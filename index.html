@@ -1361,7 +1361,20 @@ a[href="#download"]:hover {
     border-color: var(--blue-light);
     box-shadow: 0 0 25px var(--glow-blue);
 }
-</style>
+<style>
+.wheel-page{min-height:100vh;height:100vh;padding:100px 20px 35px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;isolation:isolate}
+.wheel-page::before{content:"";position:absolute;inset:0;z-index:-5;background:url("herobg8.png") center/cover no-repeat;filter:saturate(1.08) contrast(1.06) brightness(.7)}
+.wheel-page::after{content:"";position:absolute;inset:0;z-index:-4;background:radial-gradient(circle at center,transparent 0%,rgba(0,0,0,.48) 72%,rgba(0,0,0,.82) 100%)}
+.wheel-intro{position:absolute;top:105px;left:0;right:0;text-align:center;z-index:20}.wheel-badge{display:inline-block;padding:7px 20px;border:1px solid rgba(56,189,248,.45);background:rgba(3,8,16,.78);color:var(--blue-base);font:700 .62rem 'Cinzel',serif;letter-spacing:3px}.wheel-title{margin-top:9px;color:#e8f7ff;font:900 1.1rem 'Cinzel',serif;letter-spacing:5px}.wheel-title span{color:var(--blue-base)}.wheel-intro p{margin-top:5px;color:#9fb1c5;font:.8rem 'EB Garamond',serif;letter-spacing:1px}
+.wheel-stage{position:relative;width:min(690px,78vw);height:min(690px,78vw);margin-top:65px;display:flex;align-items:center;justify-content:center}.wheel-glow{position:absolute;width:45%;height:45%;border-radius:50%;background:rgba(14,165,233,.12);filter:blur(55px)}
+.wheel-rings{position:absolute;inset:0;z-index:1;pointer-events:none}.wheel-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(56,189,248,.28)}.ring-a{width:100%;height:100%;box-shadow:0 0 35px rgba(56,189,248,.08)}.ring-b{width:78%;height:78%;border-style:dashed}.ring-c{width:58%;height:58%;border-color:rgba(56,189,248,.16)}.wheel-ticks{position:absolute;inset:3%;border:1px dashed rgba(186,230,253,.18);border-radius:50%;animation:tickRotate 32s linear infinite}@keyframes tickRotate{to{transform:rotate(360deg)}}
+.menu-orbit{position:absolute;inset:0;z-index:8;animation:orbitRotate 24s linear infinite}@keyframes orbitRotate{to{transform:rotate(360deg)}}
+.wheel-option{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px;border-radius:50%;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#ccecff;font:800 .52rem 'Cinzel',serif;letter-spacing:1.3px;background:radial-gradient(circle at 35% 25%,rgba(56,189,248,.22),rgba(8,15,28,.98) 65%);border:1px solid rgba(56,189,248,.55);box-shadow:0 0 0 5px rgba(3,8,16,.48),0 0 28px rgba(56,189,248,.14),0 12px 28px rgba(0,0,0,.8);animation:optionCounter 24s linear infinite;transition:.2s}.option-icon{font-size:1.55rem;line-height:1;color:#8bdcff;text-shadow:0 0 14px rgba(56,189,248,.5)}.wheel-option:hover{filter:brightness(1.35);box-shadow:0 0 0 5px rgba(3,8,16,.55),0 0 38px rgba(56,189,248,.42),0 16px 34px rgba(0,0,0,.9);scale:1.08}@keyframes optionCounter{from{transform:rotate(0)}to{transform:rotate(-360deg)}}.option-1{transform:rotate(0deg) translateY(-282px)}.option-2{transform:rotate(60deg) translateY(-282px)}.option-3{transform:rotate(120deg) translateY(-282px)}.option-4{transform:rotate(180deg) translateY(-282px)}.option-5{transform:rotate(240deg) translateY(-282px)}.option-6{transform:rotate(300deg) translateY(-282px)}
+.wheel-core{position:relative;z-index:12;width:190px;height:190px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 40% 28%,rgba(56,189,248,.16),rgba(3,8,16,.98) 68%);border:1px solid rgba(56,189,248,.48);box-shadow:0 0 0 7px rgba(3,8,16,.6),0 0 45px rgba(56,189,248,.24),inset 0 0 30px rgba(56,189,248,.12);overflow:hidden}.core-light{position:absolute;width:65%;height:65%;border-radius:50%;background:rgba(56,189,248,.09);filter:blur(25px)}.wheel-core img{position:relative;width:112px;max-height:85px;object-fit:contain;filter:drop-shadow(0 0 15px rgba(56,189,248,.38));margin-bottom:3px}.wheel-core strong{position:relative;color:#dff6ff;font:800 .5rem 'Cinzel',serif;letter-spacing:2px}.wheel-core small{position:relative;color:#71869b;font:.35rem 'Cinzel',serif;letter-spacing:1px;margin-top:3px}
+.info-modal{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:70px 22px 30px}.info-modal.open{display:flex}.info-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.84);backdrop-filter:blur(8px)}.info-window{position:relative;z-index:2;width:min(1200px,94vw);height:min(86vh,900px);overflow:auto;background:linear-gradient(145deg,rgba(11,17,30,.99),rgba(3,6,12,.99));border:1px solid rgba(56,189,248,.45);box-shadow:0 25px 90px rgba(0,0,0,.95),0 0 35px rgba(56,189,248,.12)}.info-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid rgba(56,189,248,.45);background:rgba(3,8,16,.92);color:#bdeaff;font-size:1.5rem;cursor:pointer}.info-heading{padding:25px 60px 18px 30px;border-bottom:1px solid var(--dynasty-border);color:var(--blue-light);font:800 1.15rem 'Cinzel',serif;letter-spacing:2px}.info-heading-icon{color:var(--blue-base);margin-right:10px}.info-body{padding-bottom:35px}.info-body>section{border-top:0}.info-body .sec-title{padding-top:45px}.info-body .fusion-box{padding:55px 6vw}.info-body .cta-final{padding:60px 6vw}body.modal-open{overflow:hidden}body>section{display:none!important}.wheel-bottom{position:absolute;bottom:20px;color:#7690a5;font:.52rem 'Cinzel',serif;letter-spacing:3px}
+@media(max-width:800px){.wheel-stage{width:94vw;height:94vw;margin-top:70px}.wheel-option{width:82px;height:82px;margin:-41px;font-size:.43rem}.option-icon{font-size:1.2rem}.option-1,.option-2,.option-3,.option-4,.option-5,.option-6{transform:rotate(var(--angle)) translateY(-235px)}.option-1{--angle:0deg}.option-2{--angle:60deg}.option-3{--angle:120deg}.option-4{--angle:180deg}.option-5{--angle:240deg}.option-6{--angle:300deg}.wheel-core{width:155px;height:155px}.wheel-core img{width:88px;max-height:68px}}
+@media(max-width:520px){.wheel-stage{width:98vw;height:98vw}.wheel-option{width:70px;height:70px;margin:-35px;font-size:.36rem}.option-icon{font-size:1rem}.option-1,.option-2,.option-3,.option-4,.option-5,.option-6{transform:rotate(var(--angle)) translateY(-190px)}.wheel-core{width:128px;height:128px}.wheel-core img{width:72px;max-height:56px}.info-modal{padding:60px 8px 15px}.info-window{width:98vw;height:91vh}}
+</style></style>
 </head>
 <body>
 
@@ -1432,7 +1445,7 @@ a[href="#download"]:hover {
 ===================================================== -->
 <header>
     <div class="badge reveal">
-        LINEAGE II · CHRONICLE HIGH FIVE · RATE 10X
+        LINEAGE II · CHRONICLE HIGH FIVE
     </div>
 
     <!-- LOGO NÍTIDA -->
@@ -1470,7 +1483,7 @@ a[href="#download"]:hover {
             🎁 Garantir Montaria Lvl 10
         </a>
         <a href="#server" class="btn btn-blue">
-            CONHECER O REINO 10x
+            CONHECER O REINO
         </a>
     </div>
 
@@ -1484,7 +1497,7 @@ a[href="#download"]:hover {
 ===================================================== -->
 <section id="server">
     <h2 class="sec-title reveal">
-        <span class="blue">O REINO</span> Virtual Boost
+        <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
     <p class="sec-lead reveal">
         Um servidor baseado na essência clássica do <b>Lineage II High Five</b>, agora com uma progressão 10X mais dinâmica, sem abrir mão da sensação de evolução, perigo e conquista.
@@ -1493,15 +1506,15 @@ a[href="#download"]:hover {
 
     <div class="cards">
 		<div class="card reveal">
-			<img src="asset/cards1.gif" alt="Progressão 10X" class="card-img">
-			<h3>Progressão </h3>
-			<p>XP e SP deixam a evolução mais dinâmica, reduzindo a espera sem transformar o personagem em algo pronto.</p>
+			<img src="asset/cards1.gif" alt="Progressão Dinâmica" class="card-img">
+			<h3>Progressão Dinâmica</h3>
+			<p>XP e SP aceleram a evolução, reduzindo a espera sem transformar o personagem em algo pronto.</p>
 		</div>
         <div class="card reveal">
 			<img src="asset/cards2.gif" alt="Economia Viva" class="card-img">
             <!-- <span class="ic">💰</span> -->
             <h3>Economia Viva</h3>
-            <p>Adena, materiais, crafting e itens raros possuem importância real dentro do reino. Adena em tempo real, com acompanhamento da economia do servidor.</p>
+            <p>Adena, materiais, crafting e itens raros possuem importância real dentro do reino. Adena em tempo real, com acompanhamento transparente da economia do servidor.</p>
         </div>
         <div class="card reveal">
 			<img src="asset/card3.gif" alt="Clãs & Conquistas" class="card-img">
@@ -1557,12 +1570,12 @@ a[href="#download"]:hover {
         <div class="philosophy-card reveal">
             <div class="big">◈</div>
             <h3>RITMO CERTO</h3>
-            <p>Mantemos a proposta de um servidor equilibrado e transparente, a jornada ganha ritmo sem perder a sensação de evolução e conquista.</p>
+            <p>A progressão ganha ritmo sem perder a sensação de evolução e conquista.</p>
         </div>
         <div class="philosophy-card reveal">
             <div class="big">⚔</div>
             <h3>DIFÍCIL DE DOMINAR</h3>
-            <p>O level conta, mas equipamento, estratégia, comércio e trabalho em equipe continuam fazendo a diferença.</p>
+            <p>A evolução é mais ágil, mas equipamento, estratégia, comércio e trabalho em equipe continuam fazendo a diferença.</p>
         </div>
         <div class="philosophy-card reveal">
             <div class="big">♛</div>
@@ -1580,17 +1593,17 @@ a[href="#download"]:hover {
         <span class="blue">RATES</span> DO REINO
     </h2>
     <p class="sec-lead reveal">
-        XP e SP em <b>equilíbrio</b> para uma progressão mais dinâmica. A economia continua com suas próprias regras e valores.
+        As principais taxas do servidor, apresentadas de forma clara para você saber exatamente como funciona a progressão e a economia.
     </p>
 
     <div class="rates">
         <div class="rate reveal">
             <div class="num" data-target="10">0</div>
-            <div class="lbl">XP Rate — 10X</div>
+            <div class="lbl">XP Rate</div>
         </div>
         <div class="rate reveal">
             <div class="num" data-target="10">0</div>
-            <div class="lbl">SP Rate — 10X</div>
+            <div class="lbl">SP Rate</div>
         </div>
         <div class="rate reveal">
             <div class="num" data-target="5">0</div>
@@ -1737,7 +1750,7 @@ a[href="#download"]:hover {
             </h2>
             <p>Aqui, uma arma rara não é apenas um item no inventário.</p>
             <p>Ela representa horas de dedicação, um raid inesquecível, uma guerra vencida ou uma negociação histórica.</p>
-            <p>Entre no reino, evolua e descubra até onde sua própria história pode chegar.</p>
+            <p>Entre no reino, evolua no seu ritmo e descubra até onde sua própria história pode chegar.</p>
 
             <div class="download-dropdown">
                 <button type="button" class="btn btn-primary" onclick="toggleDownloadMenu(event)">
@@ -2019,4 +2032,536 @@ function closeCommunityModal() {
 </script>
 
 </body>
-</html>
+</html><body><nav>
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        L2 <span>VIRTUAL</span> BOOST
+    </div>
+	    <!-- ECONOMIA DO TOPO -->
+    <div class="badge reveal">
+        <div class="economy-live">
+            <div class="economy-main">
+                💰 Adena em Circulação: <span id="adenaCirculacao" style="color: #FFD700;">Carregando...</span>
+            </div>
+            <div class="economy-sub" align="center" style="font-size:0.45rem; color:var(--dynasty-muted); letter-spacing:1px;">
+                Atualização em Tempo Real
+            </div>
+        </div>
+    </div>
+    <div class="navlinks" id="navlinks">
+        <a href="site/login.php" onclick="closeMenu()">Login</a>
+        <a href="#" onclick="closeMenu();openPanel('server');return false;">Servidor</a>
+        <a href="#" onclick="closeMenu();openPanel('rates');return false;">Rates</a>
+        <a href="#" onclick="closeMenu();openPanel('economy');return false;">Economia</a>
+        <a href="#" onclick="closeMenu();openPanel('download');return false;">Download</a>
+        <a href="/suporte.html" onclick="closeMenu()">Suporte</a>
+        <a href="#" onclick="closeMenu();openPanel('join');return false;">Discord</a>
+    </div>
+    <div class="burger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav><header id="home" class="wheel-page"><div class="wheel-intro"><div class="wheel-badge">LINEAGE II · CHRONICLE HIGH FIVE</div><div class="wheel-title">VIRTUAL <span>BOOST</span></div><p>Selecione uma opção para abrir todas as informações do reino.</p></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button class="wheel-option option-1" onclick="openPanel('server')"><span class="option-icon">♛</span><span>O REINO</span></button><button class="wheel-option option-2" onclick="openPanel('philosophy')"><span class="option-icon">◈</span><span>FILOSOFIA</span></button><button class="wheel-option option-3" onclick="openPanel('rates')"><span class="option-icon">⚔</span><span>RATES</span></button><button class="wheel-option option-4" onclick="openPanel('economy')"><span class="option-icon">💰</span><span>ECONOMIA</span></button><button class="wheel-option option-5" onclick="openPanel('download')"><span class="option-icon">✦</span><span>DOWNLOAD</span></button><button class="wheel-option option-6" onclick="openPanel('join')"><span class="option-icon">⚔</span><span>COMUNIDADE</span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div><div class="wheel-bottom">◈ MENU INTERATIVO · CLIQUE EM UMA OPÇÃO ◈</div></header><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+    <h2 class="sec-title reveal">
+        <span class="blue">O REINO</span> EM NOVO RITMO
+    </h2>
+    <p class="sec-lead reveal">
+        Um servidor baseado na essência clássica do <b>Lineage II High Five</b>, agora com uma progressão 10X mais dinâmica, sem abrir mão da sensação de evolução, perigo e conquista.
+		Aqui você evolui mais rápido para chegar ao conteúdo que realmente importa: PvP, clãs, comércio, guerras e conquistas.
+    </p>
+
+    <div class="cards">
+		<div class="card reveal">
+			<img src="asset/cards1.gif" alt="Progressão Dinâmica" class="card-img">
+			<h3>Progressão Dinâmica</h3>
+			<p>XP e SP aceleram a evolução, reduzindo a espera sem transformar o personagem em algo pronto.</p>
+		</div>
+        <div class="card reveal">
+			<img src="asset/cards2.gif" alt="Economia Viva" class="card-img">
+            <!-- <span class="ic">💰</span> -->
+            <h3>Economia Viva</h3>
+            <p>Adena, materiais, crafting e itens raros possuem importância real dentro do reino. Adena em tempo real, com acompanhamento transparente da economia do servidor.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/card3.gif" alt="Clãs & Conquistas" class="card-img">
+            <!-- <span class="ic">🏰</span> -->
+            <h3>Clãs & Conquistas</h3>
+            <p>Siege, territórios, alianças e guerras entre clãs fazem parte da verdadeira disputa pelo poder.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/card4.gif" alt="Proteção Ativa" class="card-img">
+			<!-- <span class="ic">🛡️</span> -->
+            <h3>Proteção Ativa</h3>
+            <p>Ambiente competitivo com atenção constante contra bots, exploits e comportamentos abusivos.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/card5.gif" alt="Crafting Relevante" class="card-img">
+            <!-- <span class="ic">⚒️</span> -->
+            <h3>Crafting Relevante</h3>
+            <p>Produzir, coletar e negociar são partes importantes da economia do servidor.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/card6.gif" alt="Endgame com Propósito" class="card-img">
+            <!-- <span class="ic">👑</span> -->
+            <h3>Endgame com Propósito</h3>
+            <p>O endgame não representa o fim. Ele abre espaço para guerras, território, comércio e reconhecimento.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/cards7.gif" alt="Politica e Alianas" class="card-img">
+            <!-- <span class="ic">🤝</span> -->
+            <h3>Política & Alianças</h3>
+            <p>Sozinho você conquista território. Com aliados você pode construir um império.</p>
+        </div>
+        <div class="card reveal">
+			<img src="asset/card8.gif" alt="Desafios Dinâmicos" class="card-img">
+            <!-- <span class="ic">✦</span> -->
+            <h3>Desafios Dinâmicos</h3>
+            <p>Eventos de mundo e desafios especiais mantêm a comunidade em constante movimento.</p>
+        </div>
+    </div>
+</div></div></div><div class="info-modal" id="panel-philosophy" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('philosophy')"></div><div class="info-window"><button class="info-close" onclick="closePanel('philosophy')">×</button><div class="info-heading"><span class="info-heading-icon">◈</span>FILOSOFIA</div><div class="info-body">
+    <h2 class="sec-title reveal">
+        <span class="blue">A FILOSOFIA</span> DO VIRTUAL BOOST
+    </h2>
+    <p class="sec-lead reveal">
+        Não queremos eliminar a jornada. <b>Queremos dar mais ritmo à evolução e manter o valor de cada conquista.</b>
+    </p>
+
+    <div class="philosophy">
+        <div class="philosophy-card reveal">
+            <div class="big">◈</div>
+            <h3>RITMO CERTO</h3>
+            <p>A progressão ganha ritmo sem perder a sensação de evolução e conquista.</p>
+        </div>
+        <div class="philosophy-card reveal">
+            <div class="big">⚔</div>
+            <h3>DIFÍCIL DE DOMINAR</h3>
+            <p>A evolução é mais ágil, mas equipamento, estratégia, comércio e trabalho em equipe continuam fazendo a diferença.</p>
+        </div>
+        <div class="philosophy-card reveal">
+            <div class="big">♛</div>
+            <h3>CONQUISTE</h3>
+            <p>Grandes itens e títulos devem carregar uma história. O poder precisa ser conquistado.</p>
+        </div>
+    </div>
+</div></div></div><div class="info-modal" id="panel-rates" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('rates')"></div><div class="info-window"><button class="info-close" onclick="closePanel('rates')">×</button><div class="info-heading"><span class="info-heading-icon">⚔</span>RATES</div><div class="info-body">
+    <h2 class="sec-title reveal">
+        <span class="blue">RATES</span> DO REINO
+    </h2>
+    <p class="sec-lead reveal">
+        As principais taxas do servidor, apresentadas de forma clara para você saber exatamente como funciona a progressão e a economia.
+    </p>
+
+    <div class="rates">
+        <div class="rate reveal">
+            <div class="num" data-target="10">0</div>
+            <div class="lbl">XP Rate</div>
+        </div>
+        <div class="rate reveal">
+            <div class="num" data-target="10">0</div>
+            <div class="lbl">SP Rate</div>
+        </div>
+        <div class="rate reveal">
+            <div class="num" data-target="5">0</div>
+            <div class="lbl">Adena Rate — 5X</div>
+        </div>
+    </div>
+</div></div></div><div class="info-modal" id="panel-economy" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('economy')"></div><div class="info-window"><button class="info-close" onclick="closePanel('economy')">×</button><div class="info-heading"><span class="info-heading-icon">💰</span>ECONOMIA</div><div class="info-body">
+    <h2 class="sec-title reveal">
+        <span class="blue">ECONOMIA</span> EM TEMPO REAL
+    </h2>
+    <p class="sec-lead reveal">
+        Monitoramento analítico extraído diretamente das tabelas do servidor. <b>Transparência sobre Adena em circulação, impostos e domínios.</b>
+    </p>
+
+    <div class="economy-dashboard">
+        <div class="economy-stats-grid">
+            <div class="economy-stat-card reveal">
+                <div class="stat-header">
+                    <span class="stat-title">Adena em Circulação</span>
+                    <span class="stat-icon">💰</span>
+                </div>
+                <div class="stat-value" id="dbAdenaCirculation" style="color: #FFD700;">No Topo do Site!</div>
+                <div class="stat-footer">▲ Atualização em tempo real a cada 5 segundos.</div>
+            </div>
+            <div class="economy-stat-card reveal">
+                <div class="stat-header">
+                    <span class="stat-title">Tesouro dos Castelos</span>
+                    <span class="stat-icon">🏰</span>
+                </div>
+                <div class="stat-value" id="dbCastleVault">9.000.000</div>
+                <div class="stat-footer">Acumulado via Taxas de Domínio</div>
+            </div>
+            <div class="economy-stat-card reveal">
+                <div class="stat-header">
+                    <span class="stat-title">Volume de Transações (24h)</span>
+                    <span class="stat-icon">📈</span>
+                </div>
+                <div class="stat-value" id="dbMarketVolume">195 Itens</div>
+                <div class="stat-footer">Movimentações no Auction / Trade</div>
+            </div>
+        </div>
+
+        <div class="economy-tables-grid">
+            <div class="data-panel reveal">
+                <div class="data-panel-title">
+                    <span>⚔️</span> Domínio de Castelos (Siege)
+                </div>
+                <table class="db-table">
+                    <thead>
+                        <tr>
+                            <th>Castelo</th>
+                            <th>Clã Proprietário</th>
+                            <th>Taxa de Imposto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aden</strong></td>
+                            <td><span class="clan-tag">Estado</span></td>
+                            <td><span class="tax-badge">0%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Giran</strong></td>
+                            <td><span class="clan-tag">Estado</span></td>
+                            <td><span class="tax-badge">0%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rune</strong></td>
+                            <td><span class="clan-tag">Estado</span></td>
+                            <td><span class="tax-badge">0%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schuttgart</strong></td>
+                            <td><span class="clan-tag">Estado</span></td>
+                            <td><span class="tax-badge">0%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="data-panel reveal">
+                <div class="data-panel-title">
+                    <span>📊</span> Cotação de Recursos & Taxas
+                </div>
+                <table class="db-table">
+                    <thead>
+                        <tr>
+                            <th>Recurso / Item</th>
+                            <th>Preço Médio (Adena)</th>
+                            <th>Tendência</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Soul Ore</strong></td>
+                            <td>42.000</td>
+                            <td><span class="up">▲ +4.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crystal S</strong></td>
+                            <td>18.000</td>
+                            <td><span class="up">▲ +1.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>EWC</strong></td>
+                            <td>7.200.000</td>
+                            <td><span class="up">▲ +8.1%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blessed Scroll of Escape</strong></td>
+                            <td>1.800.000</td>
+                            <td><span class="down">▼ -2.3%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div></div></div><div class="info-modal" id="panel-download" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('download')"></div><div class="info-window"><button class="info-close" onclick="closePanel('download')">×</button><div class="info-heading"><span class="info-heading-icon">✦</span>DOWNLOAD</div><div class="info-body">
+<div class="fusion-box">
+    <div class="fusion-visual reveal">
+        <div class="sword-container">
+            <!-- Coloque aqui o nome da sua imagem ou gif -->
+            <img src="asset/card3.gif" alt="Visual do Servidor" class="fusion-img">
+        </div>
+    </div>
+    <!-- O texto do download continua logo ao lado, como já estava -->
+
+
+        <div class="fusion-text reveal">
+            <h2>
+                Faça o  <br>
+                <span class="blue">Download</span>
+            </h2>
+            <p>Aqui, uma arma rara não é apenas um item no inventário.</p>
+            <p>Ela representa horas de dedicação, um raid inesquecível, uma guerra vencida ou uma negociação histórica.</p>
+            <p>Entre no reino, evolua no seu ritmo e descubra até onde sua própria história pode chegar.</p>
+
+            <div class="download-dropdown">
+                <button type="button" class="btn btn-primary" onclick="toggleDownloadMenu(event)">
+                    ⚔ DOWNLOAD
+                </button>
+                <div class="dropdown-content" id="downloadMenu">
+                    <div class="download-notice">
+                        ⚠ <b>ATENÇÃO</b><br>
+                        Após baixar o client, delete a <b>system</b> e execute o <b>Launcher</b> para manter os arquivos atualizados.
+                    </div>
+                    <div class="dropdown-divider">
+                        OPÇÕES DE DOWNLOAD
+                    </div>
+                    <a href="https://virtualboost.online/download/Install-L2VB.rar" target="_blank">
+                        ◈ Launcher Oficial - (.exe)
+                    </a>
+                    <a href="https://virtualboost.online/download/L2H5-Client.rar" target="_blank">
+                        ◈ Cliente High Five - (.torrent)
+                    </a>
+                    <a href="https://www.mediafire.com/file/fduprchyyotwej2/L2+High+Five+Original.zip/file" target="_blank">
+                        ◈ Cliente High Five - (.zip)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div></div></div><div class="info-modal" id="panel-join" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('join')"></div><div class="info-window"><button class="info-close" onclick="closePanel('join')">×</button><div class="info-heading"><span class="info-heading-icon">⚔</span>COMUNIDADE</div><div class="info-body">
+    <div class="cta-final reveal">
+        <h2>
+            SUA LENDA <span class="blue">COMEÇA AQUI</span>
+        </h2>
+        <p>
+            Prepare seu personagem, reúna seus aliados e entre em um High Five com mais ritmo, mais atividade e espaço para conquistar o endgame.
+        </p>
+        <a href="https://www.facebook.com/profile.php?id=61593743825503" class="btn btn-primary">
+            FACEBOOK
+        </a>
+		        <a href="https://discord.gg/sFjMVvW3R" class="btn btn-primary">
+            DISCORD
+        </a>
+        <p style="margin-top:22px; margin-bottom:0; font-size:.75rem; letter-spacing:2px; font-family:'Cinzel',serif;">
+            COMUNIDADE OFICIAL
+        </p>
+    </div>
+</div></div></div><footer>
+    <div class="logo">
+        L2 <span>VIRTUAL</span> BOOST
+    </div>
+    <div class="socials">
+        <a href="#join">⚔ Social</a>
+        <a href="#economy">◇ Economia</a>
+        <a href="#server">♛ Servidor</a>
+    </div>
+    <p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p>
+</footer><div id="communityModal" class="community-modal hidden">
+    <div class="community-overlay" onclick="closeCommunityModal()"></div>
+    <div class="community-window">
+        <div class="community-header">
+            <div class="community-icon">⚔️</div>
+            <div>
+                <h2>COMUNIDADE OFICIAL</h2>
+                <p>Entre no nosso Discord ou Facebook para acompanhar a abertura do reino.</p>
+            </div>
+        </div>
+
+        <div class="community-content">
+            <h3>Canais Oficiais</h3>
+            <div class="community-options">
+                <!-- Link do Discord -->
+                <a href="https://discord.gg/sFjMVvW3R" target="_blank" class="community-btn discord-btn">
+                    <span>Discord Oficial</span>
+                    <small>Bate-papo, suporte, recrutamento de clans e novidades</small>
+                </a>
+                
+                <!-- Link do Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=61593743825503" target="_blank" class="community-btn facebook-btn">
+                    <span>Facebook do Servidor</span>
+                    <small>Eventos, postagens e atualizações da comunidade</small>
+                </a>
+            </div>
+        </div>
+
+        <div class="community-footer">
+            <!-- Checkbox de Não mostrar novamente -->
+            <label class="dont-show-again">
+                <input type="checkbox" id="dontShowCheckbox"> Não mostrar novamente
+            </label>
+            
+            <button onclick="closeCommunityModal()">FECHAR</button>
+        </div>
+    </div>
+</div><script>
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+const DATA_INAUGURACAO = "2026-09-25T14:00:00-03:00";
+
+function atualizarContador(){
+    const agora = new Date().getTime();
+    const dataAlvo = new Date(DATA_INAUGURACAO).getTime();
+    const diferenca = dataAlvo - agora;
+
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    const labelEl = document.getElementById('countdownLabel');
+
+    if(diferenca <= 0){
+        if(daysEl) daysEl.textContent = "00";
+        if(hoursEl) hoursEl.textContent = "00";
+        if(minutesEl) minutesEl.textContent = "00";
+        if(secondsEl) secondsEl.textContent = "00";
+        if(labelEl) labelEl.textContent = "O REINO ESTÁ ABERTO";
+        return;
+    }
+
+    const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+    if(daysEl) daysEl.textContent = String(dias).padStart(2,'0');
+    if(hoursEl) hoursEl.textContent = String(horas).padStart(2,'0');
+    if(minutesEl) minutesEl.textContent = String(minutos).padStart(2,'0');
+    if(secondsEl) secondsEl.textContent = String(segundos).padStart(2,'0');
+}
+
+setInterval(atualizarContador, 1000);
+atualizarContador();
+
+/* =========================================================
+   ECONOMIA EM TEMPO REAL
+========================================================= */
+async function atualizarAdena(){
+    try{
+        const response = await fetch('/site/api/economy.php?t=' + Date.now(), { cache:'no-store' });
+        const data = await response.json();
+        if(data.success){
+            const valor = Number(data.adena).toLocaleString('pt-BR');
+            const top = document.getElementById('adenaCirculacao');
+            const dashboard = document.getElementById('dbAdenaCirculation');
+            if(top) top.textContent = valor;
+            if(dashboard) dashboard.textContent = valor;
+        }
+    }catch(error){
+        console.error('Erro ao carregar Adena:', error);
+    }
+}
+
+atualizarAdena();
+setInterval(atualizarAdena, 5000);
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+function toggleMenu(){
+    document.getElementById('navlinks').classList.toggle('open');
+}
+
+function closeMenu(){
+    document.getElementById('navlinks').classList.remove('open');
+}
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+function toggleDownloadMenu(event){
+    event.stopPropagation();
+    const menu = document.getElementById('downloadMenu');
+    menu.classList.toggle('show');
+}
+
+window.addEventListener('click', function(){
+    const menu = document.getElementById('downloadMenu');
+    if(menu && menu.classList.contains('show')){
+        menu.classList.remove('show');
+    }
+});
+
+/* =========================================================
+   REVEAL
+========================================================= */
+const observer = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('show');
+            }
+        });
+    },
+    { threshold:.12 }
+);
+
+document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+
+/* =========================================================
+   RATE COUNTER
+========================================================= */
+const rateObserver = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                const element = entry.target;
+                const target = Number(element.dataset.target);
+                let current = 0;
+                const animate = () => {
+                    current += Math.max(1, Math.ceil(target / 15));
+                    if(current >= target){
+                        element.textContent = 'x' + target;
+                        rateObserver.unobserve(element);
+                        return;
+                    }
+                    element.textContent = 'x' + current;
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            }
+        });
+    },
+    { threshold:.6 }
+);
+
+document.querySelectorAll('.num').forEach(element => rateObserver.observe(element));
+
+/* =========================================================
+   TERMS
+========================================================= */
+function acceptTerms(){
+    localStorage.setItem('virtualboost_terms_accepted', 'true');
+    const modal = document.getElementById('termsModal');
+    modal.classList.add('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    const accepted = localStorage.getItem('virtualboost_terms_accepted');
+    const modal = document.getElementById('termsModal');
+    if(accepted === 'true'){
+        modal.classList.add('hidden');
+    }
+});
+
+// Assim que a página carregar, verifica se o usuário marcou para não mostrar
+window.addEventListener('DOMContentLoaded', () => {
+    const hideModal = localStorage.getItem('hideCommunityModal');
+    if (!hideModal) {
+        // Se não salvou a preferência, remove a classe 'hidden' para o modal aparecer
+        document.getElementById('communityModal').classList.remove('hidden');
+    }
+});
+
+function closeCommunityModal() {
+    const checkbox = document.getElementById('dontShowCheckbox');
+    
+    // Se a caixinha estiver marcada, salva no navegador do usuário
+    if (checkbox.checked) {
+        localStorage.setItem('hideCommunityModal', 'true');
+    }
+    
+    // Esconde o modal
+    document.getElementById('communityModal').classList.add('hidden');
+}
+
+function openPanel(key){const p=document.getElementById('panel-'+key);if(!p)return;document.querySelectorAll('.info-modal.open').forEach(x=>x.classList.remove('open'));p.classList.add('open');p.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');}
+function closePanel(key){const p=document.getElementById('panel-'+key);if(p){p.classList.remove('open');p.setAttribute('aria-hidden','true');}if(!document.querySelector('.info-modal.open'))document.body.classList.remove('modal-open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.info-modal.open').forEach(p=>p.classList.remove('open'));document.body.classList.remove('modal-open');}});
+</script></body></html>
