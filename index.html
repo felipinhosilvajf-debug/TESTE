@@ -1340,17 +1340,23 @@ isolation:isolate}
     position:absolute;
     inset:0;
     z-index:-6;
-    background:url("herobg7.png") center/100% 100% no-repeat;
-}
-.wheel-background {
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:-5;
+    background-image:url("asset/back.png");
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center 35%;
+    animation:cameraVertical 22s ease-in-out infinite;
     filter:saturate(1.08) contrast(1.06) brightness(.7);
-    pointer-events:none;
+}
+
+@keyframes cameraVertical {
+    0% { background-position:center 35%; }
+    50% { background-position:center 65%; }
+    100% { background-position:center 35%; }
+}
+
+/* A imagem PNG animada fica como fundo principal. */
+.wheel-background {
+    display:none;
 }
 
 /* ENQUADRAMENTO DO BACKGROUND — mostra a arte inteira sem cortar rosto/corpo */
