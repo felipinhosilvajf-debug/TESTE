@@ -664,6 +664,159 @@ td{padding:10px 6px;color:var(--text);border-bottom:1px solid rgba(30,58,138,.25
     .download-text h3,.community h3{font-size:2rem}
     .download-options{width:min(330px,82vw)}
 }
+
+/* ===== VIRTUAL BOOST WHEEL MENU — FINAL LAYOUT ===== */
+.hero{
+    top:96px;
+}
+.hero img{display:none}
+
+.wheel-wrap{
+    position:absolute;
+    left:50%;
+    top:54%;
+    width:min(700px,74vw);
+    height:min(700px,74vw);
+    margin:0;
+    transform:translate(-50%,-50%);
+}
+
+.wheel{
+    width:100%;
+    height:100%;
+}
+
+.menu-orbit{
+    position:absolute;
+    inset:0;
+    z-index:8;
+    animation:menuOrbit 24s linear infinite;
+}
+@keyframes menuOrbit{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
+
+.option{
+    width:112px;
+    height:112px;
+    margin:-56px;
+    z-index:9;
+    transform:rotate(var(--a)) translateY(-286px);
+}
+.option-inner{
+    transform:rotate(calc(var(--a) * -1));
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    border:1px solid rgba(56,189,248,.58);
+    background:
+        radial-gradient(circle at 35% 28%,rgba(56,189,248,.18),transparent 34%),
+        linear-gradient(145deg,rgba(17,26,46,.98),rgba(3,7,13,.98));
+    box-shadow:0 0 0 5px rgba(3,8,16,.5),0 0 24px rgba(56,189,248,.14),0 16px 38px rgba(0,0,0,.8);
+    animation:menuCounter 24s linear infinite;
+}
+@keyframes menuCounter{
+    from{transform:rotate(calc(var(--a) * -1))}
+    to{transform:rotate(calc(var(--a) * -1 - 360deg))}
+}
+.option-inner:hover{
+    transform:rotate(calc(var(--a) * -1)) scale(1.1);
+    border-color:var(--blue-light);
+    box-shadow:0 0 0 5px rgba(3,8,16,.6),0 0 34px rgba(56,189,248,.42),0 18px 42px rgba(0,0,0,.9);
+}
+.option .icon{
+    font-size:1.65rem;
+    margin-bottom:7px;
+}
+.option span{
+    font-size:.57rem;
+    letter-spacing:1.3px;
+    color:var(--blue-light);
+}
+
+.core{
+    width:220px;
+    height:220px;
+    z-index:12;
+    background:
+        radial-gradient(circle at 35% 25%,rgba(255,255,255,.16),transparent 18%),
+        radial-gradient(circle,rgba(14,165,233,.14),rgba(3,7,13,.97) 70%);
+    box-shadow:0 0 0 8px rgba(3,8,16,.5),0 0 55px rgba(56,189,248,.26),inset 0 0 45px rgba(56,189,248,.14);
+}
+.core-logo{
+    width:150px;
+    max-height:125px;
+    object-fit:contain;
+    display:block;
+    margin-bottom:3px;
+    filter:drop-shadow(0 0 18px rgba(56,189,248,.38));
+    position:relative;
+    z-index:2;
+}
+.core b{
+    font-size:.58rem;
+    letter-spacing:2.2px;
+    position:relative;
+    z-index:2;
+}
+.core small{
+    font-size:.4rem;
+    letter-spacing:1.4px;
+    position:relative;
+    z-index:2;
+}
+
+.ring{inset:4%;border-color:rgba(56,189,248,.5)}
+.ring.r2{inset:12%;border-color:rgba(56,189,248,.2)}
+.ring.r3{inset:19%;border-color:rgba(56,189,248,.2)}
+.ring.r4{inset:27%;border-color:rgba(56,189,248,.25)}
+.rune{inset:7%}
+
+.hint{bottom:18px}
+
+@media(max-width:850px){
+    .hero{top:82px}
+    .wheel-wrap{
+        width:min(610px,92vw);
+        height:min(610px,92vw);
+        top:55%;
+    }
+    .option{
+        width:94px;
+        height:94px;
+        margin:-47px;
+        transform:rotate(var(--a)) translateY(-245px);
+    }
+    @keyframes menuCounter{
+        from{transform:rotate(calc(var(--a) * -1))}
+        to{transform:rotate(calc(var(--a) * -1 - 360deg))}
+    }
+    .core{width:190px;height:190px}
+    .core-logo{width:128px;max-height:108px}
+}
+@media(max-width:560px){
+    .hero{top:76px}
+    .wheel-wrap{
+        width:96vw;
+        height:96vw;
+        top:55%;
+    }
+    .option{
+        width:76px;
+        height:76px;
+        margin:-38px;
+        transform:rotate(var(--a)) translateY(-180px);
+    }
+    .option-inner{box-shadow:0 0 0 3px rgba(3,8,16,.55),0 0 18px rgba(56,189,248,.12)}
+    .option .icon{font-size:1.1rem;margin-bottom:4px}
+    .option span{font-size:.43rem;letter-spacing:.7px}
+    .core{width:145px;height:145px}
+    .core-logo{width:96px;max-height:78px}
+    .core b{font-size:.43rem;letter-spacing:1.5px}
+    .core small{font-size:.32rem;letter-spacing:1px}
+}
+
 </style>
 </head>
 
@@ -687,7 +840,7 @@ td{padding:10px 6px;color:var(--text);border-bottom:1px solid rgba(30,58,138,.25
 <main class="stage">
     <div class="hero">
         <div class="eyebrow">LINEAGE II · CHRONICLE HIGH FIVE</div>
-        <img src="logo.png" alt="Virtual Boost">
+        
     </div>
 
     <div class="wheel-wrap">
@@ -699,42 +852,45 @@ td{padding:10px 6px;color:var(--text);border-bottom:1px solid rgba(30,58,138,.25
             <div class="ring r4"></div>
             <div class="rune"></div>
 
-            <div class="option o1">
-                <button class="option-inner" onclick="openPanel('server')">
-                    <div class="icon">♛</div><span>O Reino</span>
-                </button>
-            </div>
-            <div class="option o2">
-                <button class="option-inner" onclick="openPanel('philosophy')">
-                    <div class="icon">◈</div><span>Filosofia</span>
-                </button>
-            </div>
-            <div class="option o3">
-                <button class="option-inner" onclick="openPanel('rates')">
-                    <div class="icon">⚔</div><span>Rates</span>
-                </button>
-            </div>
-            <div class="option o4">
-                <button class="option-inner" onclick="openPanel('economy')">
-                    <div class="icon">💰</div><span>Economia</span>
-                </button>
-            </div>
-            <div class="option o5">
-                <button class="option-inner" onclick="openPanel('download')">
-                    <div class="icon">✦</div><span>Download</span>
-                </button>
-            </div>
-            <div class="option o6">
-                <button class="option-inner" onclick="openPanel('community')">
-                    <div class="icon">⚔</div><span>Comunidade</span>
-                </button>
+            <div class="menu-orbit">
+                <div class="option o1">
+                    <button class="option-inner" onclick="openPanel('server')">
+                        <div class="icon">♛</div><span>O Reino</span>
+                    </button>
+                </div>
+                <div class="option o2">
+                    <button class="option-inner" onclick="openPanel('philosophy')">
+                        <div class="icon">◈</div><span>Filosofia</span>
+                    </button>
+                </div>
+                <div class="option o3">
+                    <button class="option-inner" onclick="openPanel('rates')">
+                        <div class="icon">⚔</div><span>Rates</span>
+                    </button>
+                </div>
+                <div class="option o4">
+                    <button class="option-inner" onclick="openPanel('economy')">
+                        <div class="icon">💰</div><span>Economia</span>
+                    </button>
+                </div>
+                <div class="option o5">
+                    <button class="option-inner" onclick="openPanel('download')">
+                        <div class="icon">✦</div><span>Download</span>
+                    </button>
+                </div>
+                <div class="option o6">
+                    <button class="option-inner" onclick="openPanel('community')">
+                        <div class="icon">⚔</div><span>Comunidade</span>
+                    </button>
+                </div>
             </div>
 
             <div class="core">
-                <div class="mark">✦</div>
+                <img class="core-logo" src="logo.png" alt="Virtual Boost">
                 <b>VIRTUAL BOOST</b>
                 <small>SELECIONE UMA OPÇÃO</small>
             </div>
+/div>
         </div>
     </div>
 
