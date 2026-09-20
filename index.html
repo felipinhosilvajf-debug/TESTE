@@ -1410,7 +1410,7 @@ a[href="#download"]:hover {
 }
 </style></head>
 <body>
-<body><nav class="minimal-topbar">
+<nav class="minimal-topbar">
     <div class="minimal-spacer"></div>
     <div class="minimal-actions">
         <div class="badge minimal-adena">
@@ -1853,17 +1853,11 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 });
 
-// Assim que a página carregar, verifica se o usuário marcou para não mostrar
 
-
-// Esconde o modal
-    document.getElementById('communityModal').classList.add('hidden');
-}
 
 function openPanel(key){const p=document.getElementById('panel-'+key);if(!p)return;document.querySelectorAll('.info-modal.open').forEach(x=>x.classList.remove('open'));p.classList.add('open');p.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');requestAnimationFrame(()=>{const w=p.querySelector('.info-window');if(w)w.scrollTop=0;});}
 function closePanel(key){const p=document.getElementById('panel-'+key);if(p){p.classList.remove('open');p.setAttribute('aria-hidden','true');}if(!document.querySelector('.info-modal.open'))document.body.classList.remove('modal-open');}
 document.querySelectorAll('.wheel-option[data-panel]').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPanel(btn.dataset.panel);});});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.info-modal.open').forEach(p=>p.classList.remove('open'));document.body.classList.remove('modal-open');}});
 </script></body>
-</body>
 </html>
