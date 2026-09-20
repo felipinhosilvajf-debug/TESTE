@@ -1721,6 +1721,12 @@ padding:45px 8px 12px    }
         max-height:calc(100vh - 70px);
 height:auto    }
 }
+
+/* =========================================================
+   IMAGENS DOS PAINEIS DA ROLETA
+   Troque os nomes COLOCAAQUI*.jpg pelos seus arquivos.
+========================================================= */
+.panel-gallery{width:100%;max-width:1050px;margin:25px auto 45px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel-gallery-item{position:relative;overflow:hidden;min-height:190px;background:linear-gradient(145deg,rgba(17,26,46,.96),rgba(7,10,16,.98));border:1px solid var(--dynasty-border);box-shadow:0 15px 40px rgba(0,0,0,.65),inset 0 0 20px rgba(56,189,248,.04)}.panel-gallery-item img{display:block;width:100%;height:100%;min-height:190px;object-fit:cover;transition:transform .45s ease,filter .45s ease}.panel-gallery-item:hover img{transform:scale(1.035);filter:brightness(1.08) saturate(1.05)}@media(max-width:700px){.panel-gallery{grid-template-columns:1fr;gap:14px;margin-bottom:30px}}
 </style>
 
 <style>
@@ -1805,6 +1811,11 @@ font-size:.5rem    }
         <a href="#" class="minimal-link minimal-discord" onclick="openPanel('join');return false;">DISCORD</a>
     </div>
 </nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline poster="herobg7.png"><source src="herobgss.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-badge">LINEAGE II · CHRONICLE HIGH FIVE</div><div class="wheel-title">VIRTUAL <span>BOOST</span></div><p>Selecione uma opção para abrir todas as informações do reino.</p></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">♛</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">◈</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">✦</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">⚔</span><span>COMUNIDADE</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div><div class="wheel-bottom">◈ MENU INTERATIVO · CLIQUE EM UMA OPÇÃO ◈</div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
@@ -1863,6 +1874,11 @@ font-size:.5rem    }
         </div>
     </div>
 </div></div></div><div class="info-modal" id="panel-philosophy" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('philosophy')"></div><div class="info-window"><button class="info-close" onclick="closePanel('philosophy')">×</button><div class="info-heading"><span class="info-heading-icon">◈</span>FILOSOFIA</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
     <h2 class="sec-title reveal">
         <span class="blue">A FILOSOFIA</span> DO VIRTUAL BOOST
     </h2>
@@ -1888,6 +1904,11 @@ font-size:.5rem    }
         </div>
     </div>
 </div></div></div><div class="info-modal" id="panel-rates" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('rates')"></div><div class="info-window"><button class="info-close" onclick="closePanel('rates')">×</button><div class="info-heading"><span class="info-heading-icon">⚔</span>RATES</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
     <h2 class="sec-title reveal">
         <span class="blue">RATES</span> DO REINO
     </h2>
@@ -1910,6 +1931,11 @@ font-size:.5rem    }
         </div>
     </div>
 </div></div></div><div class="info-modal" id="panel-economy" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('economy')"></div><div class="info-window"><button class="info-close" onclick="closePanel('economy')">×</button><div class="info-heading"><span class="info-heading-icon">💰</span>ECONOMIA</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
     <h2 class="sec-title reveal">
         <span class="blue">ECONOMIA</span> EM TEMPO REAL
     </h2>
@@ -2022,6 +2048,11 @@ font-size:.5rem    }
         </div>
     </div>
 </div></div></div><div class="info-modal" id="panel-download" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('download')"></div><div class="info-window"><button class="info-close" onclick="closePanel('download')">×</button><div class="info-heading"><span class="info-heading-icon">✦</span>DOWNLOAD</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
 <div class="fusion-box">
     <div class="fusion-visual reveal">
         <div class="sword-container">
@@ -2068,6 +2099,11 @@ font-size:.5rem    }
     </div>
 </div>
 </div></div></div><div class="info-modal" id="panel-join" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('join')"></div><div class="info-window"><button class="info-close" onclick="closePanel('join')">×</button><div class="info-heading"><span class="info-heading-icon">⚔</span>COMUNIDADE</div><div class="info-body">
+    <div class="panel-gallery">
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI.jpg" alt="COLOCAAQUI"></div>
+        <div class="panel-gallery-item"><img src="asset/COLOCAAQUI_2.jpg" alt="COLOCAAQUI_2"></div>
+    </div>
+
     <div class="cta-final reveal">
         <h2>
             SUA LENDA <span class="blue">COMEÇA AQUI</span>
