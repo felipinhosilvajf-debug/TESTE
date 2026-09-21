@@ -1388,11 +1388,26 @@ isolation:isolate}
 background:radial-gradient(circle at center,transparent 0%,rgba(0,0,0,.48) 72%,rgba(0,0,0,.82) 100%)}
 .wheel-intro {
     position:absolute;
-    top:105px;
+    top:90px;
     left:0;
     right:0;
     text-align:center;
-z-index:20}
+    z-index:20;
+    padding:0 12px;
+}
+.wheel-intro .wheel-badge {
+    font-size:.58rem;
+    padding:6px 17px;
+}
+.wheel-intro .wheel-title {
+    margin-top:7px;
+    font-size:1rem;
+    letter-spacing:4px;
+}
+.wheel-intro p {
+    margin-top:4px;
+    font-size:.72rem;
+}
 .wheel-badge {
     display:inline-block;
     padding:7px 20px;
@@ -1414,14 +1429,17 @@ color:var(--blue-base)}
     font:.8rem 'EB Garamond',serif;
 letter-spacing:1px}
 .wheel-stage {
-    position:relative;
-    width:min(690px,78vw);
-    height:min(690px,78vw);
-    margin-top:65px;
+    position:absolute;
+    top:205px;
+    left:50%;
+    width:min(620px,72vw,calc(100vh - 285px));
+    height:min(620px,72vw,calc(100vh - 285px));
+    margin:0;
     display:flex;
     align-items:center;
     justify-content:center;
-transform:translateY(42px) scale(.92)}
+    transform:translateX(-50%);
+}
 .wheel-glow {
     position:absolute;
     width:45%;
@@ -1536,27 +1554,27 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:0deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-2 {
     --angle:60deg;
     --angle-neg:-60deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-3 {
     --angle:120deg;
     --angle-neg:-120deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-4 {
     --angle:180deg;
     --angle-neg:-180deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-5 {
     --angle:240deg;
     --angle-neg:-240deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-6 {
     --angle:300deg;
     --angle-neg:-300deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .wheel-core {
     position:relative;
     z-index:12;
@@ -1715,9 +1733,11 @@ display:none!important}
 letter-spacing:3px}
 @media(max-width:800px) {
     .wheel-stage {
-        width:94vw;
-        height:94vw;
-margin-top:70px    }
+        top:190px;
+        width:min(520px,88vw,calc(100vh - 255px));
+        height:min(520px,88vw,calc(100vh - 255px));
+        transform:translateX(-50%);
+        margin:0    }
     .wheel-option {
         width:78px;
         height:78px;
@@ -1726,7 +1746,7 @@ font-size:.43rem    }
     .option-icon {
 font-size:1.2rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(-210px)    }
+transform:rotate(var(--angle)) translateY(calc(-1 * min(185px,calc((100vh - 255px)/2 - 39px),calc(44vw - 39px))))    }
     .wheel-core {
         width:155px;
 height:155px    }
@@ -1746,7 +1766,7 @@ font-size:.36rem    }
     .option-icon {
 font-size:1rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(-170px)    }
+transform:rotate(var(--angle)) translateY(calc(-1 * min(145px,calc((100vh - 225px)/2 - 33px),calc(44vw - 33px))))    }
     .wheel-core {
         width:128px;
 height:128px    }
