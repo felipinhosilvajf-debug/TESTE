@@ -754,6 +754,156 @@ section:nth-of-type(even) {
     padding-left: 20px;
 }
 /* =========================================================
+   DOWNLOAD MODAL — ABRE ACIMA DE TODA A PÁGINA
+========================================================= */
+.download-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:rgba(0,0,0,.84);
+    backdrop-filter:blur(6px);
+}
+.download-modal.open{display:flex}
+body.download-modal-open{overflow:hidden}
+
+.download-window{
+    position:relative;
+    width:min(1000px,94vw);
+    max-height:90vh;
+    padding:20px;
+    overflow:auto;
+    background:linear-gradient(145deg,rgba(17,26,46,.99),rgba(7,10,16,.99));
+    border:1px solid var(--blue-dark);
+    box-shadow:0 30px 120px rgba(0,0,0,.98),0 0 40px rgba(56,189,248,.14);
+}
+.download-title{
+    margin:0 45px 14px 0;
+    padding:0 0 13px;
+    color:#fff;
+    font-family:'Cinzel',serif;
+    font-size:.95rem;
+    font-weight:800;
+    letter-spacing:2px;
+    border-bottom:1px solid var(--dynasty-border);
+}
+.download-notice{
+    padding:13px 15px;
+    margin-bottom:14px;
+    color:var(--dynasty-muted);
+    background:rgba(56,189,248,.04);
+    border:1px solid var(--dynasty-border);
+    font-size:.78rem;
+    line-height:1.5;
+}
+.download-notice b{color:var(--blue-light)}
+.download-table{
+    width:100%;
+    border:1px solid rgba(56,189,248,.22);
+    background:rgba(3,8,16,.65);
+}
+.download-row{
+    display:grid;
+    grid-template-columns:175px 1fr 105px;
+    align-items:center;
+    gap:18px;
+    padding:15px;
+    border-bottom:1px solid rgba(56,189,248,.12);
+}
+.download-row:last-child{border-bottom:none}
+.download-header{
+    padding:9px 15px;
+    color:var(--blue-light);
+    background:rgba(3,105,161,.10);
+    font-family:'Cinzel',serif;
+    font-size:.55rem;
+    font-weight:800;
+    letter-spacing:1.5px;
+}
+.download-file strong{
+    display:block;
+    color:#e8f7ff;
+    font-family:'Cinzel',serif;
+    font-size:.7rem;
+}
+.download-file small{
+    display:block;
+    margin-top:4px;
+    color:var(--blue-base);
+    font-family:'Cinzel',serif;
+    font-size:.5rem;
+    letter-spacing:.8px;
+}
+.download-description{
+    color:var(--dynasty-muted);
+    font-size:.76rem;
+    line-height:1.5;
+}
+.download-button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:90px;
+    height:34px;
+    color:#bae6fd;
+    text-decoration:none;
+    border:1px solid var(--blue-dark);
+    background:rgba(3,105,161,.16);
+    font-family:'Cinzel',serif;
+    font-size:.5rem;
+    font-weight:800;
+    letter-spacing:.7px;
+    transition:.25s;
+}
+.download-button:hover{
+    color:#fff;
+    border-color:var(--blue-light);
+    background:rgba(3,105,161,.35);
+    box-shadow:0 0 14px rgba(56,189,248,.25);
+}
+.download-close{
+    position:absolute;
+    top:9px;
+    right:10px;
+    width:34px;
+    height:34px;
+    border:1px solid var(--blue-dark);
+    background:rgba(7,10,16,.9);
+    color:#fff;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+}
+.download-close:hover{border-color:var(--blue-light);color:var(--blue-light)}
+.download-actions-bottom{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+}
+.download-actions-bottom .btn-return-download{
+    min-height:40px;
+    padding:0 24px;
+    color:#fff;
+    border-color:var(--blue-dark);
+    background:rgba(3,105,161,.18);
+    font-size:.6rem;
+}
+.download-actions-bottom .btn-return-download:hover{
+    border-color:var(--blue-light);
+    background:rgba(3,105,161,.35);
+}
+@media(max-width:700px){
+    .download-modal{padding:10px}
+    .download-window{width:96vw;padding:14px}
+    .download-header{display:none}
+    .download-row{grid-template-columns:1fr;gap:7px;padding:13px}
+    .download-button{width:100%}
+}
+
+/* =========================================================
    FINAL CTA
 ========================================================= */
 .cta-final {
@@ -2143,26 +2293,86 @@ font-size:.5rem    }
 
             <div class="download-actions">
             <div class="download-dropdown">
-                <button type="button" class="btn btn-primary" onclick="toggleDownloadMenu(event)">
+                <button type="button" class="btn btn-primary" onclick="openDownloadModal(event)">
                     ⚔ DOWNLOAD
                 </button>
-                <div class="dropdown-content" id="downloadMenu">
+            </div>
+
+            <div class="download-modal" id="downloadModal" aria-hidden="true" onclick="closeDownloadModal(event)">
+                <div class="download-window" onclick="event.stopPropagation()">
+
+                    <button type="button" class="download-close" aria-label="Fechar" onclick="closeDownloadModal(event)">×</button>
+
+                    <div class="download-title">✦ OPÇÕES DE DOWNLOAD</div>
+
                     <div class="download-notice">
                         ⚠ <b>ATENÇÃO</b><br>
                         Após baixar o client, delete a <b>system</b> e execute o <b>Launcher</b> para manter os arquivos atualizados.
                     </div>
-                    <div class="dropdown-divider">
-                        OPÇÕES DE DOWNLOAD
+
+                    <div class="download-table">
+                        <div class="download-row download-header">
+                            <div>ARQUIVO</div>
+                            <div>INFORMAÇÃO</div>
+                            <div>AÇÃO</div>
+                        </div>
+
+                        <div class="download-row">
+                            <div class="download-file">
+                                <strong>LAUNCHER</strong>
+                                <small>OPÇÃO 1 · .EXE</small>
+                            </div>
+                            <div class="download-description">
+                                Baixe o Launcher e instale diretamente na pasta raiz do Lineage II.
+                            </div>
+                            <div>
+                                <a href="https://virtualboost.online/download/Install-L2VB.rar" target="_blank" class="download-button">BAIXAR</a>
+                            </div>
+                        </div>
+
+                        <div class="download-row">
+                            <div class="download-file">
+                                <strong>LAUNCHER</strong>
+                                <small>OPÇÃO 2 · .ZIP</small>
+                            </div>
+                            <div class="download-description">
+                                Caso o Windows ou antivírus não aceite o executável do Launcher, baixe a versão pronta para inicialização e extraia na pasta raiz do Lineage II.
+                            </div>
+                            <div>
+                                <a href="#" class="download-button">BAIXAR</a>
+                            </div>
+                        </div>
+
+                        <div class="download-row">
+                            <div class="download-file">
+                                <strong>CLIENTE HIGH FIVE</strong>
+                                <small>.TORRENT</small>
+                            </div>
+                            <div class="download-description">
+                                Download completo do cliente High Five através de torrent.
+                            </div>
+                            <div>
+                                <a href="https://virtualboost.online/download/L2H5-Client.rar" target="_blank" class="download-button">TORRENT</a>
+                            </div>
+                        </div>
+
+                        <div class="download-row">
+                            <div class="download-file">
+                                <strong>CLIENTE HIGH FIVE</strong>
+                                <small>.ZIP · MEDIAFIRE</small>
+                            </div>
+                            <div class="download-description">
+                                Download completo do cliente High Five através do MediaFire.
+                            </div>
+                            <div>
+                                <a href="https://www.mediafire.com/file/fduprchyyotwej2/L2+High+Five+Original.zip/file" target="_blank" class="download-button">MEDIAFIRE</a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="https://virtualboost.online/download/Install-L2VB.rar" target="_blank">
-                        ◈ Launcher Oficial - (.exe)
-                    </a>
-                    <a href="https://virtualboost.online/download/L2H5-Client.rar" target="_blank">
-                        ◈ Cliente High Five - (.torrent)
-                    </a>
-                    <a href="https://www.mediafire.com/file/fduprchyyotwej2/L2+High+Five+Original.zip/file" target="_blank">
-                        ◈ Cliente High Five - (.zip)
-                    </a>
+
+                    <div class="download-actions-bottom">
+                        <button type="button" class="btn btn-return-download" onclick="closeDownloadModal(event)">← VOLTAR</button>
+                    </div>
                 </div>
             </div>
             <button type="button" class="btn btn-install" onclick="openInstallVideo(event)">⚙ COMO INSTALAR</button>
@@ -2276,10 +2486,21 @@ function closeMenu(){
 /* =========================================================
    DOWNLOAD
 ========================================================= */
-function toggleDownloadMenu(event){
-    event.stopPropagation();
-    const menu = document.getElementById('downloadMenu');
-    menu.classList.toggle('show');
+function openDownloadModal(event){
+    if(event) event.stopPropagation();
+    const modal = document.getElementById('downloadModal');
+    if(!modal) return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('download-modal-open');
+}
+function closeDownloadModal(event){
+    if(event) event.stopPropagation();
+    const modal = document.getElementById('downloadModal');
+    if(!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('download-modal-open');
 }
 function openInstallVideo(event){
     if(event) event.stopPropagation();
@@ -2296,10 +2517,9 @@ function closeInstallVideo(event){
     if(video){video.pause();video.currentTime=0;}
 }
 
-window.addEventListener('click', function(){
-    const menu = document.getElementById('downloadMenu');
-    if(menu && menu.classList.contains('show')){
-        menu.classList.remove('show');
+window.addEventListener('keydown', function(event){
+    if(event.key === 'Escape'){
+        closeDownloadModal(event);
     }
 });
 
