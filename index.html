@@ -701,16 +701,13 @@ section:nth-of-type(even) {
     display: none;
     position: absolute;
     left: 50%;
-    bottom: calc(100% + 15px);
-    top: auto;
+    top: calc(100% + 15px);
     transform: translateX(-50%);
-    width: min(350px, calc(100vw - 32px));
-    max-height: min(72vh, 430px);
-    overflow-y: auto;
+    width: 350px;
     padding: 16px;
-    background: linear-gradient(150deg, rgba(17,26,46,0.99), rgba(7,10,16,0.995));
+    background: linear-gradient(150deg, rgba(17,26,46,0.98), rgba(7,10,16,0.99));
     border: 1px solid var(--blue-dark);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.95), 0 0 25px rgba(56,189,248,0.12);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.95);
     z-index: 300;
 }
 .dropdown-content.show {
@@ -1417,17 +1414,14 @@ color:var(--blue-base)}
     font:.8rem 'EB Garamond',serif;
 letter-spacing:1px}
 .wheel-stage {
-    position:absolute;
-    top:175px;
-    left:50%;
-    width:min(690px,78vw,calc(100vh - 230px));
-    height:min(690px,78vw,calc(100vh - 230px));
-    margin:0;
+    position:relative;
+    width:min(690px,78vw);
+    height:min(690px,78vw);
+    margin-top:65px;
     display:flex;
     align-items:center;
     justify-content:center;
-    transform:translateX(-50%);
-}
+transform:translateY(42px) scale(.92)}
 .wheel-glow {
     position:absolute;
     width:45%;
@@ -1542,33 +1536,27 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:0deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .option-2 {
     --angle:60deg;
     --angle-neg:-60deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .option-3 {
     --angle:120deg;
     --angle-neg:-120deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .option-4 {
     --angle:180deg;
     --angle-neg:-180deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .option-5 {
     --angle:240deg;
     --angle-neg:-240deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .option-6 {
     --angle:300deg;
     --angle-neg:-300deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
-}
+transform:rotate(var(--angle)) translateY(-252px)}
 .wheel-core {
     position:relative;
     z-index:12;
@@ -1727,12 +1715,9 @@ display:none!important}
 letter-spacing:3px}
 @media(max-width:800px) {
     .wheel-stage {
-        top:165px;
-        width:min(92vw,calc(100vh - 210px));
-        height:min(92vw,calc(100vh - 210px));
-        transform:translateX(-50%);
-        margin:0
-    }
+        width:94vw;
+        height:94vw;
+margin-top:70px    }
     .wheel-option {
         width:78px;
         height:78px;
@@ -1741,7 +1726,7 @@ font-size:.43rem    }
     .option-icon {
 font-size:1.2rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(calc(-1 * min(205px,calc((100vh - 210px)/2 - 39px),calc(46vw - 39px))))    }
+transform:rotate(var(--angle)) translateY(-210px)    }
     .wheel-core {
         width:155px;
 height:155px    }
@@ -1751,11 +1736,8 @@ max-height:68px    }
 }
 @media(max-width:520px) {
     .wheel-stage {
-        top:150px;
-        width:min(92vw,calc(100vh - 190px));
-        height:min(92vw,calc(100vh - 190px));
-        transform:translateX(-50%);
-    }
+        width:98vw;
+height:98vw    }
     .wheel-option {
         width:66px;
         height:66px;
@@ -1764,7 +1746,7 @@ font-size:.36rem    }
     .option-icon {
 font-size:1rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(calc(-1 * min(165px,calc((100vh - 190px)/2 - 33px),calc(46vw - 33px))))    }
+transform:rotate(var(--angle)) translateY(-170px)    }
     .wheel-core {
         width:128px;
 height:128px    }
