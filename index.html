@@ -1417,14 +1417,16 @@ color:var(--blue-base)}
     font:.8rem 'EB Garamond',serif;
 letter-spacing:1px}
 .wheel-stage {
-    position:relative;
-    width:min(690px,78vw,68vh);
-    height:min(690px,78vw,68vh);
-    margin-top:65px;
+    position:absolute;
+    top:175px;
+    left:50%;
+    width:min(690px,78vw,calc(100vh - 230px));
+    height:min(690px,78vw,calc(100vh - 230px));
+    margin:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    transform:translateY(42px) scale(clamp(.72,calc(100vh / 900),.92));
+    transform:translateX(-50%);
 }
 .wheel-glow {
     position:absolute;
@@ -1540,32 +1542,32 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:0deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .option-2 {
     --angle:60deg;
     --angle-neg:-60deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .option-3 {
     --angle:120deg;
     --angle-neg:-120deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .option-4 {
     --angle:180deg;
     --angle-neg:-180deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .option-5 {
     --angle:240deg;
     --angle-neg:-240deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .option-6 {
     --angle:300deg;
     --angle-neg:-300deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(250px,calc((100vh - 230px)/2 - 45px),calc(39vw - 45px))));
 }
 .wheel-core {
     position:relative;
@@ -1725,11 +1727,11 @@ display:none!important}
 letter-spacing:3px}
 @media(max-width:800px) {
     .wheel-stage {
-        width:min(94vw,66vh);
-        height:min(94vw,66vh);
-        transform:translateY(34px) scale(clamp(.68,calc(100vh / 920),.82));
-
-        margin-top:70px
+        top:165px;
+        width:min(92vw,calc(100vh - 210px));
+        height:min(92vw,calc(100vh - 210px));
+        transform:translateX(-50%);
+        margin:0
     }
     .wheel-option {
         width:78px;
@@ -1739,7 +1741,7 @@ font-size:.43rem    }
     .option-icon {
 font-size:1.2rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(-210px)    }
+transform:rotate(var(--angle)) translateY(calc(-1 * min(205px,calc((100vh - 210px)/2 - 39px),calc(46vw - 39px))))    }
     .wheel-core {
         width:155px;
 height:155px    }
@@ -1749,9 +1751,10 @@ max-height:68px    }
 }
 @media(max-width:520px) {
     .wheel-stage {
-        width:94vw;
-        height:94vw;
-        transform:translateY(30px) scale(.82);
+        top:150px;
+        width:min(92vw,calc(100vh - 190px));
+        height:min(92vw,calc(100vh - 190px));
+        transform:translateX(-50%);
     }
     .wheel-option {
         width:66px;
@@ -1761,7 +1764,7 @@ font-size:.36rem    }
     .option-icon {
 font-size:1rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(-170px)    }
+transform:rotate(var(--angle)) translateY(calc(-1 * min(165px,calc((100vh - 190px)/2 - 33px),calc(46vw - 33px))))    }
     .wheel-core {
         width:128px;
 height:128px    }
