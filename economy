@@ -2170,7 +2170,10 @@ tr:hover td {
 
 
                     <td>
-                        <?= h($transaction['ip_address']) ?>
+                        <?php
+                        $transactionIp = trim((string)($transaction['ip_address'] ?? ''));
+                        echo h($transactionIp === '' || strtolower($transactionIp) === '<not connected>' ? 'TUTORIAL' : $transactionIp);
+                        ?>
                     </td>
 
 
