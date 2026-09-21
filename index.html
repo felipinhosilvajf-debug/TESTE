@@ -1457,6 +1457,13 @@ filter:blur(55px)}
     height:78%;
     border-color:rgba(56,189,248,.20);
     border-style:dashed;
+    transform:translate(-50%,-50%) rotate(0deg);
+    transform-origin:50% 50%;
+    animation:ringBRotate 36s linear infinite;
+}
+@keyframes ringBRotate {
+    from { transform:translate(-50%,-50%) rotate(0deg); }
+    to { transform:translate(-50%,-50%) rotate(360deg); }
 }
 .ring-b::after {
     display:none;
