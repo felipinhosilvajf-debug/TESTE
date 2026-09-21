@@ -701,13 +701,16 @@ section:nth-of-type(even) {
     display: none;
     position: absolute;
     left: 50%;
-    top: calc(100% + 15px);
+    bottom: calc(100% + 15px);
+    top: auto;
     transform: translateX(-50%);
-    width: 350px;
+    width: min(350px, calc(100vw - 32px));
+    max-height: min(72vh, 430px);
+    overflow-y: auto;
     padding: 16px;
-    background: linear-gradient(150deg, rgba(17,26,46,0.98), rgba(7,10,16,0.99));
+    background: linear-gradient(150deg, rgba(17,26,46,0.99), rgba(7,10,16,0.995));
     border: 1px solid var(--blue-dark);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.95);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.95), 0 0 25px rgba(56,189,248,0.12);
     z-index: 300;
 }
 .dropdown-content.show {
@@ -1415,13 +1418,14 @@ color:var(--blue-base)}
 letter-spacing:1px}
 .wheel-stage {
     position:relative;
-    width:min(690px,78vw);
-    height:min(690px,78vw);
+    width:min(690px,78vw,68vh);
+    height:min(690px,78vw,68vh);
     margin-top:65px;
     display:flex;
     align-items:center;
     justify-content:center;
-transform:translateY(42px) scale(.92)}
+    transform:translateY(42px) scale(clamp(.72,calc(100vh / 900),.92));
+}
 .wheel-glow {
     position:absolute;
     width:45%;
@@ -1536,27 +1540,33 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:0deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .option-2 {
     --angle:60deg;
     --angle-neg:-60deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .option-3 {
     --angle:120deg;
     --angle-neg:-120deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .option-4 {
     --angle:180deg;
     --angle-neg:-180deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .option-5 {
     --angle:240deg;
     --angle-neg:-240deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .option-6 {
     --angle:300deg;
     --angle-neg:-300deg;
-transform:rotate(var(--angle)) translateY(-252px)}
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
+}
 .wheel-core {
     position:relative;
     z-index:12;
@@ -1715,9 +1725,12 @@ display:none!important}
 letter-spacing:3px}
 @media(max-width:800px) {
     .wheel-stage {
-        width:94vw;
-        height:94vw;
-margin-top:70px    }
+        width:min(94vw,66vh);
+        height:min(94vw,66vh);
+        transform:translateY(34px) scale(clamp(.68,calc(100vh / 920),.82));
+
+        margin-top:70px
+    }
     .wheel-option {
         width:78px;
         height:78px;
@@ -1736,6 +1749,10 @@ max-height:68px    }
 }
 @media(max-width:520px) {
     .wheel-stage {
+        width:94vw;
+        height:94vw;
+        transform:translateY(30px) scale(.82);
+
         width:98vw;
 height:98vw    }
     .wheel-option {
