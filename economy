@@ -599,6 +599,15 @@ try {
             l.player_object_id AS character_id,
             COALESCE(c.char_name, CONCAT('#', l.player_object_id)) AS character_name,
             COALESCE(c.account_name, '') AS account_name,
+            COALESCE((
+                SELECT at.ip_address
+                FROM adena_transactions at
+                WHERE at.details = CONCAT('TRADE #', l.log_id)
+                  AND at.character_name = COALESCE(c.char_name, CONCAT('#', l.player_object_id))
+                  AND NULLIF(at.ip_address, '') IS NOT NULL
+                ORDER BY at.id DESC
+                LIMIT 1
+            ), '-') AS ip_address,
             li.receiver_name,
             li.item_count AS amount,
             li.item_object_id,
@@ -616,7 +625,7 @@ try {
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
         $createdAt = date('Y-m-d H:i:s', (int)($row['log_time'] / 1000));
         $base = [
-            'ip_address' => '-',
+            'ip_address' => $row['ip_address'] ?? '-',
             'hwid' => '-',
             'balance_before' => null,
             'balance_after' => null,
