@@ -1417,41 +1417,72 @@ filter:blur(55px)}
     position:absolute;
     inset:0;
     z-index:1;
-pointer-events:none}
+    pointer-events:none
+}
 .wheel-ring {
     position:absolute;
     left:50%;
     top:50%;
-    transform:translate(-50%,-50%) rotate(0deg);
+    transform:translate(-50%,-50%);
     transform-origin:center center;
     border-radius:50%;
-border:1px solid rgba(56,189,248,.28);
-animation:ringRotate 32s linear infinite}
-@keyframes ringRotate {
-    from { transform:translate(-50%,-50%) rotate(0deg); }
-    to { transform:translate(-50%,-50%) rotate(360deg); }
+    border:1px solid rgba(56,189,248,.22);
+    animation:none
+}
+.wheel-ring::after {
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:50%;
+    border:2px solid transparent;
+    border-top-color:rgba(186,230,253,.72);
+    border-right-color:rgba(56,189,248,.22);
+    transform:rotate(0deg);
+    animation:ringLineRotate 34s linear infinite;
+}
+@keyframes ringLineRotate {
+    to { transform:rotate(360deg); }
 }
 .ring-a {
     width:100%;
     height:100%;
-box-shadow:0 0 35px rgba(56,189,248,.08)}
+    border-color:rgba(56,189,248,.24);
+    box-shadow:0 0 35px rgba(56,189,248,.08)
+}
+.ring-a::after {
+    animation-duration:42s;
+}
 .ring-b {
     width:78%;
     height:78%;
-border-style:dashed}
+    border-color:rgba(56,189,248,.20);
+}
+.ring-b::after {
+    border-width:1px;
+    border-top-color:rgba(56,189,248,.58);
+    border-right-color:rgba(186,230,253,.16);
+    animation-duration:29s;
+}
 .ring-c {
     width:58%;
     height:58%;
-border-color:rgba(56,189,248,.16)}
+    border-color:rgba(56,189,248,.16);
+}
+.ring-c::after {
+    border-width:2px;
+    border-top-color:rgba(186,230,253,.48);
+    border-right-color:rgba(56,189,248,.12);
+    animation-duration:52s;
+}
 .wheel-ticks {
     position:absolute;
     inset:3%;
     border:1px dashed rgba(186,230,253,.18);
     border-radius:50%;
-animation:tickRotate 32s linear infinite}
+    animation:tickRotate 68s linear infinite
+}
 @keyframes tickRotate {
-    to {
-transform:rotate(360deg)    }
+    to { transform:rotate(360deg) }
 }
 .menu-orbit {
     position:absolute;
