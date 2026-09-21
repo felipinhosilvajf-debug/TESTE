@@ -681,6 +681,22 @@ section:nth-of-type(even) {
     display: inline-block;
     margin-top: 20px;
 }
+.download-actions{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-top:20px}
+.download-actions .download-dropdown{margin-top:0}
+.btn-install{color:#fff;border-color:#f97316;background:linear-gradient(135deg,#c2410c,#f97316);box-shadow:0 0 22px rgba(249,115,22,.28)}
+.btn-install:hover{color:#fff;border-color:#fb923c;box-shadow:0 0 32px rgba(249,115,22,.5)}
+.install-help{flex-basis:100%;margin-top:-3px;margin-left:2px;color:var(--dynasty-muted);font-size:.72rem;font-family:'Cinzel',serif;letter-spacing:.5px}
+.install-help button{padding:0;border:0;background:none;color:#f59e0b;font:inherit;cursor:pointer}
+.install-help button:hover{color:#fdba74;text-decoration:underline}
+.install-video-modal{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.82);backdrop-filter:blur(5px)}
+.install-video-modal.open{display:flex}
+.install-video-window{position:relative;width:min(900px,94vw);max-height:92vh;padding:18px;background:linear-gradient(145deg,rgba(17,26,46,.99),rgba(7,10,16,.99));border:1px solid #f97316;box-shadow:0 30px 100px rgba(0,0,0,.95),0 0 35px rgba(249,115,22,.2)}
+.install-video-title{margin:0 0 12px;color:#fff;font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:2px;text-transform:uppercase}
+.install-video-window video{display:block;width:100%;max-height:72vh;background:#000}
+.install-video-actions{display:flex;justify-content:center;margin-top:14px}
+.btn-return-download{min-height:42px;padding:0 22px;color:#fff;border-color:#f97316;background:linear-gradient(135deg,#c2410c,#f97316);font-size:.65rem}
+.install-video-close{position:absolute;top:8px;right:10px;z-index:2;width:32px;height:32px;border:1px solid rgba(249,115,22,.7);background:rgba(7,10,16,.9);color:#fff;font-size:20px;line-height:1;cursor:pointer}
+@media (max-width:600px){.download-actions{justify-content:center}.install-help{text-align:center;margin-left:0}.install-video-modal{padding:10px}.install-video-window{padding:12px}}
 .dropdown-content {
     display: none;
     position: absolute;
@@ -2064,6 +2080,7 @@ font-size:.5rem    }
             <p>Ela representa horas de dedicação, um raid inesquecível, uma guerra vencida ou uma negociação histórica.</p>
             <p>Entre no reino, evolua no seu ritmo e descubra até onde sua própria história pode chegar.</p>
 
+            <div class="download-actions">
             <div class="download-dropdown">
                 <button type="button" class="btn btn-primary" onclick="toggleDownloadMenu(event)">
                     ⚔ DOWNLOAD
@@ -2087,7 +2104,21 @@ font-size:.5rem    }
                     </a>
                 </div>
             </div>
+            <button type="button" class="btn btn-install" onclick="openInstallVideo(event)">⚙ COMO INSTALAR</button>
+            <div class="install-help">Não conseguiu instalar? <button type="button" onclick="openInstallVideo(event)">Assista ao tutorial</button></div>
         </div>
+    </div>
+</div>
+
+<div class="install-video-modal" id="installVideoModal" aria-hidden="true" onclick="closeInstallVideo(event)">
+    <div class="install-video-window" onclick="event.stopPropagation()">
+        <button type="button" class="install-video-close" aria-label="Fechar" onclick="closeInstallVideo(event)">×</button>
+        <div class="install-video-title">Tutorial de Instalação</div>
+        <video id="installVideo" controls playsinline preload="metadata">
+            <source src="asset/tutorial1.mp4" type="video/mp4">
+            Seu navegador não suporta vídeo HTML5.
+        </video>
+        <div class="install-video-actions"><button type="button" class="btn btn-return-download" onclick="closeInstallVideo(event)">← VOLTAR AO DOWNLOAD</button></div>
     </div>
 </div>
 </div></div></div><div class="info-modal" id="panel-join" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('join')"></div><div class="info-window"><button class="info-close" onclick="closePanel('join')">×</button><div class="info-heading"><span class="info-heading-icon">⚔</span>COMUNIDADE</div><div class="info-body">
@@ -2189,6 +2220,20 @@ function toggleDownloadMenu(event){
     const menu = document.getElementById('downloadMenu');
     menu.classList.toggle('show');
 }
+function openInstallVideo(event){
+    if(event) event.stopPropagation();
+    const modal=document.getElementById('installVideoModal'), video=document.getElementById('installVideo');
+    if(!modal)return;
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    if(video){video.currentTime=0;video.play().catch(()=>{});}
+}
+function closeInstallVideo(event){
+    if(event) event.stopPropagation();
+    const modal=document.getElementById('installVideoModal'), video=document.getElementById('installVideo');
+    if(!modal)return;
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    if(video){video.pause();video.currentTime=0;}
+}
 
 window.addEventListener('click', function(){
     const menu = document.getElementById('downloadMenu');
@@ -2264,6 +2309,6 @@ document.addEventListener('DOMContentLoaded', function(){
 function openPanel(key){const p=document.getElementById('panel-'+key);if(!p)return;document.querySelectorAll('.info-modal.open').forEach(x=>x.classList.remove('open'));p.classList.add('open');p.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');requestAnimationFrame(()=>{const w=p.querySelector('.info-window');if(w)w.scrollTop=0;});}
 function closePanel(key){const p=document.getElementById('panel-'+key);if(p){p.classList.remove('open');p.setAttribute('aria-hidden','true');}if(!document.querySelector('.info-modal.open'))document.body.classList.remove('modal-open');}
 document.querySelectorAll('.wheel-option[data-panel]').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPanel(btn.dataset.panel);});});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.info-modal.open').forEach(p=>p.classList.remove('open'));document.body.classList.remove('modal-open');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeInstallVideo(e);document.querySelectorAll('.info-modal.open').forEach(p=>p.classList.remove('open'));document.body.classList.remove('modal-open');}});
 </script></body>
 </html>
