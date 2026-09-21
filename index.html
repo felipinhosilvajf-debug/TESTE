@@ -1424,8 +1424,7 @@ letter-spacing:1px}
     display:flex;
     align-items:center;
     justify-content:center;
-    --orbit-radius:min(250px,calc(39vw - 49px),calc(34vh - 49px));
-    transform:translateY(32px);
+    transform:translateY(42px) scale(clamp(.72,calc(100vh / 900),.92));
 }
 .wheel-glow {
     position:absolute;
@@ -1541,32 +1540,32 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:0deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .option-2 {
     --angle:60deg;
     --angle-neg:-60deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .option-3 {
     --angle:120deg;
     --angle-neg:-120deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .option-4 {
     --angle:180deg;
     --angle-neg:-180deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .option-5 {
     --angle:240deg;
     --angle-neg:-240deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .option-6 {
     --angle:300deg;
     --angle-neg:-300deg;
-    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+    transform:rotate(var(--angle)) translateY(calc(-1 * min(252px,34vh,28vw)));
 }
 .wheel-core {
     position:relative;
@@ -1728,8 +1727,7 @@ letter-spacing:3px}
     .wheel-stage {
         width:min(94vw,66vh);
         height:min(94vw,66vh);
-        --orbit-radius:min(250px,calc(47vw - 39px),calc(34vh - 39px));
-        transform:translateY(28px);
+        transform:translateY(34px) scale(clamp(.68,calc(100vh / 920),.82));
 
         margin-top:70px
     }
@@ -1741,7 +1739,7 @@ font-size:.43rem    }
     .option-icon {
 font-size:1.2rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))    }
+transform:rotate(var(--angle)) translateY(-210px)    }
     .wheel-core {
         width:155px;
 height:155px    }
@@ -1753,8 +1751,7 @@ max-height:68px    }
     .wheel-stage {
         width:94vw;
         height:94vw;
-        --orbit-radius:min(220px,calc(47vw - 33px),calc(47vh - 33px));
-        transform:translateY(24px);
+        transform:translateY(30px) scale(.82);
     }
     .wheel-option {
         width:66px;
@@ -1764,7 +1761,7 @@ font-size:.36rem    }
     .option-icon {
 font-size:1rem    }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
-transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))    }
+transform:rotate(var(--angle)) translateY(-170px)    }
     .wheel-core {
         width:128px;
 height:128px    }
