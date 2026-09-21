@@ -337,11 +337,6 @@ try {
         SELECT
             character_name,
             account_name,
-            GROUP_CONCAT(
-                DISTINCT NULLIF(ip_address, '')
-                ORDER BY ip_address
-                SEPARATOR ', '
-            ) AS ip_address,
             COUNT(*) AS transactions,
 
             SUM(
@@ -403,11 +398,6 @@ try {
         SELECT
             character_name,
             account_name,
-            GROUP_CONCAT(
-                DISTINCT NULLIF(ip_address, '')
-                ORDER BY ip_address
-                SEPARATOR ', '
-            ) AS ip_address,
             COUNT(*) AS transactions,
 
             COALESCE(
@@ -599,15 +589,6 @@ try {
             l.player_object_id AS character_id,
             COALESCE(c.char_name, CONCAT('#', l.player_object_id)) AS character_name,
             COALESCE(c.account_name, '') AS account_name,
-            COALESCE((
-                SELECT at.ip_address
-                FROM adena_transactions at
-                WHERE at.details = CONCAT('TRADE #', l.log_id)
-                  AND at.character_name = COALESCE(c.char_name, CONCAT('#', l.player_object_id))
-                  AND NULLIF(at.ip_address, '') IS NOT NULL
-                ORDER BY at.id DESC
-                LIMIT 1
-            ), '-') AS ip_address,
             li.receiver_name,
             li.item_count AS amount,
             li.item_object_id,
@@ -625,7 +606,7 @@ try {
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
         $createdAt = date('Y-m-d H:i:s', (int)($row['log_time'] / 1000));
         $base = [
-            'ip_address' => $row['ip_address'] ?? '-',
+            'ip_address' => '-',
             'hwid' => '-',
             'balance_before' => null,
             'balance_after' => null,
@@ -1176,13 +1157,6 @@ details.panel[open] summary.panel-header::after {
     color: #65798e;
     font-size: 11px;
     margin-top: 2px;
-}
-
-.player-ip {
-    color: #4ddaff;
-    font-size: 10px;
-    margin-top: 2px;
-    font-family: 'Rajdhani', sans-serif;
 }
 
 .metric {
@@ -1756,10 +1730,6 @@ tr:hover td {
                         <?= h($activity['account_name']) ?>
                     </div>
 
-                    <div class="player-ip">
-                        IP: <?= h($activity['ip_address'] ?? '<not connected>') ?>
-                    </div>
-
                 </div>
 
 
@@ -1856,10 +1826,6 @@ tr:hover td {
 
                     <div class="player-account">
                         <?= h($activity['account_name']) ?>
-                    </div>
-
-                    <div class="player-ip">
-                        IP: <?= h($activity['ip_address'] ?? '<not connected>') ?>
                     </div>
 
                 </div>
