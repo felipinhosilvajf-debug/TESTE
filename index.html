@@ -2070,9 +2070,10 @@ font-size:.5rem    }
 .season-core{position:relative;z-index:5;width:142px;height:142px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(59,130,246,.32),rgba(3,10,24,.98) 68%);border:1px solid rgba(147,197,253,.7);box-shadow:0 0 0 8px rgba(2,6,23,.65),0 0 60px rgba(37,99,235,.35),inset 0 0 35px rgba(59,130,246,.18);animation:seasonPulse 3s ease-in-out infinite}
 .season-core span{font:900 2.2rem 'Cinzel',serif;color:#dbeafe;text-shadow:0 0 20px rgba(96,165,250,.75)}
 .season-core small{margin-top:3px;color:#93c5fd;font:700 .55rem 'Cinzel',serif;letter-spacing:2px}
-.season-item{position:absolute;z-index:4;width:66px;height:66px;margin:-33px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,rgba(59,130,246,.3),rgba(4,10,23,.98) 70%);border:1px solid rgba(96,165,250,.55);box-shadow:0 0 18px rgba(37,99,235,.2),0 8px 18px rgba(0,0,0,.55);animation:seasonFloat 3.5s ease-in-out infinite}
-.season-item b{font:900 .78rem 'Cinzel',serif;color:#dbeafe}
-.season-item span{font:600 .46rem 'Cinzel',serif;color:#7dd3fc;letter-spacing:.5px}
+.season-item{position:absolute;z-index:4;width:82px;height:82px;margin:-41px;display:flex;align-items:center;justify-content:center;background:rgba(3,8,20,.72);border:1px solid rgba(96,165,250,.45);border-radius:14px;box-shadow:0 0 18px rgba(37,99,235,.18),0 8px 18px rgba(0,0,0,.55);animation:seasonFloat 3.5s ease-in-out infinite;overflow:hidden}
+.season-item img{width:100%;height:100%;object-fit:contain;display:block;padding:7px;filter:drop-shadow(0 0 10px rgba(96,165,250,.35));transition:.25s}
+.season-item:hover img{transform:scale(1.08);filter:drop-shadow(0 0 16px rgba(147,197,253,.65))}
+.season-item-1,.season-item-2,.season-item-3,.season-item-4,.season-item-5,.season-item-6,.season-item-7,.season-item-8,.season-item-9{cursor:pointer}
 .season-item-1{left:50%;top:0}.season-item-2{left:82%;top:12%}.season-item-3{left:100%;top:50%}.season-item-4{left:82%;top:88%}.season-item-5{left:50%;top:100%}.season-item-6{left:18%;top:88%}.season-item-7{left:0;top:50%}.season-item-8{left:18%;top:12%}.season-item-9{left:50%;top:50%;transform:translateY(148px);animation-delay:.8s}
 .season-item-2{animation-delay:.25s}.season-item-3{animation-delay:.5s}.season-item-4{animation-delay:.75s}.season-item-5{animation-delay:1s}.season-item-6{animation-delay:1.25s}.season-item-7{animation-delay:1.5s}.season-item-8{animation-delay:1.75s}
 .season-copy{padding:15px 10px}.season-kicker{color:#60a5fa;font:700 .68rem 'Cinzel',serif;letter-spacing:3px;margin-bottom:14px}.season-copy h2{font-size:clamp(2rem,4vw,3.35rem);line-height:1.05;color:#e2e8f0;margin-bottom:22px}.season-copy h2 span{color:#60a5fa;text-shadow:0 0 25px rgba(59,130,246,.42)}.season-copy p{color:#94a3b8;font-size:1.08rem;line-height:1.75}.season-copy strong{color:#dbeafe}.season-line{width:90px;height:2px;margin:20px 0;background:linear-gradient(90deg,#2563eb,transparent)}.season-quote{color:#bfdbfe!important;font-family:'Cinzel',serif;font-size:.92rem!important;letter-spacing:.5px}
@@ -2089,38 +2090,10 @@ font-size:.5rem    }
     .mobile-topbar-menu a{padding:11px 13px;color:#bfdbfe;text-decoration:none;font:700 .62rem 'Cinzel',serif;letter-spacing:1.5px;border-radius:5px}
     .mobile-topbar-menu a:hover{background:rgba(37,99,235,.18);color:#fff}
     .wheel-page{height:calc(100vh - 54px);min-height:calc(100vh - 54px);padding-top:55px}
-    .season-hero{grid-template-columns:1fr;min-height:auto;gap:10px}.season-orbit{width:min(330px,86vw);height:min(330px,86vw)}.season-core{width:110px;height:110px}.season-core span{font-size:1.7rem}.season-item{width:54px;height:54px;margin:-27px}.season-item-9{transform:translateY(110px)}.season-copy{text-align:center;padding:8px}.season-line{margin:18px auto}.season-grid{grid-template-columns:1fr}.season-body{padding:20px 14px 28px}
+    .season-hero{grid-template-columns:1fr;min-height:auto;gap:10px}.season-orbit{width:min(330px,86vw);height:min(330px,86vw)}.season-core{width:110px;height:110px}.season-core span{font-size:1.7rem}.season-item{width:64px;height:64px;margin:-32px}.season-item img{padding:5px}.season-item-9{transform:translateY(110px)}.season-copy{text-align:center;padding:8px}.season-line{margin:18px auto}.season-grid{grid-template-columns:1fr}.season-body{padding:20px 14px 28px}
 }
 
 
-/* FORCE SEASON BUTTON — posição física independente do transform */
-.menu-orbit .wheel-option.option-7{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    z-index:20 !important;
-    left:calc(50% - 221px) !important;
-    top:calc(50% - 186px) !important;
-    margin:0 !important;
-    transform:none !important;
-}
-.menu-orbit .wheel-option.option-7 .option-content{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-}
-@media(max-width:800px){
-    .menu-orbit .wheel-option.option-7{
-        left:calc(50% - 146px) !important;
-        top:calc(50% - 124px) !important;
-    }
-}
-@media(max-width:520px){
-    .menu-orbit .wheel-option.option-7{
-        left:calc(50% - 146px) !important;
-        top:calc(50% - 124px) !important;
-    }
-}
 </style></head>
 <body>
 <nav class="minimal-topbar">
@@ -2512,15 +2485,15 @@ font-size:.5rem    }
             <div class="season-ring season-ring-a"></div>
             <div class="season-ring season-ring-b"></div>
             <div class="season-core"><span>VB</span><small>SEASON 01</small></div>
-            <div class="season-item season-item-1"><b>VB</b><span>Silver</span></div>
-            <div class="season-item season-item-2"><b>VB</b><span>Gold</span></div>
-            <div class="season-item season-item-3"><b>M1</b><span>Mage</span></div>
-            <div class="season-item season-item-4"><b>M2</b><span>Mage</span></div>
-            <div class="season-item season-item-5"><b>M3</b><span>Mage</span></div>
-            <div class="season-item season-item-6"><b>F1</b><span>Fight</span></div>
-            <div class="season-item season-item-7"><b>F2</b><span>Fight</span></div>
-            <div class="season-item season-item-8"><b>F3</b><span>Fight</span></div>
-            <div class="season-item season-item-9"><b>A</b><span>Adena</span></div>
+            <div class="season-item season-item-1"><img src="asset/season/icon-01.png" alt="Season 01 - Ícone 1"></div>
+            <div class="season-item season-item-2"><img src="asset/season/icon-02.png" alt="Season 01 - Ícone 2"></div>
+            <div class="season-item season-item-3"><img src="asset/season/icon-03.png" alt="Season 01 - Ícone 3"></div>
+            <div class="season-item season-item-4"><img src="asset/season/icon-04.png" alt="Season 01 - Ícone 4"></div>
+            <div class="season-item season-item-5"><img src="asset/season/icon-05.png" alt="Season 01 - Ícone 5"></div>
+            <div class="season-item season-item-6"><img src="asset/season/icon-06.png" alt="Season 01 - Ícone 6"></div>
+            <div class="season-item season-item-7"><img src="asset/season/icon-07.png" alt="Season 01 - Ícone 7"></div>
+            <div class="season-item season-item-8"><img src="asset/season/icon-08.png" alt="Season 01 - Ícone 8"></div>
+            <div class="season-item season-item-9"><img src="asset/season/icon-09.png" alt="Season 01 - Ícone 9"></div>
         </div>
         <div class="season-copy">
             <div class="season-kicker">VIRTUAL BOOST · TEMPORADA ATUAL</div>
