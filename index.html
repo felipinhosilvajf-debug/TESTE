@@ -1703,27 +1703,27 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 }
 .option-1 {
     --angle:0deg;
-    --angle-neg:0deg;
+    --angle-neg:-0deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-2 {
-    --angle:60deg;
-    --angle-neg:-60deg;
+    --angle:51.428571deg;
+    --angle-neg:-51.428571deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-3 {
-    --angle:120deg;
-    --angle-neg:-120deg;
+    --angle:102.857143deg;
+    --angle-neg:-102.857143deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-4 {
-    --angle:180deg;
-    --angle-neg:-180deg;
+    --angle:154.285714deg;
+    --angle-neg:-154.285714deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-5 {
-    --angle:240deg;
-    --angle-neg:-240deg;
+    --angle:205.714286deg;
+    --angle-neg:-205.714286deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .option-6 {
-    --angle:300deg;
-    --angle-neg:-300deg;
+    --angle:257.142857deg;
+    --angle-neg:-257.142857deg;
 transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
 .wheel-core {
     position:relative;
@@ -1895,7 +1895,7 @@ letter-spacing:3px}
 font-size:.43rem    }
     .option-icon {
 font-size:1.2rem    }
-    .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
+    .option-1,.option-2,.option-3,.option-4,.option-5,.option-6,.option-7 {
 transform:rotate(var(--angle)) translateY(calc(-1 * min(185px,calc((100vh - 255px)/2 - 39px),calc(44vw - 39px))))    }
     .wheel-core {
         width:155px;
@@ -1915,7 +1915,7 @@ height:98vw    }
 font-size:.36rem    }
     .option-icon {
 font-size:1rem    }
-    .option-1,.option-2,.option-3,.option-4,.option-5,.option-6 {
+    .option-1,.option-2,.option-3,.option-4,.option-5,.option-6,.option-7 {
 transform:rotate(var(--angle)) translateY(calc(-1 * min(145px,calc((100vh - 225px)/2 - 33px),calc(44vw - 33px))))    }
     .wheel-core {
         width:128px;
@@ -2037,6 +2037,57 @@ text-overflow:ellipsis    }
         padding:0 9px;
 font-size:.5rem    }
 }
+
+/* =========================================================
+   VIRTUAL BOOST — SEASON + MOBILE TOPBAR
+========================================================= */
+.wheel-option{
+    --option-color:#1d4ed8;
+    --option-hover:#60a5fa;
+    color:#dbeafe;
+    background:radial-gradient(circle at 35% 25%,rgba(29,78,216,.28),rgba(5,12,27,.98) 66%);
+    border-color:rgba(37,99,235,.72);
+    box-shadow:0 0 0 5px rgba(2,6,23,.58),0 0 24px rgba(30,64,175,.18),0 12px 28px rgba(0,0,0,.85);
+}
+.wheel-option:hover{
+    background:radial-gradient(circle at 35% 25%,rgba(37,99,235,.46),rgba(5,12,27,.98) 68%);
+    border-color:#60a5fa;
+    box-shadow:0 0 0 5px rgba(2,6,23,.62),0 0 30px rgba(37,99,235,.38),0 16px 34px rgba(0,0,0,.9);
+}
+.wheel-option .option-icon{color:#93c5fd;text-shadow:0 0 13px rgba(59,130,246,.45)}
+.season-option{--option-color:#60a5fa!important;--option-hover:#93c5fd!important}
+.mobile-menu-toggle,.mobile-topbar-menu{display:none}
+.season-window{max-width:1180px}
+.season-body{padding:28px 32px 36px}
+.season-hero{display:grid;grid-template-columns:minmax(320px,.95fr) minmax(320px,1.05fr);gap:35px;align-items:center;min-height:420px}
+.season-orbit{position:relative;width:min(410px,78vw);height:min(410px,78vw);margin:auto;display:grid;place-items:center}
+.season-ring{position:absolute;inset:8%;border-radius:50%;border:1px solid rgba(96,165,250,.24);box-shadow:0 0 45px rgba(37,99,235,.12);animation:seasonSpin 24s linear infinite}
+.season-ring-b{inset:18%;border-style:dashed;animation-duration:15s;animation-direction:reverse}
+.season-core{position:relative;z-index:5;width:142px;height:142px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(59,130,246,.32),rgba(3,10,24,.98) 68%);border:1px solid rgba(147,197,253,.7);box-shadow:0 0 0 8px rgba(2,6,23,.65),0 0 60px rgba(37,99,235,.35),inset 0 0 35px rgba(59,130,246,.18);animation:seasonPulse 3s ease-in-out infinite}
+.season-core span{font:900 2.2rem 'Cinzel',serif;color:#dbeafe;text-shadow:0 0 20px rgba(96,165,250,.75)}
+.season-core small{margin-top:3px;color:#93c5fd;font:700 .55rem 'Cinzel',serif;letter-spacing:2px}
+.season-item{position:absolute;z-index:4;width:66px;height:66px;margin:-33px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,rgba(59,130,246,.3),rgba(4,10,23,.98) 70%);border:1px solid rgba(96,165,250,.55);box-shadow:0 0 18px rgba(37,99,235,.2),0 8px 18px rgba(0,0,0,.55);animation:seasonFloat 3.5s ease-in-out infinite}
+.season-item b{font:900 .78rem 'Cinzel',serif;color:#dbeafe}
+.season-item span{font:600 .46rem 'Cinzel',serif;color:#7dd3fc;letter-spacing:.5px}
+.season-item-1{left:50%;top:0}.season-item-2{left:82%;top:12%}.season-item-3{left:100%;top:50%}.season-item-4{left:82%;top:88%}.season-item-5{left:50%;top:100%}.season-item-6{left:18%;top:88%}.season-item-7{left:0;top:50%}.season-item-8{left:18%;top:12%}.season-item-9{left:50%;top:50%;transform:translateY(148px);animation-delay:.8s}
+.season-item-2{animation-delay:.25s}.season-item-3{animation-delay:.5s}.season-item-4{animation-delay:.75s}.season-item-5{animation-delay:1s}.season-item-6{animation-delay:1.25s}.season-item-7{animation-delay:1.5s}.season-item-8{animation-delay:1.75s}
+.season-copy{padding:15px 10px}.season-kicker{color:#60a5fa;font:700 .68rem 'Cinzel',serif;letter-spacing:3px;margin-bottom:14px}.season-copy h2{font-size:clamp(2rem,4vw,3.35rem);line-height:1.05;color:#e2e8f0;margin-bottom:22px}.season-copy h2 span{color:#60a5fa;text-shadow:0 0 25px rgba(59,130,246,.42)}.season-copy p{color:#94a3b8;font-size:1.08rem;line-height:1.75}.season-copy strong{color:#dbeafe}.season-line{width:90px;height:2px;margin:20px 0;background:linear-gradient(90deg,#2563eb,transparent)}.season-quote{color:#bfdbfe!important;font-family:'Cinzel',serif;font-size:.92rem!important;letter-spacing:.5px}
+.season-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}.season-card{padding:22px 20px;background:linear-gradient(145deg,rgba(15,27,55,.95),rgba(3,8,18,.98));border:1px solid rgba(37,99,235,.35);box-shadow:0 12px 28px rgba(0,0,0,.5);transition:.3s}.season-card:hover{transform:translateY(-4px);border-color:#60a5fa;box-shadow:0 18px 35px rgba(0,0,0,.65),0 0 22px rgba(37,99,235,.16)}.season-card-icon{width:46px;height:46px;margin-bottom:13px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(59,130,246,.4),rgba(3,10,24,.95));border:1px solid rgba(96,165,250,.5);color:#dbeafe;font:900 .72rem 'Cinzel',serif;box-shadow:0 0 15px rgba(37,99,235,.18)}.season-card-icon span{color:#fbbf24}.season-card h3{font-size:.92rem;color:#dbeafe;margin-bottom:8px}.season-card p{color:#8190a5;font-size:.92rem;line-height:1.65}.season-card.silver .season-card-icon{border-color:#cbd5e1}.season-card.gold .season-card-icon{border-color:#fbbf24;box-shadow:0 0 18px rgba(251,191,36,.16)}.season-card.gold h3{color:#fde68a}.season-card.mage .season-card-icon{border-color:#60a5fa}.season-card.fight .season-card-icon{border-color:#93c5fd}.season-card.adena .season-card-icon{border-color:#facc15}.season-card.adena h3{color:#fde68a}
+.season-tattoos{margin-top:22px;padding:22px;text-align:center;background:linear-gradient(90deg,transparent,rgba(30,64,175,.16),transparent);border-top:1px solid rgba(96,165,250,.2);border-bottom:1px solid rgba(96,165,250,.2)}.season-tattoos span{display:block;color:#60a5fa;font:700 .65rem 'Cinzel',serif;letter-spacing:3px}.season-tattoos strong{display:block;margin:8px 0;color:#dbeafe;font:700 1.15rem 'Cinzel',serif}.season-tattoos p{color:#718096;font-size:.9rem}
+@keyframes seasonSpin{to{transform:rotate(360deg)}}@keyframes seasonPulse{50%{transform:scale(1.035);box-shadow:0 0 0 8px rgba(2,6,23,.65),0 0 75px rgba(37,99,235,.5),inset 0 0 40px rgba(59,130,246,.24)}}@keyframes seasonFloat{50%{translate:0 -5px}}
+@media(max-width:760px){
+    .minimal-topbar{height:54px;padding:0 13px}
+    .minimal-server-info,.minimal-actions{display:none}
+    .mobile-menu-toggle{display:flex;position:absolute;right:13px;top:10px;width:36px;height:34px;align-items:center;justify-content:center;border:1px solid rgba(96,165,250,.42);border-radius:7px;background:rgba(4,10,22,.88);color:#bfdbfe;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 0 14px rgba(37,99,235,.14)}
+    .mobile-menu-toggle:hover{border-color:#60a5fa;color:#fff}
+    .mobile-topbar-menu{position:absolute;right:13px;top:48px;z-index:900;min-width:150px;padding:7px;border:1px solid rgba(59,130,246,.42);border-radius:9px;background:rgba(3,8,18,.97);box-shadow:0 18px 45px rgba(0,0,0,.8);flex-direction:column;gap:3px}
+    .mobile-topbar-menu.open{display:flex}
+    .mobile-topbar-menu a{padding:11px 13px;color:#bfdbfe;text-decoration:none;font:700 .62rem 'Cinzel',serif;letter-spacing:1.5px;border-radius:5px}
+    .mobile-topbar-menu a:hover{background:rgba(37,99,235,.18);color:#fff}
+    .wheel-page{height:calc(100vh - 54px);min-height:calc(100vh - 54px);padding-top:55px}
+    .season-hero{grid-template-columns:1fr;min-height:auto;gap:10px}.season-orbit{width:min(330px,86vw);height:min(330px,86vw)}.season-core{width:110px;height:110px}.season-core span{font-size:1.7rem}.season-item{width:54px;height:54px;margin:-27px}.season-item-9{transform:translateY(110px)}.season-copy{text-align:center;padding:8px}.season-line{margin:18px auto}.season-grid{grid-template-columns:1fr}.season-body{padding:20px 14px 28px}
+}
+
 </style></head>
 <body>
 <nav class="minimal-topbar">
@@ -2054,7 +2105,14 @@ font-size:.5rem    }
         <a href="#" class="minimal-link" onclick="openPanel('download');return false;">DOWNLOAD</a>
         <a href="#" class="minimal-link minimal-discord" onclick="openPanel('join');return false;">DISCORD</a>
     </div>
-</nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline poster="herobg7.png"><source src="herobgss.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-title">VIRTUAL <span>BOOST</span></div></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">👑</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">⚖️</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔️</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">🔷</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">🔥</span><span>COMUNIDADE</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+    <button type="button" class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false" onclick="toggleMobileTopbar()">☰</button>
+    <div class="mobile-topbar-menu" id="mobileTopbarMenu">
+        <a href="site/login.php">LOGIN</a>
+        <a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a>
+        <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a>
+        <a href="#" onclick="openPanel('season');toggleMobileTopbar();return false;">SEASON</a>
+    </div>
+</nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline poster="herobg7.png"><source src="herobgss.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-title">VIRTUAL <span>BOOST</span></div></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">👑</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">⚖️</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔️</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">🔷</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">🔥</span><span>COMUNIDADE</span></span></button><button type="button" class="wheel-option option-7 season-option" data-panel="season" onclick="openPanel('season');return false;"><span class="option-content"><span class="option-icon">✦</span><span>SEASON</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
@@ -2410,7 +2468,91 @@ font-size:.5rem    }
             COMUNIDADE OFICIAL
         </p>
     </div>
-</div></div></div><script>
+</div></div></div><div class="info-modal" id="panel-season" aria-hidden="true">
+<div class="info-backdrop" onclick="closePanel('season')"></div>
+<div class="info-window season-window">
+<button class="info-close" onclick="closePanel('season')">×</button>
+<div class="info-heading"><span class="info-heading-icon">✦</span>SEASON 01 · NOVOS SÍMBOLOS</div>
+<div class="info-body season-body">
+    <div class="season-hero">
+        <div class="season-orbit">
+            <div class="season-ring season-ring-a"></div>
+            <div class="season-ring season-ring-b"></div>
+            <div class="season-core"><span>VB</span><small>SEASON 01</small></div>
+            <div class="season-item season-item-1"><b>VB</b><span>Silver</span></div>
+            <div class="season-item season-item-2"><b>VB</b><span>Gold</span></div>
+            <div class="season-item season-item-3"><b>M1</b><span>Mage</span></div>
+            <div class="season-item season-item-4"><b>M2</b><span>Mage</span></div>
+            <div class="season-item season-item-5"><b>M3</b><span>Mage</span></div>
+            <div class="season-item season-item-6"><b>F1</b><span>Fight</span></div>
+            <div class="season-item season-item-7"><b>F2</b><span>Fight</span></div>
+            <div class="season-item season-item-8"><b>F3</b><span>Fight</span></div>
+            <div class="season-item season-item-9"><b>A</b><span>Adena</span></div>
+        </div>
+        <div class="season-copy">
+            <div class="season-kicker">VIRTUAL BOOST · TEMPORADA ATUAL</div>
+            <h2>UMA NOVA MARCA<br><span>PARA OS HERÓIS</span></h2>
+            <p>Uma temporada construída em torno de uma economia viva: <strong>Adena</strong>, VBSilver e VBGold movimentam o reino, enquanto as linhas <strong>VBMage</strong> e <strong>VBFight</strong> representam novos caminhos de progressão e identidade.</p>
+            <div class="season-line"></div>
+            <p class="season-quote">As tattoos são as novas marcas dos verdadeiros heróis do Virtual Boost.</p>
+        </div>
+    </div>
+
+    <div class="season-grid">
+        <article class="season-card silver">
+            <div class="season-card-icon">VB<span>S</span></div>
+            <h3>VBSilver</h3>
+            <p>Uma das moedas centrais da temporada, criada para fortalecer trocas, recompensas e a circulação de valor dentro do reino.</p>
+        </article>
+        <article class="season-card gold">
+            <div class="season-card-icon">VB<span>G</span></div>
+            <h3>VBGold</h3>
+            <p>A moeda de maior prestígio da temporada, ligada a conquistas e recompensas especiais.</p>
+        </article>
+        <article class="season-card mage">
+            <div class="season-card-icon">M1</div>
+            <h3>VBMage LVL 1–3</h3>
+            <p>Uma progressão de marcas para os heróis que escolhem o poder arcano. Cada nível representa uma nova etapa de evolução.</p>
+        </article>
+        <article class="season-card mage">
+            <div class="season-card-icon">M2</div>
+            <h3>VBMage LVL 2</h3>
+            <p>Uma etapa intermediária para quem busca aprofundar sua identidade mágica e conquistar novas recompensas.</p>
+        </article>
+        <article class="season-card mage">
+            <div class="season-card-icon">M3</div>
+            <h3>VBMage LVL 3</h3>
+            <p>O símbolo de uma jornada arcana avançada dentro da temporada.</p>
+        </article>
+        <article class="season-card fight">
+            <div class="season-card-icon">F1</div>
+            <h3>VBFight LVL 1–3</h3>
+            <p>Marcas voltadas aos guerreiros que preferem força, combate e presença no campo de batalha.</p>
+        </article>
+        <article class="season-card fight">
+            <div class="season-card-icon">F2</div>
+            <h3>VBFight LVL 2</h3>
+            <p>Uma evolução para quem transforma cada batalha em reputação.</p>
+        </article>
+        <article class="season-card fight">
+            <div class="season-card-icon">F3</div>
+            <h3>VBFight LVL 3</h3>
+            <p>Uma marca de alto nível para os guerreiros que deixam sua história registrada no reino.</p>
+        </article>
+        <article class="season-card adena">
+            <div class="season-card-icon">A</div>
+            <h3>Adena</h3>
+            <p>A base da economia continua sendo essencial: comércio, crafting, equipamentos e negociação mantêm o mundo em movimento.</p>
+        </article>
+    </div>
+
+    <div class="season-tattoos">
+        <span>✦ TATTOOS DA TEMPORADA ✦</span>
+        <strong>As novas marcas para os verdadeiros heróis do Virtual Boost.</strong>
+        <p>Conquiste sua marca. Construa sua economia. Deixe seu nome na temporada.</p>
+    </div>
+</div>
+</div></div><script>
 /* =========================================================
    COUNTDOWN
 ========================================================= */
@@ -2591,5 +2733,14 @@ function openPanel(key){const p=document.getElementById('panel-'+key);if(!p)retu
 function closePanel(key){const p=document.getElementById('panel-'+key);if(p){p.classList.remove('open');p.setAttribute('aria-hidden','true');}if(!document.querySelector('.info-modal.open'))document.body.classList.remove('modal-open');}
 document.querySelectorAll('.wheel-option[data-panel]').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPanel(btn.dataset.panel);});});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeInstallVideo(e);document.querySelectorAll('.info-modal.open').forEach(p=>p.classList.remove('open'));document.body.classList.remove('modal-open');}});
+
+function toggleMobileTopbar(){
+    const m=document.getElementById('mobileTopbarMenu');
+    const b=document.querySelector('.mobile-menu-toggle');
+    if(!m)return;
+    const open=m.classList.toggle('open');
+    if(b)b.setAttribute('aria-expanded',open?'true':'false');
+}
+
 </script></body>
 </html>
