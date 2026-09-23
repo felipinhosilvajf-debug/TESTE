@@ -2093,19 +2093,33 @@ font-size:.5rem    }
 }
 
 
-/* FORCE SEASON BUTTON */
+/* FORCE SEASON BUTTON — posição física independente do transform */
 .menu-orbit .wheel-option.option-7{
     display:flex !important;
     visibility:visible !important;
     opacity:1 !important;
     z-index:20 !important;
-    --angle:308.571429deg !important;
-    transform:rotate(308.571429deg) translateY(-220px) !important;
+    left:calc(50% - 221px) !important;
+    top:calc(50% - 186px) !important;
+    margin:0 !important;
+    transform:none !important;
 }
 .menu-orbit .wheel-option.option-7 .option-content{
     display:flex !important;
     visibility:visible !important;
     opacity:1 !important;
+}
+@media(max-width:800px){
+    .menu-orbit .wheel-option.option-7{
+        left:calc(50% - 146px) !important;
+        top:calc(50% - 124px) !important;
+    }
+}
+@media(max-width:520px){
+    .menu-orbit .wheel-option.option-7{
+        left:calc(50% - 146px) !important;
+        top:calc(50% - 124px) !important;
+    }
 }
 </style></head>
 <body>
