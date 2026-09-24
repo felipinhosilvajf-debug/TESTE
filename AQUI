@@ -148,6 +148,7 @@ public partial class MainWindow : Window
 
             var path = parts[0].Trim();
             var hash = parts[1].Trim();
+
             if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(hash))
                 continue;
 
@@ -159,7 +160,7 @@ public partial class MainWindow : Window
 
             result.Add(new ManifestFile
             {
-                Path = path.Replace('/', '\\\\'),
+                Path = path.Replace('/', '\\'),
                 Hash = hash.ToUpperInvariant(),
                 Size = size,
                 IsCritical = isCritical
@@ -193,13 +194,14 @@ public partial class MainWindow : Window
             Directory.CreateDirectory(destinationDirectory);
 
         var tempPath = destinationFullPath + ".tmp";
+
         try
         {
             await using var outputFile = File.Create(tempPath);
             BZip2.Decompress(compressed, outputFile, false);
             await outputFile.FlushAsync(cancellationToken);
-            progress?.Report(new FileInfo(tempPath).Length);
 
+            progress?.Report(new FileInfo(tempPath).Length);
             File.Move(tempPath, destinationFullPath, true);
         }
         finally
@@ -253,10 +255,7 @@ public partial class MainWindow : Window
                 SetProgressPercent(totalPercent);
             });
 
-            await DownloadAndExtractDirectAsync(
-                remoteCompressedPath,
-                localDestination,
-                progress);
+            await DownloadAndExtractDirectAsync(remoteCompressedPath, localDestination, progress);
 
             SetProgressPercent((double)currentFileIndex / totalFiles * 100.0);
         }
