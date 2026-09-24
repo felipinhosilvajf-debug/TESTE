@@ -1,4 +1,6 @@
 using System.IO;
+using System.Text;
+using ICSharpCode.SharpZipLib.BZip2;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
@@ -11,8 +13,7 @@ namespace L2Launcher;
 public partial class MainWindow : Window
 {
     private const string BaseUpdaterUrl = "https://virtualboost.online/update/";
-    private const string ManifestUrl = BaseUpdaterUrl + "files.xml";
-    private const string DownloadUrl = BaseUpdaterUrl + "download.php";
+    private const string ManifestUrl = BaseUpdaterUrl + "files.lst.bz2";
 
     private const string WebsiteUrl  = "https://virtualboost.online";
     private const string DiscordUrl  = "https://discord.com/invite/sFjMVvW3R";
@@ -23,9 +24,7 @@ public partial class MainWindow : Window
     private const double ProgressTrackWidth = 815.0;
 
     private readonly HttpClient _httpClient;
-    private readonly ManifestService _manifestService;
     private readonly HashService _hashService;
-    private readonly DownloadService _downloadService;
     private readonly LauncherService _launcherService;
 
     private bool _isBusy;
@@ -42,9 +41,7 @@ public partial class MainWindow : Window
             Timeout = TimeSpan.FromMinutes(30)
         };
 
-        _manifestService = new ManifestService(_httpClient);
         _hashService = new HashService();
-        _downloadService = new DownloadService(_httpClient);
         _launcherService = new LauncherService();
 
         Loaded += MainWindow_Loaded;
@@ -64,7 +61,7 @@ public partial class MainWindow : Window
         {
             SetBusy(true, "Checking critical files...");
 
-            var manifest = await _manifestService.LoadManifestAsync(ManifestUrl);
+            var manifest = await LoadLstAsync(ManifestUrl);
             var criticalFiles = manifest.Where(x => x.IsCritical).ToList();
             var filesToDownload = GetOutdatedFiles(criticalFiles);
 
@@ -96,7 +93,7 @@ public partial class MainWindow : Window
         {
             SetBusy(true, "Checking files...");
 
-            var manifest = await _manifestService.LoadManifestAsync(ManifestUrl);
+            var manifest = await LoadLstAsync(ManifestUrl);
             var filesToDownload = GetOutdatedFiles(manifest);
 
             if (filesToDownload.Count == 0)
@@ -115,6 +112,100 @@ public partial class MainWindow : Window
         finally
         {
             SetBusy(false);
+        }
+    }
+
+    private async Task<List<ManifestFile>> LoadLstAsync(string manifestUrl, CancellationToken cancellationToken = default)
+    {
+        using var response = await _httpClient.GetAsync(manifestUrl, cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
+        using var decompressed = new MemoryStream();
+        BZip2.Decompress(input, decompressed, false);
+        decompressed.Position = 0;
+
+        using var reader = new StreamReader(decompressed, Encoding.UTF8, true);
+        var result = new List<ManifestFile>();
+        var isCritical = false;
+
+        string? line;
+        while ((line = await reader.ReadLineAsync(cancellationToken)) != null)
+        {
+            line = line.Trim();
+            if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";"))
+                continue;
+
+            if (line.StartsWith("[") && line.EndsWith("]"))
+            {
+                isCritical = line.Equals("[files_critical]", StringComparison.OrdinalIgnoreCase);
+                continue;
+            }
+
+            var parts = line.Split('|');
+            if (parts.Length < 2)
+                continue;
+
+            var path = parts[0].Trim();
+            var hash = parts[1].Trim();
+            if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(hash))
+                continue;
+
+            if (path.Equals("Rev", StringComparison.OrdinalIgnoreCase) ||
+                path.Equals("ModHosts", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            long.TryParse(parts.Length >= 3 ? parts[2].Trim() : "0", out var size);
+
+            result.Add(new ManifestFile
+            {
+                Path = path.Replace('/', '\\\\'),
+                Hash = hash.ToUpperInvariant(),
+                Size = size,
+                IsCritical = isCritical
+            });
+        }
+
+        if (result.Count == 0)
+            throw new InvalidOperationException("files.lst was downloaded, but no update files were found.");
+
+        return result;
+    }
+
+    private async Task DownloadAndExtractDirectAsync(
+        string remoteCompressedPath,
+        string destinationFullPath,
+        IProgress<double>? progress = null,
+        CancellationToken cancellationToken = default)
+    {
+        var remoteUrl = BaseUpdaterUrl.TrimEnd('/') + "/" + remoteCompressedPath.TrimStart('/');
+
+        using var response = await _httpClient.GetAsync(remoteUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        await using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        using var compressed = new MemoryStream();
+        await responseStream.CopyToAsync(compressed, cancellationToken);
+        compressed.Position = 0;
+
+        var destinationDirectory = Path.GetDirectoryName(destinationFullPath);
+        if (!string.IsNullOrWhiteSpace(destinationDirectory))
+            Directory.CreateDirectory(destinationDirectory);
+
+        var tempPath = destinationFullPath + ".tmp";
+        try
+        {
+            await using var outputFile = File.Create(tempPath);
+            BZip2.Decompress(compressed, outputFile, false);
+            await outputFile.FlushAsync(cancellationToken);
+            progress?.Report(new FileInfo(tempPath).Length);
+
+            File.Move(tempPath, destinationFullPath, true);
+        }
+        finally
+        {
+            if (File.Exists(tempPath))
+                File.Delete(tempPath);
         }
     }
 
@@ -162,8 +253,7 @@ public partial class MainWindow : Window
                 SetProgressPercent(totalPercent);
             });
 
-            await _downloadService.DownloadAndExtractSingleFileAsync(
-                DownloadUrl,
+            await DownloadAndExtractDirectAsync(
                 remoteCompressedPath,
                 localDestination,
                 progress);
