@@ -1513,22 +1513,33 @@ isolation:isolate}
     animation:cameraVertical 22s ease-in-out infinite;
     filter:saturate(1.08) contrast(1.06) brightness(.7);
 }
-
+.wheel-background {
+    position:absolute;
+    inset:0;
+    z-index:-5;
+    width:100%;
+    height:100%;
+    display:block !important;
+    object-fit:cover;
+    object-position:center center;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    filter:saturate(1.08) contrast(1.06) brightness(.7);
+    transition:opacity .35s ease;
+}
+.wheel-background.video-ready {
+    opacity:1;
+    visibility:visible;
+}
 @keyframes cameraVertical {
     0% { background-position:center 35%; }
     50% { background-position:center 85%; }
     100% { background-position:center 35%; }
 }
-
-/* A imagem PNG animada fica como fundo principal. */
-.wheel-background {
-    display:none;
-}
-
-/* ENQUADRAMENTO DO BACKGROUND — mostra a arte inteira sem cortar rosto/corpo */
 @media (max-width: 900px){
-    .wheel-page::before{background-size:cover;background-position:40% 50%}
-    .wheel-background{object-fit:cover;object-position:40% 50%}
+    .wheel-page::before{background-position:40% 50%}
+    .wheel-background{object-position:40% 50%}
 }
 .wheel-page::after {
     content:"";
@@ -1580,15 +1591,16 @@ color:var(--blue-base)}
 letter-spacing:1px}
 .wheel-stage {
     position:absolute;
-    top:205px;
+    top:54%;
     left:50%;
-    width:min(620px,72vw,calc(100vh - 285px));
-    height:min(620px,72vw,calc(100vh - 285px));
+    width:min(620px,72vw,calc(100svh - 250px));
+    height:min(620px,72vw,calc(100svh - 250px));
     margin:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%);
+    --orbit-radius:min(220px,36vw,calc(50svh - 150px));
 }
 .wheel-glow {
     position:absolute;
@@ -1704,31 +1716,31 @@ transform:rotate(calc(var(--angle-neg) - 360deg))    }
 .option-1 {
     --angle:0deg;
     --angle-neg:-0deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-2 {
     --angle:51.428571deg;
     --angle-neg:-51.428571deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-3 {
     --angle:102.857143deg;
     --angle-neg:-102.857143deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-4 {
     --angle:154.285714deg;
     --angle-neg:-154.285714deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-5 {
     --angle:205.714286deg;
     --angle-neg:-205.714286deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-6 {
     --angle:257.142857deg;
     --angle-neg:-257.142857deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .option-7 {
     --angle:308.571429deg;
     --angle-neg:-361.571429deg;
-transform:rotate(var(--angle)) translateY(calc(-1 * min(220px,calc((100vh - 285px)/2 - 49px),calc(36vw - 49px))))}
+transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))}
 .wheel-core {
     position:relative;
     z-index:12;
@@ -1887,20 +1899,23 @@ display:none!important}
 letter-spacing:3px}
 @media(max-width:800px) {
     .wheel-stage {
-        top:190px;
-        width:min(520px,88vw,calc(100vh - 255px));
-        height:min(520px,88vw,calc(100vh - 255px));
-        transform:translateX(-50%);
-        margin:0    }
+        top:53%;
+        width:min(520px,88vw,calc(100svh - 215px));
+        height:min(520px,88vw,calc(100svh - 215px));
+        transform:translate(-50%,-50%);
+        margin:0;
+        --orbit-radius:min(185px,44vw,calc(50svh - 125px))
+    }
     .wheel-option {
         width:78px;
         height:78px;
         margin:-39px;
-font-size:.43rem    }
-    .option-icon {
-font-size:1.2rem    }
+        font-size:.43rem
+    }
+    .option-icon { font-size:1.2rem }
     .option-1,.option-2,.option-3,.option-4,.option-5,.option-6,.option-7 {
-transform:rotate(var(--angle)) translateY(calc(-1 * min(185px,calc((100vh - 255px)/2 - 39px),calc(44vw - 39px))))    }
+        transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))
+    }
     .wheel-core {
         width:155px;
 height:155px    }
@@ -1910,77 +1925,10 @@ max-height:68px    }
 }
 @media(max-width:520px) {
     .wheel-stage {
+        top:52%;
         width:98vw;
-height:98vw    }
-    .wheel-option {
-        width:66px;
-        height:66px;
-        margin:-33px;
-font-size:.36rem    }
-    .option-icon {
-font-size:1rem    }
-    .option-1,.option-2,.option-3,.option-4,.option-5,.option-6,.option-7 {
-transform:rotate(var(--angle)) translateY(calc(-1 * min(145px,calc((100vh - 225px)/2 - 33px),calc(44vw - 33px))))    }
-    .wheel-core {
-        width:128px;
-height:128px    }
-    .wheel-core img {
-        width:72px;
-max-height:56px    }
-    .info-modal {
-padding:45px 8px 12px    }
-    .info-window {
-        width:98vw;
-        max-height:calc(100vh - 70px);
-height:auto    }
-}
-</style>
-
-<style>
-/* INDEX PRINCIPAL: somente o menu giratório */
-.minimal-topbar {
-    height:58px;
-    padding:0 28px;
-    background:linear-gradient(180deg,rgba(4,8,15,.96),rgba(4,8,15,.68));
-    border-bottom:1px solid rgba(56,189,248,.22);
-    box-shadow:0 8px 30px rgba(0,0,0,.55);
-}
-
-/* IDENTIDADE DO SERVIDOR — lado esquerdo da barra superior */
-.minimal-server-info {
-    display:flex;
-    align-items:center;
-    gap:7px;
-    flex-shrink:0;
-}
-.minimal-server-badge {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:36px;
-    padding:0 13px;
-    color:#ccecff;
-    border:1px solid rgba(56,189,248,.38);
-    background:rgba(3,8,16,.72);
-    font:700 .58rem 'Cinzel',serif;
-    letter-spacing:1.7px;
-    white-space:nowrap;
-    box-shadow:0 0 14px rgba(56,189,248,.06),inset 0 0 10px rgba(56,189,248,.03);
-}
-.minimal-rate-badge {
-    color:#fb923c;
-    border-color:rgba(249,115,22,.72);
-    background:rgba(35,12,4,.76);
-    letter-spacing:2px;
-    box-shadow:0 0 14px rgba(249,115,22,.12),inset 0 0 10px rgba(249,115,22,.04);
-}
-@media(max-width:760px) {
-    .minimal-server-info { gap:4px; }
-    .minimal-server-badge {
-        min-height:32px;
-        padding:0 7px;
-        font-size:.44rem;
-        letter-spacing:.9px;
+        height:min(98vw,calc(100svh - 185px));
+        --orbit-radius:min(145px,44vw,calc(50svh - 105px))
     }
 }
 .minimal-actions {
@@ -2098,34 +2046,6 @@ position:relative;
 }
 
 
-/* FORCE SEASON BUTTON — posição física independente do transform */
-.menu-orbit .wheel-option.option-7{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    z-index:20 !important;
-    left:calc(50% - 221px) !important;
-    top:calc(50% - 186px) !important;
-    margin:0 !important;
-    transform:none !important;
-}
-.menu-orbit .wheel-option.option-7 .option-content{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-}
-@media(max-width:800px){
-    .menu-orbit .wheel-option.option-7{
-        left:calc(50% - 146px) !important;
-        top:calc(50% - 124px) !important;
-    }
-}
-@media(max-width:520px){
-    .menu-orbit .wheel-option.option-7{
-        left:calc(50% - 146px) !important;
-        top:calc(50% - 124px) !important;
-    }
-}
 </style></head>
 <body>
 <nav class="minimal-topbar">
@@ -2150,7 +2070,7 @@ position:relative;
         <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a>
         <a href="#" onclick="openPanel('season');toggleMobileTopbar();return false;">SEASON</a>
     </div>
-</nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline poster="herobg7.png"><source src="herobgss.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-title">VIRTUAL <span>BOOST</span></div></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">👑</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">⚖️</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔️</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">🔷</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">🔥</span><span>COMUNIDADE</span></span></button><button type="button" class="wheel-option option-7 season-option" data-panel="season" onclick="openPanel('season');return false;"><span class="option-content"><span class="option-icon">🎆</span><span>SEASON</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+</nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline preload="auto" poster="asset/back.png" aria-hidden="true"><source src="asset/video1.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-title">VIRTUAL <span>BOOST</span></div></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">👑</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">⚖️</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔️</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">🔷</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">🔥</span><span>COMUNIDADE</span></span></button><button type="button" class="wheel-option option-7 season-option" data-panel="season" onclick="openPanel('season');return false;"><span class="option-content"><span class="option-icon">🎆</span><span>SEASON</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
@@ -2760,6 +2680,22 @@ function acceptTerms(){
     localStorage.setItem('virtualboost_terms_accepted', 'true');
     const modal = document.getElementById('termsModal');
     modal.classList.add('hidden');
+}
+
+const wheelVideo = document.querySelector('.wheel-background');
+if (wheelVideo) {
+    const showWheelVideo = () => wheelVideo.classList.add('video-ready');
+    const keepPngFallback = () => wheelVideo.classList.remove('video-ready');
+    wheelVideo.addEventListener('canplay', showWheelVideo, { once:true });
+    wheelVideo.addEventListener('loadeddata', showWheelVideo, { once:true });
+    wheelVideo.addEventListener('error', keepPngFallback);
+    wheelVideo.addEventListener('stalled', keepPngFallback);
+    try {
+        const playPromise = wheelVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(keepPngFallback);
+    } catch (error) {
+        keepPngFallback();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function(){
