@@ -2062,7 +2062,12 @@ font-size:.5rem    }
 .season-option{--option-color:#60a5fa!important;--option-hover:#93c5fd!important}
 .mobile-menu-toggle,.mobile-topbar-menu{display:none}
 .season-window{max-width:1180px}
-.season-body{padding:28px 32px 36px}
+.season-body{
+position:relative;
+    background:
+        linear-gradient(rgba(3,8,20,.72),rgba(3,8,20,.82)),
+        url("asset/hero-bg2.jpg") center/cover no-repeat;
+}
 .season-hero{display:grid;grid-template-columns:minmax(320px,.95fr) minmax(320px,1.05fr);gap:35px;align-items:center;min-height:420px}
 .season-orbit{position:relative;width:min(410px,78vw);height:min(410px,78vw);margin:auto;display:grid;place-items:center}
 .season-ring{position:absolute;inset:8%;border-radius:50%;border:1px solid rgba(96,165,250,.24);box-shadow:0 0 45px rgba(37,99,235,.12);animation:seasonSpin 24s linear infinite}
@@ -2411,26 +2416,13 @@ font-size:.5rem    }
                         <div class="download-row">
                             <div class="download-file">
                                 <strong>LAUNCHER</strong>
-                                <small>OPÇÃO 1 · .EXE</small>
+                                <small>OPÇÃO 1 · .ZIP</small>
                             </div>
                             <div class="download-description">
-                                Baixe o Launcher e instale diretamente na pasta raiz do Lineage II.
+                                Baixe a versão pronta para inicialização e extraia na pasta raiz do Lineage II.
                             </div>
                             <div>
-                                <a href="https://virtualboost.online/download/Install-L2VB.rar" target="_blank" class="download-button">BAIXAR</a>
-                            </div>
-                        </div>
-
-                        <div class="download-row">
-                            <div class="download-file">
-                                <strong>LAUNCHER</strong>
-                                <small>OPÇÃO 2 · .ZIP</small>
-                            </div>
-                            <div class="download-description">
-                                Caso o Windows ou antivírus não aceite o executável do Launcher, baixe a versão pronta para inicialização e extraia na pasta raiz do Lineage II.
-                            </div>
-                            <div>
-                                <a href="https://virtualboost.online/download/Install-L2VB2.rar" class="download-button">BAIXAR</a>
+                                <a href="https://virtualboost.online/download/VBoost-Launcher.rar" class="download-button">BAIXAR</a>
                             </div>
                         </div>
 
@@ -2505,7 +2497,7 @@ font-size:.5rem    }
 <div class="info-backdrop" onclick="closePanel('season')"></div>
 <div class="info-window season-window">
 <button class="info-close" onclick="closePanel('season')">×</button>
-<div class="info-heading"><span class="info-heading-icon">✦</span>SEASON 01 · NOVOS SÍMBOLOS</div>
+<div class="info-heading"><span class="info-heading-icon">✦</span>SEASON 01 · PRIMEIRA TEMPORADA</div>
 <div class="info-body season-body">
     <div class="season-hero">
         <div class="season-orbit">
@@ -2513,7 +2505,7 @@ font-size:.5rem    }
             <div class="season-ring season-ring-b"></div>
             <div class="season-core"><span>VB</span><small>SEASON 01</small></div>
             <div class="season-item season-item-1">
-			<img src="asset/season/VBSilver.png" alt="Season 01">
+			<img src="asset/season/logo.png" alt="Season 01">
 			</div>
             <div class="season-item season-item-2">
 			<img src="asset/season/VBMage3.png" alt="Season 01">
@@ -2522,7 +2514,7 @@ font-size:.5rem    }
 			<img src="asset/season/VBMage2.png" alt="Season 01">
 			</div>
             <div class="season-item season-item-4">
-			<img src="asset/season/VBMage3.png" alt="Season 01">
+			<img src="asset/season/VBMage1.png" alt="Season 01">
 			</div>
             <div class="season-item season-item-5">
 			<img src="asset/season/VBSilver.png" alt="Season 01">
@@ -2553,17 +2545,17 @@ font-size:.5rem    }
         <article class="season-card silver">
             <div class="season-card-icon"><img src="asset/season/VBSilver.png" alt="Season 01"></div>
             <h3>VBSilver</h3>
-            <p>Uma das moedas centrais da temporada, criada para fortalecer trocas, recompensas e a circulação de valor dentro do reino.</p>
+            <p>Uma das moedas centrais, criada para fortalecer trocas, recompensas e a circulação de valor dentro do reino. (Moeda definitiva não dependendo de temporada)</p>
         </article>
         <article class="season-card gold">
             <div class="season-card-icon"><img src="asset/season/VBGold.png" alt="Season 01"></div>
             <h3>VBGold</h3>
-            <p>A moeda de maior prestígio da temporada, ligada a conquistas e recompensas especiais.</p>
+            <p>Uma das moedas centrais, criada para fortalecer trocas, recompensas e a circulação de valor dentro do reino. (Moeda definitiva não dependendo de temporada) </p>
         </article>
 		        <article class="season-card adena">
             <div class="season-card-icon">Adena</div>
             <h3>Adena</h3>
-            <p>A base da economia continua sendo essencial: comércio, crafting, equipamentos e negociação mantêm o mundo em movimento.</p>
+            <p>A base da economia continua sendo essencial: comércio, crafting, equipamentos e negociação mantêm o mundo em movimento. </p>
         </article>
         <article class="season-card mage">
             <div class="season-card-icon"><img src="asset/season/VBMage1.png" alt="Season 01"></div>
