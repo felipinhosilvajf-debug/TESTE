@@ -2046,6 +2046,83 @@ position:relative;
 }
 
 
+
+/* AJUSTES FINAIS — TOPO E SEASON */
+.minimal-topbar{
+    position:relative;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:58px;
+    box-sizing:border-box;
+    padding:0 28px;
+    background:linear-gradient(180deg,rgba(4,8,15,.96),rgba(4,8,15,.68));
+    border-bottom:1px solid rgba(56,189,248,.22);
+    box-shadow:0 8px 30px rgba(0,0,0,.55);
+}
+.minimal-server-info{
+    display:flex!important;
+    align-items:center;
+    gap:7px;
+    flex-shrink:0;
+}
+.minimal-server-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:36px;
+    padding:0 13px;
+    box-sizing:border-box;
+    color:#ccecff;
+    border:1px solid rgba(56,189,248,.38);
+    background:rgba(3,8,16,.72);
+    font:700 .58rem 'Cinzel',serif;
+    letter-spacing:1.7px;
+    white-space:nowrap;
+    box-shadow:0 0 14px rgba(56,189,248,.06),inset 0 0 10px rgba(56,189,248,.03);
+}
+.minimal-rate-badge{
+    color:#fb923c;
+    border-color:rgba(249,115,22,.72);
+    background:rgba(35,12,4,.76);
+    letter-spacing:2px;
+}
+.minimal-actions{
+    display:flex!important;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+    width:100%;
+}
+/* O Season segue exatamente a mesma geometria da roleta. */
+.menu-orbit .wheel-option.option-7{
+    left:50%!important;
+    top:50%!important;
+    margin:-49px!important;
+    transform:rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)))!important;
+}
+.menu-orbit .wheel-option.option-7 .option-content{
+    display:flex!important;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    transform:rotate(var(--angle-neg));
+}
+.option-7{
+    --angle:308.571429deg!important;
+    --angle-neg:-308.571429deg!important;
+}
+@media(max-width:800px){
+    .minimal-topbar{height:54px;padding:0 13px}
+    .minimal-server-info{display:none!important}
+    .minimal-actions{display:none!important}
+    .menu-orbit .wheel-option.option-7{margin:-39px!important}
+}
+@media(max-width:520px){
+    .menu-orbit .wheel-option.option-7{margin:-33px!important}
+}
 </style></head>
 <body>
 <nav class="minimal-topbar">
