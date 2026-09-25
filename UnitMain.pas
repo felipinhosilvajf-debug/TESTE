@@ -7,6 +7,8 @@ uses
   Dialogs, Gauges, Buttons, IniFiles, StdCtrls, OleCtrls, SHDocVw, ExtCtrls,
   Wininet, ImgBtn, ComCtrls, ShlObj, ComObj, ActiveX, jpeg, Registry;
 
+function ReadLauncherInteger(const Name: string; DefaultValue: Integer): Integer;
+procedure WriteLauncherInteger(const Name: string; Value: Integer);
 
 type
   TFMain = class(TForm)
@@ -48,15 +50,15 @@ type
   private
     { Private declarations }
   public
-  Draging: Boolean;
-  X0, Y0: integer;
+    Draging: Boolean;
+    X0, Y0: Integer;
   end;
 
 var
   FMain: TFMain;
-  USettings : TStrings;
-  
-  const
+  USettings: TStrings;
+
+const
   REG_PATH = 'Software\VirtualBoost\L2Launcher';
 
   DEFAULT_NEWS_URL =
@@ -70,7 +72,7 @@ var
 
   DEFAULT_RUN_CUSTOM =
     'system\l2.exe';
-  
+
 implementation
 
 uses Frm2, GetFilesThr, Misc;
@@ -99,7 +101,6 @@ begin
   end;
 end;
 
-
 procedure WriteLauncherInteger(const Name: string; Value: Integer);
 var
   Reg: TRegistry;
@@ -118,7 +119,7 @@ begin
   end;
 end;
 
-procedure TFmain.UpdateRevision(Rev: string);
+procedure TFMain.UpdateRevision(Rev: string);
 begin
   WriteLauncherInteger('AtRevision', StrToIntDef(Rev, 0));
 
@@ -126,8 +127,7 @@ begin
     USettings[6] := Rev;
 end;
 
-
-function LoadSettings(): bool;
+function LoadSettings(): Boolean;
 begin
   Result := True;
 
@@ -162,88 +162,99 @@ begin
   USettings.Add(DEFAULT_RUN_CUSTOM);
 end;
 
-// создает ¤рлык на себ¤ на рабочем столе
-procedure CreateDesktopIcon(ilname, WorkDir, desc : string);
+// cria atalho na area de trabalho
+procedure CreateDesktopIcon(ilname, WorkDir, desc: string);
 var
-  IObj : IUnknown;
-  SLink : IShellLink;
-  PFile : IPersistFile;
-  desk : string;
-  lnkpath : WideString;
+  IObj: IUnknown;
+  SLink: IShellLink;
+  PFile: IPersistFile;
+  desk: string;
+  lnkpath: WideString;
 begin
-  if(ilname<>'') then begin
-  SetLength(desk, MAX_PATH+1);
-  SHGetSpecialFolderPath(0, PAnsiChar(desk),CSIDL_DESKTOPDIRECTORY,False);
-  lnkpath:= PChar(desk)+'\'+ilname+'.lnk';
-  IObj := CreateComObject(CLSID_ShellLink);
-  SLink := IObj as IShellLink;
-  PFile := IObj as IPersistFile;
-  with SLink do
+  if (ilname <> '') then
   begin
-    SetDescription(PChar(desc));
-    SetPath(PChar(Application.ExeName));
-    SetWorkingDirectory(PAnsiChar(WorkDir));
-  end;
-  PFile.Save(PWChar(WideString(lnkpath)), FALSE);
+    SetLength(desk, MAX_PATH + 1);
+    SHGetSpecialFolderPath(0, PAnsiChar(desk),
+      CSIDL_DESKTOPDIRECTORY, False);
+
+    lnkpath := PChar(desk) + '\' + ilname + '.lnk';
+
+    IObj := CreateComObject(CLSID_ShellLink);
+    SLink := IObj as IShellLink;
+    PFile := IObj as IPersistFile;
+
+    with SLink do
+    begin
+      SetDescription(PChar(desc));
+      SetPath(PChar(Application.ExeName));
+      SetWorkingDirectory(PAnsiChar(WorkDir));
+    end;
+
+    PFile.Save(PWChar(WideString(lnkpath)), FALSE);
   end;
 end;
-
-
-
 
 procedure TFMain.FormCreate(Sender: TObject);
 var
-  regn, tmpRegn, x, y: integer;
+  regn, tmpRegn, x, y: Integer;
   nullClr: TColor;
-  s_load: bool;
-  Settings: TInifile;
+  s_load: Boolean;
+  Settings: TIniFile;
 begin
   s_load := LoadSettings();
 
-if (not s_load) then
-begin
-  FMain.Timer1.Enabled := False;
-  ShowMessage('ERROR: Launcher settings could not be loaded.');
-  Application.Terminate;
-end;
+  if (not s_load) then
+  begin
+    FMain.Timer1.Enabled := False;
+    ShowMessage('ERROR: Launcher settings could not be loaded.');
+    Application.Terminate;
+  end;
 
-  // Ќаводим красивость на форму ...
-  FMain.brush.bitmap:=Image1.picture.bitmap;
-  nullClr := image1.picture.Bitmap.Canvas.Pixels[0, 0];
-  regn := CreateRectRgn(0, 0, image1.picture.Graphic.Width,
-  image1.picture.Graphic.Height);
-  for x := 1 to image1.picture.Graphic.Width do
-    for y := 1 to image1.picture.Graphic.Height do
-      if image1.picture.Bitmap.Canvas.Pixels[x - 1, y - 1] = nullClr then
+  // Navegacao visual da forma
+  FMain.Brush.Bitmap := Image1.Picture.Bitmap;
+
+  nullClr := Image1.Picture.Bitmap.Canvas.Pixels[0, 0];
+
+  regn := CreateRectRgn(
+    0,
+    0,
+    Image1.Picture.Graphic.Width,
+    Image1.Picture.Graphic.Height
+  );
+
+  for x := 1 to Image1.Picture.Graphic.Width do
+    for y := 1 to Image1.Picture.Graphic.Height do
+      if Image1.Picture.Bitmap.Canvas.Pixels[x - 1, y - 1] = nullClr then
       begin
         tmpRegn := CreateRectRgn(x - 1, y - 1, x, y);
         CombineRgn(regn, regn, tmpRegn, RGN_DIFF);
         DeleteObject(tmpRegn);
       end;
-  SetWindowRgn(FMain.handle, regn, true);
+
+  SetWindowRgn(FMain.Handle, regn, True);
 end;
 
 procedure TFMain.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  Draging := true;
-  x0 := x;
-  y0 := y;
+  Draging := True;
+  X0 := X;
+  Y0 := Y;
 end;
 
 procedure TFMain.FormMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  Draging := false;
+  Draging := False;
 end;
 
-procedure TFMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
+procedure TFMain.FormMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
 begin
-  if Draging = true then
+  if Draging = True then
   begin
     FMain.Left := FMain.Left + X - X0;
-    FMain.top := FMain.top + Y - Y0;
+    FMain.Top := FMain.Top + Y - Y0;
   end;
 end;
 
@@ -259,57 +270,64 @@ end;
 
 procedure TFMain.ImgBtn2Click(Sender: TObject);
 var
-  WThread : GFilesThread;
+  WThread: GFilesThread;
 begin
-  Label3.Caption:='';
-  WThread:=GFilesThread.Create(True);
-  WThread.FreeOnTerminate:=True;
-  WThread.UpdatesUrl:=USettings[2];
-  WThread.ForceCheck:=True;
-  WThread.CreateBackup:=StrToInt(USettings[5]);
-  WThread.LocalRevision:=StrToInt(USettings[6]);
+  Label3.Caption := '';
+
+  WThread := GFilesThread.Create(True);
+  WThread.FreeOnTerminate := True;
+
+  WThread.UpdatesUrl := USettings[2];
+  WThread.ForceCheck := True;
+  WThread.CreateBackup := StrToInt(USettings[5]);
+  WThread.LocalRevision := StrToInt(USettings[6]);
+
   WThread.Resume;
 end;
 
 procedure TFMain.ImgBtn1Click(Sender: TObject);
 begin
-  RunApp(USettings[0]+Usettings[7]);
+  RunApp(USettings[0] + USettings[7]);
   FMain.Close;
 end;
 
 procedure TFMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- USettings.Free;
+  USettings.Free;
 end;
 
 procedure TFMain.ImgBtn5Click(Sender: TObject);
 begin
- FMain.Enabled:=False;
- Form1.Show;
+  FMain.Enabled := False;
+  Form1.Show;
 end;
 
 procedure TFMain.WebBrowser1NavigateComplete2(Sender: TObject;
   const pDisp: IDispatch; var URL: OleVariant);
 begin
- FMain.Panel1.Visible:=True;
- FMain.Image2.Visible:=True;
- FMain.Image3.Visible:=True;
- FMain.Image4.Visible:=True;
+  FMain.Panel1.Visible := True;
+  FMain.Image2.Visible := True;
+  FMain.Image3.Visible := True;
+  FMain.Image4.Visible := True;
 end;
 
 procedure TFMain.Timer1Timer(Sender: TObject);
 var
-  WThread : GFilesThread;
+  WThread: GFilesThread;
 begin
-  FMain.Timer1.Enabled:=False;
+  FMain.Timer1.Enabled := False;
+
   WebBrowser1.Navigate(USettings[1]);
-  Label3.Caption:='';
-  WThread:=GFilesThread.Create(True);
-  WThread.FreeOnTerminate:=True;
-  WThread.UpdatesUrl:=USettings[2];
-  WThread.ForceCheck:=False;
-  WThread.CreateBackup:=StrToInt(USettings[5]);
-  WThread.LocalRevision:=StrToInt(USettings[6]);
+  Label3.Caption := '';
+
+  WThread := GFilesThread.Create(True);
+  WThread.FreeOnTerminate := True;
+
+  WThread.UpdatesUrl := USettings[2];
+  WThread.ForceCheck := False;
+  WThread.CreateBackup := StrToInt(USettings[5]);
+  WThread.LocalRevision := StrToInt(USettings[6]);
+
   WThread.Resume;
 end;
 
