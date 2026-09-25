@@ -1,0 +1,190 @@
+<html noscrollbar>
+<title>Auto Farm [Virtual Boost]</title>
+<body>
+<center>
+
+<table width=210 border=0 cellpadding=0 cellspacing=0 bgcolor="080808">
+<tr>
+<td align=center>
+
+<!-- CABEÇALHO -->
+<table width=202 border=0 cellpadding=0 cellspacing=0 background="L2font.loading04-k">
+<tr>
+<td align=center height=27>
+
+<font color="D8B45A" size=3><b>AUTO FARM</b></font>
+<br>
+<font color="777777" size=1>VIRTUAL BOOST</font>
+
+</td>
+</tr>
+</table>
+
+<!-- STATUS -->
+<table width=202 border=0 cellpadding=0 cellspacing=0 bgcolor="101010">
+<tr>
+<td align=center height=17>
+
+<font color="777777" size=1>STATUS </font>
+<font color="3ADF00" size=1><b>● %status%</b></font>
+
+</td>
+</tr>
+</table>
+
+<!-- BARRA CONFIGURAÇÕES -->
+<table width=202 border=0 cellpadding=0 cellspacing=0 bgcolor="111111">
+<tr>
+<td align=center height=18>
+
+<font color="E05A2A" size=1>
+<b>Configurações do Auto Farm</b>
+</font>
+
+</td>
+</tr>
+</table>
+
+<!-- RAIO / POÇÃO -->
+<table width=202 border=0 cellpadding=0 cellspacing=1 background="L2font.loading04-k">
+<tr>
+
+<td align=center width=101 height=31>
+
+<font color="FFFFFF" size=1>
+<b>%radius%</b>
+</font>
+
+<br>
+
+<button value="RAIO"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:radius"
+width=58 height=15
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+
+<td align=center width=101 height=31>
+
+<font color="FFFFFF" size=1>
+<b>%potion%</b>
+</font>
+
+<br>
+
+<button value="POÇÃO"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:potion"
+width=58 height=15
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+
+</tr>
+</table>
+
+<!-- SKILLS -->
+<table width=202 border=0 cellpadding=0 cellspacing=1 bgcolor="0A0A0A">
+<tr>
+
+<td align=center width=67 height=38>
+
+<button value="%skill1value%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill1"
+width=34 height=34
+back="%skill1icon%"
+fore="%skill1icon%"
+tooltip="%skill1name%">
+
+</td>
+
+<td align=center width=67 height=38>
+
+<button value="%skill2value%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill2"
+width=34 height=34
+back="%skill2icon%"
+fore="%skill2icon%"
+tooltip="%skill2name%">
+
+</td>
+
+<td align=center width=67 height=38>
+
+<button value="%skill3value%"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill3"
+width=34 height=34
+back="%skill3icon%"
+fore="%skill3icon%"
+tooltip="%skill3name%">
+
+</td>
+
+</tr>
+</table>
+
+<!-- CONTROLE -->
+<table width=202 border=0 cellpadding=0 cellspacing=1 background="L2font.loading04-k">
+<tr>
+
+<td align=center width=101 height=23>
+
+<button value="ON"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:start"
+width=72 height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+
+<td align=center width=101 height=23>
+
+<button value="OFF"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:stop"
+width=72 height=18
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+
+</tr>
+</table>
+
+<!-- INFORMAÇÕES -->
+<table width=202 border=0 cellpadding=0 cellspacing=0 bgcolor="101010">
+<tr>
+<td align=center height=24>
+
+<font color="D8B45A" size=1><b>VIRTUAL BOOST</b></font>
+<br>
+<font color="777777" size=1>
+Configure suas skills antes de iniciar.
+</font>
+
+</td>
+</tr>
+</table>
+
+<!-- FECHAR -->
+<table width=202 border=0 cellpadding=0 cellspacing=0 background="L2font.loading04-k">
+<tr>
+<td align=center height=20>
+
+<button value="FECHAR"
+action="bypass -h _bbhome"
+width=58 height=15
+back="L2UI_CT1.Button_DF"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+</center>
+</body>
+</html>
