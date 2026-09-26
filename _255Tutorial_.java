@@ -836,7 +836,13 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 
 			final ItemInstance createditem = ItemFunctions.createItem(itemId);
 
-			if (createditem == null || createditem.getCrystalType() != Grade.D)
+			Grade expectedGrade = Grade.D;
+			if (player.getVarInt("level52reward") == 1)
+				expectedGrade = Grade.B;
+			else if (player.getVarInt("level40reward") == 1)
+				expectedGrade = Grade.C;
+
+			if (createditem == null || createditem.getCrystalType() != expectedGrade)
 			{
 				player.sendMessage("Wrong weapon");
 				st.closeTutorial();
@@ -900,6 +906,12 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			StringTokenizer tokenizer = new StringTokenizer(event, " ");
 			tokenizer.nextToken();
 
+			Grade expectedGrade = Grade.D;
+			if (player.getVarInt("level52reward") == 1)
+				expectedGrade = Grade.B;
+			else if (player.getVarInt("level40reward") == 1)
+				expectedGrade = Grade.C;
+
 			player.setVar(armorVar, "1");
 
 			// We have to give and equip each item that is sent through the bypass
@@ -908,7 +920,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 				final int itemId = Integer.parseInt(tokenizer.nextToken());
 				final ItemInstance createditem = ItemFunctions.createItem(itemId);
 
-				if (createditem == null || createditem.getCrystalType() != Grade.D)
+				if (createditem == null || createditem.getCrystalType() != expectedGrade)
 				{
 					player.sendMessage("Wrong Armor");
 					st.closeTutorial();
