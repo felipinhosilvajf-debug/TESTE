@@ -443,8 +443,8 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 		// Client Event
 		else if (event.startsWith("CE"))
 		{
-			// Dont check tutorial events for characters above level 70 or in subclass
-			if (player.getLevel() >= 70 || player.getActiveClassId() != player.getBaseClassId())
+			// Tutorial events are ignored for subclasses. Level 76 is allowed because it has its own reward tutorial.
+			if (player.getActiveClassId() != player.getBaseClassId())
 			{
 				return null;
 			}
@@ -567,12 +567,13 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 					);
 				}
 
+				/*
 				* =====================================================
 				* NÍVEL 9
 				* =====================================================
 				*/
 
-				if (player.getLevel() >= 8 &&
+				if (player.getLevel() >= 9 &&
 					player.getVarInt("lvl") < 9)
 				{
 					player.setVar("lvl", "9");
@@ -652,13 +653,6 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 				if (player.getLevel() >= 21 &&
 					player.getVarInt("level21reward") < 1)
 				{
-					/*
-					* Marca imediatamente como entregue.
-					*
-					* Isso impede duplicação caso CE40 seja chamado
-					* novamente.
-					*/
-
 					player.setVar(
 						"level21reward",
 						"1"
@@ -674,22 +668,65 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 						"SpecialTutorial"
 					);
 
-					/*
-					* Abre a escolha da primeira classe.
-					*
-					* O Level21.htm continuará sendo aberto depois
-					* da mudança de classe, como no sistema atual.
-					*/
-
 					checkClassMaster(st);
 				}
-			}
-				// Synerge - Show a special tutorial htm for teleporting
-				else if (player.getLevel() >= 52 && player.getVarInt("lvl") < 52)
+
+				/*
+				* =====================================================
+				* NÍVEL 40
+				* =====================================================
+				*
+				* Novo tutorial de recompensa. Não faz mudança de classe.
+				*/
+				if (player.getLevel() >= 40 &&
+					player.getVarInt("level40reward") < 1)
 				{
-					player.setVar("lvl", "52");
+					player.setVar("level40reward", "1");
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level40.htm", player));
+				}
+
+				/*
+				* =====================================================
+				* NÍVEL 52
+				* =====================================================
+				*
+				* Novo tutorial de recompensa. Não faz mudança de classe.
+				*/
+				if (player.getLevel() >= 52 &&
+					player.getVarInt("level52reward") < 1)
+				{
+					player.setVar("level52reward", "1");
 					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level52.htm", player));
 				}
+
+				/*
+				* =====================================================
+				* NÍVEL 61
+				* =====================================================
+				*
+				* Novo tutorial de recompensa. Não faz mudança de classe.
+				*/
+				if (player.getLevel() >= 61 &&
+					player.getVarInt("level61reward") < 1)
+				{
+					player.setVar("level61reward", "1");
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61.htm", player));
+				}
+
+				/*
+				* =====================================================
+				* NÍVEL 76
+				* =====================================================
+				*
+				* Novo tutorial de recompensa. Não faz mudança de classe.
+				*/
+				if (player.getLevel() >= 76 &&
+					player.getVarInt("level76reward") < 1)
+				{
+					player.setVar("level76reward", "1");
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76.htm", player));
+				}
+			}
 			}
 			// Exp events
 			else if (event_id == 41)
@@ -840,11 +877,42 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			// Equip the new item
 			player.getInventory().equipItem(createditem);
 
-			// Show the equip armor next
-			if (player.getRace() == Race.kamael)
-				st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21ArmorKamael.htm", player));
+			// Show the armor html belonging to the tutorial level that is currently being used.
+			if (player.getVarInt("level76reward") == 1)
+			{
+				if (player.getRace() == Race.kamael)
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76ArmorKamael.htm", player));
+				else
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76Armors.htm", player));
+			}
+			else if (player.getVarInt("level61reward") == 1)
+			{
+				if (player.getRace() == Race.kamael)
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61ArmorKamael.htm", player));
+				else
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61Armors.htm", player));
+			}
+			else if (player.getVarInt("level52reward") == 1)
+			{
+				if (player.getRace() == Race.kamael)
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level52ArmorKamael.htm", player));
+				else
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level52Armors.htm", player));
+			}
+			else if (player.getVarInt("level40reward") == 1)
+			{
+				if (player.getRace() == Race.kamael)
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level40ArmorKamael.htm", player));
+				else
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level40Armors.htm", player));
+			}
 			else
-				st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21Armors.htm", player));
+			{
+				if (player.getRace() == Race.kamael)
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21ArmorKamael.htm", player));
+				else
+					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21Armors.htm", player));
+			}
 		}
 		// Synerge - Gives the character a certain armor ids and equips it
 		else if (event.startsWith("GetArmorD ") && player.getVarInt("armor") < 1)
@@ -876,8 +944,18 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 				player.getInventory().equipItem(createditem);
 			}
 
-			// Show the soulshots html next
-			st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21Soulshots.htm", player));
+			// The new level tutorials end after armor. Level 21 keeps its existing soulshot flow.
+			if (player.getVarInt("level76reward") == 1 ||
+				player.getVarInt("level61reward") == 1 ||
+				player.getVarInt("level52reward") == 1 ||
+				player.getVarInt("level40reward") == 1)
+			{
+				st.closeTutorial();
+			}
+			else
+			{
+				st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level21Soulshots.htm", player));
+			}
 		}
 		// Synerge - Gives the character some shots
 		else if (event.startsWith("GetShotsD ") && player.getVarInt("shots") < 1)
