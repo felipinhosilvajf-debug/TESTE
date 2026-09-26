@@ -671,9 +671,11 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 					checkClassMaster(st);
 				}
 
-				/*
-				* =====================================================
-				* NÍVEL 40
+			}
+
+			/*
+			* =====================================================
+			* NÍVEL 40
 				* =====================================================
 				*
 				* Novo tutorial de recompensa. Não faz mudança de classe.
@@ -726,7 +728,6 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 					player.setVar("level76reward", "1");
 					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76.htm", player));
 				}
-			}
 			}
 			// Exp events
 			else if (event_id == 41)
