@@ -573,7 +573,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 				* =====================================================
 				*/
 
-				if (player.getLevel() >= 9 &&
+				if (player.getLevel() >= 8 &&
 					player.getVarInt("lvl") < 9)
 				{
 					player.setVar("lvl", "9");
@@ -844,8 +844,22 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			return null;
 		}
 		// Synerge - Gives the character a certain weapon id and equips it
-		else if (event.startsWith("GetWeaponD ") && player.getVarInt("weapon") < 1)
+		else if (event.startsWith("GetWeaponD "))
 		{
+			String weaponVar = "weapon";
+
+			if (player.getVarInt("level76reward") == 1)
+				weaponVar = "level76weapon";
+			else if (player.getVarInt("level61reward") == 1)
+				weaponVar = "level61weapon";
+			else if (player.getVarInt("level52reward") == 1)
+				weaponVar = "level52weapon";
+			else if (player.getVarInt("level40reward") == 1)
+				weaponVar = "level40weapon";
+
+			if (player.getVarInt(weaponVar) >= 1)
+				return null;
+
 			StringTokenizer tokenizer = new StringTokenizer(event, " ");
 			tokenizer.nextToken();
 			final int itemId = Integer.parseInt(tokenizer.nextToken());
@@ -859,7 +873,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 				return null;
 			}
 
-			player.setVar("weapon", "1");
+			player.setVar(weaponVar, "1");
 			player.getInventory().addItem(createditem, "SpecialTutorial");
 
 			// Also give arrows if the weapon is a bow
@@ -915,12 +929,26 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			}
 		}
 		// Synerge - Gives the character a certain armor ids and equips it
-		else if (event.startsWith("GetArmorD ") && player.getVarInt("armor") < 1)
+		else if (event.startsWith("GetArmorD "))
 		{
+			String armorVar = "armor";
+
+			if (player.getVarInt("level76reward") == 1)
+				armorVar = "level76armor";
+			else if (player.getVarInt("level61reward") == 1)
+				armorVar = "level61armor";
+			else if (player.getVarInt("level52reward") == 1)
+				armorVar = "level52armor";
+			else if (player.getVarInt("level40reward") == 1)
+				armorVar = "level40armor";
+
+			if (player.getVarInt(armorVar) >= 1)
+				return null;
+
 			StringTokenizer tokenizer = new StringTokenizer(event, " ");
 			tokenizer.nextToken();
 
-			player.setVar("armor", "1");
+			player.setVar(armorVar, "1");
 
 			// We have to give and equip each item that is sent through the bypass
 			while (tokenizer.hasMoreTokens())
