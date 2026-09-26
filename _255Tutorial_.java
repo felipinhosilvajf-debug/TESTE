@@ -443,7 +443,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 		// Client Event
 		else if (event.startsWith("CE"))
 		{
-			// Tutorial events are ignored for subclasses. Level 76 is allowed because it has its own reward tutorial.
+			// Tutorial events are ignored for subclasses.
 			if (player.getActiveClassId() != player.getBaseClassId())
 			{
 				return null;
@@ -701,33 +701,6 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level52.htm", player));
 				}
 
-				/*
-				* =====================================================
-				* NÍVEL 61
-				* =====================================================
-				*
-				* Novo tutorial de recompensa. Não faz mudança de classe.
-				*/
-				if (player.getLevel() >= 61 &&
-					player.getVarInt("level61reward") < 1)
-				{
-					player.setVar("level61reward", "1");
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61.htm", player));
-				}
-
-				/*
-				* =====================================================
-				* NÍVEL 76
-				* =====================================================
-				*
-				* Novo tutorial de recompensa. Não faz mudança de classe.
-				*/
-				if (player.getLevel() >= 76 &&
-					player.getVarInt("level76reward") < 1)
-				{
-					player.setVar("level76reward", "1");
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76.htm", player));
-				}
 			}
 			// Exp events
 			else if (event_id == 41)
@@ -849,11 +822,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 		{
 			String weaponVar = "weapon";
 
-			if (player.getVarInt("level76reward") == 1)
-				weaponVar = "level76weapon";
-			else if (player.getVarInt("level61reward") == 1)
-				weaponVar = "level61weapon";
-			else if (player.getVarInt("level52reward") == 1)
+			if (player.getVarInt("level52reward") == 1)
 				weaponVar = "level52weapon";
 			else if (player.getVarInt("level40reward") == 1)
 				weaponVar = "level40weapon";
@@ -893,21 +862,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			player.getInventory().equipItem(createditem);
 
 			// Show the armor html belonging to the tutorial level that is currently being used.
-			if (player.getVarInt("level76reward") == 1)
-			{
-				if (player.getRace() == Race.kamael)
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76ArmorKamael.htm", player));
-				else
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level76Armors.htm", player));
-			}
-			else if (player.getVarInt("level61reward") == 1)
-			{
-				if (player.getRace() == Race.kamael)
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61ArmorKamael.htm", player));
-				else
-					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level61Armors.htm", player));
-			}
-			else if (player.getVarInt("level52reward") == 1)
+			if (player.getVarInt("level52reward") == 1)
 			{
 				if (player.getRace() == Race.kamael)
 					st.showTutorialHTML(HtmCache.getInstance().getNotNull("SpecialTutorial/Level52ArmorKamael.htm", player));
@@ -934,11 +889,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 		{
 			String armorVar = "armor";
 
-			if (player.getVarInt("level76reward") == 1)
-				armorVar = "level76armor";
-			else if (player.getVarInt("level61reward") == 1)
-				armorVar = "level61armor";
-			else if (player.getVarInt("level52reward") == 1)
+			if (player.getVarInt("level52reward") == 1)
 				armorVar = "level52armor";
 			else if (player.getVarInt("level40reward") == 1)
 				armorVar = "level40armor";
@@ -974,9 +925,7 @@ public class _255_Tutorial extends Quest implements ScriptFile, OnPlayerEnterLis
 			}
 
 			// The new level tutorials end after armor. Level 21 keeps its existing soulshot flow.
-			if (player.getVarInt("level76reward") == 1 ||
-				player.getVarInt("level61reward") == 1 ||
-				player.getVarInt("level52reward") == 1 ||
+			if (player.getVarInt("level52reward") == 1 ||
 				player.getVarInt("level40reward") == 1)
 			{
 				st.closeTutorial();
