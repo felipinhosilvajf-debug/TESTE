@@ -111,53 +111,9 @@ public class AutoFarmTask implements Runnable
 		return _searchRadius;
 	}
 
-	private void syncSkillsFromShortcuts()
-	{
-		if (_player == null)
-			return;
-
-		int skill1 = 0;
-		int skill2 = 0;
-		int skill3 = 0;
-
-		try
-		{
-			if (_player.getShortCut(0, 9) != null)
-			{
-				int id = _player.getShortCut(0, 9).getId();
-				if (id > 0 && _player.getKnownSkill(id) != null)
-					skill1 = id;
-			}
-
-			if (_player.getShortCut(1, 9) != null)
-			{
-				int id = _player.getShortCut(1, 9).getId();
-				if (id > 0 && _player.getKnownSkill(id) != null)
-					skill2 = id;
-			}
-
-			if (_player.getShortCut(2, 9) != null)
-			{
-				int id = _player.getShortCut(2, 9).getId();
-				if (id > 0 && _player.getKnownSkill(id) != null)
-					skill3 = id;
-			}
-		}
-		catch (Exception e)
-		{
-			/* Atalho vazio ou incompatível: deixa o slot sem skill. */
-		}
-
-		_skill1 = skill1;
-		_skill2 = skill2;
-		_skill3 = skill3;
-	}
-
 	@Override
 	public void run()
 	{
-		syncSkillsFromShortcuts();
-
 		if (_player == null || !_player.isOnline())
 		{
 			stop();
