@@ -1,0 +1,352 @@
+<html noscrollbar>
+<title>Auto Farm</title>
+<body>
+<center>
+
+<table width=380 border=0 cellpadding=0 cellspacing=0 background="L2UI_CT1.Windows_DF_TooltipBG">
+
+<tr>
+<td align=center valign=top>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- CABEÇALHO -->
+<!-- ========================================================= -->
+
+<table width=350 border=0 cellpadding=0 cellspacing=0 background="L2UI_CT1.Tab_DF_Deny_Bg">
+<tr>
+
+<td width=220 height=38 align=left>
+&nbsp;&nbsp;<font color="LEVEL"><b>AUTO FARM</b></font>
+</td>
+
+<td width=130 align=right>
+<font color="AAAAAA">STATUS: </font>
+
+<font color="3ADF00">
+<b>%status%</b>
+</font>
+
+&nbsp;
+</td>
+
+</tr>
+</table>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- CONFIGURAÇÕES -->
+<!-- ========================================================= -->
+
+<table width=350 border=0 cellpadding=0 cellspacing=0>
+
+<tr>
+
+<!-- RAIO -->
+
+<td width=167 align=center background="L2UI_CT1.Windows_DF_Drawer_Background">
+
+<table width=167 border=0 cellpadding=4 cellspacing=0>
+
+<tr>
+<td align=center>
+
+<font color="LEVEL"><b>RAIO</b></font>
+
+<br>
+
+<font color="FFFFFF">
+%radius%
+</font>
+
+<br>
+
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:radius"
+width=85
+height=22
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+</tr>
+
+</table>
+
+</td>
+
+<td width=16></td>
+
+<!-- POÇÃO -->
+
+<td width=167 align=center background="L2UI_CT1.Windows_DF_Drawer_Background">
+
+<table width=167 border=0 cellpadding=4 cellspacing=0>
+
+<tr>
+<td align=center>
+
+<font color="LEVEL"><b>POÇÃO</b></font>
+
+<br>
+
+<font color="FFFFFF">
+%potion%
+</font>
+
+<br>
+
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:potion"
+width=85
+height=22
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- SKILLS -->
+<!-- ========================================================= -->
+
+<table width=350 border=0 cellpadding=0 cellspacing=0 background="L2UI_CT1.Windows_DF_Drawer_Background">
+
+<tr>
+<td align=center>
+
+<br>
+
+<font color="LEVEL">
+<b>SKILLS DO AUTO FARM</b>
+</font>
+
+<br>
+
+<font color="AAAAAA">
+Clique no slot para escolher uma skill
+</font>
+
+<br><br>
+
+<table width=330 border=0 cellpadding=2 cellspacing=3>
+
+<tr>
+
+<!-- SLOT 1 -->
+
+<td width=106 align=center background="L2UI_CT1.Tab_DF_Deny_Bg">
+
+<table width=106 border=0 cellpadding=4 cellspacing=0>
+
+<tr>
+<td align=center>
+
+<font color="LEVEL">
+<b>S1</b>
+</font>
+
+<br><br>
+
+<font color="FFFFFF">
+%skill1%
+</font>
+
+<br><br>
+
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill1"
+width=88
+height=22
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+</tr>
+
+</table>
+
+</td>
+
+<!-- SLOT 2 -->
+
+<td width=106 align=center background="L2UI_CT1.Tab_DF_Deny_Bg">
+
+<table width=106 border=0 cellpadding=4 cellspacing=0>
+
+<tr>
+<td align=center>
+
+<font color="LEVEL">
+<b>S2</b>
+</font>
+
+<br><br>
+
+<font color="FFFFFF">
+%skill2%
+</font>
+
+<br><br>
+
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill2"
+width=88
+height=22
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+</tr>
+
+</table>
+
+</td>
+
+<!-- SLOT 3 -->
+
+<td width=106 align=center background="L2UI_CT1.Tab_DF_Deny_Bg">
+
+<table width=106 border=0 cellpadding=4 cellspacing=0>
+
+<tr>
+<td align=center>
+
+<font color="LEVEL">
+<b>S3</b>
+</font>
+
+<br><br>
+
+<font color="FFFFFF">
+%skill3%
+</font>
+
+<br><br>
+
+<button
+value="ALTERAR"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:skill3"
+width=88
+height=22
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+<br>
+
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- CONTROLES -->
+<!-- ========================================================= -->
+
+<table width=350 border=0 cellpadding=0 cellspacing=0>
+
+<tr>
+
+<td width=167 align=center>
+
+<button
+value="INICIAR AUTO FARM"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:start"
+width=167
+height=32
+back="L2UI_CT1.Button_DF_Down"
+fore="L2UI_CT1.Button_DF">
+
+</td>
+
+<td width=16></td>
+
+<td width=167 align=center>
+
+<button
+value="PARAR AUTO FARM"
+action="bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:stop"
+width=167
+height=32
+back="L2UI_CH3.Btn_BF_Down"
+fore="L2UI_CH3.Btn_BF">
+
+</td>
+
+</tr>
+
+</table>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- INDICADOR -->
+<!-- ========================================================= -->
+
+<table width=350 border=0 cellpadding=5 cellspacing=0 background="L2UI_CT1.Windows_DF_Drawer_Background">
+
+<tr>
+<td align=center>
+
+<font color="AAAAAA">
+Auto Farm configurado para usar até 3 skills.
+</font>
+
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<!-- ========================================================= -->
+<!-- FECHAR -->
+<!-- ========================================================= -->
+
+<button
+value="FECHAR"
+action="bypass _bbshome"
+width=100
+height=22
+back="L2UI_CT1.MiniMap_DF_MinusBtn_Red_Down"
+fore="L2UI_CT1.MiniMap_DF_MinusBtn_Red">
+
+<br><br>
+
+</td>
+</tr>
+
+</table>
+
+</center>
+</body>
+</html>
