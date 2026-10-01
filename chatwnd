@@ -1,9 +1,10 @@
 class ChatWnd extends UICommonAPI;
 
+var AutoFarm AutoFarmScript;
+
 struct ChatFilterInfo
 {
 
-var AutoFarm AutoFarmScript;
 	var int bSystem;
 	var int bChat;
 	var int bDamage;
