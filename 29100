@@ -50,7 +50,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="9" />	<!--Demons-->
 			<skill id="5043" level="10" />	<!--NPC Super Sonic Blaster-->
 			<skill id="5360" level="5" />	<!--NPC(party) - Physical Range Close Range Attack - Dark-->
@@ -111,7 +110,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 		</skills>
 		<attributes>
@@ -168,7 +166,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 		</skills>
 		<attributes>
@@ -303,7 +300,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="9" />	<!--Demons-->
 			<skill id="5405" level="1" />	<!--Presentation - Demonic 1-->
 			<skill id="5406" level="1" />	<!--Presentation - Demonic 2-->
@@ -362,7 +358,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 			<skill id="5407" level="1" />	<!--Presentation - Crystalline Golem 1-->
 			<skill id="5408" level="1" />	<!--Presentation - Crystalline Golem 2-->
@@ -869,12 +864,6 @@
 		<set name="type" value="Monster" />
 		<rewardlist type="RATED_GROUPED">
 			<group chance="57.1093">
-				<reward item_id="6676" min="1" max="1" chance="1.2148" />	<!--Sealed Imperial Crusader Gauntlet-->
-				<reward item_id="6677" min="1" max="1" chance="1.2148" />	<!--Sealed Imperial Crusader Boots-->
-				<reward item_id="6681" min="1" max="1" chance="1.2148" />	<!--Sealed Draconic Leather Glove-->
-				<reward item_id="6682" min="1" max="1" chance="1.2148" />	<!--Sealed Draconic Leather Boots-->
-				<reward item_id="6685" min="1" max="1" chance="1.2148" />	<!--Sealed Major Arcana Glove-->
-				<reward item_id="6686" min="1" max="1" chance="1.2148" />	<!--Sealed Major Arcana Boots-->
 				<reward item_id="6703" min="8" max="24" chance="19.3494" />	<!--Sealed Imperial Crusader Gauntlets Design-->
 				<reward item_id="6704" min="14" max="40" chance="11.4663" />	<!--Sealed Imperial Crusader Boots Design-->
 				<reward item_id="6708" min="20" max="60" chance="7.7398" />	<!--Sealed Draconic Leather Gloves Fabric-->
@@ -942,17 +931,12 @@
 		<set name="type" value="Monster" />
 		<rewardlist type="RATED_GROUPED">
 			<group chance="70.3913">
-				<reward item_id="6678" min="1" max="1" chance="2.8152" />	<!--Sealed Imperial Crusader Shield-->
-				<reward item_id="6679" min="1" max="1" chance="1.9712" />	<!--Sealed Imperial Crusader Helmet-->
-				<reward item_id="6683" min="1" max="1" chance="1.9712" />	<!--Sealed Draconic Leather Helmet-->
-				<reward item_id="6687" min="1" max="1" chance="1.9712" />	<!--Sealed Major Arcana Circlet-->
 				<reward item_id="6705" min="23" max="67" chance="16.4024" />	<!--Sealed Imperial Crusader Shield Part-->
 				<reward item_id="6706" min="60" max="180" chance="7.1547" />	<!--Sealed Imperial Crusader Helmet Pattern-->
 				<reward item_id="6710" min="11" max="31" chance="40.8840" />	<!--Sealed Draconic Leather Helmet Pattern-->
 				<reward item_id="6714" min="16" max="48" chance="26.8301" />	<!--Sealed Major Arcana Circlet Pattern-->
 			</group>
 			<group chance="8.4497">
-				<reward item_id="10170" min="1" max="1" chance="100.0000" />	<!--Baylor's Earring-->
 			</group>
 			<group chance="8.2151">
 				<reward item_id="6577" min="1" max="1" chance="13.0435" />	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
@@ -1012,7 +996,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
 			<skill id="4415" level="5" />	<!--Blunt Weapons-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 			<skill id="5467" level="1" />	<!--Dark Attacks-->
@@ -1031,23 +1014,10 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="13457" min="1" max="1" chance="3.7700" />	<!--Vesper Cutter-->
-				<reward item_id="13458" min="1" max="1" chance="3.7600" />	<!--Vesper Slasher-->
-				<reward item_id="13459" min="1" max="1" chance="3.7600" />	<!--Vesper Buster-->
-				<reward item_id="13460" min="1" max="1" chance="3.7700" />	<!--Vesper Shaper-->
-				<reward item_id="13461" min="1" max="1" chance="3.7700" />	<!--Vesper Fighter-->
-				<reward item_id="13462" min="1" max="1" chance="3.7600" />	<!--Vesper Stormer-->
-				<reward item_id="13463" min="1" max="1" chance="3.7700" />	<!--Vesper Avenger-->
-				<reward item_id="13464" min="1" max="1" chance="3.7600" />	<!--Vesper Retributer-->
-				<reward item_id="13465" min="1" max="1" chance="3.7600" />	<!--Vesper Caster-->
-				<reward item_id="13467" min="1" max="1" chance="3.7600" />	<!--Vesper Thrower-->
-				<reward item_id="13466" min="1" max="1" chance="3.7600" />	<!--Vesper Singer-->
-				<reward item_id="10215" min="1" max="1" chance="6.5200" />	<!--Icarus Sawsword-->
 				<reward item_id="10216" min="1" max="1" chance="6.5100" />	<!--Icarus Disperser-->
 				<reward item_id="10217" min="1" max="1" chance="6.5100" />	<!--Icarus Spirit-->
 				<reward item_id="10218" min="1" max="1" chance="6.5100" />	<!--Icarus Heavy Arms-->
 				<reward item_id="10219" min="1" max="1" chance="6.5100" />	<!--Icarus Trident-->
-				<reward item_id="10220" min="1" max="1" chance="6.5100" />	<!--Icarus Hammer-->
 				<reward item_id="10221" min="1" max="1" chance="6.5100" />	<!--Icarus Hand-->
 				<reward item_id="10222" min="1" max="1" chance="6.5100" />	<!--Icarus Hall-->
 				<reward item_id="10223" min="1" max="1" chance="6.5100" />	<!--Icarus Spitter-->
@@ -1055,19 +1025,16 @@
 		</rewardlist>
 		<rewardlist type="NOT_RATED_GROUPED">
 			<group chance="50.0">
-				<reward item_id="10215" min="1" max="1" chance="11.2000" />	<!--Icarus Sawsword-->
 				<reward item_id="10216" min="1" max="1" chance="11.1000" />	<!--Icarus Disperser-->
 				<reward item_id="10217" min="1" max="1" chance="11.1000" />	<!--Icarus Spirit-->
 				<reward item_id="10218" min="1" max="1" chance="11.1000" />	<!--Icarus Heavy Arms-->
 				<reward item_id="10219" min="1" max="1" chance="11.1000" />	<!--Icarus Trident-->
-				<reward item_id="10220" min="1" max="1" chance="11.1000" />	<!--Icarus Hammer-->
 				<reward item_id="10221" min="1" max="1" chance="11.1000" />	<!--Icarus Hand-->
 				<reward item_id="10222" min="1" max="1" chance="11.1000" />	<!--Icarus Hall-->
 				<reward item_id="10223" min="1" max="1" chance="11.1000" />	<!--Icarus Spitter-->
 			</group>
 		</rewardlist>
 		<rewardlist type="NOT_RATED_NOT_GROUPED">
-			<reward item_id="13893" min="1" max="1" chance="40.0000" />	<!--Sealed Holy Spirit's Cloak-->
 			<reward item_id="10552" min="1" max="1" chance="20.0000" />	<!--Forgotten Scroll - Fighter's Will-->
 			<reward item_id="10553" min="1" max="1" chance="20.0000" />	<!--Forgotten Scroll - Archer's Will-->
 			<reward item_id="14219" min="1" max="1" chance="20.0000" />	<!--Forgotten Scroll - Magician's Will-->
@@ -1126,7 +1093,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
 			<skill id="4415" level="11" />	<!--Spears-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 			<skill id="5467" level="1" />	<!--Dark Attacks-->
@@ -1604,20 +1570,16 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 			<skill id="5701" level="1" />	<!--Decrease P. Atk-->
 			<skill id="4037" level="2" />	<!--Decrease P. Atk.-->
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="59.8529">
-				<reward item_id="395" min="1" max="1" chance="56.3214" />	<!--Manticore Skin Shirt-->
-				<reward item_id="417" min="4" max="12" chance="11.2434" />	<!--Manticore Skin Gaiters-->
 				<reward item_id="1942" min="53" max="157" chance="23.5297" />	<!--Manticore Skin Shirt Texture-->
 				<reward item_id="1943" min="216" max="648" chance="8.9055" />	<!--Manticore Skin Gaiters Pattern-->
 			</group>
 			<group chance="58.1236">
-				<reward item_id="279" min="1" max="1" chance="27.8645" />	<!--Reinforced Long Bow-->
 				<reward item_id="2040" min="12" max="36" chance="72.1355" />	<!--Reinforced Long Bow Shaft-->
 			</group>
 			<group chance="37.5804">
@@ -1681,7 +1643,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 		</skills>
 		<attributes>
@@ -1808,23 +1769,18 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 			<skill id="5701" level="2" />	<!--Decrease P. Atk-->
 			<skill id="4037" level="2" />	<!--Decrease P. Atk.-->
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="48.7802">
-				<reward item_id="439" min="1" max="1" chance="54.8719" />	<!--Karmian Tunic-->
-				<reward item_id="471" min="5" max="13" chance="9.7430" />	<!--Karmian Stockings-->
 				<reward item_id="1962" min="53" max="157" chance="24.3318" />	<!--Karmian Tunic Pattern-->
 				<reward item_id="1954" min="192" max="576" chance="11.0533" />	<!--Karmian Stocking Design-->
 			</group>
 			<group chance="51.8474">
 				<reward item_id="71" min="1" max="1" chance="12.7827" />	<!--Flamberge-->
 				<reward item_id="72" min="1" max="1" chance="12.7827" />	<!--Stormbringer-->
-				<reward item_id="2059" min="8" max="22" chance="55.7960" />	<!--Flamberge Blade-->
-				<reward item_id="2060" min="24" max="72" chance="18.6386" />	<!--Stormbringer Blade-->
 			</group>
 			<group chance="61.1027">
 				<reward item_id="4589" min="4" max="12" chance="34.4262" />	<!--Greater Dye of STR <Str+2 Con-2>-->
@@ -1878,7 +1834,6 @@
 		<set name="type" value="Minion" />
 		<faction name="kamaloka" range="0"/>
 		<equip>
-			<rhand item_id="16" />	<!--Great Spear-->
 		</equip>
 		<skills>
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -1888,7 +1843,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
 			<skill id="4415" level="11" />	<!--Spears-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 		</skills>
@@ -1948,7 +1902,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
 			<skill id="4415" level="5" />	<!--Blunt Weapons-->
 			<skill id="4416" level="6" />	<!--Humanoids-->
 			<skill id="4438" level="4" />	<!--Greater Resist Sleep-->
@@ -2015,7 +1968,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="1" />	<!--Heavy Armor Type-->
 			<skill id="4415" level="5" />	<!--Blunt Weapons-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 			<skill id="5701" level="3" />	<!--Decrease P. Atk-->
@@ -2023,15 +1975,11 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="58.8978">
-				<reward item_id="119" min="1" max="1" chance="28.6435" />	<!--Necklace of Seal-->
-				<reward item_id="855" min="1" max="1" chance="38.1913" />	<!--Nassen's Earring-->
-				<reward item_id="886" min="6" max="16" chance="5.2079" />	<!--Ring of Seal-->
 				<reward item_id="1920" min="140" max="420" chance="7.6028" />	<!--Necklace of Seal Chain-->
 				<reward item_id="1918" min="81" max="243" chance="16.6321" />	<!--Nassen's Earring Gemstone-->
 				<reward item_id="2917" min="480" max="1440" chance="3.7224" />	<!--Ring of Seal Gemstone-->
 			</group>
 			<group chance="38.5915">
-				<reward item_id="286" min="1" max="1" chance="18.1298" />	<!--Eminence Bow-->
 				<reward item_id="2121" min="12" max="36" chance="81.8702" />	<!--Eminence Bow Shaft-->
 			</group>
 			<group chance="84.7075">
@@ -2094,8 +2042,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="1" />	<!--Heavy Armor Type-->
-			<skill id="4415" level="4" />	<!--One-handed Sword-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 		</skills>
 		<attributes>
@@ -2151,7 +2097,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="1" />	<!--Heavy Armor Type-->
 			<skill id="4415" level="5" />	<!--Blunt Weapons-->
 			<skill id="4416" level="2" />	<!--Magic Creatures-->
 			<skill id="4438" level="4" />	<!--Greater Resist Sleep-->
@@ -2222,26 +2167,19 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 			<skill id="5701" level="4" />	<!--Decrease P. Atk-->
 			<skill id="4037" level="2" />	<!--Decrease P. Atk.-->
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="62.1828">
-				<reward item_id="864" min="1" max="1" chance="22.4307" />	<!--Earring of Black Ore-->
-				<reward item_id="895" min="1" max="1" chance="33.6460" />	<!--Ring of Black Ore-->
-				<reward item_id="926" min="1" max="1" chance="16.8230" />	<!--Necklace of Black Ore-->
 				<reward item_id="4052" min="81" max="243" chance="17.4271" />	<!--Earring of Black Ore Piece-->
 				<reward item_id="4053" min="280" max="840" chance="6.1035" />	<!--Ring of Black Ore Gemstone-->
 				<reward item_id="4054" min="220" max="660" chance="3.5697" />	<!--Necklace of Black Ore Beads-->
 			</group>
 			<group chance="65.9782">
 				<reward item_id="171" min="1" max="1" chance="2.2342" />	<!--Deadman's Glory-->
-				<reward item_id="175" min="1" max="1" chance="2.2342" />	<!--Art of Battle Axe-->
-				<reward item_id="210" min="1" max="1" chance="2.2342" />	<!--Staff of Evil Spirits-->
 				<reward item_id="4116" min="5" max="15" chance="49.2613" />	<!--Deadman's Glory Stone-->
-				<reward item_id="4117" min="9" max="27" chance="27.3674" />	<!--Art of Battle Axe Blade-->
 				<reward item_id="4118" min="14" max="42" chance="16.6687" />	<!--Evil Spirit Head-->
 			</group>
 			<group chance="87.4394">
@@ -2304,8 +2242,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 		</skills>
 		<attributes>
@@ -2361,8 +2297,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 			<skill id="4438" level="4" />	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4" />	<!--Greater Resist Hold-->
@@ -2428,7 +2362,6 @@
 			<skill id="4411" level="11" />	<!--Average M. Atk.-->
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
-			<skill id="4414" level="3" />	<!--Light Armor Type-->
 			<skill id="4415" level="7" />	<!--Daggers-->
 			<skill id="4416" level="4" />	<!--Animals-->
 			<skill id="5701" level="5" />	<!--Decrease P. Atk-->
@@ -2442,8 +2375,6 @@
 				<reward item_id="5488" min="8" max="22" chance="32.5015" />	<!--Sealed Majestic Robe Fabric-->
 			</group>
 			<group chance="26.8661">
-				<reward item_id="289" min="1" max="1" chance="7.7743" />	<!--Soul Bow-->
-				<reward item_id="5534" min="12" max="36" chance="92.2257" />	<!--Soul Bow Stave-->
 			</group>
 			<group chance="89.6422">
 				<reward item_id="730" min="1" max="1" chance="87.0070" />	<!--Scroll: Enchant Armor (A-Grade)-->
@@ -2505,7 +2436,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="9" />	<!--Demons-->
 		</skills>
 		<attributes>
@@ -2562,7 +2492,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="9" />	<!--Demons-->
 			<skill id="4438" level="4" />	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4" />	<!--Greater Resist Hold-->
@@ -2641,11 +2570,9 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="56.4673">
-				<reward item_id="6680" min="1" max="1" chance="5.8550" />	<!--Sealed Draconic Leather Armor-->
 				<reward item_id="6707" min="12" max="36" chance="94.1450" />	<!--Sealed Draconic Leather Armor Part-->
 			</group>
 			<group chance="36.9952">
-				<reward item_id="7575" min="1" max="1" chance="4.8834" />	<!--Draconic Bow-->
 				<reward item_id="7579" min="12" max="36" chance="95.1166" />	<!--Draconic Bow Shaft-->
 			</group>
 			<group chance="74.5482">
@@ -2701,7 +2628,6 @@
 		<set name="type" value="Minion" />
 		<faction name="kamaloka" range="0"/>
 		<equip>
-			<rhand item_id="8221" />	<!--Monster Only (Grail Apostle Spear)-->
 		</equip>
 		<skills>
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -2852,10 +2778,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="73.9419">
-				<reward item_id="6678" min="1" max="1" chance="4.9387" />	<!--Sealed Imperial Crusader Shield-->
-				<reward item_id="6679" min="1" max="1" chance="3.4570" />	<!--Sealed Imperial Crusader Helmet-->
-				<reward item_id="6683" min="1" max="1" chance="3.4570" />	<!--Sealed Draconic Leather Helmet-->
-				<reward item_id="6687" min="1" max="1" chance="3.4570" />	<!--Sealed Major Arcana Circlet-->
 				<reward item_id="6705" min="23" max="67" chance="25.6752" />	<!--Sealed Imperial Crusader Shield Part-->
 				<reward item_id="6706" min="60" max="180" chance="11.1994" />	<!--Sealed Imperial Crusader Helmet Pattern-->
 				<reward item_id="6710" min="116" max="346" chance="5.8179" />	<!--Sealed Draconic Leather Helmet Pattern-->
@@ -2863,7 +2785,6 @@
 			</group>
 			<group chance="34.1978">
 				<reward item_id="6371" min="1" max="1" chance="5.0271" />	<!--Demon Splinter-->
-				<reward item_id="6695" min="12" max="36" chance="94.9729" />	<!--Demon Splinter Blade-->
 			</group>
 			<group chance="70.939">
 				<reward item_id="959" min="1" max="1" chance="8.9552" />	<!--Scroll: Enchant Weapon (S-Grade)-->
@@ -2926,7 +2847,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="10" />	<!--Dragons-->
 			<skill id="5462" level="1" />	<!--Fire Attacks-->
 		</skills>
@@ -2985,7 +2905,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="10" />	<!--Dragons-->
 			<skill id="4438" level="4" />	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4" />	<!--Greater Resist Hold-->
@@ -3049,7 +2968,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="4" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 			<skill id="4438" level="5" />	<!--Greater Resist Sleep-->
 			<skill id="5467" level="1" />	<!--Dark Attacks-->
@@ -3065,54 +2983,16 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="30.0">
-				<reward item_id="13143" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Circlet-->
-				<reward item_id="13887" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Sigil-->
-				<reward item_id="14105" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Breastplate-->
-				<reward item_id="14106" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Leather Breastplate-->
-				<reward item_id="14107" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Tunic-->
-				<reward item_id="14108" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Gaiters-->
-				<reward item_id="14109" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Gauntlet-->
-				<reward item_id="14110" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Boots-->
-				<reward item_id="14111" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Shield-->
-				<reward item_id="14112" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Leather Leggings-->
-				<reward item_id="14113" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14114" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Leather Boots-->
-				<reward item_id="14115" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Stockings-->
-				<reward item_id="14116" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Gloves-->
-				<reward item_id="14117" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Shoes-->
-				<reward item_id="13146" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Helmet-->
-				<reward item_id="13147" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Leather Helmet-->
-				<reward item_id="13148" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Circlet-->
-				<reward item_id="13886" min="1" max="1" chance="1.9400" />	<!--Sealed Dynasty Sigil-->
-				<reward item_id="17006" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Breastplate-->
-				<reward item_id="17007" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Leather Breastplate-->
-				<reward item_id="17008" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Tunic-->
-				<reward item_id="17009" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Gaiters-->
-				<reward item_id="17010" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Gauntlet-->
-				<reward item_id="17011" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Boots-->
-				<reward item_id="9529" min="1" max="1" chance="1.9400" />	<!--Sealed Dynasty Shield-->
-				<reward item_id="17012" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Leather Leggings-->
-				<reward item_id="17013" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Leather Gloves-->
-				<reward item_id="17014" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Leather Boots-->
-				<reward item_id="17015" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Stockings-->
-				<reward item_id="17016" min="1" max="1" chance="1.9400" />	<!--Sealed Vesper Noble Gloves-->
-				<reward item_id="17017" min="1" max="1" chance="1.9800" />	<!--Sealed Vesper Noble Shoes-->
 			</group>
 		</rewardlist>
 		<rewardlist type="NOT_RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="13893" min="1" max="1" chance="1.0000" />	<!--Sealed Holy Spirit's Cloak-->
 				<reward item_id="10552" min="1" max="1" chance="30.0000" />	<!--Forgotten Scroll - Fighter's Will-->
 				<reward item_id="10553" min="1" max="1" chance="30.0000" />	<!--Forgotten Scroll - Archer's Will-->
 				<reward item_id="14219" min="1" max="1" chance="30.0000" />	<!--Forgotten Scroll - Magician's Will-->
 			</group>
 		</rewardlist>
 		<rewardlist type="NOT_RATED_NOT_GROUPED">
-			<reward item_id="14160" min="1" max="1" chance="15.0000" />	<!--Sealed Vesper Earring-->
-			<reward item_id="14161" min="1" max="1" chance="20.0000" />	<!--Sealed Vesper Necklace-->
-			<reward item_id="14162" min="1" max="1" chance="25.0000" />	<!--Sealed Vesper Ring-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250" />
@@ -3169,7 +3049,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 			<skill id="5467" level="1" />	<!--Dark Attacks-->
 			<skill id="5924" level="1" />	<!--Devour Soul-->
@@ -3230,7 +3109,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="1" />	<!--Undead-->
 			<skill id="5467" level="1" />	<!--Dark Attacks-->
 		</skills>
@@ -3752,7 +3630,6 @@
 		</equip>
 		<skills>
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
-			<skill id="4071" level="3" />	<!--Resist Bow/Crossbow Weapons-->
 			<skill id="4116" level="5" />	<!--Resist M. Atk.-->
 			<skill id="4408" level="1" />	<!--HP Increase (1x)-->
 			<skill id="4409" level="1" />	<!--MP Increase (1x)-->
@@ -3761,13 +3638,11 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="4" />	<!--One-handed Sword-->
 			<skill id="4416" level="10" />	<!--Dragons-->
 			<skill id="5462" level="1" />	<!--Fire Attacks-->
 			<skill id="5839" level="1" />	<!--Breath-->
 			<skill id="5840" level="1" />	<!--Fire Breath-->
 			<skill id="5841" level="1" />	<!--Multi Defense-->
-			<skill id="5842" level="1" />	<!--Spinning Slasher-->
 			<skill id="5843" level="1" />	<!--Terror-->
 			<skill id="5844" level="1" />	<!--Thunder Storm-->
 			<skill id="6127" level="1" />	<!--Anti-limit-->
@@ -3778,23 +3653,10 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="13457" min="1" max="1" chance="3.7700" />	<!--Vesper Cutter-->
-				<reward item_id="13458" min="1" max="1" chance="3.7600" />	<!--Vesper Slasher-->
-				<reward item_id="13459" min="1" max="1" chance="3.7600" />	<!--Vesper Buster-->
-				<reward item_id="13460" min="1" max="1" chance="3.7700" />	<!--Vesper Shaper-->
-				<reward item_id="13461" min="1" max="1" chance="3.7700" />	<!--Vesper Fighter-->
-				<reward item_id="13462" min="1" max="1" chance="3.7600" />	<!--Vesper Stormer-->
-				<reward item_id="13463" min="1" max="1" chance="3.7700" />	<!--Vesper Avenger-->
-				<reward item_id="13464" min="1" max="1" chance="3.7600" />	<!--Vesper Retributer-->
-				<reward item_id="13465" min="1" max="1" chance="3.7600" />	<!--Vesper Caster-->
-				<reward item_id="13467" min="1" max="1" chance="3.7600" />	<!--Vesper Thrower-->
-				<reward item_id="13466" min="1" max="1" chance="3.7600" />	<!--Vesper Singer-->
-				<reward item_id="10215" min="1" max="1" chance="6.5200" />	<!--Icarus Sawsword-->
 				<reward item_id="10216" min="1" max="1" chance="6.5100" />	<!--Icarus Disperser-->
 				<reward item_id="10217" min="1" max="1" chance="6.5100" />	<!--Icarus Spirit-->
 				<reward item_id="10218" min="1" max="1" chance="6.5100" />	<!--Icarus Heavy Arms-->
 				<reward item_id="10219" min="1" max="1" chance="6.5100" />	<!--Icarus Trident-->
-				<reward item_id="10220" min="1" max="1" chance="6.5100" />	<!--Icarus Hammer-->
 				<reward item_id="10221" min="1" max="1" chance="6.5100" />	<!--Icarus Hand-->
 				<reward item_id="10222" min="1" max="1" chance="6.5100" />	<!--Icarus Hall-->
 				<reward item_id="10223" min="1" max="1" chance="6.5100" />	<!--Icarus Spitter-->
@@ -3810,7 +3672,6 @@
 			</group>
 		</rewardlist>
 		<rewardlist type="NOT_RATED_NOT_GROUPED">
-			<reward item_id="13893" min="1" max="1" chance="20.0000" />	<!--Sealed Holy Spirit's Cloak-->
 			<reward item_id="10550" min="1" max="1" chance="40.0000" />	<!--Forgotten Scroll - Protection of Elemental-->
 			<reward item_id="10552" min="1" max="1" chance="40.0000" />	<!--Forgotten Scroll - Fighter's Will-->
 		</rewardlist>
@@ -4347,7 +4208,6 @@
 		<faction name="des_dragon" range="1000"/>
 		<skills>
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
-			<skill id="4071" level="3" />	<!--Resist Bow/Crossbow Weapons-->
 			<skill id="4116" level="5" />	<!--Resist M. Atk.-->
 			<skill id="4408" level="1" />	<!--HP Increase (1x)-->
 			<skill id="4409" level="1" />	<!--MP Increase (1x)-->
@@ -4356,27 +4216,18 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4416" level="10" />	<!--Dragons-->
 			<skill id="5462" level="1" />	<!--Fire Attacks-->
 			<skill id="6127" level="1" />	<!--Anti-limit-->
 			<skill id="5839" level="1" />	<!--Breath-->
 			<skill id="5840" level="1" />	<!--Fire Breath-->
-			<skill id="5842" level="1" />	<!--Spinning Slasher-->
 			<skill id="5843" level="1" />	<!--Terror-->
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="21.7047">
-				<reward item_id="7575" min="1" max="1" chance="4.8834" />	<!--Draconic Bow-->
 				<reward item_id="7579" min="12" max="36" chance="95.1166" />	<!--Draconic Bow Shaft-->
 			</group>
 			<group chance="62.8633">
-				<reward item_id="6676" min="1" max="1" chance="5.6413" />	<!--Sealed Imperial Crusader Gauntlet-->
-				<reward item_id="6677" min="1" max="1" chance="5.6413" />	<!--Sealed Imperial Crusader Boots-->
-				<reward item_id="6681" min="1" max="1" chance="5.6413" />	<!--Sealed Draconic Leather Glove-->
-				<reward item_id="6682" min="1" max="1" chance="5.6413" />	<!--Sealed Draconic Leather Boots-->
-				<reward item_id="6685" min="1" max="1" chance="5.6413" />	<!--Sealed Major Arcana Glove-->
-				<reward item_id="6686" min="1" max="1" chance="5.6413" />	<!--Sealed Major Arcana Boots-->
 				<reward item_id="6703" min="112" max="336" chance="5.7282" />	<!--Sealed Imperial Crusader Gauntlets Design-->
 				<reward item_id="6704" min="203" max="607" chance="3.1682" />	<!--Sealed Imperial Crusader Boots Design-->
 				<reward item_id="6708" min="320" max="960" chance="2.0049" />	<!--Sealed Draconic Leather Gloves Fabric-->
@@ -4446,15 +4297,10 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
-			<skill id="4444" level="1" />	<!--Higher Resist Bow/Crossbow Weapons-->
 			<skill id="5601" level="7" />	<!--Short-Range Physical Attack Resistance-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
 			<skill id="4218" level="1" />	<!--Absorb HP MP-->
 			<skill id="4219" level="1" />	<!--Hold-->
-			<skill id="4220" level="1" />	<!--Deadly Dual-Sword Weapon-->
-			<skill id="4221" level="1" />	<!--Deadly Dual-Sword Weapon: Range Attack-->
-			<skill id="4272" level="1" />	<!--Higher Resist Bow/Crossbow Weapons-->
 			<skill id="4416" level="1" />	<!--Undead-->
 		</skills>
 		<absorblist>
@@ -4462,8 +4308,6 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="48.8044">
-				<reward item_id="80" min="1" max="1" chance="4.3508" />	<!--Tallum Blade-->
-				<reward item_id="150" min="1" max="1" chance="4.3508" />	<!--Elemental Sword-->
 				<reward item_id="5548" min="24" max="72" chance="21.7377" />	<!--Tallum Blade Edge-->
 				<reward item_id="5547" min="8" max="22" chance="69.5607" />	<!--Elemental Sword Edge-->
 			</group>
@@ -4473,7 +4317,6 @@
 				<reward item_id="6569" min="1" max="1" chance="1.3921" />	<!--Blessed Scroll: Enchant Weapon (A-Grade)-->
 			</group>
 			<group chance="5.00">											<!--Customia gia tous prixtes tchelocos-->
-				<reward item_id="6659" min="1" max="1" chance="100.0000" />	<!--Zaken's Earring-->
 			</group>
 			<group chance="0.09">
 				<reward item_id="8922" min="1" max="1" chance="100.0000" />	<!--Pirate Hat-->
@@ -4536,7 +4379,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="6644" level="1" />	<!--Ice Queen Freya-->
 			<skill id="5463" level="1" />	<!--Water Attacks-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -4641,7 +4483,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="6644" level="1" />	<!--Ice Queen Freya-->
 			<skill id="5463" level="1" />	<!--Water Attacks-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -4653,43 +4494,17 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="20.0">
-				<reward item_id="15560" min="1" max="1" chance="5.9000" />	<!--Vigwik Axe-->
 				<reward item_id="15561" min="1" max="1" chance="5.0900" />	<!--Devilish Maul-->
-				<reward item_id="15562" min="1" max="1" chance="5.0900" />	<!--Feather Eye Blade-->
 				<reward item_id="15563" min="1" max="1" chance="5.0900" />	<!--Octo Claw-->
-				<reward item_id="15564" min="1" max="1" chance="5.0900" />	<!--Doubletop Spear-->
 				<reward item_id="15565" min="1" max="1" chance="5.0900" />	<!--Rising Star-->
 				<reward item_id="15566" min="1" max="1" chance="5.0900" />	<!--Black Visage-->
-				<reward item_id="15567" min="1" max="1" chance="5.0900" />	<!--Veniplant Sword-->
-				<reward item_id="15568" min="1" max="1" chance="5.0900" />	<!--Skull Carnium Bow-->
-				<reward item_id="15558" min="1" max="1" chance="5.0900" />	<!--Periel Sword-->
 				<reward item_id="15559" min="1" max="1" chance="5.0900" />	<!--Skull Edge-->
 			</group>
 			<group chance="50.0">
-				<reward item_id="13143" min="1" max="1" chance="5.9000" />	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Circlet-->
-				<reward item_id="14109" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Gauntlet-->
-				<reward item_id="14113" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14116" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Gloves-->
-				<reward item_id="14110" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Boots-->
-				<reward item_id="14114" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Leather Boots-->
-				<reward item_id="14117" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Shoes-->
-				<reward item_id="14111" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Shield-->
-				<reward item_id="13887" min="1" max="1" chance="5.0900" />	<!--Sealed Vesper Sigil-->
 			</group>
 			<group chance="38.0">
-				<reward item_id="14105" min="1" max="1" chance="16.7000" />	<!--Sealed Vesper Breastplate-->
-				<reward item_id="14106" min="1" max="1" chance="16.6600" />	<!--Sealed Vesper Leather Breastplate-->
-				<reward item_id="14107" min="1" max="1" chance="16.6600" />	<!--Sealed Vesper Tunic-->
-				<reward item_id="14108" min="1" max="1" chance="16.6600" />	<!--Sealed Vesper Gaiters-->
-				<reward item_id="14112" min="1" max="1" chance="16.6600" />	<!--Sealed Vesper Leather Leggings-->
-				<reward item_id="14115" min="1" max="1" chance="16.6600" />	<!--Sealed Vesper Stockings-->
 			</group>
 			<group chance="38.0">
-				<reward item_id="14162" min="1" max="1" chance="33.4000" />	<!--Sealed Vesper Ring-->
-				<reward item_id="14160" min="1" max="1" chance="33.3000" />	<!--Sealed Vesper Earring-->
-				<reward item_id="14161" min="1" max="1" chance="33.3000" />	<!--Sealed Vesper Necklace-->
 			</group>
 			<group chance="4.1076">
 				<reward item_id="6577" min="1" max="1" chance="6.0435" />	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
@@ -4700,13 +4515,11 @@
 				<reward item_id="16165" min="5" max="12" chance="40.0000" />	<!--Mid-Grade Life Stone -  Level 86-->
 			</group>
 			<group chance="40.0">
-				<reward item_id="16025" min="1" max="1" chance="20.0000" />	<!--Freya Necklace-->
 			</group>
 			<group chance="82.0">
 				<reward item_id="21894" min="1" max="1" chance="3.3540" />	<!--Ice Queen's Tiara-->
 			</group>
 			<group chance="50.0">
-				<reward item_id="21714" min="1" max="1" chance="5.3600" />	<!--Sealed Cloak of Freya-->
 			</group>
 		</rewardlist>
 		<attributes>
@@ -4773,7 +4586,6 @@
       <skill id="4414" level="2" />
       <!--Standard Type-->
       <skill id="4415" level="3" />
-      <!--One-handed Sword-->
       <skill id="6644" level="1" />
       <!--Ice Queen Freya-->
       <skill id="5463" level="1" />
@@ -4790,79 +4602,33 @@
     <rewardlist type="RATED_GROUPED">
 	<group chance="23.0">
         <reward item_id="15560" min="1" max="1" chance="9.1000" />
-        <!--Vigwik Axe-->
         <reward item_id="15561" min="1" max="1" chance="9.0900" />
         <!--Devilish Maul-->
         <reward item_id="15562" min="1" max="1" chance="9.0900" />
-        <!--Feather Eye Blade-->
         <reward item_id="15563" min="1" max="1" chance="9.0900" />
         <!--Octo Claw-->
         <reward item_id="15564" min="1" max="1" chance="9.0900" />
-        <!--Doubletop Spear-->
         <reward item_id="15565" min="1" max="1" chance="9.0900" />
         <!--Rising Star-->
         <reward item_id="15566" min="1" max="1" chance="9.0900" />
         <!--Black Visage-->
         <reward item_id="15567" min="1" max="1" chance="9.0900" />
-        <!--Veniplant Sword-->
         <reward item_id="15568" min="1" max="1" chance="9.0900" />
-        <!--Skull Carnium Bow-->
         <reward item_id="15558" min="1" max="1" chance="9.0900" />
-        <!--Periel Sword-->
         <reward item_id="15559" min="1" max="1" chance="9.0900" />
         <!--Skull Edge-->
 		</group>
 		<group chance="60.0">
-				<reward item_id="15743" min="1" max="2" chance="10.1000" />	<!--Sealed Vorpal Helmet-->
-				<reward item_id="15744" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Leather Helmet-->
-				<reward item_id="15745" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Circlet-->
-				<reward item_id="15752" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Gauntlet-->
-				<reward item_id="15753" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Leather Gloves-->
-				<reward item_id="15754" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Gloves-->
-				<reward item_id="15755" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Boots-->
-				<reward item_id="15756" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Leather Boots-->
-				<reward item_id="15757" min="1" max="2" chance="10.0900" />	<!--Sealed Vorpal Shoes-->
-				<reward item_id="15758" min="1" max="2" chance="12.0900" />	<!--Sealed Vorpal Shield-->
-				<reward item_id="15759" min="1" max="2" chance="12.0900" />	<!--Sealed Vorpal Sigil-->
 			</group>
 			<group chance="40.0">
-				<reward item_id="15746" min="1" max="1" chance="7.6600" />	<!--Sealed Vorpal Breastplate-->
-				<reward item_id="15747" min="1" max="1" chance="7.6600" />	<!--Sealed Vorpal Leather Breastplate-->
-				<reward item_id="15748" min="1" max="1" chance="7.6600" />	<!--Sealed Vorpal Tunic-->
-				<reward item_id="15749" min="1" max="1" chance="7.7000" />	<!--Sealed Vorpal Gaiter-->
-				<reward item_id="15750" min="1" max="1" chance="7.6600" />	<!--Sealed Vorpal Leather Legging-->
-				<reward item_id="15751" min="1" max="1" chance="7.6600" />	<!--Sealed Vorpal Stockings-->
 			</group>
 			<group chance="55.0">
-				<reward item_id="15763" min="1" max="1" chance="12.4000" />	<!--Sealed Vorpal Ring-->
-				<reward item_id="15764" min="1" max="1" chance="12.3000" />	<!--Sealed Vorpal Earring-->
-				<reward item_id="15765" min="1" max="1" chance="12.3000" />	<!--Sealed Vorpal Necklace-->
 			</group>
       <group chance="40.0">
-				<reward item_id="15726" min="1" max="1" chance="9.1000" />	<!--Sealed Elegia Helmet-->
-				<reward item_id="15727" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Leather Helmet-->
-				<reward item_id="15728" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Circlet-->
-				<reward item_id="15735" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Gauntlet-->
-				<reward item_id="15736" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Leather Gloves-->
-				<reward item_id="15737" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Gloves-->
-				<reward item_id="15738" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Boots-->
-				<reward item_id="15739" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Leather Boots-->
-				<reward item_id="15740" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Shoes-->
-				<reward item_id="15741" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Shield-->
-				<reward item_id="15742" min="1" max="1" chance="9.0900" />	<!--Sealed Elegia Sigil-->
 		</group>
 		<group chance="15.0">
-				<reward item_id="15729" min="1" max="1" chance="16.7000" />	<!--Sealed Elegia Breastplate-->
-				<reward item_id="15730" min="1" max="1" chance="16.6600" />	<!--Sealed Elegia Leather Breastplate-->
-				<reward item_id="15731" min="1" max="1" chance="16.6600" />	<!--Sealed Elegia Tunic-->
-				<reward item_id="15732" min="1" max="1" chance="16.6600" />	<!--Sealed Elegia Gaiter-->
-				<reward item_id="15733" min="1" max="1" chance="16.6600" />	<!--Sealed Elegia Leather Legging-->
-				<reward item_id="15734" min="1" max="1" chance="16.6600" />	<!--Sealed Elegia Stockings-->
 		</group>
 		<group chance="18.0">
-				<reward item_id="15760" min="1" max="1" chance="33.4000" />	<!--Sealed Elegia Ring-->
-				<reward item_id="15761" min="1" max="1" chance="33.3000" />	<!--Sealed Elegia Earring-->
-				<reward item_id="15762" min="1" max="1" chance="33.3000" />	<!--Sealed Elegia Necklace-->
 		</group>
 		<group chance="10.1076">
         <reward item_id="6577" min="1" max="1" chance="13.0435" />
@@ -4875,11 +4641,9 @@
       <reward item_id="21894" min="1" max="1" chance="82.0000" />
       <!--Ice Queen's Tiara-->
       <reward item_id="21714" min="1" max="1" chance="80.0000" />
-      <!--Sealed Cloak of Freya-->	
       <reward item_id="16027" min="1" max="1" chance="45.0000" />
       <!--Bottle of Freya's Soul-->
       <reward item_id="16026" min="1" max="1" chance="56.0000" />
-      <!--Blessed Freya Necklace-->
     </rewardlist>
     <attributes>
       <attack attribute="water" value="370" />
@@ -4941,7 +4705,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="6689" level="1" />	<!--Absorb HP MP-->
 			<skill id="6690" level="1" />	<!--Hold-->
 			<skill id="6691" level="1" />	<!--Dualsword Deadly Move-->
@@ -4953,47 +4716,10 @@
 		</absorblist>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="30.0">
-				<reward item_id="13143" min="1" max="1" chance="1.9200" />	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Circlet-->
-				<reward item_id="14109" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Gauntlet-->
-				<reward item_id="14113" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14116" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Gloves-->
-				<reward item_id="14110" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Boots-->
-				<reward item_id="14114" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Leather Boots-->
-				<reward item_id="14117" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Shoes-->
-				<reward item_id="14111" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Shield-->
-				<reward item_id="13887" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Sigil-->
-				<reward item_id="14105" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Breastplate-->
-				<reward item_id="14106" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Leather Breastplate-->
-				<reward item_id="14107" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Tunic-->
-				<reward item_id="14108" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Gaiters-->
-				<reward item_id="14112" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Leather Leggings-->
-				<reward item_id="14115" min="1" max="1" chance="1.8800" />	<!--Sealed Vesper Stockings-->
 			</group>
 			<group chance="65.0">
-				<reward item_id="15694" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Helmet -->
-				<reward item_id="15695" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Leather Helmet -->
-				<reward item_id="15696" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Circlet -->
-				<reward item_id="15703" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Gauntlet -->
-				<reward item_id="15704" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Leather Gloves -->
-				<reward item_id="15705" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Gloves -->
-				<reward item_id="15706" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Boots -->
-				<reward item_id="15707" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Leather Boots -->
-				<reward item_id="15708" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Shoes -->
-				<reward item_id="15710" min="1" max="1" chance="5.2200" />	<!--Sealed Moirai Shield -->
-				<reward item_id="15709" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Sigil -->
-				<reward item_id="15697" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Breastplate -->
-				<reward item_id="15698" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Leather Breastplate -->
-				<reward item_id="15699" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Tunic -->
-				<reward item_id="15700" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Gaiter -->
-				<reward item_id="15701" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Leather Legging -->
-				<reward item_id="15702" min="1" max="1" chance="2.2200" />	<!--Sealed Moirai Stockings -->
 			</group>
 			<group chance="50.0">
-				<reward item_id="14162" min="1" max="1" chance="6.4000" />	<!--Sealed Vesper Ring-->
-				<reward item_id="14160" min="1" max="1" chance="4.3000" />	<!--Sealed Vesper Earring-->
-				<reward item_id="14161" min="1" max="1" chance="2.3000" />	<!--Sealed Vesper Necklace-->
 			</group>
 			<group chance="100.0">
 				<reward item_id="1538" min="1" max="4" chance="50.0000" />	<!--Blessed Scroll of Escape-->
@@ -5009,14 +4735,11 @@
 				<reward item_id="16166" min="1" max="2" chance="20.0000" />	<!--High-Grade Life Stone -  Level 86-->
 			</group>
 			<group chance="10.0">
-			    <reward item_id="6659" min="1" max="1" chance="20.0000" />	<!--Zaken's Earring-->
-			    <reward item_id="21712" min="1" max="1" chance="1.5000" />	<!--Zaken's Earring of Immortality-->
 			</group>
 			<group chance="20.0">
 				<reward item_id="21935" min="1" max="1" chance="2.0000" />	<!--Habu Knife-->
 			</group>
 			<group chance="42.0">
-				<reward item_id="21713" min="1" max="1" chance="3.3150" />	<!--Sealed Cloak of Zaken-->
 			</group>
 			<group chance="82.0">
 				<reward item_id="21892" min="1" max="1" chance="4.3030" />	<!--Pirate King Hat-->
@@ -5078,8 +4801,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="19" />	<!--Dual-Sword Weapons-->
-			<skill id="4071" level="5" />	<!--Resist Bow/Crossbow Weapons-->
 			<skill id="4085" level="1" />	<!--Critical Damage-->
 			<skill id="4086" level="1" />	<!--Critical Chance-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -5140,7 +4861,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4415" level="1" />	<!--Bare Hands-->
-			<skill id="4071" level="5" />	<!--Resist Bow/Crossbow Weapons-->
 			<skill id="4085" level="1" />	<!--Critical Damage-->
 			<skill id="4086" level="1" />	<!--Critical Chance-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
@@ -5201,7 +4921,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
 		</skills>
 		<attributes>
@@ -5260,7 +4979,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
 		</skills>
 		<attributes>
@@ -5310,18 +5028,6 @@
 		<set name="type" value="Npc" />
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="13143" min="1" max="1" chance="3.3700" />	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Circlet-->
-				<reward item_id="14109" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Gauntlet-->
-				<reward item_id="14113" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14116" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Gloves-->
-				<reward item_id="14110" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Boots-->
-				<reward item_id="14114" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Leather Boots-->
-				<reward item_id="14117" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Shoes-->
-				<reward item_id="14111" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Shield-->
-				<reward item_id="13887" min="1" max="1" chance="3.3300" />	<!--Sealed Vesper Sigil-->
-				<reward item_id="10170" min="1" max="1" chance="8.3300" />	<!--Baylor's Earring-->
 			</group>
 			<group chance="4.1076">
 				<reward item_id="6577" min="1" max="1" chance="13.0435" />	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
@@ -5521,7 +5227,6 @@
 			<skill id="4412" level="11" />	<!--Average P. Def.-->
 			<skill id="4413" level="11" />	<!--Average M. Def.-->
 			<skill id="4414" level="2" />	<!--Standard Type-->
-			<skill id="4415" level="3" />	<!--One-handed Sword-->
 			<skill id="4045" level="1" />	<!--Resist Full Magic Attack-->
 			<skill id="6655" level="1" />	<!--Tarsque Carapace-->
 		</skills>
