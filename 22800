@@ -54,7 +54,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="11913" max="24348" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="6.6277">
 				<reward item_id="15660" min="1" max="1" chance="16.7489"/>	<!--Sealed Vesper Helmet Piece-->
@@ -157,7 +156,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1294" max="2643" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="4.0E-4">
 				<reward item_id="6372" min="1" max="1" chance="50.0000"/>	<!--Heaven's Divider-->
@@ -261,7 +259,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="894" max="1826" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="3.0E-4">
 				<reward item_id="6365" min="1" max="1" chance="25.0000"/>	<!--Basalt Battlehammer-->
@@ -363,7 +360,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1178" max="2406" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="4.0E-4">
 				<reward item_id="6371" min="1" max="1" chance="100.0000"/>	<!--Demon Splinter-->
@@ -465,7 +461,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1336" max="2721" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="5.0E-4">
 			</group>
@@ -568,7 +563,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="924" max="1880" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="3.0E-4">
 				<reward item_id="6367" min="1" max="1" chance="100.0000"/>	<!--Angel Slayer-->
@@ -670,7 +664,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1217" max="2477" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="4.0E-4">
 			</group>
@@ -775,7 +768,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1266" max="2585" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0019">
 			</group>
@@ -879,7 +871,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="716" max="1461" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="7.0E-4">
 			</group>
@@ -984,7 +975,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2675" max="5446" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0025">
 				<reward item_id="6684" min="1" max="1" chance="100.0000"/>	<!--Sealed Major Arcana Robe-->
@@ -1058,7 +1048,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2171" max="4432" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0106">
 			</group>
@@ -1128,7 +1117,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="3802" max="7740" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0174">
 			</group>
@@ -1200,7 +1188,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2164" max="4418" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0071">
 			</group>
@@ -1366,7 +1353,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2710" max="6322" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0011">
 				<reward item_id="9450" min="1" max="1" chance="9.0909"/>	<!--Dynasty Bagh-Nakh-->
@@ -1581,7 +1567,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1624" max="3794" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0055">
 			</group>
@@ -1698,7 +1683,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1624" max="3794" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0084">
 			</group>
@@ -1809,7 +1793,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1724" max="4029" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0023">
 			</group>
@@ -1921,7 +1904,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1724" max="4029" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0056">
 			</group>
@@ -2030,7 +2012,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="18619" max="43478" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0045">
 				<reward item_id="10221" min="1" max="1" chance="17.8323"/>	<!--Icarus Hand-->
@@ -2116,7 +2097,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="13033" max="30434" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0083">
 				<reward item_id="10223" min="1" max="1" chance="3.91"/>	<!--Icarus Spitter-->
@@ -2202,7 +2182,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="25780" max="60169" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.015">
 				<reward item_id="10216" min="1" max="1" chance="18.0"/>	<!--Icarus Disperser-->
@@ -2298,7 +2277,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="24584" max="57408" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0088">
 			</group>
@@ -2385,7 +2363,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="13579" max="31708" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0085">
 				<reward item_id="10216" min="1" max="1" chance="5.1462"/>	<!--Icarus Disperser-->
@@ -2476,7 +2453,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="25908" max="60468" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0182">
 				<reward item_id="10217" min="1" max="1" chance="5.3897"/>	<!--Icarus Spirit-->
@@ -2566,7 +2542,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="9619" max="23478" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0086">
 				<reward item_id="10218" min="1" max="1" chance="5.1462"/>	<!--Icarus Heavy Arms-->
@@ -2659,7 +2634,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="25783" max="60208" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0065">
 				<reward item_id="10219" min="1" max="1" chance="17.8323"/>	<!--Icarus Trident-->
@@ -2751,7 +2725,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="12867" max="30047" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0081">
 			</group>
@@ -2840,7 +2813,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="27119" max="63328" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0045">
 				<reward item_id="10221" min="1" max="1" chance="7.0"/>	<!--Icarus Hand-->
@@ -2932,7 +2904,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="26621" max="62165" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0048">
 				<reward item_id="10222" min="1" max="1" chance="9.0"/>	<!--Icarus Hall-->
@@ -3022,7 +2993,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="28329" max="66153" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0046">
 				<reward item_id="10223" min="1" max="1" chance="5.0"/>	<!--Icarus Spitter-->
@@ -3111,7 +3081,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="29134" max="67996" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.007">
 				<reward item_id="10217" min="1" max="1" chance="13.0"/>	<!--Icarus Spirit-->
@@ -3396,7 +3365,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="24809" max="57874" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0105">
 			</group>
@@ -3489,7 +3457,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="8612" max="20089" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0125">
 
@@ -3587,7 +3554,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="8612" max="20089" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0053">
 			</group>
@@ -3681,7 +3647,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="14790" max="34502" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0051">
 			</group>
@@ -3772,7 +3737,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="14790" max="34502" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0051">
 			</group>
@@ -3863,7 +3827,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="8451" max="19715" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0053">
 			</group>
@@ -3961,7 +3924,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="26239" max="61210" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0108">
 			</group>
@@ -4053,7 +4015,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="26983" max="62945" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0268">
 			</group>
@@ -4145,7 +4106,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="35741" max="83374" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0181">
 
@@ -4239,7 +4199,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="17676" max="41234" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0244">
 			</group>
@@ -4337,7 +4296,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="30896" max="72072" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0201">
 
@@ -4428,7 +4386,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="17732" max="41364" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0038">
 
@@ -4522,7 +4479,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="8361" max="19504" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0018">
 				
@@ -4615,7 +4571,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="18219" max="42501" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.004">
 
@@ -4703,7 +4658,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="45317" max="105714" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0022">
 			</group>
@@ -4793,7 +4747,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="24497" max="57145" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.056">
 			</group>
@@ -4883,7 +4836,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="115052" max="268710" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0503">
 			</group>
@@ -4968,7 +4920,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="65375" max="152689" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0386">
 			</group>
@@ -5056,7 +5007,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="65375" max="152689" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0426">
 			</group>
@@ -5148,7 +5098,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="195846" max="45686" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0013">
 				<reward item_id="15569" min="1" max="1" chance="5.0"/>	<!--Gemtail Rapier-->
@@ -5238,7 +5187,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1712" max="4000" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0011">
 			</group>
@@ -5411,7 +5359,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="13523" max="31578" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0184">
 			</group>
@@ -5502,7 +5449,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="22245" max="51946" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0175">
 			</group>
@@ -5588,7 +5534,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="18307" max="42751" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.015">
 			</group>
