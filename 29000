@@ -6637,19 +6637,8 @@
         </attributes>
         <rewardlist type="NOT_RATED_GROUPED">
             <group chance="100.0">
-                <reward item_id="10170" min="1" max="1" chance="70.0000" />
             </group>
             <group chance="100.0">
-                <reward item_id="13887" min="1" max="1" chance="19.1000" />
-                <reward item_id="14109" min="1" max="1" chance="19.0900" />
-                <reward item_id="14111" min="1" max="1" chance="19.0900" />
-                <reward item_id="14113" min="1" max="1" chance="19.0900" />
-                <reward item_id="14114" min="1" max="1" chance="19.0900" />
-                <reward item_id="14116" min="1" max="1" chance="19.0900" />
-                <reward item_id="14117" min="1" max="1" chance="19.0900" />
-                <reward item_id="13143" min="1" max="1" chance="19.0900" />
-                <reward item_id="13144" min="1" max="1" chance="19.0900" />
-                <reward item_id="13145" min="1" max="1" chance="19.0900" />
             </group>
             <group chance="100.0">
                 <reward item_id="6578" min="1" max="2" chance="35.000" />
