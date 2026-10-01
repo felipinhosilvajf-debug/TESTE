@@ -57,11 +57,6 @@
 				<reward item_id="57" min="11913" max="24348" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="6.6277">
-				<reward item_id="13143" min="1" max="1" chance="0.0217"/>	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="0.0217"/>	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="0.0217"/>	<!--Sealed Vesper Circlet-->
-				<reward item_id="14111" min="1" max="1" chance="0.0496"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="13887" min="1" max="1" chance="0.0496"/>	<!--Sealed Vesper Sigil-->
 				<reward item_id="15660" min="1" max="1" chance="16.7489"/>	<!--Sealed Vesper Helmet Piece-->
 				<reward item_id="15661" min="1" max="1" chance="16.7489"/>	<!--Sealed Vesper Leather Helmet Piece-->
 				<reward item_id="15662" min="1" max="1" chance="16.7489"/>	<!--Sealed Vesper Circlet Piece-->
@@ -154,7 +149,6 @@
 		<set name="texture" value="LineageMonster3.golem_cannon_catapult_a_e"/>
 		<set name="type" value="Monster"/>
 		<skills>
-			<skill id="4276" level="2"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="15"/>	<!--Strong P. Atk.-->
 			<skill id="4411" level="14"/>	<!--Strong M. Atk.-->
 			<skill id="4413" level="8"/>	<!--Weak M. Def.-->
@@ -166,7 +160,6 @@
 				<reward item_id="57" min="1294" max="2643" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="4.0E-4">
-				<reward item_id="6364" min="1" max="1" chance="50.0000"/>	<!--Forgotten Blade-->
 				<reward item_id="6372" min="1" max="1" chance="50.0000"/>	<!--Heaven's Divider-->
 			</group>
 			<group chance="8.45">
@@ -260,7 +253,6 @@
 		<set name="texture" value="LineageMonster3.golem_cannon_catapult_a_e"/>
 		<set name="type" value="Monster"/>
 		<skills>
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4412" level="6"/>	<!--Very Weak P. Def.-->
 			<skill id="4413" level="18"/>	<!--Extremely Strong M. Def.-->
 			<skill id="4416" level="2"/>	<!--Magic Creatures-->
@@ -272,10 +264,7 @@
 				<reward item_id="57" min="894" max="1826" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="3.0E-4">
-				<reward item_id="6366" min="1" max="1" chance="25.0000"/>	<!--Imperial Staff-->
-				<reward item_id="6369" min="1" max="1" chance="25.0000"/>	<!--Dragon Hunter Axe-->
 				<reward item_id="6365" min="1" max="1" chance="25.0000"/>	<!--Basalt Battlehammer-->
-				<reward item_id="6579" min="1" max="1" chance="25.0000"/>	<!--Arcana Mace-->
 			</group>
 			<group chance="1.8131">
 				<reward item_id="1894" min="1" max="1" chance="31.7680"/>	<!--Crafted Leather-->
@@ -420,9 +409,7 @@
 			</group>
 		</rewardlist>
 		<rewardlist type="SWEEP">
-			<reward item_id="6694" min="1" max="1" chance="0.3866"/>	<!--Saint Spear Blade-->
 			<reward item_id="5272" min="1" max="1" chance="0.0781"/>	<!--Recipe: Greater Soulshot (S) Compressed Package(100%)-->
-			<reward item_id="6691" min="1" max="1" chance="0.3798"/>	<!--Angel Slayer Blade-->
 			<reward item_id="959" min="1" max="1" chance="0.0070"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
 		</rewardlist>
 		<attributes>
@@ -470,7 +457,6 @@
 		<set name="texture" value="LineageMonster3.golem_prop_e"/>
 		<set name="type" value="Monster"/>
 		<skills>
-			<skill id="4276" level="2"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="15"/>	<!--Strong P. Atk.-->
 			<skill id="4411" level="14"/>	<!--Strong M. Atk.-->
 			<skill id="4413" level="8"/>	<!--Weak M. Def.-->
@@ -482,7 +468,6 @@
 				<reward item_id="57" min="1336" max="2721" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="5.0E-4">
-				<reward item_id="7575" min="1" max="1" chance="100.0000"/>	<!--Draconic Bow-->
 			</group>
 			<group chance="6.9698">
 				<reward item_id="1895" min="1" max="1" chance="80.3123"/>	<!--Metallic Fiber-->
@@ -575,7 +560,6 @@
 		<set name="texture" value="LineageMonster3.golem_prop_e"/>
 		<set name="type" value="Monster"/>
 		<skills>
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4412" level="6"/>	<!--Very Weak P. Def.-->
 			<skill id="4413" level="18"/>	<!--Extremely Strong M. Def.-->
 			<skill id="4416" level="2"/>	<!--Magic Creatures-->
@@ -631,7 +615,6 @@
 			</group>
 		</rewardlist>
 		<rewardlist type="SWEEP">
-			<reward item_id="6695" min="1" max="1" chance="0.3888"/>	<!--Demon Splinter Blade-->
 			<reward item_id="7579" min="1" max="1" chance="0.4009"/>	<!--Draconic Bow Shaft-->
 			<reward item_id="5282" min="1" max="1" chance="0.0815"/>	<!--Recipe: Greater Blessed Spiritshot (S) Compressed Package(100%)-->
 		</rewardlist>
@@ -690,7 +673,6 @@
 				<reward item_id="57" min="1217" max="2477" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="4.0E-4">
-				<reward item_id="6370" min="1" max="1" chance="100.0000"/>	<!--Saint Spear-->
 			</group>
 			<group chance="1.9705">
 				<reward item_id="1894" min="1" max="1" chance="31.7565"/>	<!--Crafted Leather-->
@@ -785,7 +767,6 @@
 		<set name="type" value="Monster"/>
 		<skills>
 			<skill id="4156" level="7"/>	<!--NPC Curve Beam Cannon - Magic-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="13"/>	<!--Slightly Strong P. Atk.-->
 			<skill id="4411" level="15"/>	<!--Strong M. Atk.-->
 			<skill id="4413" level="9"/>	<!--Slightly Weak M. Def.-->
@@ -797,8 +778,6 @@
 				<reward item_id="57" min="1266" max="2585" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0019">
-				<reward item_id="6674" min="1" max="1" chance="38.4612"/>	<!--Sealed Imperial Crusader Breastplate-->
-				<reward item_id="6675" min="1" max="1" chance="61.5388"/>	<!--Sealed Imperial Crusader Gaiters-->
 			</group>
 			<group chance="8.2647">
 				<reward item_id="1895" min="1" max="1" chance="80.3213"/>	<!--Metallic Fiber-->
@@ -892,7 +871,6 @@
 		<faction name="golem_p_clan" range="300"/>
 		<skills>
 			<skill id="4156" level="7"/>	<!--NPC Curve Beam Cannon - Magic-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="8"/>	<!--Weak P. Atk.-->
 			<skill id="4411" level="7"/>	<!--Weak M. Atk.-->
 			<skill id="4413" level="9"/>	<!--Slightly Weak M. Def.-->
@@ -904,7 +882,6 @@
 				<reward item_id="57" min="716" max="1461" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="7.0E-4">
-				<reward item_id="6680" min="1" max="1" chance="100.0000"/>	<!--Sealed Draconic Leather Armor-->
 			</group>
 			<group chance="1.4505">
 				<reward item_id="1894" min="1" max="1" chance="31.7680"/>	<!--Crafted Leather-->
@@ -998,7 +975,6 @@
 		<faction name="golem_p_clan" range="300"/>
 		<skills>
 			<skill id="4156" level="7"/>	<!--NPC Curve Beam Cannon - Magic-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="15"/>	<!--Strong P. Atk.-->
 			<skill id="4411" level="16"/>	<!--Very Strong M. Atk.-->
 			<skill id="4412" level="13"/>	<!--Slightly Strong P. Def.-->
@@ -1073,7 +1049,6 @@
 		<faction name="golem_p_clan" range="300"/>
 		<skills>
 			<skill id="4156" level="7"/>	<!--NPC Curve Beam Cannon - Magic-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="14"/>	<!--Strong P. Atk.-->
 			<skill id="4411" level="15"/>	<!--Strong M. Atk.-->
 			<skill id="4412" level="9"/>	<!--Slightly Weak P. Def.-->
@@ -1086,9 +1061,6 @@
 				<reward item_id="57" min="2171" max="4432" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0106">
-				<reward item_id="6724" min="1" max="1" chance="30.7709"/>	<!--Sealed Tateossian Earring-->
-				<reward item_id="6725" min="1" max="1" chance="46.1563"/>	<!--Sealed Tateossian Ring-->
-				<reward item_id="6726" min="1" max="1" chance="23.0728"/>	<!--Sealed Tateossian Necklace-->
 			</group>
 			<group chance="12.7014">
 				<reward item_id="1895" min="1" max="1" chance="89.6160"/>	<!--Metallic Fiber-->
@@ -1148,7 +1120,6 @@
 		<set name="type" value="Monster"/>
 		<faction name="golem_p_clan" range="300"/>
 		<skills>
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="16"/>	<!--Very Strong P. Atk.-->
 			<skill id="4411" level="17"/>	<!--Very Strong M. Atk.-->
 			<skill id="4412" level="13"/>	<!--Slightly Strong P. Def.-->
@@ -1160,12 +1131,6 @@
 				<reward item_id="57" min="3802" max="7740" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0174">
-				<reward item_id="6676" min="1" max="1" chance="16.6667"/>	<!--Sealed Imperial Crusader Gauntlet-->
-				<reward item_id="6681" min="1" max="1" chance="16.6667"/>	<!--Sealed Draconic Leather Glove-->
-				<reward item_id="6685" min="1" max="1" chance="16.6667"/>	<!--Sealed Major Arcana Glove-->
-				<reward item_id="6677" min="1" max="1" chance="16.6667"/>	<!--Sealed Imperial Crusader Boots-->
-				<reward item_id="6682" min="1" max="1" chance="16.6667"/>	<!--Sealed Draconic Leather Boots-->
-				<reward item_id="6686" min="1" max="1" chance="16.6665"/>	<!--Sealed Major Arcana Boots-->
 			</group>
 			<group chance="19.8457">
 				<reward item_id="1895" min="1" max="1" chance="80.2311"/>	<!--Metallic Fiber-->
@@ -1226,7 +1191,6 @@
 		<set name="type" value="Monster"/>
 		<faction name="golem_p_clan" range="300"/>
 		<skills>
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4410" level="14"/>	<!--Strong P. Atk.-->
 			<skill id="4411" level="16"/>	<!--Very Strong M. Atk.-->
 			<skill id="4412" level="8"/>	<!--Weak P. Def.-->
@@ -1239,11 +1203,6 @@
 				<reward item_id="57" min="2164" max="4418" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0071">
-				<reward item_id="6679" min="1" max="1" chance="18.5838"/>	<!--Sealed Imperial Crusader Helmet-->
-				<reward item_id="6683" min="1" max="1" chance="18.5838"/>	<!--Sealed Draconic Leather Helmet-->
-				<reward item_id="6687" min="1" max="1" chance="18.5838"/>	<!--Sealed Major Arcana Circlet-->
-				<reward item_id="6678" min="1" max="1" chance="26.5491"/>	<!--Sealed Imperial Crusader Shield-->
-				<reward item_id="13885" min="1" max="1" chance="17.6995"/>	<!--Sealed Arcana Sigil-->
 			</group>
 			<group chance="14.1263">
 				<reward item_id="1895" min="1" max="1" chance="80.3213"/>	<!--Metallic Fiber-->
@@ -1410,16 +1369,11 @@
 				<reward item_id="57" min="2710" max="6322" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0011">
-				<reward item_id="9442" min="1" max="1" chance="9.0909"/>	<!--Dynasty Sword-->
-				<reward item_id="10252" min="1" max="1" chance="9.0909"/>	<!--Dynasty Staff-->
 				<reward item_id="9450" min="1" max="1" chance="9.0909"/>	<!--Dynasty Bagh-Nakh-->
-				<reward item_id="9449" min="1" max="1" chance="9.0909"/>	<!--Dynasty Mace-->
 				<reward item_id="9448" min="1" max="1" chance="9.0909"/>	<!--Dynasty Cudgel-->
 				<reward item_id="9447" min="1" max="1" chance="9.0909"/>	<!--Dynasty Halberd-->
 				<reward item_id="9446" min="1" max="1" chance="9.0909"/>	<!--Dynasty Knife-->
-				<reward item_id="9445" min="1" max="1" chance="9.0909"/>	<!--Dynasty Bow-->
 				<reward item_id="9444" min="1" max="1" chance="9.0909"/>	<!--Dynasty Phantom-->
-				<reward item_id="9443" min="1" max="1" chance="9.0909"/>	<!--Dynasty Blade-->
 				<reward item_id="10253" min="1" max="1" chance="9.091"/>	<!--Dynasty Crusher-->
 			</group>
 			<group chance="0.9592">
@@ -1619,8 +1573,6 @@
 			<skill id="4416" level="1"/>	<!--Undead-->
 			<skill id="5467" level="1"/>	<!--Dark Attacks-->
 			<skill id="4413" level="8"/>	<!--Weak M. Def.-->
-			<skill id="4414" level="1"/>	<!--Heavy Armor Type-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4438" level="1"/>	<!--Greater Resist Sleep-->
 			<skill id="4439" level="1"/>	<!--Greater Resist Hold-->
 			<skill id="4441" level="1"/>	<!--Greater Resist Mental Derangement-->
@@ -1632,10 +1584,6 @@
 				<reward item_id="57" min="1624" max="3794" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0055">
-				<reward item_id="15695" min="1" max="1" chance="12.1819"/>	<!--Sealed Moirai Leather Helmet -->
-				<reward item_id="15703" min="1" max="1" chance="17.2727"/>	<!--Sealed Moirai Gauntlet -->
-				<reward item_id="15704" min="1" max="1" chance="17.2727"/>	<!--Sealed Moirai Leather Gloves -->
-				<reward item_id="15705" min="1" max="1" chance="17.2727"/>	<!--Sealed Moirai Gloves -->
 			</group>
 			<group chance="7.2988">
 				<reward item_id="1879" min="1" max="1" chance="4.6390"/>	<!--Cokes-->
@@ -1741,8 +1689,6 @@
 			<skill id="4416" level="1"/>	<!--Undead-->
 			<skill id="5467" level="1"/>	<!--Dark Attacks-->
 			<skill id="4413" level="8"/>	<!--Weak M. Def.-->
-			<skill id="4414" level="1"/>	<!--Heavy Armor Type-->
-			<skill id="4276" level="4"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4438" level="1"/>	<!--Greater Resist Sleep-->
 			<skill id="4439" level="1"/>	<!--Greater Resist Hold-->
 			<skill id="4441" level="1"/>	<!--Greater Resist Mental Derangement-->
@@ -1755,10 +1701,6 @@
 				<reward item_id="57" min="1624" max="3794" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0084">
-				<reward item_id="15706" min="1" max="1" chance="20.0"/>	<!--Sealed Moirai Boots -->
-				<reward item_id="15707" min="1" max="1" chance="20.0"/>	<!--Sealed Moirai Leather Boots -->
-				<reward item_id="15708" min="1" max="1" chance="20.0"/>	<!--Sealed Moirai Shoes -->
-				<reward item_id="15768" min="1" max="1" chance="40.0"/>	<!--Sealed Moirai Necklace-->
 			</group>
 			<group chance="42.0">
 				<reward item_id="1895" min="1" max="1" chance="8.9080"/>	<!--Metallic Fiber-->
@@ -1870,10 +1812,6 @@
 				<reward item_id="57" min="1724" max="4029" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0023">
-				<reward item_id="15709" min="1" max="1" chance="35.0"/>	<!--Sealed Moirai Sigil -->
-				<reward item_id="15710" min="1" max="1" chance="35.0"/>	<!--Sealed Moirai Shield -->
-				<reward item_id="10215" min="1" max="1" chance="8.0"/>	<!--Icarus Sawsword-->
-				<reward item_id="13893" min="1" max="1" chance="22.0"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="35.266">
 				<reward item_id="1879" min="1" max="3" chance="4.9320"/>	<!--Cokes-->
@@ -1986,10 +1924,6 @@
 				<reward item_id="57" min="1724" max="4029" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0056">
-				<reward item_id="15695" min="1" max="1" chance="25.0"/>	<!--Sealed Moirai Leather Helmet -->
-				<reward item_id="15703" min="1" max="1" chance="11.0"/>	<!--Sealed Moirai Gauntlet -->
-				<reward item_id="15704" min="1" max="1" chance="11.0"/>	<!--Sealed Moirai Leather Gloves -->
-				<reward item_id="15705" min="1" max="1" chance="13.0"/>	<!--Sealed Moirai Gloves -->
 			</group>
 			<group chance="37.888">
 				<reward item_id="1879" min="1" max="3" chance="4.9840"/>	<!--Cokes-->
@@ -2100,7 +2034,6 @@
 			</group>
 			<group chance="0.0045">
 				<reward item_id="10221" min="1" max="1" chance="17.8323"/>	<!--Icarus Hand-->
-				<reward item_id="15697" min="1" max="1" chance="82.1677"/>	<!--Sealed Moirai Breastplate -->
 			</group>
 			<group chance="49.7113">
 				<reward item_id="1885" min="1" max="1" chance="22.9200"/>	<!--High-Grade Suede-->
@@ -2124,7 +2057,6 @@
 			<reward item_id="10397" min="1" max="1" chance="1.1250"/>	<!--Icarus Sawsword Piece-->
 			<reward item_id="15780" min="1" max="1" chance="1.0000"/>	<!--Recipe - Sealed Moirai Tunic (60%) -->
 			<reward item_id="10373" min="1" max="1" chance="0.5000"/>	<!--Recipe - Icarus Sawsword (60%)-->
-			<reward item_id="15697" min="1" max="1" chance="0.0500"/>	<!--Sealed Moirai Breastplate -->
 		</rewardlist>
 		<attributes>
 			<defence attribute="fire" value="20"/>
@@ -2187,8 +2119,6 @@
 				<reward item_id="57" min="13033" max="30434" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0083">
-				<reward item_id="15706" min="1" max="1" chance="52.0682"/>	<!--Sealed Moirai Boots -->
-				<reward item_id="15699" min="1" max="1" chance="24.0218"/>	<!--Sealed Moirai Tunic -->
 				<reward item_id="10223" min="1" max="1" chance="3.91"/>	<!--Icarus Spitter-->
 			</group>
 			<group chance="26.7662">
@@ -2212,7 +2142,6 @@
 			<reward item_id="15806" min="1" max="1" chance="1.177"/>	<!--Recipe - Sealed Vesper Shoes (60%) -->
 			<reward item_id="10402" min="1" max="1" chance="0.5868"/>	<!--Icarus Hammer Piece-->
 			<reward item_id="959" min="1" max="1" chance="0.0549"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
-			<reward item_id="10220" min="1" max="1" chance="0.0018"/>	<!--Icarus Hammer-->
 			<reward item_id="10223" min="1" max="1" chance="0.0018"/>	<!--Icarus Spitter-->
 		</rewardlist>
 		<attributes>
@@ -2276,7 +2205,6 @@
 				<reward item_id="57" min="25780" max="60169" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.015">
-				<reward item_id="15697" min="1" max="1" chance="82.0"/>	<!--Sealed Moirai Breastplate -->
 				<reward item_id="10216" min="1" max="1" chance="18.0"/>	<!--Icarus Disperser-->
 			</group>
 			<group chance="37.522">
@@ -2373,8 +2301,6 @@
 				<reward item_id="57" min="24584" max="57408" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0088">
-				<reward item_id="15710" min="1" max="1" chance="94.6103"/>	<!--Sealed Moirai Shield -->
-				<reward item_id="10215" min="1" max="1" chance="5.3897"/>	<!--Icarus Sawsword-->
 			</group>
 			<group chance="48.408">
 				<reward item_id="1895" min="3" max="9" chance="18.8900"/>	<!--Metallic Fiber-->
@@ -2462,7 +2388,6 @@
 				<reward item_id="57" min="13579" max="31708" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0085">
-				<reward item_id="15703" min="1" max="1" chance="94.8538"/>	<!--Sealed Moirai Gauntlet -->
 				<reward item_id="10216" min="1" max="1" chance="5.1462"/>	<!--Icarus Disperser-->
 			</group>
 			<group chance="37.9516">
@@ -2554,7 +2479,6 @@
 				<reward item_id="57" min="25908" max="60468" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0182">
-				<reward item_id="15709" min="1" max="1" chance="94.6103"/>	<!--Sealed Moirai Sigil -->
 				<reward item_id="10217" min="1" max="1" chance="5.3897"/>	<!--Icarus Spirit-->
 			</group>
 			<group chance="32.08">
@@ -2576,7 +2500,6 @@
 			<reward item_id="10402" min="1" max="1" chance="1.4700"/>	<!--Icarus Hammer Piece-->
 			<reward item_id="10399" min="1" max="1" chance="0.9800"/>	<!--Icarus Spirit Piece-->
 			<reward item_id="15778" min="1" max="1" chance="1.9600"/>	<!--Recipe - Sealed Moirai Breastplate (60%) -->
-			<reward item_id="10215" min="1" max="1" chance="0.0010"/>	<!--Icarus Sawsword-->
 			<reward item_id="10216" min="1" max="1" chance="0.0010"/>	<!--Icarus Disperser-->
 		</rewardlist>
 		<attributes>
@@ -2647,7 +2570,6 @@
 			</group>
 			<group chance="0.0086">
 				<reward item_id="10218" min="1" max="1" chance="5.1462"/>	<!--Icarus Heavy Arms-->
-				<reward item_id="15704" min="1" max="1" chance="94.8538"/>	<!--Sealed Moirai Leather Gloves -->
 			</group>
 			<group chance="36.389">
 				<reward item_id="1879" min="1" max="3" chance="15.7500"/>	<!--Cokes-->
@@ -2670,7 +2592,6 @@
 			<reward item_id="10397" min="1" max="1" chance="1.0000"/>	<!--Icarus Sawsword Piece-->
 			<reward item_id="10401" min="1" max="1" chance="1.0000"/>	<!--Icarus Trident Piece-->
 			<reward item_id="15781" min="1" max="1" chance="1.0000"/>	<!--Recipe - Sealed Moirai Gaiter (60%) -->
-			<reward item_id="13893" min="1" max="1" chance="0.2000"/>	<!--Sealed Holy Spirit's Cloak-->
 			<reward item_id="10218" min="1" max="1" chance="0.0050"/>	<!--Icarus Heavy Arms-->
 		</rewardlist>
 		<attributes>
@@ -2741,7 +2662,6 @@
 				<reward item_id="57" min="25783" max="60208" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0065">
-				<reward item_id="15697" min="1" max="1" chance="82.1677"/>	<!--Sealed Moirai Breastplate -->
 				<reward item_id="10219" min="1" max="1" chance="17.8323"/>	<!--Icarus Trident-->
 			</group>
 			<group chance="37.3617">
@@ -2834,8 +2754,6 @@
 				<reward item_id="57" min="12867" max="30047" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0081">
-				<reward item_id="15703" min="1" max="1" chance="94.8538"/>	<!--Sealed Moirai Gauntlet -->
-				<reward item_id="10220" min="1" max="1" chance="5.1462"/>	<!--Icarus Hammer-->
 			</group>
 			<group chance="46.4609">
 				<reward item_id="1879" min="1" max="1" chance="47.9147"/>	<!--Cokes-->
@@ -2861,7 +2779,6 @@
 			<reward item_id="10397" min="1" max="1" chance="0.8719"/>	<!--Icarus Sawsword Piece-->
 			<reward item_id="10404" min="1" max="1" chance="0.8691"/>	<!--Icarus Hall Piece-->
 			<reward item_id="15781" min="1" max="1" chance="0.9633"/>	<!--Recipe - Sealed Moirai Gaiter (60%) -->
-			<reward item_id="10215" min="1" max="1" chance="0.0026"/>	<!--Icarus Sawsword-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="fire" value="200"/>
@@ -2926,9 +2843,7 @@
 				<reward item_id="57" min="27119" max="63328" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0045">
-				<reward item_id="15699" min="1" max="1" chance="40.0"/>	<!--Sealed Moirai Tunic -->
 				<reward item_id="10221" min="1" max="1" chance="7.0"/>	<!--Icarus Hand-->
-				<reward item_id="13893" min="1" max="1" chance="53.0"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="38.56">
 				<reward item_id="1895" min="3" max="9" chance="16.7800"/>	<!--Metallic Fiber-->
@@ -2955,7 +2870,6 @@
 			<reward item_id="17248" min="1" max="1" chance="0.5000"/>	<!--Large Dragon Bone-->
 			<reward item_id="10384" min="1" max="1" chance="0.1000"/>	<!--Recipe - Icarus Shooter (60%)-->
 			<reward item_id="10383" min="1" max="1" chance="0.1000"/>	<!--Recipe - Icarus Wingblade (60%)-->
-			<reward item_id="13893" min="1" max="1" chance="0.0500"/>	<!--Sealed Holy Spirit's Cloak-->
 			<reward item_id="10218" min="1" max="1" chance="0.0100"/>	<!--Icarus Heavy Arms-->
 		</rewardlist>
 		<attributes>
@@ -3021,8 +2935,6 @@
 				<reward item_id="57" min="26621" max="62165" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0048">
-				<reward item_id="15694" min="1" max="1" chance="30.0"/>	<!--Sealed Moirai Helmet -->
-				<reward item_id="15709" min="1" max="1" chance="61.0"/>	<!--Sealed Moirai Sigil -->
 				<reward item_id="10222" min="1" max="1" chance="9.0"/>	<!--Icarus Hall-->
 			</group>
 			<group chance="34.566">
@@ -3113,10 +3025,7 @@
 				<reward item_id="57" min="28329" max="66153" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0046">
-				<reward item_id="15706" min="1" max="1" chance="35.0"/>	<!--Sealed Moirai Boots -->
 				<reward item_id="10223" min="1" max="1" chance="5.0"/>	<!--Icarus Spitter-->
-				<reward item_id="15699" min="1" max="1" chance="17.0"/>	<!--Sealed Moirai Tunic -->
-				<reward item_id="13893" min="1" max="1" chance="43.0"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="38.456">
 				<reward item_id="1885" min="1" max="1" chance="26.2100"/>	<!--High-Grade Suede-->
@@ -3144,7 +3053,6 @@
 			<reward item_id="10402" min="1" max="1" chance="1.5300"/>	<!--Icarus Hammer Piece-->
 			<reward item_id="15798" min="1" max="1" chance="1.3210"/>	<!--Recipe - Sealed Vesper Gaiter (60%) -->
 			<reward item_id="15795" min="1" max="1" chance="1.0000"/>	<!--Recipe - Sealed Vesper Breastplate (60%) -->
-			<reward item_id="13893" min="1" max="1" chance="0.0500"/>	<!--Sealed Holy Spirit's Cloak-->
 			<reward item_id="10219" min="1" max="1" chance="0.0050"/>	<!--Icarus Trident-->
 		</rewardlist>
 		<attributes>
@@ -3206,7 +3114,6 @@
 				<reward item_id="57" min="29134" max="67996" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.007">
-				<reward item_id="15710" min="1" max="1" chance="74.0"/>	<!--Sealed Moirai Shield -->
 				<reward item_id="10217" min="1" max="1" chance="13.0"/>	<!--Icarus Spirit-->
 				<reward item_id="10218" min="1" max="1" chance="13.0"/>	<!--Icarus Heavy Arms-->
 			</group>
@@ -3492,11 +3399,6 @@
 				<reward item_id="57" min="24809" max="57874" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0105">
-				<reward item_id="14111" min="1" max="1" chance="29.0033"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="14113" min="1" max="1" chance="30.4526"/>	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14116" min="1" max="1" chance="30.4526"/>	<!--Sealed Vesper Gloves-->
-				<reward item_id="13457" min="1" max="1" chance="2.4784"/>	<!--Vesper Cutter-->
-				<reward item_id="14105" min="1" max="1" chance="7.6131"/>	<!--Sealed Vesper Breastplate-->
 			</group>
 			<group chance="38.5598">
 				<reward item_id="1885" min="1" max="1" chance="22.6000"/>	<!--High-Grade Suede-->
@@ -3590,12 +3492,6 @@
 				<reward item_id="57" min="8612" max="20089" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0125">
-				<reward item_id="13887" min="1" max="1" chance="23.8923"/>	<!--Sealed Vesper Sigil-->
-				<reward item_id="14111" min="1" max="1" chance="23.8923"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="13143" min="1" max="1" chance="16.7246"/>	<!--Sealed Vesper Helmet-->
-				<reward item_id="13144" min="1" max="1" chance="16.7246"/>	<!--Sealed Vesper Leather Helmet-->
-				<reward item_id="13145" min="1" max="1" chance="16.7246"/>	<!--Sealed Vesper Circlet-->
-				<reward item_id="13467" min="1" max="1" chance="2.0416"/>	<!--Vesper Thrower-->
 
 			</group>
 			<group chance="45.0105">
@@ -3681,7 +3577,6 @@
 			<!--<skill id="4411" level="14"/>	Strong M. Atk.-->
 			<!--<skill id="4412" level="12"/>	Slightly Strong P. Def.-->
 			<!--<skill id="4413" level="4"/>	Extremely Weak M. Def.-->
-			<skill id="4276" level="2"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4435" level="2"/>	<!--Greater Resist Stun-->
 			<skill id="4438" level="4"/>	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4"/>	<!--Greater Resist Hold-->
@@ -3695,12 +3590,6 @@
 				<reward item_id="57" min="8612" max="20089" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0053">
-				<reward item_id="14109" min="1" max="1" chance="16.6667"/>	<!--Sealed Vesper Gauntlet-->
-				<reward item_id="14110" min="1" max="1" chance="16.6667"/>	<!--Sealed Vesper Boots-->
-				<reward item_id="14113" min="1" max="1" chance="16.6667"/>	<!--Sealed Vesper Leather Gloves-->
-				<reward item_id="14114" min="1" max="1" chance="16.6667"/>	<!--Sealed Vesper Leather Boots-->
-				<reward item_id="14116" min="1" max="1" chance="16.6667"/>	<!--Sealed Vesper Gloves-->
-				<reward item_id="14117" min="1" max="1" chance="16.6665"/>	<!--Sealed Vesper Shoes-->
 			</group>
 			<group chance="31.7424">
 				<reward item_id="1895" min="1" max="1" chance="27.2500"/>	<!--Metallic Fiber-->
@@ -3728,7 +3617,6 @@
 			<reward item_id="15644" min="1" max="1" chance="1.0000"/>	<!--Vesper Thrower Piece-->
 			<reward item_id="6578" min="1" max="1" chance="0.1000"/>	<!--Blessed Scroll: Enchant Armor (S-Grade)-->
 			<reward item_id="15819" min="1" max="1" chance="0.1000"/>	<!--Recipe - Vesper Fighter (60%)-->
-			<reward item_id="13458" min="1" max="1" chance="0.0050"/>	<!--Vesper Slasher-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -3796,8 +3684,6 @@
 				<reward item_id="57" min="14790" max="34502" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0051">
-				<reward item_id="14115" min="1" max="1" chance="61.5374"/>	<!--Sealed Vesper Stockings-->
-				<reward item_id="14107" min="1" max="1" chance="38.4626"/>	<!--Sealed Vesper Tunic-->
 			</group>
 			<group chance="47.2998">
 				<reward item_id="1879" min="1" max="1" chance="29.66"/>	<!--Cokes-->
@@ -3822,7 +3708,6 @@
 			<reward item_id="15644" min="1" max="1" chance="1.505"/>	<!--Vesper Thrower Piece-->
 			<reward item_id="15637" min="1" max="1" chance="1.492"/>	<!--Vesper Shaper Piece-->
 			<reward item_id="15639" min="1" max="1" chance="1.485"/>	<!--Vesper Stormer Piece-->
-			<reward item_id="13459" min="1" max="1" chance="0.005"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -3890,8 +3775,6 @@
 				<reward item_id="57" min="14790" max="34502" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0051">
-				<reward item_id="14112" min="1" max="1" chance="61.5374"/>	<!--Sealed Vesper Leather Leggings-->
-				<reward item_id="14106" min="1" max="1" chance="38.4626"/>	<!--Sealed Vesper Leather Breastplate-->
 			</group>
 			<group chance="34.7719">
 				<reward item_id="1895" min="1" max="3" chance="28.2300"/>	<!--Metallic Fiber-->
@@ -3915,8 +3798,6 @@
 			<reward item_id="15642" min="1" max="1" chance="1.3340"/>	<!--Vesper Caster Piece-->
 			<reward item_id="15640" min="1" max="1" chance="1.2530"/>	<!--Vesper Avenger Piece-->
 			<reward item_id="959" min="1" max="1" chance="0.1000"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
-			<reward item_id="13458" min="1" max="1" chance="0.0050"/>	<!--Vesper Slasher-->
-			<reward item_id="13459" min="1" max="1" chance="0.0050"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -3973,7 +3854,6 @@
 			<!--<skill id="4411" level="14"/>	Strong M. Atk.-->
 			<!--<skill id="4412" level="12"/>	Slightly Strong P. Def.-->
 			<!--<skill id="4413" level="4"/>	Extremely Weak M. Def.-->
-			<skill id="4276" level="2"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4435" level="2"/>	<!--Greater Resist Stun-->
 			<skill id="4438" level="4"/>	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4"/>	<!--Greater Resist Hold-->
@@ -3986,9 +3866,6 @@
 				<reward item_id="57" min="8451" max="19715" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0053">
-				<reward item_id="14105" min="1" max="1" chance="12.2433"/>	<!--Sealed Vesper Breastplate-->
-				<reward item_id="14160" min="1" max="1" chance="50.1467"/>	<!--Sealed Vesper Earring-->
-				<reward item_id="14161" min="1" max="1" chance="37.61"/>	<!--Sealed Vesper Necklace-->
 			</group>
 			<group chance="31.7322">
 				<reward item_id="1895" min="1" max="1" chance="29.6300"/>	<!--Metallic Fiber-->
@@ -4087,10 +3964,6 @@
 				<reward item_id="57" min="26239" max="61210" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0108">
-				<reward item_id="14162" min="1" max="1" chance="72.9442"/>	<!--Sealed Vesper Ring-->
-				<reward item_id="13461" min="1" max="1" chance="3.8651"/>	<!--Vesper Fighter-->
-				<reward item_id="13462" min="1" max="1" chance="3.8651"/>	<!--Vesper Stormer-->
-				<reward item_id="13893" min="1" max="1" chance="19.3256"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="39.2939">
 				<reward item_id="1885" min="1" max="1" chance="23.85"/>	<!--High-Grade Suede-->
@@ -4116,7 +3989,6 @@
 			<reward item_id="2134" min="1" max="1" chance="9.105"/>	<!--Gemstone S-->
 			<reward item_id="6578" min="1" max="1" chance="0.2"/>	<!--Blessed Scroll: Enchant Armor (S-Grade)-->
 			<reward item_id="6577" min="1" max="1" chance="0.02"/>	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
-			<reward item_id="13457" min="1" max="1" chance="0.01"/>	<!--Vesper Cutter-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4184,9 +4056,6 @@
 				<reward item_id="57" min="26983" max="62945" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0268">
-				<reward item_id="14111" min="1" max="1" chance="82.4042"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="13458" min="1" max="1" chance="7.2979"/>	<!--Vesper Slasher-->
-				<reward item_id="13467" min="1" max="1" chance="7.2979"/>	<!--Vesper Thrower-->
 			</group>
 			<group chance="42.7233">
 				<reward item_id="1894" min="1" max="1" chance="10.789"/>	<!--Crafted Leather-->
@@ -4212,8 +4081,6 @@
 			<reward item_id="2134" min="1" max="1" chance="8.069"/>	<!--Gemstone S-->
 			<reward item_id="959" min="1" max="1" chance="0.5"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
 			<reward item_id="15818" min="1" max="1" chance="0.5"/>	<!--Recipe - Vesper Shaper (60%)-->
-			<reward item_id="13457" min="1" max="1" chance="0.01"/>	<!--Vesper Cutter-->
-			<reward item_id="13467" min="1" max="1" chance="0.01"/>	<!--Vesper Thrower-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4281,9 +4148,6 @@
 				<reward item_id="57" min="35741" max="83374" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0181">
-				<reward item_id="13460" min="1" max="1" chance="14.2856"/>	<!--Vesper Shaper-->
-				<reward item_id="13463" min="1" max="1" chance="14.2856"/>	<!--Vesper Avenger-->
-				<reward item_id="13893" min="1" max="1" chance="71.4288"/>	<!--Sealed Holy Spirit's Cloak-->
 
 			</group>
 			<group chance="32.5033">
@@ -4310,7 +4174,6 @@
 			<reward item_id="9554" min="1" max="1" chance="1"/>	<!--Earth Crystal-->
 			<reward item_id="959" min="1" max="1" chance="0.5"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
 			<reward item_id="15820" min="1" max="1" chance="0.5"/>	<!--Recipe - Vesper Stormer (60%)-->
-			<reward item_id="13893" min="1" max="1" chance="0.05"/>	<!--Sealed Holy Spirit's Cloak-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4379,8 +4242,6 @@
 				<reward item_id="57" min="17676" max="41234" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0244">
-				<reward item_id="14111" min="1" max="1" chance="92.1276"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="13467" min="1" max="1" chance="7.8724"/>	<!--Vesper Thrower-->
 			</group>
 			<group chance="36.2965">
 				<reward item_id="1895" min="1" max="3" chance="27.82"/>	<!--Metallic Fiber-->
@@ -4410,7 +4271,6 @@
 			<reward item_id="15634" min="1" max="1" chance="0.5"/>	<!--Vesper Cutter Piece-->
 			<reward item_id="9625" min="1" max="1" chance="0.5"/>	<!--Giant's Codex - Oblivion-->
 			<reward item_id="6578" min="1" max="1" chance="0.05"/>	<!--Blessed Scroll: Enchant Armor (S-Grade)-->
-			<reward item_id="13467" min="1" max="1" chance="0.005"/>	<!--Vesper Thrower-->
 			<reward item_id="6577" min="1" max="1" chance="0.005"/>	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
 		</rewardlist>
 		<attributes>
@@ -4480,8 +4340,6 @@
 				<reward item_id="57" min="30896" max="72072" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0201">
-				<reward item_id="13459" min="1" max="1" chance="16.6666"/>	<!--Vesper Buster-->
-				<reward item_id="13893" min="1" max="1" chance="83.3334"/>	<!--Sealed Holy Spirit's Cloak-->	
 
 			</group>
 			<group chance="33.1402">
@@ -4505,8 +4363,6 @@
 			<reward item_id="9629" min="1" max="1" chance="27.33"/>	<!--Adamantine-->
 			<reward item_id="2134" min="1" max="1" chance="12.84"/>	<!--Gemstone S-->
 			<reward item_id="15642" min="1" max="1" chance="3.858"/>	<!--Vesper Caster Piece-->
-			<reward item_id="13893" min="1" max="1" chance="0.05"/>	<!--Sealed Holy Spirit's Cloak-->
-			<reward item_id="13459" min="1" max="1" chance="0.01"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4555,8 +4411,6 @@
 		<set name="type" value="Monster"/>
 		<faction name="loa_antharas_clan" range="400"/>
 		<equip>
-			<rhand item_id="13979"/>	<!--Exclusive to Monsters (Dragon Steed Troop Battle Infantry Sword)-->
-			<lhand item_id="13980"/>	<!--Exclusive to Monsters (Dragon Steed Troop Battle Infantry Shield)-->
 		</equip>
 		<skills>
 			<skill id="4416" level="10"/>	<!--Dragons-->
@@ -4577,9 +4431,6 @@
 				<reward item_id="57" min="17732" max="41364" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0038">
-				<reward item_id="13459" min="1" max="1" chance="33.3334"/>	<!--Vesper Cutter-->
-				<reward item_id="13461" min="1" max="1" chance="33.3333"/>	<!--Vesper Fighter-->
-				<reward item_id="13465" min="1" max="1" chance="33.3333"/>	<!--Vesper Caster-->
 
 			</group>
 			<group chance="40.6408">
@@ -4605,7 +4456,6 @@
 			<reward item_id="9629" min="1" max="1" chance="11.89"/>	<!--Adamantine-->
 			<reward item_id="15817" min="1" max="1" chance="0.5"/>	<!--Recipe - Vesper Buster (60%)-->
 			<reward item_id="959" min="1" max="1" chance="0.1"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
-			<reward item_id="13457" min="1" max="1" chance="0.005"/>	<!--Vesper Cutter-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4675,8 +4525,6 @@
 				<reward item_id="57" min="8361" max="19504" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0018">
-				<reward item_id="13458" min="1" max="1" chance="50.0"/>	<!--Vesper Slasher-->
-				<reward item_id="13467" min="1" max="1" chance="50.0"/>	<!--Vesper Thrower-->
 				
 			</group>
 			<group chance="28.8458">
@@ -4704,7 +4552,6 @@
 			<reward item_id="9554" min="1" max="1" chance="0.5"/>	<!--Earth Crystal-->
 			<reward item_id="6578" min="1" max="1" chance="0.1"/>	<!--Blessed Scroll: Enchant Armor (S-Grade)-->
 			<reward item_id="6577" min="1" max="1" chance="0.01"/>	<!--Blessed Scroll: Enchant Weapon (S-Grade)-->
-			<reward item_id="13459" min="1" max="1" chance="0.005"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4758,7 +4605,6 @@
 			<!--<skill id="4410" level="12"/>	Slightly Strong P. Atk.-->
 			<!--<skill id="4412" level="13"/>	Slightly Strong P. Def.-->
 			<!--<skill id="4413" level="6"/>	Very Weak M. Def.-->
-			<skill id="4276" level="2"/>	<!--Weak Point against Bow/Crossbow Weapons-->
 			<skill id="4435" level="2"/>	<!--Greater Resist Stun-->
 			<skill id="4438" level="4"/>	<!--Greater Resist Sleep-->
 			<skill id="4439" level="4"/>	<!--Greater Resist Hold-->
@@ -4772,9 +4618,6 @@
 				<reward item_id="57" min="18219" max="42501" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.004">
-				<reward item_id="13459" min="1" max="1" chance="33.3334"/>	<!--Vesper Cutter-->
-				<reward item_id="13461" min="1" max="1" chance="33.3333"/>	<!--Vesper Fighter-->
-				<reward item_id="13465" min="1" max="1" chance="33.3333"/>	<!--Vesper Caster-->
 
 			</group>
 			<group chance="45.2276">
@@ -4797,7 +4640,6 @@
 			<reward item_id="9629" min="1" max="1" chance="16.60"/>	<!--Adamantine-->
 			<reward item_id="959" min="1" max="1" chance="0.5"/>	<!--Scroll: Enchant Weapon (S-Grade)-->
 			<reward item_id="15815" min="1" max="1" chance="0.5"/>	<!--Recipe - Sealed Vesper Cutter (60%)-->
-			<reward item_id="13458" min="1" max="1" chance="0.005"/>	<!--Vesper Slasher-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4864,10 +4706,6 @@
 				<reward item_id="57" min="45317" max="105714" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0022">
-				<reward item_id="14108" min="1" max="1" chance="10.0"/>	<!--Sealed Vesper Gaiters-->
-				<reward item_id="13461" min="1" max="1" chance="4.0"/>	<!--Vesper Fighter-->
-				<reward item_id="13462" min="1" max="1" chance="4.0"/>	<!--Vesper Stormer-->
-				<reward item_id="13893" min="1" max="1" chance="82.0"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="34.985">
 				<reward item_id="1879" min="3" max="9" chance="15.86"/>	<!--Cokes-->
@@ -4889,7 +4727,6 @@
 			<reward item_id="9628" min="1" max="1" chance="94.81"/>	<!--Leonard-->
 			<reward item_id="15669" min="1" max="1" chance="77.26"/>	<!--Sealed Vesper Verteidiger Piece-->
 			<reward item_id="2134" min="1" max="1" chance="24.25"/>	<!--Gemstone S-->
-			<reward item_id="13459" min="1" max="1" chance="0.05"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -4959,9 +4796,6 @@
 				<reward item_id="57" min="24497" max="57145" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.056">
-				<reward item_id="14111" min="1" max="1" chance="82.0"/>	<!--Sealed Vesper Shield-->
-				<reward item_id="13460" min="1" max="1" chance="9.0"/>	<!--Vesper Shaper-->
-				<reward item_id="13463" min="1" max="1" chance="9.0"/>	<!--Vesper Avenger-->
 			</group>
 			<group chance="39.544">
 				<reward item_id="1895" min="3" max="9" chance="15.92"/>	<!--Metallic Fiber-->
@@ -4984,7 +4818,6 @@
 			<reward item_id="9630" min="1" max="1" chance="26.87"/>	<!--Orichalcum-->
 			<reward item_id="6578" min="1" max="1" chance="0.5"/>	<!--Blessed Scroll: Enchant Armor (S-Grade)-->
 			<reward item_id="15816" min="1" max="1" chance="0.5"/>	<!--Recipe - Sealed Vesper Slasher (60%)-->
-			<reward item_id="13460" min="1" max="1" chance="0.01"/>	<!--Vesper Shaper-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -5053,12 +4886,6 @@
 				<reward item_id="57" min="115052" max="268710" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0503">
-				<reward item_id="15764" min="1" max="1" chance="15.7905"/>	<!--Sealed Vorpal Earring-->
-				<reward item_id="15743" min="1" max="1" chance="7.5705"/>	<!--Sealed Vorpal Helmet-->
-				<reward item_id="15745" min="1" max="1" chance="7.5705"/>	<!--Sealed Vorpal Circlet-->
-				<reward item_id="15750" min="1" max="1" chance="6.8564"/>	<!--Sealed Vorpal Leather Legging-->
-				<reward item_id="15751" min="1" max="1" chance="6.8564"/>	<!--Sealed Vorpal Stockings-->
-				<reward item_id="15755" min="1" max="1" chance="20.3557"/>	<!--Sealed Vorpal Boots-->
 			</group>
 			<group chance="43.7535">
 				<reward item_id="9630" min="1" max="1" chance="12.42"/>	<!--Orichalcum-->
@@ -5144,12 +4971,6 @@
 				<reward item_id="57" min="65375" max="152689" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0386">
-				<reward item_id="15763" min="1" max="1" chance="37.9017"/>	<!--Sealed Vorpal Ring-->
-				<reward item_id="15753" min="1" max="1" chance="16.7028"/>	<!--Sealed Vorpal Leather Gloves-->
-				<reward item_id="15754" min="1" max="1" chance="16.7028"/>	<!--Sealed Vorpal Gloves-->
-				<reward item_id="15765" min="1" max="1" chance="18.9493"/>	<!--Sealed Vorpal Necklace-->
-				<reward item_id="15746" min="1" max="1" chance="4.1757"/>	<!--Sealed Vorpal Breastplate-->
-				<reward item_id="15748" min="1" max="1" chance="5.5677"/>	<!--Sealed Vorpal Tunic-->
 			</group>
 			<group chance="44.0322">
 				<reward item_id="1895" min="12" max="36" chance="13.93"/>	<!--Metallic Fiber-->
@@ -5238,14 +5059,6 @@
 				<reward item_id="57" min="65375" max="152689" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0426">
-				<reward item_id="15744" min="1" max="1" chance="11.5108"/>	<!--Sealed Vorpal Leather Helmet-->
-				<reward item_id="15752" min="1" max="1" chance="17.2662"/>	<!--Sealed Vorpal Gauntlet-->
-				<reward item_id="15756" min="1" max="1" chance="17.2662"/>	<!--Sealed Vorpal Leather Boots-->
-				<reward item_id="15758" min="1" max="1" chance="16.444"/>	<!--Sealed Vorpal Shield-->
-				<reward item_id="15759" min="1" max="1" chance="16.444"/>	<!--Sealed Vorpal Sigil-->
-				<reward item_id="15747" min="1" max="1" chance="5.7554"/>	<!--Sealed Vorpal Leather Breastplate-->
-				<reward item_id="15749" min="1" max="1" chance="6.9065"/>	<!--Sealed Vorpal Gaiter-->
-				<reward item_id="13893" min="1" max="1" chance="8.4069"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="37.6877">
 				<reward item_id="9549" min="1" max="1" chance="3.654"/>	<!--Wind Stone-->
@@ -5269,8 +5082,6 @@
 			<reward item_id="15642" min="1" max="3" chance="3.752"/>	<!--Vesper Caster Piece-->
 			<reward item_id="14168" min="1" max="1" chance="1.582"/>	<!--High-Grade Life Stone - Level 84-->
 			<reward item_id="14169" min="1" max="1" chance="0.5"/>	<!--Top-Grade Life Stone - Level 84-->
-			<reward item_id="13893" min="1" max="1" chance="0.05"/>	<!--Sealed Holy Spirit's Cloak-->
-			<reward item_id="13459" min="1" max="1" chance="0.01"/>	<!--Vesper Buster-->
 		</rewardlist>
 		<attributes>
 			<attack attribute="unholy" value="250"/>
@@ -5340,21 +5151,13 @@
 				<reward item_id="57" min="195846" max="45686" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0013">
-				<reward item_id="15558" min="1" max="1" chance="5.0"/>	<!--Periel Sword-->
-				<reward item_id="15570" min="1" max="1" chance="5.0"/>	<!--Finale Blade-->
 				<reward item_id="15569" min="1" max="1" chance="5.0"/>	<!--Gemtail Rapier-->
-				<reward item_id="15568" min="1" max="1" chance="5.0"/>	<!--Skull Carnium Bow-->
-				<reward item_id="15567" min="1" max="1" chance="5.0"/>	<!--Veniplant Sword-->
 				<reward item_id="15566" min="1" max="1" chance="5.0"/>	<!--Black Visage-->
 				<reward item_id="15565" min="1" max="1" chance="5.0"/>	<!--Rising Star-->
-				<reward item_id="15564" min="1" max="1" chance="5.0"/>	<!--Doubletop Spear-->
 				<reward item_id="15563" min="1" max="1" chance="5.0"/>	<!--Octo Claw-->
-				<reward item_id="15562" min="1" max="1" chance="5.0"/>	<!--Feather Eye Blade-->
 				<reward item_id="15561" min="1" max="1" chance="5.0"/>	<!--Devilish Maul-->
-				<reward item_id="15560" min="1" max="1" chance="5.0"/>	<!--Vigwik Axe-->
 				<reward item_id="15559" min="1" max="1" chance="5.0"/>	<!--Skull Edge-->
 				<reward item_id="15571" min="1" max="1" chance="5.0"/>	<!--Dominion Crossbow-->
-				<reward item_id="13893" min="1" max="1" chance="30.0"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="33.334">
 				<reward item_id="14052" min="3" max="9" chance="11.87"/>	<!--Noble Enhancement Stone-->
@@ -5438,9 +5241,6 @@
 				<reward item_id="57" min="1712" max="4000" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0011">
-				<reward item_id="15696" min="1" max="1" chance="34.3532"/>	<!--Sealed Moirai Circlet -->
-				<reward item_id="15767" min="1" max="1" chance="12.8821"/>	<!--Sealed Moirai Earring-->
-				<reward item_id="15697" min="1" max="1" chance="52.7647"/>	<!--Sealed Moirai Breastplate -->
 			</group>
 			<group chance="11.1896">
 				<reward item_id="1895" min="1" max="1" chance="85.1164"/>	<!--Metallic Fiber-->
@@ -5614,13 +5414,6 @@
 				<reward item_id="57" min="13523" max="31578" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0184">
-				<reward item_id="15703" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Gauntlet -->
-				<reward item_id="15704" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Leather Gloves -->
-				<reward item_id="15705" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Gloves -->
-				<reward item_id="15706" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Boots -->
-				<reward item_id="15707" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Leather Boots -->
-				<reward item_id="15708" min="1" max="1" chance="14.7754"/>	<!--Sealed Moirai Shoes -->
-				<reward item_id="15768" min="1" max="1" chance="11.3476"/>	<!--Sealed Moirai Necklace-->
 			</group>
 			<group chance="39.1866">
 				<reward item_id="1885" min="1" max="3" chance="22.9300"/>	<!--High-Grade Suede-->
@@ -5712,13 +5505,6 @@
 				<reward item_id="57" min="22245" max="51946" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.0175">
-				<reward item_id="15709" min="1" max="1" chance="19.4556"/>	<!--Sealed Moirai Sigil -->
-				<reward item_id="15710" min="1" max="1" chance="19.4556"/>	<!--Sealed Moirai Shield -->
-				<reward item_id="15766" min="1" max="1" chance="31.381"/>	<!--Sealed Moirai Ring-->
-				<reward item_id="15699" min="1" max="1" chance="6.8093"/>	<!--Sealed Moirai Tunic -->
-				<reward item_id="15701" min="1" max="1" chance="10.8951"/>	<!--Sealed Moirai Leather Legging -->
-				<reward item_id="15702" min="1" max="1" chance="10.8951"/>	<!--Sealed Moirai Stockings -->
-				<reward item_id="10215" min="1" max="1" chance="1.1083"/>	<!--Icarus Sawsword-->
 			</group>
 			<group chance="34.0727">
 				<reward item_id="1895" min="3" max="9" chance="30.8900"/>	<!--Metallic Fiber-->
@@ -5805,11 +5591,6 @@
 				<reward item_id="57" min="18307" max="42751" chance="100.0000"/>	<!--Adena-->
 			</group>
 			<group chance="0.015">
-				<reward item_id="15706" min="1" max="1" chance="24.6208"/>	<!--Sealed Moirai Boots -->
-				<reward item_id="15707" min="1" max="1" chance="24.6208"/>	<!--Sealed Moirai Leather Boots -->
-				<reward item_id="15708" min="1" max="1" chance="24.6208"/>	<!--Sealed Moirai Shoes -->
-				<reward item_id="15768" min="1" max="1" chance="18.9087"/>	<!--Sealed Moirai Necklace-->
-				<reward item_id="13893" min="1" max="1" chance="7.2289"/>	<!--Sealed Holy Spirit's Cloak-->
 			</group>
 			<group chance="37.8898">
 				<reward item_id="1885" min="1" max="1" chance="39.4600"/>	<!--High-Grade Suede-->
