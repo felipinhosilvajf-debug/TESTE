@@ -78,7 +78,6 @@
                 <reward item_id="3936" min="1" max="25" chance="100.0000" />    <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="6000000" max="800000" chance="100.0000" />   <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="2" max="3" chance="50.0000" /> <!--High-Grade Life Stone -  Level 85-->
@@ -405,19 +404,14 @@
                 <reward item_id="951" min="1" max="1" chance="20.0000" />   <!--Scroll: Enchant Weapon (C-Grade)-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="100000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="100000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="100000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="100000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="100000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="8744" min="2" max="4" chance="45.0000" />  <!--High-Grade Life Stone -  Level 49-->
@@ -919,19 +913,14 @@
                 <reward item_id="951" min="1" max="2" chance="20.0000" />   <!--Scroll: Enchant Weapon (C-Grade)-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="110000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="110000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="110000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="110000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="110000" max="150000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="8744" min="2" max="4" chance="45.0000" />  <!--High-Grade Life Stone -  Level 49-->
@@ -1292,10 +1281,8 @@
                 <reward item_id="3936" min="15" max="46" chance="100.0000" />   <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="2000000" max="6000000" chance="100.0000" />   <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="4" max="39" chance="45.0000" />    <!--High-Grade Life Stone -  Level 85-->
@@ -1396,7 +1383,6 @@
                 <reward item_id="3936" min="1" max="25" chance="100.0000" />    <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="9000000" max="1100000" chance="100.0000" />   <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="2" max="3" chance="50.0000" /> <!--High-Grade Life Stone -  Level 85-->
@@ -1554,25 +1540,18 @@
                 <reward item_id="947" min="1" max="1" chance="20.0000" />   <!--Scroll: Enchant Weapon (B-Grade)-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="180000" max="220000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="8747" min="2" max="4" chance="45.0000" />  <!--High-Grade Life Stone -  Level 58-->
@@ -1995,7 +1974,6 @@
                 <reward item_id="3936" min="10" max="30" chance="100.0000" />   <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="20" max="55" chance="45.0000" />   <!--High-Grade Life Stone -  Level 85-->
@@ -3219,10 +3197,8 @@
                 <reward item_id="3936" min="1" max="6" chance="100.0000" /> <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="9000000" max="11000000" chance="100.0000" />  <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="9000000" max="11000000" chance="100.0000" />  <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="2" max="4" chance="60.0000" /> <!--High-Grade Life Stone -  Level 85-->
@@ -4549,25 +4525,18 @@
                 <reward item_id="3936" min="1" max="39" chance="100.0000" />    <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="9000000" max="13000000" chance="100.0000" />  <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="8751" min="2" max="4" chance="45.0000" />  <!--High-Grade Life Stone -  Level 70-->
@@ -4699,25 +4668,18 @@
                 <reward item_id="3936" min="1" max="39" chance="100.0000" />    <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="9000000" max="13000000" chance="100.0000" />  <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="8751" min="2" max="4" chance="45.0000" />  <!--High-Grade Life Stone -  Level 70-->
@@ -4833,10 +4795,8 @@
                 <reward item_id="3936" min="15" max="46" chance="100.0000" />   <!--Blessed Scroll of Resurrection-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="14000000" max="18000000" chance="100.0000" /> <!--Adena-->
             </group>
             <group chance="100.0">
-                <reward item_id="57" min="2000000" max="6000000" chance="100.0000" />   <!--Adena-->
             </group>
             <group chance="100.0">
                 <reward item_id="16162" min="4" max="39" chance="45.0000" />    <!--High-Grade Life Stone -  Level 85-->
