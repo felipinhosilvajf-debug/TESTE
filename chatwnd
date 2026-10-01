@@ -329,7 +329,6 @@ function OnCompleteEditBox( String strID )
 {
 	local String strInput;
 	local EChatType Type;
-	local AutoFarm AutoFarmScript;
 	//local Actor PlayerActor;//DELETE
 	//local Vector nDestination;//DELETE
 	//local UserInfo pInfo;//DELETE
@@ -349,12 +348,7 @@ function OnCompleteEditBox( String strID )
 		// O comando não é enviado ao servidor para evitar que o HTML antigo seja aberto.
 		if (strInput == ".autofarm")
 		{
-			AutoFarmScript = AutoFarm(GetScript("AutoFarm"));
-
-			if (AutoFarmScript != None)
-			{
-				AutoFarmScript.OpenAutoFarm();
-			}
+			AutoFarm(GetScript("AutoFarm")).OpenAutoFarm();
 
 			ChatEditBox.SetString( "" );
 			return;
