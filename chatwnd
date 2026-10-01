@@ -344,6 +344,22 @@ function OnCompleteEditBox( String strID )
 		if ( Len( strInput ) < 1 )
 			return;
 			
+		// AutoFarm nativo: o comando .autofarm abre a janela criada no XDAT.
+		// O comando não é enviado ao servidor para evitar que o HTML antigo seja aberto.
+		if (strInput == ".autofarm")
+		{
+			local AutoFarm AutoFarmScript;
+			AutoFarmScript = AutoFarm(GetScript("AutoFarm"));
+
+			if (AutoFarmScript != None)
+			{
+				AutoFarmScript.OpenAutoFarm();
+			}
+
+			ChatEditBox.SetString( "" );
+			return;
+		}
+
 		ProcessChatMessage( strInput, m_chatType.ID, true );
 		
 		//if ( strInput == "dz" )
