@@ -104,7 +104,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="854" max="1722" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0482">
 				<reward item_id="9619" min="1" max="1" chance="99.6832" />	<!--Dynasty Bow Piece-->
@@ -224,7 +223,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="791" max="1594" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0443">
 				<reward item_id="9446" min="1" max="1" chance="0.3192" />	<!--Dynasty Knife-->
@@ -340,7 +338,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2291" max="4622" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.1291">
 				<reward item_id="9447" min="1" max="1" chance="0.3175" />	<!--Dynasty Halberd-->
@@ -430,7 +427,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2841" max="5731" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.8253">
 				<reward item_id="9514" min="1" max="1" chance="0.0946" />	<!--Sealed Dynasty Breast Plate-->
@@ -520,7 +516,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="2933" max="5909" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.654">
 				<reward item_id="9535" min="1" max="1" chance="40.3139" />	<!--Sealed Dynasty Leather Armor Piece-->
@@ -608,7 +603,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="3145" max="6334" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.7012">
 				<reward item_id="9540" min="1" max="1" chance="40.3139" />	<!--Sealed Dynasty Tunic Piece-->
@@ -701,7 +695,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="3043" max="6130" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.7693">
 				<reward item_id="9991" min="1" max="1" chance="31.0688" />	<!--Sealed Dynasty Earring Gemstone-->
@@ -3517,7 +3510,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="682" max="1375" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.1521">
 				<reward item_id="9535" min="1" max="1" chance="40.3139" />	<!--Sealed Dynasty Leather Armor Piece-->
@@ -3638,7 +3630,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="395" max="797" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0219">
 				<reward item_id="9448" min="1" max="1" chance="0.0809" />	<!--Dynasty Cudgel-->
@@ -3755,7 +3746,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="395" max="797" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0223">
 				<reward item_id="9619" min="1" max="1" chance="99.6832" />	<!--Dynasty Bow Piece-->
@@ -3866,7 +3856,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="395" max="797" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0219">
 				<reward item_id="9448" min="1" max="1" chance="0.0809" />	<!--Dynasty Cudgel-->
@@ -3983,7 +3972,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="395" max="797" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0223">
 				<reward item_id="9619" min="1" max="1" chance="99.6832" />	<!--Dynasty Bow Piece-->
@@ -4091,7 +4079,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68976" max="160332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="4.4205">
 				<reward item_id="15663" min="1" max="1" chance="38.2125" />	<!--Sealed Vesper Breastplate Piece-->
@@ -4179,7 +4166,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68976" max="160332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="12.0166">
 				<reward item_id="15664" min="1" max="1" chance="39.2558" />	<!--Sealed Vesper Leather Breastplate Piece-->
@@ -4265,7 +4251,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68982" max="160346" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="9.0187">
 				<reward item_id="15665" min="1" max="1" chance="39.2558" />	<!--Sealed Vesper Tunic Piece-->
@@ -4353,7 +4338,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="39200" max="80795" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="25.7334">
 				<reward item_id="15667" min="1" max="1" chance="16.6295" />	<!--Sealed Vesper Gauntlet Piece-->
@@ -4453,7 +4437,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="82667" max="170383" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.0184">
 				<reward item_id="15634" min="1" max="1" chance="33.2749" />	<!--Vesper Cutter Piece-->
@@ -4545,7 +4528,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="82667" max="170383" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="4.9971">
 				<reward item_id="15640" min="1" max="1" chance="24.8524" />	<!--Vesper Avenger Piece-->
@@ -4640,7 +4622,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162570" max="300185" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="4.9765">
 				<reward item_id="15638" min="1" max="1" chance="99.7637" />	<!--Vesper Fighter Piece-->
@@ -4725,7 +4706,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162667" max="300383" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.0463">
 				<reward item_id="15644" min="1" max="1" chance="99.7667" />	<!--Vesper Thrower Piece-->
@@ -4807,7 +4787,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68976" max="160332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="25.5574">
 				<reward item_id="15667" min="1" max="1" chance="16.6295" />	<!--Sealed Vesper Gauntlet Piece-->
@@ -4906,7 +4885,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="38976" max="80332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="21.8085">
 				<reward item_id="15660" min="1" max="1" chance="16.7489" />	<!--Sealed Vesper Helmet Piece-->
@@ -5000,7 +4978,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68982" max="160346" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="28.3255">
 				<reward item_id="15770" min="1" max="1" chance="29.4685" />	<!--Sealed Vesper Earring Gem-->
@@ -5100,7 +5077,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162570" max="300185" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.0248">
 				<reward item_id="15637" min="1" max="1" chance="99.7657" />	<!--Vesper Shaper Piece-->
@@ -5190,7 +5166,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162570" max="300185" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.034">
 				<reward item_id="15639" min="1" max="1" chance="99.7664" />	<!--Vesper Stormer Piece-->
@@ -5279,7 +5254,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162570" max="300185" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="4.9823">
 				<reward item_id="15638" min="1" max="1" chance="99.7637" />	<!--Vesper Fighter Piece-->
@@ -5363,7 +5337,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68976" max="160332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="25.5574">
 				<reward item_id="15667" min="1" max="1" chance="16.6295" />	<!--Sealed Vesper Gauntlet Piece-->
@@ -5461,7 +5434,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68976" max="160332" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="21.8085">
 				<reward item_id="15660" min="1" max="1" chance="16.7489" />	<!--Sealed Vesper Helmet Piece-->
@@ -5557,7 +5529,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="68982" max="160346" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="28.3255">
 				<reward item_id="15770" min="1" max="1" chance="29.4685" />	<!--Sealed Vesper Earring Gem-->
@@ -5652,7 +5623,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162667" max="300383" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.0184">
 				<reward item_id="15634" min="1" max="1" chance="33.2749" />	<!--Vesper Cutter Piece-->
@@ -5744,7 +5714,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162570" max="300185" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="4.9913">
 				<reward item_id="15640" min="1" max="1" chance="24.8524" />	<!--Vesper Avenger Piece-->
@@ -5840,7 +5809,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="162667" max="300383" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.0463">
 				<reward item_id="15644" min="1" max="1" chance="99.7667" />	<!--Vesper Thrower Piece-->
@@ -5909,7 +5877,6 @@
 		<set name="type" value="Monster" />
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="203" max="419" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="5.731">
 				<reward item_id="1894" min="1" max="1" chance="31.7680" />	<!--Crafted Leather-->
@@ -5965,7 +5932,6 @@
 		<faction name="ice_clan" range="1200"/>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1395" max="2875" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="41.872">
 				<reward item_id="1895" min="3" max="9" chance="40.4858" />	<!--Metallic Fiber-->
@@ -6036,7 +6002,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="666" max="1341" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0287">
 				<reward item_id="10216" min="1" max="1" chance="0.1501" />	<!--Icarus Disperser-->
@@ -6130,7 +6095,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="885" max="1786" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0383">
 				<reward item_id="10217" min="1" max="1" chance="0.1000" />	<!--Icarus Spirit-->
@@ -6222,7 +6186,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1445" max="2953" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.8498">
 				<reward item_id="15645" min="1" max="1" chance="15.1498" />	<!--Sealed Moirai Helmet Piece-->
@@ -6323,7 +6286,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1488" max="3042" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.1734">
 				<reward item_id="10222" min="1" max="1" chance="0.0178" />	<!--Icarus Hall-->
@@ -6416,7 +6378,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="945" max="1907" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.3808">
 				<reward item_id="10223" min="1" max="1" chance="0.0045" />	<!--Icarus Spitter-->
@@ -6517,7 +6478,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="939" max="1895" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.4463">
 				<reward item_id="15654" min="1" max="1" chance="16.6224" />	<!--Sealed Moirai Gauntlet Piece-->
@@ -6624,7 +6584,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1628" max="3326" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.3973">
 				<reward item_id="15649" min="1" max="1" chance="19.0200" />	<!--Sealed Moirai Leather Breastplate Piece-->
@@ -6722,7 +6681,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1029" max="2103" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.3324">
 				<reward item_id="15648" min="1" max="1" chance="37.2793" />	<!--Sealed Moirai Breastplate Piece-->
@@ -6849,7 +6807,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1542" max="3152" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.6606">
 				<reward item_id="15649" min="1" max="1" chance="38.0400" />	<!--Sealed Moirai Leather Breastplate Piece-->
@@ -6976,7 +6933,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1029" max="2103" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.4409">
 				<reward item_id="15650" min="1" max="1" chance="38.0400" />	<!--Sealed Moirai Tunic Piece-->
@@ -7102,7 +7058,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1029" max="2103" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.9857">
 				<reward item_id="15772" min="1" max="1" chance="48.7164" />	<!--Sealed Moirai Ring Gem-->
@@ -7228,7 +7183,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1008" max="2061" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.9167">
 				<reward item_id="15654" min="1" max="1" chance="16.6224" />	<!--Sealed Moirai Gauntlet Piece-->
@@ -7370,7 +7324,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="346" max="699" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.2733">
 				<reward item_id="15645" min="1" max="1" chance="15.1498" />	<!--Sealed Moirai Helmet Piece-->
@@ -7482,7 +7435,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="457" max="933" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0199">
 				<reward item_id="10217" min="1" max="1" chance="0.1000" />	<!--Icarus Spirit-->
@@ -7585,7 +7537,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="346" max="699" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0149">
 				<reward item_id="10222" min="1" max="1" chance="0.1504" />	<!--Icarus Hall-->
@@ -7683,7 +7634,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="333" max="680" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0145">
 				<reward item_id="10221" min="1" max="1" chance="0.3007" />	<!--Icarus Hand-->
@@ -7780,7 +7730,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="346" max="699" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0149">
 				<reward item_id="10223" min="1" max="1" chance="0.3007" />	<!--Icarus Spitter-->
@@ -7876,7 +7825,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="160" max="326" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0070">
 				<reward item_id="10216" min="1" max="1" chance="0.2998" />	<!--Icarus Disperser-->
@@ -7969,7 +7917,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="826" max="1689" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.036">
 				<reward item_id="10219" min="1" max="1" chance="0.3007" />	<!--Icarus Trident-->
@@ -8089,7 +8036,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="826" max="1689" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.7513">
 				<reward item_id="15654" min="1" max="1" chance="16.6224" />	<!--Sealed Moirai Gauntlet Piece-->
@@ -8229,7 +8175,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="826" max="1689" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.6576">
 				<reward item_id="15645" min="1" max="1" chance="15.1498" />	<!--Sealed Moirai Helmet Piece-->
@@ -8364,7 +8309,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="949" max="1916" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0568">
 				<reward item_id="15634" min="1" max="1" chance="33.2749" />	<!--Vesper Cutter Piece-->
@@ -8490,7 +8434,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1047" max="2114" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0624">
 				<reward item_id="15640" min="1" max="1" chance="24.8524" />	<!--Vesper Avenger Piece-->
@@ -8616,7 +8559,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1021" max="2062" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0607">
 				<reward item_id="15638" min="1" max="1" chance="99.7637" />	<!--Vesper Fighter Piece-->
@@ -8724,7 +8666,6 @@
 		<faction name="solina_n_clan" range="300"/>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1033" max="2086" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0622">
 				<reward item_id="15644" min="1" max="1" chance="99.7667" />	<!--Vesper Thrower Piece-->
@@ -8843,7 +8784,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="1076" max="2172" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.0645">
 				<reward item_id="15637" min="1" max="1" chance="99.7657" />	<!--Vesper Shaper Piece-->
@@ -8967,7 +8907,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="5594" max="11432" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="0.339">
 				<reward item_id="15639" min="1" max="1" chance="99.7664" />	<!--Vesper Stormer Piece-->
@@ -9059,7 +8998,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="5832" max="11919" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="1.4014">
 				<reward item_id="15663" min="1" max="1" chance="38.2125" />	<!--Sealed Vesper Breastplate Piece-->
@@ -9156,7 +9094,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="6469" max="13222" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="1.983">
 				<reward item_id="15664" min="1" max="1" chance="39.2558" />	<!--Sealed Vesper Leather Breastplate Piece-->
@@ -9252,7 +9189,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="6033" max="12331" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="1.8494">
 				<reward item_id="15665" min="1" max="1" chance="39.2558" />	<!--Sealed Vesper Tunic Piece-->
@@ -9350,7 +9286,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="11026" max="22534" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="7.9652">
 				<reward item_id="15770" min="1" max="1" chance="29.4685" />	<!--Sealed Vesper Earring Gem-->
@@ -9448,7 +9383,6 @@
 		</skills>
 		<rewardlist type="RATED_GROUPED">
 			<group chance="100.0">
-				<reward item_id="57" min="11191" max="22872" chance="100.0000" />	<!--Adena-->
 			</group>
 			<group chance="8.7234">
 				<reward item_id="15667" min="1" max="1" chance="16.6295" />	<!--Sealed Vesper Gauntlet Piece-->
