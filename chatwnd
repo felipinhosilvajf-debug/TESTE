@@ -2,6 +2,8 @@ class ChatWnd extends UICommonAPI;
 
 struct ChatFilterInfo
 {
+
+var AutoFarm AutoFarmScript;
 	var int bSystem;
 	var int bChat;
 	var int bDamage;
@@ -348,7 +350,11 @@ function OnCompleteEditBox( String strID )
 		// O comando não é enviado ao servidor para evitar que o HTML antigo seja aberto.
 		if (strInput == ".autofarm")
 		{
-			AutoFarm(GetScript("AutoFarm")).OpenAutoFarm();
+			AutoFarmScript = AutoFarm(GetScript("AutoFarm"));
+		if (AutoFarmScript != None)
+		{
+			AutoFarmScript.OpenAutoFarm();
+		}
 
 			ChatEditBox.SetString( "" );
 			return;
