@@ -1,0 +1,1177 @@
+package l2f.gameserver.autofarm;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import l2f.gameserver.data.htm.HtmCache;
+import l2f.gameserver.model.Player;
+import l2f.gameserver.model.Skill;
+import l2f.gameserver.network.serverpackets.NpcHtmlMessage;
+
+public class AutoFarmCommunity
+{
+	public Player self;
+
+	private static final int SKILLS_PER_PAGE = 20;
+
+	private static final String PAGE_SKILL1 =
+		"autofarm_skill_page_1";
+
+	private static final String PAGE_SKILL2 =
+		"autofarm_skill_page_2";
+
+	private static final String PAGE_SKILL3 =
+		"autofarm_skill_page_3";
+
+	private void showHtml(String html)
+	{
+		if (self == null)
+			return;
+
+		/*
+		 * Auto Farm usa uma janela HTML pequena, no mesmo estilo
+		 * de uma janela de NPC. Não abrir no Community Board.
+		 */
+		NpcHtmlMessage message =
+			new NpcHtmlMessage(0);
+
+		message.setHtml(html);
+
+		self.sendPacket(message);
+	}
+
+	/*
+	 * =============================================================
+	 * AUTO FARM
+	 * =============================================================
+	 */
+
+	public void start()
+	{
+		if (self == null)
+			return;
+
+		if (self.isAutoFarm())
+		{
+			back();
+			return;
+		}
+
+		self.startAutoFarm();
+
+		back();
+	}
+
+	public void stop()
+	{
+		if (self == null)
+			return;
+
+		if (!self.isAutoFarm())
+		{
+			back();
+			return;
+		}
+
+		self.stopAutoFarm();
+
+		back();
+	}
+
+	public void toggle()
+	{
+		if (self == null)
+			return;
+
+		if (self.isAutoFarm())
+			stop();
+		else
+			start();
+	}
+
+	/*
+	 * =============================================================
+	 * SKILL 1
+	 * =============================================================
+	 */
+
+	public void skill1()
+	{
+		setPage(1, 0);
+		showSkillList(1);
+	}
+
+	public void skill1next()
+	{
+		changePage(1, 1);
+		showSkillList(1);
+	}
+
+	public void skill1prev()
+	{
+		changePage(1, -1);
+		showSkillList(1);
+	}
+
+	/*
+	 * =============================================================
+	 * SKILL 2
+	 * =============================================================
+	 */
+
+	public void skill2()
+	{
+		setPage(2, 0);
+		showSkillList(2);
+	}
+
+	public void skill2next()
+	{
+		changePage(2, 1);
+		showSkillList(2);
+	}
+
+	public void skill2prev()
+	{
+		changePage(2, -1);
+		showSkillList(2);
+	}
+
+	/*
+	 * =============================================================
+	 * SKILL 3
+	 * =============================================================
+	 */
+
+	public void skill3()
+	{
+		setPage(3, 0);
+		showSkillList(3);
+	}
+
+	public void skill3next()
+	{
+		changePage(3, 1);
+		showSkillList(3);
+	}
+
+	public void skill3prev()
+	{
+		changePage(3, -1);
+		showSkillList(3);
+	}
+
+	/*
+	 * =============================================================
+	 * PAGINAÇÃO
+	 * =============================================================
+	 */
+
+	private String getPageKey(int slot)
+	{
+		if (slot == 1)
+			return PAGE_SKILL1;
+
+		if (slot == 2)
+			return PAGE_SKILL2;
+
+		return PAGE_SKILL3;
+	}
+
+	private int getPage(int slot)
+	{
+		String value =
+			self.getVar(getPageKey(slot));
+
+		if (value == null || value.isEmpty())
+			return 0;
+
+		try
+		{
+			int page = Integer.parseInt(value);
+
+			if (page < 0)
+				return 0;
+
+			return page;
+		}
+		catch (NumberFormatException e)
+		{
+			return 0;
+		}
+	}
+
+	private void setPage(int slot, int page)
+	{
+		if (page < 0)
+			page = 0;
+
+		self.setVar(
+			getPageKey(slot),
+			String.valueOf(page),
+			-1
+		);
+	}
+
+	private void changePage(int slot, int amount)
+	{
+		int page = getPage(slot);
+
+		page += amount;
+
+		if (page < 0)
+			page = 0;
+
+		self.setVar(
+			getPageKey(slot),
+			String.valueOf(page),
+			-1
+		);
+	}
+
+	/*
+	 * =============================================================
+	 * MENU DE SKILLS
+	 * =============================================================
+	 */
+
+	private void showSkillList(int slot)
+	{
+		if (self == null)
+			return;
+
+		int page = getPage(slot);
+
+		List<Skill> skills =
+			new ArrayList<Skill>(
+				self.getAllSkills()
+			);
+
+		Collections.sort(
+			skills,
+			new Comparator<Skill>()
+			{
+				@Override
+				public int compare(Skill a, Skill b)
+				{
+					if (a == null && b == null)
+						return 0;
+
+					if (a == null)
+						return 1;
+
+					if (b == null)
+						return -1;
+
+					String nameA = a.getName();
+					String nameB = b.getName();
+
+					if (nameA == null)
+						nameA = "";
+
+					if (nameB == null)
+						nameB = "";
+
+					return nameA.compareToIgnoreCase(nameB);
+				}
+			}
+		);
+
+		List<Skill> validSkills =
+			new ArrayList<Skill>();
+
+		for (Skill skill : skills)
+		{
+			if (skill == null)
+				continue;
+
+			if (!skill.isActive() && !skill.isToggle())
+				continue;
+
+			if (skill.getName() == null ||
+				skill.getName().isEmpty())
+				continue;
+
+			validSkills.add(skill);
+		}
+
+		int totalPages =
+			(int) Math.ceil(
+				(double) validSkills.size() /
+				SKILLS_PER_PAGE
+			);
+
+		if (totalPages <= 0)
+			totalPages = 1;
+
+		if (page >= totalPages)
+		{
+			page = totalPages - 1;
+			setPage(slot, page);
+		}
+
+		int start =
+			page * SKILLS_PER_PAGE;
+
+		int end =
+			Math.min(
+				start + SKILLS_PER_PAGE,
+				validSkills.size()
+			);
+
+		StringBuilder html =
+			new StringBuilder();
+
+		html.append("<html noscrollbar>");
+		html.append("<title>Auto Farm - Skills</title>");
+		html.append("<body><center>");
+
+		html.append("<table width=235 border=1 cellpadding=2 cellspacing=0 bgcolor=\"000000\">");
+		html.append("<tr><td align=center background=\"L2font-e.map_airship_harbor_gludio\">");
+		html.append("<font color=\"FFFFFF\" size=3><b>SKILLS</b></font><br>");
+		html.append("<font color=\"AAAAAA\" size=1>ESCOLHA UMA SKILL</font>");
+		html.append("</td></tr></table><br>");
+
+		html.append("<table width=220 border=0 cellpadding=1 cellspacing=1 bgcolor=\"000000\">");
+
+		int column = 0;
+
+		for (int i = start; i < end; i++)
+		{
+			Skill skill = validSkills.get(i);
+
+			if (column == 0)
+				html.append("<tr>");
+
+			html.append("<td width=52 height=38 align=center bgcolor=\"202020\">");
+			html.append("<button value=\"\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
+			html.append(slot);
+			html.append(" ");
+			html.append(skill.getId());
+			html.append("\" width=32 height=32 back=\"");
+			html.append(getSkillIcon(skill));
+			html.append("\" fore=\"");
+			html.append(getSkillIcon(skill));
+			html.append("\" tooltip=\"");
+			html.append(skill.getName().replace("\"", "'"));
+			html.append("\">");
+			html.append("</td>");
+
+			column++;
+
+			if (column == 4)
+			{
+				html.append("</tr>");
+				column = 0;
+			}
+		}
+
+		if (column != 0)
+		{
+			while (column < 4)
+			{
+				html.append("<td width=52 height=38 bgcolor=\"202020\"></td>");
+				column++;
+			}
+			html.append("</tr>");
+		}
+
+		html.append("</table><br>");
+
+		html.append("<table width=220 border=0 cellpadding=0 cellspacing=1><tr>");
+
+		if (page > 0)
+		{
+			html.append("<td width=70 align=center><button value=\"<\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:");
+			if (slot == 1)
+				html.append("skill1prev");
+			else if (slot == 2)
+				html.append("skill2prev");
+			else
+				html.append("skill3prev");
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\"></td>");
+		}
+		else
+			html.append("<td width=70></td>");
+
+		html.append("<td width=80 align=center><font color=\"AAAAAA\" size=1>");
+		html.append(page + 1);
+		html.append(" / ");
+		html.append(totalPages);
+		html.append("</font></td>");
+
+		if (page + 1 < totalPages)
+		{
+			html.append("<td width=70 align=center><button value=\">\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:");
+			if (slot == 1)
+				html.append("skill1next");
+			else if (slot == 2)
+				html.append("skill2next");
+			else
+				html.append("skill3next");
+			html.append("\" width=55 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\"></td>");
+		}
+		else
+			html.append("<td width=70></td>");
+
+		html.append("</tr></table><br>");
+
+		html.append("<button value=\"SEM SKILL\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:select ");
+		html.append(slot);
+		html.append(" 0\" width=95 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\">");
+		html.append("<br><br>");
+		html.append("<button value=\"VOLTAR\" action=\"bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:back\" width=70 height=20 back=\"L2UI_CT1.Button_DF\" fore=\"L2UI_CT1.Button_DF\">");
+
+		html.append("</center></body></html>");
+
+		showHtml(html.toString());
+	}
+
+	/*
+	 * =============================================================
+	 * SELEÇÃO DA SKILL
+	 * =============================================================
+	 */
+
+	public void select(String[] args)
+	{
+		if (self == null)
+			return;
+
+		if (args == null || args.length < 2)
+			return;
+
+		try
+		{
+			int slot =
+				Integer.parseInt(args[0]);
+
+			int skillId =
+				Integer.parseInt(args[1]);
+
+			if (slot < 1 || slot > 3)
+				return;
+
+			int skill1 =
+				self.getAutoFarmSkill1();
+
+			int skill2 =
+				self.getAutoFarmSkill2();
+
+			int skill3 =
+				self.getAutoFarmSkill3();
+
+			/*
+			 * SEM SKILL
+			 */
+			if (skillId == 0)
+			{
+				if (slot == 1)
+					skill1 = 0;
+				else if (slot == 2)
+					skill2 = 0;
+				else
+					skill3 = 0;
+
+				self.setAutoFarmSkills(
+					skill1,
+					skill2,
+					skill3
+				);
+
+				back();
+				return;
+			}
+
+			/*
+			 * Verifica se a skill pertence ao personagem.
+			 */
+			Skill skill =
+				self.getKnownSkill(skillId);
+
+			if (skill == null)
+			{
+				self.sendMessage(
+					"Essa skill não pertence ao seu personagem."
+				);
+
+				return;
+			}
+
+			/*
+			 * IMPORTANTE:
+			 *
+			 * NÃO verificamos MP aqui.
+			 *
+			 * O jogador pode configurar uma skill mesmo
+			 * estando sem mana.
+			 *
+			 * O AutoFarmTask decidirá em combate se
+			 * existe mana suficiente.
+			 */
+			if (slot == 1)
+				skill1 = skillId;
+			else if (slot == 2)
+				skill2 = skillId;
+			else
+				skill3 = skillId;
+
+			self.setAutoFarmSkills(
+				skill1,
+				skill2,
+				skill3
+			);
+
+			back();
+		}
+		catch (NumberFormatException e)
+		{
+			self.sendMessage(
+				"Skill inválida."
+			);
+		}
+	}
+
+	/*
+	 * =============================================================
+	 * POÇÕES
+	 * =============================================================
+	 */
+
+	public void potion()
+	{
+		if (self == null)
+			return;
+
+		StringBuilder html =
+			new StringBuilder();
+
+		html.append("<html noscrollbar>");
+		html.append("<title>Auto Farm - Recurso</title>");
+		html.append("<body>");
+		html.append("<center>");
+
+		html.append(
+			"<table width=210 border=0 cellpadding=0 cellspacing=0>"
+		);
+
+		html.append("<tr>");
+		html.append("<td height=38 align=center>");
+
+		html.append(
+			"<font name=\"hs12\" color=\"LEVEL\">"
+		);
+
+		html.append("Recursos");
+
+		html.append("</font>");
+		html.append("</td>");
+		html.append("</tr>");
+
+		html.append("</table>");
+
+		html.append("<br>");
+
+		/*
+		 * HP
+		 */
+		if (self.getInventory().getItemByItemId(1539) != null)
+		{
+			html.append(
+				"<button value=\"HP - Greater Healing Potion\""
+			);
+
+			html.append(
+				" action=\"bypass _bbsscripts;"
+			);
+
+			html.append(
+				"l2f.gameserver.autofarm.AutoFarmCommunity:setPotion 1539\""
+			);
+
+			html.append(
+				" width=330 height=28"
+			);
+
+			html.append(
+				" back=\"L2UI_CH3.Btn_BF_Down\""
+			);
+
+			html.append(
+				" fore=\"L2UI_CH3.Btn_BF\">"
+			);
+
+			html.append("<br>");
+		}
+
+		/*
+		 * CP
+		 */
+		if (self.getInventory().getItemByItemId(5592) != null)
+		{
+			html.append(
+				"<button value=\"CP - CP Potion\""
+			);
+
+			html.append(
+				" action=\"bypass _bbsscripts;"
+			);
+
+			html.append(
+				"l2f.gameserver.autofarm.AutoFarmCommunity:setPotion 5592\""
+			);
+
+			html.append(
+				" width=330 height=28"
+			);
+
+			html.append(
+				" back=\"L2UI_CH3.Btn_BF_Down\""
+			);
+
+			html.append(
+				" fore=\"L2UI_CH3.Btn_BF\">"
+			);
+
+			html.append("<br>");
+		}
+
+		/*
+		 * MP
+		 */
+		if (self.getInventory().getItemByItemId(728) != null)
+		{
+			html.append(
+				"<button value=\"MP - Greater Mana Potion\""
+			);
+
+			html.append(
+				" action=\"bypass _bbsscripts;"
+			);
+
+			html.append(
+				"l2f.gameserver.autofarm.AutoFarmCommunity:setPotion 728\""
+			);
+
+			html.append(
+				" width=330 height=28"
+			);
+
+			html.append(
+				" back=\"L2UI_CH3.Btn_BF_Down\""
+			);
+
+			html.append(
+				" fore=\"L2UI_CH3.Btn_BF\">"
+			);
+
+			html.append("<br>");
+		}
+
+		/*
+		 * SEM POÇÃO
+		 */
+		html.append(
+			"<button value=\"SEM POÇÃO\""
+		);
+
+		html.append(
+			" action=\"bypass _bbsscripts;"
+		);
+
+		html.append(
+			"l2f.gameserver.autofarm.AutoFarmCommunity:setPotion 0\""
+		);
+
+		html.append(
+			" width=330 height=28"
+		);
+
+		html.append(
+			" back=\"L2UI_CH3.Btn_BF_Down\""
+		);
+
+		html.append(
+			" fore=\"L2UI_CH3.Btn_BF\">"
+		);
+
+		html.append("<br><br>");
+
+		html.append(
+			"<font color=\"AAAAAA\">"
+		);
+
+		html.append(
+			"Recurso usado a 60%."
+		);
+
+		html.append("</font>");
+
+		html.append("<br><br>");
+
+		html.append(
+			"<button value=\"VOLTAR\""
+		);
+
+		html.append(
+			" action=\"bypass _bbsscripts;"
+		);
+
+		html.append(
+			"l2f.gameserver.autofarm.AutoFarmCommunity:back\""
+		);
+
+		html.append(
+			" width=100 height=27"
+		);
+
+		html.append(
+			" back=\"L2UI_CH3.Btn_BF_Down\""
+		);
+
+		html.append(
+			" fore=\"L2UI_CH3.Btn_BF\">"
+		);
+
+		html.append("</center>");
+		html.append("</body>");
+		html.append("</html>");
+
+		showHtml(html.toString());
+	}
+
+	public void setPotion(String[] args)
+	{
+		if (self == null)
+			return;
+
+		if (args == null || args.length < 1)
+			return;
+
+		try
+		{
+			int itemId =
+				Integer.parseInt(args[0]);
+
+			/*
+			 * Somente:
+			 *
+			 * 1539 HP
+			 * 5592 CP
+			 * 728 MP
+			 * 0 Sem poção
+			 */
+			if (itemId != 0 &&
+				itemId != 1539 &&
+				itemId != 5592 &&
+				itemId != 728)
+			{
+				self.sendMessage(
+					"Recurso inválido."
+				);
+
+				return;
+			}
+
+			if (itemId > 0 &&
+				self.getInventory().getItemByItemId(itemId) == null)
+			{
+				self.sendMessage(
+					"Você não possui esta poção no inventário."
+				);
+
+				return;
+			}
+
+			self.setVar(
+				"autofarm_potion",
+				String.valueOf(itemId),
+				-1
+			);
+
+			back();
+		}
+		catch (NumberFormatException e)
+		{
+			self.sendMessage(
+				"Recurso inválido."
+			);
+		}
+	}
+
+	/*
+	 * =============================================================
+	 * RAIO
+	 * =============================================================
+	 */
+
+	public void radius()
+	{
+		if (self == null)
+			return;
+
+		StringBuilder html =
+			new StringBuilder();
+
+		html.append("<html noscrollbar>");
+		html.append("<title>Auto Farm - Raio</title>");
+		html.append("<body>");
+		html.append("<center>");
+
+		html.append(
+			"<table width=210 border=0 cellpadding=0 cellspacing=0>"
+		);
+
+		html.append("<tr>");
+		html.append("<td height=38 align=center>");
+
+		html.append(
+			"<font name=\"hs12\" color=\"LEVEL\">"
+		);
+
+		html.append("Definir:");
+
+		html.append("</font>");
+		html.append("</td>");
+		html.append("</tr>");
+
+		html.append("</table>");
+
+		html.append("<br>");
+
+		int[] radii =
+		{
+			500,
+			750,
+			1000,
+			1500,
+			2000
+		};
+
+		for (int radius : radii)
+		{
+			html.append(
+				"<button value=\""
+			);
+
+			html.append(radius);
+
+			html.append(
+				"\" action=\"bypass _bbsscripts;"
+			);
+
+			html.append(
+				"l2f.gameserver.autofarm.AutoFarmCommunity:setRadius "
+			);
+
+			html.append(radius);
+
+			html.append("\"");
+
+			html.append(
+				" width=180 height=27"
+			);
+
+			html.append(
+				" back=\"L2UI_CH3.Btn_BF_Down\""
+			);
+
+			html.append(
+				" fore=\"L2UI_CH3.Btn_BF\">"
+			);
+
+			html.append("<br>");
+		}
+
+		html.append("<br>");
+
+		html.append(
+			"<button value=\"VOLTAR\""
+		);
+
+		html.append(
+			" action=\"bypass _bbsscripts;"
+		);
+
+		html.append(
+			"l2f.gameserver.autofarm.AutoFarmCommunity:back\""
+		);
+
+		html.append(
+			" width=100 height=27"
+		);
+
+		html.append(
+			" back=\"L2UI_CH3.Btn_BF_Down\""
+		);
+
+		html.append(
+			" fore=\"L2UI_CH3.Btn_BF\">"
+		);
+
+		html.append("</center>");
+		html.append("</body>");
+		html.append("</html>");
+
+		showHtml(html.toString());
+	}
+
+	public void setRadius(String[] args)
+	{
+		if (self == null)
+			return;
+
+		if (args == null || args.length < 1)
+			return;
+
+		try
+		{
+			int radius =
+				Integer.parseInt(args[0]);
+
+			if (radius != 500 &&
+				radius != 750 &&
+				radius != 1000 &&
+				radius != 1500 &&
+				radius != 2000)
+			{
+				self.sendMessage(
+					"Raio inválido."
+				);
+
+				return;
+			}
+
+			self.setAutoFarmRadius(radius);
+
+			back();
+		}
+		catch (NumberFormatException e)
+		{
+			self.sendMessage(
+				"Raio inválido."
+			);
+		}
+	}
+
+	/*
+	 * =============================================================
+	 * MENU PRINCIPAL
+	 * =============================================================
+	 */
+
+	public void back()
+	{
+		if (self == null)
+			return;
+
+		/*
+		 * Skills salvas anteriormente podem não pertencer mais
+		 * ao personagem atual. Nunca exibimos uma skill inválida.
+		 */
+		int skill1 = self.getAutoFarmSkill1();
+		int skill2 = self.getAutoFarmSkill2();
+		int skill3 = self.getAutoFarmSkill3();
+
+		if (skill1 > 0 && !isUsableAutoFarmSkill(skill1))
+			skill1 = 0;
+
+		if (skill2 > 0 && !isUsableAutoFarmSkill(skill2))
+			skill2 = 0;
+
+		if (skill3 > 0 && !isUsableAutoFarmSkill(skill3))
+			skill3 = 0;
+
+		if (skill1 != self.getAutoFarmSkill1() ||
+			skill2 != self.getAutoFarmSkill2() ||
+			skill3 != self.getAutoFarmSkill3())
+		{
+			self.setAutoFarmSkills(skill1, skill2, skill3);
+		}
+
+		String html =
+			HtmCache.getInstance().getNotNull(
+				"scripts/services/communityPVP/pages/AutoFarm.htm",
+				self
+			);
+
+		html = html.replace(
+			"%skill1icon%",
+			getSkillIcon(
+				skill1
+			)
+		);
+		html = html.replace(
+			"%skill2icon%",
+			getSkillIcon(
+				skill2
+			)
+		);
+		html = html.replace(
+			"%skill3icon%",
+			getSkillIcon(
+				skill3
+			)
+		);
+
+		html = html.replace(
+			"%skill1value%",
+			getSkillValue(
+				self.getAutoFarmSkill1()
+			)
+		);
+		html = html.replace(
+			"%skill2value%",
+			getSkillValue(
+				self.getAutoFarmSkill2()
+			)
+		);
+		html = html.replace(
+			"%skill3value%",
+			getSkillValue(
+				self.getAutoFarmSkill3()
+			)
+		);
+
+		html = html.replace(
+			"%skill1name%",
+			getSkillName(
+				self.getAutoFarmSkill1()
+			)
+		);
+		html = html.replace(
+			"%skill2name%",
+			getSkillName(
+				self.getAutoFarmSkill2()
+			)
+		);
+		html = html.replace(
+			"%skill3name%",
+			getSkillName(
+				self.getAutoFarmSkill3()
+			)
+		);
+
+		html = html.replace(
+			"%potion%",
+			getPotionName(
+				self.getVar("autofarm_potion")
+			)
+		);
+
+		html = html.replace(
+			"%radius%",
+			String.valueOf(
+				self.getAutoFarmRadius()
+			)
+		);
+
+		html = html.replace(
+			"%status%",
+			self.isAutoFarm()
+				? "ATIVADO"
+				: "DESATIVADO"
+		);
+
+		showHtml(html);
+	}
+
+	private String getSkillIcon(int skillId)
+	{
+		if (skillId <= 0 || self == null)
+			return "L2UI_CT1.Button_DF";
+
+		Skill skill = self.getKnownSkill(skillId);
+
+		if (skill == null || skill.getIcon() == null || skill.getIcon().isEmpty())
+			return "L2UI_CT1.Button_DF";
+
+		return skill.getIcon();
+	}
+
+	private String getSkillIcon(Skill skill)
+	{
+		if (skill == null || skill.getIcon() == null || skill.getIcon().isEmpty())
+			return "L2UI_CT1.Button_DF";
+
+		return skill.getIcon();
+	}
+
+	private boolean isUsableAutoFarmSkill(int skillId)
+	{
+		if (skillId <= 0 || self == null)
+			return false;
+
+		Skill skill = self.getKnownSkill(skillId);
+
+		if (skill == null)
+			return false;
+
+		return skill.isActive() || skill.isToggle();
+	}
+
+	private String getSkillValue(int skillId)
+	{
+		return isUsableAutoFarmSkill(skillId) ? "" : "+";
+	}
+
+	private String getSkillName(int skillId)
+	{
+		if (skillId <= 0)
+			return "Sem Skill";
+
+		if (self == null)
+			return "Sem Skill";
+
+		Skill skill =
+			self.getKnownSkill(skillId);
+
+		if (skill == null)
+			return "Sem Skill";
+
+		String name = skill.getName();
+
+		if (name == null ||
+			name.isEmpty())
+		{
+			return "Sem Skill";
+		}
+
+		if (name.length() > 24)
+			name = name.substring(0, 24);
+
+		return name;
+	}
+
+	private String getPotionName(String varVal)
+	{
+		if (varVal == null ||
+			varVal.isEmpty())
+		{
+			return "Sem Poção";
+		}
+
+		try
+		{
+			int itemId =
+				Integer.parseInt(varVal);
+
+			if (itemId == 1539)
+				return "HP";
+
+			if (itemId == 5592)
+				return "CP";
+
+			if (itemId == 728)
+				return "MP";
+
+			return "Sem Poção";
+		}
+		catch (NumberFormatException e)
+		{
+			return "Sem Poção";
+		}
+	}
+}
