@@ -211,6 +211,7 @@ header::before {
     color: var(--blue-light);
     font-family: 'Cinzel', serif;
 }
+.online-float-content{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.online-float-label{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dynasty-muted);font-weight:700}.online-float #onlineDays{font-family:'Cinzel',serif;font-size:.78rem;font-weight:800;color:var(--blue-light);white-space:nowrap;text-shadow:0 0 10px var(--glow-blue)}
 /* =========================================================
    COUNTDOWN
 ========================================================= */
@@ -2551,7 +2552,10 @@ position:relative;
 <!-- Card flutuante: tempo online -->
 <div class="online-float" role="status" aria-label="Tempo online do servidor">
   <span class="online-float-icon" aria-hidden="true">◈</span>
-  <div id="onlineDays">90 dias 00:00:00</div>
+  <div class="online-float-content">
+    <span class="online-float-label">Tempo Online</span>
+    <div id="onlineDays">90d 00h 00m 00s</div>
+  </div>
 </div>
 <!-- Atalho flutuante para a comunidade -->
 <a class="community-float" href="#comunidades" role="button" aria-label="Abrir comunidade oficial" onclick="event.preventDefault();openPanel('join')">
@@ -2787,10 +2791,10 @@ function toggleMobileTopbar(){
 
         if (el) {
             el.textContent =
-                dias + (dias === 1 ? ' dia ' : ' dias ') +
-                [horas, minutos, segundos]
-                    .map(n => String(n).padStart(2, '0'))
-                    .join(':');
+                String(dias) + 'd ' +
+                String(horas).padStart(2, '0') + 'h ' +
+                String(minutos).padStart(2, '0') + 'm ' +
+                String(segundos).padStart(2, '0') + 's';
         }
     }
 
