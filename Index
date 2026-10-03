@@ -2551,7 +2551,7 @@ position:relative;
 <!-- Card flutuante: tempo online -->
 <div class="online-float" role="status" aria-label="Tempo online do servidor">
   <span class="online-float-icon" aria-hidden="true">◈</span>
-  <div><div class="online-float-label">Tempo online</div><strong class="online-float-days" id="onlineDays">90 dias 00:00:00</strong></div>
+  <div id="onlineDays">90 dias 00:00:00</div>
 </div>
 <!-- Atalho flutuante para a comunidade -->
 <a class="community-float" href="#comunidades" role="button" aria-label="Abrir comunidade oficial" onclick="event.preventDefault();openPanel('join')">
@@ -2559,26 +2559,7 @@ position:relative;
   <span>COMUNIDADE</span>
 </a>
 
-/* =========================================================
-   CONTADOR DE TEMPO ONLINE
-   Marco inicial: 05/07/2026 (90 dias antes da referência atual)
-========================================================= */
-(function(){
-  const inicioOnline = new Date('2026-07-05T00:00:00-03:00');
-  const duracaoMinima = 90 * 24 * 60 * 60 * 1000;
-  function atualizarTempoOnline(){
-    const tempoDecorrido = Math.max(duracaoMinima, Date.now() - inicioOnline.getTime());
-    const totalSegundos = Math.floor(tempoDecorrido / 1000);
-    const dias = Math.floor(totalSegundos / 86400);
-    const horas = Math.floor((totalSegundos % 86400) / 3600);
-    const minutos = Math.floor((totalSegundos % 3600) / 60);
-    const segundos = totalSegundos % 60;
-    const el = document.getElementById('onlineDays');
-    if(el) el.textContent = dias + ' dias ' + [horas,minutos,segundos].map(n => String(n).padStart(2,'0')).join(':');
-  }
-  atualizarTempoOnline();
-  setInterval(atualizarTempoOnline, 1000);
-})();
+
 <script>
 /* =========================================================
    COUNTDOWN
@@ -2785,5 +2766,36 @@ function toggleMobileTopbar(){
     if(b)b.setAttribute('aria-expanded',open?'true':'false');
 }
 
+(function () {
+    const inicioOnline = new Date('2026-07-05T00:00:00-03:00');
+
+    function atualizarTempoOnline() {
+        const agora = Date.now();
+        const diferenca = Math.max(
+            90 * 24 * 60 * 60 * 1000,
+            agora - inicioOnline.getTime()
+        );
+
+        const totalSegundos = Math.floor(diferenca / 1000);
+
+        const dias = Math.floor(totalSegundos / 86400);
+        const horas = Math.floor((totalSegundos % 86400) / 3600);
+        const minutos = Math.floor((totalSegundos % 3600) / 60);
+        const segundos = totalSegundos % 60;
+
+        const el = document.getElementById('onlineDays');
+
+        if (el) {
+            el.textContent =
+                dias + (dias === 1 ? ' dia ' : ' dias ') +
+                [horas, minutos, segundos]
+                    .map(n => String(n).padStart(2, '0'))
+                    .join(':');
+        }
+    }
+
+    atualizarTempoOnline();
+    setInterval(atualizarTempoOnline, 1000);
+})();
 </script></body>
 </html>
