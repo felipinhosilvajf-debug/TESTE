@@ -5,6 +5,7 @@ const ID_ITERACTION_OFFSET = 65000;
 
 var WindowHandle h_Timer;
 var WindowHandle h_Option;
+var WindowHandle wnd_AutoFarm;
 
 var ListCtrlHandle WarFromMyClan;
 var ListCtrlHandle WarToMyClan;
@@ -77,6 +78,7 @@ function OnLoad()
 	Me = GetListCtrlHandle("WarMemberWarning.MainList");
 	
 	h_Timer = GetWindowHandle("WarMemberWarning");
+	wnd_AutoFarm = GetWindowHandle("AutoFarmWnd");
 	
 	h_Option = GetWindowHandle("WarMemberWarning.Options");
 	
@@ -144,20 +146,8 @@ function OnClickButton(string strID)
 			h_Timer.HideWindow();
 		break;
 		case "btnScan":
-			if (!isScanning)
-			{
-				OnClickScan();
-				AnimStart(true);
-				isScanning = true;
-				//sysDebug("START SCANNING");
-			}
-			else
-			{
-				h_Timer.KillTimer(3340);
-				AnimStart(false);
-				isScanning = false;
-				//sysDebug("STOP SCANNING");
-			}
+			wnd_AutoFarm.ShowWindow();
+			wnd_AutoFarm.SetFocus();
 		break;
 	}
 }
