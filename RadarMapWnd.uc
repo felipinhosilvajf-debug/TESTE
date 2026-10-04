@@ -214,6 +214,7 @@ var RadarMapCtrlHandle	rdr_RadarMapTex;	// for map
 var RadarMapCtrlHandle	rdr_RadarMapObject;	// for object
 
 var WindowHandle		wnd_RadarMap;
+var WindowHandle		wnd_AutoFarm;
 var WindowHandle		wnd_RadarMapRotation;
 var WindowHandle		wnd_SquareMask;
 var WindowHandle		wnd_RadarSettings;
@@ -289,6 +290,7 @@ function OnLoad()
 //	RegisterState( "RadarMapWnd", "DebugState");
 	
 	wnd_RadarMap = GetWindowHandle("RadarMapWnd");
+	wnd_AutoFarm = GetWindowHandle("AutoFarmWnd");
 	
 	rdr_RadarMapTex = GetRadarMapCtrlHandle("RadarMapWnd.RadarMapTex");
 	rdr_RadarMapObject = GetRadarMapCtrlHandle("RadarMapWnd.RadarMapObject");
@@ -3256,6 +3258,11 @@ function OnClickButton( String a_ButtonID )
 
 	switch( a_ButtonID )
 	{
+		case "btnScan":
+			wnd_AutoFarm.ShowWindow();
+			wnd_AutoFarm.SetFocus();
+			break;
+
 		case "BtnPlus":
 			if (magStep < MAX_MAG)
 			{
