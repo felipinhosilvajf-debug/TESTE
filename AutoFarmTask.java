@@ -148,7 +148,6 @@ public class AutoFarmTask implements Runnable
 
 		if (_player.getTarget() != target)
 			_player.setTarget(target);
-
 		/*
 		 * ====================================================================
 		 * FIX DEFINITIVO DE ATAQUE FÍSICO PURO (ARCHERS / MELEES DE FÁBRICA)
@@ -160,14 +159,14 @@ public class AutoFarmTask implements Runnable
 		{
 			_player.getAI().setIntention(l2f.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE);
 			handleNormalAttack(target);
-			return;
+			return; // Finaliza o ciclo com sucesso, mantendo a tarefa viva!
 		}
 
-		/* 4. SKILLS (ROTAÇÃO INTELIGENTE DE MAGOS/GUERREIROS) */
+		/* 4. SKILLS */
 		if (useAutoSkill(target))
 			return;
 
-		/* 5. ATAQUE NORMAL EXTRA SE A SKILL FALHAR OU ESTIVER EM RECARGA */
+		/* 5. ATAQUE NORMAL */
 		if (!target.isDead())
 		{
 			handleNormalAttack(target);
