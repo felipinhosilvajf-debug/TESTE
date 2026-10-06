@@ -438,11 +438,17 @@ public class AutoFarmTask implements Runnable
 
 			int skillId = skills[index];
 
-			/*
-			 * 0 = Sem Skill.
+						/*
+			 * 0 = Sem Skill / Slot Vazio.
+			 * CORREÇÃO: Se o slot estiver vazio (0), nós NÃO damos 'continue'.
+			 * Nós retornamos 'false' imediatamente para o Core saber que não há 
+			 * habilidades disponíveis e descer para o método handleNormalAttack!
 			 */
 			if (skillId <= 0)
-				continue;
+			{
+				return false;
+			}
+
 
 			Skill skill =
 				_player.getKnownSkill(skillId);
