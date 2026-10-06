@@ -23,11 +23,11 @@ function OnLoad()
 		EditBox_KeyWord0 = EditBoxHandle (GetHandle("ChatFilterWnd.Editbox_KeyWord0" ));
 		EditBox_KeyWord1 = EditBoxHandle (GetHandle("ChatFilterWnd.Editbox_KeyWord1" ));
 		EditBox_KeyWord2 = EditBoxHandle (GetHandle("ChatFilterWnd.Editbox_KeyWord2" ));
-					                                                 
+		                                                 
 		Keyword_Reset0 = ButtonHandle(GetHandle("ChatFilterWnd.Keyword_Reset0"));
 		Keyword_Reset1 = ButtonHandle(GetHandle("ChatFilterWnd.Keyword_Reset1"));
 		Keyword_Reset2 = ButtonHandle(GetHandle("ChatFilterWnd.Keyword_Reset2"));
-								  
+								
 		KeywordFilterBox   = CheckBoxHandle  (GetHandle("ChatFilterWnd.KeywordFilterBox" ));
 		KeywordSoundBox = CheckBoxHandle   (GetHandle("ChatFilterWnd.KeywordSoundBox" ));
 		
@@ -41,11 +41,11 @@ function OnLoad()
 		EditBox_KeyWord0 = GetEditBoxHandle("ChatFilterWnd.Editbox_KeyWord0" );
 		EditBox_KeyWord1 = GetEditBoxHandle("ChatFilterWnd.Editbox_KeyWord1" );
 		EditBox_KeyWord2 = GetEditBoxHandle("ChatFilterWnd.Editbox_KeyWord2" );
-					                                                 
+		                                                 
 		Keyword_Reset0 = GetButtonHandle("ChatFilterWnd.Keyword_Reset0");
 		Keyword_Reset1 = GetButtonHandle("ChatFilterWnd.Keyword_Reset1");
 		Keyword_Reset2 = GetButtonHandle("ChatFilterWnd.Keyword_Reset2");
-								  
+								
 		KeywordFilterBox   = GetCheckBoxHandle("ChatFilterWnd.KeywordFilterBox" );
 		KeywordSoundBox = GetCheckBoxHandle("ChatFilterWnd.KeywordSoundBox" );
 		
@@ -56,19 +56,19 @@ function OnLoad()
 	}
 
 	InitTabOrder();
-	//~ SetComboxIDSelect(-1, 1);
-	//~ m_ChannelAssignComboBox.DisableWindow();
-	
-		// ---- Custom: Forcar o Filtro a Colar na base do ChatWnd ----
-	GetWindowHandle("ChatFilterWnd").MoveTo(0, 0);
-	// -----------------------------------------------------------
 
+	class'UIAPI_WINDOW'.static.SetAnchor(
+		"ChatFilterWnd",
+		"ChatWnd",
+		"TopLeft",
+		"BottomLeft",
+		0,
+		-5
+	);
 }
-
 
 function InitTabOrder()
 {
-	
 	class'UIAPI_WINDOW'.static.SetTabOrder("ChatFilterWnd", "ChatFilterWnd.EditBox_KeyWord0", "ChatFilterWnd.EditBox_KeyWord2");
 	class'UIAPI_WINDOW'.static.SetTabOrder("ChatFilterWnd.EditBox_KeyWord0", "ChatFilterWnd.EditBox_KeyWord1", "ChatFilterWnd");
 	class'UIAPI_WINDOW'.static.SetTabOrder("ChatFilterWnd.EditBox_KeyWord1", "ChatFilterWnd.EditBox_KeyWord2", "ChatFilterWnd.EditBox_KeyWord0");
@@ -78,15 +78,13 @@ function InitTabOrder()
 function OnShow()
 {
 	local string tempstring;
-//	class'UIAPI_WINDOW'.static.SetAnchor( "ChatFilterWnd", "ChatWnd", "TopLeft", "BottomLeft", 0, -5 );
+
 	GetINIString("global", "Keyword0", tempstring, "chatfilter.ini");
 	EditBox_KeyWord0.SetString(tempstring);
 	GetINIString("global", "Keyword1", tempstring, "chatfilter.ini");
 	EditBox_KeyWord1.SetString(tempstring);
 	GetINIString("global", "Keyword2", tempstring, "chatfilter.ini");
 	EditBox_KeyWord2.SetString(tempstring);
-	//~ SetComboxIDSelect(-1, 1);
-	//~ FillOutComboBoxHandle();
 }
 
 function FillOutComboBoxHandle()
@@ -106,9 +104,6 @@ function FillOutComboBoxHandle()
 
 function OnClickButton(string strID)
 {
-	//~ local ChatWnd script;
-
-	//~ script = ChatWnd( GetScript("ChatWnd") );
 	if( strID == "ChatFilterOK" )
 	{
 		SaveChatFilterOption();
@@ -145,7 +140,6 @@ function OnClickCheckBox( String strID )
 
 	if( strID == "CheckBoxSystem" )
 	{
-		// 큰 카테고리가 체크 되었는지 여부에 따라 작은 카테고리의 checkbox를 활성/비활성 한다.
 		if( !class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxSystem" ) )
 		{
 			class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxDamage", true );
@@ -157,35 +151,6 @@ function OnClickCheckBox( String strID )
 			class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxItem", false );
 		}
 	}
-//	else if( strID == "CheckBoxChat" )
-//	{
-//		// 큰 카테고리가 체크 되었는지 여부에 따라 작은 카테고리의 checkbox를 활성/비활성 한다.
-//		if( !class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxChat" ) )
-///		{
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxNormal", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxShout", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxPledge", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxParty", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxTrade", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxWhisper", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxAlly", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxHero", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxUnion", true );
-	//	}
-	//	else
-	//	{
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxNormal", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxShout", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxPledge", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxParty", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxTrade", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxWhisper", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxAlly", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxHero", true );
-	//		class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxUnion", true );
-	//	}
-//
-//	}
 	 else if ( strID == "SystemMsgBox")
 	 {
 		if ( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.SystemMsgBox" ) )
@@ -204,7 +169,6 @@ function OnClickCheckBox( String strID )
 		}
 	}
 	
-	
 	class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxNormal", false );
 	class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxShout", false );
 	class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxPledge", false );
@@ -217,7 +181,6 @@ function OnClickCheckBox( String strID )
 	debug ("Released Button:" @ string(script.m_chatType.ID) );
 	switch( script.m_chatType.ID )
 		{
-			//~ debug ("Released Button:" @ string(script.m_chatType.ID) );
 		case 3:
 			class'UIAPI_CHECKBOX'.static.SetDisable( "ChatFilterWnd.CheckBoxPledge", true );
 			break;
@@ -271,7 +234,7 @@ function SaveChatFilterOption()
 	script.m_filterInfo[chatType].bHero = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxHero" ) );
 	script.m_filterInfo[chatType].bUnion = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxUnion" ) );
 	script.m_filterInfo[chatType].bBattle = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxBattle" ) );
-	script.m_NoNpcMessage = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxNPC" ) );	// NPC 대사 필터링 - 2010.9.8 winkey
+	script.m_NoNpcMessage = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxNPC" ) );
 	script.m_NoUnionCommanderMessage = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.CheckBoxCommand" ) );
 	script.m_KeywordFilterSound = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.KeywordSoundBox" ) );
 	script.m_KeywordFilterActivate = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.KeywordFilterBox" ) );
@@ -279,28 +242,11 @@ function SaveChatFilterOption()
 	script.m_Keyword1 = EditBox_KeyWord1.GetString();
 	script.m_Keyword2 = EditBox_KeyWord2.GetString();
 	
-	
-	// 시스템메시지전용창 - SystemMsgBox
-//	bChecked = class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.SystemMsgBox" );			// moved to OnClickCheckBox
-//	SetOptionBool( "Game", "SystemMsgWnd", bChecked );											// moved to OnClickCheckBox
-
-	// 데미지 - DamageBox
 	bChecked = class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.DamageBox" );
 	SetOptionBool( "Game", "SystemMsgWndDamage", bChecked );
 
-	// 소모성아이템사용 - ItemBox
 	bChecked = class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.ItemBox" );
 	SetOptionBool( "Game", "SystemMsgWndExpendableItem", bChecked );
-	
-//	if (GetOptionBool( "Game", "SystemMsgWnd" ) )												// moved to OnClickCheckBox
-//	{
-//		 class'UIAPI_WINDOW'.static.ShowWindow("SystemMsgWnd");
-////	} 
-//	else 
-////	{
-//		class'UIAPI_WINDOW'.static.HideWindow("SystemMsgWnd");
-//	}
-	
 	
 	SetINIBool(script.m_sectionName[chatType],"system", bool(script.m_filterInfo[chatType].bSystem), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"damage", bool(script.m_filterInfo[chatType].bDamage), "chatfilter.ini");
@@ -312,28 +258,23 @@ function SaveChatFilterOption()
 	SetINIBool(script.m_sectionName[chatType],"market", bool(script.m_filterInfo[chatType].bTrade), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"pledge", bool(script.m_filterInfo[chatType].bClan), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"tell", bool(script.m_filterInfo[chatType].bWhisper), "chatfilter.ini");
-	SetINIBool(script.m_sectionName[chatType],"ally", bool(script.m_filterInfo[chatType].bAlly), "chatfilter.ini");	
+	SetINIBool(script.m_sectionName[chatType],"ally", bool(script.m_filterInfo[chatType].bAlly), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"hero", bool(script.m_filterInfo[chatType].bHero), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"union", bool(script.m_filterInfo[chatType].bUnion), "chatfilter.ini");
 	SetINIBool(script.m_sectionName[chatType],"battle", bool(script.m_filterInfo[chatType].bBattle), "chatfilter.ini");
 	
-	//Global Setting
-	SetINIBool("global","npc", bool(script.m_NoNpcMessage), "chatfilter.ini");						// NPC 대사 필터링 - 2010.9.8 winkey
+	SetINIBool("global","npc", bool(script.m_NoNpcMessage), "chatfilter.ini");
 	SetINIBool("global","command", bool(script.m_NoUnionCommanderMessage), "chatfilter.ini");
 	SetINIBool("global","keywordsound", bool(script.m_KeywordFilterSound), "chatfilter.ini");
 	SetINIBool("global","keywordactivate", bool(script.m_KeywordFilterActivate), "chatfilter.ini");
 	
-	 
 	SetINIString("global", "Keyword0", script.m_Keyword0, "chatfilter.ini");
 	SetINIString("global", "Keyword1", script.m_Keyword1, "chatfilter.ini");
 	SetINIString("global", "Keyword2", script.m_Keyword2, "chatfilter.ini");
 	
 	script.m_KeywordFilterSound = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.KeywordSoundBox" ) );
 	script.m_KeywordFilterActivate = int( class'UIAPI_CHECKBOX'.static.IsChecked( "ChatFilterWnd.KeywordFilterBox" ) );
-	
-	
 }
-
 
 function OnComboBoxItemSelected(string StrID, int IndexID)
 {
@@ -348,7 +289,6 @@ function OnComboBoxItemSelected(string StrID, int IndexID)
 		break;
 	}
 }
-
 
 function SetComboxIDSelect(int Index, int ID)
 {
