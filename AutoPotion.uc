@@ -329,11 +329,11 @@ function OnClickItem(String strID, int index)
 			}			
 		break;
 
-		// Ativa/desativa o AutoFarm pelo comando legítimo do servidor.
+		// Os slots de skill nao controlam mais o AutoFarm.
+		// O toggle sera feito exclusivamente pelo botao de AutoFarm.
 		case "itemRand1":
 		case "itemRand2":
 		case "itemRand3":
-			ExecuteCommand(".autofarm toggle");
 			PlayConsoleSound(IFST_CLICK1);
 		break;
 	}
