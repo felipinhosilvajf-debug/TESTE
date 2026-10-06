@@ -329,11 +329,10 @@ function OnClickItem(String strID, int index)
 			}			
 		break;
 
-		// Rota limpa via chat legítimo que ativa o farm sem travar e sem dar a voz
+		// Ativa/desativa o AutoFarm pelo comando legítimo do servidor.
 		case "itemRand1":
 		case "itemRand2":
 		case "itemRand3":
-			// Manda o comando de chat legítimo que possui permissão de execução
 			ExecuteCommand(".autofarm toggle");
 			PlayConsoleSound(IFST_CLICK1);
 		break;
