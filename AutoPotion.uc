@@ -85,6 +85,7 @@ var ItemID idSCP;
 var int currentSkillId1;
 var int currentSkillId2;
 var int currentSkillId3;
+var bool autoFarmVisual;
 
 function OnRegisterEvent()
 {
