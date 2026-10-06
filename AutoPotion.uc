@@ -179,8 +179,7 @@ function OnShow()
 	hSCP.HideWindow();
 	hS.HideWindow();
 	
-	txtDescQHP.ShowWindow();
-	txtDescQHP.SetText("ATIVAR");
+	txtDescQHP.HideWindow();
 	txtDescSCP.HideWindow();
 	txtDescS.HideWindow();
 	
@@ -188,6 +187,8 @@ function OnShow()
 	txtPercentSCP.HideWindow();
 	txtDelayQHP.HideWindow();
 	txtDelaySCP.HideWindow();
+	ePercentQHP.HideWindow();
+	eDelayQHP.HideWindow();
 	
 	tBlankQHP.ShowWindow();
 	tBlankSCP.HideWindow();
@@ -521,6 +522,5 @@ function OnClickButton(string strID)
 	{
 		ExecuteCommand(".autofarm toggle");
 		autoFarmVisual = !autoFarmVisual;
-		PlayConsoleSound(IFST_CLICK1);
 	}
 }
