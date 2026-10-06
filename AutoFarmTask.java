@@ -18,7 +18,7 @@ public class AutoFarmTask implements Runnable
 	private final Player _player;
 	private ScheduledFuture<?> _task;
 
-	private int _searchRadius = 1000;
+	private int _searchRadius = 2000;
 
 	/*
 	 * Skills configuradas.
