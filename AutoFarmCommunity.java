@@ -979,7 +979,7 @@ public class AutoFarmCommunity
 			self
 		);
 
-		self.sendPacket(new NpcHtmlMessage(0, html));
+		self.sendPacket(new NpcHtmlMessage(self, html));
 	}
 
 	public void back()
