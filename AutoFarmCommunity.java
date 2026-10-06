@@ -969,6 +969,19 @@ public class AutoFarmCommunity
 	 * =============================================================
 	 */
 
+	public void info()
+	{
+		if (self == null)
+			return;
+
+		String html = HtmCache.getInstance().getNotNull(
+			"scripts/services/communityPVP/pages/AutoFarm.htm",
+			self
+		);
+
+		self.sendPacket(new NpcHtmlMessage(0, html));
+	}
+
 	public void back()
 	{
 		if (self == null)
