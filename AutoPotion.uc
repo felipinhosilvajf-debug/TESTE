@@ -15,7 +15,7 @@ var ItemWindowHandle hQHP;
 var ItemWindowHandle hSCP;
 var ItemWindowHandle hS;
 
-// Slots que agora operam as Skills do AutoFarm
+// Slots que operam as Skills do AutoFarm
 var ItemWindowHandle hRand1;
 var ItemWindowHandle hRand2;
 var ItemWindowHandle hRand3;
@@ -75,23 +75,13 @@ var bool useHP;
 var bool useMP;
 var bool useQHP;
 var bool useSCP;
-var bool useS;
-var bool useRand1;
-var bool useRand2;
-var bool useRand3;
-
-var bool isWWExist;
-var bool isAcumExist;
-var bool isHasteExist;
 
 var ItemID idCP;
 var ItemID idHP;
 var ItemID idMP;
 var ItemID idQHP;
 var ItemID idSCP;
-var ItemID idS;
 
-// IDs locais para guardar as skills do farm
 var int currentSkillId1;
 var int currentSkillId2;
 var int currentSkillId3;
@@ -108,7 +98,6 @@ function OnLoad()
 {
 	Me = GetWindowHandle("AutoPotions");
 	
-	//ItemWindows
 	hCP = GetItemWindowHandle("AutoPotions.itemCP");
 	hHP = GetItemWindowHandle("AutoPotions.itemHP");
 	hMP = GetItemWindowHandle("AutoPotions.itemMP");
@@ -119,9 +108,8 @@ function OnLoad()
 	hRand2 = GetItemWindowHandle("AutoPotions.itemRand2");
 	hRand3 = GetItemWindowHandle("AutoPotions.itemRand3");
 	
-	InvItem = GetItemWindowHandle( "InventoryWnd.InventoryItem" );
+	InvItem = GetItemWindowHandle("InventoryWnd.InventoryItem");
 	
-	//EditBoxes
 	ePercentCP = GetEditBoxHandle("AutoPotions.percentCP");
 	ePercentHP = GetEditBoxHandle("AutoPotions.percentHP");
 	ePercentMP = GetEditBoxHandle("AutoPotions.percentMP");
@@ -134,11 +122,9 @@ function OnLoad()
 	eDelaySCP = GetEditBoxHandle("AutoPotions.delaySCP");
 	eAmountS = GetEditBoxHandle("AutoPotions.amountSouls");
 	
-	//Buttons
 	bExpand = GetButtonHandle("AutoPotions.expandBtn");
 	bExpandMore = GetButtonHandle("AutoPotions.expandMoreBtn");
 	
-	//Textures
 	tDivider = GetTextureHandle("AutoPotions.divider0");
 	tDivider2 = GetTextureHandle("AutoPotions.divider1");
 	tBlankCP = GetTextureHandle("AutoPotions.texCP");
@@ -151,7 +137,6 @@ function OnLoad()
 	tBlankRand2 = GetTextureHandle("AutoPotions.texRand2");
 	tBlankRand3 = GetTextureHandle("AutoPotions.texRand3");
 	
-	//TextBoxes
 	txtPercentQHP = GetTextBoxHandle("AutoPotions.percentTextQHP");
 	txtPercentSCP = GetTextBoxHandle("AutoPotions.percentTextSCP");
 	txtDelayQHP = GetTextBoxHandle("AutoPotions.delayTextQHP");
@@ -163,7 +148,6 @@ function OnLoad()
 	txtDescRand2 = GetTextBoxHandle("AutoPotions.descRand2");
 	txtDescRand3 = GetTextBoxHandle("AutoPotions.descRand3");
 	
-	//AnimTextureBoxes
 	aTex1 = GetAnimTextureHandle("AutoPotions.Anim1");
 	aTex2 = GetAnimTextureHandle("AutoPotions.Anim2");
 	aTex3 = GetAnimTextureHandle("AutoPotions.Anim3");
@@ -207,7 +191,7 @@ function OnShow()
 	Me.SetFocus();
 }
 
-function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
+function OnDropItem(String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 {
 	local int droppedSkillID;
 	droppedSkillID = a_ItemInfo.ID.ClassID;
@@ -215,95 +199,60 @@ function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 	switch (a_WindowID)
 	{
 		case "itemCP":
-			if (a_ItemInfo.ID.ClassID == 5592 || InStr( a_ItemInfo.Name, "Greater CP Potion" ) > -1)
+			if (a_ItemInfo.ID.ClassID == 5592 || InStr(a_ItemInfo.Name, "Greater CP Potion") > -1)
 			{
 				idCP = a_ItemInfo.ID;
 				hCP.AddItem(a_ItemInfo);
-				eDelayCP.SetString( "1" );
-				eDelayCP.SetMaxLength( 2 );
-				ePercentCP.SetString( "99" );
-				ePercentCP.SetMaxLength( 2 );
+				eDelayCP.SetString("1");
+				ePercentCP.SetString("99");
 				eDelayCP.EnableWindow();
 				ePercentCP.EnableWindow();
 			}
-			else
-				MessageBox("Not a GCP potion!");
 		break;
 		case "itemHP":
-			if (a_ItemInfo.ID.ClassID == 1539 || InStr( a_ItemInfo.Name, "Greater Healing Potion" ) > -1)
+			if (a_ItemInfo.ID.ClassID == 1539 || InStr(a_ItemInfo.Name, "Greater Healing Potion") > -1)
 			{
 				hHP.AddItem(a_ItemInfo);
 				idHP = a_ItemInfo.ID;
-				eDelayHP.SetString( "1" );
-				eDelayHP.SetMaxLength( 2 );
-				ePercentHP.SetString( "99" );
-				ePercentHP.SetMaxLength( 2 );
+				eDelayHP.SetString("1");
+				ePercentHP.SetString("99");
 				eDelayHP.EnableWindow();
 				ePercentHP.EnableWindow();
 			}
-			else
-				MessageBox("Not a GHP potion!");
 		break;
 		case "itemMP":
-			if (a_ItemInfo.ID.ClassID == 728 || InStr( a_ItemInfo.Name, "Mana Potion" ) > -1)
+			if (a_ItemInfo.ID.ClassID == 728 || InStr(a_ItemInfo.Name, "Mana Potion") > -1)
 			{
 				hMP.AddItem(a_ItemInfo);
 				idMP = a_ItemInfo.ID;
-				eDelayMP.SetString( "1" );
-				eDelayMP.SetMaxLength( 2 );
-				ePercentMP.SetString( "99" );
-				ePercentMP.SetMaxLength( 2 );
+				eDelayMP.SetString("1");
+				ePercentMP.SetString("99");
 				eDelayMP.EnableWindow();
 				ePercentMP.EnableWindow();
 			}	
-			else
-				MessageBox("Not a Mana potion!");
 		break;
 		case "itemQHP":
-			if (a_ItemInfo.ID.ClassID == 1540 || InStr( a_ItemInfo.Name, "Quick Healing Potion" ) > -1)
+			if (a_ItemInfo.ID.ClassID == 1540 || InStr(a_ItemInfo.Name, "Quick Healing Potion") > -1)
 			{
 				hQHP.AddItem(a_ItemInfo);
 				idQHP = a_ItemInfo.ID;
-				eDelayQHP.SetString( "1" );
-				eDelayQHP.SetMaxLength( 2 );
-				ePercentQHP.SetString( "99" );
-				ePercentQHP.SetMaxLength( 2 );
+				eDelayQHP.SetString("1");
+				ePercentQHP.SetString("99");
 				eDelayQHP.EnableWindow();
 				ePercentQHP.EnableWindow();
 			}			
-			else
-				MessageBox("Not a QHP potion!");
 		break;
 		case "itemSCP":
-			if (a_ItemInfo.ID.ClassID == 5591 || InStr( a_ItemInfo.Name, "CP Potion" ) > -1)
+			if (a_ItemInfo.ID.ClassID == 5591 || InStr(a_ItemInfo.Name, "CP Potion") > -1)
 			{
 				hSCP.AddItem(a_ItemInfo);
 				idSCP = a_ItemInfo.ID;
-				eDelaySCP.SetString( "1" );
-				eDelaySCP.SetMaxLength( 2 );
-				ePercentSCP.SetString( "99" );
-				ePercentSCP.SetMaxLength( 2 );
+				eDelaySCP.SetString("1");
+				ePercentSCP.SetString("99");
 				eDelaySCP.EnableWindow();
 				ePercentSCP.EnableWindow();
 			}			
-			else
-				MessageBox("Not a CP potion!");
 		break;
-		case "itemSouls":
-			if (a_ItemInfo.ID.ClassID == 10410 || InStr( a_ItemInfo.Name, "Full Bottle of Souls" ) > -1)
-			{
-				hS.AddItem(a_ItemInfo);
-				idS = a_ItemInfo.ID;
-				eAmountS.SetString( "40" );
-				eAmountS.SetMaxLength( 2 );
-				eAmountS.EnableWindow();
-			}			
-			else
-				MessageBox("Not a Soul bottle!");
-		break;
-		// ============================================================
-		// CORREÇÃO CONTRA BYPASS: GRAVA SKILL VIA COMANDO DE CHAT SEGURO
-		// ============================================================
 		case "itemRand1":
 			currentSkillId1 = droppedSkillID;
 			hRand1.AddItem(a_ItemInfo);
@@ -325,7 +274,7 @@ function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 	}
 }
 
-function OnClickItem( String strID, int index )
+function OnClickItem(String strID, int index)
 {
 	switch (strID)
 	{
@@ -380,71 +329,29 @@ function OnClickItem( String strID, int index )
 			}			
 		break;
 
-				// ============================================================
-		// CORREÇÃO CONTRA TRAVA DE BYPASS: EXECUTA VIA GATILHO DE CHAT
-		// ============================================================
+		// Rota limpa via chat legítimo que ativa o farm sem travar e sem dar a voz
 		case "itemRand1":
 		case "itemRand2":
 		case "itemRand3":
-			// Simula o jogador digitando o comando puro no chat (Passe livre do Core)
+			// Manda o comando de chat legítimo que possui permissão de execução
 			ExecuteCommand(".autofarm toggle");
 			PlayConsoleSound(IFST_CLICK1);
 		break;
 	}
 }
 
-
-function OnRClickItem( String strID, int index )
+function OnRClickItem(String strID, int index)
 {
-switch (strID)
-{
-case "itemCP":
-useCP = false;
-StopAnim(aTex1);
-Me.KillTimer(TIMER_CP);
-break;
-case "itemHP":
-useHP = false;
-StopAnim(aTex2);
-Me.KillTimer(TIMER_HP);
-break;
-case "itemMP":
-useMP = false;
-StopAnim(aTex3);
-Me.KillTimer(TIMER_MP);
-break;
-case "itemQHP":
-useQHP = false;
-StopAnim(aTex4);
-Me.KillTimer(TIMER_QHP);
-break;
-case "itemSCP":
-useSCP = false;
-StopAnim(aTex5);
-Me.KillTimer(TIMER_SCP);
-break;
-		// ============================================================
-		// CORREÇÃO CONTRA BYPASS: REMOVE SKILL VIA COMANDO DE CHAT SEGURO
-		// ============================================================
-		case "itemRand1":
-			currentSkillId1 = 0;
-			hRand1.Clear();
-			tBlankRand1.ShowWindow();
-			ExecuteCommand(".autofarm select 1 0");
-		break;
-		case "itemRand2":
-			currentSkillId2 = 0;
-			hRand2.Clear();
-			tBlankRand2.ShowWindow();
-			ExecuteCommand(".autofarm select 2 0");
-		break;
-		case "itemRand3":
-			currentSkillId3 = 0;
-			hRand3.Clear();
-			tBlankRand3.ShowWindow();
-			ExecuteCommand(".autofarm select 3 0");
-		break;
-
+	switch (strID)
+	{
+		case "itemCP": useCP = false; StopAnim(aTex1); Me.KillTimer(TIMER_CP); break;
+		case "itemHP": useHP = false; StopAnim(aTex2); Me.KillTimer(TIMER_HP); break;
+		case "itemMP": useMP = false; StopAnim(aTex3); Me.KillTimer(TIMER_MP); break;
+		case "itemQHP": useQHP = false; StopAnim(aTex4); Me.KillTimer(TIMER_QHP); break;
+		case "itemSCP": useSCP = false; StopAnim(aTex5); Me.KillTimer(TIMER_SCP); break;
+case "itemRand1": currentSkillId1 = 0; hRand1.Clear(); tBlankRand1.ShowWindow(); ExecuteCommand(".autofarm select 1 0"); break;
+case "itemRand2": currentSkillId2 = 0; hRand2.Clear(); tBlankRand2.ShowWindow(); ExecuteCommand(".autofarm select 2 0"); break;
+case "itemRand3": currentSkillId3 = 0; hRand3.Clear(); tBlankRand3.ShowWindow(); ExecuteCommand(".autofarm select 3 0"); break;
 }
 }
 function SetAutoTimer(int id, EditBoxHandle handle, string str)
@@ -452,119 +359,23 @@ function SetAutoTimer(int id, EditBoxHandle handle, string str)
 Me.KillTimer(id);
 if (int(handle.GetString()) > 0 && int(handle.GetString()) <= 30)
 Me.SetTimer(id, int(handle.GetString()) * 1000);
-else
-{
-MessageBox("Value between 1-30");
-OnRClickItem( str, 0 );
-}
 }
 function OnTimer(int TimerID)
 {
-if (TimerID == TIMER_CP)
-{
-Me.KillTimer(TIMER_CP);
-UsePotions(useCP, "CP", ePercentCP, hCP);
-Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000);
+if (TimerID == TIMER_CP) { Me.KillTimer(TIMER_CP); UsePotions(useCP, "CP", eDelayCP, hCP); Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000); }
+else if (TimerID == TIMER_HP) { Me.KillTimer(TIMER_HP); UsePotions(useHP, "HP", eDelayHP, hHP); Me.SetTimer(TIMER_HP, int(eDelayHP.GetString()) * 1000); }
+else if (TimerID == TIMER_MP) { Me.KillTimer(TIMER_MP); UsePotions(useMP, "MP", eDelayMP, hMP); Me.SetTimer(TIMER_MP, int(eDelayMP.GetString()) * 1000); }
+else if (TimerID == TIMER_QHP) { Me.KillTimer(TIMER_QHP); UsePotions(useQHP, "HP", eDelayQHP, hQHP); Me.SetTimer(TIMER_QHP, int(eDelayQHP.GetString()) * 1000); }
+else if (TimerID == TIMER_SCP) { Me.KillTimer(TIMER_SCP); UsePotions(useSCP, "CP", eDelaySCP, hSCP); Me.SetTimer(TIMER_SCP, int(eDelaySCP.GetString()) * 1000); }
 }
-else if (TimerID == TIMER_HP)
-{
-Me.KillTimer(TIMER_HP);
-UsePotions(useHP, "HP", ePercentHP, hHP);
-Me.SetTimer(TIMER_HP, int(eDelayHP.GetString()) * 1000);
-}
-else if (TimerID == TIMER_MP)
-{
-Me.KillTimer(TIMER_MP);
-UsePotions(useMP, "MP", ePercentMP, hMP);
-Me.SetTimer(TIMER_MP, int(eDelayMP.GetString()) * 1000);
-}
-else if (TimerID == TIMER_QHP)
-{
-Me.KillTimer(TIMER_QHP);
-UsePotions(useQHP, "HP", ePercentQHP, hQHP);
-Me.SetTimer(TIMER_QHP, int(eDelayQHP.GetString()) * 1000);
-}
-else if (TimerID == TIMER_SCP)
-{
-Me.KillTimer(TIMER_SCP);
-UsePotions(useSCP, "CP", ePercentSCP, hSCP);
-Me.SetTimer(TIMER_SCP, int(eDelaySCP.GetString()) * 1000);
-}
-}
-function StartAnim(AnimTextureHandle handle)
-{
-handle.ShowWindow();
-handle.Stop();
-handle.SetLoopCount(-1);
-handle.Play();
-}
-function StopAnim(AnimTextureHandle handle)
-{
-handle.HideWindow();
-handle.Stop();
-}
+function StartAnim(AnimTextureHandle handle) { handle.ShowWindow(); handle.Stop(); handle.SetLoopCount(-1); handle.Play(); }
+function StopAnim(AnimTextureHandle handle) { handle.HideWindow(); handle.Stop(); }
 function OnEvent(int EventID, string param)
 {
-local int slot;
-local int skillId;
-local ItemInfo fakeSkillInfo;
-local string tmpSkill;
 if (EventID == EV_GamingStateEnter)
 {
 SetToDefault();
 return;
-}
-if (InStr(param, "autoFarm_slot") > -1)
-{
-if (InStr(param, "slot1_") > -1)
-{
-slot = 1;
-tmpSkill = Mid(param, 14);
-skillId = int(tmpSkill);
-}
-else if (InStr(param, "slot2_") > -1)
-{
-slot = 2;
-tmpSkill = Mid(param, 14);
-skillId = int(tmpSkill);
-}
-else if (InStr(param, "slot3_") > -1)
-{
-slot = 3;
-tmpSkill = Mid(param, 14);
-skillId = int(tmpSkill);
-}
-if (skillId > 0 && slot > 0)
-{
-fakeSkillInfo.ID.ClassID = skillId;
-switch (slot)
-{
-case 1:
-currentSkillId1 = skillId;
-hRand1.AddItem(fakeSkillInfo);
-tBlankRand1.HideWindow();
-break;
-case 2:
-currentSkillId2 = skillId;
-hRand2.AddItem(fakeSkillInfo);
-tBlankRand2.HideWindow();
-break;
-case 3:
-currentSkillId3 = skillId;
-hRand3.AddItem(fakeSkillInfo);
-tBlankRand3.HideWindow();
-break;
-}
-}
-else if (slot > 0)
-{
-switch (slot)
-{
-case 1: currentSkillId1 = 0; hRand1.Clear(); tBlankRand1.ShowWindow(); break;
-case 2: currentSkillId2 = 0; hRand2.Clear(); tBlankRand2.ShowWindow(); break;
-case 3: currentSkillId3 = 0; hRand3.Clear(); tBlankRand3.ShowWindow(); break;
-}
-}
 }
 }
 function SetToDefault()
@@ -586,172 +397,75 @@ tBlankS.ShowWindow();
 tBlankRand1.ShowWindow();
 tBlankRand2.ShowWindow();
 tBlankRand3.ShowWindow();
-useCP = false;
-useHP = false;
-useMP = false;
-useQHP = false;
-useSCP = false;
-currentSkillId1 = 0;
-currentSkillId2 = 0;
-currentSkillId3 = 0;
-aTex1.HideWindow();
-aTex2.HideWindow();
-aTex3.HideWindow();
-aTex4.HideWindow();
-aTex5.HideWindow();
-hCP.Clear();
-hHP.Clear();
-hMP.Clear();
-hQHP.Clear();
-hSCP.Clear();
-hS.Clear();
-hRand1.Clear();
-hRand2.Clear();
-hRand3.Clear();
-tBlankCP.ShowWindow();
-tBlankHP.ShowWindow();
-tBlankMP.ShowWindow();
-ClearItemID( idCP );
-ClearItemID( idHP );
-ClearItemID( idMP );
-ClearItemID( idQHP );
-ClearItemID( idSCP );
-eDelayCP.EnableWindow();
-eDelayHP.EnableWindow();
-eDelayMP.EnableWindow();
-eDelayQHP.EnableWindow();
-eDelaySCP.EnableWindow();
-ePercentCP.EnableWindow();
-ePercentHP.EnableWindow();
-ePercentMP.EnableWindow();
-ePercentQHP.EnableWindow();
-ePercentSCP.EnableWindow();
-ePercentCP.SetString("");
-ePercentHP.SetString("");
-ePercentMP.SetString("");
-ePercentQHP.SetString("");
-ePercentSCP.SetString("");
-eDelayCP.SetString("");
-eDelayHP.SetString("");
-eDelayMP.SetString("");
-eDelayQHP.SetString("");
-eDelaySCP.SetString("");
-ePercentCP.SetMaxLength(2);
-ePercentHP.SetMaxLength(2);
-ePercentMP.SetMaxLength(2);
-ePercentQHP.SetMaxLength(2);
-ePercentSCP.SetMaxLength(2);
-eDelayCP.SetMaxLength(4);
-eDelayHP.SetMaxLength(4);
-eDelayMP.SetMaxLength(4);
-eDelayQHP.SetMaxLength(4);
-eDelaySCP.SetMaxLength(4);
-ePercentCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-ePercentHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-ePercentMP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-ePercentQHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-ePercentSCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
+useCP = false; useHP = false; useMP = false; useQHP = false; useSCP = false;
+currentSkillId1 = 0; currentSkillId2 = 0; currentSkillId3 = 0;
+aTex1.HideWindow(); aTex2.HideWindow(); aTex3.HideWindow(); aTex4.HideWindow(); aTex5.HideWindow();
+hCP.Clear(); hHP.Clear(); hMP.Clear(); hQHP.Clear(); hSCP.Clear(); hS.Clear(); hRand1.Clear(); hRand2.Clear(); hRand3.Clear();
+tBlankCP.ShowWindow(); tBlankHP.ShowWindow(); tBlankMP.ShowWindow();
+ClearItemID(idCP); ClearItemID(idHP); ClearItemID(idMP); ClearItemID(idQHP); ClearItemID(idSCP);
 }
 function UsePotions(bool bUse, string whatUse, EditBoxHandle eHandle, ItemWindowHandle hHandle)
 {
 local ItemInfo info;
 local UserInfo pInfo;
 local int percent;
-if (IsWrongCondition())
-return;
+if (IsWrongCondition()) return;
 GetPlayerInfo(pInfo);
-if (whatUse == "CP")
-percent = int(float(pInfo.nCurCP)/float(pInfo.nMaxCP) * float(100));
-else if (whatUse == "HP")
-percent = int(float(pInfo.nCurHP)/float(pInfo.nMaxHP) * float(100));
-else
-percent = int(float(pInfo.nCurMP)/float(pInfo.nMaxMP) * float(100));
+if (whatUse == "CP") percent = int(float(pInfo.nCurCP)/float(pInfo.nMaxCP) * float(100));
+else if (whatUse == "HP") percent = int(float(pInfo.nCurHP)/float(pInfo.nMaxHP) * float(100));
+else percent = int(float(pInfo.nCurMP)/float(pInfo.nMaxMP) * float(100));
 if (bUse && percent <= int(eHandle.GetString()))
 {
-InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-if (info.ItemNum > IntToInt64(0))
-RequestUseItem(info.ID);
-else
-ClearOnNoItems(hHandle);
+InvItem.GetItem(InvItem.FindItem(GetItemIDByHandle(hHandle)), info);
+if (info.ItemNum > IntToInt64(0)) RequestUseItem(info.ID);
+else ClearOnNoItems(hHandle);
 }
 }
 function bool IsWrongCondition()
 {
-	local int i;
-	local int j;
-	local int k;
-	local int RowCount;
-	local int ColCount;
-	local StatusIconInfo info;
-	local StatusIconHandle StatusIcon;
-	local array<string> invSkills;
-	
-	StatusIcon = GetStatusIconHandle( "AbnormalStatusWnd.StatusIcon" );
-	
-	invSkills[0] = "Turn to Stone";
-	invSkills[1] = "Hide";
-	invSkills[2] = "Sonic Barrier";
-	invSkills[3] = "Force Barrier";
-	invSkills[4] = "Enchanter Ability - Barrier";
-	invSkills[5] = "Celestial Shield";
-	invSkills[6] = "Painkiller";
-	
-	RowCount = StatusIcon.GetRowCount();
-	for (i = 0; i < RowCount; i++)
-	{
-		ColCount = StatusIcon.GetColCount(i);
-		for (j = 0; j < ColCount; j++)
-		{
-			StatusIcon.GetItem(i, j, info);
-			
-			for (k = 0; k < invSkills.Length; k++)
-			{
-				if (info.Name == invSkills[k])
-				{
-					return true;
-				}
-			}	
-		}
-	}
-	
-	return false;
+local int i;
+local int j;
+local int RowCount;
+local int ColCount;
+local StatusIconInfo info;
+local StatusIconHandle StatusIcon;
+StatusIcon = GetStatusIconHandle("AbnormalStatusWnd.StatusIcon");
+RowCount = StatusIcon.GetRowCount();
+for (i = 0; i < RowCount; i++) {
+ColCount = StatusIcon.GetColCount(i);
+for (j = 0; j < ColCount; j++) {
+StatusIcon.GetItem(i, j, info);
+if (info.Name == "Turn to Stone" || info.Name == "Hide" || info.Name == "Sonic Barrier" || info.Name == "Force Barrier" || info.Name == "Enchanter Ability - Barrier" || info.Name == "Celestial Shield" || info.Name == "Painkiller")
+{
+return true;
 }
-
+}
+}
+return false;
+}
 function ClearOnNoItems(ItemWindowHandle hHandle)
 {
 hHandle.Clear();
-switch (hHandle)
-{
-case hCP: tBlankCP.ShowWindow(); break;
-case hHP: tBlankHP.ShowWindow(); break;
-case hMP: tBlankMP.ShowWindow(); break;
+switch (hHandle) {
+case hCP: tBlankCP.ShowWindow(); ClearItemID(idCP); break;
+case hHP: tBlankHP.ShowWindow(); ClearItemID(idHP); break;
+case hMP: tBlankMP.ShowWindow(); ClearItemID(idMP); break;
+case hQHP: tBlankQHP.ShowWindow(); ClearItemID(idQHP); break;
+case hSCP: tBlankSCP.ShowWindow(); ClearItemID(idSCP); break;
 }
 }
 function ItemID GetItemIDByHandle(ItemWindowHandle hHandle)
 {
 local ItemID item;
-switch (hHandle)
-{
+switch (hHandle) {
 case hCP: item = idCP; break;
 case hHP: item = idHP; break;
 case hMP: item = idMP; break;
+case hQHP: item = idQHP; break;
+case hSCP: item = idSCP; break;
 }
 return item;
 }
-// ====================================================================
-// FUNÇÃO ÚNICA E SOBERANA QUE CONTROLA OS CLIQUES DE BOTÕES NATIVOS
-// ====================================================================
 function OnClickButton(string strID)
 {
-switch(strID)
-{
-case "expandBtn":
-// Caso queira encolher/esticar o painel superior futuramente
-break;
-case "expandMoreBtn":
-// INTERRUPTOR OFICIAL: Lança o comando silencioso direto pro seu Java!
-RequestBypassToServer("bypass voice_autofarm toggle");
-PlayConsoleSound(IFST_CLICK1);
-break;
-}
 }
