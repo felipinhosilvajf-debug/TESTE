@@ -157,7 +157,6 @@ public class AutoFarmTask implements Runnable
 		 */
 		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
 		{
-			_player.getAI().setIntention(l2f.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE);
 			handleNormalAttack(target);
 			return; // Finaliza o ciclo com sucesso, mantendo a tarefa viva!
 		}
