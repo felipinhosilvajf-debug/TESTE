@@ -8,7 +8,7 @@ public class AutoFarm implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS = { "autofarm" };
 
-		@Override
+	@Override
 	public boolean useVoicedCommand(String command, Player activeChar, String target)
 	{
 		if (activeChar == null)
@@ -17,31 +17,30 @@ public class AutoFarm implements IVoicedCommandHandler
 		if (target != null && !target.isEmpty())
 		{
 			String action = target.trim();
-
 			AutoFarmCommunity farm = new AutoFarmCommunity();
 			farm.self = activeChar;
 
-			// Comando de Ligar/Desligar
-			if (action.equalsIgnoreCase("toggle") || action.contains("toggle"))
+			// ATIVAÇÃO EXPLÍCITA SEGURA SEM CONDIÇÃO DE CORRIDA
+			if (action.equalsIgnoreCase("toggle_on"))
+			{
+				if (!activeChar.isAutoFarm())
+				{
+					// Força os slots vazios a virarem 0 limpo no banco de dados
+					activeChar.setAutoFarmSkills(0, 0, 0);
+					farm.start();
+					activeChar.sendMessage("Auto Farm: ATIVADO.");
+				}
+				return true;
+			}
+			else if (action.equalsIgnoreCase("toggle_off"))
 			{
 				if (activeChar.isAutoFarm())
 				{
 					farm.stop();
 					activeChar.sendMessage("Auto Farm: DESATIVADO.");
 				}
-				else
-				{
-					int s1 = activeChar.getAutoFarmSkill1() < 0 ? 0 : activeChar.getAutoFarmSkill1();
-					int s2 = activeChar.getAutoFarmSkill2() < 0 ? 0 : activeChar.getAutoFarmSkill2();
-					int s3 = activeChar.getAutoFarmSkill3() < 0 ? 0 : activeChar.getAutoFarmSkill3();
-					activeChar.setAutoFarmSkills(s1, s2, s3);
-
-					farm.start();
-					activeChar.sendMessage("Auto Farm: ATIVADO.");
-				}
 				return true;
 			}
-			// Comando de Salvar/Remover Habilidade (Isolado para evitar conflito de flood)
 			else if (action.startsWith("select"))
 			{
 				String[] args = action.split(" ");
@@ -56,7 +55,6 @@ public class AutoFarm implements IVoicedCommandHandler
 
 		return true;
 	}
-
 
 	@Override
 	public String[] getVoicedCommandList()
