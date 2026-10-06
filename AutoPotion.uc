@@ -523,4 +523,8 @@ function OnClickButton(string strID)
 		ExecuteCommand(".autofarm toggle");
 		autoFarmVisual = !autoFarmVisual;
 	}
+	else if (strID == "expandMoreBtn")
+	{
+		ExecuteCommand("bypass _bbsscripts;l2f.gameserver.autofarm.AutoFarmCommunity:info");
+	}
 }
