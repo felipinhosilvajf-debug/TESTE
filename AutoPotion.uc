@@ -169,6 +169,7 @@ function OnShow()
 	
 	tDivider.ShowWindow();
 	tDivider2.ShowWindow();
+	bExpand.ShowWindow();
 
 	// ABA DO MEIO:
 	// HP continua existindo.
@@ -516,4 +517,10 @@ function ItemID GetItemIDByHandle(ItemWindowHandle hHandle)
 
 function OnClickButton(string strID)
 {
+	if (strID == "expandBtn")
+	{
+		ExecuteCommand(".autofarm toggle");
+		autoFarmVisual = !autoFarmVisual;
+		PlayConsoleSound(IFST_CLICK1);
+	}
 }
