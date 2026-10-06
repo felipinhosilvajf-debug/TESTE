@@ -22,7 +22,6 @@ public class AutoFarmTask implements Runnable
 
 	/*
 	 * Skills configuradas.
-	 *
 	 * 0 = Sem Skill.
 	 */
 	private int _skill1 = 0;
@@ -126,89 +125,55 @@ public class AutoFarmTask implements Runnable
 		/* Destrava estados de ataque presos sem interromper ataques normais. */
 		checkAttackWatchdog();
 
-		/*
-		 * Nunca faz outra ação durante um cast.
-		 */
+		/* Nunca faz outra ação durante um cast. */
 		if (_player.isCastingNow())
 			return;
 
-		/*
-		 * =========================================================
-		 * 1. POÇÃO
-		 * =========================================================
-		 *
-		 * A poção começa a ser usada quando o recurso
-		 * selecionado chega a 60% ou menos.
-		 *
-		 * A poção não bloqueia o combate.
-		 */
+		/* 1. POÇÃO */
 		if (tryUsePotion())
 			return;
 
-		/*
-		 * =========================================================
-		 * 2. LOOT
-		 * =========================================================
-		 */
+		/* 2. LOOT */
 		ItemInstance loot = findNearestLoot();
-
 		if (loot != null)
 		{
 			if (handleLoot(loot))
 				return;
 		}
 
-		/*
-		 * =========================================================
-		 * 3. MONSTRO
-		 * =========================================================
-		 */
+		/* 3. MONSTRO */
 		MonsterInstance target = findNearestMonster();
-
-		if (target == null)
-			return;
-
-		if (target.isDead())
+		if (target == null || target.isDead())
 			return;
 
 		if (_player.getTarget() != target)
 			_player.setTarget(target);
 
 		/*
-		 * =========================================================
-		 * 4. SKILLS
-		 * =========================================================
-		 *
-		 * Tenta usar qualquer uma das 3 skills que:
-		 *
-		 * - exista;
-		 * - esteja disponível;
-		 * - seja ofensiva;
-		 * - tenha MP suficiente.
-		 *
-		 * Se nenhuma puder ser usada:
-		 * ATAQUE NORMAL.
+		 * ====================================================================
+		 * FIX DEFINITIVO DE ATAQUE FÍSICO PURO (ARCHERS / MELEES DE FÁBRICA)
+		 * ====================================================================
+		 * Se o jogador não tem nenhuma skill guardada na interface (todas <= 0),
+		 * nós ignoramos o useAutoSkill e forçamos a IA a bater no físico direto!
 		 */
+		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
+		{
+			_player.getAI().setIntention(l2f.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE);
+			handleNormalAttack(target);
+			return;
+		}
+
+		/* 4. SKILLS (ROTAÇÃO INTELIGENTE DE MAGOS/GUERREIROS) */
 		if (useAutoSkill(target))
 			return;
 
-		/*
-		 * =========================================================
-		 * 5. ATAQUE NORMAL
-		 * =========================================================
-		 */
+		/* 5. ATAQUE NORMAL EXTRA SE A SKILL FALHAR OU ESTIVER EM RECARGA */
 		if (!target.isDead())
+		{
 			handleNormalAttack(target);
+		}
 	}
 
-	/**
-	 * Verifica e utiliza a poção configurada.
-	 *
-	 * 1539 = HP
-	 * 5592 = CP
-	 * 728 = MP
-	 * 0 = sem poção
-	 */
 	private void checkAttackWatchdog()
 	{
 		if (!_player.isAttackingNow())
@@ -250,43 +215,25 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		if (potionId != 1539 &&
-			potionId != 5592 &&
-			potionId != 728)
+		if (potionId != 1539 && potionId != 5592 && potionId != 728)
 		{
 			return false;
 		}
 
-		/*
-		 * Só usa se o recurso correspondente estiver
-		 * em 60% ou menos.
-		 */
 		double percent = getResourcePercent(potionId);
 
 		if (percent > 60.0)
 			return false;
 
-		/*
-		 * Evita consumir poções em sequência.
-		 */
 		long now = System.currentTimeMillis();
 
 		if (now - _lastPotionUse < POTION_INTERVAL)
 			return false;
 
-		ItemInstance potion =
-			_player.getInventory().getItemByItemId(potionId);
+		ItemInstance potion = _player.getInventory().getItemByItemId(potionId);
 
 		if (potion == null)
-		{
-			/*
-			 * Não existe mais a poção.
-			 *
-			 * O Auto Farm NÃO para.
-			 * Continua usando skills/ataque.
-			 */
 			return false;
-		}
 
 		IItemHandler handler = potion.getTemplate().getHandler();
 
@@ -304,47 +251,32 @@ public class AutoFarmTask implements Runnable
 		return false;
 	}
 
-	/**
-	 * Retorna a porcentagem atual do recurso.
-	 */
 	private double getResourcePercent(int potionId)
 	{
 		if (potionId == 1539)
 		{
 			double maxHp = _player.getMaxHp();
-
-			if (maxHp <= 0)
-				return 100.0;
-
+			if (maxHp <= 0) return 100.0;
 			return (_player.getCurrentHp() * 100.0) / maxHp;
 		}
 
 		if (potionId == 5592)
 		{
 			double maxCp = _player.getMaxCp();
-
-			if (maxCp <= 0)
-				return 100.0;
-
+			if (maxCp <= 0) return 100.0;
 			return (_player.getCurrentCp() * 100.0) / maxCp;
 		}
 
 		if (potionId == 728)
 		{
 			double maxMp = _player.getMaxMp();
-
-			if (maxMp <= 0)
-				return 100.0;
-
+			if (maxMp <= 0) return 100.0;
 			return (_player.getCurrentMp() * 100.0) / maxMp;
 		}
 
 		return 100.0;
 	}
 
-	/**
-	 * Ataque físico normal.
-	 */
 	private void handleNormalAttack(MonsterInstance target)
 	{
 		if (target == null || target.isDead())
@@ -357,7 +289,6 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		int attackRange = getPhysicalAttackRange();
-
 		double distance = _player.getDistance(target);
 
 		if (distance > attackRange)
@@ -369,15 +300,6 @@ public class AutoFarmTask implements Runnable
 		_player.doAttack(target);
 	}
 
-	/**
-	 * Obtém o alcance físico correto.
-	 *
-	 * Archer:
-	 * usa o alcance real do arco/crossbow.
-	 *
-	 * Melee:
-	 * usa o alcance calculado pelo Core.
-	 */
 	private int getPhysicalAttackRange()
 	{
 		WeaponTemplate weapon = _player.getActiveWeaponItem();
@@ -386,8 +308,7 @@ public class AutoFarmTask implements Runnable
 		{
 			WeaponType type = weapon.getItemType();
 
-			if (type == WeaponType.BOW ||
-				type == WeaponType.CROSSBOW)
+			if (type == WeaponType.BOW || type == WeaponType.CROSSBOW)
 			{
 				return Math.max(10, weapon.getAttackRange());
 			}
@@ -396,9 +317,6 @@ public class AutoFarmTask implements Runnable
 		return Math.max(10, _player.getPhysicalAttackRange());
 	}
 
-	/**
-	 * Move até o alcance físico.
-	 */
 	private void moveToAttackRange(MonsterInstance target, int range)
 	{
 		if (target == null || target.isDead())
@@ -411,182 +329,71 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		int offset = Math.max(10, range - 5);
-
 		_player.followToCharacter(target, offset, false);
 	}
 
-	/**
-	 * Tenta executar uma das três skills.
-	 *
-	 * IMPORTANTE:
-	 *
-	 * Nunca chama doCast() se não houver MP suficiente.
-	 */
 	private boolean useAutoSkill(MonsterInstance target)
 	{
-		int[] skills =
-		{
-			_skill1,
-			_skill2,
-			_skill3
-		};
+		int[] skills = { _skill1, _skill2, _skill3 };
+		boolean possuiAlgumaSkillConfigurada = false;
 
 		for (int i = 0; i < skills.length; i++)
 		{
-			int index =
-				(_currentSkill - 1 + i) % skills.length;
-
+			int index = (_currentSkill - 1 + i) % skills.length;
 			int skillId = skills[index];
 
-						/*
-			 * 0 = Sem Skill / Slot Vazio.
-			 * CORREÇÃO: Se o slot estiver vazio (0), nós NÃO damos 'continue'.
-			 * Nós retornamos 'false' imediatamente para o Core saber que não há 
-			 * habilidades disponíveis e descer para o método handleNormalAttack!
-			 */
 			if (skillId <= 0)
-			{
-				return false;
-			}
+				continue;
 
+			possuiAlgumaSkillConfigurada = true;
 
-			Skill skill =
-				_player.getKnownSkill(skillId);
-
+			Skill skill = _player.getKnownSkill(skillId);
 			if (skill == null)
 				continue;
 
-			/*
-			 * Skill em cooldown.
-			 */
 			if (_player.isSkillDisabled(skill))
 				continue;
 
-			/*
-			 * =====================================================
-			 * VERIFICAÇÃO DE MP
-			 * =====================================================
-			 *
-			 * Esta verificação acontece ANTES de qualquer doCast().
-			 *
-			 * Isso impede:
-			 *
-			 * - animação sem dano;
-			 * - cast falso;
-			 * - skill sendo executada sem mana.
-			 */
 			double mpConsume = skill.getMpConsume();
 
-			if (mpConsume > 0 &&
-				_player.getCurrentMp() < mpConsume)
-			{
-				/*
-				 * Não pode usar esta skill.
-				 *
-				 * Não retorna.
-				 *
-				 * Tenta a próxima skill.
-				 */
+			if (mpConsume > 0 && _player.getCurrentMp() < mpConsume)
 				continue;
-			}
 
-			/*
-			 * =====================================================
-			 * DASH
-			 * =====================================================
-			 *
-			 * ID 4.
-			 *
-			 * Também passa pela verificação de MP acima.
-			 */
 			if (skillId == 4)
 			{
-				/*
-				 * Confere novamente imediatamente antes
-				 * do cast para evitar condição de corrida.
-				 */
-				if (mpConsume > 0 &&
-					_player.getCurrentMp() < mpConsume)
-				{
-					continue;
-				}
-
 				if (_player.isAttackingNow())
 					_player.abortAttack(false, false);
 
 				_player.doCast(skill, _player, true);
-
 				nextSkill(index);
-
 				return true;
 			}
 
-			/*
-			 * Só usamos skills ofensivas.
-			 */
 			if (target == null || target.isDead())
 				continue;
 
 			if (!skill.isOffensive())
 				continue;
 
-			/*
-			 * =====================================================
-			 * ALCANCE DA SKILL
-			 * =====================================================
-			 */
-			int castRange =
-				Math.max(10, skill.getCastRange());
-
-			double distance =
-				_player.getDistance(target);
+			int castRange = Math.max(10, skill.getCastRange());
+			double distance = _player.getDistance(target);
 
 			if (distance > castRange)
 			{
 				if (!_player.isAttackingNow())
 				{
-					int offset =
-						Math.max(10, castRange - 5);
-
-					_player.followToCharacter(
-						target,
-						offset,
-						false
-					);
+					int offset = Math.max(10, castRange - 5);
+					_player.followToCharacter(target, offset, false);
 				}
-
 				return true;
 			}
 
-			/*
-			 * =====================================================
-			 * SEGUNDA VERIFICAÇÃO DE MP
-			 * =====================================================
-			 *
-			 * Esta é proposital.
-			 *
-			 * Se a mana mudou entre a primeira verificação
-			 * e o cast, simplesmente não lança.
-			 */
-			if (mpConsume > 0 &&
-				_player.getCurrentMp() < mpConsume)
-			{
+			if (mpConsume > 0 && _player.getCurrentMp() < mpConsume)
 				continue;
-			}
 
-			/*
-			 * Interrompe ataque normal somente no momento do cast.
-			 */
 			if (_player.isAttackingNow())
 				_player.abortAttack(false, false);
 
-			/*
-			 * CAST NORMAL DO CORE.
-			 *
-			 * A skill só é marcada como usada depois que o cast
-			 * realmente foi iniciado. Isso evita avançar a rotação
-			 * em uma tentativa que não conseguiu lançar.
-			 */
 			_player.doCast(skill, target, true);
 
 			_currentSkill = index + 2;
@@ -596,17 +403,17 @@ public class AutoFarmTask implements Runnable
 			return true;
 		}
 
-		/*
-		 * Nenhuma skill pôde ser usada.
-		 *
-		 * O chamador fará ataque normal.
-		 */
+		if (possuiAlgumaSkillConfigurada)
+		{
+			if (_player.isMageClass() || _player.getActiveWeaponItem() == null || _player.getActiveWeaponItem().getItemType() == WeaponType.NONE)
+			{
+				return true; // Mago recua e aguarda mana / cooldown
+			}
+		}
+
 		return false;
 	}
 
-	/**
-	 * Passa para a próxima skill.
-	 */
 	private void nextSkill(int index)
 	{
 		_currentSkill = index + 2;
@@ -615,36 +422,29 @@ public class AutoFarmTask implements Runnable
 			_currentSkill = 1;
 	}
 
-	/**
-	 * Procura o item mais próximo.
-	 */
 	private ItemInstance findNearestLoot()
 	{
 		ItemInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
-		for (GameObject object :
-			GameObjectsStorage.getAllObjects())
+		for (GameObject object : GameObjectsStorage.getAllObjects())
 		{
 			if (!(object instanceof ItemInstance))
 				continue;
 
-			ItemInstance item =
-				(ItemInstance) object;
+			ItemInstance item = (ItemInstance) object;
 
 			if (!item.isVisible())
 				continue;
 
-			double distance =
-				_player.getDistance(item);
+			double distance = _player.getDistance(item);
 
 			if (distance > nearestDistance)
 				continue;
 
 			if (item.getObjectId() == _lastLootObjectId)
 			{
-				if (System.currentTimeMillis() -
-					_lastLootAttempt < 2000)
+				if (System.currentTimeMillis() - _lastLootAttempt < 2000)
 				{
 					continue;
 				}
@@ -657,9 +457,6 @@ public class AutoFarmTask implements Runnable
 		return nearest;
 	}
 
-	/**
-	 * Processa coleta.
-	 */
 	private boolean handleLoot(ItemInstance item)
 	{
 		if (item == null || !item.isVisible())
@@ -669,71 +466,46 @@ public class AutoFarmTask implements Runnable
 		}
 
 		_lootTarget = item;
-
-		double distance =
-			_player.getDistance(item);
-
+		double distance = _player.getDistance(item);
 		final int PICKUP_RANGE = 200;
 
 		if (distance > PICKUP_RANGE)
 		{
-			_player.moveToLocation(
-				item.getLoc(),
-				100,
-				true
-			);
-
+			_player.moveToLocation(item.getLoc(), 100, true);
 			return true;
 		}
 
 		_player.setTarget(item);
-
-		_lastLootObjectId =
-			item.getObjectId();
-
-		_lastLootAttempt =
-			System.currentTimeMillis();
-
+		_lastLootObjectId = item.getObjectId();
+		_lastLootAttempt = System.currentTimeMillis();
 		_player.doPickupItem(item);
-
 		_lootTarget = null;
-
 		return true;
 	}
 
-	/**
-	 * Procura o monstro vivo mais próximo.
-	 */
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
-		for (l2f.gameserver.model.instances.NpcInstance npc :
-			GameObjectsStorage.getAllNpcs())
+		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
 		{
 			if (!(npc instanceof MonsterInstance))
 				continue;
 
-			MonsterInstance monster =
-				(MonsterInstance) npc;
+			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead())
-				continue;
-
-			if (!monster.isVisible())
-				continue;
-
-			double distance =
-				_player.getDistance(monster);
-
-			if (distance <= nearestDistance)
-			{
-				nearestDistance = distance;
-				nearest = monster;
-			}
-		}
-
-		return nearest;
-	}
+if (monster.isDead())
+continue;
+if (!monster.isVisible())
+continue;
+double distance = _player.getDistance(monster);
+if (distance <= nearestDistance)
+{
+nearestDistance = distance;
+nearest = monster;
+}
+}
+return nearest;
+}
 }

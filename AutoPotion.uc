@@ -14,6 +14,8 @@ var ItemWindowHandle hMP;
 var ItemWindowHandle hQHP;	
 var ItemWindowHandle hSCP;
 var ItemWindowHandle hS;
+
+// Slots que agora operam as Skills do AutoFarm
 var ItemWindowHandle hRand1;
 var ItemWindowHandle hRand2;
 var ItemWindowHandle hRand3;
@@ -88,9 +90,11 @@ var ItemID idMP;
 var ItemID idQHP;
 var ItemID idSCP;
 var ItemID idS;
-var ItemID idRand1;
-var ItemID idRand2;
-var ItemID idRand3;
+
+// IDs locais para guardar as skills do farm
+var int currentSkillId1;
+var int currentSkillId2;
+var int currentSkillId3;
 
 function OnRegisterEvent()
 {
@@ -170,156 +174,44 @@ function OnLoad()
 	aTex8 = GetAnimTextureHandle("AutoPotions.Anim8");
 	aTex9 = GetAnimTextureHandle("AutoPotions.Anim9");
 	
-		//Load settings
-	//InitLoadSets();
-	SetToDefault(); // Tire as duas barras daqui para ela voltar a rodar
-	
-	// Força a janela a ter o tamanho correto desde o carregamento do jogo
-	Me.SetWindowSize(215, 90);
+	SetToDefault(); 
+	Me.SetWindowSize(215, 262);
 }
-
-
 
 function OnShow()
 {
-	// Força o tamanho compacto perfeito que esconde o restante do painel
-	Me.SetWindowSize(215, 90);
+	Me.SetWindowSize(215, 262);
 	
-	// Esconde as escritas que estavam flutuando na parte esticada
+	tDivider.ShowWindow();
+	tDivider2.ShowWindow();
+	hQHP.ShowWindow();
+	hSCP.ShowWindow();
+	hS.ShowWindow();
+	hRand1.ShowWindow();
+	hRand2.ShowWindow();
+	hRand3.ShowWindow();
+	
 	txtDescQHP.HideWindow();
 	txtDescSCP.HideWindow();
 	txtDescS.HideWindow();
-	txtDescRand1.HideWindow();
-	txtDescRand2.HideWindow();
-	txtDescRand3.HideWindow();
+	txtDescRand1.ShowWindow();
+	txtDescRand2.ShowWindow();
+	txtDescRand3.ShowWindow();
 	
 	txtPercentQHP.HideWindow();
 	txtPercentSCP.HideWindow();
 	txtDelayQHP.HideWindow();
 	txtDelaySCP.HideWindow();
 	
-	// Garante a visibilidade correta da janela mestre
 	Me.ShowWindow();
 	Me.SetFocus();
 }
 
-
-
-function InitLoadSets()
-{
-	bExpand.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_minimize", "L2UI_CH3.ShortcutWnd.shortcut_minimize_down", "L2UI_CH3.ShortcutWnd.shortcut_minimize_over" );
-	bExpandMore.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_minimize", "L2UI_CH3.ShortcutWnd.shortcut_minimize_down", "L2UI_CH3.ShortcutWnd.shortcut_minimize_over" );
-	Me.SetWindowSize(215, 90);
-	tDivider.HideWindow();
-	tDivider2.HideWindow();
-	hQHP.HideWindow();
-	hSCP.HideWindow();
-	hS.HideWindow();
-	hRand1.HideWindow();
-	hRand2.HideWindow();
-	hRand3.HideWindow();
-	ePercentQHP.HideWindow();
-	ePercentSCP.HideWindow();
-	eDelayQHP.HideWindow();
-	eDelaySCP.HideWindow();
-	eAmountS.HideWindow();
-	txtPercentQHP.HideWindow();
-	txtPercentSCP.HideWindow();
-	txtDelayQHP.HideWindow();
-	txtDelaySCP.HideWindow();
-	txtDescQHP.HideWindow();
-	txtDescSCP.HideWindow();
-	txtDescS.HideWindow();
-	txtDescRand1.HideWindow();
-	txtDescRand2.HideWindow();
-	txtDescRand3.HideWindow();
-	
-	ePercentCP.SetString( "" );
-	ePercentHP.SetString( "" );
-	ePercentMP.SetString( "" );
-	ePercentQHP.SetString( "" );
-	ePercentSCP.SetString( "" );
-	eDelayCP.SetString( "" );
-	eDelayHP.SetString( "" );
-	eDelayMP.SetString( "" );
-	eDelayQHP.SetString( "" );
-	eDelaySCP.SetString( "" );
-	eAmountS.SetString( "" );
-	
-	ePercentCP.SetMaxLength( 0 );
-	ePercentHP.SetMaxLength( 0 );
-	ePercentMP.SetMaxLength( 0 );
-	ePercentQHP.SetMaxLength( 0 );
-	ePercentSCP.SetMaxLength( 0 );
-	
-	eAmountS.SetMaxLength( 0 );
-	
-	eDelayCP.SetMaxLength( 0 );
-	eDelayHP.SetMaxLength( 0 );
-	eDelayMP.SetMaxLength( 0 );
-	eDelayQHP.SetMaxLength( 0 );
-	eDelaySCP.SetMaxLength( 0 );
-}
-
-function ItemWindowHandle GetItemHandleByString(string str)
-{
-	switch (str)
-	{
-		case "itemCP":
-			return hCP;
-		break;
-		case "itemHP":
-			return hHP;
-		break;
-		case "itemMP":
-			return hMP;
-		break;
-		case "itemQHP":
-			return hQHP;
-		break;
-		case "itemSCP":
-			return hSCP;
-		break;
-		case "itemSouls":
-			return hS;
-		break;
-	}
-}
-
-function bool isBuffPotion(ItemInfo a_ItemInfo)
-{
-	//if (a_ItemInfo.ItemType == 5 && a_ItemInfo.ItemType == 3)
-	//{
-		if (InStr( a_ItemInfo.Name, "Greater Haste Potion" ) > -1)
-		{
-			return true;
-		}
-		else if (InStr( a_ItemInfo.Name, "Greater Swift Attack Potion" ) > -1)
-		{
-			return true;
-		}
-		else if (InStr( a_ItemInfo.Name, "Greater Magic Haste Potion" ) > -1)
-		{
-			return true;
-		}
-		else if (InStr( a_ItemInfo.Name, "Instant Haste Potion" ) > -1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	//}
-	//else
-	//{
-		//sysDebug("HMMM");
-		//return false;
-	//}
-}
-
 function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 {
+	local int droppedSkillID;
+	droppedSkillID = a_ItemInfo.ID.ClassID;
+
 	switch (a_WindowID)
 	{
 		case "itemCP":
@@ -349,7 +241,6 @@ function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 				eDelayHP.EnableWindow();
 				ePercentHP.EnableWindow();
 			}
-				
 			else
 				MessageBox("Not a GHP potion!");
 		break;
@@ -409,41 +300,33 @@ function OnDropItem( String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 			}			
 			else
 				MessageBox("Not a Soul bottle!");
-		break; //ItemType 5, ItemSubType 3 - For all potions
+		break;
+		// ============================================================
+		// CORREÇÃO CONTRA BYPASS: GRAVA SKILL VIA COMANDO DE CHAT SEGURO
+		// ============================================================
 		case "itemRand1":
-			if (isBuffPotion(a_ItemInfo))
-			{
-				hRand1.AddItem(a_ItemInfo);
-				idRand1 = a_ItemInfo.ID;
-			}			
-			else
-				MessageBox("Not a proper potion!");
+			currentSkillId1 = droppedSkillID;
+			hRand1.AddItem(a_ItemInfo);
+			tBlankRand1.HideWindow();
+			ExecuteCommand(".autofarm select 1 " $ currentSkillId1);
 		break;
 		case "itemRand2":
-			if (isBuffPotion(a_ItemInfo))
-			{
-				hRand2.AddItem(a_ItemInfo);
-				idRand2 = a_ItemInfo.ID;
-			}			
-			else
-				MessageBox("Not a proper potion!");
+			currentSkillId2 = droppedSkillID;
+			hRand2.AddItem(a_ItemInfo);
+			tBlankRand2.HideWindow();
+			ExecuteCommand(".autofarm select 2 " $ currentSkillId2);
 		break;
 		case "itemRand3":
-			if (isBuffPotion(a_ItemInfo))
-			{
-				hRand3.AddItem(a_ItemInfo);
-				idRand3 = a_ItemInfo.ID;
-			}			
-			else
-				MessageBox("Not a proper potion!");
+			currentSkillId3 = droppedSkillID;
+			hRand3.AddItem(a_ItemInfo);
+			tBlankRand3.HideWindow();
+			ExecuteCommand(".autofarm select 3 " $ currentSkillId3);
 		break;
 	}
 }
 
 function OnClickItem( String strID, int index )
 {
-	local ItemInfo soulInfo;
-	
 	switch (strID)
 	{
 		case "itemCP":
@@ -496,349 +379,302 @@ function OnClickItem( String strID, int index )
 				UsePotions(useSCP, "CP", ePercentSCP, hSCP);
 			}			
 		break;
-		case "itemSouls":
-			if (!useS)
-			{
-				useS = true;
-				tBlankS.HideWindow();
-				StartAnim(aTex6);
-				InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hS)), soulInfo );
-				if (soulInfo.ItemNum > IntToInt64(0))
-					RequestUseItem(soulInfo.ID);
-			}			
-		break;
+
+				// ============================================================
+		// CORREÇÃO CONTRA TRAVA DE BYPASS: EXECUTA VIA GATILHO DE CHAT
+		// ============================================================
 		case "itemRand1":
-			if (!useRand1)
-			{
-				useRand1 = true;
-				tBlankRand1.HideWindow();
-				StartAnim(aTex7);
-			}			
-		break;
 		case "itemRand2":
-			if (!useRand2)
-			{
-				useRand2 = true;
-				tBlankRand2.HideWindow();
-				StartAnim(aTex8);
-			}			
-		break;
 		case "itemRand3":
-			if (!useRand3)
-			{
-				useRand3 = true;
-				tBlankRand3.HideWindow();
-				StartAnim(aTex9);
-			}			
+			// Simula o jogador digitando o comando puro no chat (Passe livre do Core)
+			ExecuteCommand(".autofarm toggle");
+			PlayConsoleSound(IFST_CLICK1);
 		break;
 	}
 }
+
 
 function OnRClickItem( String strID, int index )
 {
-	switch (strID)
-	{
-		case "itemCP":
-			useCP = false;
-			StopAnim(aTex1);
-			Me.KillTimer(TIMER_CP);
-		break;
-		case "itemHP":
-			useHP = false;
-			StopAnim(aTex2);
-			Me.KillTimer(TIMER_HP);
-		break;
-		case "itemMP":
-			useMP = false;
-			StopAnim(aTex3);
-			Me.KillTimer(TIMER_MP);
-		break;
-		case "itemQHP":
-			useQHP = false;
-			StopAnim(aTex4);
-			Me.KillTimer(TIMER_QHP);
-		break;
-		case "itemSCP":
-			useSCP = false;
-			StopAnim(aTex5);
-			Me.KillTimer(TIMER_SCP);
-		break;
-		case "itemSouls":
-			useS = false;
-			StopAnim(aTex6);
-		break;
+switch (strID)
+{
+case "itemCP":
+useCP = false;
+StopAnim(aTex1);
+Me.KillTimer(TIMER_CP);
+break;
+case "itemHP":
+useHP = false;
+StopAnim(aTex2);
+Me.KillTimer(TIMER_HP);
+break;
+case "itemMP":
+useMP = false;
+StopAnim(aTex3);
+Me.KillTimer(TIMER_MP);
+break;
+case "itemQHP":
+useQHP = false;
+StopAnim(aTex4);
+Me.KillTimer(TIMER_QHP);
+break;
+case "itemSCP":
+useSCP = false;
+StopAnim(aTex5);
+Me.KillTimer(TIMER_SCP);
+break;
+		// ============================================================
+		// CORREÇÃO CONTRA BYPASS: REMOVE SKILL VIA COMANDO DE CHAT SEGURO
+		// ============================================================
 		case "itemRand1":
-			useRand1 = false;
-			StopAnim(aTex7);
+			currentSkillId1 = 0;
+			hRand1.Clear();
+			tBlankRand1.ShowWindow();
+			ExecuteCommand(".autofarm select 1 0");
 		break;
 		case "itemRand2":
-			useRand2 = false;
-			StopAnim(aTex8);
+			currentSkillId2 = 0;
+			hRand2.Clear();
+			tBlankRand2.ShowWindow();
+			ExecuteCommand(".autofarm select 2 0");
 		break;
 		case "itemRand3":
-			useRand3 = false;
-			StopAnim(aTex9);
+			currentSkillId3 = 0;
+			hRand3.Clear();
+			tBlankRand3.ShowWindow();
+			ExecuteCommand(".autofarm select 3 0");
 		break;
-	}
-}
 
+}
+}
 function SetAutoTimer(int id, EditBoxHandle handle, string str)
 {
-	Me.KillTimer(id);
-	if (int(handle.GetString()) > 0 && int(handle.GetString()) <= 30)
-		Me.SetTimer(id, int(handle.GetString()) * 1000);
-	else
-	{
-		MessageBox("Value between 1-30");
-		OnRClickItem( str, 0 );
-	}
-		
+Me.KillTimer(id);
+if (int(handle.GetString()) > 0 && int(handle.GetString()) <= 30)
+Me.SetTimer(id, int(handle.GetString()) * 1000);
+else
+{
+MessageBox("Value between 1-30");
+OnRClickItem( str, 0 );
 }
-
+}
 function OnTimer(int TimerID)
 {
-	if (TimerID == TIMER_CP)
-	{
-		Me.KillTimer(TIMER_CP);
-		UsePotions(useCP, "CP", ePercentCP, hCP);
-		Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000);
-	}
-	else if (TimerID == TIMER_HP)
-	{
-		Me.KillTimer(TIMER_HP);
-		UsePotions(useHP, "HP", ePercentHP, hHP);
-		Me.SetTimer(TIMER_HP, int(eDelayHP.GetString()) * 1000);
-	}
-	else if (TimerID == TIMER_MP)
-	{
-		Me.KillTimer(TIMER_MP);
-		UsePotions(useMP, "MP", ePercentMP, hMP);
-		Me.SetTimer(TIMER_MP, int(eDelayMP.GetString()) * 1000);
-	}
-	else if (TimerID == TIMER_QHP)
-	{
-		Me.KillTimer(TIMER_QHP);
-		UsePotions(useQHP, "HP", ePercentQHP, hQHP);
-		Me.SetTimer(TIMER_QHP, int(eDelayQHP.GetString()) * 1000);
-	}
-	else if (TimerID == TIMER_SCP)
-	{
-		Me.KillTimer(TIMER_SCP);
-		UsePotions(useSCP, "CP", ePercentSCP, hSCP);
-		Me.SetTimer(TIMER_SCP, int(eDelaySCP.GetString()) * 1000);
-	}
+if (TimerID == TIMER_CP)
+{
+Me.KillTimer(TIMER_CP);
+UsePotions(useCP, "CP", ePercentCP, hCP);
+Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000);
 }
-
+else if (TimerID == TIMER_HP)
+{
+Me.KillTimer(TIMER_HP);
+UsePotions(useHP, "HP", ePercentHP, hHP);
+Me.SetTimer(TIMER_HP, int(eDelayHP.GetString()) * 1000);
+}
+else if (TimerID == TIMER_MP)
+{
+Me.KillTimer(TIMER_MP);
+UsePotions(useMP, "MP", ePercentMP, hMP);
+Me.SetTimer(TIMER_MP, int(eDelayMP.GetString()) * 1000);
+}
+else if (TimerID == TIMER_QHP)
+{
+Me.KillTimer(TIMER_QHP);
+UsePotions(useQHP, "HP", ePercentQHP, hQHP);
+Me.SetTimer(TIMER_QHP, int(eDelayQHP.GetString()) * 1000);
+}
+else if (TimerID == TIMER_SCP)
+{
+Me.KillTimer(TIMER_SCP);
+UsePotions(useSCP, "CP", ePercentSCP, hSCP);
+Me.SetTimer(TIMER_SCP, int(eDelaySCP.GetString()) * 1000);
+}
+}
 function StartAnim(AnimTextureHandle handle)
 {
-	handle.ShowWindow();
-	handle.Stop();
-	handle.SetLoopCount(-1);
-	handle.Play();
+handle.ShowWindow();
+handle.Stop();
+handle.SetLoopCount(-1);
+handle.Play();
 }
-
 function StopAnim(AnimTextureHandle handle)
 {
-	handle.HideWindow();
-	handle.Stop();
+handle.HideWindow();
+handle.Stop();
 }
-
 function OnEvent(int EventID, string param)
 {
-	switch(EventID)
-	{
-		case EV_GamingStateEnter:
-			SetToDefault();
-		break;
-		case EV_AbnormalStatusEtcItem:
-			if (useS)
-				UseBottles(eAmountS, hS, param);
-		break;
-		case EV_AbnormalStatusNormalItem:
-			if (useRand1)
-			{
-				UseBuffPotions(hRand1, param);
-				//sysDebug("USE 1");
-			}
-			if (useRand2)
-			{
-				UseBuffPotions(hRand2, param);
-				//sysDebug("USE 2");
-			}
-			if (useRand3)
-			{
-				UseBuffPotions(hRand3, param);
-				//sysDebug("USE 3");
-			}
-		break;
-	}
+local int slot;
+local int skillId;
+local ItemInfo fakeSkillInfo;
+local string tmpSkill;
+if (EventID == EV_GamingStateEnter)
+{
+SetToDefault();
+return;
 }
-
+if (InStr(param, "autoFarm_slot") > -1)
+{
+if (InStr(param, "slot1_") > -1)
+{
+slot = 1;
+tmpSkill = Mid(param, 14);
+skillId = int(tmpSkill);
+}
+else if (InStr(param, "slot2_") > -1)
+{
+slot = 2;
+tmpSkill = Mid(param, 14);
+skillId = int(tmpSkill);
+}
+else if (InStr(param, "slot3_") > -1)
+{
+slot = 3;
+tmpSkill = Mid(param, 14);
+skillId = int(tmpSkill);
+}
+if (skillId > 0 && slot > 0)
+{
+fakeSkillInfo.ID.ClassID = skillId;
+switch (slot)
+{
+case 1:
+currentSkillId1 = skillId;
+hRand1.AddItem(fakeSkillInfo);
+tBlankRand1.HideWindow();
+break;
+case 2:
+currentSkillId2 = skillId;
+hRand2.AddItem(fakeSkillInfo);
+tBlankRand2.HideWindow();
+break;
+case 3:
+currentSkillId3 = skillId;
+hRand3.AddItem(fakeSkillInfo);
+tBlankRand3.HideWindow();
+break;
+}
+}
+else if (slot > 0)
+{
+switch (slot)
+{
+case 1: currentSkillId1 = 0; hRand1.Clear(); tBlankRand1.ShowWindow(); break;
+case 2: currentSkillId2 = 0; hRand2.Clear(); tBlankRand2.ShowWindow(); break;
+case 3: currentSkillId3 = 0; hRand3.Clear(); tBlankRand3.ShowWindow(); break;
+}
+}
+}
+}
 function SetToDefault()
 {
-	// ---- Custom: Forçar o fundo cinza a encolher e esconder os extras ----
-	Me.SetWindowSize(215, 90);
-	
-	// Esconde os botões e texturas de expansão que empurram a janela para baixo
-	bExpand.HideWindow();
-	bExpandMore.HideWindow();
-	tDivider.HideWindow();
-	tDivider2.HideWindow();
-	
-	// ---- Custom: APAGAR OS QUADRADINHOS VAZIOS QUE SOBRARAM ----
-	hQHP.HideWindow();
-	hSCP.HideWindow();
-	hS.HideWindow();
-	hRand1.HideWindow();
-	hRand2.HideWindow();
-	hRand3.HideWindow();
-	
-	tBlankQHP.HideWindow();
-	tBlankSCP.HideWindow();
-	tBlankS.HideWindow();
-	tBlankRand1.HideWindow();
-	tBlankRand2.HideWindow();
-	tBlankRand3.HideWindow();
-	
-	ePercentQHP.HideWindow();
-	ePercentSCP.HideWindow();
-	eDelayQHP.HideWindow();
-	eDelaySCP.HideWindow();
-	eAmountS.HideWindow();
-	// ----------------------------------------------------------------------
-
-	useCP = false;
-	useHP = false;
-	useMP = false;
-	useQHP = false;
-	useSCP = false;
-	useS = false;
-	useRand1 = false;
-	useRand2 = false;
-	useRand3 = false;
-
-	
-	aTex1.HideWindow();
-	aTex2.HideWindow();
-	aTex3.HideWindow();
-	aTex4.HideWindow();
-	aTex5.HideWindow();
-	aTex6.HideWindow();
-	aTex7.HideWindow();
-	aTex8.HideWindow();
-	aTex9.HideWindow();
-	
-	hCP.Clear();
-	hHP.Clear();
-	hMP.Clear();
-	hQHP.Clear();
-	hSCP.Clear();
-	hS.Clear();
-	hRand1.Clear();
-	hRand2.Clear();
-	hRand3.Clear();
-	
-	tBlankCP.ShowWindow();
-	tBlankHP.ShowWindow();
-	tBlankMP.ShowWindow();
-	tBlankQHP.ShowWindow();
-	tBlankSCP.ShowWindow();
-	tBlankS.ShowWindow();
-	tBlankRand1.ShowWindow();
-	tBlankRand2.ShowWindow();
-	tBlankRand3.ShowWindow();
-	
-	ClearItemID( idCP );
-	ClearItemID( idHP );
-	ClearItemID( idMP );
-	ClearItemID( idQHP );
-	ClearItemID( idSCP );
-	ClearItemID( idS );
-	ClearItemID( idRand1 );
-	ClearItemID( idRand2 );
-	ClearItemID( idRand3 );
-	
-	eDelayCP.EnableWindow();
-	eDelayHP.EnableWindow();
-	eDelayMP.EnableWindow();
-	eDelayQHP.EnableWindow();
-	eDelaySCP.EnableWindow();
-	eAmountS.EnableWindow();
-	
-	ePercentCP.EnableWindow();
-	ePercentHP.EnableWindow();
-	ePercentMP.EnableWindow();
-	ePercentQHP.EnableWindow();
-	ePercentSCP.EnableWindow();
-	
-	ePercentCP.SetString("");
-	ePercentHP.SetString("");
-	ePercentMP.SetString("");
-	ePercentQHP.SetString("");
-	ePercentSCP.SetString("");
-	eDelayCP.SetString("");
-	eDelayHP.SetString("");
-	eDelayMP.SetString("");
-	eDelayQHP.SetString("");
-	eDelaySCP.SetString("");
-	eAmountS.SetString("");
-	
-	// Define um limite de 2 dígitos (1-99%) para as caixas aceitarem digitação
-	ePercentCP.SetMaxLength(2);
-	ePercentHP.SetMaxLength(2);
-	ePercentMP.SetMaxLength(2);
-	ePercentQHP.SetMaxLength(2);
-	ePercentSCP.SetMaxLength(2);
-	
-	// Define um limite de 4 dígitos para os delays de milissegundos
-	eDelayCP.SetMaxLength(4);
-	eDelayHP.SetMaxLength(4);
-	eDelayMP.SetMaxLength(4);
-	eDelayQHP.SetMaxLength(4);
-	eDelaySCP.SetMaxLength(4);
-	eAmountS.SetMaxLength(4);
-	
-	ePercentCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-	ePercentHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-	ePercentMP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-	ePercentQHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-	ePercentSCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
-	
-	eAmountS.SetTooltipCustomType(MakeTooltipSimpleText("Value should be 10, 15,.., 40"));
+Me.SetWindowSize(215, 262);
+bExpand.HideWindow();
+bExpandMore.HideWindow();
+tDivider.ShowWindow();
+tDivider2.ShowWindow();
+hQHP.ShowWindow();
+hSCP.ShowWindow();
+hS.ShowWindow();
+hRand1.ShowWindow();
+hRand2.ShowWindow();
+hRand3.ShowWindow();
+tBlankQHP.ShowWindow();
+tBlankSCP.ShowWindow();
+tBlankS.ShowWindow();
+tBlankRand1.ShowWindow();
+tBlankRand2.ShowWindow();
+tBlankRand3.ShowWindow();
+useCP = false;
+useHP = false;
+useMP = false;
+useQHP = false;
+useSCP = false;
+currentSkillId1 = 0;
+currentSkillId2 = 0;
+currentSkillId3 = 0;
+aTex1.HideWindow();
+aTex2.HideWindow();
+aTex3.HideWindow();
+aTex4.HideWindow();
+aTex5.HideWindow();
+hCP.Clear();
+hHP.Clear();
+hMP.Clear();
+hQHP.Clear();
+hSCP.Clear();
+hS.Clear();
+hRand1.Clear();
+hRand2.Clear();
+hRand3.Clear();
+tBlankCP.ShowWindow();
+tBlankHP.ShowWindow();
+tBlankMP.ShowWindow();
+ClearItemID( idCP );
+ClearItemID( idHP );
+ClearItemID( idMP );
+ClearItemID( idQHP );
+ClearItemID( idSCP );
+eDelayCP.EnableWindow();
+eDelayHP.EnableWindow();
+eDelayMP.EnableWindow();
+eDelayQHP.EnableWindow();
+eDelaySCP.EnableWindow();
+ePercentCP.EnableWindow();
+ePercentHP.EnableWindow();
+ePercentMP.EnableWindow();
+ePercentQHP.EnableWindow();
+ePercentSCP.EnableWindow();
+ePercentCP.SetString("");
+ePercentHP.SetString("");
+ePercentMP.SetString("");
+ePercentQHP.SetString("");
+ePercentSCP.SetString("");
+eDelayCP.SetString("");
+eDelayHP.SetString("");
+eDelayMP.SetString("");
+eDelayQHP.SetString("");
+eDelaySCP.SetString("");
+ePercentCP.SetMaxLength(2);
+ePercentHP.SetMaxLength(2);
+ePercentMP.SetMaxLength(2);
+ePercentQHP.SetMaxLength(2);
+ePercentSCP.SetMaxLength(2);
+eDelayCP.SetMaxLength(4);
+eDelayHP.SetMaxLength(4);
+eDelayMP.SetMaxLength(4);
+eDelayQHP.SetMaxLength(4);
+eDelaySCP.SetMaxLength(4);
+ePercentCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
+ePercentHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
+ePercentMP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
+ePercentQHP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
+ePercentSCP.SetTooltipCustomType(MakeTooltipSimpleText("Value should be between 1 - 99"));
 }
-
 function UsePotions(bool bUse, string whatUse, EditBoxHandle eHandle, ItemWindowHandle hHandle)
 {
-	local ItemInfo info;
-	local UserInfo pInfo;
-	
-	local int percent;
-	
-	if (IsWrongCondition())
-	{
-		return;
-	}
-	
-	GetPlayerInfo(pInfo);
-	
-	if (whatUse == "CP")
-		percent = int(float(pInfo.nCurCP)/float(pInfo.nMaxCP) * float(100));
-	else if (whatUse == "HP")
-		percent = int(float(pInfo.nCurHP)/float(pInfo.nMaxHP) * float(100));
-	else
-		percent = int(float(pInfo.nCurMP)/float(pInfo.nMaxMP) * float(100));
-	
-	
-	if (bUse && percent <= int(eHandle.GetString()))
-	{
-		InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-		if (info.ItemNum > IntToInt64(0))
-			RequestUseItem(info.ID);
-		else
-			ClearOnNoItems(hHandle);
-	}
+local ItemInfo info;
+local UserInfo pInfo;
+local int percent;
+if (IsWrongCondition())
+return;
+GetPlayerInfo(pInfo);
+if (whatUse == "CP")
+percent = int(float(pInfo.nCurCP)/float(pInfo.nMaxCP) * float(100));
+else if (whatUse == "HP")
+percent = int(float(pInfo.nCurHP)/float(pInfo.nMaxHP) * float(100));
+else
+percent = int(float(pInfo.nCurMP)/float(pInfo.nMaxMP) * float(100));
+if (bUse && percent <= int(eHandle.GetString()))
+{
+InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
+if (info.ItemNum > IntToInt64(0))
+RequestUseItem(info.ID);
+else
+ClearOnNoItems(hHandle);
 }
-
+}
 function bool IsWrongCondition()
 {
 	local int i;
@@ -881,383 +717,41 @@ function bool IsWrongCondition()
 	return false;
 }
 
-function UseBottles(EditBoxHandle eHandle, ItemWindowHandle hHandle, string param)
-{
-	local ItemInfo info;
-	local StatusIconInfo infoIcon;
-	
-	local int soulCount;
-	local int idx;
-	local int tempMaxRange;
-	local int Max;
-	
-	ParseInt(param, "Max", Max);
-	for (idx = 0; idx < Max; idx++)
-	{
-		ParseItemIDWithIndex(param, infoIcon.ID, idx);
-		ParseInt(param, "SkillLevel_" $ idx, infoIcon.Level);
-		ParseString(param, "Name_" $ idx, infoIcon.Name);
-		
-		if (infoIcon.Name == "Soul Expansion")
-		{
-			soulCount = infoIcon.Level;
-			break;
-		}
-	}
-	
-	//sysDebug("eCount = "$eHandle.GetString());
-	
-	if ( soulCount < 10 && soulCount != 0)
-	{
-		tempMaxRange = (int(eHandle.GetString()) / 5 - 1);
-		for (idx = 0; idx < tempMaxRange; idx++)
-		{
-				InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-				if (info.ItemNum > IntToInt64(0))
-				{
-					RequestUseItem(info.ID);
-				}
-				else
-				{
-					ClearOnNoItems(hHandle);
-					break;
-				}		
-		}
-	}
-}
-
-function UseBuffPotions(ItemWindowHandle hHandle, string param)
-{
-	local ItemInfo info;
-	local StatusIconInfo infoIcon;
-	
-	local int idx;
-	local int Max;
-	local int countBuff;
-	
-	countBuff = 0;
-	
-	info.Name = "";
-	
-	ParseInt(param, "Max", Max);
-	for (idx = 0; idx < Max; idx++)
-	{
-		ParseItemIDWithIndex(param, infoIcon.ID, idx);
-		ParseInt(param, "SkillLevel_" $ idx, infoIcon.Level);
-		ParseString(param, "Name_" $ idx, infoIcon.Name);
-		
-		//Check if acumen exist
-		if (InStr(infoIcon.Name, "Greater Magic Haste Potion") > -1)
-		{
-			countBuff++;
-			//sysDebug("ACUMEN ++");
-		}
-		
-		if (countBuff > 0)
-		{
-			isAcumExist = true;
-			break;
-		}
-		else
-		{
-			isAcumExist = false;
-			continue;
-		}
-	}
-	
-	if (!isAcumExist)
-	{
-		InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-		if (info.Name == "Greater Magic Haste Potion")
-		{
-			if (info.ItemNum > IntToInt64(0))
-			{
-				RequestUseItem(info.ID);
-				isAcumExist = true;
-				return;
-			}
-			else
-			{
-				ClearOnNoItems(hHandle);
-				return;
-			}
-		}
-	}
-	
-	countBuff = 0;
-	info.Name = "";
-	
-	for (idx = 0; idx < Max; idx++)
-	{
-		ParseItemIDWithIndex(param, infoIcon.ID, idx);
-		ParseInt(param, "SkillLevel_" $ idx, infoIcon.Level);
-		ParseString(param, "Name_" $ idx, infoIcon.Name);
-		
-		//Check if ww exist
-		if (InStr(infoIcon.Name, "Greater Haste Potion") > -1)
-		{
-			countBuff++;
-			//sysDebug("WW ++");
-		}
-		
-		if (countBuff > 0)
-		{
-			isWWExist = true;
-			break;
-		}
-		else
-		{
-			isWWExist = false;
-			continue;
-		}
-		
-	}
-	
-	if (!isWWExist)
-	{
-		InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-		if (info.Name == "Greater Haste Potion")
-		{
-			if (info.ItemNum > IntToInt64(0))
-			{
-				RequestUseItem(info.ID);
-				isWWExist = true;
-				return;
-			}
-			else
-			{
-				ClearOnNoItems(hHandle);
-				return;
-			}
-		}
-	}
-	
-	countBuff = 0;
-	info.Name = "";
-	
-	for (idx = 0; idx < Max; idx++)
-	{
-		ParseItemIDWithIndex(param, infoIcon.ID, idx);
-		ParseInt(param, "SkillLevel_" $ idx, infoIcon.Level);
-		ParseString(param, "Name_" $ idx, infoIcon.Name);
-		
-		
-		//Check if haste exist
-		if (InStr(infoIcon.Name, "Greater Swift Attack Potion") > -1)
-		{
-			countBuff++;
-			//sysDebug("HASTE ++");
-		}
-		
-		if (countBuff > 0)
-		{
-			isHasteExist = true;
-			break;
-		}
-		else
-		{
-			isHasteExist = false;
-			continue;
-		}
-	}
-	
-	if (!isHasteExist)
-	{
-		InvItem.GetItem( InvItem.FindItem(GetItemIDByHandle(hHandle)), info );
-		if (info.Name == "Greater Swift Attack Potion")
-		{
-			if (info.ItemNum > IntToInt64(0))
-			{
-				RequestUseItem(info.ID);
-				isHasteExist = true;
-				return;
-			}
-			else
-			{
-				ClearOnNoItems(hHandle);
-				return;
-			}
-		}
-	}
-}
-
-function ItemID GetItemIDByHandle(ItemWindowHandle hHandle)
-{
-	local ItemID item;
-	
-	switch (hHandle)
-	{
-		case hCP:
-			item = idCP;
-		break;
-		case hHP:
-			item = idHP;
-		break;
-		case hMP:
-			item = idMP;
-		break;
-		case hQHP:
-			item = idQHP;
-		break;
-		case hSCP:
-			item = idSCP;
-		break;
-		case hS:
-			item = idS;
-		break;
-		case hRand1:
-			item = idRand1;
-		break;
-		case hRand2:
-			item = idRand2;
-		break;
-		case hRand3:
-			item = idRand3;
-		break;
-	}
-
-	return item;
-}
-
 function ClearOnNoItems(ItemWindowHandle hHandle)
 {
-	
-	
-	hHandle.Clear();
-	switch (hHandle)
-	{
-		case hCP:
-			tBlankCP.ShowWindow();
-			OnRClickItem( "itemCP", 0 );
-		break;
-		case hHP:
-			tBlankHP.ShowWindow();
-			OnRClickItem( "itemHP", 0 );
-		break;
-		case hMP:
-			tBlankMP.ShowWindow();
-			OnRClickItem( "itemMP", 0 );
-		break;
-		case hQHP:
-			tBlankQHP.ShowWindow();
-			OnRClickItem( "itemQHP", 0 );
-		break;
-		case hSCP:
-			tBlankSCP.ShowWindow();
-			OnRClickItem( "itemSCP", 0 );
-		break;
-		case hS:
-			tBlankS.ShowWindow();
-			OnRClickItem( "itemSouls", 0 );
-		break;
-		case hRand1:
-			tBlankRand1.ShowWindow();
-			OnRClickItem( "itemRand1", 0 );
-		break;
-		case hRand2:
-			tBlankRand2.ShowWindow();
-			OnRClickItem( "itemRand2", 0 );
-		break;
-		case hRand3:
-			tBlankRand3.ShowWindow();
-			OnRClickItem( "itemRand3", 0 );
-		break;
-	}
+hHandle.Clear();
+switch (hHandle)
+{
+case hCP: tBlankCP.ShowWindow(); break;
+case hHP: tBlankHP.ShowWindow(); break;
+case hMP: tBlankMP.ShowWindow(); break;
 }
-
+}
+function ItemID GetItemIDByHandle(ItemWindowHandle hHandle)
+{
+local ItemID item;
+switch (hHandle)
+{
+case hCP: item = idCP; break;
+case hHP: item = idHP; break;
+case hMP: item = idMP; break;
+}
+return item;
+}
+// ====================================================================
+// FUNÇÃO ÚNICA E SOBERANA QUE CONTROLA OS CLIQUES DE BOTÕES NATIVOS
+// ====================================================================
 function OnClickButton(string strID)
 {
-	switch(strID)
-	{
-		case "expandBtn":
-			OnClickExpand();
-		break;
-		case "expandMoreBtn":
-			OnClickExpandMore();
-		break;
-	}
-}
-
-function OnClickExpand()
+switch(strID)
 {
-	local Rect wSize;
-	
-	wSize = Me.GetRect();
-	if (wSize.nHeight == 186)
-	{
-		Me.SetWindowSize(wSize.nWidth, 90);
-		tDivider.HideWindow();
-		hQHP.HideWindow();
-		hSCP.HideWindow();
-		hS.HideWindow();
-		ePercentQHP.HideWindow();
-		ePercentSCP.HideWindow();
-		eDelayQHP.HideWindow();
-		eDelaySCP.HideWindow();
-		eAmountS.HideWindow();
-		txtPercentQHP.HideWindow();
-		txtPercentSCP.HideWindow();
-		txtDelayQHP.HideWindow();
-		txtDelaySCP.HideWindow();
-		txtDescQHP.HideWindow();
-		txtDescSCP.HideWindow();
-		txtDescS.HideWindow();
-		bExpandMore.HideWindow();
-		bExpand.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_minimize", "L2UI_CH3.ShortcutWnd.shortcut_minimize_down", "L2UI_CH3.ShortcutWnd.shortcut_minimize_over" );
-	}
-	else
-	{
-		Me.SetWindowSize(wSize.nWidth, 186);
-		tDivider.ShowWindow();
-		hQHP.ShowWindow();
-		hSCP.ShowWindow();
-		hS.ShowWindow();
-		ePercentQHP.ShowWindow();
-		ePercentSCP.ShowWindow();
-		eDelayQHP.ShowWindow();
-		eDelaySCP.ShowWindow();
-		eAmountS.ShowWindow();
-		txtPercentQHP.ShowWindow();
-		txtPercentSCP.ShowWindow();
-		txtDelayQHP.ShowWindow();
-		txtDelaySCP.ShowWindow();
-		txtDescQHP.ShowWindow();
-		txtDescSCP.ShowWindow();
-		txtDescS.ShowWindow();
-		bExpandMore.ShowWindow();
-		bExpand.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_expand", "L2UI_CH3.ShortcutWnd.shortcut_expand_down", "L2UI_CH3.ShortcutWnd.shortcut_expand_over" );
-	}
+case "expandBtn":
+// Caso queira encolher/esticar o painel superior futuramente
+break;
+case "expandMoreBtn":
+// INTERRUPTOR OFICIAL: Lança o comando silencioso direto pro seu Java!
+RequestBypassToServer("bypass voice_autofarm toggle");
+PlayConsoleSound(IFST_CLICK1);
+break;
 }
-
-function OnClickExpandMore()
-{
-	local Rect wSize;
-	
-	wSize = Me.GetRect();
-	if (wSize.nHeight == 262)
-	{
-		Me.SetWindowSize(wSize.nWidth, 186);
-		tDivider2.HideWindow();
-		hRand1.HideWindow();
-		hRand2.HideWindow();
-		hRand3.HideWindow();
-		bExpand.ShowWindow();
-		txtDescRand1.HideWindow();
-		txtDescRand2.HideWindow();
-		txtDescRand3.HideWindow();
-		bExpandMore.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_minimize", "L2UI_CH3.ShortcutWnd.shortcut_minimize_down", "L2UI_CH3.ShortcutWnd.shortcut_minimize_over" );
-	}
-	else if (wSize.nHeight == 186)
-	{
-		Me.SetWindowSize(wSize.nWidth, 262);
-		tDivider2.ShowWindow();
-		hRand1.ShowWindow();
-		hRand2.ShowWindow();
-		hRand3.ShowWindow();
-		bExpand.HideWindow();
-		txtDescRand1.ShowWindow();
-		txtDescRand2.ShowWindow();
-		txtDescRand3.ShowWindow();
-		bExpandMore.SetTexture( "L2UI_CH3.ShortcutWnd.shortcut_expand", "L2UI_CH3.ShortcutWnd.shortcut_expand_down", "L2UI_CH3.ShortcutWnd.shortcut_expand_over" );
-	}
 }

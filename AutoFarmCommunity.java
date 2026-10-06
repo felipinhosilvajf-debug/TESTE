@@ -25,22 +25,13 @@ public class AutoFarmCommunity
 	private static final String PAGE_SKILL3 =
 		"autofarm_skill_page_3";
 
-	private void showHtml(String html)
+			private void showHtml(String html)
 	{
-		if (self == null)
-			return;
-
-		/*
-		 * Auto Farm usa uma janela HTML pequena, no mesmo estilo
-		 * de uma janela de NPC. Não abrir no Community Board.
-		 */
-		NpcHtmlMessage message =
-			new NpcHtmlMessage(0);
-
-		message.setHtml(html);
-
-		self.sendPacket(message);
+		// Bloqueio absoluto de pacotes visuais da Alt+B
+		return;
 	}
+
+
 
 	/*
 	 * =============================================================
@@ -48,20 +39,25 @@ public class AutoFarmCommunity
 	 * =============================================================
 	 */
 
-	public void start()
+		public void start()
 	{
 		if (self == null)
 			return;
 
 		if (self.isAutoFarm())
 		{
-			back();
 			return;
 		}
 
+		// Liga oficialmente o motor de combate e rastreamento da IA do seu Core!
 		self.startAutoFarm();
 
-		back();
+		/*
+		 * PRINCÍPIO DE SINCRO INTERFACE:
+		 * Como não usamos mais a Alt+B antiga, removemos o método back() daqui.
+		 * Isso IMPEDE o travamento invisível de pacotes do servidor, permitindo 
+		 * que o farm inicie instantaneamente em modo ataque físico ou mágico!
+		 */
 	}
 
 	public void stop()
@@ -71,25 +67,47 @@ public class AutoFarmCommunity
 
 		if (!self.isAutoFarm())
 		{
-			back();
 			return;
 		}
 
+		// Desliga oficialmente a tarefa de inteligência artificial de combate
 		self.stopAutoFarm();
 
-		back();
+		/*
+		 * Remove o método back() para manter a sincronia limpa e em segundo plano.
+		 */
 	}
 
-	public void toggle()
+
+			public void toggle()
 	{
 		if (self == null)
 			return;
 
+		/*
+		 * HIGIENIZAÇÃO DE MEMÓRIA: Se as variáveis do personagem vierem negativas
+		 * ou nulas de fábrica, nós forçamos elas a virarem 0 estável imediatamente.
+		 */
+		int s1 = self.getAutoFarmSkill1() < 0 ? 0 : self.getAutoFarmSkill1();
+		int s2 = self.getAutoFarmSkill2() < 0 ? 0 : self.getAutoFarmSkill2();
+		int s3 = self.getAutoFarmSkill3() < 0 ? 0 : self.getAutoFarmSkill3();
+		self.setAutoFarmSkills(s1, s2, s3);
+
 		if (self.isAutoFarm())
+		{
+			// Desliga o farm nativamente se ele já estiver rodando
 			stop();
+			self.sendMessage("Auto Farm: DESATIVADO.");
+		}
 		else
+		{
+			// Liga o farm nativamente permitindo o ataque físico com arco/espada
 			start();
+			self.sendMessage("Auto Farm: ATIVADO.");
+		}
 	}
+
+
 
 	/*
 	 * =============================================================
@@ -429,12 +447,16 @@ public class AutoFarmCommunity
 		showHtml(html.toString());
 	}
 
-	/*
+		/*
 	 * =============================================================
-	 * SELEÇÃO DA SKILL
+	 * SELEÇÃO DA SKILL (SUPORTE PARA SELEÇÃO DIRETA / INTERFACE)
 	 * =============================================================
 	 */
-
+		/*
+	 * =============================================================
+	 * SELEÇÃO DA SKILL (SUPORTE PARA SELEÇÃO DIRETA / INTERFACE)
+	 * =============================================================
+	 */
 	public void select(String[] args)
 	{
 		if (self == null)
@@ -445,72 +467,54 @@ public class AutoFarmCommunity
 
 		try
 		{
-			int slot =
-				Integer.parseInt(args[0]);
-
-			int skillId =
-				Integer.parseInt(args[1]);
+			int slot = Integer.parseInt(args[0]);
+			int skillId = Integer.parseInt(args[1]);
 
 			if (slot < 1 || slot > 3)
 				return;
 
-			int skill1 =
-				self.getAutoFarmSkill1();
-
-			int skill2 =
-				self.getAutoFarmSkill2();
-
-			int skill3 =
-				self.getAutoFarmSkill3();
+			int skill1 = self.getAutoFarmSkill1();
+			int skill2 = self.getAutoFarmSkill2();
+			int skill3 = self.getAutoFarmSkill3();
 
 			/*
-			 * SEM SKILL
+			 * REMOVER SKILL DO SLOT
 			 */
 			if (skillId == 0)
 			{
-				if (slot == 1)
-					skill1 = 0;
-				else if (slot == 2)
-					skill2 = 0;
-				else
-					skill3 = 0;
+				if (slot == 1) skill1 = 0;
+				else if (slot == 2) skill2 = 0;
+				else skill3 = 0;
 
-				self.setAutoFarmSkills(
-					skill1,
-					skill2,
-					skill3
-				);
-
-				back();
+				self.setAutoFarmSkills(skill1, skill2, skill3);
+				
+				// Sincroniza silenciosamente com a interface removendo o ícone
+				self.sendPacket(new l2f.gameserver.network.serverpackets.PlaySound("autoFarm_slot" + slot + "_0"));
 				return;
 			}
+
+			/*
+			 * Trata o ID absoluto da Skill
+			 */
+			skillId = Math.abs(skillId);
 
 			/*
 			 * Verifica se a skill pertence ao personagem.
 			 */
-			Skill skill =
-				self.getKnownSkill(skillId);
+			Skill skill = self.getKnownSkill(skillId);
 
 			if (skill == null)
 			{
-				self.sendMessage(
-					"Essa skill não pertence ao seu personagem."
-				);
-
+				self.sendMessage("Essa skill nao pertence ao seu personagem.");
 				return;
 			}
 
-			/*
-			 * IMPORTANTE:
-			 *
-			 * NÃO verificamos MP aqui.
-			 *
-			 * O jogador pode configurar uma skill mesmo
-			 * estando sem mana.
-			 *
-			 * O AutoFarmTask decidirá em combate se
-			 * existe mana suficiente.
-			 */
+			if (!skill.isActive() && !skill.isToggle())
+			{
+				self.sendMessage("Apenas skills ativas ou toggles podem ser usadas no AutoFarm.");
+				return;
+			}
+
 			if (slot == 1)
 				skill1 = skillId;
 			else if (slot == 2)
@@ -518,21 +522,24 @@ public class AutoFarmCommunity
 			else
 				skill3 = skillId;
 
-			self.setAutoFarmSkills(
-				skill1,
-				skill2,
-				skill3
-			);
+			self.setAutoFarmSkills(skill1, skill2, skill3);
+			
+			// Notifica o jogador do sucesso da configuração no chat
+			self.sendMessage("Skill " + skill.getName() + " adicionada ao Slot " + slot + ".");
 
-			back();
+			// ====================================================================
+			// CORREÇÃO CRUCIAL: Manda o pacote de áudio isolado de confirmação!
+			// Substituímos o 'back();' por esse envio direto para NÃO abrir a Alt+B!
+			// ====================================================================
+			self.sendPacket(new l2f.gameserver.network.serverpackets.PlaySound("autoFarm_slot" + slot + "_" + skillId));
 		}
 		catch (NumberFormatException e)
 		{
-			self.sendMessage(
-				"Skill inválida."
-			);
+			self.sendMessage("Skill invalida.");
 		}
 	}
+
+
 
 	/*
 	 * =============================================================
@@ -1076,6 +1083,17 @@ public class AutoFarmCommunity
 		);
 
 		showHtml(html);
+
+		/*
+		 * =============================================================
+		 * ENVIAR DADOS AUTOMÁTICOS PARA A INTERFACE NOVA (.uc)
+		 * =============================================================
+		 * Atualiza e força a abertura da janela real no cliente
+		 */
+		self.sendPacket(new l2f.gameserver.network.serverpackets.PlaySound("autoFarm_slot1_" + skill1));
+		self.sendPacket(new l2f.gameserver.network.serverpackets.PlaySound("autoFarm_slot2_" + skill2));
+		self.sendPacket(new l2f.gameserver.network.serverpackets.PlaySound("autoFarm_slot3_" + skill3));
+
 	}
 
 	private String getSkillIcon(int skillId)
