@@ -18,7 +18,7 @@ public class AutoFarmTask implements Runnable
 	private final Player _player;
 	private ScheduledFuture<?> _task;
 
-	private int _searchRadius = 3000;
+	private int _searchRadius = 5000;
 	private int _startX;
 	private int _startY;
 	private int _startZ;
@@ -28,8 +28,8 @@ public class AutoFarmTask implements Runnable
 	private long _lastTargetProgress = 0L;
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final int RETURN_TO_START_TOLERANCE = 150;
-	private static final int NO_TARGET_RETRY_LIMIT = 50;
-	private static final int TARGET_SEARCH_DISTANCE = 3000;
+	private static final int NO_TARGET_RETRY_LIMIT = 100;
+	private static final int TARGET_SEARCH_DISTANCE = 5000;
 	private int _noTargetRetries = 0;
 
 	/*
