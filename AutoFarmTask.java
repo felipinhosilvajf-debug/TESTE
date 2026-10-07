@@ -28,7 +28,9 @@ public class AutoFarmTask implements Runnable
 	private long _lastTargetProgress = 0L;
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final int RETURN_TO_START_TOLERANCE = 150;
-	private static final int NO_TARGET_RETRY_LIMIT = 15;
+	private static final int NO_TARGET_RETRY_LIMIT = 50;
+	private static final int TARGET_SEARCH_DISTANCE = 3000;
+	private static final int RETURN_TO_START_TOLERANCE = 150;
 	private int _noTargetRetries = 0;
 
 	/*
@@ -179,11 +181,7 @@ public class AutoFarmTask implements Runnable
 		MonsterInstance target = findNearestMonster();
 		if (target == null || target.isDead())
 		{
-			/*
-			 * Nao volta imediatamente ao ponto inicial. A lista de objetos pode
-			 * estar sendo atualizada enquanto o personagem se move/ataca. Damos
-			 * alguns ciclos para a busca encontrar outro mob antes de retornar.
-			 */
+			/* Aguarda bastante antes de concluir que realmente nao existe outro mob. */
 			_noTargetRetries++;
 
 			if (_noTargetRetries < NO_TARGET_RETRY_LIMIT)
@@ -632,7 +630,7 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
-		double nearestDistance = _searchRadius;
+		double nearestDistance = Double.MAX_VALUE;
 
 		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
 		{
@@ -647,8 +645,10 @@ if (!monster.isVisible())
 continue;
 if (!isObjectInsideFarmRadius(monster))
 continue;
+
+/* Procura o alvo pela distancia do jogador, mas somente dentro do circulo fixo de 3000. */
 double distance = _player.getDistance(monster);
-if (distance <= nearestDistance)
+if (distance <= TARGET_SEARCH_DISTANCE && distance < nearestDistance)
 {
 nearestDistance = distance;
 nearest = monster;
