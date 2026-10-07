@@ -2579,7 +2579,41 @@ body{background:#050505!important;color:#e9e5dc!important;font-family:'EB Garamo
 .theend-nav-links{display:flex;align-items:center;gap:22px;margin-left:auto;margin-right:24px}.theend-nav-links a{color:#aaa69c;text-decoration:none;font-family:'Cinzel',serif;font-size:.61rem;font-weight:700;letter-spacing:1.7px;transition:.25s}.theend-nav-links a:hover,.theend-nav-links a.active{color:#f3dfaa}
 @media(max-width:1100px){.theend-nav-brand{min-width:210px}.theend-nav-links{gap:14px;margin-right:14px}.theend-nav-account{gap:10px}.theend-nav-adena{display:none}}
 @media(max-width:800px){.theend-nav-links,.theend-nav-account{display:none}.theend-nav-brand{min-width:auto}.theend-nav-mobile{display:flex!important}.mobile-topbar-menu{position:absolute!important;top:100%;left:0;right:0;display:none;flex-direction:column;background:rgba(3,3,3,.97);border-top:1px solid rgba(216,181,106,.18);border-bottom:1px solid rgba(216,181,106,.18);padding:12px 20px;z-index:1000}.mobile-topbar-menu.open{display:flex}.mobile-topbar-menu a{padding:12px 4px;color:#aaa69c;text-decoration:none;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:1.8px;border-bottom:1px solid rgba(216,181,106,.08)}.mobile-topbar-menu a:last-child{border-bottom:0}}
-</style><style>
+<style id="vb-blue-dark-fantasy-overrides">
+:root{--blue-base:#38bdf8!important;--blue-light:#d9f3ff!important;--blue-dark:#075985!important;--blue-deep:#0284c7!important;--blue-dim:#172554!important;--dynasty-bg:#04070d!important;--dynasty-bg-panel:#08101d!important;--dynasty-bg-panel2:#0d1728!important;--dynasty-border:#164e78!important;--dynasty-text:#e6f6ff!important;--dynasty-muted:#8da4b8!important;--glow-blue:rgba(14,165,233,.34)!important;--glow-cyan:rgba(34,211,238,.30)!important}
+body{background-color:#04070d!important;color:#e6f6ff!important;background-image:radial-gradient(circle at 50% 0%,rgba(2,132,199,.18) 0%,transparent 48%),radial-gradient(circle at 50% 100%,rgba(7,89,133,.14) 0%,transparent 70%),linear-gradient(180deg,#04070d 0%,#020409 100%)!important}
+nav,.theend-nav{background:linear-gradient(180deg,rgba(3,7,14,.98),rgba(7,16,29,.96))!important;border-color:#164e78!important}
+nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#075985,#38bdf8,#075985,transparent)!important}
+.theend-template section,.theend-section,.theend-features,.theend-progress,.theend-wiki,.theend-live-section{background:linear-gradient(180deg,rgba(8,16,29,.97),rgba(3,7,14,.99))!important;border-color:rgba(22,78,120,.75)!important}
+.theend-template section:nth-of-type(even){background:linear-gradient(180deg,rgba(4,9,17,.99),rgba(2,5,10,1))!important}
+.theend-heading h2,.theend-section-head h2,.theend-final h2{color:#e6f6ff!important}
+.theend-heading h2 span,.theend-section-head .eyebrow,.theend-section-head h2 span,.theend-heading small{color:#38bdf8!important;text-shadow:0 0 18px rgba(56,189,248,.28)!important}
+.theend-nav-links a,.theend-nav-account a{color:#9ab0c4!important}
+.theend-nav-links a:hover,.theend-nav-account a:hover,.theend-nav-links a.active{color:#d9f3ff!important;text-shadow:0 0 12px rgba(56,189,248,.42)!important}
+.theend-nav-play,.theend-main-button{background:linear-gradient(135deg,#075985,#0284c7)!important;border-color:#38bdf8!important;color:#fff!important;box-shadow:0 0 24px rgba(14,165,233,.22)!important}
+.theend-live-ranking,.theend-feature-list article,.theend-feature-card,.theend-step,.theend-wiki-grid article,.theend-final .theend-wrap{background:linear-gradient(145deg,rgba(10,22,38,.96),rgba(3,8,15,.98))!important;border-color:#164e78!important}
+.theend-live-ranking h3,.theend-feature-list h3,.theend-feature-card h3,.theend-wiki-grid h3{color:#d9f3ff!important}
+.theend-live-ranking span,.theend-feature-list small,.theend-wiki-grid small{color:#38bdf8!important}
+.theend-progress .theend-step.active{border-color:#38bdf8!important;box-shadow:0 0 28px rgba(14,165,233,.2)!important}
+.theend-progress .theend-step b{color:#bae6fd!important}
+.theend-wiki-grid article a{color:#38bdf8!important}
+.theend-footer{background:#02050a!important;border-top-color:#164e78!important}
+.theend-footer a{color:#8da4b8!important}
+.theend-footer a:hover{color:#38bdf8!important}
+.theend-hero{background:#02050a!important}
+.theend-hero-video{opacity:1!important;visibility:visible!important;filter:saturate(.88) brightness(.58) contrast(1.08)!important}
+.theend-hero-shade{background:linear-gradient(180deg,rgba(2,5,10,.20),rgba(2,5,10,.56) 55%,#04070d 100%),linear-gradient(90deg,rgba(2,5,10,.40),transparent 50%,rgba(2,5,10,.40))!important}
+.vb-systems-video-card{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);background:linear-gradient(145deg,rgba(8,18,32,.98),rgba(2,7,14,.99));border:1px solid #164e78;box-shadow:0 25px 70px rgba(0,0,0,.65),0 0 35px rgba(14,165,233,.08)}
+.vb-systems-video{position:relative;aspect-ratio:16/9;overflow:hidden;background:#02050a;border-right:1px solid #164e78}
+.vb-systems-video iframe{width:100%;height:100%;display:block;border:0}
+.vb-systems-video-info{display:flex;flex-direction:column;justify-content:center;padding:42px 36px}
+.vb-systems-video-info>span{color:#38bdf8;font:700 .68rem/1 'Cinzel',serif;letter-spacing:3px}
+.vb-systems-video-info h3{margin:15px 0 14px;color:#e6f6ff;font:800 clamp(1.35rem,2.5vw,2rem)/1.15 'Cinzel',serif;text-transform:uppercase}
+.vb-systems-video-info p{color:#8da4b8;line-height:1.75;font-size:1rem}
+.vb-systems-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:25px}
+.vb-systems-tags b{padding:7px 10px;color:#bae6fd;background:rgba(7,89,133,.20);border:1px solid #164e78;font:700 .58rem/1 'Cinzel',serif;letter-spacing:1.5px}
+@media(max-width:850px){.vb-systems-video-card{grid-template-columns:1fr}.vb-systems-video{border-right:0;border-bottom:1px solid #164e78}.vb-systems-video-info{padding:28px 24px}}
+</style></style><style>
 .theend-logo-text{color:#f3dfaa;text-decoration:none;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:900;letter-spacing:3px}
 .season-showcase{background:radial-gradient(circle at center,rgba(216,181,106,.08),transparent 55%)}
 .season-wheel-wrap{display:flex;justify-content:center;padding:30px 0 10px}
@@ -2668,9 +2702,9 @@ body{background:#050505!important;color:#e9e5dc!important;font-family:'EB Garamo
  </div>
 </section>
 
-<section id="vip" class="theend-section"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SISTEMAS DO SERVIDOR</h2><p>Recursos exclusivos desenvolvidos para deixar a experiência do Mythras mais completa, prática e moderna.</p></div><div class="theend-feature-grid"><article class="theend-feature-card"><div class="feature-icon">⚔</div><h3>AUTO FARM</h3><p>Farm automático desenvolvido para facilitar a rotina do jogador e manter o personagem ativo.</p></article><article class="theend-feature-card"><div class="feature-icon">◈</div><h3>INTERFACE NOVA</h3><p>Uma interface renovada, pensada para deixar os sistemas do servidor mais organizados e fáceis de usar.</p></article><article class="theend-feature-card"><div class="feature-icon">◉</div><h3>NOVO LOGIN</h3><p>Nova experiência de entrada e apresentação do servidor, integrada ao projeto Virtual Boost.</p></article></div></section>
+<section id="vip" class="theend-section vb-systems-video-section"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SISTEMAS DO SERVIDOR</h2><p>Conheça as novidades e os sistemas que fazem parte da experiência Virtual Boost.</p></div><div class="vb-systems-video-card"><div class="vb-systems-video"><iframe src="https://www.youtube.com/embed/Jr2Gzqln-lQ" title="Auto Farm Atualizado Virtual Boost" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="vb-systems-video-info"><span>AUTO FARM</span><h3>Auto Farm Atualizado Virtual Boost</h3><p>Confira a demonstração do Auto Farm atualizado. O vídeo só começa quando o membro clicar em reproduzir.</p><div class="vb-systems-tags"><b>AUTO FARM</b><b>INTERFACE NOVA</b><b>NOVO LOGIN</b></div></div></div></section>
 
-<section id="season" class="theend-section season-showcase"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SEASON</h2><p>Confira a Season atual, novidades e o conteúdo do servidor.</p></div><div class="season-wheel-wrap"><div class="season-wheel"><div class="season-wheel-center">SEASON<br><small>VIRTUAL BOOST</small></div><div class="season-wheel-item">AUTO FARM</div><div class="season-wheel-item">INTERFACE</div><div class="season-wheel-item">NOVO LOGIN</div><div class="season-wheel-item">EVENTOS</div><div class="season-wheel-item">NOVIDADES</div><div class="season-wheel-item">COMMUNITY</div></div></div></section><section id="wiki" class="theend-wiki">
+<section id="season"/> class="theend-section season-showcase"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SEASON</h2><p>Confira a Season atual, novidades e o conteúdo do servidor.</p></div><div class="season-wheel-wrap"><div class="season-wheel"><div class="season-wheel-center">SEASON<br><small>VIRTUAL BOOST</small></div><div class="season-wheel-item">AUTO FARM</div><div class="season-wheel-item">INTERFACE</div><div class="season-wheel-item">NOVO LOGIN</div><div class="season-wheel-item">EVENTOS</div><div class="season-wheel-item">NOVIDADES</div><div class="season-wheel-item">COMMUNITY</div></div></div></section><section id="wiki" class="theend-wiki">
  <div class="theend-wrap">
   <div class="theend-heading"><small>CONHECIMENTO DO REINO</small><h2>WIKI EM <span>DESTAQUE</span></h2><p>Rates, economia, sistemas, mapas e tudo que impacta diretamente sua jornada.</p></div>
   <div class="theend-wiki-grid">
@@ -2683,7 +2717,7 @@ body{background:#050505!important;color:#e9e5dc!important;font-family:'EB Garamo
 
 <section class="theend-final"><div class="theend-wrap"><small>CHRONICLE HIGH FIVE · VIRTUAL BOOST</small><h2>SUA LENDA<br><span>COMEÇA AQUI.</span></h2><p>Prepare seu personagem. Reúna seus aliados. Entre no reino.</p><a class="theend-main-button" href="#" onclick="openPanel('download');return false;">BAIXAR O JOGO →</a></div></section>
 </main>
-<footer class="theend-footer"><div class="theend-wrap"><img src="logo.png"><div><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#vip">VIP</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+<footer class="theend-footer"><div class="theend-wrap"><img src="logo.png"><div><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#vip">SISTEMAS</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
