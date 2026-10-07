@@ -24,7 +24,6 @@ public class AutoFarmTask implements Runnable
 	private long _lastTargetProgress = 0L;
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
-	private int _noTargetRetries = 0;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -55,7 +54,6 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = System.currentTimeMillis();
-		_noTargetRetries = 0;
 		_lastMoveCommand = 0L;
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
@@ -147,17 +145,7 @@ public class AutoFarmTask implements Runnable
 			target = findNearestMonster();
 
 		if (target == null || target.isDead())
-		{
-			_noTargetRetries++;
-
-			if (_noTargetRetries < NO_TARGET_RETRY_LIMIT)
-				return;
-
-			_noTargetRetries = 0;
 			return;
-		}
-
-		_noTargetRetries = 0;
 
 		if (_player.getTarget() != target)
 		{
