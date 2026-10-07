@@ -2681,6 +2681,69 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     box-shadow:0 22px 65px rgba(0,0,0,.72), inset 0 0 35px rgba(56,189,248,.035)!important;
 }
 
+
+/* =========================================================
+   VIRTUAL BOOST — AJUSTES FINAIS
+========================================================= */
+.theend-nav-inner{gap:22px!important}
+.theend-nav-links{justify-content:flex-start!important;gap:26px!important}
+.theend-nav-links a{white-space:nowrap}
+.theend-nav-account{margin-left:auto!important;gap:12px!important}
+.theend-nav-account .theend-nav-adena{
+ display:flex;align-items:center;gap:10px;padding:8px 12px;
+ border:1px solid rgba(56,189,248,.42);background:linear-gradient(180deg,rgba(3,15,28,.92),rgba(2,7,15,.94));
+ box-shadow:inset 0 0 20px rgba(56,189,248,.05),0 0 16px rgba(0,0,0,.35)
+}
+.theend-nav-adena span{font:700 8px 'Cinzel',serif;letter-spacing:1.5px;color:#7f9caf}
+.theend-nav-adena strong{font:800 10px 'Cinzel',serif;color:#d9f3ff;white-space:nowrap}
+.theend-nav-account>a{padding:10px 12px!important}
+.theend-nav-play{border:1px solid rgba(56,189,248,.55)!important;background:linear-gradient(135deg,#0284c7,#38bdf8)!important;box-shadow:0 0 18px rgba(56,189,248,.18)}
+.theend-nav-play:hover{box-shadow:0 0 28px rgba(56,189,248,.42)!important;transform:translateY(-1px)}
+
+.theend-hero-logo{
+ filter:drop-shadow(0 0 5px rgba(56,189,248,.7)) drop-shadow(0 0 18px rgba(56,189,248,.38));
+ animation:vbLogoGlow 2.6s ease-in-out infinite;
+}
+@keyframes vbLogoGlow{
+ 0%,100%{filter:drop-shadow(0 0 4px rgba(56,189,248,.55)) drop-shadow(0 0 12px rgba(56,189,248,.22))}
+ 50%{filter:drop-shadow(0 0 9px rgba(186,230,253,.95)) drop-shadow(0 0 28px rgba(56,189,248,.68))}
+}
+.theend-launch{display:inline-flex!important;align-items:center;gap:8px;padding:9px 15px!important;border:1px solid rgba(56,189,248,.42);background:rgba(3,10,20,.72);box-shadow:0 0 20px rgba(56,189,248,.08);border-radius:2px}
+.theend-main-button{animation:vbPlayPulse 2.2s ease-in-out infinite;position:relative;box-shadow:0 0 20px rgba(56,189,248,.20)}
+@keyframes vbPlayPulse{0%,100%{box-shadow:0 0 14px rgba(56,189,248,.18);transform:translateY(0)}50%{box-shadow:0 0 30px rgba(56,189,248,.48);transform:translateY(-2px)}}
+
+.vb-season-progress{background-image:linear-gradient(180deg,rgba(3,8,16,.66),rgba(3,6,12,.92)),url("asset/hero-bg2.jpg")!important}
+.vb-season-stage{display:grid;grid-template-columns:minmax(390px,1fr) minmax(360px,.9fr);gap:45px;align-items:center}
+.vb-season-orbit{position:relative;width:min(470px,80vw);height:min(470px,80vw);margin:auto;display:grid;place-items:center}
+.vb-season-ring{position:absolute;border-radius:50%;border:1px solid rgba(56,189,248,.25);box-shadow:0 0 50px rgba(14,165,233,.10);animation:vbSeasonSpin 26s linear infinite}
+.vb-season-ring-a{inset:7%}.vb-season-ring-b{inset:17%;border-style:dashed;animation-duration:18s;animation-direction:reverse}
+.vb-season-core{position:relative;z-index:5;width:150px;height:150px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(14,165,233,.28),rgba(3,10,24,.98) 68%);border:1px solid rgba(186,230,253,.72);box-shadow:0 0 0 8px rgba(2,6,23,.68),0 0 65px rgba(14,165,233,.38),inset 0 0 35px rgba(56,189,248,.16);animation:vbSeasonPulse 3s ease-in-out infinite}
+.vb-season-core span{font:900 2.2rem 'Cinzel',serif;color:#e0f2fe;text-shadow:0 0 20px rgba(125,211,252,.8)}
+.vb-season-core small{color:#7dd3fc;font:700 .55rem 'Cinzel',serif;letter-spacing:2px}
+.vb-season-item{position:absolute;z-index:4;width:72px;height:72px;margin:-36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,rgba(14,165,233,.25),rgba(4,10,23,.98) 70%);border:1px solid rgba(96,165,250,.55);box-shadow:0 0 20px rgba(37,99,235,.22),0 8px 20px rgba(0,0,0,.58);animation:vbSeasonFloat 3.6s ease-in-out infinite}
+.vb-season-item img{width:78%;height:78%;object-fit:contain}
+.vb-s1{left:50%;top:0}.vb-s2{left:82%;top:12%}.vb-s3{left:100%;top:50%}.vb-s4{left:82%;top:88%}.vb-s5{left:50%;top:100%}.vb-s6{left:18%;top:88%}.vb-s7{left:0;top:50%}.vb-s8{left:18%;top:12%}.vb-s9{left:50%;top:50%;transform:translateY(160px)}
+.vb-season-copy h3{font:600 clamp(25px,3vw,42px)/1.08 'Cinzel',serif;margin:12px 0 18px}.vb-season-copy h3 span{color:#38bdf8}.vb-season-copy>p{color:#a5b4c3;font-size:17px;line-height:1.7}
+.vb-season-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:25px}.vb-season-cards article{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(2,8,16,.72);border:1px solid rgba(56,189,248,.2)}.vb-season-cards img{width:42px;height:42px;object-fit:contain}.vb-season-cards b{display:block;font:800 11px 'Cinzel',serif;color:#dff6ff}.vb-season-cards small{color:#7f9caf;font-size:12px}
+@keyframes vbSeasonSpin{to{transform:rotate(360deg)}}@keyframes vbSeasonPulse{50%{box-shadow:0 0 0 8px rgba(2,6,23,.68),0 0 85px rgba(14,165,233,.55),inset 0 0 45px rgba(56,189,248,.22)}}@keyframes vbSeasonFloat{50%{transform:translateY(-5px)}}
+
+.vb-footer-inner{display:flex!important;align-items:center!important;justify-content:center!important;gap:24px!important;min-height:52px!important;padding:10px 0!important}
+.theend-footer{padding:12px 0!important}
+.vb-footer-copy p{margin:0!important;font-size:11px!important;white-space:nowrap}
+.vb-footer-links{display:flex;gap:16px;align-items:center;justify-content:center}
+.vb-footer-links a{font:700 8px 'Cinzel',serif;color:#71879a;text-decoration:none;letter-spacing:1.2px}
+.vb-footer-logo{width:32px!important;height:32px!important;object-fit:contain!important;margin:0!important;opacity:.82!important}
+
+.vb-discord-float{position:fixed;left:22px;bottom:22px;z-index:10000;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(8,18,32,.94);border:1px solid rgba(139,92,246,.72);box-shadow:0 0 22px rgba(99,102,241,.34);transition:.25s}
+.vb-discord-float:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 34px rgba(139,92,246,.55)}
+.vb-discord-float svg{width:27px;height:27px;fill:#dbeafe}
+@media(max-width:850px){
+ .theend-nav-links,.theend-nav-account{display:none!important}.theend-nav-mobile{display:block!important;margin-left:auto}
+ .vb-season-stage{grid-template-columns:1fr}.vb-season-orbit{width:min(390px,88vw);height:min(390px,88vw)}
+ .vb-season-cards{grid-template-columns:1fr}
+ .vb-footer-inner{flex-wrap:wrap;gap:10px!important}.vb-footer-copy p{white-space:normal;text-align:center}
+}
+
 </style></head>
 <body>
 
@@ -2691,13 +2754,24 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 ========================================================= -->
 <nav class="theend-nav">
   <div class="theend-nav-inner">
-    <div class="theend-nav-brand"><a href="#home" class="theend-logo-text">INÍCIO</a></div>
     <div class="theend-nav-links">
-      <a class="active" href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a>
+      <a class="active" href="#home">INÍCIO</a>
+      <a href="#novidades">NOVIDADES</a>
+      <a href="#features">O REINO</a>
+      <a href="#progressao">PROGRESSÃO</a>
+      <a href="#wiki">WIKI</a>
+      <a href="#" onclick="openPanel('join');return false;">DISCORD</a>
     </div>
-    <div class="theend-nav-account"><div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a><a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a></div>
+    <div class="theend-nav-account">
+      <div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div>
+      <a href="site/login.php">LOGIN</a>
+      <a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a>
+    </div>
     <button type="button" class="theend-nav-mobile" aria-label="Abrir menu" onclick="toggleMobileTopbar()">☰</button>
-    <div class="mobile-topbar-menu" id="mobileTopbarMenu"><a href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a><a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a></div>
+    <div class="mobile-topbar-menu" id="mobileTopbarMenu">
+      <a href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a>
+      <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a>
+    </div>
   </div>
 </nav>>
 <main class="theend-template">
@@ -2712,10 +2786,10 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     <div class="theend-launch">DESDE O LANÇAMENTO: <strong id="vbHeroOnline">000d 00h 00m 00s</strong></div>
     <a class="theend-main-button" href="#" onclick="openPanel('download');return false;">JOGAR AGORA <span>→</span></a>
   </div>
-  <div class="theend-scroll">ROLE PARA EXPLORAR <i></i></div>
+  
 </header>
 
-<section id="live" class="theend-live-section">
+<section id="novidades" class="theend-live-section">
   <div class="theend-wrap">
     <div class="theend-heading">
       <small>TRANSMISSÕES DA COMUNIDADE</small>
@@ -2747,15 +2821,38 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
  </div>
 </section>
 
-<section id="progressao" class="theend-progress">
+<section id="progressao" class="theend-progress vb-season-progress">
  <div class="theend-wrap">
-  <div class="theend-heading"><small>CAMINHO DO HERÓI</small><h2>PROGRESSÃO DE <span>ITENS</span></h2><p>Os equipamentos evoluem em etapas para preservar valor, incentivar disputa e manter o servidor saudável do early ao endgame.</p></div>
-  <div class="theend-timeline">
-   <div class="theend-step active"><b>10X</b><small>ETAPA 01</small><strong>PROGRESSÃO</strong><span>ATUAL</span></div>
-   <div class="theend-step"><b>S-80</b><small>ETAPA 02</small><strong>PRÓXIMA</strong><span>EM BREVE</span></div>
-   <div class="theend-step"><b>S-84</b><small>ETAPA 03</small><strong>ENDGAME</strong><span>PLANEJADA</span></div>
-   <div class="theend-step"><b>?</b><small>ETAPA 04</small><strong>FUTURO</strong><span>BLOQUEADO</span></div>
-   <div class="theend-step"><b>?</b><small>ETAPA 05</small><strong>FUTURO</strong><span>BLOQUEADO</span></div>
+  <div class="theend-heading">
+   <small>VIRTUAL BOOST · TEMPORADA ATUAL</small>
+   <h2>UMA NOVA MARCA <span>PARA OS HERÓIS</span></h2>
+   <p>Uma temporada construída em torno de uma economia viva: <strong>Adena</strong>, VBSilver e VBGold movimentam o reino, enquanto as linhas <strong>VBMage</strong> e <strong>VBFight</strong> representam novos caminhos de progressão e identidade.</p>
+  </div>
+  <div class="vb-season-stage">
+   <div class="vb-season-orbit">
+    <div class="vb-season-ring vb-season-ring-a"></div><div class="vb-season-ring vb-season-ring-b"></div>
+    <div class="vb-season-core"><span>VB</span><small>SEASON 01</small></div>
+    <div class="vb-season-item vb-s1"><img src="asset/season/logo.png" alt="Season 01"></div>
+    <div class="vb-season-item vb-s2"><img src="asset/season/VBMage3.png" alt="Tattoo Mage LVL 3"></div>
+    <div class="vb-season-item vb-s3"><img src="asset/season/VBMage2.png" alt="Tattoo Mage LVL 2"></div>
+    <div class="vb-season-item vb-s4"><img src="asset/season/VBMage1.png" alt="Tattoo Mage LVL 1"></div>
+    <div class="vb-season-item vb-s5"><img src="asset/season/VBSilver.png" alt="VBSilver"></div>
+    <div class="vb-season-item vb-s6"><img src="asset/season/VBFight1.png" alt="Tattoo Fight LVL 1"></div>
+    <div class="vb-season-item vb-s7"><img src="asset/season/VBFight2.png" alt="Tattoo Fight LVL 2"></div>
+    <div class="vb-season-item vb-s8"><img src="asset/season/VBFight3.png" alt="Tattoo Fight LVL 3"></div>
+    <div class="vb-season-item vb-s9"><img src="asset/season/VBGold.png" alt="VBGold"></div>
+   </div>
+   <div class="vb-season-copy">
+    <div class="season-kicker">VIRTUAL BOOST · TEMPORADA ATUAL</div>
+    <h3>AS NOVAS MARCAS DOS <span>VERDADEIROS HERÓIS</span></h3>
+    <p>As tattoos são as novas marcas dos verdadeiros heróis do Virtual Boost. Evolua sua identidade, conquiste recompensas e deixe seu nome registrado no reino.</p>
+    <div class="vb-season-cards">
+      <article><img src="asset/season/VBSilver.png" alt=""><div><b>VBSilver</b><small>Moeda definitiva de atividade.</small></div></article>
+      <article><img src="asset/season/VBGold.png" alt=""><div><b>VBGold</b><small>Prestígio e recompensas raras.</small></div></article>
+      <article><img src="asset/season/VBMage3.png" alt=""><div><b>VBMage</b><small>Progressão das marcas arcanas.</small></div></article>
+      <article><img src="asset/season/VBFight3.png" alt=""><div><b>VBFight</b><small>Progressão das marcas de combate.</small></div></article>
+    </div>
+   </div>
   </div>
  </div>
 </section>
@@ -2773,7 +2870,15 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 
 <section class="theend-final"><div class="theend-wrap"><small>CHRONICLE HIGH FIVE · VIRTUAL BOOST</small><h2>SUA LENDA<br><span>COMEÇA AQUI.</span></h2><p>Prepare seu personagem. Reúna seus aliados. Entre no reino.</p><a class="theend-main-button" href="#" onclick="openPanel('download');return false;">BAIXAR O JOGO →</a></div></section>
 </main>
-<footer class="theend-footer"><div class="theend-wrap"><img class="vb-footer-logo" src="logo.png" alt="Virtual Boost"><div><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#vip">SISTEMAS</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+<a class="vb-discord-float" href="#" aria-label="Discord Virtual Boost" onclick="openPanel('join');return false;">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.7 5.3A18.8 18.8 0 0 0 15 3.8l-.6 1.2a17.2 17.2 0 0 0-4.8 0L9 3.8a18.8 18.8 0 0 0-4.7 1.5C1.3 9.7.5 14 .9 18.2a19 19 0 0 0 5.8 2.9l1.2-2a12 12 0 0 1-1.9-.9l.5-.4a13.5 13.5 0 0 0 11 0l.5.4a12 12 0 0 1-1.9.9l1.2 2a19 19 0 0 0 5.8-2.9c.5-4.9-.8-9.2-3.4-12.9ZM8.7 15.2c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm6.6 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z"/></svg></a>
+<footer class="theend-footer">
+ <div class="theend-wrap vb-footer-inner">
+  <div class="vb-footer-copy"><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></div>
+  <div class="vb-footer-links"><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div>
+  <img class="vb-footer-logo" src="logo.png" alt="Virtual Boost">
+ </div>
+</footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
