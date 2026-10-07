@@ -30,7 +30,6 @@ public class AutoFarmTask implements Runnable
 	private static final int RETURN_TO_START_TOLERANCE = 150;
 	private static final int NO_TARGET_RETRY_LIMIT = 50;
 	private static final int TARGET_SEARCH_DISTANCE = 3000;
-	private static final int RETURN_TO_START_TOLERANCE = 150;
 	private int _noTargetRetries = 0;
 
 	/*
