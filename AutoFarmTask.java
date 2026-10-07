@@ -29,7 +29,6 @@ public class AutoFarmTask implements Runnable
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final int RETURN_TO_START_TOLERANCE = 150;
 	private static final int NO_TARGET_RETRY_LIMIT = 100;
-	private static final int TARGET_SEARCH_DISTANCE = 30000;
 	private int _noTargetRetries = 0;
 
 	/*
@@ -177,10 +176,13 @@ public class AutoFarmTask implements Runnable
 		}
 
 		/* 3. MONSTRO */
-		MonsterInstance target = findNearestMonster();
+		MonsterInstance target = getSelectedMonster();
+		if (target == null)
+			target = findNearestMonster();
+
 		if (target == null || target.isDead())
 		{
-			/* Aguarda bastante antes de concluir que realmente nao existe outro mob. */
+			/* Aguarda 10 segundos antes de concluir que realmente nao existe outro mob. */
 			_noTargetRetries++;
 
 			if (_noTargetRetries < NO_TARGET_RETRY_LIMIT)
@@ -631,6 +633,24 @@ public class AutoFarmTask implements Runnable
 		return true;
 	}
 
+	private MonsterInstance getSelectedMonster()
+	{
+		GameObject selected = _player.getTarget();
+
+		if (!(selected instanceof MonsterInstance))
+			return null;
+
+		MonsterInstance monster = (MonsterInstance) selected;
+
+		if (monster.isDead() || !monster.isVisible())
+			return null;
+
+		if (!isObjectInsideFarmRadius(monster))
+			return null;
+
+		return monster;
+	}
+
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
@@ -652,7 +672,7 @@ continue;
 
 /* Procura o alvo pela distancia do jogador, mas somente dentro do circulo fixo de 3000. */
 double distance = _player.getDistance(monster);
-if (distance <= TARGET_SEARCH_DISTANCE && distance < nearestDistance)
+if (distance <= _searchRadius && distance < nearestDistance)
 {
 nearestDistance = distance;
 nearest = monster;
