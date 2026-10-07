@@ -74,7 +74,6 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = 0L;
-		_noTargetRetries = 0;
 		_lastMoveCommand = 0L;
 	}
 
