@@ -2568,6 +2568,17 @@ body{background:#050505!important;color:#e9e5dc!important;font-family:'EB Garamo
 @media(max-width:900px){.theend-nav-links{display:none;position:absolute;top:74px;left:0;right:0;background:#050505;padding:20px;flex-direction:column;align-items:flex-start}.theend-nav-links.open{display:flex}.theend-nav-mobile{display:block}.theend-nav-account>a:first-child{display:none}.theend-live-grid,.theend-feature-list{grid-template-columns:1fr}.theend-feature-list article:first-child{grid-column:auto}.theend-timeline{grid-template-columns:1fr}.theend-vip-grid{grid-template-columns:repeat(2,1fr)}.theend-wiki-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.theend-nav-inner{gap:15px}.theend-nav-play{display:none}.theend-logo{width:125px}.theend-hero{min-height:650px}.theend-hero-content{padding-top:50px}.theend-live-section,.theend-features,.theend-progress,.theend-vip,.theend-wiki{padding:80px 0}.theend-feature-list article{grid-template-columns:1fr}.theend-feature-list img{height:210px}.theend-vip-grid{grid-template-columns:1fr 1fr}}
 
+/* ORIGINAL VIRTUAL BOOST MENU DATA — visual The End, funções preservadas */
+.theend-nav-brand{display:flex;align-items:center;gap:12px;min-width:250px}
+.theend-logo{display:flex;flex-direction:column;text-decoration:none;line-height:1}
+.theend-logo span{color:#eee7d8;font-family:'Cinzel',serif;font-size:1rem;font-weight:900;letter-spacing:2.5px}
+.theend-logo small{margin-top:5px;color:#77736b;font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:2px}
+.theend-rate{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:24px;padding:0 8px;border:1px solid rgba(216,181,106,.45);color:#f3dfaa;font-family:'Cinzel',serif;font-size:.62rem;font-weight:800;letter-spacing:1px;background:rgba(216,181,106,.06)}
+.theend-nav-adena{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-right:4px}.theend-nav-adena span{color:#77736b;font-family:'Cinzel',serif;font-size:.43rem;letter-spacing:1.2px}.theend-nav-adena strong{margin-top:4px;color:#f3dfaa;font-family:'Cinzel',serif;font-size:.63rem;font-weight:700;white-space:nowrap}
+.theend-nav-account{display:flex;align-items:center;gap:16px}.theend-nav-account>a{color:#aaa69c;text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;letter-spacing:1.7px;transition:.25s}.theend-nav-account>a:hover{color:#f3dfaa}.theend-nav-play{padding:10px 15px!important;border:1px solid rgba(216,181,106,.45);background:linear-gradient(180deg,#ead093,#b78d42);color:#111!important}
+.theend-nav-links{display:flex;align-items:center;gap:22px;margin-left:auto;margin-right:24px}.theend-nav-links a{color:#aaa69c;text-decoration:none;font-family:'Cinzel',serif;font-size:.61rem;font-weight:700;letter-spacing:1.7px;transition:.25s}.theend-nav-links a:hover,.theend-nav-links a.active{color:#f3dfaa}
+@media(max-width:1100px){.theend-nav-brand{min-width:210px}.theend-nav-links{gap:14px;margin-right:14px}.theend-nav-account{gap:10px}.theend-nav-adena{display:none}}
+@media(max-width:800px){.theend-nav-links,.theend-nav-account{display:none}.theend-nav-brand{min-width:auto}.theend-nav-mobile{display:flex!important}.mobile-topbar-menu{position:absolute!important;top:100%;left:0;right:0;display:none;flex-direction:column;background:rgba(3,3,3,.97);border-top:1px solid rgba(216,181,106,.18);border-bottom:1px solid rgba(216,181,106,.18);padding:12px 20px;z-index:1000}.mobile-topbar-menu.open{display:flex}.mobile-topbar-menu a{padding:12px 4px;color:#aaa69c;text-decoration:none;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:1.8px;border-bottom:1px solid rgba(216,181,106,.08)}.mobile-topbar-menu a:last-child{border-bottom:0}}
 </style></head>
 <body>
 
@@ -2578,20 +2589,32 @@ body{background:#050505!important;color:#e9e5dc!important;font-family:'EB Garamo
 ========================================================= -->
 <nav class="theend-nav">
   <div class="theend-nav-inner">
-    <a href="#home" class="theend-logo"><img src="logo.png" alt="Virtual Boost"></a>
+    <div class="theend-nav-brand">
+      <a href="#home" class="theend-logo"><span>LINEAGE II</span><small>CHRONICLE HIGH FIVE</small></a>
+      <span class="theend-rate">10X</span>
+    </div>
     <div class="theend-nav-links">
       <a class="active" href="#home">INÍCIO</a>
-      <a href="#live">TRANSMISSÕES</a>
-      <a href="#features">O REINO</a>
-      <a href="#progressao">PROGRESSÃO</a>
-      <a href="#vip">VIP</a>
-      <a href="#wiki">WIKI</a>
+      <a href="#economy">ECONOMIA</a>
+      <a href="#rates">RATES</a>
+      <a href="#" onclick="openPanel('season');return false;">SEASON</a>
     </div>
     <div class="theend-nav-account">
-      <a href="site/login.php">CONTA</a>
-      <a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">BAIXAR O JOGO</a>
+      <div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div>
+      <a href="site/login.php">LOGIN</a>
+      <a href="#" onclick="openPanel('join');return false;">DISCORD</a>
+      <a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a>
     </div>
-    <button class="theend-nav-mobile" onclick="document.querySelector('.theend-nav-links').classList.toggle('open')">☰</button>
+    <button type="button" class="theend-nav-mobile" aria-label="Abrir menu" aria-expanded="false" onclick="toggleMobileTopbar()">☰</button>
+    <div class="mobile-topbar-menu" id="mobileTopbarMenu">
+      <a href="#home" onclick="toggleMobileTopbar()">INÍCIO</a>
+      <a href="#economy" onclick="toggleMobileTopbar()">ECONOMIA</a>
+      <a href="#rates" onclick="toggleMobileTopbar()">RATES</a>
+      <a href="#" onclick="openPanel('season');toggleMobileTopbar();return false;">SEASON</a>
+      <a href="site/login.php">LOGIN</a>
+      <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a>
+      <a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a>
+    </div>
   </div>
 </nav>
 <main class="theend-template">
