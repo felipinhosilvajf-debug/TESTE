@@ -19,20 +19,12 @@ public class AutoFarmTask implements Runnable
 	private ScheduledFuture<?> _task;
 
 	private int _searchRadius = 30000;
-	private int _startX;
-	private int _startY;
-	private int _startZ;
-	private boolean _hasStartLocation;
 	private int _lastTargetObjectId = 0;
 	private double _lastTargetHp = -1.0;
 	private long _lastTargetProgress = 0L;
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
-	private static final int RETURN_TO_START_TOLERANCE = 150;
-	private static final int NO_TARGET_RETRY_LIMIT = 100;
-	private static final int TARGET_SEARCH_RADIUS = 4000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
 	private int _noTargetRetries = 0;
-	private long _lastMoveCommand = 0L;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -43,6 +35,8 @@ public class AutoFarmTask implements Runnable
 	private int _lastLootObjectId = 0;
 	private long _lastLootAttempt = 0;
 	private long _lastPotionUse = 0;
+
+	private long _lastMoveCommand = 0L;
 
 	private long _attackStateSince = 0L;
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
@@ -58,10 +52,6 @@ public class AutoFarmTask implements Runnable
 		if (_task != null)
 			return;
 
-		_startX = _player.getX();
-		_startY = _player.getY();
-		_startZ = _player.getZ();
-		_hasStartLocation = true;
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = System.currentTimeMillis();
@@ -83,10 +73,6 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
 		_attackStateSince = 0L;
-		_hasStartLocation = false;
-		_startX = 0;
-		_startY = 0;
-		_startZ = 0;
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = 0L;
@@ -139,12 +125,6 @@ public class AutoFarmTask implements Runnable
 		if (_player.isDead())
 			return;
 
-		if (!isInsideFarmRadius())
-		{
-			returnToStart();
-			return;
-		}
-
 		checkAttackWatchdog();
 		checkTargetWatchdog();
 
@@ -174,7 +154,6 @@ public class AutoFarmTask implements Runnable
 				return;
 
 			_noTargetRetries = 0;
-			returnToStart();
 			return;
 		}
 
@@ -201,40 +180,6 @@ public class AutoFarmTask implements Runnable
 			handleNormalAttack(target);
 	}
 
-	private boolean isInsideFarmRadius()
-	{
-		if (!_hasStartLocation)
-			return true;
-
-		double dx = _player.getX() - _startX;
-		double dy = _player.getY() - _startY;
-		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
-	}
-
-	private void returnToStart()
-	{
-		if (!_hasStartLocation || _player.isCastingNow())
-			return;
-
-		double dx = _player.getX() - _startX;
-		double dy = _player.getY() - _startY;
-		if (Math.sqrt((dx * dx) + (dy * dy)) <= RETURN_TO_START_TOLERANCE)
-			return;
-
-		if (_player.isAttackingNow())
-			_player.abortAttack(false, false);
-
-		_player.setTarget(null);
-		resetTargetState();
-
-		long now = System.currentTimeMillis();
-		if (now - _lastMoveCommand >= MOVEMENT_COMMAND_INTERVAL)
-		{
-			_player.moveToLocation(_startX, _startY, _startZ, 80, true);
-			_lastMoveCommand = now;
-		}
-	}
-
 	private MonsterInstance getCurrentValidTarget()
 	{
 		GameObject current = _player.getTarget();
@@ -245,13 +190,6 @@ public class AutoFarmTask implements Runnable
 		MonsterInstance target = (MonsterInstance) current;
 
 		if (target.isDead() || !target.isVisible())
-		{
-			resetTargetState();
-			_player.setTarget(null);
-			return null;
-		}
-
-		if (!isObjectInsideFarmRadius(target))
 		{
 			resetTargetState();
 			_player.setTarget(null);
@@ -284,9 +222,7 @@ public class AutoFarmTask implements Runnable
 		if (target.isDead())
 		{
 			_player.setTarget(null);
-			_lastTargetObjectId = 0;
-			_lastTargetHp = -1.0;
-			_lastTargetProgress = System.currentTimeMillis();
+			resetTargetState();
 			return;
 		}
 
@@ -316,16 +252,6 @@ public class AutoFarmTask implements Runnable
 
 		_player.setTarget(null);
 		resetTargetState();
-	}
-
-	private boolean isObjectInsideFarmRadius(GameObject object)
-	{
-		if (!_hasStartLocation || object == null)
-			return false;
-
-		double dx = object.getX() - _startX;
-		double dy = object.getY() - _startY;
-		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
 	}
 
 	private void checkAttackWatchdog()
@@ -593,9 +519,6 @@ public class AutoFarmTask implements Runnable
 			if (!item.isVisible())
 				continue;
 
-			if (!isObjectInsideFarmRadius(item))
-				continue;
-
 			double distance = _player.getDistance(item);
 
 			if (distance > nearestDistance)
@@ -650,7 +573,7 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
-		double nearestDistance = Math.min(_searchRadius, TARGET_SEARCH_RADIUS);
+		double nearestDistance = _searchRadius;
 
 		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
 		{
@@ -663,9 +586,6 @@ public class AutoFarmTask implements Runnable
 				continue;
 
 			if (!monster.isVisible())
-				continue;
-
-			if (!isObjectInsideFarmRadius(monster))
 				continue;
 
 			double distance = _player.getDistance(monster);
