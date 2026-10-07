@@ -20,6 +20,9 @@ public class AutoFarmTask implements Runnable
 
 	private int _searchRadius = 80000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
+	private static final double TARGET_ADVANCE_DISTANCE = 1200.0;
+
+	private int _lastTargetObjectId = 0;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -130,7 +133,7 @@ public class AutoFarmTask implements Runnable
 		MonsterInstance target = getCurrentValidTarget();
 
 		if (target == null)
-			target = findNearestMonster();
+			target = findNextMonster();
 
 		if (target == null || target.isDead())
 			return;
@@ -139,6 +142,8 @@ public class AutoFarmTask implements Runnable
 		{
 			_player.setTarget(target);
 		}
+
+		_lastTargetObjectId = target.getObjectId();
 
 		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
 		{
@@ -486,8 +491,11 @@ public class AutoFarmTask implements Runnable
 		return true;
 	}
 
-	private MonsterInstance findNearestMonster()
+	private MonsterInstance findNextMonster()
 	{
+		MonsterInstance nearestAdvance = null;
+		double nearestAdvanceDistance = _searchRadius;
+
 		MonsterInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
@@ -498,20 +506,30 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead())
+			if (monster.isDead() || !monster.isVisible())
 				continue;
 
-			if (!monster.isVisible())
-				continue;
-
+			int objectId = monster.getObjectId();
 			double distance = _player.getDistance(monster);
 
-			if (distance <= nearestDistance)
+			if (distance > _searchRadius)
+				continue;
+
+			if (distance < nearestDistance)
 			{
 				nearestDistance = distance;
 				nearest = monster;
 			}
+
+			if (objectId != _lastTargetObjectId && distance >= TARGET_ADVANCE_DISTANCE && distance < nearestAdvanceDistance)
+			{
+				nearestAdvanceDistance = distance;
+				nearestAdvance = monster;
+			}
 		}
+
+		if (nearestAdvance != null)
+			return nearestAdvance;
 
 		return nearest;
 	}
