@@ -37,7 +37,11 @@ public class AutoFarmTask implements Runnable
 	private long _lastMoveCommand = 0L;
 
 	private long _attackStateSince = 0L;
+	private long _targetProgressSince = 0L;
+	private double _lastTargetDistance = -1.0;
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
+	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
+	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 	private static final long POTION_INTERVAL = 3000L;
 
 	public AutoFarmTask(Player player)
@@ -67,6 +71,8 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
 		_attackStateSince = 0L;
+		_targetProgressSince = 0L;
+		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
 	}
 
@@ -145,6 +151,9 @@ public class AutoFarmTask implements Runnable
 
 		_lastTargetObjectId = target.getObjectId();
 
+		if (checkTargetProgress(target))
+			return;
+
 		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
 		{
 			handleNormalAttack(target);
@@ -198,6 +207,44 @@ public class AutoFarmTask implements Runnable
 		_player.abortAttack(false, false);
 		_player.setTarget(null);
 		_attackStateSince = 0L;
+	}
+
+	private boolean checkTargetProgress(MonsterInstance target)
+	{
+		if (target == null || target.isDead())
+			return false;
+
+		long now = System.currentTimeMillis();
+		double distance = _player.getDistance(target);
+
+		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - TARGET_PROGRESS_MIN_DISTANCE)
+		{
+			_lastTargetDistance = distance;
+			_targetProgressSince = now;
+			return false;
+		}
+
+		if (_targetProgressSince == 0L)
+		{
+			_targetProgressSince = now;
+			_lastTargetDistance = distance;
+			return false;
+		}
+
+		if (now - _targetProgressSince < TARGET_PROGRESS_TIMEOUT)
+			return false;
+
+		// O alvo continua vivo, mas o personagem nao esta conseguindo avancar.
+		// Abandona somente esse alvo para o motor procurar outro e continuar o farm.
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
+		_lastTargetObjectId = target.getObjectId();
+		_targetProgressSince = now;
+		_lastTargetDistance = -1.0;
+		_lastMoveCommand = 0L;
+		return true;
 	}
 
 	private boolean tryUsePotion()
