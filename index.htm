@@ -2352,31 +2352,400 @@ footer,.site-footer-section{
   .hero-sub{font-size:1.03rem!important}
 }
 
+
+/* =========================================================
+   VIRTUAL BOOST — LANDING V2
+   Estrutura inspirada em landing pages premium de servidores H5.
+   IMPORTANTE: o menu antigo em órbita não participa mais da tela.
+========================================================= */
+:root{
+  --vb2-bg:#050505;
+  --vb2-black:#020202;
+  --vb2-panel:#0b0b0b;
+  --vb2-gold:#c8a45a;
+  --vb2-gold2:#efd28b;
+  --vb2-text:#e9e5dc;
+  --vb2-muted:#96928a;
+  --vb2-line:rgba(200,164,90,.22);
+}
+html{scroll-behavior:smooth}
+body{background:#030303!important;color:var(--vb2-text)!important;font-family:'EB Garamond',serif!important;overflow-x:hidden}
+body::before{box-shadow:inset 0 0 180px rgba(0,0,0,.95)!important;z-index:9997}
+
+/* O MENU ANTIGO NÃO RODA MAIS. */
+.wheel-page,.wheel-page::before,.wheel-page::after,.menu-orbit,.wheel-rings,.wheel-core,.wheel-intro{display:none!important}
+.wheel-background{display:none!important}
+.site-footer:not(.vb-end-footer){display:none!important}
+
+/* NAV */
+.vb-end-nav{
+  position:fixed!important;top:0;left:0;right:0;height:72px;z-index:9000;
+  background:linear-gradient(180deg,rgba(3,3,3,.96),rgba(3,3,3,.72));
+  border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+}
+.vb-end-nav__inner{height:100%;max-width:1420px;margin:auto;padding:0 34px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.vb-end-brand{width:150px;display:flex;align-items:center;flex:none}
+.vb-end-brand img{width:100%;height:auto;display:block;filter:drop-shadow(0 0 18px rgba(200,164,90,.14))}
+.vb-end-links{display:flex;align-items:center;justify-content:center;gap:34px;height:100%}
+.vb-end-links a,.vb-end-account{position:relative;color:#aaa69e;text-decoration:none;font:600 11px 'Cinzel',serif;letter-spacing:1.8px;transition:.25s}
+.vb-end-links a:hover,.vb-end-links a.is-active,.vb-end-account:hover{color:#f1e9d8}
+.vb-end-links a.is-active::after{content:"";position:absolute;left:0;right:0;bottom:-27px;height:1px;background:var(--vb2-gold)}
+.vb-end-actions{display:flex;align-items:center;gap:18px;flex:none}
+.vb-end-download,.vb-end-gold-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 20px;
+  color:#17130b;text-decoration:none;background:linear-gradient(180deg,#e6c77e,#ad8137);
+  border:1px solid #e2c276;font:800 10px 'Cinzel',serif;letter-spacing:1.6px;
+  box-shadow:0 10px 28px rgba(0,0,0,.5);transition:.25s
+}
+.vb-end-download:hover,.vb-end-gold-button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.vb-end-account{padding-right:4px}
+.vb-end-mobile{display:none;background:none;border:0;color:#ddd;font-size:22px;cursor:pointer}
+
+/* HERO */
+.vb-end-home{background:#030303}
+.vb-end-hero{height:calc(100vh - 0px);min-height:720px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.vb-end-hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.75) contrast(1.1) brightness(.58)}
+.vb-end-hero__veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.12),rgba(0,0,0,.78) 80%),linear-gradient(180deg,rgba(0,0,0,.38) 0%,rgba(0,0,0,.12) 35%,rgba(2,2,2,.98) 100%)}
+.vb-end-hero__grain{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.5) .5px,transparent .5px);background-size:5px 5px}
+.vb-end-hero__content{position:relative;z-index:2;width:min(920px,90vw);padding-top:80px}
+.vb-end-kicker,.vb-end-eyebrow{color:#c3a566;font:700 10px 'Cinzel',serif;letter-spacing:4px;text-transform:uppercase}
+.vb-end-kicker{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:22px}
+.vb-end-kicker span{width:42px;height:1px;background:rgba(200,164,90,.7)}
+.vb-end-logo{width:min(390px,65vw);margin:0 auto 18px}
+.vb-end-logo img{width:100%;display:block;filter:drop-shadow(0 15px 40px rgba(0,0,0,.95)) drop-shadow(0 0 28px rgba(200,164,90,.18))}
+.vb-end-hero h1{margin:0;color:#eeeae1;font:500 clamp(25px,3.1vw,48px)/1.1 'Cinzel',serif;letter-spacing:2px;text-shadow:0 5px 30px #000}
+.vb-end-hero h1 strong{color:#e3c77f;font-weight:700}
+.vb-end-hero__lead{max-width:650px;margin:20px auto 28px;color:#aaa69e;font-size:18px;line-height:1.6}
+.vb-end-hero__lead b{color:#ded8ca}
+.vb-end-launch{display:flex;justify-content:center;align-items:stretch;gap:10px}
+.vb-end-launch__clock{min-width:260px;padding:13px 20px;background:rgba(5,5,5,.72);border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center}
+.vb-end-launch__clock span{color:#88847c;font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-launch__clock strong{margin-top:4px;color:#e7d7ad;font:700 17px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-hero-button{display:flex;align-items:center;justify-content:center;gap:9px;min-width:190px;padding:0 25px;color:#17130b;text-decoration:none;background:linear-gradient(180deg,#e6c77e,#ad8137);font:800 11px 'Cinzel',serif;letter-spacing:2px;transition:.25s}
+.vb-end-hero-button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.vb-end-hero__meta{display:flex;justify-content:center;gap:25px;margin-top:24px;color:#706d66;font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-hero__meta i{display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:50%;background:#86ad65;box-shadow:0 0 9px #86ad65}
+.vb-end-scroll{position:absolute;z-index:3;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px;color:#77736b;text-decoration:none;font:700 8px 'Cinzel',serif;letter-spacing:3px}
+.vb-end-scroll i{display:block;width:1px;height:38px;background:linear-gradient(#c8a45a,transparent)}
+
+/* SECTIONS */
+.vb-end-container{width:min(1220px,88vw);margin:auto}
+.vb-end-section{padding:125px 0;background:#050505}
+.vb-end-section--intro{background:linear-gradient(180deg,#050505 0%,#080807 100%)}
+.vb-end-section-head{text-align:center;max-width:760px;margin:0 auto 65px}
+.vb-end-section-head h2,.vb-end-split__copy h2,.vb-end-season__copy h2,.vb-end-join h2,.vb-end-banner h2{
+  margin:12px 0 18px;color:#eeeae1;font:500 clamp(30px,4vw,54px)/1.08 'Cinzel',serif;letter-spacing:1px
+}
+.vb-end-section-head h2 strong,.vb-end-split__copy h2 strong,.vb-end-season__copy h2 strong,.vb-end-join h2 strong,.vb-end-banner h2 strong{color:#d6b86f;font-weight:700}
+.vb-end-section-head>p:last-child,.vb-end-split__copy>p,.vb-end-season__copy>p,.vb-end-join>p,.vb-end-banner p{color:#88847c;font-size:17px;line-height:1.75}
+.vb-end-feature-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:16px}
+.vb-end-feature{background:#0a0a0a;border:1px solid rgba(255,255,255,.075);min-height:490px;display:flex;flex-direction:column;transition:.35s}
+.vb-end-feature:hover{transform:translateY(-7px);border-color:rgba(200,164,90,.34);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.vb-end-feature__image{height:230px;overflow:hidden;background:#070707}
+.vb-end-feature--large .vb-end-feature__image{height:285px}
+.vb-end-feature__image img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.72) contrast(1.05);transition:.5s}
+.vb-end-feature:hover .vb-end-feature__image img{transform:scale(1.045);filter:saturate(.9) contrast(1.05)}
+.vb-end-feature__body{padding:25px 26px 28px}
+.vb-end-feature__body>span{color:#b99856;font:700 9px 'Cinzel',serif;letter-spacing:2.5px}
+.vb-end-feature h3{margin:11px 0 12px;color:#e5e0d5;font:700 19px/1.2 'Cinzel',serif}
+.vb-end-feature p{color:#817e77;font-size:15px;line-height:1.6}
+.vb-end-feature a{display:inline-block;margin-top:18px;color:#c8a45a;text-decoration:none;font:700 9px 'Cinzel',serif;letter-spacing:1.7px}
+.vb-end-feature a b{margin-left:7px}
+.vb-end-banner{position:relative;min-height:560px;display:flex;align-items:center;overflow:hidden;background:#040404}
+.vb-end-banner__bg{position:absolute;inset:0;background:url("asset/hero-bg2.jpg") center/cover no-repeat;filter:brightness(.35) saturate(.6)}
+.vb-end-banner__bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#040404 0%,rgba(4,4,4,.45) 50%,#040404 100%)}
+.vb-end-banner__content{position:relative;z-index:2}
+.vb-end-banner h2{max-width:650px}
+.vb-end-banner p{max-width:500px;margin-bottom:28px}
+.vb-end-outline-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 21px;color:#d9d4ca;text-decoration:none;border:1px solid rgba(200,164,90,.5);background:rgba(4,4,4,.45);font:700 9px 'Cinzel',serif;letter-spacing:1.7px;transition:.25s}
+.vb-end-outline-button:hover{border-color:#e1c67e;color:#f0dfb8;background:rgba(200,164,90,.08)}
+.vb-end-stats{background:#080807;border-top:1px solid rgba(200,164,90,.12);border-bottom:1px solid rgba(200,164,90,.12)}
+.vb-end-stats__grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.vb-end-stats__grid>div{text-align:center;padding:38px 15px;border-right:1px solid rgba(255,255,255,.06)}
+.vb-end-stats__grid>div:last-child{border-right:0}
+.vb-end-stats strong{display:block;color:#e1c67d;font:700 31px 'Cinzel',serif}
+.vb-end-stats span{display:block;margin-top:7px;color:#6e6b64;font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-section--economy{background:#050505}
+.vb-end-split{display:grid;grid-template-columns:1.08fr .92fr;gap:90px;align-items:center}
+.vb-end-split__visual{position:relative;height:520px}
+.vb-end-split__visual>img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.48) saturate(.65)}
+.vb-end-frame{position:absolute;inset:15px;border:1px solid rgba(200,164,90,.34);z-index:2;pointer-events:none}
+.vb-end-split__tag{position:absolute;left:30px;bottom:28px;z-index:3;padding:9px 13px;color:#d8c18d;background:rgba(0,0,0,.78);border:1px solid rgba(200,164,90,.35);font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-split__copy h2{margin-top:10px}
+.vb-end-live{display:flex;flex-direction:column;margin:28px 0;padding:17px 20px;border-left:2px solid #c8a45a;background:rgba(255,255,255,.025)}
+.vb-end-live span{color:#706c64;font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-live strong{margin-top:5px;color:#dfcfaa;font:700 21px 'Cinzel',serif}
+.vb-end-season{min-height:500px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:55px;background:radial-gradient(circle at 75% 50%,rgba(200,164,90,.09),transparent 38%),#080807;border:1px solid rgba(200,164,90,.12)}
+.vb-end-season__copy{max-width:560px}
+.vb-end-season__art{height:430px;position:relative;display:flex;align-items:center;justify-content:center}
+.vb-end-season__art:before{content:"";position:absolute;width:330px;height:330px;border-radius:50%;border:1px solid rgba(200,164,90,.22);box-shadow:0 0 80px rgba(200,164,90,.07)}
+.vb-end-season__art img{position:absolute;max-width:210px;max-height:310px;object-fit:contain;filter:drop-shadow(0 20px 35px #000)}
+.vb-end-season__art img:nth-child(1){width:190px;z-index:3}
+.vb-end-season__art img:nth-child(2){width:150px;right:20px;bottom:18px;z-index:2}
+.vb-end-season__art img:nth-child(3){width:150px;left:20px;bottom:18px;z-index:2}
+.vb-end-join{text-align:center;padding:35px 0}
+.vb-end-join__actions{display:flex;justify-content:center;gap:10px;margin-top:28px}
+.vb-end-footer{padding:65px 6vw 35px;background:#020202;border-top:1px solid rgba(200,164,90,.13);text-align:center}
+.vb-end-footer__brand img{width:190px;max-width:70vw;filter:grayscale(.15);opacity:.9}
+.vb-end-footer__brand p{margin-top:8px;color:#66635e;font:700 8px 'Cinzel',serif;letter-spacing:2px}
+.vb-end-footer__links{display:flex;justify-content:center;gap:25px;margin:32px 0 22px}
+.vb-end-footer__links a{color:#8b877e;text-decoration:none;font:700 9px 'Cinzel',serif;letter-spacing:1.7px}
+.vb-end-footer__links a:hover{color:#d8bd7a}
+.vb-end-footer__copy{color:#55524e;font-size:12px}
+
+/* manter os modais existentes, mas dar acabamento compatível */
+.info-modal{z-index:99999!important}
+.info-window,.download-window,.community-window{background:#090909!important;border-color:rgba(200,164,90,.3)!important;box-shadow:0 40px 120px rgba(0,0,0,.9)!important}
+.info-heading{color:#d9bd7a!important;border-color:rgba(200,164,90,.18)!important}
+.info-close{color:#d9bd7a!important}
+
+/* esconder widgets antigos que competiam com a nova composição */
+.online-float,.community-float{display:none!important}
+
+/* MOBILE */
+@media(max-width:900px){
+  .vb-end-nav__inner{padding:0 18px}
+  .vb-end-links{position:absolute;top:72px;left:0;right:0;height:auto;padding:18px 20px;display:none;flex-direction:column;align-items:flex-start;gap:18px;background:rgba(3,3,3,.98);border-bottom:1px solid rgba(200,164,90,.2)}
+  .vb-end-links.open{display:flex}
+  .vb-end-links a.is-active::after{display:none}
+  .vb-end-account{display:none}
+  .vb-end-mobile{display:block}
+  .vb-end-download{min-height:36px;padding:0 12px;font-size:8px}
+  .vb-end-feature-grid,.vb-end-split,.vb-end-season{grid-template-columns:1fr}
+  .vb-end-feature--large .vb-end-feature__image,.vb-end-feature__image{height:240px}
+  .vb-end-split{gap:45px}
+  .vb-end-split__visual{height:390px}
+  .vb-end-season{padding:30px}
+  .vb-end-season__art{height:360px}
+  .vb-end-stats__grid{grid-template-columns:1fr 1fr}
+  .vb-end-stats__grid>div:nth-child(2){border-right:0}
+  .vb-end-stats__grid>div{border-bottom:1px solid rgba(255,255,255,.06)}
+}
+@media(max-width:600px){
+  .vb-end-nav{height:62px}
+  .vb-end-brand{width:125px}
+  .vb-end-download{display:none}
+  .vb-end-hero{min-height:680px}
+  .vb-end-hero__content{padding-top:50px}
+  .vb-end-hero__lead{font-size:16px}
+  .vb-end-launch{flex-direction:column;align-items:center}
+  .vb-end-launch__clock,.vb-end-hero-button{width:min(330px,82vw);min-height:50px}
+  .vb-end-hero__meta{gap:10px;flex-wrap:wrap}
+  .vb-end-section{padding:85px 0}
+  .vb-end-container{width:min(88vw,520px)}
+  .vb-end-feature{min-height:auto}
+  .vb-end-banner{min-height:480px}
+  .vb-end-season__art img:nth-child(2){right:0}
+  .vb-end-season__art img:nth-child(3){left:0}
+  .vb-end-join__actions{flex-direction:column;align-items:center}
+  .vb-end-footer__links{flex-wrap:wrap}
+}
+
 </style></head>
 <body>
-<nav class="minimal-topbar">
-    <div class="minimal-server-info">
-        <div class="minimal-server-badge">LINEAGE II · CHRONICLE HIGH FIVE</div>
-        <div class="minimal-server-badge minimal-rate-badge">10X</div>
+
+<!-- =========================================================
+     VIRTUAL BOOST — LANDING V2 / THE END INSPIRED
+     Menu estático: sem roleta, sem órbita, sem rotação.
+     Toda a lógica dos painéis existentes continua preservada.
+========================================================= -->
+<nav class="vb-end-nav">
+  <div class="vb-end-nav__inner">
+    <a class="vb-end-brand" href="#home" aria-label="Virtual Boost">
+      <img src="logo.png" alt="Virtual Boost">
+    </a>
+
+    <div class="vb-end-links">
+      <a class="is-active" href="#home">INÍCIO</a>
+      <a href="#" onclick="openPanel('server');return false;">O REINO</a>
+      <a href="#" onclick="openPanel('rates');return false;">RATES</a>
+      <a href="#" onclick="openPanel('economy');return false;">ECONOMIA</a>
+      <a href="#" onclick="openPanel('season');return false;">SEASON 01</a>
     </div>
-    <div class="minimal-actions">
-        <div class="badge minimal-adena">
-            <div class="economy-live">
-                <div class="economy-main">💰 Adena em Circulação: <span id="adenaCirculacao" style="color:#FFD700;">Carregando...</span></div>
-            </div>
+
+    <div class="vb-end-actions">
+      <a href="site/login.php" class="vb-end-account">LOGIN</a>
+      <a href="#" class="vb-end-download" onclick="openPanel('download');return false;">
+        <span>↓</span> JOGAR AGORA
+      </a>
+      <button type="button" class="vb-end-mobile" aria-label="Abrir menu" aria-expanded="false" onclick="document.querySelector('.vb-end-links').classList.toggle('open');this.setAttribute('aria-expanded',document.querySelector('.vb-end-links').classList.contains('open'))">☰</button>
+    </div>
+  </div>
+</nav>
+
+<main class="vb-end-home">
+  <header id="home" class="vb-end-hero">
+    <video class="vb-end-hero__video" autoplay muted loop playsinline preload="auto" poster="asset/back.png" aria-hidden="true">
+      <source src="asset/video1.mp4" type="video/mp4">
+    </video>
+    <div class="vb-end-hero__veil"></div>
+    <div class="vb-end-hero__grain"></div>
+
+    <div class="vb-end-hero__content">
+      <div class="vb-end-kicker"><span></span> PROJETO HIGH FIVE <span></span></div>
+
+      <div class="vb-end-logo">
+        <img src="logo.png" alt="L2 Virtual Boost">
+      </div>
+
+      <h1>SUA GRANDE HISTÓRIA<br><strong>COMEÇA AGORA.</strong></h1>
+
+      <p class="vb-end-hero__lead">
+        Um novo ritmo para o <b>Lineage II High Five</b>.<br>
+        Evolua, conquiste, forme seu clã e deixe seu nome no reino.
+      </p>
+
+      <div class="vb-end-launch">
+        <div class="vb-end-launch__clock">
+          <span>VIRTUAL BOOST ESTÁ ONLINE HÁ</span>
+          <strong id="vbHeroOnline">--d --h --m --s</strong>
         </div>
-        <a href="site/login.php" class="minimal-link">LOGIN</a>
-        <a href="#" class="minimal-link" onclick="openPanel('download');return false;">DOWNLOAD</a>
-        <a href="#" class="minimal-link minimal-discord" onclick="openPanel('join');return false;">DISCORD</a>
+        <a href="#" class="vb-end-hero-button" onclick="openPanel('download');return false;">
+          <span>↓</span> JOGAR AGORA
+        </a>
+      </div>
+
+      <div class="vb-end-hero__meta">
+        <span><i></i> SERVIDOR ONLINE</span>
+        <span>CHRONICLE HIGH FIVE</span>
+        <span>RATES 10X</span>
+      </div>
     </div>
-    <button type="button" class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false" onclick="toggleMobileTopbar()">☰</button>
-    <div class="mobile-topbar-menu" id="mobileTopbarMenu">
-        <a href="site/login.php">LOGIN</a>
-        <a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a>
-        <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a>
-        <a href="#" onclick="openPanel('season');toggleMobileTopbar();return false;">SEASON</a>
+
+    <a class="vb-end-scroll" href="#reino">
+      <span>EXPLORAR O REINO</span>
+      <i></i>
+    </a>
+  </header>
+
+  <section id="reino" class="vb-end-section vb-end-section--intro">
+    <div class="vb-end-container">
+      <div class="vb-end-section-head">
+        <p class="vb-end-eyebrow">VIRTUAL BOOST · HIGH FIVE</p>
+        <h2>UMA EXPERIÊNCIA<br><strong>FEITA PARA SER VIVIDA.</strong></h2>
+        <p>O clássico continua sendo o coração. O ritmo muda para você chegar mais rápido ao que realmente importa: <b>PvP, clãs, guerras, economia e endgame.</b></p>
+      </div>
+
+      <div class="vb-end-feature-grid">
+        <article class="vb-end-feature vb-end-feature--large">
+          <div class="vb-end-feature__image"><img src="asset/cards1.gif" alt="Progressão dinâmica"></div>
+          <div class="vb-end-feature__body">
+            <span>01 · PROGRESSÃO</span>
+            <h3>CHEGUE AO ENDGAME<br>SEM PERDER A JORNADA.</h3>
+            <p>XP e SP aceleram sua evolução sem transformar sua história em um botão de pular conteúdo.</p>
+            <a href="#" onclick="openPanel('server');return false;">CONHEÇA O REINO <b>→</b></a>
+          </div>
+        </article>
+
+        <article class="vb-end-feature">
+          <div class="vb-end-feature__image"><img src="asset/cards2.gif" alt="Economia viva"></div>
+          <div class="vb-end-feature__body">
+            <span>02 · ECONOMIA</span>
+            <h3>UMA ECONOMIA<br>QUE RESPIRA.</h3>
+            <p>Adena, materiais, crafting e itens raros possuem valor real.</p>
+            <a href="#" onclick="openPanel('economy');return false;">VER ECONOMIA <b>→</b></a>
+          </div>
+        </article>
+
+        <article class="vb-end-feature">
+          <div class="vb-end-feature__image"><img src="asset/card3.gif" alt="Clãs e conquistas"></div>
+          <div class="vb-end-feature__body">
+            <span>03 · GUERRA</span>
+            <h3>SEU CLÃ.<br>SUA MARCA.</h3>
+            <p>Sieges, alianças e guerras pelo domínio do reino.</p>
+            <a href="#" onclick="openPanel('server');return false;">VER O REINO <b>→</b></a>
+          </div>
+        </article>
+      </div>
     </div>
-</nav><header id="home" class="wheel-page"><video class="wheel-background" autoplay muted loop playsinline preload="auto" poster="asset/back.png" aria-hidden="true"><source src="asset/video1.mp4" type="video/mp4"></video><div class="wheel-intro"><div class="wheel-title">VIRTUAL <span>BOOST</span></div></div><div class="wheel-stage"><div class="wheel-glow"></div><div class="wheel-rings"><span class="wheel-ring ring-a"></span><span class="wheel-ring ring-b"></span><span class="wheel-ring ring-c"></span><span class="wheel-ticks"></span></div><div class="menu-orbit"><button type="button" class="wheel-option option-1" data-panel="server" onclick="openPanel('server');return false;"><span class="option-content"><span class="option-icon">👑</span><span>O REINO</span></span></button><button type="button" class="wheel-option option-2" data-panel="philosophy" onclick="openPanel('philosophy');return false;"><span class="option-content"><span class="option-icon">⚖️</span><span>FILOSOFIA</span></span></button><button type="button" class="wheel-option option-3" data-panel="rates" onclick="openPanel('rates');return false;"><span class="option-content"><span class="option-icon">⚔️</span><span>RATES</span></span></button><button type="button" class="wheel-option option-4" data-panel="economy" onclick="openPanel('economy');return false;"><span class="option-content"><span class="option-icon">💰</span><span>ECONOMIA</span></span></button><button type="button" class="wheel-option option-5" data-panel="download" onclick="openPanel('download');return false;"><span class="option-content"><span class="option-icon">🔷</span><span>DOWNLOAD</span></span></button><button type="button" class="wheel-option option-6" data-panel="join" onclick="openPanel('join');return false;"><span class="option-content"><span class="option-icon">🔥</span><span>COMUNIDADE</span></span></button><button type="button" class="wheel-option option-7 season-option" data-panel="season" onclick="openPanel('season');return false;"><span class="option-content"><span class="option-icon">🎆</span><span>SEASON</span></span></button></div><div class="wheel-core"><div class="core-light"></div><img src="logo.png" alt="L2 Virtual Boost"><strong>VIRTUAL BOOST</strong><small>SELECIONE UMA OPÇÃO</small></div></div></header><footer class="site-footer"><div class="logo">L2 <span>VIRTUAL</span> BOOST</div><div class="socials"><a href="#" onclick="openPanel('join');return false;">⚔ Social</a><a href="#" onclick="openPanel('economy');return false;">◇ Economia</a><a href="#" onclick="openPanel('server');return false;">♛ Servidor</a></div><p>© 2026 L2 Virtual Boost — Chronicle High Five. Projeto independente e não-oficial de fãs. Não afiliado à NCSoft.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+  </section>
+
+  <section class="vb-end-banner">
+    <div class="vb-end-banner__bg"></div>
+    <div class="vb-end-container vb-end-banner__content">
+      <p class="vb-end-eyebrow">CHRONICLE HIGH FIVE · 10X</p>
+      <h2>MAIS RITMO.<br><strong>MESMA ALMA.</strong></h2>
+      <p>Você não precisa esperar meses para começar a disputar o conteúdo que importa.</p>
+      <a href="#" class="vb-end-outline-button" onclick="openPanel('rates');return false;">VER RATES DO REINO</a>
+    </div>
+  </section>
+
+  <section class="vb-end-stats">
+    <div class="vb-end-container">
+      <div class="vb-end-stats__grid">
+        <div><strong>10X</strong><span>EXPERIÊNCIA</span></div>
+        <div><strong>10X</strong><span>SP</span></div>
+        <div><strong>5X</strong><span>ADENA</span></div>
+        <div><strong>24/7</strong><span>REINO ONLINE</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vb-end-section vb-end-section--economy">
+    <div class="vb-end-container vb-end-split">
+      <div class="vb-end-split__visual">
+        <div class="vb-end-frame"></div>
+        <img src="asset/hero-bg4.png" alt="Economia do Virtual Boost">
+        <div class="vb-end-split__tag">ECONOMIA EM TEMPO REAL</div>
+      </div>
+      <div class="vb-end-split__copy">
+        <p class="vb-end-eyebrow">O REINO ESTÁ EM MOVIMENTO</p>
+        <h2>ADENA.<br><strong>VALOR REAL.</strong></h2>
+        <p>Comércio, crafting, equipamentos e negociação mantêm o mundo vivo. Acompanhe a economia do servidor e veja o reino se movimentar.</p>
+        <div class="vb-end-live">
+          <span>ADENA EM CIRCULAÇÃO</span>
+          <strong id="vbHeroAdena">Carregando...</strong>
+        </div>
+        <a href="#" class="vb-end-gold-button" onclick="openPanel('economy');return false;">ABRIR PAINEL DA ECONOMIA</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="vb-end-section vb-end-section--season">
+    <div class="vb-end-container">
+      <div class="vb-end-season">
+        <div class="vb-end-season__copy">
+          <p class="vb-end-eyebrow">TEMPORADA 01</p>
+          <h2>UMA NOVA MARCA<br><strong>PARA OS HERÓIS.</strong></h2>
+          <p>VBSilver, VBGold e as linhas de Tattoos criam uma identidade própria para a primeira temporada do Virtual Boost.</p>
+          <a href="#" class="vb-end-outline-button" onclick="openPanel('season');return false;">CONHECER SEASON 01</a>
+        </div>
+        <div class="vb-end-season__art">
+          <img src="asset/season/logo.png" alt="Season 01">
+          <img src="asset/season/VBFight3.png" alt="VBFight">
+          <img src="asset/season/VBMage3.png" alt="VBMage">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vb-end-section vb-end-section--join">
+    <div class="vb-end-container vb-end-join">
+      <p class="vb-end-eyebrow">A COMUNIDADE ESTÁ ESPERANDO</p>
+      <h2>SUA LENDA<br><strong>COMEÇA AQUI.</strong></h2>
+      <p>Reúna seus aliados. Prepare seu personagem. Entre no reino.</p>
+      <div class="vb-end-join__actions">
+        <a href="#" class="vb-end-gold-button" onclick="openPanel('download');return false;">BAIXAR O CLIENTE</a>
+        <a href="#" class="vb-end-outline-button" onclick="openPanel('join');return false;">ENTRAR NA COMUNIDADE</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="vb-end-footer">
+  <div class="vb-end-footer__brand">
+    <img src="logo.png" alt="Virtual Boost">
+    <p>CHRONICLE HIGH FIVE · 2026</p>
+  </div>
+  <div class="vb-end-footer__links">
+    <a href="#home">INÍCIO</a>
+    <a href="#" onclick="openPanel('server');return false;">O REINO</a>
+    <a href="#" onclick="openPanel('download');return false;">DOWNLOAD</a>
+    <a href="#" onclick="openPanel('join');return false;">DISCORD</a>
+  </div>
+  <p class="vb-end-footer__copy">© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p>
+</footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
@@ -3116,4 +3485,32 @@ function closeCommunityModal() {
     document.getElementById('communityModal').classList.add('hidden');
 }
 </script></body>
+<script>
+(function(){
+  function vbOnline(){
+    const start = new Date('2026-08-16T00:00:00-03:00').getTime();
+    const diff = Math.max(0,Date.now()-start);
+    const s=Math.floor(diff/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sec=s%60;
+    const el=document.getElementById('vbHeroOnline');
+    if(el) el.textContent=d+'d '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m '+String(sec).padStart(2,'0')+'s';
+  }
+  vbOnline();setInterval(vbOnline,1000);
+
+  async function vbAdena(){
+    try{
+      const r=await fetch('/site/api/economy.php?t='+Date.now(),{cache:'no-store'});
+      const d=await r.json();
+      if(d.success){
+        const el=document.getElementById('vbHeroAdena');
+        if(el) el.textContent=Number(d.adena).toLocaleString('pt-BR')+' Adena';
+      }
+    }catch(e){}
+  }
+  vbAdena();setInterval(vbAdena,5000);
+
+  document.querySelectorAll('.vb-end-links a,.vb-end-footer__links a').forEach(a=>{
+    a.addEventListener('click',()=>document.querySelector('.vb-end-links')?.classList.remove('open'));
+  });
+})();
+</script>
 </html>
