@@ -18,11 +18,7 @@ public class AutoFarmTask implements Runnable
 	private final Player _player;
 	private ScheduledFuture<?> _task;
 
-	private int _searchRadius = 30000;
-	private int _lastTargetObjectId = 0;
-	private double _lastTargetHp = -1.0;
-	private long _lastTargetProgress = 0L;
-	private static final long TARGET_STUCK_TIMEOUT = 2500L;
+	private int _searchRadius = 80000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
 
 	private int _skill1 = 0;
@@ -51,9 +47,6 @@ public class AutoFarmTask implements Runnable
 		if (_task != null)
 			return;
 
-		_lastTargetObjectId = 0;
-		_lastTargetHp = -1.0;
-		_lastTargetProgress = System.currentTimeMillis();
 		_lastMoveCommand = 0L;
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
@@ -71,9 +64,6 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
 		_attackStateSince = 0L;
-		_lastTargetObjectId = 0;
-		_lastTargetHp = -1.0;
-		_lastTargetProgress = 0L;
 		_lastMoveCommand = 0L;
 	}
 
@@ -123,7 +113,6 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		checkAttackWatchdog();
-		checkTargetWatchdog();
 
 		if (_player.isCastingNow())
 			return;
@@ -149,9 +138,6 @@ public class AutoFarmTask implements Runnable
 		if (_player.getTarget() != target)
 		{
 			_player.setTarget(target);
-			_lastTargetObjectId = target.getObjectId();
-			_lastTargetHp = target.getCurrentHp();
-			_lastTargetProgress = System.currentTimeMillis();
 		}
 
 		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
@@ -178,67 +164,11 @@ public class AutoFarmTask implements Runnable
 
 		if (target.isDead() || !target.isVisible())
 		{
-			resetTargetState();
 			_player.setTarget(null);
 			return null;
 		}
 
 		return target;
-	}
-
-	private void resetTargetState()
-	{
-		_lastTargetObjectId = 0;
-		_lastTargetHp = -1.0;
-		_lastTargetProgress = System.currentTimeMillis();
-	}
-
-	private void checkTargetWatchdog()
-	{
-		GameObject current = _player.getTarget();
-
-		if (!(current instanceof MonsterInstance))
-		{
-			_lastTargetObjectId = 0;
-			_lastTargetHp = -1.0;
-			_lastTargetProgress = System.currentTimeMillis();
-			return;
-		}
-
-		MonsterInstance target = (MonsterInstance) current;
-		if (target.isDead())
-		{
-			_player.setTarget(null);
-			resetTargetState();
-			return;
-		}
-
-		long now = System.currentTimeMillis();
-		double hp = target.getCurrentHp();
-
-		if (target.getObjectId() != _lastTargetObjectId)
-		{
-			_lastTargetObjectId = target.getObjectId();
-			_lastTargetHp = hp;
-			_lastTargetProgress = now;
-			return;
-		}
-
-		if (_lastTargetHp < 0 || hp < _lastTargetHp)
-		{
-			_lastTargetHp = hp;
-			_lastTargetProgress = now;
-			return;
-		}
-
-		if (now - _lastTargetProgress < TARGET_STUCK_TIMEOUT)
-			return;
-
-		if (_player.isAttackingNow())
-			_player.abortAttack(false, false);
-
-		_player.setTarget(null);
-		resetTargetState();
 	}
 
 	private void checkAttackWatchdog()
@@ -262,7 +192,6 @@ public class AutoFarmTask implements Runnable
 
 		_player.abortAttack(false, false);
 		_player.setTarget(null);
-		resetTargetState();
 		_attackStateSince = 0L;
 	}
 
