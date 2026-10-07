@@ -29,7 +29,10 @@ public class AutoFarmTask implements Runnable
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final int RETURN_TO_START_TOLERANCE = 150;
 	private static final int NO_TARGET_RETRY_LIMIT = 100;
+	private static final int TARGET_SEARCH_RADIUS = 4000;
+	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
 	private int _noTargetRetries = 0;
+	private long _lastMoveCommand = 0L;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -63,6 +66,7 @@ public class AutoFarmTask implements Runnable
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = System.currentTimeMillis();
 		_noTargetRetries = 0;
+		_lastMoveCommand = 0L;
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
 
@@ -87,6 +91,7 @@ public class AutoFarmTask implements Runnable
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = 0L;
 		_noTargetRetries = 0;
+		_lastMoveCommand = 0L;
 	}
 
 	public void setSkills(int skill1, int skill2, int skill3)
@@ -156,7 +161,10 @@ public class AutoFarmTask implements Runnable
 				return;
 		}
 
-		MonsterInstance target = findNearestMonster();
+		MonsterInstance target = getCurrentValidTarget();
+
+		if (target == null)
+			target = findNearestMonster();
 
 		if (target == null || target.isDead())
 		{
@@ -217,7 +225,47 @@ public class AutoFarmTask implements Runnable
 			_player.abortAttack(false, false);
 
 		_player.setTarget(null);
-		_player.moveToLocation(_startX, _startY, _startZ, 80, true);
+		resetTargetState();
+
+		long now = System.currentTimeMillis();
+		if (now - _lastMoveCommand >= MOVEMENT_COMMAND_INTERVAL)
+		{
+			_player.moveToLocation(_startX, _startY, _startZ, 80, true);
+			_lastMoveCommand = now;
+		}
+	}
+
+	private MonsterInstance getCurrentValidTarget()
+	{
+		GameObject current = _player.getTarget();
+
+		if (!(current instanceof MonsterInstance))
+			return null;
+
+		MonsterInstance target = (MonsterInstance) current;
+
+		if (target.isDead() || !target.isVisible())
+		{
+			resetTargetState();
+			_player.setTarget(null);
+			return null;
+		}
+
+		if (!isObjectInsideFarmRadius(target))
+		{
+			resetTargetState();
+			_player.setTarget(null);
+			return null;
+		}
+
+		return target;
+	}
+
+	private void resetTargetState()
+	{
+		_lastTargetObjectId = 0;
+		_lastTargetHp = -1.0;
+		_lastTargetProgress = System.currentTimeMillis();
 	}
 
 	private void checkTargetWatchdog()
@@ -267,9 +315,7 @@ public class AutoFarmTask implements Runnable
 			_player.abortAttack(false, false);
 
 		_player.setTarget(null);
-		_lastTargetObjectId = 0;
-		_lastTargetHp = -1.0;
-		_lastTargetProgress = now;
+		resetTargetState();
 	}
 
 	private boolean isObjectInsideFarmRadius(GameObject object)
@@ -302,6 +348,8 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		_player.abortAttack(false, false);
+		_player.setTarget(null);
+		resetTargetState();
 		_attackStateSince = 0L;
 	}
 
@@ -433,7 +481,13 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		int offset = Math.max(10, range - 5);
+		long now = System.currentTimeMillis();
+
+		if (now - _lastMoveCommand < MOVEMENT_COMMAND_INTERVAL)
+			return;
+
 		_player.followToCharacter(target, offset, false);
+		_lastMoveCommand = now;
 	}
 
 	private boolean useAutoSkill(MonsterInstance target)
@@ -574,7 +628,14 @@ public class AutoFarmTask implements Runnable
 
 		if (distance > PICKUP_RANGE)
 		{
-			_player.moveToLocation(item.getLoc(), 100, true);
+			long now = System.currentTimeMillis();
+
+			if (now - _lastMoveCommand >= MOVEMENT_COMMAND_INTERVAL)
+			{
+				_player.moveToLocation(item.getLoc(), 100, true);
+				_lastMoveCommand = now;
+			}
+
 			return true;
 		}
 
@@ -589,7 +650,7 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
-		double nearestDistance = _searchRadius;
+		double nearestDistance = Math.min(_searchRadius, TARGET_SEARCH_RADIUS);
 
 		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
 		{
@@ -604,11 +665,9 @@ public class AutoFarmTask implements Runnable
 			if (!monster.isVisible())
 				continue;
 
-			/*
-			 * Seleção restaurada para a mesma lógica do AutoFarm antigo:
-			 * o alvo é escolhido pela distância real até o jogador.
-			 * O raio fixo continua controlando o limite de deslocamento do farm.
-			 */
+			if (!isObjectInsideFarmRadius(monster))
+				continue;
+
 			double distance = _player.getDistance(monster);
 
 			if (distance <= nearestDistance)
