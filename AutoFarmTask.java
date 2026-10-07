@@ -31,32 +31,18 @@ public class AutoFarmTask implements Runnable
 	private static final int NO_TARGET_RETRY_LIMIT = 100;
 	private int _noTargetRetries = 0;
 
-	/*
-	 * Skills configuradas.
-	 * 0 = Sem Skill.
-	 */
 	private int _skill1 = 0;
 	private int _skill2 = 0;
 	private int _skill3 = 0;
-
 	private int _currentSkill = 1;
 
-	/*
-	 * Loot.
-	 */
 	private ItemInstance _lootTarget;
 	private int _lastLootObjectId = 0;
 	private long _lastLootAttempt = 0;
-
-	/*
-	 * Controle da última utilização de poção.
-	 */
 	private long _lastPotionUse = 0;
 
-	/* Anti-travamento do ataque. */
 	private long _attackStateSince = 0L;
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
-
 	private static final long POTION_INTERVAL = 3000L;
 
 	public AutoFarmTask(Player player)
@@ -108,7 +94,6 @@ public class AutoFarmTask implements Runnable
 		_skill1 = skill1;
 		_skill2 = skill2;
 		_skill3 = skill3;
-
 		_currentSkill = 1;
 	}
 
@@ -149,7 +134,6 @@ public class AutoFarmTask implements Runnable
 		if (_player.isDead())
 			return;
 
-		/* Destrava estados de ataque presos sem interromper ataques normais. */
 		if (!isInsideFarmRadius())
 		{
 			returnToStart();
@@ -159,15 +143,12 @@ public class AutoFarmTask implements Runnable
 		checkAttackWatchdog();
 		checkTargetWatchdog();
 
-		/* Nunca faz outra ação durante um cast. */
 		if (_player.isCastingNow())
 			return;
 
-		/* 1. POÇÃO */
 		if (tryUsePotion())
 			return;
 
-		/* 2. LOOT */
 		ItemInstance loot = findNearestLoot();
 		if (loot != null)
 		{
@@ -175,14 +156,10 @@ public class AutoFarmTask implements Runnable
 				return;
 		}
 
-		/* 3. MONSTRO */
-		MonsterInstance target = getSelectedMonster();
-		if (target == null)
-			target = findNearestMonster();
+		MonsterInstance target = findNearestMonster();
 
 		if (target == null || target.isDead())
 		{
-			/* Aguarda 10 segundos antes de concluir que realmente nao existe outro mob. */
 			_noTargetRetries++;
 
 			if (_noTargetRetries < NO_TARGET_RETRY_LIMIT)
@@ -202,30 +179,19 @@ public class AutoFarmTask implements Runnable
 			_lastTargetHp = target.getCurrentHp();
 			_lastTargetProgress = System.currentTimeMillis();
 		}
-		/*
-		 * ====================================================================
-		 * FIX DEFINITIVO DE ATAQUE FÍSICO PURO (ARCHERS / MELEES DE FÁBRICA)
-		 * ====================================================================
-		 * Se o jogador não tem nenhuma skill guardada na interface (todas <= 0),
-		 * nós ignoramos o useAutoSkill e forçamos a IA a bater no físico direto!
-		 */
+
 		if (_skill1 <= 0 && _skill2 <= 0 && _skill3 <= 0)
 		{
 			handleNormalAttack(target);
-			return; // Finaliza o ciclo com sucesso, mantendo a tarefa viva!
+			return;
 		}
 
-		/* 4. SKILLS */
 		if (useAutoSkill(target))
 			return;
 
-		/* 5. ATAQUE NORMAL */
 		if (!target.isDead())
-		{
 			handleNormalAttack(target);
-		}
 	}
-
 
 	private boolean isInsideFarmRadius()
 	{
@@ -358,9 +324,7 @@ public class AutoFarmTask implements Runnable
 		}
 
 		if (potionId != 1539 && potionId != 5592 && potionId != 728)
-		{
 			return false;
-		}
 
 		double percent = getResourcePercent(potionId);
 
@@ -451,14 +415,7 @@ public class AutoFarmTask implements Runnable
 			WeaponType type = weapon.getItemType();
 
 			if (type == WeaponType.BOW || type == WeaponType.CROSSBOW)
-			{
-				/*
-			 * Arqueiros precisam manter uma distancia maior antes de se mover.
-			 * O range do template nem sempre representa o alcance pratico do
-			 * ataque no cliente. Usamos aproximadamente o dobro.
-			 */
 				return Math.max(10, weapon.getAttackRange() * 2);
-			}
 		}
 
 		return Math.max(10, _player.getPhysicalAttackRange());
@@ -553,9 +510,7 @@ public class AutoFarmTask implements Runnable
 		if (possuiAlgumaSkillConfigurada)
 		{
 			if (_player.isMageClass() || _player.getActiveWeaponItem() == null || _player.getActiveWeaponItem().getItemType() == WeaponType.NONE)
-			{
-				return true; // Mago recua e aguarda mana / cooldown
-			}
+				return true;
 		}
 
 		return false;
@@ -595,9 +550,7 @@ public class AutoFarmTask implements Runnable
 			if (item.getObjectId() == _lastLootObjectId)
 			{
 				if (System.currentTimeMillis() - _lastLootAttempt < 2000)
-				{
 					continue;
-				}
 			}
 
 			nearestDistance = distance;
@@ -633,28 +586,10 @@ public class AutoFarmTask implements Runnable
 		return true;
 	}
 
-	private MonsterInstance getSelectedMonster()
-	{
-		GameObject selected = _player.getTarget();
-
-		if (!(selected instanceof MonsterInstance))
-			return null;
-
-		MonsterInstance monster = (MonsterInstance) selected;
-
-		if (monster.isDead() || !monster.isVisible())
-			return null;
-
-		if (!isObjectInsideFarmRadius(monster))
-			return null;
-
-		return monster;
-	}
-
 	private MonsterInstance findNearestMonster()
 	{
 		MonsterInstance nearest = null;
-		double nearestDistance = Double.MAX_VALUE;
+		double nearestDistance = _searchRadius;
 
 		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
 		{
@@ -663,21 +598,26 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-if (monster.isDead())
-continue;
-if (!monster.isVisible())
-continue;
-if (!isObjectInsideFarmRadius(monster))
-continue;
+			if (monster.isDead())
+				continue;
 
-/* Procura o alvo pela distancia do jogador, mas somente dentro do circulo fixo de 3000. */
-double distance = _player.getDistance(monster);
-if (distance <= _searchRadius && distance < nearestDistance)
-{
-nearestDistance = distance;
-nearest = monster;
-}
-}
-return nearest;
-}
+			if (!monster.isVisible())
+				continue;
+
+			/*
+			 * Seleção restaurada para a mesma lógica do AutoFarm antigo:
+			 * o alvo é escolhido pela distância real até o jogador.
+			 * O raio fixo continua controlando o limite de deslocamento do farm.
+			 */
+			double distance = _player.getDistance(monster);
+
+			if (distance <= nearestDistance)
+			{
+				nearestDistance = distance;
+				nearest = monster;
+			}
+		}
+
+		return nearest;
+	}
 }
