@@ -450,7 +450,12 @@ public class AutoFarmTask implements Runnable
 
 			if (type == WeaponType.BOW || type == WeaponType.CROSSBOW)
 			{
-				return Math.max(10, weapon.getAttackRange());
+				/*
+			 * Arqueiros precisam manter uma distancia maior antes de se mover.
+			 * O range do template nem sempre representa o alcance pratico do
+			 * ataque no cliente. Usamos aproximadamente o dobro.
+			 */
+				return Math.max(10, weapon.getAttackRange() * 2);
 			}
 		}
 
