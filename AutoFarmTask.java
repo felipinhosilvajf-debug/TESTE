@@ -226,8 +226,8 @@ public class AutoFarmTask implements Runnable
 		if (!_hasStartLocation || _player.isCastingNow())
 			return;
 
-		double dx = _player.getX() - _startLocation.getX();
-		double dy = _player.getY() - _startLocation.getY();
+		double dx = _player.getX() - _startX;
+		double dy = _player.getY() - _startY;
 		if (Math.sqrt((dx * dx) + (dy * dy)) <= RETURN_TO_START_TOLERANCE)
 			return;
 
