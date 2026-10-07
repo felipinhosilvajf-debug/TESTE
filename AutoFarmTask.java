@@ -28,6 +28,8 @@ public class AutoFarmTask implements Runnable
 	private long _lastTargetProgress = 0L;
 	private static final long TARGET_STUCK_TIMEOUT = 2500L;
 	private static final int RETURN_TO_START_TOLERANCE = 150;
+	private static final int NO_TARGET_RETRY_LIMIT = 15;
+	private int _noTargetRetries = 0;
 
 	/*
 	 * Skills configuradas.
@@ -74,6 +76,7 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = System.currentTimeMillis();
+		_noTargetRetries = 0;
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
 
@@ -97,6 +100,7 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = 0L;
+		_noTargetRetries = 0;
 	}
 
 	public void setSkills(int skill1, int skill2, int skill3)
@@ -175,9 +179,22 @@ public class AutoFarmTask implements Runnable
 		MonsterInstance target = findNearestMonster();
 		if (target == null || target.isDead())
 		{
+			/*
+			 * Nao volta imediatamente ao ponto inicial. A lista de objetos pode
+			 * estar sendo atualizada enquanto o personagem se move/ataca. Damos
+			 * alguns ciclos para a busca encontrar outro mob antes de retornar.
+			 */
+			_noTargetRetries++;
+
+			if (_noTargetRetries < NO_TARGET_RETRY_LIMIT)
+				return;
+
+			_noTargetRetries = 0;
 			returnToStart();
 			return;
 		}
+
+		_noTargetRetries = 0;
 
 		if (_player.getTarget() != target)
 		{
