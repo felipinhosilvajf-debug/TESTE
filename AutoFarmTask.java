@@ -5,7 +5,6 @@ import java.util.concurrent.ScheduledFuture;
 import l2f.gameserver.ThreadPoolManager;
 import l2f.gameserver.handler.items.IItemHandler;
 import l2f.gameserver.model.GameObject;
-import l2f.gameserver.model.Location;
 import l2f.gameserver.model.GameObjectsStorage;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.Skill;
@@ -20,7 +19,10 @@ public class AutoFarmTask implements Runnable
 	private ScheduledFuture<?> _task;
 
 	private int _searchRadius = 3000;
-	private Location _startLocation;
+	private int _startX;
+	private int _startY;
+	private int _startZ;
+	private boolean _hasStartLocation;
 	private int _lastTargetObjectId = 0;
 	private double _lastTargetHp = -1.0;
 	private long _lastTargetProgress = 0L;
@@ -65,7 +67,10 @@ public class AutoFarmTask implements Runnable
 		if (_task != null)
 			return;
 
-		_startLocation = new Location(_player.getX(), _player.getY(), _player.getZ());
+		_startX = _player.getX();
+		_startY = _player.getY();
+		_startZ = _player.getZ();
+		_hasStartLocation = true;
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = System.currentTimeMillis();
@@ -85,7 +90,10 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
 		_attackStateSince = 0L;
-		_startLocation = null;
+		_hasStartLocation = false;
+		_startX = 0;
+		_startY = 0;
+		_startZ = 0;
 		_lastTargetObjectId = 0;
 		_lastTargetHp = -1.0;
 		_lastTargetProgress = 0L;
@@ -205,17 +213,17 @@ public class AutoFarmTask implements Runnable
 
 	private boolean isInsideFarmRadius()
 	{
-		if (_startLocation == null)
+		if (!_hasStartLocation)
 			return true;
 
-		double dx = _player.getX() - _startLocation.getX();
-		double dy = _player.getY() - _startLocation.getY();
+		double dx = _player.getX() - _startX;
+		double dy = _player.getY() - _startY;
 		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
 	}
 
 	private void returnToStart()
 	{
-		if (_startLocation == null || _player.isCastingNow())
+		if (!_hasStartLocation || _player.isCastingNow())
 			return;
 
 		double dx = _player.getX() - _startLocation.getX();
@@ -227,7 +235,7 @@ public class AutoFarmTask implements Runnable
 			_player.abortAttack(false, false);
 
 		_player.setTarget(null);
-		_player.moveToLocation(_startLocation, 80, true);
+		_player.moveToLocation(_startX, _startY, _startZ, 80, true);
 	}
 
 	private void checkTargetWatchdog()
@@ -284,11 +292,11 @@ public class AutoFarmTask implements Runnable
 
 	private boolean isObjectInsideFarmRadius(GameObject object)
 	{
-		if (_startLocation == null || object == null)
+		if (!_hasStartLocation || object == null)
 			return false;
 
-		double dx = object.getX() - _startLocation.getX();
-		double dy = object.getY() - _startLocation.getY();
+		double dx = object.getX() - _startX;
+		double dy = object.getY() - _startY;
 		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
 	}
 
