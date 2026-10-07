@@ -5,6 +5,7 @@ import java.util.concurrent.ScheduledFuture;
 import l2f.gameserver.ThreadPoolManager;
 import l2f.gameserver.handler.items.IItemHandler;
 import l2f.gameserver.model.GameObject;
+import l2f.gameserver.model.Location;
 import l2f.gameserver.model.GameObjectsStorage;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.Skill;
@@ -18,7 +19,13 @@ public class AutoFarmTask implements Runnable
 	private final Player _player;
 	private ScheduledFuture<?> _task;
 
-	private int _searchRadius = 2000;
+	private int _searchRadius = 3000;
+	private Location _startLocation;
+	private int _lastTargetObjectId = 0;
+	private double _lastTargetHp = -1.0;
+	private long _lastTargetProgress = 0L;
+	private static final long TARGET_STUCK_TIMEOUT = 2500L;
+	private static final int RETURN_TO_START_TOLERANCE = 150;
 
 	/*
 	 * Skills configuradas.
@@ -58,6 +65,10 @@ public class AutoFarmTask implements Runnable
 		if (_task != null)
 			return;
 
+		_startLocation = new Location(_player.getX(), _player.getY(), _player.getZ());
+		_lastTargetObjectId = 0;
+		_lastTargetHp = -1.0;
+		_lastTargetProgress = System.currentTimeMillis();
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
 
@@ -74,6 +85,10 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
 		_attackStateSince = 0L;
+		_startLocation = null;
+		_lastTargetObjectId = 0;
+		_lastTargetHp = -1.0;
+		_lastTargetProgress = 0L;
 	}
 
 	public void setSkills(int skill1, int skill2, int skill3)
@@ -123,7 +138,14 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		/* Destrava estados de ataque presos sem interromper ataques normais. */
+		if (!isInsideFarmRadius())
+		{
+			returnToStart();
+			return;
+		}
+
 		checkAttackWatchdog();
+		checkTargetWatchdog();
 
 		/* Nunca faz outra ação durante um cast. */
 		if (_player.isCastingNow())
@@ -144,10 +166,18 @@ public class AutoFarmTask implements Runnable
 		/* 3. MONSTRO */
 		MonsterInstance target = findNearestMonster();
 		if (target == null || target.isDead())
+		{
+			returnToStart();
 			return;
+		}
 
 		if (_player.getTarget() != target)
+		{
 			_player.setTarget(target);
+			_lastTargetObjectId = target.getObjectId();
+			_lastTargetHp = target.getCurrentHp();
+			_lastTargetProgress = System.currentTimeMillis();
+		}
 		/*
 		 * ====================================================================
 		 * FIX DEFINITIVO DE ATAQUE FÍSICO PURO (ARCHERS / MELEES DE FÁBRICA)
@@ -170,6 +200,96 @@ public class AutoFarmTask implements Runnable
 		{
 			handleNormalAttack(target);
 		}
+	}
+
+
+	private boolean isInsideFarmRadius()
+	{
+		if (_startLocation == null)
+			return true;
+
+		double dx = _player.getX() - _startLocation.getX();
+		double dy = _player.getY() - _startLocation.getY();
+		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
+	}
+
+	private void returnToStart()
+	{
+		if (_startLocation == null || _player.isCastingNow())
+			return;
+
+		double dx = _player.getX() - _startLocation.getX();
+		double dy = _player.getY() - _startLocation.getY();
+		if (Math.sqrt((dx * dx) + (dy * dy)) <= RETURN_TO_START_TOLERANCE)
+			return;
+
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
+		_player.moveToLocation(_startLocation, 80, true);
+	}
+
+	private void checkTargetWatchdog()
+	{
+		GameObject current = _player.getTarget();
+
+		if (!(current instanceof MonsterInstance))
+		{
+			_lastTargetObjectId = 0;
+			_lastTargetHp = -1.0;
+			_lastTargetProgress = System.currentTimeMillis();
+			return;
+		}
+
+		MonsterInstance target = (MonsterInstance) current;
+		if (target.isDead())
+		{
+			_player.setTarget(null);
+			_lastTargetObjectId = 0;
+			_lastTargetHp = -1.0;
+			_lastTargetProgress = System.currentTimeMillis();
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+		double hp = target.getCurrentHp();
+
+		if (target.getObjectId() != _lastTargetObjectId)
+		{
+			_lastTargetObjectId = target.getObjectId();
+			_lastTargetHp = hp;
+			_lastTargetProgress = now;
+			return;
+		}
+
+		if (_lastTargetHp < 0 || hp < _lastTargetHp)
+		{
+			_lastTargetHp = hp;
+			_lastTargetProgress = now;
+			return;
+		}
+
+		if (now - _lastTargetProgress < TARGET_STUCK_TIMEOUT)
+			return;
+
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
+		_lastTargetObjectId = 0;
+		_lastTargetHp = -1.0;
+		_lastTargetProgress = now;
+	}
+
+	private boolean isObjectInsideFarmRadius(GameObject object)
+	{
+		if (_startLocation == null || object == null)
+			return false;
+
+		double dx = object.getX() - _startLocation.getX();
+		double dy = object.getY() - _startLocation.getY();
+		return Math.sqrt((dx * dx) + (dy * dy)) <= _searchRadius;
 	}
 
 	private void checkAttackWatchdog()
@@ -435,6 +555,9 @@ public class AutoFarmTask implements Runnable
 			if (!item.isVisible())
 				continue;
 
+			if (!isObjectInsideFarmRadius(item))
+				continue;
+
 			double distance = _player.getDistance(item);
 
 			if (distance > nearestDistance)
@@ -496,6 +619,8 @@ public class AutoFarmTask implements Runnable
 if (monster.isDead())
 continue;
 if (!monster.isVisible())
+continue;
+if (!isObjectInsideFarmRadius(monster))
 continue;
 double distance = _player.getDistance(monster);
 if (distance <= nearestDistance)
