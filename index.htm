@@ -2643,6 +2643,44 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 .season-wheel-item{position:absolute;left:50%;top:50%;width:100px;text-align:center;color:#aaa69c;font:700 9px 'Cinzel',serif;letter-spacing:1px}
 .season-wheel-item:nth-child(2){transform:translate(-50%,-50%) translateY(-145px)}.season-wheel-item:nth-child(3){transform:translate(-50%,-50%) translate(125px,-70px)}.season-wheel-item:nth-child(4){transform:translate(-50%,-50%) translate(125px,70px)}.season-wheel-item:nth-child(5){transform:translate(-50%,-50%) translateY(145px)}.season-wheel-item:nth-child(6){transform:translate(-50%,-50%) translate(-125px,70px)}.season-wheel-item:nth-child(7){transform:translate(-50%,-50%) translate(-125px,-70px)}
 @keyframes vbSeasonSpin{to{transform:rotate(360deg)}} 
+
+/* =========================================================
+   VIRTUAL BOOST — FUNDOS ORIGINAIS DOS ASSETS
+   Mantém as imagens do site antigo, com tratamento The End.
+========================================================= */
+#live,
+#features,
+#progressao,
+#wiki,
+.theend-final{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    background-size:cover!important;
+    background-position:center!important;
+    background-repeat:no-repeat!important;
+}
+#live{background-image:linear-gradient(180deg,rgba(3,8,16,.72),rgba(3,6,12,.90)),url("asset/hero-bg3.jpg")!important;}
+#features{background-image:linear-gradient(180deg,rgba(3,8,16,.70),rgba(3,6,12,.90)),url("asset/hero-bg2.jpg")!important;}
+#progressao{background-image:linear-gradient(180deg,rgba(3,8,16,.70),rgba(3,6,12,.92)),url("asset/hero-bg4.png")!important;}
+#wiki{background-image:linear-gradient(180deg,rgba(3,8,16,.70),rgba(3,6,12,.92)),url("asset/herobg7.png")!important;}
+.theend-final{background-image:linear-gradient(180deg,rgba(3,8,16,.72),rgba(3,6,12,.94)),url("asset/herobg77.png")!important;}
+
+#live .theend-live-player,
+#live .theend-live-ranking,
+#features .theend-feature-list article,
+#progressao .theend-step,
+#wiki .theend-wiki-grid article{
+    background-color:rgba(3,8,16,.72)!important;
+    backdrop-filter:blur(2px);
+    border-color:rgba(56,189,248,.28)!important;
+}
+
+#live .theend-live-player,
+#live .theend-live-ranking{
+    box-shadow:0 22px 65px rgba(0,0,0,.72), inset 0 0 35px rgba(56,189,248,.035)!important;
+}
+
 </style></head>
 <body>
 
@@ -2655,11 +2693,11 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
   <div class="theend-nav-inner">
     <div class="theend-nav-brand"><a href="#home" class="theend-logo-text">INÍCIO</a></div>
     <div class="theend-nav-links">
-      <a class="active" href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#season">SEASON</a><a href="#wiki">WIKI</a>
+      <a class="active" href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a>
     </div>
     <div class="theend-nav-account"><div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a><a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a></div>
     <button type="button" class="theend-nav-mobile" aria-label="Abrir menu" onclick="toggleMobileTopbar()">☰</button>
-    <div class="mobile-topbar-menu" id="mobileTopbarMenu"><a href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#season">SEASON</a><a href="#wiki">WIKI</a><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a><a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a></div>
+    <div class="mobile-topbar-menu" id="mobileTopbarMenu"><a href="#home">INÍCIO</a><a href="#novidades">NOVIDADES</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a><a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a></div>
   </div>
 </nav>>
 <main class="theend-template">
@@ -2722,7 +2760,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
  </div>
 </section>
 
-<section id="season"/> class="theend-section season-showcase"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SEASON</h2><p>Confira a Season atual, novidades e o conteúdo do servidor.</p></div><div class="season-wheel-wrap"><div class="season-wheel"><div class="season-wheel-center">SEASON<br><small>VIRTUAL BOOST</small></div><div class="season-wheel-item">AUTO FARM</div><div class="season-wheel-item">INTERFACE</div><div class="season-wheel-item">NOVO LOGIN</div><div class="season-wheel-item">EVENTOS</div><div class="season-wheel-item">NOVIDADES</div><div class="season-wheel-item">COMMUNITY</div></div></div></section><section id="wiki" class="theend-wiki">
+<section id="wiki" class="theend-wiki">
  <div class="theend-wrap">
   <div class="theend-heading"><small>CONHECIMENTO DO REINO</small><h2>WIKI EM <span>DESTAQUE</span></h2><p>Rates, economia, sistemas, mapas e tudo que impacta diretamente sua jornada.</p></div>
   <div class="theend-wiki-grid">
