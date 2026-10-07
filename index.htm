@@ -2613,7 +2613,27 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 .vb-systems-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:25px}
 .vb-systems-tags b{padding:7px 10px;color:#bae6fd;background:rgba(7,89,133,.20);border:1px solid #164e78;font:700 .58rem/1 'Cinzel',serif;letter-spacing:1.5px}
 @media(max-width:850px){.vb-systems-video-card{grid-template-columns:1fr}.vb-systems-video{border-right:0;border-bottom:1px solid #164e78}.vb-systems-video-info{padding:28px 24px}}
-</style></style><style>
+<style id="vb-live-layout-fixes">
+.vb-live-youtube{overflow:hidden;background:#02050a!important}
+.vb-live-frame{position:relative;width:100%;height:100%;min-height:360px;background:#02050a}
+.vb-live-frame iframe{display:block;width:100%;height:100%;min-height:360px;border:0}
+.vb-live-youtube .theend-live-bar{position:relative;z-index:2}
+.vb-news-panel{justify-content:center}
+.vb-news-panel small{color:#38bdf8!important;letter-spacing:3px}
+.vb-news-panel h3{font-size:clamp(1.15rem,2vw,1.65rem)!important;line-height:1.15!important}
+.vb-news-panel>div{padding:15px 0!important}
+.vb-news-panel>div b{color:#d9f3ff!important}
+.vb-news-panel>div span{color:#38bdf8!important;font-size:.62rem!important}
+.vb-news-panel>div i{color:#38bdf8!important}
+.vb-footer-logo{width:46px!important;height:46px!important;max-width:46px!important;max-height:46px!important;object-fit:contain!important;opacity:.9;margin:0 auto 14px!important;display:block!important}
+.theend-footer .theend-wrap{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;gap:14px!important}
+.theend-footer .theend-wrap>div{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;align-items:center!important;gap:18px!important}
+.theend-footer p{margin:4px 0 0!important}
+@media(max-width:850px){
+  .vb-live-frame,.vb-live-frame iframe{min-height:240px}
+  .vb-footer-logo{width:40px!important;height:40px!important}
+}
+</style></style></style><style>
 .theend-logo-text{color:#f3dfaa;text-decoration:none;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:900;letter-spacing:3px}
 .season-showcase{background:radial-gradient(circle at center,rgba(216,181,106,.08),transparent 55%)}
 .season-wheel-wrap{display:flex;justify-content:center;padding:30px 0 10px}
@@ -2665,12 +2685,12 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
       <p>Sieges, Olympiads, Clan Wars, Epic Bosses e Raid Bosses. Acompanhe a comunidade e tudo que acontece no reino.</p>
     </div>
     <div class="theend-live-grid">
-      <div class="theend-live-player"><div class="theend-live-placeholder">VB</div><div class="theend-live-bar"><span>● AO VIVO</span><b>TRANSMISSÕES DA COMUNIDADE</b></div></div>
-      <div class="theend-live-ranking"><small>RANKING DE LIVES</small><h3>HORAS ASSISTIDAS</h3>
-        <div><i>01</i><b>Comunidade Virtual Boost</b><span>AO VIVO</span></div>
-        <div><i>02</i><b>Clãs & Competições</b><span>AO VIVO</span></div>
-        <div><i>03</i><b>Eventos do Reino</b><span>ONLINE</span></div>
-        <div><i>04</i><b>Olympiads</b><span>ONLINE</span></div>
+      <div class="theend-live-player vb-live-youtube"><div class="vb-live-frame"><iframe src="https://www.youtube.com/embed/Jr2Gzqln-lQ" title="Auto Farm Atualizado Virtual Boost" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="theend-live-bar"><span>● VIRTUAL BOOST</span><b>AUTO FARM ATUALIZADO</b></div></div>
+      <div class="theend-live-ranking vb-news-panel"><small>NOVIDADES</small><h3>NOVIDADES DO VIRTUAL BOOST</h3>
+        <div><i>01</i><b>AUTO FARM</b><span>NOVO</span></div>
+        <div><i>02</i><b>INTERFACE NOVA</b><span>ATUALIZADA</span></div>
+        <div><i>03</i><b>NOVO LOGIN</b><span>EM DESTAQUE</span></div>
+        <div><i>04</i><b>NOVIDADES DO REINO</b><span>ONLINE</span></div>
       </div>
     </div>
   </div>
@@ -2702,8 +2722,6 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
  </div>
 </section>
 
-<section id="vip" class="theend-section vb-systems-video-section"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SISTEMAS DO SERVIDOR</h2><p>Conheça as novidades e os sistemas que fazem parte da experiência Virtual Boost.</p></div><div class="vb-systems-video-card"><div class="vb-systems-video"><iframe src="https://www.youtube.com/embed/Jr2Gzqln-lQ" title="Auto Farm Atualizado Virtual Boost" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="vb-systems-video-info"><span>AUTO FARM</span><h3>Auto Farm Atualizado Virtual Boost</h3><p>Confira a demonstração do Auto Farm atualizado. O vídeo só começa quando o membro clicar em reproduzir.</p><div class="vb-systems-tags"><b>AUTO FARM</b><b>INTERFACE NOVA</b><b>NOVO LOGIN</b></div></div></div></section>
-
 <section id="season"/> class="theend-section season-showcase"><div class="theend-section-head"><span class="eyebrow">VIRTUAL BOOST</span><h2>SEASON</h2><p>Confira a Season atual, novidades e o conteúdo do servidor.</p></div><div class="season-wheel-wrap"><div class="season-wheel"><div class="season-wheel-center">SEASON<br><small>VIRTUAL BOOST</small></div><div class="season-wheel-item">AUTO FARM</div><div class="season-wheel-item">INTERFACE</div><div class="season-wheel-item">NOVO LOGIN</div><div class="season-wheel-item">EVENTOS</div><div class="season-wheel-item">NOVIDADES</div><div class="season-wheel-item">COMMUNITY</div></div></div></section><section id="wiki" class="theend-wiki">
  <div class="theend-wrap">
   <div class="theend-heading"><small>CONHECIMENTO DO REINO</small><h2>WIKI EM <span>DESTAQUE</span></h2><p>Rates, economia, sistemas, mapas e tudo que impacta diretamente sua jornada.</p></div>
@@ -2717,7 +2735,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 
 <section class="theend-final"><div class="theend-wrap"><small>CHRONICLE HIGH FIVE · VIRTUAL BOOST</small><h2>SUA LENDA<br><span>COMEÇA AQUI.</span></h2><p>Prepare seu personagem. Reúna seus aliados. Entre no reino.</p><a class="theend-main-button" href="#" onclick="openPanel('download');return false;">BAIXAR O JOGO →</a></div></section>
 </main>
-<footer class="theend-footer"><div class="theend-wrap"><img src="logo.png"><div><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#vip">SISTEMAS</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+<footer class="theend-footer"><div class="theend-wrap"><img class="vb-footer-logo" src="logo.png" alt="Virtual Boost"><div><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#vip">SISTEMAS</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
