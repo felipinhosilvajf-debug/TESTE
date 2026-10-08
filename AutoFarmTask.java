@@ -1,5 +1,7 @@
 package l2f.gameserver.autofarm;
 
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 import l2f.gameserver.ThreadPoolManager;
@@ -12,11 +14,17 @@ import l2f.gameserver.model.instances.MonsterInstance;
 import l2f.gameserver.model.items.ItemInstance;
 import l2f.gameserver.templates.item.WeaponTemplate;
 import l2f.gameserver.templates.item.WeaponTemplate.WeaponType;
+import l2f.gameserver.utils.Location;
 
 public class AutoFarmTask implements Runnable
 {
 	private final Player _player;
 	private ScheduledFuture<?> _task;
+	private boolean _returningToStart = false;
+	private int _startX;
+	private int _startY;
+	private int _startZ;
+	private static final Map<Player, AutoFarmTask> ACTIVE_TASKS = new WeakHashMap<Player, AutoFarmTask>();
 
 	private int _searchRadius = 80000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
@@ -54,7 +62,15 @@ public class AutoFarmTask implements Runnable
 		if (_task != null)
 			return;
 
+		_startX = _player.getX();
+		_startY = _player.getY();
+		_startZ = _player.getZ();
+		_returningToStart = false;
 		_lastMoveCommand = 0L;
+		synchronized (ACTIVE_TASKS)
+		{
+			ACTIVE_TASKS.put(_player, this);
+		}
 		_task = ThreadPoolManager.getInstance().scheduleAtFixedRate(this, 1000, 100);
 	}
 
@@ -74,6 +90,35 @@ public class AutoFarmTask implements Runnable
 		_targetProgressSince = 0L;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
+		_returningToStart = false;
+		synchronized (ACTIVE_TASKS)
+		{
+			if (ACTIVE_TASKS.get(_player) == this)
+				ACTIVE_TASKS.remove(_player);
+		}
+	}
+
+	public static boolean returnToStart(Player player)
+	{
+		if (player == null)
+			return false;
+		AutoFarmTask task;
+		synchronized (ACTIVE_TASKS)
+		{
+			task = ACTIVE_TASKS.get(player);
+		}
+		if (task == null || task._task == null)
+			return false;
+		task._returningToStart = true;
+		task._lastMoveCommand = 0L;
+		task._lastTargetObjectId = 0;
+		task._targetProgressSince = 0L;
+		task._lastTargetDistance = -1.0;
+		task._lootTarget = null;
+		if (player.isAttackingNow())
+			player.abortAttack(false, false);
+		player.setTarget(null);
+		return true;
 	}
 
 	public void setSkills(int skill1, int skill2, int skill3)
@@ -120,7 +165,11 @@ public class AutoFarmTask implements Runnable
 
 		if (_player.isDead())
 			return;
-
+		if (_returningToStart)
+		{
+			handleReturnToStart();
+			return;
+		}
 		checkAttackWatchdog();
 
 		if (_player.isCastingNow())
@@ -165,6 +214,24 @@ public class AutoFarmTask implements Runnable
 
 		if (!target.isDead())
 			handleNormalAttack(target);
+	}
+
+	private void handleReturnToStart()
+	{
+		double distance = _player.getDistance(_startX, _startY, _startZ);
+		if (distance <= 100.0)
+		{
+			_returningToStart = false;
+			_lastMoveCommand = 0L;
+			_targetProgressSince = 0L;
+			_lastTargetDistance = -1.0;
+			return;
+		}
+		long now = System.currentTimeMillis();
+		if (now - _lastMoveCommand < MOVEMENT_COMMAND_INTERVAL)
+			return;
+		_player.moveToLocation(new Location(_startX, _startY, _startZ), 0, true);
+		_lastMoveCommand = now;
 	}
 
 	private MonsterInstance getCurrentValidTarget()
