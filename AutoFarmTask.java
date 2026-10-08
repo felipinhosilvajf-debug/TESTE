@@ -47,8 +47,19 @@ public class AutoFarmTask implements Runnable
 	private long _attackStateSince = 0L;
 	private long _targetProgressSince = 0L;
 	private double _lastTargetDistance = -1.0;
+	private long _noTargetSince = 0L;
+	private long _lastAutomaticRecovery = 0L;
+	private int _stuckCount = 0;
+	private int _ignoredTargetObjectId = 0;
+	private long _ignoredTargetUntil = 0L;
+
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
+	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
+	private static final long NO_TARGET_TIMEOUT = 7000L;
+	private static final long AUTO_RETURN_COOLDOWN = 10000L;
+	private static final long IGNORED_TARGET_TIMEOUT = 10000L;
+	private static final int MAX_STUCK_BEFORE_RETURN = 2;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 	private static final long POTION_INTERVAL = 3000L;
 
@@ -67,6 +78,11 @@ public class AutoFarmTask implements Runnable
 		_startZ = _player.getZ();
 		_returningToStart = false;
 		_lastMoveCommand = 0L;
+		_noTargetSince = 0L;
+		_lastAutomaticRecovery = 0L;
+		_stuckCount = 0;
+		_ignoredTargetObjectId = 0;
+		_ignoredTargetUntil = 0L;
 		synchronized (ACTIVE_TASKS)
 		{
 			ACTIVE_TASKS.put(_player, this);
@@ -91,6 +107,11 @@ public class AutoFarmTask implements Runnable
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
 		_returningToStart = false;
+		_noTargetSince = 0L;
+		_lastAutomaticRecovery = 0L;
+		_stuckCount = 0;
+		_ignoredTargetObjectId = 0;
+		_ignoredTargetUntil = 0L;
 		synchronized (ACTIVE_TASKS)
 		{
 			if (ACTIVE_TASKS.get(_player) == this)
@@ -191,7 +212,16 @@ public class AutoFarmTask implements Runnable
 			target = findNextMonster();
 
 		if (target == null || target.isDead())
+		{
+			if (_noTargetSince == 0L)
+				_noTargetSince = System.currentTimeMillis();
+			else if (System.currentTimeMillis() - _noTargetSince >= NO_TARGET_TIMEOUT)
+				triggerAutomaticRecovery();
+
 			return;
+		}
+
+		_noTargetSince = 0L;
 
 		if (_player.getTarget() != target)
 		{
@@ -225,6 +255,10 @@ public class AutoFarmTask implements Runnable
 			_lastMoveCommand = 0L;
 			_targetProgressSince = 0L;
 			_lastTargetDistance = -1.0;
+			_noTargetSince = 0L;
+			_stuckCount = 0;
+			_ignoredTargetObjectId = 0;
+			_ignoredTargetUntil = 0L;
 			return;
 		}
 		long now = System.currentTimeMillis();
@@ -274,6 +308,10 @@ public class AutoFarmTask implements Runnable
 		_player.abortAttack(false, false);
 		_player.setTarget(null);
 		_attackStateSince = 0L;
+		_stuckCount++;
+
+		if (_stuckCount >= MAX_STUCK_BEFORE_RETURN)
+			triggerAutomaticRecovery();
 	}
 
 	private boolean checkTargetProgress(MonsterInstance target)
@@ -288,6 +326,7 @@ public class AutoFarmTask implements Runnable
 		{
 			_lastTargetDistance = distance;
 			_targetProgressSince = now;
+			_stuckCount = 0;
 			return false;
 		}
 
@@ -298,20 +337,68 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		if (now - _targetProgressSince < TARGET_PROGRESS_TIMEOUT)
+		long progressTimeout = _player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT;
+
+		if (now - _targetProgressSince < progressTimeout)
 			return false;
 
 		// O alvo continua vivo, mas o personagem nao esta conseguindo avancar.
-		// Abandona somente esse alvo para o motor procurar outro e continuar o farm.
+		// Primeiro abandona esse alvo. Se o problema se repetir, retorna
+		// automaticamente ao ponto inicial e reinicia a busca.
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
 
 		_player.setTarget(null);
 		_lastTargetObjectId = target.getObjectId();
+		_ignoredTargetObjectId = target.getObjectId();
+		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
 		_targetProgressSince = now;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
+		_stuckCount++;
+
+		if (_stuckCount >= MAX_STUCK_BEFORE_RETURN)
+			triggerAutomaticRecovery();
+
 		return true;
+	}
+
+	private void triggerAutomaticRecovery()
+	{
+		long now = System.currentTimeMillis();
+
+		if (_returningToStart)
+			return;
+
+		if (now - _lastAutomaticRecovery < AUTO_RETURN_COOLDOWN)
+			return;
+
+		double distanceFromStart = _player.getDistance(_startX, _startY, _startZ);
+
+		if (distanceFromStart <= 500.0)
+		{
+			_stuckCount = 0;
+			_noTargetSince = now;
+			_targetProgressSince = 0L;
+			_lastTargetDistance = -1.0;
+			return;
+		}
+
+		_lastAutomaticRecovery = now;
+		_returningToStart = true;
+		_lastMoveCommand = 0L;
+		_lastTargetObjectId = 0;
+		_targetProgressSince = 0L;
+		_lastTargetDistance = -1.0;
+		_noTargetSince = 0L;
+		_ignoredTargetObjectId = 0;
+		_ignoredTargetUntil = 0L;
+		_lootTarget = null;
+
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
 	}
 
 	private boolean tryUsePotion()
@@ -624,6 +711,15 @@ public class AutoFarmTask implements Runnable
 				continue;
 
 			int objectId = monster.getObjectId();
+
+			if (objectId == _ignoredTargetObjectId)
+			{
+				if (System.currentTimeMillis() < _ignoredTargetUntil)
+					continue;
+
+				_ignoredTargetObjectId = 0;
+				_ignoredTargetUntil = 0L;
+			}
 			double distance = _player.getDistance(monster);
 
 			if (distance > _searchRadius)
