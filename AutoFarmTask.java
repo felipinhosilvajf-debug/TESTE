@@ -694,9 +694,6 @@ public class AutoFarmTask implements Runnable
 
 	private MonsterInstance findNextMonster()
 	{
-		MonsterInstance nearestAdvance = null;
-		double nearestAdvanceDistance = _searchRadius;
-
 		MonsterInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
@@ -720,26 +717,20 @@ public class AutoFarmTask implements Runnable
 				_ignoredTargetObjectId = 0;
 				_ignoredTargetUntil = 0L;
 			}
+
 			double distance = _player.getDistance(monster);
 
 			if (distance > _searchRadius)
 				continue;
 
+			// Ao procurar um novo alvo, sempre escolhe o mais proximo.
+			// Nao troca por um alvo mais distante apenas para avancar.
 			if (distance < nearestDistance)
 			{
 				nearestDistance = distance;
 				nearest = monster;
 			}
-
-			if (objectId != _lastTargetObjectId && distance >= TARGET_ADVANCE_DISTANCE && distance < nearestAdvanceDistance)
-			{
-				nearestAdvanceDistance = distance;
-				nearestAdvance = monster;
-			}
 		}
-
-		if (nearestAdvance != null)
-			return nearestAdvance;
 
 		return nearest;
 	}
