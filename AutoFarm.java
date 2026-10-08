@@ -15,6 +15,13 @@ public class AutoFarm implements IVoicedCommandHandler
 			return false;
 
 		// Trata o comando de ativação de forma isolada e robusta
+		if (target != null && target.trim().equalsIgnoreCase("return"))
+		{
+			if (AutoFarmTask.returnToStart(activeChar))
+				activeChar.sendMessage("Auto Farm: VOLTANDO PARA O LOCAL INICIAL.");
+			return true;
+		}
+
 		if (target != null && target.trim().equalsIgnoreCase("toggle"))
 		{
 			AutoFarmCommunity farm = new AutoFarmCommunity();
