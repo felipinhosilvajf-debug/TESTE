@@ -571,6 +571,7 @@ function ReturnTooltip_NTT_ITEM(string param, String TooltipType, ETooltipSource
 	local color	 AdenaColor;
 	
 	local ItemID tmpItemID;
+	local UserInfo PlayerInfo;
 
 	if (eSourceType == NTST_ITEM)
 	{
@@ -1678,7 +1679,9 @@ function ReturnTooltip_NTT_ITEM(string param, String TooltipType, ETooltipSource
 		
 		AddTooltipItemBlank(8);
 		
-		if (TooltipType != "TaliList")
+		// Mostra o ID do item somente para GM (nUserRank > 0).
+		GetPlayerInfo(PlayerInfo);
+		if (TooltipType != "TaliList" && PlayerInfo.nUserRank > 0)
 		{
 			StartItem();
 			m_Info.eType = DIT_TEXTURE;
