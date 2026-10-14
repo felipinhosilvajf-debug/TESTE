@@ -3861,6 +3861,64 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @media(prefers-reduced-motion:reduce){#progressao .vb-season-rotor,#progressao .vb-season-item img{animation:none!important}}
 </style>
 
+
+<style id="vb-reference-atmosphere-v3">
+/* Reaproveitamento visual global: fundos cinematográficos, profundidade e economia */
+:root{--vb-cyan:#38bdf8;--vb-ice:#bae6fd;--vb-gold:#e8c778;--vb-panel:rgba(4,12,24,.78);--vb-line:rgba(56,189,248,.24)}
+html{scroll-padding-top:96px}
+body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -12%,rgba(14,165,233,.19),transparent 48%),radial-gradient(ellipse at 0% 45%,rgba(14,165,233,.055),transparent 35%),radial-gradient(ellipse at 100% 72%,rgba(37,99,235,.07),transparent 38%),linear-gradient(180deg,#050a13 0%,#02050a 48%,#040914 100%)}
+.theend-template{isolation:isolate;overflow:clip}
+.theend-hero{isolation:isolate;background:#020711}
+.theend-hero-video{filter:saturate(.88) contrast(1.08);transform:scale(1.025)}
+.theend-hero-shade{background:linear-gradient(180deg,rgba(2,7,15,.25) 0%,rgba(2,7,15,.34) 42%,#030711 100%),radial-gradient(ellipse at 50% 35%,transparent 0%,rgba(1,5,12,.42) 75%)!important}
+.theend-hero-content{position:relative;z-index:2}
+.theend-live-section,.theend-features,.theend-progress,.theend-wiki,.theend-final{position:relative;isolation:isolate;background-color:#030711!important;background-repeat:no-repeat!important;background-position:center,center!important;background-size:cover!important}
+.theend-live-section{background-image:linear-gradient(180deg,rgba(3,8,16,.84),rgba(3,8,16,.72) 48%,#030711 100%),url("asset/hero-bg3.jpg")!important}
+.theend-features{background-image:linear-gradient(180deg,#030711 0%,rgba(3,8,16,.76) 18%,rgba(3,8,16,.79) 82%,#030711 100%),url("asset/hero-bg2.jpg")!important}
+.theend-progress{background-image:radial-gradient(ellipse at 50% 48%,rgba(14,165,233,.12),transparent 54%),linear-gradient(180deg,#030711 0%,rgba(3,8,16,.65) 22%,rgba(3,8,16,.78) 80%,#030711 100%),url("asset/hero-bg4.png")!important}
+.theend-wiki{background-image:linear-gradient(180deg,#030711 0%,rgba(3,8,16,.76) 18%,rgba(3,8,16,.80) 82%,#030711 100%),url("asset/herobg7.png")!important}
+.theend-final{background-image:radial-gradient(ellipse at 50% 35%,rgba(14,165,233,.14),transparent 55%),linear-gradient(180deg,#030711 0%,rgba(3,8,16,.62) 24%,rgba(3,8,16,.80) 100%),url("asset/herobg77.png")!important}
+.theend-live-section:before,.theend-features:before,.theend-progress:before,.theend-wiki:before,.theend-final:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(1px 1px at 14% 23%,rgba(186,230,253,.7) 50%,transparent 100%),radial-gradient(1px 1px at 82% 31%,rgba(56,189,248,.55) 50%,transparent 100%),radial-gradient(1px 1px at 67% 77%,rgba(186,230,253,.45) 50%,transparent 100%);opacity:.38}
+.theend-wrap{width:min(1180px,92vw);margin-inline:auto}
+.theend-heading{max-width:850px}
+.theend-heading.centered,.theend-features .theend-heading{text-align:center;margin-inline:auto}
+.theend-heading small,.theend-overline,.season-kicker{color:var(--vb-cyan);text-shadow:0 0 22px rgba(56,189,248,.25)}
+.theend-heading h2{text-wrap:balance;text-shadow:0 6px 28px rgba(0,0,0,.62)}
+.theend-heading p{max-width:760px}
+.theend-heading.centered p,.theend-features .theend-heading p{margin-inline:auto}
+.theend-live-grid,.theend-feature-list,.theend-wiki-grid,.theend-progress .theend-wrap{position:relative;z-index:1}
+.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article,.theend-progress .theend-step,.theend-vip-grid>div,.season-card,.vb-systems-video-card,.economy-stat-card,.data-panel{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:rgba(56,189,248,.24)!important;box-shadow:0 18px 48px rgba(0,0,0,.30),inset 0 1px rgba(186,230,253,.045);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s}
+.theend-live-player:hover,.theend-live-ranking:hover,.theend-feature-list article:hover,.theend-wiki-grid article:hover,.economy-stat-card:hover,.data-panel:hover{border-color:rgba(56,189,248,.58)!important;box-shadow:0 24px 60px rgba(0,0,0,.42),0 0 28px rgba(14,165,233,.10),inset 0 1px rgba(186,230,253,.09)}
+.theend-feature-list article,.theend-wiki-grid article{overflow:hidden}
+.theend-feature-list article img,.theend-wiki-grid article>img{transition:transform .65s cubic-bezier(.2,.8,.2,1),filter .4s}
+.theend-feature-list article:hover img,.theend-wiki-grid article:hover>img{transform:scale(1.045);filter:saturate(1.12)}
+.theend-live-bar,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article{background-color:rgba(5,13,25,.78)}
+.theend-nav-adena{border:1px solid rgba(232,199,120,.28);border-radius:10px;padding:8px 12px;background:linear-gradient(135deg,rgba(232,199,120,.09),rgba(4,12,24,.72));box-shadow:0 0 24px rgba(232,199,120,.045)}
+.theend-nav-adena strong,#adenaCirculacao{color:#f4d78c!important;text-shadow:0 0 16px rgba(232,199,120,.22)}
+#panel-economy .info-window{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0,rgba(14,165,233,.15),transparent 45%),linear-gradient(145deg,rgba(8,18,32,.98),rgba(2,7,14,.99));border:1px solid rgba(56,189,248,.35);box-shadow:0 30px 100px rgba(0,0,0,.75),0 0 45px rgba(14,165,233,.09)}
+#panel-economy .info-body{background:transparent}
+#panel-economy .economy-dashboard{position:relative}
+#panel-economy .economy-stats-grid{gap:16px}
+#panel-economy .economy-stat-card{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(12,27,44,.92),rgba(3,10,20,.94));border:1px solid rgba(56,189,248,.25);border-radius:14px;padding:22px}
+#panel-economy .economy-stat-card:before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,transparent);opacity:.7}
+#panel-economy .stat-title{color:#c5d8e8}
+#panel-economy .stat-value{font-family:'Cinzel',serif;text-shadow:0 0 22px rgba(56,189,248,.12);overflow-wrap:anywhere}
+#panel-economy .stat-footer{color:#8198ad}
+#panel-economy .data-panel{background:linear-gradient(145deg,rgba(8,20,35,.94),rgba(2,8,17,.96));border-radius:14px;overflow:hidden}
+#panel-economy .data-panel-title{color:#d8f2ff;border-bottom:1px solid rgba(56,189,248,.17)}
+#panel-economy table{width:100%;border-collapse:collapse}
+#panel-economy th{color:#9edfff}
+#panel-economy td,#panel-economy th{border-color:rgba(56,189,248,.12)}
+#progressao .vb-season-stage{background:radial-gradient(ellipse at 50% 50%,rgba(14,165,233,.11),transparent 66%)}
+#progressao .vb-season-orbit{filter:drop-shadow(0 0 30px rgba(14,165,233,.09))}
+#progressao .vb-season-ring{border-color:rgba(56,189,248,.22)}
+#progressao .vb-season-core{box-shadow:0 0 0 1px rgba(56,189,248,.28),0 0 35px rgba(14,165,233,.22),inset 0 0 28px rgba(14,165,233,.12)}
+#progressao .vb-season-cards article{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.theend-footer{position:relative;background:linear-gradient(180deg,#030711,rgba(2,5,10,.98))!important;border-top:1px solid rgba(56,189,248,.18)}
+@media(max-width:850px){.theend-live-section,.theend-features,.theend-progress,.theend-wiki,.theend-final{background-attachment:scroll!important}.theend-wrap{width:min(100% - 32px,1180px)}#panel-economy .economy-stat-card{padding:17px}}
+@media(prefers-reduced-motion:reduce){.theend-feature-list article img,.theend-wiki-grid article>img,.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article{transition:none!important}}
+</style>
+
 </body>
 <script>
 (function(){
