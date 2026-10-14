@@ -2635,6 +2635,23 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
   .vb-live-frame,.vb-live-frame iframe{min-height:240px}
   .vb-footer-logo{width:40px!important;height:40px!important}
 }
+
+/* CORREÇÃO DA ROLETA DA TEMPORADA: rotação tradicional do conjunto */
+.season-items-rotor{position:absolute!important;inset:0!important;z-index:4;pointer-events:none;transform-origin:50% 50%;animation:seasonRotorSpin 35s linear infinite!important;will-change:transform}
+.season-items-rotor .season-item{position:absolute!important;left:var(--item-x)!important;top:var(--item-y)!important;width:56px!important;height:56px!important;margin:0!important;transform:translate(-50%,-50%)!important;offset-path:none!important;animation:none!important;border-radius:50%!important;overflow:hidden!important;box-sizing:border-box!important}
+.season-items-rotor .season-item img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;border-radius:50%!important;clip-path:circle(50% at 50% 50%)!important}
+.season-items-rotor .season-item-1{--item-x:50%;--item-y:10%}
+.season-items-rotor .season-item-2{--item-x:75.7%;--item-y:16%}
+.season-items-rotor .season-item-3{--item-x:89.4%;--item-y:35%}
+.season-items-rotor .season-item-4{--item-x:89.4%;--item-y:65%}
+.season-items-rotor .season-item-5{--item-x:75.7%;--item-y:84%}
+.season-items-rotor .season-item-6{--item-x:50%;--item-y:90%}
+.season-items-rotor .season-item-7{--item-x:24.3%;--item-y:84%}
+.season-items-rotor .season-item-8{--item-x:10.6%;--item-y:65%}
+.season-items-rotor .season-item-9{--item-x:10.6%;--item-y:35%}
+@keyframes seasonRotorSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(max-width:700px){.season-items-rotor .season-item{width:48px!important;height:48px!important}}
+
 </style></style></style><style>
 .theend-logo-text{color:#f3dfaa;text-decoration:none;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:900;letter-spacing:3px}
 .season-showcase{background:radial-gradient(circle at center,rgba(216,181,106,.08),transparent 55%)}
@@ -3234,6 +3251,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
             <div class="season-ring season-ring-a"></div>
             <div class="season-ring season-ring-b"></div>
             <div class="season-core"><span>VB</span><small>SEASON 01</small></div>
+            <div class="season-items-rotor">
             <div class="season-item season-item-1">
 			<img src="asset/season/logo.png" alt="Season 01">
 			</div>
@@ -3261,6 +3279,8 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
             <div class="season-item season-item-9">
 			<img src="asset/season/VBGold.png" alt="Season 01">
 			</div>
+
+            </div>
         </div>
         <div class="season-copy">
             <div class="season-kicker">VIRTUAL BOOST · TEMPORADA ATUAL</div>
