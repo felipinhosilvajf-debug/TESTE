@@ -3739,6 +3739,74 @@ function closeCommunityModal() {
 
 
 
+
+<style id="vb-premium-motion-system">
+:root{--vb-ease:cubic-bezier(.22,1,.36,1);--vb-radius:20px}
+html{scroll-padding-top:88px;scroll-behavior:smooth}
+body{isolation:isolate}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.16;background-image:radial-gradient(1px 1px at 12% 18%,#bae6fd 50%,transparent 100%),radial-gradient(1px 1px at 77% 34%,#38bdf8 50%,transparent 100%),radial-gradient(1px 1px at 45% 73%,#bae6fd 50%,transparent 100%);background-size:310px 290px,390px 350px,470px 410px;animation:vbStarDrift 48s linear infinite}
+@keyframes vbStarDrift{to{background-position:310px 290px,-390px 350px,470px -410px}}
+.theend-nav{transition:background .3s,border-color .3s,box-shadow .3s;border-bottom-color:rgba(56,189,248,.18)!important}
+.theend-nav.vb-nav-scrolled{background:rgba(3,8,15,.88)!important;backdrop-filter:blur(18px) saturate(1.2);box-shadow:0 12px 36px #0005,0 1px 0 #38bdf81a}
+.theend-nav-links a{position:relative;padding:9px 0}
+.theend-nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:1px;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#38bdf8,transparent);transition:transform .35s var(--vb-ease)}
+.theend-nav-links a:hover::after,.theend-nav-links a.active::after{transform:scaleX(1)}
+.theend-hero{isolation:isolate}
+.theend-hero::after{content:"";position:absolute;inset:12% 15% auto;height:50%;pointer-events:none;z-index:1;background:radial-gradient(ellipse,rgba(14,165,233,.1),transparent 68%);filter:blur(22px)}
+.theend-hero-logo{transition:filter .5s,transform .7s var(--vb-ease);animation:vbLogoFloat 7s ease-in-out infinite}
+.theend-hero-logo:hover{transform:translateY(-5px) scale(1.025);filter:drop-shadow(0 20px 42px #000d) drop-shadow(0 0 24px #38bdf847)}
+@keyframes vbLogoFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
+.theend-main-button,.theend-nav-play{position:relative;overflow:hidden;border-radius:999px!important;transition:transform .3s var(--vb-ease),box-shadow .3s,filter .3s!important}
+.theend-main-button::before,.theend-nav-play::before{content:"";position:absolute;inset:0;transform:translateX(-130%) skewX(-18deg);background:linear-gradient(100deg,transparent,#ffffff47,transparent);transition:transform .65s var(--vb-ease)}
+.theend-main-button:hover,.theend-nav-play:hover{transform:translateY(-3px);box-shadow:0 12px 34px #0ea5e93d!important;filter:brightness(1.08)}
+.theend-main-button:hover::before,.theend-nav-play:hover::before{transform:translateX(130%) skewX(-18deg)}
+.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article,.theend-progress .theend-step,.theend-vip-grid>div,.vb-systems-video-card,.season-card{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--vb-radius)!important;border-color:#38bdf82e!important;box-shadow:0 14px 38px #0002;transition:transform .45s var(--vb-ease),border-color .35s,box-shadow .4s,background .35s!important}
+.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article,.theend-progress .theend-step,.theend-vip-grid>div,.season-card{background:linear-gradient(145deg,#0a192aeb,#03080ff5)!important}
+.theend-live-player::before,.theend-live-ranking::before,.theend-feature-list article::before,.theend-wiki-grid article::before,.theend-progress .theend-step::after,.theend-vip-grid>div::before,.season-card::before,.vb-systems-video-card::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .4s;background:radial-gradient(360px circle at var(--vb-px,50%) var(--vb-py,50%),#38bdf81f,transparent 65%)}
+.theend-live-player:hover,.theend-live-ranking:hover,.theend-feature-list article:hover,.theend-wiki-grid article:hover,.theend-progress .theend-step:hover,.theend-vip-grid>div:hover,.season-card:hover,.vb-systems-video-card:hover{transform:translateY(-6px);border-color:#38bdf885!important;box-shadow:0 24px 55px #0005,0 0 28px #0ea5e917}
+.theend-live-player:hover::before,.theend-live-ranking:hover::before,.theend-feature-list article:hover::before,.theend-wiki-grid article:hover::before,.theend-progress .theend-step:hover::after,.theend-vip-grid>div:hover::before,.season-card:hover::before,.vb-systems-video-card:hover::before{opacity:1}
+.theend-feature-list article img,.theend-wiki-grid article>img{transition:transform .8s var(--vb-ease),filter .6s;transform:scale(1.001)}
+.theend-feature-list article:hover img,.theend-wiki-grid article:hover>img{transform:scale(1.045);filter:brightness(.82) saturate(.9)}
+.theend-feature-list article>div,.theend-wiki-grid article>*:not(img),.theend-live-ranking>*,.season-card>*{position:relative;z-index:1}
+.theend-live-grid,.theend-feature-list,.theend-wiki-grid{gap:20px}
+.theend-live-section,.theend-features,.theend-progress,.theend-vip,.theend-wiki{position:relative}
+.theend-live-section::before,.theend-features::before,.theend-progress::before,.theend-vip::before,.theend-wiki::before{content:"";position:absolute;top:0;left:50%;width:min(76%,900px);height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#38bdf840,transparent);pointer-events:none}
+.theend-heading h2{letter-spacing:-.025em}
+.season-orbit{filter:drop-shadow(0 0 24px #0ea5e90f)}
+.season-ring{border-color:#38bdf847!important}
+.season-items-rotor .season-item{box-shadow:0 0 0 4px #020812b8,0 0 22px #0ea5e933,0 10px 24px #0007!important}
+.season-card{padding:25px 22px!important}
+.season-card-icon{transition:transform .4s var(--vb-ease),box-shadow .3s}
+.season-card:hover .season-card-icon{transform:translateY(-3px) scale(1.07);box-shadow:0 0 25px #0ea5e93d}
+.season-tattoos{border-radius:18px;border:1px solid #38bdf824;margin-top:26px}
+.theend-final{position:relative;overflow:hidden}
+.theend-final::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0,#0ea5e924,transparent 58%)}
+.theend-final .theend-wrap{position:relative}
+.theend-footer .theend-wrap>div a{transition:color .25s,transform .25s}
+.theend-footer .theend-wrap>div a:hover{transform:translateY(-2px)}
+.vb-motion-ready .vb-reveal{opacity:0;transform:translateY(24px) scale(.99);transition:opacity .75s var(--vb-ease),transform .75s var(--vb-ease)}
+.vb-motion-ready .vb-reveal.vb-visible{opacity:1;transform:translateY(0) scale(1)}
+.vb-motion-ready .vb-reveal[data-vb-delay="1"]{transition-delay:.08s}.vb-motion-ready .vb-reveal[data-vb-delay="2"]{transition-delay:.16s}.vb-motion-ready .vb-reveal[data-vb-delay="3"]{transition-delay:.24s}.vb-motion-ready .vb-reveal[data-vb-delay="4"]{transition-delay:.32s}
+@media(max-width:900px){:root{--vb-radius:17px}.theend-live-grid,.theend-feature-list,.theend-wiki-grid{gap:14px}.theend-live-ranking:hover,.theend-feature-list article:hover,.theend-wiki-grid article:hover,.theend-progress .theend-step:hover,.theend-vip-grid>div:hover,.season-card:hover{transform:translateY(-3px)}}
+@media(max-width:600px){.theend-main-button{padding:14px 23px}.theend-feature-list article,.theend-wiki-grid article{border-radius:16px!important}.theend-live-section,.theend-features,.theend-progress,.theend-vip,.theend-wiki{overflow:hidden}body::after{opacity:.1;animation:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body::after,.theend-hero-logo,.season-ring,.season-core{animation:none!important}.vb-motion-ready .vb-reveal{opacity:1!important;transform:none!important;transition:none!important}*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+<script id="vb-premium-motion-runtime">
+(function(){
+ if(window.__vbPremiumMotionReady)return;window.__vbPremiumMotionReady=true;
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const nav=document.querySelector('.theend-nav');
+ const navUpdate=()=>{if(nav)nav.classList.toggle('vb-nav-scrolled',window.scrollY>18)};
+ navUpdate();window.addEventListener('scroll',navUpdate,{passive:true});
+ const cards=document.querySelectorAll('.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article,.theend-progress .theend-step,.theend-vip-grid>div,.season-card,.vb-systems-video-card');
+ if(!reduced)cards.forEach(card=>card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect();card.style.setProperty('--vb-px',(e.clientX-r.left)+'px');card.style.setProperty('--vb-py',(e.clientY-r.top)+'px')},{passive:true}));
+ const items=document.querySelectorAll('.theend-heading,.theend-live-grid>*,.theend-feature-list article,.season-hero,.season-card,.theend-wiki-grid article,.theend-progress .theend-step,.theend-vip-grid>div,.vb-systems-video-card,.theend-final .theend-wrap');
+ if(!reduced&&'IntersectionObserver'in window){document.body.classList.add('vb-motion-ready');items.forEach((el,i)=>{el.classList.add('vb-reveal');el.dataset.vbDelay=String(i%5)});const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vb-visible');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -35px 0px'});items.forEach(el=>io.observe(el))}
+ const sections=[...document.querySelectorAll('#home,#novidades,#features,#progressao,#wiki')],links=[...document.querySelectorAll('.theend-nav-links a')];
+ if('IntersectionObserver'in window&&sections.length&&links.length){const active=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-25% 0px -60% 0px'});sections.forEach(s=>active.observe(s))}
+})();
+</script>
+
 </body>
 <script>
 (function(){
