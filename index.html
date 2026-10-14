@@ -2784,10 +2784,11 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 
 </style>
 <style id="season-wheel-fix">
-/* Correção definitiva da roleta TEMPORADA ATUAL */
+/* ROLETA TEMPORADA ATUAL — itens giram juntos e imagens ficam dentro do aro */
 .season-orbit{
   position:relative!important;
   overflow:hidden!important;
+  isolation:isolate!important;
 }
 .season-items-rotor{
   position:absolute!important;
@@ -2797,18 +2798,20 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
   z-index:4!important;
   pointer-events:none!important;
   transform-origin:50% 50%!important;
-  animation:seasonWheelSpinFixed 28s linear infinite!important;
+  animation:seasonWheelSpinFixed 24s linear infinite!important;
   will-change:transform;
 }
 .season-items-rotor .season-item{
   position:absolute!important;
   left:var(--item-x)!important;
   top:var(--item-y)!important;
-  width:clamp(42px, 5vw, 54px)!important;
-  height:clamp(42px, 5vw, 54px)!important;
+  width:54px!important;
+  height:54px!important;
   margin:0!important;
-  padding:4px!important;
+  padding:0!important;
   transform:translate(-50%,-50%)!important;
+  offset-path:none!important;
+  animation:none!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -2817,38 +2820,41 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
   box-sizing:border-box!important;
   background:radial-gradient(circle at 35% 25%,rgba(59,130,246,.22),rgba(4,10,23,.98) 75%)!important;
   border:1px solid rgba(96,165,250,.8)!important;
-  box-shadow:0 0 14px rgba(37,99,235,.25),inset 0 0 8px rgba(96,165,250,.12)!important;
+  box-shadow:0 0 12px rgba(37,99,235,.24),inset 0 0 8px rgba(96,165,250,.12)!important;
 }
 .season-items-rotor .season-item img{
   display:block!important;
-  width:100%!important;
-  height:100%!important;
+  width:72%!important;
+  height:72%!important;
   min-width:0!important;
   min-height:0!important;
-  max-width:100%!important;
-  max-height:100%!important;
+  max-width:72%!important;
+  max-height:72%!important;
+  margin:0!important;
+  padding:0!important;
   object-fit:contain!important;
   object-position:center!important;
-  border-radius:50%!important;
-  clip-path:inset(0 round 50%)!important;
-  padding:1px!important;
+  border-radius:0!important;
+  clip-path:none!important;
+  overflow:hidden!important;
   box-sizing:border-box!important;
+  flex:0 0 72%!important;
 }
 .season-items-rotor .season-item-1{--item-x:50%;--item-y:10%}
-.season-items-rotor .season-item-2{--item-x:78.3%;--item-y:18.3%}
-.season-items-rotor .season-item-3{--item-x:90%;--item-y:50%}
-.season-items-rotor .season-item-4{--item-x:78.3%;--item-y:81.7%}
-.season-items-rotor .season-item-5{--item-x:50%;--item-y:90%}
-.season-items-rotor .season-item-6{--item-x:21.7%;--item-y:81.7%}
-.season-items-rotor .season-item-7{--item-x:10%;--item-y:50%}
-.season-items-rotor .season-item-8{--item-x:21.7%;--item-y:18.3%}
-.season-items-rotor .season-item-9{--item-x:50%;--item-y:10%}
+.season-items-rotor .season-item-2{--item-x:75.7%;--item-y:16%}
+.season-items-rotor .season-item-3{--item-x:89.4%;--item-y:35%}
+.season-items-rotor .season-item-4{--item-x:89.4%;--item-y:65%}
+.season-items-rotor .season-item-5{--item-x:75.7%;--item-y:84%}
+.season-items-rotor .season-item-6{--item-x:50%;--item-y:90%}
+.season-items-rotor .season-item-7{--item-x:24.3%;--item-y:84%}
+.season-items-rotor .season-item-8{--item-x:10.6%;--item-y:65%}
+.season-items-rotor .season-item-9{--item-x:10.6%;--item-y:35%}
 @keyframes seasonWheelSpinFixed{
   from{transform:rotate(0deg)}
   to{transform:rotate(360deg)}
 }
 @media(max-width:700px){
- .season-items-rotor .season-item{width:44px!important;height:44px!important;padding:3px!important}
+  .season-items-rotor .season-item{width:44px!important;height:44px!important}
 }
 </style>
 
