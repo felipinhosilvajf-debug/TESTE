@@ -31,6 +31,12 @@ public class AutoFarmTask implements Runnable
 	private static final double TARGET_ADVANCE_DISTANCE = 1200.0;
 
 	private int _lastTargetObjectId = 0;
+	private long _lastMonsterScan = 0L;
+	private MonsterInstance _cachedMonster = null;
+	private long _lastLootScan = 0L;
+	private ItemInstance _cachedLoot = null;
+	private static final long MONSTER_SCAN_INTERVAL = 300L;
+	private static final long LOOT_SCAN_INTERVAL = 700L;
 	private long _lastThreatScan = 0L;
 	private MonsterInstance _cachedThreat = null;
 	private static final long THREAT_SCAN_INTERVAL = 200L;
@@ -86,6 +92,10 @@ public class AutoFarmTask implements Runnable
 		_stuckCount = 0;
 		_ignoredTargetObjectId = 0;
 		_ignoredTargetUntil = 0L;
+		_lastMonsterScan = 0L;
+		_cachedMonster = null;
+		_lastLootScan = 0L;
+		_cachedLoot = null;
 		synchronized (ACTIVE_TASKS)
 		{
 			ACTIVE_TASKS.put(_player, this);
@@ -102,6 +112,10 @@ public class AutoFarmTask implements Runnable
 		}
 
 		_lootTarget = null;
+		_cachedLoot = null;
+		_cachedMonster = null;
+		_lastMonsterScan = 0L;
+		_lastLootScan = 0L;
 		_lastLootObjectId = 0;
 		_lastLootAttempt = 0;
 		_lastPotionUse = 0;
@@ -649,6 +663,15 @@ public class AutoFarmTask implements Runnable
 
 	private ItemInstance findNearestLoot()
 	{
+		long now = System.currentTimeMillis();
+		if (now - _lastLootScan < LOOT_SCAN_INTERVAL)
+		{
+			if (_cachedLoot != null && _cachedLoot.isVisible()
+				&& _player.getDistance(_cachedLoot) <= _searchRadius)
+				return _cachedLoot;
+			return null;
+		}
+		_lastLootScan = now;
 		ItemInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
@@ -677,6 +700,7 @@ public class AutoFarmTask implements Runnable
 			nearest = item;
 		}
 
+		_cachedLoot = nearest;
 		return nearest;
 	}
 
@@ -750,6 +774,16 @@ public class AutoFarmTask implements Runnable
 
 	private MonsterInstance findNextMonster()
 	{
+		long now = System.currentTimeMillis();
+		if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
+		{
+			if (_cachedMonster != null && !_cachedMonster.isDead() && _cachedMonster.isVisible()
+				&& _player.getDistance(_cachedMonster) <= _searchRadius
+				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
+				return _cachedMonster;
+			return null;
+		}
+		_lastMonsterScan = now;
 		MonsterInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
@@ -788,6 +822,7 @@ public class AutoFarmTask implements Runnable
 			}
 		}
 
+		_cachedMonster = nearest;
 		return nearest;
 	}
 }
