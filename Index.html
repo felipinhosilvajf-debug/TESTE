@@ -2888,52 +2888,86 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 <section id="progressao" class="theend-progress vb-season-progress">
  <div class="theend-wrap">
   <div class="theend-heading">
-   <small>VIRTUAL BOOST · HISTÓRICO DE LANÇAMENTOS</small>
-   <h2>JORNADA DA <span>SEASON</span></h2>
-   <p>Acompanhe as etapas de evolução do Virtual Boost e consulte o registro de lançamento de cada grade. As datas serão publicadas após confirmação oficial.</p>
+   <small>VIRTUAL BOOST · SEASON</small>
+   <h2>HISTÓRICO DE <span>LANÇAMENTOS</span></h2>
+   <p>Explore a Season 01 e acompanhe as próximas etapas da progressão do Virtual Boost. Selecione uma etapa para consultar suas informações.</p>
   </div>
-  <div class="vb-release-history" aria-label="Histórico de lançamentos da progressão de itens">
-   <div class="vb-release-intro">
-    <span class="vb-release-pulse" aria-hidden="true"></span>
-    <div><b>LINHA DO TEMPO OFICIAL</b><small>Datas sujeitas a confirmação da equipe Virtual Boost</small></div>
+  <div class="vb-season-tabs" role="tablist" aria-label="Etapas da Season Virtual Boost">
+   <button type="button" class="vb-season-tab is-active" role="tab" id="vb-tab-season1" aria-selected="true" aria-controls="vb-panel-season1" data-vb-season="season1"><span>SEASON</span><b>01</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-s" aria-selected="false" aria-controls="vb-panel-s" data-vb-season="s" tabindex="-1"><span>GRADE</span><b>S</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-s80" aria-selected="false" aria-controls="vb-panel-s80" data-vb-season="s80" tabindex="-1"><span>GRADE</span><b>S-80</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-s84" aria-selected="false" aria-controls="vb-panel-s84" data-vb-season="s84" tabindex="-1"><span>GRADE</span><b>S-84</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-r" aria-selected="false" aria-controls="vb-panel-r" data-vb-season="r" tabindex="-1"><span>GRADE</span><b>R</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-r95" aria-selected="false" aria-controls="vb-panel-r95" data-vb-season="r95" tabindex="-1"><span>GRADE</span><b>R95</b></button>
+   <button type="button" class="vb-season-tab" role="tab" id="vb-tab-r99" aria-selected="false" aria-controls="vb-panel-r99" data-vb-season="r99" tabindex="-1"><span>GRADE</span><b>R99</b></button>
+  </div>
+  <div class="vb-season-explorer">
+   <div class="vb-season-visual">
+    <div class="vb-season-orbit" aria-label="Roleta de itens da Season 01">
+     <div class="vb-season-ring vb-season-ring-a"></div><div class="vb-season-ring vb-season-ring-b"></div>
+     <div class="vb-season-rotor" aria-label="Itens da Season 01 em rotação">
+      <div class="vb-season-item vb-s1"><img src="asset/season/logo.png" alt="Logo Season 01"></div>
+      <div class="vb-season-item vb-s2"><img src="asset/season/VBMage3.png" alt="Tattoo VBMage nível 3"></div>
+      <div class="vb-season-item vb-s3"><img src="asset/season/VBMage2.png" alt="Tattoo VBMage nível 2"></div>
+      <div class="vb-season-item vb-s4"><img src="asset/season/VBMage1.png" alt="Tattoo VBMage nível 1"></div>
+      <div class="vb-season-item vb-s5"><img src="asset/season/VBSilver.png" alt="VBSilver"></div>
+      <div class="vb-season-item vb-s6"><img src="asset/season/VBFight1.png" alt="Tattoo VBFight nível 1"></div>
+      <div class="vb-season-item vb-s7"><img src="asset/season/VBFight2.png" alt="Tattoo VBFight nível 2"></div>
+      <div class="vb-season-item vb-s8"><img src="asset/season/VBFight3.png" alt="Tattoo VBFight nível 3"></div>
+      <div class="vb-season-item vb-s9"><img src="asset/season/VBGold.png" alt="VBGold"></div>
+     </div>
+     <div class="vb-season-core"><span id="vb-season-core-title">SEASON</span><small id="vb-season-core-subtitle">SEASON 01</small></div>
+    </div>
+    <p class="vb-season-visual-caption" id="vb-season-visual-caption">Season 01 · itens e identidade do Virtual Boost</p>
    </div>
-   <ol class="vb-release-list">
-    <li class="vb-release-entry">
-     <span class="vb-release-index">01</span>
-     <div class="vb-release-info"><span class="vb-release-label">PRIMEIRA ETAPA</span><h3>Grade S</h3><p>Registro de lançamento da etapa inicial da progressão de itens.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-    <li class="vb-release-entry">
-     <span class="vb-release-index">02</span>
-     <div class="vb-release-info"><span class="vb-release-label">PROGRESSÃO</span><h3>Grade S-80</h3><p>Etapa de progressão de equipamentos; data oficial aguardando confirmação.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-    <li class="vb-release-entry">
-     <span class="vb-release-index">03</span>
-     <div class="vb-release-info"><span class="vb-release-label">PROGRESSÃO</span><h3>Grade S-84</h3><p>Próximo marco da progressão; data oficial aguardando confirmação.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-    <li class="vb-release-entry">
-     <span class="vb-release-index">04</span>
-     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-    <li class="vb-release-entry">
-     <span class="vb-release-index">05</span>
-     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R95</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-    <li class="vb-release-entry">
-     <span class="vb-release-index">06</span>
-     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R99</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
-     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
-    </li>
-   </ol>
-   <p class="vb-release-footnote">As datas não estão confirmadas. Esta página será atualizada conforme os anúncios oficiais do Virtual Boost.</p>
+   <div class="vb-season-details">
+    <article class="vb-season-panel is-active" id="vb-panel-season1" role="tabpanel" aria-labelledby="vb-tab-season1" data-vb-panel="season1">
+     <div class="vb-season-panel-top"><span>ETAPA 01</span><b class="vb-season-status">TEMPORADA</b></div>
+     <p class="vb-season-kicker">VIRTUAL BOOST · PRIMEIRA TEMPORADA</p>
+     <h3>SEASON <span>01</span></h3>
+     <p class="vb-season-description">A primeira temporada reúne a identidade visual e os itens especiais do Virtual Boost. A roleta apresenta os elementos da Season 01 que você adicionou ao site.</p>
+     <div class="vb-season-info-grid">
+      <div><small>CONTEÚDO</small><b>Itens da Season 01</b></div>
+      <div><small>LANÇAMENTO</small><b>A definir</b></div>
+      <div><small>STATUS</small><b>Informações oficiais em atualização</b></div>
+     </div>
+     <p class="vb-season-note">A data de lançamento será exibida aqui após confirmação oficial.</p>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-s" role="tabpanel" aria-labelledby="vb-tab-s" data-vb-panel="s" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 02</span><b class="vb-season-status is-pending">A DEFINIR</b></div><p class="vb-season-kicker">HISTÓRICO DE LANÇAMENTOS</p><h3>GRADE <span>S</span></h3>
+     <p class="vb-season-description">Etapa de referência para a progressão de itens do servidor. A data anterior não será assumida como lançamento oficial do Virtual Boost.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Detalhes a anunciar</b></div><div><small>STATUS</small><b>Data não confirmada</b></div></div>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-s80" role="tabpanel" aria-labelledby="vb-tab-s80" data-vb-panel="s80" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 03</span><b class="vb-season-status is-pending">A DEFINIR</b></div><p class="vb-season-kicker">HISTÓRICO DE LANÇAMENTOS</p><h3>GRADE <span>S-80</span></h3>
+     <p class="vb-season-description">Próxima referência da progressão de equipamentos. A data será publicada quando a equipe do Virtual Boost confirmar o cronograma.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Detalhes a anunciar</b></div><div><small>STATUS</small><b>Data não confirmada</b></div></div>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-s84" role="tabpanel" aria-labelledby="vb-tab-s84" data-vb-panel="s84" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 04</span><b class="vb-season-status is-pending">A DEFINIR</b></div><p class="vb-season-kicker">HISTÓRICO DE LANÇAMENTOS</p><h3>GRADE <span>S-84</span></h3>
+     <p class="vb-season-description">Marco avançado da progressão de itens. A data e os detalhes do lançamento serão adicionados após confirmação oficial.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Detalhes a anunciar</b></div><div><small>STATUS</small><b>Data não confirmada</b></div></div>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-r" role="tabpanel" aria-labelledby="vb-tab-r" data-vb-panel="r" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 05</span><b class="vb-season-status is-pending">EM PLANEJAMENTO</b></div><p class="vb-season-kicker">PRÓXIMAS ETAPAS</p><h3>GRADE <span>R</span></h3>
+     <p class="vb-season-description">Etapa futura da progressão. As informações serão divulgadas conforme o planejamento oficial do Virtual Boost.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Em breve</b></div><div><small>STATUS</small><b>Aguardando anúncio</b></div></div>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-r95" role="tabpanel" aria-labelledby="vb-tab-r95" data-vb-panel="r95" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 06</span><b class="vb-season-status is-pending">EM PLANEJAMENTO</b></div><p class="vb-season-kicker">PRÓXIMAS ETAPAS</p><h3>GRADE <span>R95</span></h3>
+     <p class="vb-season-description">Etapa futura da progressão. A data e os detalhes serão publicados quando forem oficialmente definidos.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Em breve</b></div><div><small>STATUS</small><b>Aguardando anúncio</b></div></div>
+    </article>
+    <article class="vb-season-panel" id="vb-panel-r99" role="tabpanel" aria-labelledby="vb-tab-r99" data-vb-panel="r99" hidden>
+     <div class="vb-season-panel-top"><span>ETAPA 07</span><b class="vb-season-status is-pending">EM PLANEJAMENTO</b></div><p class="vb-season-kicker">PRÓXIMAS ETAPAS</p><h3>GRADE <span>R99</span></h3>
+     <p class="vb-season-description">Etapa futura da progressão. As informações de conteúdo e lançamento serão adicionadas após anúncio oficial.</p>
+     <div class="vb-season-info-grid"><div><small>LANÇAMENTO</small><b>A definir</b></div><div><small>CONTEÚDO</small><b>Em breve</b></div><div><small>STATUS</small><b>Aguardando anúncio</b></div></div>
+    </article>
+   </div>
   </div>
+  <p class="vb-season-footnote">As datas das etapas ainda não estão confirmadas para o Virtual Boost. Esta seção será atualizada com os anúncios oficiais.</p>
  </div>
 </section>
-
 <section id="wiki" class="theend-wiki">
  <div class="theend-wrap">
   <div class="theend-heading"><small>CONHECIMENTO DO REINO</small><h2>WIKI EM <span>DESTAQUE</span></h2><p>Rates, economia, sistemas, mapas e tudo que impacta diretamente sua jornada.</p></div>
@@ -3951,6 +3985,85 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 @media(prefers-reduced-motion:reduce){.theend-feature-list article img,.theend-wiki-grid article>img,.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article{transition:none!important}}
 </style>
 
+<style id="vb-season-interactive-history">
+#progressao .vb-season-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 30px;max-width:1000px}
+#progressao .vb-season-tab{display:flex;align-items:center;gap:9px;min-height:54px;padding:10px 15px;border:1px solid rgba(56,189,248,.24);border-radius:10px;background:linear-gradient(145deg,rgba(8,20,35,.92),rgba(3,8,16,.96));color:#9fb6c9;cursor:pointer;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s}
+#progressao .vb-season-tab span{font:700 .56rem 'Cinzel',serif;letter-spacing:1.5px;color:#6e8ba3}
+#progressao .vb-season-tab b{font:800 .88rem 'Cinzel',serif;color:#d8f2ff}
+#progressao .vb-season-tab:hover{transform:translateY(-2px);border-color:rgba(56,189,248,.6)}
+#progressao .vb-season-tab.is-active{border-color:rgba(56,189,248,.8);background:linear-gradient(145deg,rgba(14,116,144,.35),rgba(3,12,25,.98));box-shadow:0 0 25px rgba(14,165,233,.12),inset 0 1px rgba(186,230,253,.1)}
+#progressao .vb-season-tab.is-active b{color:#7dd3fc}
+#progressao .vb-season-explorer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,42px);align-items:stretch}
+#progressao .vb-season-visual{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:20px 12px;border:1px solid rgba(56,189,248,.22);border-radius:15px;background:linear-gradient(145deg,rgba(5,16,29,.68),rgba(2,7,15,.8));}
+#progressao .vb-season-orbit{width:min(430px,100%)}
+#progressao .vb-season-core span{font-size:clamp(1.05rem,2vw,1.6rem);text-align:center}
+#progressao .vb-season-visual-caption{text-align:center;margin:16px 0 0;color:#8ba7bd;font-size:.8rem;line-height:1.5}
+#progressao .vb-season-details{min-width:0;display:flex}
+#progressao .vb-season-panel{width:100%;padding:clamp(22px,3vw,34px);border:1px solid rgba(56,189,248,.24);border-radius:15px;background:linear-gradient(145deg,rgba(13,27,43,.88),rgba(3,9,18,.96));box-shadow:0 18px 48px rgba(0,0,0,.28);animation:vbSeasonPanelIn .35s ease both}
+#progressao .vb-season-panel[hidden]{display:none}
+#progressao .vb-season-panel-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:20px;border-bottom:1px solid rgba(148,163,184,.15)}
+#progressao .vb-season-panel-top>span,#progressao .vb-season-kicker{font:700 .65rem 'Cinzel',serif;letter-spacing:1.8px;color:#8ca5ba}
+#progressao .vb-season-status{font:700 .58rem 'Cinzel',serif;letter-spacing:1.1px;color:#86efac;padding:8px 10px;border:1px solid rgba(74,222,128,.32);border-radius:5px;background:rgba(22,101,52,.13)}
+#progressao .vb-season-status.is-pending{color:#93c5fd;border-color:rgba(96,165,250,.32);background:rgba(30,64,175,.13)}
+#progressao .vb-season-kicker{margin:22px 0 10px;color:#38bdf8}
+#progressao .vb-season-panel h3{margin:0 0 18px;color:#e2e8f0;font:700 clamp(1.8rem,3vw,2.7rem)/1.15 'Cinzel',serif}
+#progressao .vb-season-panel h3 span{color:#7dd3fc}
+#progressao .vb-season-description{color:#b2c2d0;font-size:.94rem;line-height:1.8;margin:0 0 25px}
+#progressao .vb-season-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#progressao .vb-season-info-grid>div{display:flex;flex-direction:column;gap:8px;min-width:0;padding:14px;border:1px solid rgba(56,189,248,.16);background:rgba(2,8,16,.48);border-radius:8px}
+#progressao .vb-season-info-grid>div:last-child:nth-child(odd){grid-column:1/-1}
+#progressao .vb-season-info-grid small{font:700 .55rem 'Cinzel',serif;letter-spacing:1.4px;color:#68869e}
+#progressao .vb-season-info-grid b{font-size:.82rem;line-height:1.5;color:#d5e5f1;overflow-wrap:anywhere}
+#progressao .vb-season-note,#progressao .vb-season-footnote{color:#708ba0;font-size:.78rem;line-height:1.7}
+#progressao .vb-season-note{margin:22px 0 0;padding-top:16px;border-top:1px solid rgba(148,163,184,.12)}
+#progressao .vb-season-footnote{margin:22px auto 0;text-align:center;max-width:780px}
+@keyframes vbSeasonPanelIn{from{opacity:.35;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:850px){#progressao .vb-season-explorer{grid-template-columns:minmax(0,1fr)}#progressao .vb-season-visual{padding:16px 10px}#progressao .vb-season-orbit{width:min(390px,86vw)}#progressao .vb-season-details{width:100%}}
+@media(max-width:480px){#progressao .vb-season-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#progressao .vb-season-tab{justify-content:center;padding:9px 8px}#progressao .vb-season-info-grid{grid-template-columns:minmax(0,1fr)}#progressao .vb-season-info-grid>div:last-child:nth-child(odd){grid-column:auto}#progressao .vb-season-panel{padding:20px}}
+@media(prefers-reduced-motion:reduce){#progressao .vb-season-panel{animation:none}}
+</style>
+<script id="vb-season-interactive-runtime">
+(function(){
+ const root=document.getElementById('progressao');
+ if(!root||root.dataset.vbSeasonReady)return;
+ root.dataset.vbSeasonReady='true';
+ const tabs=[...root.querySelectorAll('[data-vb-season]')];
+ const panels=[...root.querySelectorAll('[data-vb-panel]')];
+ const coreTitle=root.querySelector('#vb-season-core-title');
+ const coreSubtitle=root.querySelector('#vb-season-core-subtitle');
+ const caption=root.querySelector('#vb-season-visual-caption');
+ const content={
+  season1:{title:'SEASON',subtitle:'SEASON 01',caption:'Season 01 · itens e identidade do Virtual Boost'},
+  s:{title:'GRADE S',subtitle:'ETAPA 02',caption:'Grade S · data de lançamento a definir'},
+  s80:{title:'S-80',subtitle:'ETAPA 03',caption:'Grade S-80 · data de lançamento a definir'},
+  s84:{title:'S-84',subtitle:'ETAPA 04',caption:'Grade S-84 · data de lançamento a definir'},
+  r:{title:'GRADE R',subtitle:'ETAPA 05',caption:'Grade R · lançamento futuro a definir'},
+  r95:{title:'R95',subtitle:'ETAPA 06',caption:'Grade R95 · lançamento futuro a definir'},
+  r99:{title:'R99',subtitle:'ETAPA 07',caption:'Grade R99 · lançamento futuro a definir'}
+ };
+ function activate(key,focus){
+  tabs.forEach(tab=>{const active=tab.dataset.vbSeason===key;tab.classList.toggle('is-active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;if(active&&focus)tab.focus()});
+  panels.forEach(panel=>{const active=panel.dataset.vbPanel===key;panel.classList.toggle('is-active',active);panel.hidden=!active});
+  const item=content[key]||content.season1;
+  if(coreTitle)coreTitle.textContent=item.title;
+  if(coreSubtitle)coreSubtitle.textContent=item.subtitle;
+  if(caption)caption.textContent=item.caption;
+ }
+ tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>activate(tab.dataset.vbSeason,false));
+  tab.addEventListener('keydown',e=>{
+   let next=index;
+   if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(index+1)%tabs.length;
+   else if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(index-1+tabs.length)%tabs.length;
+   else if(e.key==='Home')next=0;
+   else if(e.key==='End')next=tabs.length-1;
+   else return;
+   e.preventDefault();activate(tabs[next].dataset.vbSeason,true);
+  });
+ });
+ activate('season1',false);
+})();
+</script>
 </body>
 <script>
 (function(){
