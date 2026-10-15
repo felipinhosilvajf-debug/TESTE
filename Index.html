@@ -2653,6 +2653,28 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 @media(max-width:700px){.season-items-rotor .season-item{width:48px!important;height:48px!important}}
 
 
+
+/* VIRTUAL BOOST — HISTÓRICO DE LANÇAMENTOS SEASON */
+.vb-release-history{position:relative;max-width:980px;margin:38px auto 0;padding:clamp(18px,3vw,34px);border:1px solid rgba(96,165,250,.25);border-radius:18px;background:linear-gradient(145deg,rgba(7,18,38,.96),rgba(3,8,20,.97));box-shadow:0 24px 70px rgba(0,0,0,.28),inset 0 1px rgba(191,219,254,.04)}
+.vb-release-intro{display:flex;align-items:center;gap:13px;padding:0 0 22px;border-bottom:1px solid rgba(148,163,184,.16)}
+.vb-release-pulse{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:#60a5fa;box-shadow:0 0 18px rgba(96,165,250,.8)}
+.vb-release-intro div{display:flex;flex-direction:column;gap:5px}
+.vb-release-intro b{font:700 .7rem 'Cinzel',serif;letter-spacing:2px;color:#bfdbfe}
+.vb-release-intro small{font-size:.8rem;line-height:1.5;color:#94a3b8}
+.vb-release-list{list-style:none;padding:0;margin:0}
+.vb-release-entry{position:relative;display:grid;grid-template-columns:42px minmax(0,1fr) minmax(110px,150px);align-items:center;gap:18px;padding:23px 0;border-bottom:1px solid rgba(148,163,184,.13)}
+.vb-release-entry:last-child{border-bottom:0;padding-bottom:5px}
+.vb-release-index{display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(96,165,250,.38);border-radius:11px;background:rgba(37,99,235,.1);color:#93c5fd;font:700 .78rem 'Cinzel',serif}
+.vb-release-info{min-width:0}
+.vb-release-label{font:700 .58rem 'Cinzel',serif;letter-spacing:1.8px;color:#60a5fa}
+.vb-release-info h3{margin:5px 0 5px;color:#e2e8f0;font:700 clamp(1rem,2vw,1.25rem) 'Cinzel',serif}
+.vb-release-info p{margin:0;color:#94a3b8;font-size:.88rem;line-height:1.6}
+.vb-release-date{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.vb-release-date small{font:700 .55rem 'Cinzel',serif;letter-spacing:1.5px;color:#64748b}
+.vb-release-date b{display:inline-block;padding:8px 12px;border:1px solid rgba(96,165,250,.3);border-radius:8px;background:rgba(30,64,175,.12);color:#bfdbfe;font-size:.8rem;white-space:nowrap}
+.vb-release-footnote{margin:23px 0 0;padding-top:17px;border-top:1px solid rgba(148,163,184,.13);color:#64748b;font-size:.78rem;line-height:1.6}
+@media(max-width:600px){.vb-release-history{padding:17px;margin-top:24px}.vb-release-entry{grid-template-columns:34px minmax(0,1fr);gap:12px;padding:19px 0}.vb-release-index{width:32px;height:32px;font-size:.68rem}.vb-release-date{grid-column:2;align-items:flex-start;flex-direction:row;flex-wrap:wrap;align-items:center;gap:9px}.vb-release-date small{font-size:.5rem}.vb-release-date b{padding:6px 10px}.vb-release-info p{font-size:.82rem}}
+
 </style></style></style><style>
 .theend-logo-text{color:#f3dfaa;text-decoration:none;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:900;letter-spacing:3px}
 .season-showcase{background:radial-gradient(circle at center,rgba(216,181,106,.08),transparent 55%)}
@@ -2866,38 +2888,48 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 <section id="progressao" class="theend-progress vb-season-progress">
  <div class="theend-wrap">
   <div class="theend-heading">
-   <small>VIRTUAL BOOST · TEMPORADA ATUAL</small>
-   <h2>UMA NOVA MARCA <span>PARA OS HERÓIS</span></h2>
-   <p>Uma temporada construída em torno de uma economia viva: <strong>Adena</strong>, VBSilver e VBGold movimentam o reino, enquanto as linhas <strong>VBMage</strong> e <strong>VBFight</strong> representam novos caminhos de progressão e identidade.</p>
+   <small>VIRTUAL BOOST · HISTÓRICO DE LANÇAMENTOS</small>
+   <h2>JORNADA DA <span>SEASON</span></h2>
+   <p>Acompanhe as etapas de evolução do Virtual Boost e consulte o registro de lançamento de cada grade. As datas serão publicadas após confirmação oficial.</p>
   </div>
-  <div class="vb-season-stage">
-   <div class="vb-season-orbit">
-    <div class="vb-season-ring vb-season-ring-a"></div>
-    <div class="vb-season-ring vb-season-ring-b"></div>
-    <div class="vb-season-rotor" aria-label="Itens da temporada em rotação contínua">
-      <div class="vb-season-item vb-s1"><img src="asset/season/logo.png" alt="Season 01"></div>
-      <div class="vb-season-item vb-s2"><img src="asset/season/VBMage3.png" alt="Tattoo Mage nível 3"></div>
-      <div class="vb-season-item vb-s3"><img src="asset/season/VBMage2.png" alt="Tattoo Mage nível 2"></div>
-      <div class="vb-season-item vb-s4"><img src="asset/season/VBMage1.png" alt="Tattoo Mage nível 1"></div>
-      <div class="vb-season-item vb-s5"><img src="asset/season/VBSilver.png" alt="VBSilver"></div>
-      <div class="vb-season-item vb-s6"><img src="asset/season/VBFight1.png" alt="Tattoo Fight nível 1"></div>
-      <div class="vb-season-item vb-s7"><img src="asset/season/VBFight2.png" alt="Tattoo Fight nível 2"></div>
-      <div class="vb-season-item vb-s8"><img src="asset/season/VBFight3.png" alt="Tattoo Fight nível 3"></div>
-      <div class="vb-season-item vb-s9"><img src="asset/season/VBGold.png" alt="VBGold"></div>
-    </div>
-    <div class="vb-season-core"><span>VB</span><small>SEASON 01</small></div>
-</div>
-   <div class="vb-season-copy">
-    <div class="season-kicker">VIRTUAL BOOST · TEMPORADA ATUAL</div>
-    <h3>AS NOVAS MARCAS DOS <span>VERDADEIROS HERÓIS</span></h3>
-    <p>As tattoos são as novas marcas dos verdadeiros heróis do Virtual Boost. Evolua sua identidade, conquiste recompensas e deixe seu nome registrado no reino.</p>
-    <div class="vb-season-cards">
-      <article><img src="asset/season/VBSilver.png" alt=""><div><b>VBSilver</b><small>Moeda definitiva de atividade.</small></div></article>
-      <article><img src="asset/season/VBGold.png" alt=""><div><b>VBGold</b><small>Prestígio e recompensas raras.</small></div></article>
-      <article><img src="asset/season/VBMage3.png" alt=""><div><b>VBMage</b><small>Progressão das marcas arcanas.</small></div></article>
-      <article><img src="asset/season/VBFight3.png" alt=""><div><b>VBFight</b><small>Progressão das marcas de combate.</small></div></article>
-    </div>
+  <div class="vb-release-history" aria-label="Histórico de lançamentos da progressão de itens">
+   <div class="vb-release-intro">
+    <span class="vb-release-pulse" aria-hidden="true"></span>
+    <div><b>LINHA DO TEMPO OFICIAL</b><small>Datas sujeitas a confirmação da equipe Virtual Boost</small></div>
    </div>
+   <ol class="vb-release-list">
+    <li class="vb-release-entry">
+     <span class="vb-release-index">01</span>
+     <div class="vb-release-info"><span class="vb-release-label">PRIMEIRA ETAPA</span><h3>Grade S</h3><p>Registro de lançamento da etapa inicial da progressão de itens.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+    <li class="vb-release-entry">
+     <span class="vb-release-index">02</span>
+     <div class="vb-release-info"><span class="vb-release-label">PROGRESSÃO</span><h3>Grade S-80</h3><p>Etapa de progressão de equipamentos; data oficial aguardando confirmação.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+    <li class="vb-release-entry">
+     <span class="vb-release-index">03</span>
+     <div class="vb-release-info"><span class="vb-release-label">PROGRESSÃO</span><h3>Grade S-84</h3><p>Próximo marco da progressão; data oficial aguardando confirmação.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+    <li class="vb-release-entry">
+     <span class="vb-release-index">04</span>
+     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+    <li class="vb-release-entry">
+     <span class="vb-release-index">05</span>
+     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R95</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+    <li class="vb-release-entry">
+     <span class="vb-release-index">06</span>
+     <div class="vb-release-info"><span class="vb-release-label">ETAPA AVANÇADA</span><h3>Grade R99</h3><p>Detalhes e data serão adicionados quando o lançamento for confirmado.</p></div>
+     <span class="vb-release-date"><small>LANÇAMENTO</small><b>A definir</b></span>
+    </li>
+   </ol>
+   <p class="vb-release-footnote">As datas não estão confirmadas. Esta página será atualizada conforme os anúncios oficiais do Virtual Boost.</p>
   </div>
  </div>
 </section>
