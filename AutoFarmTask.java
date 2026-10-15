@@ -31,6 +31,9 @@ public class AutoFarmTask implements Runnable
 	private static final double TARGET_ADVANCE_DISTANCE = 1200.0;
 
 	private int _lastTargetObjectId = 0;
+	private long _lastThreatScan = 0L;
+	private MonsterInstance _cachedThreat = null;
+	private static final long THREAT_SCAN_INTERVAL = 200L;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -193,20 +196,38 @@ public class AutoFarmTask implements Runnable
 		}
 		checkAttackWatchdog();
 
+		MonsterInstance threat = findThreateningMonster();
+		if (threat != null && !_player.isDead())
+		{
+			GameObject currentTarget = _player.getTarget();
+			if (currentTarget != threat)
+			{
+				if (_player.isAttackingNow())
+					_player.abortAttack(false, false);
+				_lootTarget = null;
+				_lastMoveCommand = 0L;
+				_targetProgressSince = 0L;
+				_lastTargetDistance = -1.0;
+				_player.setTarget(threat);
+			}
+		}
+
 		if (_player.isCastingNow())
 			return;
 
-		if (tryUsePotion())
+		if (threat == null && tryUsePotion())
 			return;
 
-		ItemInstance loot = findNearestLoot();
+		ItemInstance loot = threat == null ? findNearestLoot() : null;
 		if (loot != null)
 		{
 			if (handleLoot(loot))
 				return;
 		}
 
-		MonsterInstance target = getCurrentValidTarget();
+		MonsterInstance target = threat;
+		if (target == null)
+			target = getCurrentValidTarget();
 
 		if (target == null)
 			target = findNextMonster();
@@ -690,6 +711,41 @@ public class AutoFarmTask implements Runnable
 		_player.doPickupItem(item);
 		_lootTarget = null;
 		return true;
+	}
+
+	/**
+	 * Prioriza monstros cujo alvo atual seja este jogador.
+	 * O cache evita varrer todos os NPCs em cada tick de 100 ms.
+	 */
+	private MonsterInstance findThreateningMonster()
+	{
+		long now = System.currentTimeMillis();
+		if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
+		{
+			if (_cachedThreat != null && !_cachedThreat.isDead() && _cachedThreat.isVisible()
+				&& _cachedThreat.getTarget() == _player)
+				return _cachedThreat;
+			return null;
+		}
+
+		_lastThreatScan = now;
+		MonsterInstance nearest = null;
+		double nearestDistance = Double.MAX_VALUE;
+		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
+		{
+			if (!(npc instanceof MonsterInstance))
+				continue;
+			MonsterInstance monster = (MonsterInstance) npc;
+			if (monster.isDead() || !monster.isVisible() || monster.getTarget() != _player)
+				continue;
+			double distance = _player.getDistance(monster);
+			if (distance > _searchRadius || distance >= nearestDistance)
+				continue;
+			nearestDistance = distance;
+			nearest = monster;
+		}
+		_cachedThreat = nearest;
+		return nearest;
 	}
 
 	private MonsterInstance findNextMonster()
