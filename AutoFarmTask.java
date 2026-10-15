@@ -196,20 +196,38 @@ public class AutoFarmTask implements Runnable
 		}
 		checkAttackWatchdog();
 
+		MonsterInstance threat = findThreateningMonster();
+		if (threat != null && !_player.isDead())
+		{
+			GameObject currentTarget = _player.getTarget();
+			if (currentTarget != threat)
+			{
+				if (_player.isAttackingNow())
+					_player.abortAttack(false, false);
+				_lootTarget = null;
+				_lastMoveCommand = 0L;
+				_targetProgressSince = 0L;
+				_lastTargetDistance = -1.0;
+				_player.setTarget(threat);
+			}
+		}
+
 		if (_player.isCastingNow())
 			return;
 
-		if (tryUsePotion())
+		if (threat == null && tryUsePotion())
 			return;
 
-		ItemInstance loot = findNearestLoot();
+		ItemInstance loot = threat == null ? findNearestLoot() : null;
 		if (loot != null)
 		{
 			if (handleLoot(loot))
 				return;
 		}
 
-		MonsterInstance target = getCurrentValidTarget();
+		MonsterInstance target = threat;
+		if (target == null)
+			target = getCurrentValidTarget();
 
 		if (target == null)
 			target = findNextMonster();
