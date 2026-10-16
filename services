@@ -1,0 +1,180 @@
+<html noscrollbar>
+<title>Informações do Servidor - L2 Virtual Boost</title>
+<body>
+<br>
+<table border=0 cellpadding=0 cellspacing=0 width=769 height=510 background="" align=center>
+	<tr>
+		<td valign="top" align="center">
+
+			<!-- CABEÇALHO -->
+			<table border=0 cellspacing=0 cellpadding=0 width=740>
+				<tr>
+					<td height=45 align=center valign=middle>
+						<font name=hs12 color=FF9900><b>✦ GUIA DO VIRTUAL BOOST ✦</b></font><br>
+						<font color=808080 size=1>Lineage 2 High Five — Low Rate • Play to Win</font>
+					</td>
+				</tr>
+			</table>
+
+			<br>
+
+			<!-- PAINEL CENTRAL -->
+			<table border=0 width=730 height=420 cellspacing=0 cellpadding=0>
+				<tr>
+
+					<!-- COLUNA ESQUERDA -->
+					<td width=355 valign="top" align="center">
+
+						<table border=0 cellpadding=0 cellspacing=0 width=345 height=25 background="l2ui_ct1.Windows_DF_Drawer_Bg">
+							<tr>
+								<td align=center>
+									<font color=LEVEL name=__SYSTEMWORLDFONT><b>🚀 Sua Jornada Começa Aqui</b></font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD 1 -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF6633><b>• Low Rate & Progressão</b></font><br>
+									<font color=FFFFFF size=1>
+										O Virtual Boost foi criado para quem valoriza uma evolução de verdade.
+										Cada nível, equipamento e conquista faz parte da sua jornada.
+										Não existe pressa para pular o conteúdo: aqui, o progresso importa.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD 2 -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF6633><b>• NPCs para Facilitar sua Jornada</b></font><br>
+									<font color=FFFFFF size=1>
+										NPCs de suporte, incluindo Buffer e serviços essenciais, ajudam o jogador
+										a se preparar e continuar sua evolução sem transformar o servidor em um
+										atalho para o endgame.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD 3 -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF6633><b>• Shop Geral</b></font><br>
+									<font color=FFFFFF size=1>
+										Um Shop Geral concentra recursos e utilidades importantes para sua jornada,
+										permitindo que o jogador encontre o que precisa sem depender de sistemas
+										complicados ou vantagens exclusivas.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD 4 -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF6633><b>• Recompensas Durante o Progresso</b></font><br>
+									<font color=FFFFFF size=1>
+										A evolução do personagem é acompanhada por recompensas e premiações.
+										Quanto mais você avança e participa do mundo, mais oportunidades de
+										conquistar benefícios aparecem durante sua jornada.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+					</td>
+
+
+					<!-- DIVISOR -->
+					<td width=20 align=center valign=middle>
+						<img src="L2UI.SquareGray" width=2 height=400>
+					</td>
+
+
+					<!-- COLUNA DIREITA -->
+					<td width=355 valign="top" align="center">
+
+						<table border=0 cellpadding=0 cellspacing=0 width=345 height=25 background="l2ui_ct1.Windows_DF_Drawer_Bg">
+							<tr>
+								<td align=center>
+									<font color=LEVEL name=__SYSTEMWORLDFONT><b>💰 Economia & Sistemas</b></font>
+								</td>
+							</tr>
+						</table>
+
+						<br>
+
+						<!-- CARD ECONOMIA -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF9900><b>• Economia em Tempo Real</b></font><br>
+									<font color=FFFFFF size=1>
+										A economia do Virtual Boost pode ser acompanhada em tempo real.
+										As movimentações de Adena mostram o dinheiro entrando e saindo
+										do servidor, trazendo transparência para a economia do jogo.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD VB -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF9900><b>• VB Points → VBSilver</b></font><br>
+									<font color=FFFFFF size=1>
+										Os VB Points podem ser convertidos em VBSilver.
+										O sistema cria uma moeda adicional dentro do ecossistema do servidor,
+										permitindo que o jogador utilize seus pontos de forma prática durante sua jornada.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD PLAY TO WIN -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF9900><b>• Play to Win</b></font><br>
+									<font color=FFFFFF size=1>
+										O foco é jogar para conquistar.
+										A progressão, os equipamentos, a economia e as recompensas fazem parte
+										da experiência de quem participa ativamente do servidor.
+										Doações existem para ajudar na manutenção do projeto, não para substituir a jornada do jogador.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+						<!-- CARD ENDGAME -->
+						<table border=0 cellpadding=6 cellspacing=2 width=345 background="l2ui_ct1.ComboBox_DF_Dropmenu_Bg">
+							<tr>
+								<td align=left>
+									<font color=FF9900><b>• Um Mundo para Continuar Evoluindo</b></font><br>
+									<font color=FFFFFF size=1>
+										Chegar ao endgame não significa que sua jornada terminou.
+										O mundo continua oferecendo objetivos, disputas, equipamentos,
+										recompensas e novas conquistas para quem permanece ativo.
+									</font>
+								</td>
+							</tr>
+						</table>
+
+					</td>
+
+				</tr>
+			</table>
+
+		</td>
+	</tr>
+</table>
+</body>
+</html>
