@@ -696,6 +696,49 @@ body::after{
 }
 
 
+.nav-left{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+
+}
+
+
+.buy-donate{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:11px 16px;
+    text-decoration:none;
+    color:#07111d;
+    background:linear-gradient(135deg,#f0d895,#d7b76b);
+    border:1px solid rgba(240,216,149,.75);
+    border-radius:6px;
+    font-family:'Orbitron',sans-serif;
+    font-size:.65rem;
+    font-weight:900;
+    letter-spacing:.5px;
+    white-space:nowrap;
+    box-shadow:0 0 18px rgba(215,183,107,.13);
+    transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+
+}
+
+
+.buy-donate:hover{
+
+    color:#020711;
+    filter:brightness(1.08);
+    transform:translateY(-1px);
+    box-shadow:0 0 24px rgba(215,183,107,.25);
+
+}
+
+
 .account{
 
     display:flex;
@@ -1581,6 +1624,22 @@ body::after{
     .dash-nav{
 
         flex-direction:column;
+        align-items:stretch;
+
+    }
+
+    .nav-left{
+
+        width:100%;
+        flex-direction:column;
+        align-items:stretch;
+
+    }
+
+    .buy-donate{
+
+        width:100%;
+        text-align:center;
 
     }
 
@@ -1622,28 +1681,40 @@ body::after{
 
     <div class="dash-nav">
 
-        <div class="account">
+        <div class="nav-left">
 
-            <div class="account-icon">
-                👤
-            </div>
+            <div class="account">
 
-            <div>
-
-                <div class="account-label">
-                    CONTA DO REINO
+                <div class="account-icon">
+                    👤
                 </div>
 
-                <div class="account-name">
+                <div>
 
-                    <?= htmlspecialchars($loginUsuario) ?>
+                    <div class="account-label">
+                        CONTA DO REINO
+                    </div>
+
+                    <div class="account-name">
+
+                        <?= htmlspecialchars($loginUsuario) ?>
+
+                    </div>
 
                 </div>
 
             </div>
+
+            <a
+                href="comprar-donate.php"
+                class="buy-donate"
+                aria-label="Comprar Donate Coins"
+            >
+                <span aria-hidden="true">🪙</span>
+                COMPRAR DONATE
+            </a>
 
         </div>
-
 
         <a
             href="../index.html"
@@ -2404,21 +2475,6 @@ body::after{
                                 ',',
                                 '.'
                             ) ?>
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <span class="stat-label">
-                            Object ID
-                        </span>
-
-                        <span class="stat-value">
-
-                            <?= (int)$char['obj_Id'] ?>
 
                         </span>
 
