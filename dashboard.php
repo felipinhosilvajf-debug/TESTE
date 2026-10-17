@@ -544,7 +544,24 @@ try {
       <article class="stat-card"><span class="stat-icon">◈</span><div class="stat-label">Nível</div><div class="stat-value"><?= number_format((float)$c['level'], 0, ',', '.') ?></div><div class="stat-foot">Classe principal</div></article>
       <article class="stat-card"><span class="stat-icon">✧</span><div class="stat-label">Adena</div><div class="stat-value"><?= $c['adena'] === null ? '—' : number_format((float)$c['adena'], 0, ',', '.') ?></div><div class="stat-foot">Moeda do reino</div></article>
       <article class="stat-card"><span class="stat-icon">⚔</span><div class="stat-label">Pontos PvP</div><div class="stat-value"><?= number_format((float)$c['pvpkills'], 0, ',', '.') ?></div><div class="stat-foot">Vitórias em combate</div></article>
-      <article class="stat-card"><span class="stat-icon">♜</span><div class="stat-label">Pontos de habilidade</div><div class="stat-value"><?= number_format((float)$c['sp'], 0, ',', '.') ?></div><div class="stat-foot">Skill points</div></article>
+      <article class="stat-card">
+    <span class="stat-icon">💰</span>
+    <div class="stat-label">Donate Coins</div>
+    <div class="stat-value">
+        <?php
+        $stmtDonate = $pdo->prepare("
+            SELECT COALESCE(SUM(count), 0)
+            FROM items
+            WHERE owner_id = ?
+              AND item_id = 37000
+              AND loc = 'INVENTORY'
+        ");
+        $stmtDonate->execute([$c['obj_Id']]);
+        echo number_format((int)$stmtDonate->fetchColumn(), 0, ',', '.');
+        ?>
+    </div>
+    <div class="stat-foot">Moedas Donate no inventário</div>
+</article>
     </div>
     <div class="section-heading"><h3>Estado de combate</h3><span>HP · CP · MP</span></div>
     <div class="details-grid">
@@ -556,6 +573,7 @@ try {
       <article class="panel" id="detalhes"><h4>✦ Crônicas do campeão</h4><div class="info-list">
         <div class="info-item"><span>Clã</span><strong><?= htmlspecialchars((string)($c['clan'] ?: 'Sem clã'), ENT_QUOTES, 'UTF-8') ?></strong></div>
         <div class="info-item"><span>Estado</span><strong><?= !empty($c['online']) ? 'Online' : 'Offline' ?></strong></div>
+		<div class="info-item"><span>PvP</span><strong><?= number_format((int)($c['pvpkills'] ?? 0), 0, ',', '.') ?></strong></div>
         <div class="info-item"><span>PK</span><strong><?= number_format((float)$c['pkkills'], 0, ',', '.') ?></strong></div>
         <div class="info-item"><span>Fama</span><strong><?= number_format((float)$c['fame'], 0, ',', '.') ?></strong></div>
         <div class="info-item"><span>Karma</span><strong><?= number_format((float)$c['karma'], 0, ',', '.') ?></strong></div>
@@ -563,7 +581,6 @@ try {
         <div class="info-item"><span>Recomendações</span><strong><?= number_format((float)$c['rec_have'], 0, ',', '.') ?> / <?= number_format((float)$c['rec_left'], 0, ',', '.') ?></strong></div>
         <div class="info-item"><span>Vitalidade</span><strong><?= number_format((float)$c['vitality'], 0, ',', '.') ?></strong></div>
         <div class="info-item"><span>Tempo online</span><strong><?= number_format((float)$playHours, 0, ',', '.') ?> h</strong></div>
-        <div class="info-item"><span>ID do personagem</span><strong><?= number_format((float)$c['obj_Id'], 0, ',', '.') ?></strong></div>
       </div></article>
     </div>
     <div class="section-heading" id="subclasses"><h3>Árvore de subclasses</h3><span><?= count($c['subclasses'] ?? []) ?> registradas</span></div>
