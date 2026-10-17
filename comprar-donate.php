@@ -237,7 +237,7 @@ if (isset($_GET['webhook'])) {
         }
 
         $payload = json_decode((string)file_get_contents('php://input'), true) ?: [];
-        $paymentId = (string)($_GET['data.id'] ?? $payload['data']['id'] ?? '');
+        $paymentId = (string)($_GET['data_id'] ?? $_GET['data.id'] ?? $payload['data']['id'] ?? '');
         $xSignature = (string)($_SERVER['HTTP_X_SIGNATURE'] ?? '');
         $requestId = (string)($_SERVER['HTTP_X_REQUEST_ID'] ?? '');
 
