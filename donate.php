@@ -150,6 +150,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
     }
 }
 
+/* Recusa pedido pendente sem entregar moedas. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'REJECT_ORDER') {
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        $orderId = filter_var($_POST['order_id'] ?? null, FILTER_VALIDATE_INT);
+        if ($orderId === false || $orderId < 1) {
+            $error = 'Pedido inválido.';
+        } else {
+            try {
+                $stmt = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'rejected' WHERE id = ? AND status = 'pending'");
+                $stmt->execute([(int)$orderId]);
+                if ($stmt->rowCount() !== 1) {
+                    throw new RuntimeException('O pedido não está pendente ou já foi processado.');
+                }
+                audit('DONATE_ORDER_REJECTED', 'Pedido web #' . (int)$orderId . ' recusado pela staff. Nenhuma moeda foi entregue.');
+                $success = 'Pedido #' . (int)$orderId . ' recusado. Nenhuma Donate Coin foi entregue.';
+            } catch (Throwable $e) {
+                $error = $e->getMessage();
+            }
+        }
+    }
+}
+
+/* Limpa apenas o histórico específico de Donate; a auditoria geral do painel é preservada. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'CLEAR_DONATE_HISTORY') {
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        try {
+            $deleted = $pdo->exec('DELETE FROM admin_donate_log');
+            audit('DONATE_HISTORY_CLEARED', 'Histórico específico de Donate limpo pela administração. Registros removidos: ' . (int)$deleted);
+            $success = 'Histórico de Donate limpo. A auditoria geral do painel foi preservada.';
+        } catch (Throwable $e) {
+            $error = 'Não foi possível limpar o histórico de Donate.';
+            error_log('[Mythras Donate] Falha ao limpar histórico: ' . $e->getMessage());
+        }
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) !== 'APPROVE_ORDER') {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
@@ -1821,12 +1861,20 @@ td {
                                 <td style="padding:10px;">R$ <?= number_format((float)$order['amount'], 2, ',', '.') ?></td>
                                 <td style="padding:10px;"><?= htmlspecialchars((string)$order['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td style="padding:10px;">
-                                    <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
-                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
-                                        <input type="hidden" name="action" value="APPROVE_ORDER">
-                                        <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
-                                        <button type="submit" class="submit">Confirmar pagamento e entregar</button>
-                                    </form>
+                                    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                                        <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                            <input type="hidden" name="action" value="APPROVE_ORDER">
+                                            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                            <button type="submit" class="submit">Confirmar e entregar</button>
+                                        </form>
+                                        <form method="post" onsubmit="return confirm('Recusar o pedido #<?= (int)$order['id'] ?>? Nenhuma moeda será entregue.');">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                            <input type="hidden" name="action" value="REJECT_ORDER">
+                                            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                            <button type="submit" style="border:1px solid #9b3d4b;border-radius:8px;background:#451d25;color:#ffd5da;font-weight:700;padding:11px 13px;cursor:pointer;">Recusar</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -2353,6 +2401,11 @@ td {
             <div class="panel-subtitle">
                 Entregas e retiradas realizadas pela administração.
             </div>
+            <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar todo o histórico específico de Donate? Esta ação não pode ser desfeita. A auditoria geral será preservada.');" style="margin-top:12px;">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="action" value="CLEAR_DONATE_HISTORY">
+                <button type="submit" style="border:1px solid #9b3d4b;border-radius:8px;background:#451d25;color:#ffd5da;font-weight:700;padding:10px 13px;cursor:pointer;">Limpar histórico de Donate</button>
+            </form>
 
         </div>
 
