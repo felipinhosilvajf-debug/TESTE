@@ -712,8 +712,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && !in_arra
 $pendingPurchaseOrders = $pdo->query("
     SELECT id, account_name, character_name, coins, amount, created_at, mp_preference_id, status
     FROM donate_purchase_orders
-    WHERE status IN ('pending', 'rejected')
-    ORDER BY CASE WHEN status = 'pending' THEN 0 ELSE 1 END, created_at ASC
+    WHERE status = 'pending'
+    ORDER BY created_at ASC
+    LIMIT 100
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$rejectedPurchaseOrders = $pdo->query("
+    SELECT id, account_name, character_name, coins, amount, created_at
+    FROM donate_purchase_orders
+    WHERE status = 'rejected'
+    ORDER BY id DESC
     LIMIT 100
 ")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -1963,6 +1971,51 @@ td {
                 </div>
             <?php endif; ?>
         </div>
+    </section>
+
+    <section class="panel" style="margin:0 0 24px;">
+        <div class="panel-header">
+            <div class="panel-title">📜 Histórico de pedidos de Donate recusados (<?= count($rejectedPurchaseOrders) ?>)</div>
+            <div class="panel-subtitle">Pedidos recusados ficam registrados aqui e não entram na contagem de pendentes.</div>
+        </div>
+        <?php if (empty($rejectedPurchaseOrders)): ?>
+            <p style="padding:0 20px 18px;color:#aab8c8;">Nenhum pedido recusado no histórico.</p>
+        <?php else: ?>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead><tr>
+                        <th style="text-align:left;padding:10px;">Pedido</th>
+                        <th style="text-align:left;padding:10px;">Conta / personagem</th>
+                        <th style="text-align:left;padding:10px;">Donate</th>
+                        <th style="text-align:left;padding:10px;">Valor</th>
+                        <th style="text-align:left;padding:10px;">Data</th>
+                        <th style="text-align:left;padding:10px;">Status</th>
+                        <th style="text-align:left;padding:10px;">Ação</th>
+                    </tr></thead>
+                    <tbody>
+                    <?php foreach ($rejectedPurchaseOrders as $order): ?>
+                        <tr>
+                            <td style="padding:10px;">#<?= (int)$order['id'] ?></td>
+                            <td style="padding:10px;"><?= htmlspecialchars((string)$order['account_name'], ENT_QUOTES, 'UTF-8') ?><br><strong><?= htmlspecialchars((string)$order['character_name'], ENT_QUOTES, 'UTF-8') ?></strong></td>
+                            <td style="padding:10px;"><?= donateNumber((int)$order['coins']) ?></td>
+                            <td style="padding:10px;">R$ <?= number_format((float)$order['amount'], 2, ',', '.') ?></td>
+                            <td style="padding:10px;"><?= htmlspecialchars((string)$order['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td style="padding:10px;"><span class="badge withdraw">RECUSADO</span></td>
+                            <td style="padding:10px;">
+                                <form method="post" onsubmit="return confirm('Excluir definitivamente este pedido do histórico? Esta ação não pode ser desfeita.');">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                    <input type="hidden" name="action" value="DELETE_ORDER">
+                                    <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password" style="margin:8px 0;padding:9px 10px;border:1px solid #465064;border-radius:7px;background:#080b12;color:#e7edf5;max-width:220px;">
+                                    <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                    <button type="submit" class="submit" style="background:#555;">Excluir do histórico</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
     </section>
 
     <!-- OPERAÇÕES -->
