@@ -149,7 +149,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) !== 'APPROVE_ORDER') {
+
+/* Recusar ou excluir pedidos sem tocar nas moedas dos jogadores. */
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['REJECT_ORDER', 'DELETE_ORDER'], true)
+) {
+    $orderAction = strtoupper(trim((string)($_POST['action'] ?? '')));
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        $orderId = filter_var($_POST['order_id'] ?? null, FILTER_VALIDATE_INT);
+        if ($orderId === false || $orderId < 1) {
+            $error = 'Pedido inválido.';
+        } else {
+            try {
+                $pdo->beginTransaction();
+                $stmt = $pdo->prepare('SELECT id, status FROM donate_purchase_orders WHERE id = ? LIMIT 1 FOR UPDATE');
+                $stmt->execute([(int)$orderId]);
+                $targetOrder = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$targetOrder) {
+                    throw new RuntimeException('Pedido não encontrado.');
+                }
+                $status = (string)$targetOrder['status'];
+                if ($orderAction === 'REJECT_ORDER') {
+                    if ($status !== 'pending') {
+                        throw new RuntimeException('Só é possível recusar pedidos pendentes.');
+                    }
+                    $stmt = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'rejected' WHERE id = ? AND status = 'pending'");
+                    $stmt->execute([(int)$orderId]);
+                    if ($stmt->rowCount() !== 1) {
+                        throw new RuntimeException('Não foi possível recusar o pedido. Atualize a página.');
+                    }
+                    $pdo->commit();
+                    audit('DONATE_ORDER_REJECTED', 'Pedido web #' . (int)$orderId . ' recusado pela administração.');
+                    $success = 'Pedido #' . (int)$orderId . ' recusado. Nenhuma Donate Coin foi entregue.';
+                } else {
+                    if (!in_array($status, ['pending', 'rejected'], true)) {
+                        throw new RuntimeException('Pedidos já entregues não podem ser excluídos.');
+                    }
+                    $stmt = $pdo->prepare("DELETE FROM donate_purchase_orders WHERE id = ? AND status IN ('pending', 'rejected')");
+                    $stmt->execute([(int)$orderId]);
+                    if ($stmt->rowCount() !== 1) {
+                        throw new RuntimeException('Não foi possível excluir o pedido. Atualize a página.');
+                    }
+                    $pdo->commit();
+                    audit('DONATE_ORDER_DELETED', 'Pedido web #' . (int)$orderId . ' excluído pela administração.');
+                    $success = 'Pedido #' . (int)$orderId . ' excluído.';
+                }
+            } catch (Throwable $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $error = $e->getMessage();
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER'], true)) {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
 
@@ -606,10 +664,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
 
 
 $pendingPurchaseOrders = $pdo->query("
-    SELECT id, account_name, character_name, coins, amount, created_at, mp_preference_id
+    SELECT id, account_name, character_name, coins, amount, created_at, mp_preference_id, status
     FROM donate_purchase_orders
-    WHERE status = 'pending'
-    ORDER BY created_at ASC
+    WHERE status IN ('pending', 'rejected')
+    ORDER BY CASE WHEN status = 'pending' THEN 0 ELSE 1 END, created_at ASC
     LIMIT 100
 ")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -1809,6 +1867,7 @@ td {
                             <th style="text-align:left;padding:10px;">Donate</th>
                             <th style="text-align:left;padding:10px;">Valor</th>
                             <th style="text-align:left;padding:10px;">Data</th>
+                            <th style="text-align:left;padding:10px;">Status</th>
                             <th style="text-align:left;padding:10px;">Ação</th>
                         </tr></thead>
                         <tbody>
@@ -1820,11 +1879,32 @@ td {
                                 <td style="padding:10px;">R$ <?= number_format((float)$order['amount'], 2, ',', '.') ?></td>
                                 <td style="padding:10px;"><?= htmlspecialchars((string)$order['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td style="padding:10px;">
-                                    <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
+                                    <?php if ((string)$order['status'] === 'pending'): ?>
+                                        <span class="badge offline">PENDENTE</span>
+                                    <?php else: ?>
+                                        <span class="badge withdraw">RECUSADO</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="padding:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                                    <?php if ((string)$order['status'] === 'pending'): ?>
+                                        <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                            <input type="hidden" name="action" value="APPROVE_ORDER">
+                                            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                            <button type="submit" class="submit">Confirmar pagamento e entregar</button>
+                                        </form>
+                                        <form method="post" onsubmit="return confirm('Recusar este pedido? Nenhuma Donate Coin será entregue.');">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                            <input type="hidden" name="action" value="REJECT_ORDER">
+                                            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                            <button type="submit" class="submit" style="background:#a83d4a;">Recusar</button>
+                                        </form>
+                                    <?php endif; ?>
+                                    <form method="post" onsubmit="return confirm('Excluir definitivamente o registro deste pedido? Esta ação não pode ser desfeita.');">
                                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
-                                        <input type="hidden" name="action" value="APPROVE_ORDER">
+                                        <input type="hidden" name="action" value="DELETE_ORDER">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
-                                        <button type="submit" class="submit">Confirmar pagamento e entregar</button>
+                                        <button type="submit" class="submit" style="background:#555;">Excluir</button>
                                     </form>
                                 </td>
                             </tr>
