@@ -1,5 +1,5 @@
 <?php
-// Encerra a sessão do jogador e retorna à página inicial do site.
+// Encerra a sessão do jogador e retorna à página inicial pública.
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -22,6 +22,6 @@ if (ini_get('session.use_cookies')) {
 
 session_destroy();
 
-// Retorna à raiz do site, sem depender de um index.php específico.
-header('Location: ./');
+// Sempre volta para https://virtualboost.online/, fora da pasta /site.
+header('Location: https://virtualboost.online/', true, 302);
 exit;
