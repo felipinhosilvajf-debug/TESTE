@@ -5,11 +5,16 @@ declare(strict_types=1);
  * Mythras — Compra de Donate Coins
  *
  * CONFIGURAÇÃO NO SERVIDOR:
- * DB_HOST, DB_NAME, DB_USER, DB_PASS, MP_ACCESS_TOKEN e SITE_URL.
+ * MP_ACCESS_TOKEN e SITE_URL precisam ser configurados no servidor.
+ * A conexão com o banco é reutilizada de includes/auth.php.
  * Pacotes fixos a R$ 2,00 por Donate Coin; entrega manual pela staff.
  */
 
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+require_once __DIR__ . '/includes/auth.php';
+global $pdo;
 
 const DONATE_ITEM_ID = 37000;
 
@@ -29,25 +34,11 @@ function jsonResponse(int $status, array $data): never
 
 function dbConnection(): PDO
 {
-    $host = envValue('DB_HOST');
-    $name = envValue('DB_NAME');
-    $user = envValue('DB_USER');
-    $pass = envValue('DB_PASS');
-
-    if ($host === '' || $name === '' || $user === '') {
-        throw new RuntimeException('Banco de dados não configurado no servidor (DB_HOST, DB_NAME, DB_USER, DB_PASS).');
+    global $pdo;
+    if (!isset($pdo) || !$pdo instanceof PDO) {
+        throw new RuntimeException('A conexão com o banco de dados do site não está disponível.');
     }
-
-    return new PDO(
-        "mysql:host={$host};dbname={$name};charset=utf8mb4",
-        $user,
-        $pass,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ]
-    );
+    return $pdo;
 }
 
 function donatePackages(): array
@@ -289,6 +280,8 @@ try {
             exit;
         } catch (Throwable $e) {
             error_log('[Mythras Donate Checkout] ' . $e->getMessage());
+            $failed = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'checkout_error' WHERE id = ? AND status = 'pending'");
+            $failed->execute([$orderId]);
             $error = 'Não foi possível iniciar o pagamento. Nenhuma moeda foi entregue. Tente novamente ou contate a staff.';
         }
     }
