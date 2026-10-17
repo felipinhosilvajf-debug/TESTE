@@ -6,13 +6,23 @@ declare(strict_types=1);
  *
  * CONFIGURAÇÃO NO SERVIDOR:
  * MP_ACCESS_TOKEN e SITE_URL precisam ser configurados no servidor.
- * A conexão com o banco é carregada por db.php.
+ * A conexão com o banco é reutilizada de includes/auth.php.
  * Pacotes fixos a R$ 2,00 por Donate Coin; entrega manual pela staff.
  */
 
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/admin/includes/auth.php';
 global $pdo;
+
+error_log('[DONATE DEBUG] ' . json_encode([
+    'arquivo' => __FILE__,
+    'token_getenv' => getenv('MP_ACCESS_TOKEN') !== false
+        && trim((string) getenv('MP_ACCESS_TOKEN')) !== '',
+    'site_getenv' => getenv('SITE_URL') !== false
+        && trim((string) getenv('SITE_URL')) !== '',
+    'token_server' => !empty($_SERVER['MP_ACCESS_TOKEN']),
+    'site_server' => !empty($_SERVER['SITE_URL']),
+]));
 
 const DONATE_ITEM_ID = 37000;
 
@@ -184,8 +194,8 @@ $accountName = (string)$_SESSION['user_login'];
 $error = '';
 $successUrl = '';
 $packages = donatePackages();
-$siteUrl = rtrim(envValue('SITE_URL'), '/');
-$accessToken = envValue('MP_ACCESS_TOKEN');
+$siteUrl = rtrim(envValue('virtualboost.online'), '/');
+$accessToken = envValue('APP_USR-7968932583473204-101703-e161a84916e2dbac113f3b44fdb348e5-3773227466');
 
 try {
     $pdo = dbConnection();
@@ -203,8 +213,14 @@ try {
             throw new RuntimeException('Os pacotes de Donate ainda não foram configurados pela administração.');
         }
         if ($accessToken === '' || $siteUrl === '' || !filter_var($siteUrl, FILTER_VALIDATE_URL) || !str_starts_with($siteUrl, 'https://')) {
-            throw new RuntimeException('O checkout ainda não está configurado. A administração precisa configurar Mercado Pago e SITE_URL HTTPS.');
-        }
+    error_log('[Mythras Donate Config] ' . json_encode([
+        'token_vazio' => $accessToken === '',
+        'site_url_vazio' => $siteUrl === '',
+        'site_url_valida' => (bool) filter_var($siteUrl, FILTER_VALIDATE_URL),
+        'site_url_https' => str_starts_with($siteUrl, 'https://'),
+    ]));
+    throw new RuntimeException('O checkout ainda não está configurado. A administração precisa configurar Mercado Pago e SITE_URL HTTPS.');
+}
 
         $packageId = (string)($_POST['package_id'] ?? '');
         $characterId = filter_var($_POST['character_id'] ?? null, FILTER_VALIDATE_INT);
