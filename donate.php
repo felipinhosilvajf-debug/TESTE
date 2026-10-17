@@ -17,6 +17,28 @@ $offset = ($page - 1) * $perPage;
 
 $DONATE_ITEM_ID = 37000;
 
+/* Pedidos feitos pela página de compra. A aprovação e a entrega são manuais. */
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS donate_purchase_orders (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        account_name VARCHAR(45) NOT NULL,
+        character_id INT NOT NULL,
+        character_name VARCHAR(35) NOT NULL,
+        package_id VARCHAR(40) NOT NULL,
+        coins INT NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        status VARCHAR(20) NOT NULL DEFAULT 'pending',
+        mp_preference_id VARCHAR(100) NULL,
+        mp_payment_id VARCHAR(100) NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        paid_at DATETIME NULL,
+        delivered_at DATETIME NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY uq_mp_payment_id (mp_payment_id),
+        KEY idx_account_status (account_name, status)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +46,110 @@ $DONATE_ITEM_ID = 37000;
 |--------------------------------------------------------------------------
 */
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/* Aprovação manual de pedido: a staff deve conferir o pagamento no Mercado Pago antes de clicar. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'APPROVE_ORDER') {
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        $orderId = filter_var($_POST['order_id'] ?? null, FILTER_VALIDATE_INT);
+        if ($orderId === false || $orderId < 1) {
+            $error = 'Pedido inválido.';
+        } else {
+            try {
+                $pdo->beginTransaction();
+                $stmt = $pdo->prepare('SELECT * FROM donate_purchase_orders WHERE id = ? LIMIT 1 FOR UPDATE');
+                $stmt->execute([(int)$orderId]);
+                $order = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$order) {
+                    throw new RuntimeException('Pedido não encontrado.');
+                }
+                if ((string)$order['status'] !== 'pending') {
+                    throw new RuntimeException('Este pedido já foi processado.');
+                }
+
+                $stmt = $pdo->prepare('SELECT obj_Id, char_name, account_name FROM characters WHERE obj_Id = ? LIMIT 1 FOR UPDATE');
+                $stmt->execute([(int)$order['character_id']]);
+                $character = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$character || (string)$character['account_name'] !== (string)$order['account_name']) {
+                    throw new RuntimeException('O personagem não corresponde à conta do pedido.');
+                }
+
+                $coins = (int)$order['coins'];
+                if ($coins < 1 || $coins > 1000000000) {
+                    throw new RuntimeException('Quantidade de Donate Coins inválida no pedido.');
+                }
+
+                $stmt = $pdo->prepare("
+                    SELECT object_id, count
+                    FROM items
+                    WHERE owner_id = ? AND item_id = ? AND loc = 'INVENTORY' AND count > 0
+                    ORDER BY object_id ASC LIMIT 1 FOR UPDATE
+                ");
+                $stmt->execute([(int)$character['obj_Id'], $DONATE_ITEM_ID]);
+                $item = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($item) {
+                    $newCount = (int)$item['count'] + $coins;
+                    if ($newCount > 2147483647) {
+                        throw new RuntimeException('O saldo ultrapassaria o limite permitido.');
+                    }
+                    $stmt = $pdo->prepare('UPDATE items SET count = ? WHERE object_id = ? LIMIT 1');
+                    $stmt->execute([$newCount, (int)$item['object_id']]);
+                } else {
+                    $objectId = (int)$pdo->query('SELECT COALESCE(MAX(object_id), 0) + 1 FROM items')->fetchColumn();
+                    if ($objectId <= 0) {
+                        throw new RuntimeException('Não foi possível gerar o object_id.');
+                    }
+                    $stmt = $pdo->prepare("
+                        INSERT INTO items (
+                            object_id, owner_id, item_id, count, enchant_level, loc, loc_data,
+                            life_time, augmentation_id, attribute_fire, attribute_water,
+                            attribute_wind, attribute_earth, attribute_holy, attribute_unholy,
+                            custom_type1, custom_type2, custom_flags, agathion_energy, visual_item_id
+                        ) VALUES (?, ?, ?, ?, 0, 'INVENTORY', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+                    ");
+                    $stmt->execute([$objectId, (int)$character['obj_Id'], $DONATE_ITEM_ID, $coins]);
+                }
+
+                $admin = current_admin();
+                $adminId = $admin ? (int)$admin['id'] : (int)($_SESSION['admin_id'] ?? 0);
+                $adminUsername = $admin ? (string)$admin['username'] : (string)($_SESSION['admin_username'] ?? 'Admin');
+                $reason = 'Pedido web #' . (int)$order['id'] . ' aprovado manualmente após conferência do pagamento.';
+                $stmt = $pdo->prepare("
+                    INSERT INTO admin_donate_log
+                    (admin_id, admin_username, action, character_id, character_name, account_name, amount, reason, ip_address, created_at)
+                    VALUES (?, ?, 'DELIVERY', ?, ?, ?, ?, ?, ?, NOW())
+                ");
+                $stmt->execute([
+                    $adminId, $adminUsername, (int)$character['obj_Id'],
+                    (string)$character['char_name'], (string)$character['account_name'],
+                    $coins, $reason, $_SERVER['REMOTE_ADDR'] ?? null
+                ]);
+
+                audit(
+                    'DONATE_ORDER_APPROVED',
+                    'Pedido #' . (int)$order['id'] . ' | Personagem: ' . $character['char_name'] .
+                    ' | Quantidade: ' . $coins . ' | Valor: R$ ' . number_format((float)$order['amount'], 2, ',', '.')
+                );
+
+                $stmt = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'delivered', paid_at = NOW(), delivered_at = NOW() WHERE id = ? AND status = 'pending'");
+                $stmt->execute([(int)$order['id']]);
+                if ($stmt->rowCount() !== 1) {
+                    throw new RuntimeException('O pedido foi alterado por outra operação. Atualize a página.');
+                }
+                $pdo->commit();
+                $success = 'Pedido #' . (int)$order['id'] . ' aprovado e ' . number_format($coins, 0, ',', '.') . ' Donate Coins entregues para ' . $character['char_name'] . '.';
+            } catch (Throwable $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $error = $e->getMessage();
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) !== 'APPROVE_ORDER') {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
 
@@ -479,6 +604,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
+$pendingPurchaseOrders = $pdo->query("
+    SELECT id, account_name, character_name, coins, amount, created_at, mp_preference_id
+    FROM donate_purchase_orders
+    WHERE status = 'pending'
+    ORDER BY created_at ASC
+    LIMIT 100
+")->fetchAll(PDO::FETCH_ASSOC);
 
 /*
 |--------------------------------------------------------------------------
@@ -1657,6 +1790,51 @@ td {
 
     </section>
 
+
+    <section class="operations" style="margin-bottom:24px;">
+        <div class="operation delivery">
+            <div class="operation-title">🔔 Pedidos de Donate pendentes (<?= count($pendingPurchaseOrders) ?>)</div>
+            <p style="color:#aab8c8;line-height:1.6;">
+                Confira o pagamento no painel do Mercado Pago antes de aprovar. O retorno do jogador ao site não comprova pagamento.
+                Use o número do pedido como referência e só libere após confirmar o recebimento.
+            </p>
+            <?php if (empty($pendingPurchaseOrders)): ?>
+                <p>Não há pedidos pendentes no momento.</p>
+            <?php else: ?>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead><tr>
+                            <th style="text-align:left;padding:10px;">Pedido</th>
+                            <th style="text-align:left;padding:10px;">Conta / personagem</th>
+                            <th style="text-align:left;padding:10px;">Donate</th>
+                            <th style="text-align:left;padding:10px;">Valor</th>
+                            <th style="text-align:left;padding:10px;">Data</th>
+                            <th style="text-align:left;padding:10px;">Ação</th>
+                        </tr></thead>
+                        <tbody>
+                        <?php foreach ($pendingPurchaseOrders as $order): ?>
+                            <tr>
+                                <td style="padding:10px;">#<?= (int)$order['id'] ?></td>
+                                <td style="padding:10px;"><?= htmlspecialchars((string)$order['account_name'], ENT_QUOTES, 'UTF-8') ?><br><strong><?= htmlspecialchars((string)$order['character_name'], ENT_QUOTES, 'UTF-8') ?></strong></td>
+                                <td style="padding:10px;"><?= donateNumber((int)$order['coins']) ?></td>
+                                <td style="padding:10px;">R$ <?= number_format((float)$order['amount'], 2, ',', '.') ?></td>
+                                <td style="padding:10px;"><?= htmlspecialchars((string)$order['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td style="padding:10px;">
+                                    <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
+                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="action" value="APPROVE_ORDER">
+                                        <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+                                        <button type="submit" class="submit">Confirmar pagamento e entregar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
 
     <!-- OPERAÇÕES -->
 
