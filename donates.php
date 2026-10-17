@@ -717,6 +717,14 @@ $pendingPurchaseOrders = $pdo->query("
     LIMIT 100
 ")->fetchAll(PDO::FETCH_ASSOC);
 
+$approvedPurchaseOrders = $pdo->query("
+    SELECT id, account_name, character_name, coins, amount, created_at, paid_at, delivered_at, status, mp_payment_id
+    FROM donate_purchase_orders
+    WHERE status IN ('paid', 'delivered', 'approved') OR delivered_at IS NOT NULL
+    ORDER BY COALESCE(delivered_at, paid_at, created_at) DESC
+    LIMIT 100
+")->fetchAll(PDO::FETCH_ASSOC);
+
 $rejectedPurchaseOrders = $pdo->query("
     SELECT id, account_name, character_name, coins, amount, created_at
     FROM donate_purchase_orders
@@ -1971,6 +1979,40 @@ td {
                 </div>
             <?php endif; ?>
         </div>
+    </section>
+
+
+    <section class="panel" style="margin:0 0 24px;">
+        <div class="panel-header">
+            <div class="panel-title">✅ Histórico de Donate aprovados/entregues (<?= count($approvedPurchaseOrders) ?>)</div>
+            <div class="panel-subtitle">Pagamentos confirmados e moedas entregues pelo webhook ou pela administração.</div>
+        </div>
+        <?php if (empty($approvedPurchaseOrders)): ?>
+            <p style="padding:0 20px 18px;color:#aab8c8;">Nenhum pedido aprovado ou entregue ainda.</p>
+        <?php else: ?>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead><tr>
+                        <th style="text-align:left;padding:10px;">Pedido</th><th style="text-align:left;padding:10px;">Conta / personagem</th>
+                        <th style="text-align:left;padding:10px;">Donate</th><th style="text-align:left;padding:10px;">Valor</th>
+                        <th style="text-align:left;padding:10px;">Pagamento</th><th style="text-align:left;padding:10px;">Entrega</th><th style="text-align:left;padding:10px;">Status</th>
+                    </tr></thead>
+                    <tbody>
+                    <?php foreach ($approvedPurchaseOrders as $order): ?>
+                        <tr>
+                            <td style="padding:10px;">#<?= (int)$order['id'] ?></td>
+                            <td style="padding:10px;"><?= htmlspecialchars((string)$order['account_name'], ENT_QUOTES, 'UTF-8') ?><br><strong><?= htmlspecialchars((string)$order['character_name'], ENT_QUOTES, 'UTF-8') ?></strong></td>
+                            <td style="padding:10px;"><?= donateNumber((int)$order['coins']) ?></td>
+                            <td style="padding:10px;">R$ <?= number_format((float)$order['amount'], 2, ',', '.') ?></td>
+                            <td style="padding:10px;"><?= htmlspecialchars((string)($order['paid_at'] ?: $order['created_at']), ENT_QUOTES, 'UTF-8') ?></td>
+                            <td style="padding:10px;"><?= htmlspecialchars((string)($order['delivered_at'] ?: '—'), ENT_QUOTES, 'UTF-8') ?></td>
+                            <td style="padding:10px;"><span class="badge online">APROVADO / ENTREGUE</span></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
     </section>
 
     <section class="panel" style="margin:0 0 24px;">
