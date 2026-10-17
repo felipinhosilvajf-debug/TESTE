@@ -284,6 +284,7 @@ try {
                 'unit_price' => $package['price'],
             ]],
             'external_reference' => (string)$orderId,
+            'notification_url' => $siteUrl . '/mercadopago-webhook.php',
             'back_urls' => [
                 'success' => $siteUrl . '/comprar-donate.php?status=success',
                 'pending' => $siteUrl . '/comprar-donate.php?status=pending',
@@ -356,14 +357,14 @@ function h(string $value): string
   <section class="hero">
     <div class="eyebrow">LOJA OFICIAL</div>
     <h1>Comprar Donate Coins</h1>
-    <p>Escolha seu pacote, selecione o personagem e pague pelo checkout seguro do Mercado Pago. Depois de conferir o pagamento, a staff libera as Donate Coins manualmente.</p>
+    <p>Escolha seu pacote, selecione o personagem e pague pelo checkout seguro do Mercado Pago. Após a confirmação do pagamento, as Donate Coins serão entregues automaticamente ao personagem.</p>
   </section>
 
   <?php if ($error !== ''): ?><div class="error"><?= h($error) ?></div><?php endif; ?>
   <?php if (($_GET['status'] ?? '') === 'success'): ?>
-    <div class="notice">Você voltou do Mercado Pago. Seu pedido ficará pendente até a staff conferir o pagamento e liberar as moedas. Não pague novamente se já concluiu a compra.</div>
+    <div class="notice">Você voltou do Mercado Pago. A confirmação é feita pelo servidor; após o Mercado Pago aprovar o pagamento, as Donate Coins serão entregues automaticamente. Não pague novamente se já concluiu a compra.</div>
   <?php elseif (($_GET['status'] ?? '') === 'pending'): ?>
-    <div class="notice">Seu pedido está aguardando conferência manual da staff. As Donate Coins não são liberadas automaticamente.</div>
+    <div class="notice">Seu pagamento ainda pode estar em processamento. As Donate Coins serão entregues somente após a confirmação da aprovação pelo Mercado Pago.</div>
   <?php elseif (($_GET['status'] ?? '') === 'failure'): ?>
     <div class="notice">O pagamento não foi concluído. Você pode tentar novamente quando quiser.</div>
   <?php endif; ?>
@@ -438,7 +439,7 @@ function h(string $value): string
 
   <footer class="foot">
     Pagamento realizado pelo checkout do Mercado Pago. Nunca informe sua senha do jogo durante a compra.<br>
-    A volta para esta página não confirma o pagamento. A staff confere o recebimento e libera as moedas manualmente.
+    A volta para esta página não confirma o pagamento; a entrega depende da confirmação segura enviada pelo Mercado Pago.
   </footer>
 </div>
 </body>
