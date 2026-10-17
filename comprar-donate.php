@@ -1,0 +1,523 @@
+<?php
+declare(strict_types=1);
+
+/*
+ * Mythras — Compra de Donate Coins
+ *
+ * CONFIGURAÇÃO OBRIGATÓRIA NO SERVIDOR:
+ * DB_HOST, DB_NAME, DB_USER, DB_PASS
+ * MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET, SITE_URL
+ * DONATE_PACKAGES_JSON (ex.: [{"id":"p1","coins":100,"price":10.00,"label":"Pacote Inicial"}])
+ *
+ * Configure MP_WEBHOOK_URL no Mercado Pago para:
+ * https://SEU-DOMINIO/comprar-donate.php?webhook=1
+ *
+ * O preço e a quantidade são lidos de DONATE_PACKAGES_JSON no servidor.
+ * Nunca aceite preço/quantidade enviados pelo navegador.
+ */
+
+session_start();
+
+const DONATE_ITEM_ID = 37000;
+
+function envValue(string $key, string $default = ''): string
+{
+    $value = getenv($key);
+    return $value === false ? $default : trim((string)$value);
+}
+
+function jsonResponse(int $status, array $data): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+function dbConnection(): PDO
+{
+    $host = envValue('DB_HOST');
+    $name = envValue('DB_NAME');
+    $user = envValue('DB_USER');
+    $pass = envValue('DB_PASS');
+
+    if ($host === '' || $name === '' || $user === '') {
+        throw new RuntimeException('Banco de dados não configurado no servidor (DB_HOST, DB_NAME, DB_USER, DB_PASS).');
+    }
+
+    return new PDO(
+        "mysql:host={$host};dbname={$name};charset=utf8mb4",
+        $user,
+        $pass,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
+}
+
+function donatePackages(): array
+{
+    $raw = envValue('DONATE_PACKAGES_JSON');
+    if ($raw === '') {
+        return [];
+    }
+
+    $packages = json_decode($raw, true);
+    if (!is_array($packages)) {
+        return [];
+    }
+
+    $valid = [];
+    foreach ($packages as $package) {
+        if (!is_array($package)) {
+            continue;
+        }
+        $id = (string)($package['id'] ?? '');
+        $coins = filter_var($package['coins'] ?? null, FILTER_VALIDATE_INT);
+        $price = filter_var($package['price'] ?? null, FILTER_VALIDATE_FLOAT);
+        $label = trim((string)($package['label'] ?? ''));
+
+        if (
+            !preg_match('/^[a-zA-Z0-9_-]{1,40}$/', $id) ||
+            $coins === false || $coins < 1 || $coins > 1000000000 ||
+            $price === false || $price <= 0 || $price > 100000 ||
+            $label === ''
+        ) {
+            continue;
+        }
+
+        $valid[$id] = [
+            'id' => $id,
+            'coins' => (int)$coins,
+            'price' => round((float)$price, 2),
+            'label' => $label,
+        ];
+    }
+    return $valid;
+}
+
+function ensureOrderTable(PDO $pdo): void
+{
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS donate_purchase_orders (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            account_name VARCHAR(45) NOT NULL,
+            character_id INT NOT NULL,
+            character_name VARCHAR(35) NOT NULL,
+            package_id VARCHAR(40) NOT NULL,
+            coins INT NOT NULL,
+            amount DECIMAL(10,2) NOT NULL,
+            status VARCHAR(20) NOT NULL DEFAULT 'pending',
+            mp_preference_id VARCHAR(100) NULL,
+            mp_payment_id VARCHAR(100) NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            paid_at DATETIME NULL,
+            delivered_at DATETIME NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY uq_mp_payment_id (mp_payment_id),
+            KEY idx_account_status (account_name, status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+}
+
+function mpRequest(string $method, string $url, string $accessToken, ?array $body = null): array
+{
+    if (!function_exists('curl_init')) {
+        throw new RuntimeException('A extensão cURL do PHP precisa estar habilitada.');
+    }
+
+    $ch = curl_init($url);
+    $headers = [
+        'Authorization: Bearer ' . $accessToken,
+        'Accept: application/json',
+    ];
+    if ($body !== null) {
+        $headers[] = 'Content-Type: application/json';
+    }
+
+    curl_setopt_array($ch, [
+        CURLOPT_CUSTOMREQUEST => $method,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_TIMEOUT => 25,
+    ]);
+    if ($body !== null) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_SLASHES));
+    }
+
+    $response = curl_exec($ch);
+    $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+
+    if ($response === false || $curlError !== '') {
+        throw new RuntimeException('Não foi possível comunicar com o Mercado Pago.');
+    }
+
+    $decoded = json_decode((string)$response, true);
+    if ($status < 200 || $status >= 300 || !is_array($decoded)) {
+        throw new RuntimeException('O Mercado Pago recusou a solicitação. Confira a configuração da integração.');
+    }
+    return $decoded;
+}
+
+function deliverDonate(PDO $pdo, int $characterId, int $coins): void
+{
+    $stmt = $pdo->prepare("
+        SELECT obj_Id, char_name
+        FROM characters
+        WHERE obj_Id = ?
+        LIMIT 1
+        FOR UPDATE
+    ");
+    $stmt->execute([$characterId]);
+    $character = $stmt->fetch();
+
+    if (!$character) {
+        throw new RuntimeException('Personagem do pedido não encontrado.');
+    }
+
+    $stmt = $pdo->prepare("
+        SELECT object_id, count
+        FROM items
+        WHERE owner_id = ? AND item_id = ? AND loc = 'INVENTORY' AND count > 0
+        ORDER BY object_id ASC
+        LIMIT 1
+        FOR UPDATE
+    ");
+    $stmt->execute([$characterId, DONATE_ITEM_ID]);
+    $item = $stmt->fetch();
+
+    if ($item) {
+        $newCount = (int)$item['count'] + $coins;
+        if ($newCount > 2147483647) {
+            throw new RuntimeException('O saldo de Donate Coins excederia o limite permitido.');
+        }
+        $update = $pdo->prepare('UPDATE items SET count = ? WHERE object_id = ? LIMIT 1');
+        $update->execute([$newCount, (int)$item['object_id']]);
+        return;
+    }
+
+    // Mantém o mesmo formato de item utilizado pelo painel donate.php do servidor.
+    $objectId = (int)$pdo->query('SELECT COALESCE(MAX(object_id), 0) + 1 FROM items')->fetchColumn();
+    if ($objectId <= 0) {
+        throw new RuntimeException('Não foi possível gerar o identificador do item Donate.');
+    }
+
+    $insert = $pdo->prepare("
+        INSERT INTO items (
+            object_id, owner_id, item_id, count, enchant_level, loc, loc_data,
+            life_time, augmentation_id, attribute_fire, attribute_water,
+            attribute_wind, attribute_earth, attribute_holy, attribute_unholy,
+            custom_type1, custom_type2, custom_flags, agathion_energy, visual_item_id
+        ) VALUES (?, ?, ?, ?, 0, 'INVENTORY', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    ");
+    $insert->execute([$objectId, $characterId, DONATE_ITEM_ID, $coins]);
+}
+
+/*
+ * Webhook do Mercado Pago. A confirmação é consultada diretamente na API,
+ * e a entrega é idempotente: o pedido só muda de pending para paid dentro
+ * da mesma transação que entrega as moedas.
+ */
+if (isset($_GET['webhook'])) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        exit;
+    }
+
+    try {
+        $accessToken = envValue('MP_ACCESS_TOKEN');
+        $webhookSecret = envValue('MP_WEBHOOK_SECRET');
+        if ($accessToken === '' || $webhookSecret === '') {
+            throw new RuntimeException('Webhook não configurado.');
+        }
+
+        $payload = json_decode((string)file_get_contents('php://input'), true) ?: [];
+        $paymentId = (string)($_GET['data.id'] ?? $payload['data']['id'] ?? '');
+        $xSignature = (string)($_SERVER['HTTP_X_SIGNATURE'] ?? '');
+        $requestId = (string)($_SERVER['HTTP_X_REQUEST_ID'] ?? '');
+
+        // A assinatura do Mercado Pago deve ser validada com o segredo do webhook.
+        $signatureParts = [];
+        foreach (explode(',', $xSignature) as $part) {
+            $pair = explode('=', trim($part), 2);
+            if (count($pair) === 2) {
+                $signatureParts[$pair[0]] = $pair[1];
+            }
+        }
+        $ts = $signatureParts['ts'] ?? '';
+        $v1 = $signatureParts['v1'] ?? '';
+        if ($paymentId === '' || $requestId === '' || $ts === '' || $v1 === '') {
+            http_response_code(400);
+            exit;
+        }
+
+        $manifest = 'id:' . strtolower($paymentId) . ';request-id:' . $requestId . ';ts:' . $ts . ';';
+        $expected = hash_hmac('sha256', $manifest, $webhookSecret);
+        if (!hash_equals($expected, $v1)) {
+            http_response_code(401);
+            exit;
+        }
+
+        $payment = mpRequest('GET', 'https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId), $accessToken);
+        if (($payment['status'] ?? '') !== 'approved') {
+            http_response_code(200);
+            exit;
+        }
+
+        $externalReference = (string)($payment['external_reference'] ?? '');
+        if (!ctype_digit($externalReference) || (int)$externalReference < 1) {
+            http_response_code(200);
+            exit;
+        }
+
+        $pdo = dbConnection();
+        ensureOrderTable($pdo);
+        $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare('SELECT * FROM donate_purchase_orders WHERE id = ? LIMIT 1 FOR UPDATE');
+        $stmt->execute([(int)$externalReference]);
+        $order = $stmt->fetch();
+
+        if (!$order || $order['status'] === 'paid' || $order['status'] === 'delivered') {
+            $pdo->commit();
+            http_response_code(200);
+            exit;
+        }
+
+        $expectedAmount = (float)$order['amount'];
+        $paidAmount = (float)($payment['transaction_amount'] ?? 0);
+        if (
+            (int)($payment['external_reference'] ?? 0) !== (int)$order['id'] ||
+            abs($paidAmount - $expectedAmount) > 0.009 ||
+            strtoupper((string)($payment['currency_id'] ?? '')) !== 'BRL'
+        ) {
+            $pdo->rollBack();
+            http_response_code(200);
+            exit;
+        }
+
+        $accountCheck = $pdo->prepare('SELECT account_name FROM characters WHERE obj_Id = ? LIMIT 1');
+        $accountCheck->execute([(int)$order['character_id']]);
+        if ((string)$accountCheck->fetchColumn() !== (string)$order['account_name']) {
+            throw new RuntimeException('A conta do personagem não corresponde ao pedido.');
+        }
+
+        $mark = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'paid', mp_payment_id = ?, paid_at = NOW() WHERE id = ? AND status = 'pending'");
+        $mark->execute([(string)$payment['id'], (int)$order['id']]);
+        if ($mark->rowCount() === 1) {
+            deliverDonate($pdo, (int)$order['character_id'], (int)$order['coins']);
+            $done = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'delivered', delivered_at = NOW() WHERE id = ?");
+            $done->execute([(int)$order['id']]);
+        }
+
+        $pdo->commit();
+        http_response_code(200);
+        exit;
+    } catch (Throwable $e) {
+        if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('[Mythras Donate Webhook] ' . $e->getMessage());
+        http_response_code(500);
+        exit;
+    }
+}
+
+if (!isset($_SESSION['user_login']) || trim((string)$_SESSION['user_login']) === '') {
+    header('Location: login.php');
+    exit;
+}
+
+$accountName = (string)$_SESSION['user_login'];
+$error = '';
+$successUrl = '';
+$packages = donatePackages();
+$siteUrl = rtrim(envValue('SITE_URL'), '/');
+$accessToken = envValue('MP_ACCESS_TOKEN');
+
+try {
+    $pdo = dbConnection();
+    ensureOrderTable($pdo);
+
+    $stmt = $pdo->prepare('SELECT obj_Id, char_name FROM characters WHERE account_name = ? ORDER BY char_name ASC');
+    $stmt->execute([$accountName]);
+    $characters = $stmt->fetchAll();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!hash_equals((string)($_SESSION['donate_csrf'] ?? ''), (string)($_POST['csrf_token'] ?? ''))) {
+            throw new RuntimeException('Sessão de segurança expirada. Atualize a página e tente novamente.');
+        }
+        if ($packages === []) {
+            throw new RuntimeException('Os pacotes de Donate ainda não foram configurados pela administração.');
+        }
+        if ($accessToken === '' || $siteUrl === '' || !filter_var($siteUrl, FILTER_VALIDATE_URL) || !str_starts_with($siteUrl, 'https://')) {
+            throw new RuntimeException('O checkout ainda não está configurado. A administração precisa configurar Mercado Pago e SITE_URL HTTPS.');
+        }
+
+        $packageId = (string)($_POST['package_id'] ?? '');
+        $characterId = filter_var($_POST['character_id'] ?? null, FILTER_VALIDATE_INT);
+        $package = $packages[$packageId] ?? null;
+        if (!$package || $characterId === false || $characterId < 1) {
+            throw new RuntimeException('Selecione um pacote e um personagem válidos.');
+        }
+
+        $characterStmt = $pdo->prepare('SELECT obj_Id, char_name, account_name FROM characters WHERE obj_Id = ? AND account_name = ? LIMIT 1');
+        $characterStmt->execute([(int)$characterId, $accountName]);
+        $character = $characterStmt->fetch();
+        if (!$character) {
+            throw new RuntimeException('O personagem selecionado não pertence à sua conta.');
+        }
+
+        $pdo->beginTransaction();
+        $insert = $pdo->prepare("
+            INSERT INTO donate_purchase_orders
+            (account_name, character_id, character_name, package_id, coins, amount, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'pending')
+        ");
+        $insert->execute([
+            $accountName,
+            (int)$character['obj_Id'],
+            (string)$character['char_name'],
+            $package['id'],
+            $package['coins'],
+            number_format($package['price'], 2, '.', ''),
+        ]);
+        $orderId = (int)$pdo->lastInsertId();
+        $pdo->commit();
+
+        $preference = [
+            'items' => [[
+                'id' => $package['id'],
+                'title' => $package['label'] . ' — Mythras',
+                'description' => $package['coins'] . ' Donate Coins para ' . $character['char_name'],
+                'quantity' => 1,
+                'currency_id' => 'BRL',
+                'unit_price' => $package['price'],
+            ]],
+            'external_reference' => (string)$orderId,
+            'notification_url' => $siteUrl . '/comprar-donate.php?webhook=1',
+            'back_urls' => [
+                'success' => $siteUrl . '/comprar-donate.php?status=success',
+                'pending' => $siteUrl . '/comprar-donate.php?status=pending',
+                'failure' => $siteUrl . '/comprar-donate.php?status=failure',
+            ],
+            'auto_return' => 'approved',
+            'statement_descriptor' => 'MYTHRAS DONATE',
+            'metadata' => [
+                'order_id' => $orderId,
+                'account_name' => $accountName,
+                'character_id' => (int)$character['obj_Id'],
+            ],
+        ];
+
+        try {
+            $mpPreference = mpRequest(
+                'POST',
+                'https://api.mercadopago.com/checkout/preferences',
+                $accessToken,
+                $preference
+            );
+            $update = $pdo->prepare('UPDATE donate_purchase_orders SET mp_preference_id = ? WHERE id = ?');
+            $update->execute([(string)($mpPreference['id'] ?? ''), $orderId]);
+
+            $checkoutUrl = (string)($mpPreference['init_point'] ?? '');
+            if (!filter_var($checkoutUrl, FILTER_VALIDATE_URL) || !str_starts_with($checkoutUrl, 'https://')) {
+                throw new RuntimeException('O Mercado Pago não retornou um link de pagamento válido.');
+            }
+            header('Location: ' . $checkoutUrl, true, 303);
+            exit;
+        } catch (Throwable $e) {
+            error_log('[Mythras Donate Checkout] ' . $e->getMessage());
+            $error = 'Não foi possível iniciar o pagamento. Nenhuma moeda foi entregue. Tente novamente ou contate a staff.';
+        }
+    }
+} catch (Throwable $e) {
+    $error = $e->getMessage();
+}
+
+if (!isset($_SESSION['donate_csrf']) || !is_string($_SESSION['donate_csrf'])) {
+    $_SESSION['donate_csrf'] = bin2hex(random_bytes(32));
+}
+$csrf = $_SESSION['donate_csrf'];
+
+function h(string $value): string
+{
+    return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+?>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comprar Donate Coins | Lineage 2 Mythras</title>
+<style>
+:root{color-scheme:dark;--bg:#080e18;--panel:#101b2a;--line:#26394e;--gold:#e9b94f;--text:#edf3fa;--muted:#9eb0c5;--green:#5bd6a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17263b 0,#080e18 62%);color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+.wrap{width:min(1060px,calc(100% - 32px));margin:0 auto;padding:28px 0 54px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:35px}.brand{font-size:14px;letter-spacing:2px;font-weight:800;color:var(--gold)}.back{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:10px 14px;border-radius:8px}.hero{text-align:center;margin:24px auto 30px;max-width:680px}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:3px;font-weight:bold}.hero h1{font-size:clamp(30px,5vw,48px);margin:12px 0}.hero p{color:var(--muted);line-height:1.65;margin:0}.notice{border:1px solid #745b2c;background:#2b2415;color:#f7d98c;border-radius:10px;padding:14px 16px;margin:18px 0;line-height:1.5}.error{border:1px solid #8e3d49;background:#31171d;color:#ffc3cb;border-radius:10px;padding:14px 16px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}.package{position:relative;background:linear-gradient(160deg,#152338,#0d1725);border:1px solid var(--line);border-radius:15px;padding:23px;display:flex;flex-direction:column;min-height:240px}.package:hover{border-color:#a98742;transform:translateY(-2px)}.coin{font-size:30px}.package h2{font-size:19px;margin:13px 0 8px}.coins{font-size:28px;color:var(--gold);font-weight:800}.coins small{font-size:13px;color:var(--muted);font-weight:normal}.price{font-size:20px;margin:15px 0 20px}.package button,.submit{margin-top:auto;border:0;border-radius:9px;background:linear-gradient(100deg,#f0c75e,#d99b2d);color:#1c1608;font-weight:800;padding:13px 15px;cursor:pointer;font-size:14px}.package button:disabled,.submit:disabled{opacity:.5;cursor:not-allowed}.select-area{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:25px}.select-area label{display:block;font-size:13px;color:var(--muted);margin-bottom:9px}.select-area select{width:100%;padding:13px;background:#09121e;border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:15px}.foot{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.7;text-align:center}.empty{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:25px;color:var(--muted);line-height:1.6;text-align:center}
+@media(max-width:520px){.top{align-items:flex-start}.wrap{width:calc(100% - 22px);padding-top:18px}.package{min-height:0}.hero{margin-top:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">LINEAGE 2 · MYTHRAS</div>
+    <a class="back" href="dashboard.php">← Voltar à conta</a>
+  </header>
+  <section class="hero">
+    <div class="eyebrow">LOJA OFICIAL</div>
+    <h1>Comprar Donate Coins</h1>
+    <p>Escolha seu pacote, selecione o personagem que receberá as moedas e conclua o pagamento com segurança pelo Mercado Pago. A entrega acontece após a confirmação do pagamento.</p>
+  </section>
+
+  <?php if ($error !== ''): ?><div class="error"><?= h($error) ?></div><?php endif; ?>
+  <?php if (($_GET['status'] ?? '') === 'success'): ?>
+    <div class="notice">O retorno do pagamento foi recebido. A confirmação pode levar alguns instantes; confira o personagem no jogo. Não é necessário pagar novamente.</div>
+  <?php elseif (($_GET['status'] ?? '') === 'pending'): ?>
+    <div class="notice">Seu pagamento está pendente. As Donate Coins serão entregues somente após a confirmação do Mercado Pago.</div>
+  <?php elseif (($_GET['status'] ?? '') === 'failure'): ?>
+    <div class="notice">O pagamento não foi concluído. Você pode tentar novamente quando quiser.</div>
+  <?php endif; ?>
+
+  <?php if ($packages === []): ?>
+    <div class="empty"><strong>Pacotes ainda não configurados.</strong><br>A staff precisa definir os pacotes em <code>DONATE_PACKAGES_JSON</code> nas variáveis de ambiente do servidor antes de liberar as compras.</div>
+  <?php elseif (empty($characters)): ?>
+    <div class="empty">Não encontramos personagens nesta conta. Crie um personagem no servidor e volte para comprar Donate Coins.</div>
+  <?php else: ?>
+    <form method="post" action="comprar-donate.php">
+      <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+      <div class="select-area">
+        <label for="character_id">Personagem que receberá as Donate Coins</label>
+        <select id="character_id" name="character_id" required>
+          <option value="">Selecione seu personagem</option>
+          <?php foreach ($characters as $character): ?>
+            <option value="<?= (int)$character['obj_Id'] ?>"><?= h((string)$character['char_name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="grid">
+        <?php foreach ($packages as $package): ?>
+          <article class="package">
+            <div class="coin" aria-hidden="true">🪙</div>
+            <h2><?= h($package['label']) ?></h2>
+            <div class="coins"><?= number_format($package['coins'], 0, ',', '.') ?> <small>Donate Coins</small></div>
+            <div class="price">R$ <?= number_format($package['price'], 2, ',', '.') ?></div>
+            <button type="submit" name="package_id" value="<?= h($package['id']) ?>">COMPRAR PACOTE</button>
+          </article>
+        <?php endforeach; ?>
+      </div>
+    </form>
+  <?php endif; ?>
+
+  <footer class="foot">
+    Pagamento processado pelo Mercado Pago. Nunca informe sua senha do jogo durante a compra.<br>
+    A confirmação do navegador não libera moedas; a entrega depende da notificação autenticada do pagamento.
+  </footer>
+</div>
+</body>
+</html>
