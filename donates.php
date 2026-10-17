@@ -15,7 +15,7 @@ $error = '';
  * gravada no repositório público.
  */
 $donateAction = strtoupper(trim((string)($_POST['action'] ?? '')));
-$donateActions = ['CLEAR_DONATE_HISTORY', 'APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'DELIVERY', 'WITHDRAW'];
+$donateActions = ['CLEAR_DONATE_HISTORY', 'CLEAR_APPROVED_PURCHASE_HISTORY', 'APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'DELIVERY', 'WITHDRAW'];
 $donateActionAuthorized = true;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($donateAction, $donateActions, true)) {
     $configuredPassword = getenv('DONATE_ACTION_PASSWORD');
@@ -84,6 +84,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && strtoupp
                 $pdo->rollBack();
             }
             $error = 'Não foi possível limpar o histórico. Tente novamente.';
+        }
+    }
+}
+
+
+/* Apagar o histórico de pedidos aprovados/entregues exige senha do servidor e CSRF válido. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && $donateAction === 'CLEAR_APPROVED_PURCHASE_HISTORY') {
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        try {
+            $pdo->beginTransaction();
+            $deletedRows = (int)$pdo->query("
+                SELECT COUNT(*)
+                FROM donate_purchase_orders
+                WHERE status IN ('paid', 'delivered', 'approved') OR delivered_at IS NOT NULL
+            ")->fetchColumn();
+            $pdo->exec("
+                DELETE FROM donate_purchase_orders
+                WHERE status IN ('paid', 'delivered', 'approved') OR delivered_at IS NOT NULL
+            ");
+            $pdo->commit();
+
+            audit('APPROVED_DONATE_PURCHASE_HISTORY_CLEARED', 'Histórico de pedidos aprovados/entregues removido pela administração. Registros removidos: ' . $deletedRows . '. Saldos dos personagens não foram alterados.');
+            $success = 'Histórico de pedidos aprovados/entregues apagado. Registros removidos: ' . $deletedRows . '. Os saldos dos personagens não foram alterados.';
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $error = 'Não foi possível apagar o histórico de pedidos aprovados/entregues. Tente novamente.';
         }
     }
 }
@@ -2013,6 +2043,18 @@ td {
                 </table>
             </div>
         <?php endif; ?>
+        <div style="padding:0 20px 20px;">
+            <form method="post"
+                  onsubmit="return confirm('ATENÇÃO: apagar permanentemente todos os pedidos aprovados/entregues desta lista? Os registros de pagamento serão removidos, mas os saldos/moedas dos personagens não serão alterados. Esta ação não pode ser desfeita.');"
+                  style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="action" value="CLEAR_APPROVED_PURCHASE_HISTORY">
+                <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password"
+                       style="max-width:260px;padding:10px 12px;border:1px solid rgba(217,106,106,.55);border-radius:8px;background:#080b12;color:#e7edf5;">
+                <button type="submit" class="btn" style="background:#a83d4a;border-color:#a83d4a;">APAGAR HISTÓRICO APROVADO</button>
+            </form>
+            <p style="color:#aab8c8;font-size:12px;margin-top:8px;">A senha de segurança é configurada no servidor pela variável DONATE_ACTION_PASSWORD. Esta ação apaga os registros dos pedidos desta lista, não remove moedas do inventário.</p>
+        </div>
     </section>
 
     <section class="panel" style="margin:0 0 24px;">
