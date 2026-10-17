@@ -223,8 +223,22 @@ try {
         $packageId = (string)($_POST['package_id'] ?? '');
         $characterId = filter_var($_POST['character_id'] ?? null, FILTER_VALIDATE_INT);
         $package = $packages[$packageId] ?? null;
+
+        if ($packageId === 'custom') {
+            $customCoins = filter_var($_POST['custom_coins'] ?? null, FILTER_VALIDATE_INT);
+            if ($customCoins === false || $customCoins < 1 || $customCoins > 5000) {
+                throw new RuntimeException('Informe uma quantidade inteira entre 1 e 5.000 Donate Coins.');
+            }
+            $package = [
+                'id' => 'custom_' . $customCoins,
+                'coins' => $customCoins,
+                'price' => round($customCoins * 2, 2),
+                'label' => 'Quantidade personalizada',
+            ];
+        }
+
         if (!$package || $characterId === false || $characterId < 1) {
-            throw new RuntimeException('Selecione um pacote e um personagem válidos.');
+            throw new RuntimeException('Selecione um pacote ou informe uma quantidade personalizada válida, além de um personagem.');
         }
 
         $characterStmt = $pdo->prepare('SELECT obj_Id, char_name, account_name FROM characters WHERE obj_Id = ? AND account_name = ? LIMIT 1');
@@ -371,8 +385,42 @@ function h(string $value): string
             <button type="submit" name="package_id" value="<?= h($package['id']) ?>">COMPRAR PACOTE</button>
           </article>
         <?php endforeach; ?>
+        <article class="package custom-package">
+          <div class="coin" aria-hidden="true">🪙</div>
+          <h2>Quantidade personalizada</h2>
+          <label for="custom_coins" style="color:var(--muted);font-size:13px;margin:8px 0">Digite de 1 a 5.000 Donate Coins</label>
+          <input id="custom_coins" name="custom_coins" type="number" min="1" max="5000" step="1" inputmode="numeric" placeholder="Ex.: 250" style="width:100%;padding:12px;background:#09121e;border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:16px">
+          <div class="price">Total: <strong id="custom_total">R$ 2,00</strong></div>
+          <button type="submit" name="package_id" value="custom" id="custom_buy">COMPRAR QUANTIDADE</button>
+        </article>
       </div>
     </form>
+    <script>
+    (() => {
+      const amount = document.getElementById('custom_coins');
+      const total = document.getElementById('custom_total');
+      const button = document.getElementById('custom_buy');
+      const formatBRL = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      const updateCustom = () => {
+        const coins = Number.parseInt(amount.value, 10);
+        const valid = Number.isInteger(coins) && coins >= 1 && coins <= 5000;
+        total.textContent = formatBRL(valid ? coins * 2 : 0);
+        button.disabled = !valid;
+      };
+      amount.addEventListener('input', updateCustom);
+      button.addEventListener('click', event => {
+        const coins = Number.parseInt(amount.value, 10);
+        if (!Number.isInteger(coins) || coins < 1 || coins > 5000) {
+          event.preventDefault();
+          amount.setCustomValidity('Informe uma quantidade inteira entre 1 e 5.000.');
+          amount.reportValidity();
+        } else {
+          amount.setCustomValidity('');
+        }
+      });
+      updateCustom();
+    })();
+    </script>
   <?php endif; ?>
 
   <footer class="foot">
