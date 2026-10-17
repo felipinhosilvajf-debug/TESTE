@@ -9,6 +9,26 @@ global $pdo;
 $success = '';
 $error = '';
 
+/*
+ * Todas as operações administrativas de Donate exigem a senha do servidor.
+ * Configure DONATE_ACTION_PASSWORD no ambiente da hospedagem; a senha não fica
+ * gravada no repositório público.
+ */
+$donateAction = strtoupper(trim((string)($_POST['action'] ?? '')));
+$donateActions = ['CLEAR_DONATE_HISTORY', 'APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'DELIVERY', 'WITHDRAW'];
+$donateActionAuthorized = true;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($donateAction, $donateActions, true)) {
+    $configuredPassword = getenv('DONATE_ACTION_PASSWORD');
+    $providedPassword = (string)($_POST['donate_password'] ?? '');
+    if ($configuredPassword === false || $configuredPassword === '') {
+        $donateActionAuthorized = false;
+        $error = 'A senha de segurança do Donate ainda não foi configurada na hospedagem.';
+    } elseif (!hash_equals((string)$configuredPassword, $providedPassword)) {
+        $donateActionAuthorized = false;
+        $error = 'Senha incorreta. Nenhuma operação de Donate foi executada.';
+    }
+}
+
 $search = trim((string)($_GET['search'] ?? ''));
 $page = max(1, (int)($_GET['page'] ?? 1));
 
@@ -47,19 +67,11 @@ $pdo->exec("
 */
 
 /* Limpar o histórico de entregas/retiradas exige senha configurada no servidor e CSRF válido. */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'CLEAR_DONATE_HISTORY') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'CLEAR_DONATE_HISTORY') {
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
         $error = 'Token de segurança inválido.';
     } else {
-        $configuredPassword = getenv('DONATE_HISTORY_CLEAR_PASSWORD');
-        $providedPassword = (string)($_POST['history_password'] ?? '');
-
-        if ($configuredPassword === false || $configuredPassword === '') {
-            $error = 'A senha de limpeza ainda não foi configurada no servidor.';
-        } elseif (!hash_equals((string)$configuredPassword, $providedPassword)) {
-            $error = 'Senha incorreta. O histórico não foi apagado.';
-        } else {
-            try {
+        try {
                 $pdo->beginTransaction();
                 $deletedRows = (int)$pdo->query('SELECT COUNT(*) FROM admin_donate_log')->fetchColumn();
                 $pdo->exec('DELETE FROM admin_donate_log');
@@ -67,18 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
 
                 audit('DONATE_HISTORY_CLEARED', 'Histórico de entregas/retiradas do Donate limpo pela administração. Registros removidos: ' . $deletedRows);
                 $success = 'Histórico de Donate limpo. Registros removidos: ' . $deletedRows . '. Os saldos dos personagens e os pedidos de compra não foram alterados.';
-            } catch (Throwable $e) {
-                if ($pdo->inTransaction()) {
-                    $pdo->rollBack();
-                }
-                $error = 'Não foi possível limpar o histórico. Tente novamente.';
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
             }
+            $error = 'Não foi possível limpar o histórico. Tente novamente.';
         }
     }
 }
 
 /* Aprovação manual de pedido: a staff deve conferir o pagamento no Mercado Pago antes de clicar. */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'APPROVE_ORDER') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'APPROVE_ORDER') {
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
         $error = 'Token de segurança inválido.';
     } else {
@@ -187,6 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
 /* Recusar ou excluir pedidos sem tocar nas moedas dos jogadores. */
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST'
+    && $donateActionAuthorized
     && in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['REJECT_ORDER', 'DELETE_ORDER'], true)
 ) {
     $orderAction = strtoupper(trim((string)($_POST['action'] ?? '')));
@@ -241,7 +253,7 @@ if (
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'CLEAR_DONATE_HISTORY'], true)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $donateActionAuthorized && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'CLEAR_DONATE_HISTORY'], true)) {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
 
@@ -1924,12 +1936,14 @@ td {
                                         <form method="post" onsubmit="return confirm('Confirma que verificou o pagamento deste pedido no Mercado Pago? As moedas serão entregues imediatamente.');">
                                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                             <input type="hidden" name="action" value="APPROVE_ORDER">
+                                            <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password" style="margin:8px 0;padding:9px 10px;border:1px solid #465064;border-radius:7px;background:#080b12;color:#e7edf5;max-width:220px;">
                                             <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
                                             <button type="submit" class="submit">Confirmar pagamento e entregar</button>
                                         </form>
                                         <form method="post" onsubmit="return confirm('Recusar este pedido? Nenhuma Donate Coin será entregue.');">
                                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                             <input type="hidden" name="action" value="REJECT_ORDER">
+                                            <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password" style="margin:8px 0;padding:9px 10px;border:1px solid #465064;border-radius:7px;background:#080b12;color:#e7edf5;max-width:220px;">
                                             <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
                                             <button type="submit" class="submit" style="background:#a83d4a;">Recusar</button>
                                         </form>
@@ -1937,6 +1951,7 @@ td {
                                     <form method="post" onsubmit="return confirm('Excluir definitivamente o registro deste pedido? Esta ação não pode ser desfeita.');">
                                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                         <input type="hidden" name="action" value="DELETE_ORDER">
+                                            <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password" style="margin:8px 0;padding:9px 10px;border:1px solid #465064;border-radius:7px;background:#080b12;color:#e7edf5;max-width:220px;">
                                         <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
                                         <button type="submit" class="submit" style="background:#555;">Excluir</button>
                                     </form>
@@ -2038,6 +2053,11 @@ td {
                 </div>
 
 
+                <div class="field full">
+                    <label>Senha de segurança</label>
+                    <input type="password" name="donate_password" placeholder="Digite a senha de autorização" required autocomplete="current-password">
+                </div>
+
                 <button
                     type="submit"
                     class="btn"
@@ -2132,6 +2152,11 @@ td {
 
                 </div>
 
+
+                <div class="field full">
+                    <label>Senha de segurança</label>
+                    <input type="password" name="donate_password" placeholder="Digite a senha de autorização" required autocomplete="current-password">
+                </div>
 
                 <button
                     type="submit"
@@ -2471,7 +2496,7 @@ td {
                   onsubmit="return confirm('ATENÇÃO: apagar todos os registros de entregas e retiradas? Esta ação não pode ser desfeita. Os saldos dos personagens não serão alterados.');">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="action" value="CLEAR_DONATE_HISTORY">
-                <input type="password" name="history_password" placeholder="Senha para limpar histórico" required autocomplete="current-password"
+                <input type="password" name="donate_password" placeholder="Senha de segurança" required autocomplete="current-password"
                        style="max-width:260px;padding:10px 12px;border:1px solid rgba(217,106,106,.55);border-radius:8px;background:#080b12;color:#e7edf5;">
                 <button type="submit" class="btn" style="background:#a83d4a;border-color:#a83d4a;">LIMPAR HISTÓRICO</button>
             </form>
