@@ -46,10 +46,15 @@ function donatePackages(): array
     $packages = [];
     foreach ($quantities as $coins) {
         $id = 'coins_' . $coins;
+        $regularPrice = round($coins * 2, 2);
+        // Promoção: o pacote de 100 Donate Coins cai de R$ 200 para R$ 180.
+        $promoPrice = $coins === 100 ? 180.00 : $regularPrice;
         $packages[$id] = [
             'id' => $id,
             'coins' => $coins,
-            'price' => round($coins * 2, 2),
+            'price' => $promoPrice,
+            'regular_price' => $regularPrice,
+            'on_promotion' => $promoPrice < $regularPrice,
             'label' => $coins === 1 ? 'Pacote Individual' : 'Pacote de ' . $coins . ' moedas',
         ];
     }
@@ -334,7 +339,7 @@ function h(string $value): string
 <style>
 :root{color-scheme:dark;--bg:#080e18;--panel:#101b2a;--line:#26394e;--gold:#e9b94f;--text:#edf3fa;--muted:#9eb0c5;--green:#5bd6a1}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17263b 0,#080e18 62%);color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh}
-.wrap{width:min(1060px,calc(100% - 32px));margin:0 auto;padding:28px 0 54px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:35px}.brand{font-size:14px;letter-spacing:2px;font-weight:800;color:var(--gold)}.back{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:10px 14px;border-radius:8px}.hero{text-align:center;margin:24px auto 30px;max-width:680px}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:3px;font-weight:bold}.hero h1{font-size:clamp(30px,5vw,48px);margin:12px 0}.hero p{color:var(--muted);line-height:1.65;margin:0}.notice{border:1px solid #745b2c;background:#2b2415;color:#f7d98c;border-radius:10px;padding:14px 16px;margin:18px 0;line-height:1.5}.error{border:1px solid #8e3d49;background:#31171d;color:#ffc3cb;border-radius:10px;padding:14px 16px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}.package{position:relative;background:linear-gradient(160deg,#152338,#0d1725);border:1px solid var(--line);border-radius:15px;padding:23px;display:flex;flex-direction:column;min-height:240px}.package:hover{border-color:#a98742;transform:translateY(-2px)}.coin{font-size:30px}.package h2{font-size:19px;margin:13px 0 8px}.coins{font-size:28px;color:var(--gold);font-weight:800}.coins small{font-size:13px;color:var(--muted);font-weight:normal}.price{font-size:20px;margin:15px 0 20px}.package button,.submit{margin-top:auto;border:0;border-radius:9px;background:linear-gradient(100deg,#f0c75e,#d99b2d);color:#1c1608;font-weight:800;padding:13px 15px;cursor:pointer;font-size:14px}.package button:disabled,.submit:disabled{opacity:.5;cursor:not-allowed}.select-area{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:25px}.select-area label{display:block;font-size:13px;color:var(--muted);margin-bottom:9px}.select-area select{width:100%;padding:13px;background:#09121e;border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:15px}.foot{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.7;text-align:center}.empty{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:25px;color:var(--muted);line-height:1.6;text-align:center}
+.wrap{width:min(1060px,calc(100% - 32px));margin:0 auto;padding:28px 0 54px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:35px}.brand{font-size:14px;letter-spacing:2px;font-weight:800;color:var(--gold)}.back{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:10px 14px;border-radius:8px}.hero{text-align:center;margin:24px auto 30px;max-width:680px}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:3px;font-weight:bold}.hero h1{font-size:clamp(30px,5vw,48px);margin:12px 0}.hero p{color:var(--muted);line-height:1.65;margin:0}.notice{border:1px solid #745b2c;background:#2b2415;color:#f7d98c;border-radius:10px;padding:14px 16px;margin:18px 0;line-height:1.5}.error{border:1px solid #8e3d49;background:#31171d;color:#ffc3cb;border-radius:10px;padding:14px 16px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}.package{position:relative;background:linear-gradient(160deg,#152338,#0d1725);border:1px solid var(--line);border-radius:15px;padding:23px;display:flex;flex-direction:column;min-height:240px}.package:hover{border-color:#a98742;transform:translateY(-2px)}.coin{font-size:30px}.package h2{font-size:19px;margin:13px 0 8px}.coins{font-size:28px;color:var(--gold);font-weight:800}.coins small{font-size:13px;color:var(--muted);font-weight:normal}.price{font-size:20px;margin:15px 0 20px}.old-price{display:block;color:var(--muted);font-size:14px;text-decoration:line-through;margin-bottom:4px}.promo-tag{display:inline-block;align-self:flex-start;background:#3b1d1d;color:#ff9b9b;border:1px solid #8f3e3e;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;letter-spacing:.5px;margin-bottom:10px}.package button,.submit{margin-top:auto;border:0;border-radius:9px;background:linear-gradient(100deg,#f0c75e,#d99b2d);color:#1c1608;font-weight:800;padding:13px 15px;cursor:pointer;font-size:14px}.package button:disabled,.submit:disabled{opacity:.5;cursor:not-allowed}.select-area{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:25px}.select-area label{display:block;font-size:13px;color:var(--muted);margin-bottom:9px}.select-area select{width:100%;padding:13px;background:#09121e;border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:15px}.foot{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.7;text-align:center}.empty{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:25px;color:var(--muted);line-height:1.6;text-align:center}
 @media(max-width:520px){.top{align-items:flex-start}.wrap{width:calc(100% - 22px);padding-top:18px}.package{min-height:0}.hero{margin-top:14px}}
 </style>
 </head>
@@ -380,8 +385,12 @@ function h(string $value): string
           <article class="package">
             <div class="coin" aria-hidden="true">🪙</div>
             <h2><?= h($package['label']) ?></h2>
+            <?php if (!empty($package['on_promotion'])): ?><span class="promo-tag">PROMOÇÃO</span><?php endif; ?>
             <div class="coins"><?= number_format($package['coins'], 0, ',', '.') ?> <small>Donate Coins</small></div>
-            <div class="price">R$ <?= number_format($package['price'], 2, ',', '.') ?></div>
+            <div class="price">
+              <?php if (!empty($package['on_promotion'])): ?><span class="old-price">De R$ <?= number_format($package['regular_price'], 2, ',', '.') ?></span><?php endif; ?>
+              <?= !empty($package['on_promotion']) ? 'Por ' : '' ?>R$ <?= number_format($package['price'], 2, ',', '.') ?>
+            </div>
             <button type="submit" name="package_id" value="<?= h($package['id']) ?>">COMPRAR PACOTE</button>
           </article>
         <?php endforeach; ?>
