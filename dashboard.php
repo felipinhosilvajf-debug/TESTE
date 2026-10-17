@@ -15,9 +15,9 @@ $loginUsuario = $_SESSION['user_login'];
 
 $host = '127.0.0.1';
 $port = '3306';
-$db   = '';
-$user = '';
-$pass = '';
+$db   = 'l2mythras';
+$user = 'root';
+$pass = 'mas3510';
 
 
 /* =========================================================
@@ -1710,7 +1710,7 @@ body::after{
                 class="buy-donate"
                 aria-label="Comprar Donate Coins"
             >
-                <span aria-hidden="true">🪙</span>
+                <span aria-hidden="true">💎</span>
                 COMPRAR DONATE
             </a>
 
