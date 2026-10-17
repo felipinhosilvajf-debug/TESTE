@@ -747,13 +747,28 @@ $pendingPurchaseOrders = $pdo->query("
     LIMIT 100
 ")->fetchAll(PDO::FETCH_ASSOC);
 
-$approvedPurchaseOrders = $pdo->query("
+$approvedPurchaseOrdersPerPage = 10;
+$approvedPurchaseOrdersPage = max(1, (int)($_GET['approved_page'] ?? 1));
+$approvedPurchaseOrdersTotal = (int)$pdo->query("
+    SELECT COUNT(*)
+    FROM donate_purchase_orders
+    WHERE status IN ('paid', 'delivered', 'approved') OR delivered_at IS NOT NULL
+")->fetchColumn();
+$approvedPurchaseOrdersPages = max(1, (int)ceil($approvedPurchaseOrdersTotal / $approvedPurchaseOrdersPerPage));
+$approvedPurchaseOrdersPage = min($approvedPurchaseOrdersPage, $approvedPurchaseOrdersPages);
+$approvedPurchaseOrdersOffset = ($approvedPurchaseOrdersPage - 1) * $approvedPurchaseOrdersPerPage;
+
+$approvedPurchaseOrdersStmt = $pdo->prepare("
     SELECT id, account_name, character_name, coins, amount, created_at, paid_at, delivered_at, status, mp_payment_id
     FROM donate_purchase_orders
     WHERE status IN ('paid', 'delivered', 'approved') OR delivered_at IS NOT NULL
     ORDER BY COALESCE(delivered_at, paid_at, created_at) DESC
-    LIMIT 100
-")->fetchAll(PDO::FETCH_ASSOC);
+    LIMIT :limit OFFSET :offset
+");
+$approvedPurchaseOrdersStmt->bindValue(':limit', $approvedPurchaseOrdersPerPage, PDO::PARAM_INT);
+$approvedPurchaseOrdersStmt->bindValue(':offset', $approvedPurchaseOrdersOffset, PDO::PARAM_INT);
+$approvedPurchaseOrdersStmt->execute();
+$approvedPurchaseOrders = $approvedPurchaseOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
 
 $rejectedPurchaseOrders = $pdo->query("
     SELECT id, account_name, character_name, coins, amount, created_at
@@ -2013,10 +2028,17 @@ td {
 
 
     <section class="panel" style="margin:0 0 24px;">
-        <div class="panel-header">
-            <div class="panel-title">✅ Histórico de Donate aprovados/entregues (<?= count($approvedPurchaseOrders) ?>)</div>
-            <div class="panel-subtitle">Pagamentos confirmados e moedas entregues pelo webhook ou pela administração.</div>
-        </div>
+        <details style="border:0;" >
+            <summary style="cursor:pointer;list-style:none;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                <span>
+                    <strong>✅ Histórico de Donate aprovados/entregues (<?= (int)$approvedPurchaseOrdersTotal ?>)</strong>
+                    <span style="display:block;color:#aab8c8;font-size:13px;margin-top:5px;">Clique para expandir ou minimizar. Exibindo até 10 pedidos por página.</span>
+                </span>
+                <span class="btn" style="pointer-events:none;">Mostrar / ocultar</span>
+            </summary>
+            <div class="panel-header" style="padding-top:0;">
+                <div class="panel-subtitle">Pagamentos confirmados e moedas entregues pelo webhook ou pela administração.</div>
+            </div>
         <?php if (empty($approvedPurchaseOrders)): ?>
             <p style="padding:0 20px 18px;color:#aab8c8;">Nenhum pedido aprovado ou entregue ainda.</p>
         <?php else: ?>
@@ -2042,6 +2064,18 @@ td {
                     </tbody>
                 </table>
             </div>
+            <?php if ($approvedPurchaseOrdersPages > 1): ?>
+                <nav aria-label="Paginação do histórico aprovado" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:16px 20px;">
+                    <span style="color:#aab8c8;font-size:13px;">Página <?= (int)$approvedPurchaseOrdersPage ?> de <?= (int)$approvedPurchaseOrdersPages ?>:</span>
+                    <?php for ($approvedPageLink = 1; $approvedPageLink <= $approvedPurchaseOrdersPages; $approvedPageLink++): ?>
+                        <?php $approvedPageQuery = $_GET; $approvedPageQuery['approved_page'] = $approvedPageLink; ?>
+                        <a href="?<?= htmlspecialchars(http_build_query($approvedPageQuery), ENT_QUOTES, 'UTF-8') ?>"
+                           style="display:inline-block;padding:7px 11px;border-radius:6px;text-decoration:none;border:1px solid <?= $approvedPageLink === $approvedPurchaseOrdersPage ? '#d5ad57' : '#39465a' ?>;background:<?= $approvedPageLink === $approvedPurchaseOrdersPage ? '#d5ad57' : '#111827' ?>;color:<?= $approvedPageLink === $approvedPurchaseOrdersPage ? '#111827' : '#e7edf5' ?>;">
+                           <?= (int)$approvedPageLink ?>
+                        </a>
+                    <?php endfor; ?>
+                </nav>
+            <?php endif; ?>
         <?php endif; ?>
         <div style="padding:0 20px 20px;">
             <form method="post"
@@ -2055,6 +2089,7 @@ td {
             </form>
             <p style="color:#aab8c8;font-size:12px;margin-top:8px;">A senha de segurança é configurada no servidor pela variável DONATE_ACTION_PASSWORD. Esta ação apaga os registros dos pedidos desta lista, não remove moedas do inventário.</p>
         </div>
+        </details>
     </section>
 
     <section class="panel" style="margin:0 0 24px;">
