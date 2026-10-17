@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) !== 'APPROVE_ORDER') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'CLEAR_DONATE_HISTORY'], true)) {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
 
