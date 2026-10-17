@@ -4,16 +4,9 @@ declare(strict_types=1);
 /*
  * Mythras — Compra de Donate Coins
  *
- * CONFIGURAÇÃO OBRIGATÓRIA NO SERVIDOR:
- * DB_HOST, DB_NAME, DB_USER, DB_PASS
- * MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET, SITE_URL
- * DONATE_PACKAGES_JSON (ex.: [{"id":"p1","coins":100,"price":10.00,"label":"Pacote Inicial"}])
- *
- * Configure MP_WEBHOOK_URL no Mercado Pago para:
- * https://SEU-DOMINIO/comprar-donate.php?webhook=1
- *
- * O preço e a quantidade são lidos de DONATE_PACKAGES_JSON no servidor.
- * Nunca aceite preço/quantidade enviados pelo navegador.
+ * CONFIGURAÇÃO NO SERVIDOR:
+ * DB_HOST, DB_NAME, DB_USER, DB_PASS, MP_ACCESS_TOKEN e SITE_URL.
+ * Pacotes fixos a R$ 2,00 por Donate Coin; entrega manual pela staff.
  */
 
 session_start();
@@ -59,43 +52,18 @@ function dbConnection(): PDO
 
 function donatePackages(): array
 {
-    $raw = envValue('DONATE_PACKAGES_JSON');
-    if ($raw === '') {
-        return [];
-    }
-
-    $packages = json_decode($raw, true);
-    if (!is_array($packages)) {
-        return [];
-    }
-
-    $valid = [];
-    foreach ($packages as $package) {
-        if (!is_array($package)) {
-            continue;
-        }
-        $id = (string)($package['id'] ?? '');
-        $coins = filter_var($package['coins'] ?? null, FILTER_VALIDATE_INT);
-        $price = filter_var($package['price'] ?? null, FILTER_VALIDATE_FLOAT);
-        $label = trim((string)($package['label'] ?? ''));
-
-        if (
-            !preg_match('/^[a-zA-Z0-9_-]{1,40}$/', $id) ||
-            $coins === false || $coins < 1 || $coins > 1000000000 ||
-            $price === false || $price <= 0 || $price > 100000 ||
-            $label === ''
-        ) {
-            continue;
-        }
-
-        $valid[$id] = [
+    $quantities = [1, 5, 10, 25, 50, 100];
+    $packages = [];
+    foreach ($quantities as $coins) {
+        $id = 'coins_' . $coins;
+        $packages[$id] = [
             'id' => $id,
-            'coins' => (int)$coins,
-            'price' => round((float)$price, 2),
-            'label' => $label,
+            'coins' => $coins,
+            'price' => round($coins * 2, 2),
+            'label' => $coins === 1 ? 'Pacote Individual' : 'Pacote de ' . $coins . ' moedas',
         ];
     }
-    return $valid;
+    return $packages;
 }
 
 function ensureOrderTable(PDO $pdo): void
@@ -218,116 +186,6 @@ function deliverDonate(PDO $pdo, int $characterId, int $coins): void
     $insert->execute([$objectId, $characterId, DONATE_ITEM_ID, $coins]);
 }
 
-/*
- * Webhook do Mercado Pago. A confirmação é consultada diretamente na API,
- * e a entrega é idempotente: o pedido só muda de pending para paid dentro
- * da mesma transação que entrega as moedas.
- */
-if (isset($_GET['webhook'])) {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405);
-        exit;
-    }
-
-    try {
-        $accessToken = envValue('MP_ACCESS_TOKEN');
-        $webhookSecret = envValue('MP_WEBHOOK_SECRET');
-        if ($accessToken === '' || $webhookSecret === '') {
-            throw new RuntimeException('Webhook não configurado.');
-        }
-
-        $payload = json_decode((string)file_get_contents('php://input'), true) ?: [];
-        $paymentId = (string)($_GET['data_id'] ?? $_GET['data.id'] ?? $payload['data']['id'] ?? '');
-        $xSignature = (string)($_SERVER['HTTP_X_SIGNATURE'] ?? '');
-        $requestId = (string)($_SERVER['HTTP_X_REQUEST_ID'] ?? '');
-
-        // A assinatura do Mercado Pago deve ser validada com o segredo do webhook.
-        $signatureParts = [];
-        foreach (explode(',', $xSignature) as $part) {
-            $pair = explode('=', trim($part), 2);
-            if (count($pair) === 2) {
-                $signatureParts[$pair[0]] = $pair[1];
-            }
-        }
-        $ts = $signatureParts['ts'] ?? '';
-        $v1 = $signatureParts['v1'] ?? '';
-        if ($paymentId === '' || $requestId === '' || $ts === '' || $v1 === '') {
-            http_response_code(400);
-            exit;
-        }
-
-        $manifest = 'id:' . strtolower($paymentId) . ';request-id:' . $requestId . ';ts:' . $ts . ';';
-        $expected = hash_hmac('sha256', $manifest, $webhookSecret);
-        if (!hash_equals($expected, $v1)) {
-            http_response_code(401);
-            exit;
-        }
-
-        $payment = mpRequest('GET', 'https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId), $accessToken);
-        if (($payment['status'] ?? '') !== 'approved') {
-            http_response_code(200);
-            exit;
-        }
-
-        $externalReference = (string)($payment['external_reference'] ?? '');
-        if (!ctype_digit($externalReference) || (int)$externalReference < 1) {
-            http_response_code(200);
-            exit;
-        }
-
-        $pdo = dbConnection();
-        ensureOrderTable($pdo);
-        $pdo->beginTransaction();
-
-        $stmt = $pdo->prepare('SELECT * FROM donate_purchase_orders WHERE id = ? LIMIT 1 FOR UPDATE');
-        $stmt->execute([(int)$externalReference]);
-        $order = $stmt->fetch();
-
-        if (!$order || $order['status'] === 'paid' || $order['status'] === 'delivered') {
-            $pdo->commit();
-            http_response_code(200);
-            exit;
-        }
-
-        $expectedAmount = (float)$order['amount'];
-        $paidAmount = (float)($payment['transaction_amount'] ?? 0);
-        if (
-            (int)($payment['external_reference'] ?? 0) !== (int)$order['id'] ||
-            abs($paidAmount - $expectedAmount) > 0.009 ||
-            strtoupper((string)($payment['currency_id'] ?? '')) !== 'BRL'
-        ) {
-            $pdo->rollBack();
-            http_response_code(200);
-            exit;
-        }
-
-        $accountCheck = $pdo->prepare('SELECT account_name FROM characters WHERE obj_Id = ? LIMIT 1');
-        $accountCheck->execute([(int)$order['character_id']]);
-        if ((string)$accountCheck->fetchColumn() !== (string)$order['account_name']) {
-            throw new RuntimeException('A conta do personagem não corresponde ao pedido.');
-        }
-
-        $mark = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'paid', mp_payment_id = ?, paid_at = NOW() WHERE id = ? AND status = 'pending'");
-        $mark->execute([(string)$payment['id'], (int)$order['id']]);
-        if ($mark->rowCount() === 1) {
-            deliverDonate($pdo, (int)$order['character_id'], (int)$order['coins']);
-            $done = $pdo->prepare("UPDATE donate_purchase_orders SET status = 'delivered', delivered_at = NOW() WHERE id = ?");
-            $done->execute([(int)$order['id']]);
-        }
-
-        $pdo->commit();
-        http_response_code(200);
-        exit;
-    } catch (Throwable $e) {
-        if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        error_log('[Mythras Donate Webhook] ' . $e->getMessage());
-        http_response_code(500);
-        exit;
-    }
-}
-
 if (!isset($_SESSION['user_login']) || trim((string)$_SESSION['user_login']) === '') {
     header('Location: login.php');
     exit;
@@ -400,13 +258,11 @@ try {
                 'unit_price' => $package['price'],
             ]],
             'external_reference' => (string)$orderId,
-            'notification_url' => $siteUrl . '/comprar-donate.php?webhook=1',
             'back_urls' => [
                 'success' => $siteUrl . '/comprar-donate.php?status=success',
                 'pending' => $siteUrl . '/comprar-donate.php?status=pending',
                 'failure' => $siteUrl . '/comprar-donate.php?status=failure',
             ],
-            'auto_return' => 'approved',
             'statement_descriptor' => 'MYTHRAS DONATE',
             'metadata' => [
                 'order_id' => $orderId,
@@ -472,20 +328,20 @@ function h(string $value): string
   <section class="hero">
     <div class="eyebrow">LOJA OFICIAL</div>
     <h1>Comprar Donate Coins</h1>
-    <p>Escolha seu pacote, selecione o personagem que receberá as moedas e conclua o pagamento com segurança pelo Mercado Pago. A entrega acontece após a confirmação do pagamento.</p>
+    <p>Escolha seu pacote, selecione o personagem e pague pelo checkout seguro do Mercado Pago. Depois de conferir o pagamento, a staff libera as Donate Coins manualmente.</p>
   </section>
 
   <?php if ($error !== ''): ?><div class="error"><?= h($error) ?></div><?php endif; ?>
   <?php if (($_GET['status'] ?? '') === 'success'): ?>
-    <div class="notice">O retorno do pagamento foi recebido. A confirmação pode levar alguns instantes; confira o personagem no jogo. Não é necessário pagar novamente.</div>
+    <div class="notice">Você voltou do Mercado Pago. Seu pedido ficará pendente até a staff conferir o pagamento e liberar as moedas. Não pague novamente se já concluiu a compra.</div>
   <?php elseif (($_GET['status'] ?? '') === 'pending'): ?>
-    <div class="notice">Seu pagamento está pendente. As Donate Coins serão entregues somente após a confirmação do Mercado Pago.</div>
+    <div class="notice">Seu pedido está aguardando conferência manual da staff. As Donate Coins não são liberadas automaticamente.</div>
   <?php elseif (($_GET['status'] ?? '') === 'failure'): ?>
     <div class="notice">O pagamento não foi concluído. Você pode tentar novamente quando quiser.</div>
   <?php endif; ?>
 
   <?php if ($packages === []): ?>
-    <div class="empty"><strong>Pacotes ainda não configurados.</strong><br>A staff precisa definir os pacotes em <code>DONATE_PACKAGES_JSON</code> nas variáveis de ambiente do servidor antes de liberar as compras.</div>
+    <div class="empty"><strong>Pacotes ainda não configurados.</strong><br>Os pacotes serão exibidos assim que o checkout estiver configurado pela administração.</div>
   <?php elseif (empty($characters)): ?>
     <div class="empty">Não encontramos personagens nesta conta. Crie um personagem no servidor e volte para comprar Donate Coins.</div>
   <?php else: ?>
@@ -515,8 +371,8 @@ function h(string $value): string
   <?php endif; ?>
 
   <footer class="foot">
-    Pagamento processado pelo Mercado Pago. Nunca informe sua senha do jogo durante a compra.<br>
-    A confirmação do navegador não libera moedas; a entrega depende da notificação autenticada do pagamento.
+    Pagamento realizado pelo checkout do Mercado Pago. Nunca informe sua senha do jogo durante a compra.<br>
+    A volta para esta página não confirma o pagamento. A staff confere o recebimento e libera as moedas manualmente.
   </footer>
 </div>
 </body>
