@@ -14,15 +14,6 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/admin/includes/auth.php';
 global $pdo;
 
-error_log('[DONATE DEBUG] ' . json_encode([
-    'arquivo' => __FILE__,
-    'token_getenv' => getenv('MP_ACCESS_TOKEN') !== false
-        && trim((string) getenv('MP_ACCESS_TOKEN')) !== '',
-    'site_getenv' => getenv('SITE_URL') !== false
-        && trim((string) getenv('SITE_URL')) !== '',
-    'token_server' => !empty($_SERVER['MP_ACCESS_TOKEN']),
-    'site_server' => !empty($_SERVER['SITE_URL']),
-]));
 
 const DONATE_ITEM_ID = 37000;
 
@@ -121,8 +112,14 @@ function mpRequest(string $method, string $url, string $accessToken, ?array $bod
     curl_close($ch);
 
     if ($response === false || $curlError !== '') {
-        throw new RuntimeException('Não foi possível comunicar com o Mercado Pago.');
-    }
+    error_log('[Mythras Donate cURL] ' . json_encode([
+        'erro' => $curlError,
+        'errno' => curl_errno($ch),
+        'http_status' => $status,
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+    throw new RuntimeException('Não foi possível comunicar com o Mercado Pago.');
+}
 
     $decoded = json_decode((string)$response, true);
     if ($status < 200 || $status >= 300 || !is_array($decoded)) {
@@ -194,8 +191,9 @@ $accountName = (string)$_SESSION['user_login'];
 $error = '';
 $successUrl = '';
 $packages = donatePackages();
-$siteUrl = rtrim(envValue('virtualboost.online'), '/');
-$accessToken = envValue('APP_USR-7968932583473204-101703-e161a84916e2dbac113f3b44fdb348e5-3773227466');
+$siteUrl = rtrim(envValue('SITE_URL'), '/');
+$accessToken = envValue('MP_ACCESS_TOKEN');
+
 
 try {
     $pdo = dbConnection();
