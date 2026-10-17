@@ -6,10 +6,11 @@ declare(strict_types=1);
  *
  * CONFIGURAÇÃO NO SERVIDOR:
  * MP_ACCESS_TOKEN e SITE_URL precisam ser configurados no servidor.
- * A conexão com o banco é reutilizada de includes/auth.php.
+ * A conexão com o banco é carregada por db.php.
  * Pacotes fixos a R$ 2,00 por Donate Coin; entrega manual pela staff.
  */
 
+require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/includes/auth.php';
 global $pdo;
 
