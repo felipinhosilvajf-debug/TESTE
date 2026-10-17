@@ -46,6 +46,37 @@ $pdo->exec("
 |--------------------------------------------------------------------------
 */
 
+/* Limpar o histórico de entregas/retiradas exige senha configurada no servidor e CSRF válido. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'CLEAR_DONATE_HISTORY') {
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Token de segurança inválido.';
+    } else {
+        $configuredPassword = getenv('DONATE_HISTORY_CLEAR_PASSWORD');
+        $providedPassword = (string)($_POST['history_password'] ?? '');
+
+        if ($configuredPassword === false || $configuredPassword === '') {
+            $error = 'A senha de limpeza ainda não foi configurada no servidor.';
+        } elseif (!hash_equals((string)$configuredPassword, $providedPassword)) {
+            $error = 'Senha incorreta. O histórico não foi apagado.';
+        } else {
+            try {
+                $pdo->beginTransaction();
+                $deletedRows = (int)$pdo->query('SELECT COUNT(*) FROM admin_donate_log')->fetchColumn();
+                $pdo->exec('DELETE FROM admin_donate_log');
+                $pdo->commit();
+
+                audit('DONATE_HISTORY_CLEARED', 'Histórico de entregas/retiradas do Donate limpo pela administração. Registros removidos: ' . $deletedRows);
+                $success = 'Histórico de Donate limpo. Registros removidos: ' . $deletedRows . '. Os saldos dos personagens e os pedidos de compra não foram alterados.';
+            } catch (Throwable $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $error = 'Não foi possível limpar o histórico. Tente novamente.';
+            }
+        }
+    }
+}
+
 /* Aprovação manual de pedido: a staff deve conferir o pagamento no Mercado Pago antes de clicar. */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['action'] ?? ''))) === 'APPROVE_ORDER') {
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
@@ -210,7 +241,7 @@ if (
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER'], true)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !in_array(strtoupper(trim((string)($_POST['action'] ?? ''))), ['APPROVE_ORDER', 'REJECT_ORDER', 'DELETE_ORDER', 'CLEAR_DONATE_HISTORY'], true)) {
 
     if (!verify_csrf($_POST['csrf_token'] ?? null)) {
 
@@ -2435,6 +2466,15 @@ td {
             <div class="panel-subtitle">
                 Entregas e retiradas realizadas pela administração.
             </div>
+
+            <form method="post" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;"
+                  onsubmit="return confirm('ATENÇÃO: apagar todos os registros de entregas e retiradas? Esta ação não pode ser desfeita. Os saldos dos personagens não serão alterados.');">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="action" value="CLEAR_DONATE_HISTORY">
+                <input type="password" name="history_password" placeholder="Senha para limpar histórico" required autocomplete="current-password"
+                       style="max-width:260px;padding:10px 12px;border:1px solid rgba(217,106,106,.55);border-radius:8px;background:#080b12;color:#e7edf5;">
+                <button type="submit" class="btn" style="background:#a83d4a;border-color:#a83d4a;">LIMPAR HISTÓRICO</button>
+            </form>
 
         </div>
 
