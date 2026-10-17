@@ -70,8 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strtoupper(trim((string)($_POST['ac
                 $stmt = $pdo->prepare('SELECT obj_Id, char_name, account_name FROM characters WHERE obj_Id = ? LIMIT 1 FOR UPDATE');
                 $stmt->execute([(int)$order['character_id']]);
                 $character = $stmt->fetch(PDO::FETCH_ASSOC);
-                if (!$character || (string)$character['account_name'] !== (string)$order['account_name']) {
-                    throw new RuntimeException('O personagem não corresponde à conta do pedido.');
+                if (
+                    !$character
+                    || strcasecmp(trim((string)$character['account_name']), trim((string)$order['account_name'])) !== 0
+                ) {
+                    throw new RuntimeException('O personagem não corresponde à conta do pedido. Confira a conta vinculada ao personagem e ao pedido.');
                 }
 
                 $coins = (int)$order['coins'];
