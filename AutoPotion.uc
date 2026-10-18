@@ -554,13 +554,43 @@ function OnClickButton(string strID)
 	{
 		if (isMinimized)
 		{
+			isMinimized = false;
+			Me.SetWindowSize(215, 262);
+			// Restaura somente a interface; nao altera o estado do AutoFarm.
+			tDivider.ShowWindow();
+			tDivider2.ShowWindow();
+			hCP.ShowWindow();
+			hHP.ShowWindow();
+			hMP.ShowWindow();
+			hQHP.ShowWindow();
+			tBlankCP.ShowWindow();
+			tBlankHP.ShowWindow();
+			tBlankMP.ShowWindow();
+			tBlankQHP.ShowWindow();
+			hRand1.ShowWindow();
+			hRand2.ShowWindow();
+			hRand3.ShowWindow();
+			txtDescRand1.ShowWindow();
+			txtDescRand2.ShowWindow();
+			txtDescRand3.ShowWindow();
+			ePercentCP.ShowWindow();
+			ePercentHP.ShowWindow();
+			ePercentMP.ShowWindow();
+			eDelayCP.ShowWindow();
+			eDelayHP.ShowWindow();
+			eDelayMP.ShowWindow();
+			bExpand.ShowWindow();
+			bExpandMore.ShowWindow();
+			bMinimize.ShowWindow();
 			OnShow();
 		}
 		else
 		{
 			isMinimized = true;
-			// Esconde os controles internos sem alterar o estado do AutoFarm.
-			bExpand.HideWindow();
+			// Mantem o botao do AutoFarm e o de restaurar acessiveis.
+			// Esconde os controles internos sem desligar o AutoFarm.
+			bExpand.ShowWindow();
+			bMinimize.ShowWindow();
 			bExpandMore.HideWindow();
 			tDivider.HideWindow();
 			tDivider2.HideWindow();
@@ -612,7 +642,9 @@ function OnClickButton(string strID)
 			aTex7.HideWindow();
 			aTex8.HideWindow();
 			aTex9.HideWindow();
-			Me.SetWindowSize(215, 22);
+			Me.SetWindowSize(215, 42);
+			bExpand.ShowWindow();
+			bMinimize.ShowWindow();
 		}
 	}
 }
