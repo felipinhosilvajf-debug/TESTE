@@ -582,7 +582,9 @@ function OnClickButton(string strID)
 			bExpand.ShowWindow();
 			bExpandMore.ShowWindow();
 			bMinimize.ShowWindow();
-			OnShow();
+			// Reaplica o layout normal sem resetar as configuracoes das potions/skills.
+			Me.ShowWindow();
+			Me.SetFocus();
 		}
 		else
 		{
@@ -642,9 +644,12 @@ function OnClickButton(string strID)
 			aTex7.HideWindow();
 			aTex8.HideWindow();
 			aTex9.HideWindow();
+			// Reduz a janela depois de ocultar os controles para evitar que fiquem
+			// visiveis ou interceptem cliques na area compacta.
 			Me.SetWindowSize(215, 42);
 			bExpand.ShowWindow();
 			bMinimize.ShowWindow();
+			Me.ShowWindow();
 		}
 	}
 }
