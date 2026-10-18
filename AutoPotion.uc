@@ -53,6 +53,7 @@ var TextBoxHandle txtPercentQHP;
 var TextBoxHandle txtPercentSCP;
 var TextBoxHandle txtDelayQHP;
 var TextBoxHandle txtDelaySCP;
+var TextBoxHandle txtAutoFarmTitle;
 var TextBoxHandle txtDescQHP;
 var TextBoxHandle txtDescSCP;
 var TextBoxHandle txtDescS;
@@ -140,6 +141,7 @@ function OnLoad()
 	tBlankRand2 = GetTextureHandle("AutoPotions.texRand2");
 	tBlankRand3 = GetTextureHandle("AutoPotions.texRand3");
 	
+	txtAutoFarmTitle = GetTextBoxHandle("AutoPotions.AutoFarmTitle");
 	txtPercentQHP = GetTextBoxHandle("AutoPotions.percentTextQHP");
 	txtPercentSCP = GetTextBoxHandle("AutoPotions.percentTextSCP");
 	txtDelayQHP = GetTextBoxHandle("AutoPotions.delayTextQHP");
@@ -543,6 +545,7 @@ function HideExpandedControls()
 	tBlankCP.HideWindow(); tBlankHP.HideWindow(); tBlankMP.HideWindow();
 	tBlankQHP.HideWindow(); tBlankSCP.HideWindow(); tBlankS.HideWindow();
 	tBlankRand1.HideWindow(); tBlankRand2.HideWindow(); tBlankRand3.HideWindow();
+	txtAutoFarmTitle.HideWindow();
 	txtPercentQHP.HideWindow(); txtPercentSCP.HideWindow();
 	txtDelayQHP.HideWindow(); txtDelaySCP.HideWindow();
 	txtDescQHP.HideWindow(); txtDescSCP.HideWindow(); txtDescS.HideWindow();
@@ -579,6 +582,7 @@ function RestoreExpandedLayout()
 	tBlankCP.ShowWindow(); tBlankHP.ShowWindow(); tBlankMP.ShowWindow();
 	tBlankQHP.ShowWindow(); tBlankSCP.HideWindow(); tBlankS.HideWindow();
 	hRand1.ShowWindow(); hRand2.ShowWindow(); hRand3.ShowWindow();
+	txtAutoFarmTitle.ShowWindow();
 	txtDescQHP.HideWindow(); txtDescSCP.HideWindow(); txtDescS.HideWindow();
 	txtPercentQHP.HideWindow(); txtPercentSCP.HideWindow();
 	txtDelayQHP.HideWindow(); txtDelaySCP.HideWindow();
