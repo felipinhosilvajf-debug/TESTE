@@ -36,6 +36,8 @@ var EditBoxHandle eAmountS;
 
 var ButtonHandle bExpand;
 var ButtonHandle bExpandMore;
+var ButtonHandle bMinimize;
+var bool isMinimized;
 
 var TextureHandle tDivider;
 var TextureHandle tDivider2;
@@ -126,6 +128,7 @@ function OnLoad()
 	
 	bExpand = GetButtonHandle("AutoPotions.expandBtn");
 	bExpandMore = GetButtonHandle("AutoPotions.expandMoreBtn");
+	bMinimize = GetButtonHandle("AutoPotions.minimizeBtn");
 	
 	tDivider = GetTextureHandle("AutoPotions.divider0");
 	tDivider2 = GetTextureHandle("AutoPotions.divider1");
@@ -166,6 +169,7 @@ function OnLoad()
 
 function OnShow()
 {
+	isMinimized = false;
 	Me.SetWindowSize(215, 262);
 	
 	tDivider.ShowWindow();
@@ -204,6 +208,7 @@ function OnShow()
 	
 	bExpand.ShowWindow();
 	bExpandMore.ShowWindow();
+	bMinimize.ShowWindow();
 	
 	Me.ShowWindow();
 	Me.SetFocus();
@@ -379,6 +384,8 @@ function SetToDefault()
 	Me.SetWindowSize(215, 262);
 	bExpand.HideWindow();
 	bExpandMore.HideWindow();
+	bMinimize.HideWindow();
+	isMinimized = false;
 	tDivider.ShowWindow();
 	tDivider2.ShowWindow();
 
@@ -542,6 +549,19 @@ function OnClickButton(string strID)
 	{
 		ParamAdd(strParam, "FilePath", "..\\L2text\\help_farm.htm");
 		ExecuteEvent(EV_ShowHelp, strParam);
+	}
+	else if (strID == "minimizeBtn")
+	{
+		if (isMinimized)
+		{
+			Me.SetWindowSize(215, 262);
+			isMinimized = false;
+		}
+		else
+		{
+			Me.SetWindowSize(215, 22);
+			isMinimized = true;
+		}
 	}
 }
 
