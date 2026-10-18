@@ -554,13 +554,65 @@ function OnClickButton(string strID)
 	{
 		if (isMinimized)
 		{
-			Me.SetWindowSize(215, 262);
-			isMinimized = false;
+			OnShow();
 		}
 		else
 		{
-			Me.SetWindowSize(215, 22);
 			isMinimized = true;
+			// Esconde os controles internos sem alterar o estado do AutoFarm.
+			bExpand.HideWindow();
+			bExpandMore.HideWindow();
+			tDivider.HideWindow();
+			tDivider2.HideWindow();
+			hCP.HideWindow();
+			hHP.HideWindow();
+			hMP.HideWindow();
+			hQHP.HideWindow();
+			hSCP.HideWindow();
+			hS.HideWindow();
+			hRand1.HideWindow();
+			hRand2.HideWindow();
+			hRand3.HideWindow();
+			ePercentCP.HideWindow();
+			ePercentHP.HideWindow();
+			ePercentMP.HideWindow();
+			ePercentQHP.HideWindow();
+			ePercentSCP.HideWindow();
+			eDelayCP.HideWindow();
+			eDelayHP.HideWindow();
+			eDelayMP.HideWindow();
+			eDelayQHP.HideWindow();
+			eDelaySCP.HideWindow();
+			eAmountS.HideWindow();
+			tBlankCP.HideWindow();
+			tBlankHP.HideWindow();
+			tBlankMP.HideWindow();
+			tBlankQHP.HideWindow();
+			tBlankSCP.HideWindow();
+			tBlankS.HideWindow();
+			tBlankRand1.HideWindow();
+			tBlankRand2.HideWindow();
+			tBlankRand3.HideWindow();
+			txtPercentQHP.HideWindow();
+			txtPercentSCP.HideWindow();
+			txtDelayQHP.HideWindow();
+			txtDelaySCP.HideWindow();
+			txtDescQHP.HideWindow();
+			txtDescSCP.HideWindow();
+			txtDescS.HideWindow();
+			txtDescRand1.HideWindow();
+			txtDescRand2.HideWindow();
+			txtDescRand3.HideWindow();
+			aTex1.HideWindow();
+			aTex2.HideWindow();
+			aTex3.HideWindow();
+			aTex4.HideWindow();
+			aTex5.HideWindow();
+			aTex6.HideWindow();
+			aTex7.HideWindow();
+			aTex8.HideWindow();
+			aTex9.HideWindow();
+			Me.SetWindowSize(215, 22);
 		}
 	}
 }
