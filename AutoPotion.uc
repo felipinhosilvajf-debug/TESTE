@@ -53,7 +53,6 @@ var TextBoxHandle txtPercentQHP;
 var TextBoxHandle txtPercentSCP;
 var TextBoxHandle txtDelayQHP;
 var TextBoxHandle txtDelaySCP;
-var TextBoxHandle txtAutoFarmTitle;
 var TextBoxHandle txtDescQHP;
 var TextBoxHandle txtDescSCP;
 var TextBoxHandle txtDescS;
@@ -87,7 +86,6 @@ var int currentSkillId1;
 var int currentSkillId2;
 var int currentSkillId3;
 var bool autoFarmVisual;
-var bool isMinimized;
 
 function OnRegisterEvent()
 {
@@ -141,7 +139,6 @@ function OnLoad()
 	tBlankRand2 = GetTextureHandle("AutoPotions.texRand2");
 	tBlankRand3 = GetTextureHandle("AutoPotions.texRand3");
 	
-	txtAutoFarmTitle = GetTextBoxHandle("AutoPotions.AutoFarmTitle");
 	txtPercentQHP = GetTextBoxHandle("AutoPotions.percentTextQHP");
 	txtPercentSCP = GetTextBoxHandle("AutoPotions.percentTextSCP");
 	txtDelayQHP = GetTextBoxHandle("AutoPotions.delayTextQHP");
@@ -164,18 +161,11 @@ function OnLoad()
 	aTex9 = GetAnimTextureHandle("AutoPotions.Anim9");
 	
 	SetToDefault(); 
-	isMinimized = false;
 	Me.SetWindowSize(215, 262);
 }
 
 function OnShow()
 {
-	if (isMinimized)
-	{
-		ApplyMinimizedLayout();
-		Me.ShowWindow();
-		return;
-	}
 	Me.SetWindowSize(215, 262);
 	
 	tDivider.ShowWindow();
@@ -417,7 +407,6 @@ function SetToDefault()
 	txtDescRand2.ShowWindow();
 	txtDescRand3.ShowWindow();
 
-	isMinimized = false;
 	useCP = false;
 	useHP = false;
 	useMP = false;
@@ -531,72 +520,10 @@ function ItemID GetItemIDByHandle(ItemWindowHandle hHandle)
 	return item;
 }
 
-function HideExpandedControls()
-{
-	tDivider.HideWindow();
-	tDivider2.HideWindow();
-	hCP.HideWindow(); hHP.HideWindow(); hMP.HideWindow();
-	hQHP.HideWindow(); hSCP.HideWindow(); hS.HideWindow();
-	hRand1.HideWindow(); hRand2.HideWindow(); hRand3.HideWindow();
-	ePercentCP.HideWindow(); ePercentHP.HideWindow(); ePercentMP.HideWindow();
-	ePercentQHP.HideWindow(); ePercentSCP.HideWindow();
-	eDelayCP.HideWindow(); eDelayHP.HideWindow(); eDelayMP.HideWindow();
-	eDelayQHP.HideWindow(); eDelaySCP.HideWindow(); eAmountS.HideWindow();
-	tBlankCP.HideWindow(); tBlankHP.HideWindow(); tBlankMP.HideWindow();
-	tBlankQHP.HideWindow(); tBlankSCP.HideWindow(); tBlankS.HideWindow();
-	tBlankRand1.HideWindow(); tBlankRand2.HideWindow(); tBlankRand3.HideWindow();
-	txtAutoFarmTitle.HideWindow();
-	txtPercentQHP.HideWindow(); txtPercentSCP.HideWindow();
-	txtDelayQHP.HideWindow(); txtDelaySCP.HideWindow();
-	txtDescQHP.HideWindow(); txtDescSCP.HideWindow(); txtDescS.HideWindow();
-	txtDescRand1.HideWindow(); txtDescRand2.HideWindow(); txtDescRand3.HideWindow();
-	aTex1.HideWindow(); aTex2.HideWindow(); aTex3.HideWindow();
-	aTex4.HideWindow(); aTex5.HideWindow(); aTex6.HideWindow();
-	aTex7.HideWindow(); aTex8.HideWindow(); aTex9.HideWindow();
-}
-
-function ApplyMinimizedLayout()
-{
-	local Rect r;
-	if (Me == None || bExpand == None || bExpandMore == None) return;
-	r = Me.GetRect();
-	HideExpandedControls();
-	Me.SetWindowSize(100, 40);
-	bExpand.ShowWindow();
-	bExpandMore.ShowWindow();
-	bExpand.MoveTo(r.nX + 4, r.nY + 4);
-	bExpandMore.MoveTo(r.nX + 76, r.nY + 12);
-}
-
-function RestoreExpandedLayout()
-{
-	local Rect r;
-	if (Me == None || bExpand == None || bExpandMore == None) return;
-	r = Me.GetRect();
-	isMinimized = false;
-	Me.SetWindowSize(215, 262);
-	tDivider.ShowWindow();
-	tDivider2.ShowWindow();
-	hCP.ShowWindow(); hHP.ShowWindow(); hMP.ShowWindow();
-	hQHP.ShowWindow(); hSCP.HideWindow(); hS.HideWindow();
-	tBlankCP.ShowWindow(); tBlankHP.ShowWindow(); tBlankMP.ShowWindow();
-	tBlankQHP.ShowWindow(); tBlankSCP.HideWindow(); tBlankS.HideWindow();
-	hRand1.ShowWindow(); hRand2.ShowWindow(); hRand3.ShowWindow();
-	txtAutoFarmTitle.ShowWindow();
-	txtDescQHP.HideWindow(); txtDescSCP.HideWindow(); txtDescS.HideWindow();
-	txtPercentQHP.HideWindow(); txtPercentSCP.HideWindow();
-	txtDelayQHP.HideWindow(); txtDelaySCP.HideWindow();
-	ePercentQHP.HideWindow(); eDelayQHP.HideWindow();
-	tBlankRand1.ShowWindow(); tBlankRand2.ShowWindow(); tBlankRand3.ShowWindow();
-	txtDescRand1.ShowWindow(); txtDescRand2.ShowWindow(); txtDescRand3.ShowWindow();
-	bExpand.ShowWindow(); bExpandMore.ShowWindow();
-	bExpand.MoveTo(r.nX + 75, r.nY + 120);
-	bExpandMore.MoveTo(r.nX + 194, r.nY + 92);
-	Me.ShowWindow();
-}
-
 function OnClickButton(string strID)
 {
+	local string strParam;
+
 	if (strID == "expandBtn")
 	{
 		ExecuteCommand(".autofarm toggle");
@@ -613,14 +540,8 @@ function OnClickButton(string strID)
 	}
 	else if (strID == "expandMoreBtn")
 	{
-		if (!isMinimized)
-		{
-			isMinimized = true;
-			ApplyMinimizedLayout();
-		}
-		else
-		{
-			RestoreExpandedLayout();
-		}
+		ParamAdd(strParam, "FilePath", "..\\L2text\\help_farm.htm");
+		ExecuteEvent(EV_ShowHelp, strParam);
 	}
 }
+
