@@ -73,6 +73,10 @@ function sidebarActive(string $page): string
             Castles
         </a>
 
+        <a href="election.php" class="<?= sidebarActive('election.php') ?>">
+            Eleição Política
+        </a>
+
         <a href="logs.php">
             Logs
         </a>
