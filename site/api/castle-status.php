@@ -27,6 +27,20 @@ try {
         throw new RuntimeException('A conexão PDO não foi inicializada.');
     }
 
+    // Lista oficial dos nove castelos clássicos de Lineage II.
+    // Mantém todos visíveis mesmo se a tabela castle do servidor estiver incompleta.
+    $allCastles = [
+        1 => ['name' => 'Gludio', 'owner' => null, 'taxPercent' => 0],
+        2 => ['name' => 'Dion', 'owner' => null, 'taxPercent' => 0],
+        3 => ['name' => 'Giran', 'owner' => null, 'taxPercent' => 0],
+        4 => ['name' => 'Oren', 'owner' => null, 'taxPercent' => 0],
+        5 => ['name' => 'Aden', 'owner' => null, 'taxPercent' => 0],
+        6 => ['name' => 'Innadril', 'owner' => null, 'taxPercent' => 0],
+        7 => ['name' => 'Goddard', 'owner' => null, 'taxPercent' => 0],
+        8 => ['name' => 'Rune', 'owner' => null, 'taxPercent' => 0],
+        9 => ['name' => 'Schuttgart', 'owner' => null, 'taxPercent' => 0],
+    ];
+
     $sql = "
         SELECT
             c.ID AS castle_id,
@@ -46,15 +60,29 @@ try {
     ";
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $castles = [];
 
+    // Sobrescreve os valores padrão com os dados reais encontrados no banco.
     foreach ($rows as $row) {
+        $id = (int)($row['castle_id'] ?? 0);
+        if ($id < 1 || $id > 9) {
+            continue;
+        }
+
         $owner = trim((string)($row['clan_name'] ?? ''));
-        $castles[] = [
-            'id' => (int)$row['castle_id'],
-            'name' => (string)$row['castle_name'],
+        $allCastles[$id] = [
+            'name' => (string)($row['castle_name'] ?: $allCastles[$id]['name']),
             'owner' => $owner !== '' ? $owner : null,
             'taxPercent' => (float)($row['tax_percent'] ?? 0),
+        ];
+    }
+
+    $castles = [];
+    foreach ($allCastles as $id => $castle) {
+        $castles[] = [
+            'id' => $id,
+            'name' => $castle['name'],
+            'owner' => $castle['owner'],
+            'taxPercent' => $castle['taxPercent'],
         ];
     }
 
