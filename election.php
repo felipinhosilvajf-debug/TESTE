@@ -132,7 +132,7 @@ try {
             }
         } else $error = 'Ação de eleição inválida.';
     }
-    $castles = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury,collected_shops FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $castles = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
     if ($accountName !== '') {
         $leadersStmt = $pdo->prepare("SELECT cd.clan_id,cd.clan_name,ch.obj_Id AS leader_id,ch.char_name AS leader_name
             FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
