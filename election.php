@@ -67,7 +67,6 @@ try {
         castle_id INT NOT NULL,
         candidate_leader_id INT NOT NULL,
         candidate_name VARCHAR(100) NOT NULL,
-        candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '',
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
         KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
@@ -105,10 +104,6 @@ try {
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
         $voteColumns[] = 'created_at';
     }
-    if (!in_array('candidate_clan_name', $voteColumns, true)) {
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_name");
-        $voteColumns[] = 'candidate_clan_name';
-    }
     $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
     $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
     // Remove duplicatas legadas por conta/eleição/castelo antes de criar a chave única.
@@ -127,32 +122,12 @@ try {
         $voteIndexRows = [];
     }
     if (!$voteIndexRows) $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
-    // Só migra os clãs e limpa candidaturas após garantir que todas as colunas antigas existam.
-    $pdo->exec("UPDATE vb_political_election_votes v
-        INNER JOIN vb_political_election_candidates c
-          ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
-        SET v.candidate_clan_name=c.clan_name
-        WHERE v.candidate_clan_name=''");
-    $pdo->exec("DELETE c FROM vb_political_election_candidates c
-        INNER JOIN vb_political_elections e ON e.id=c.election_id
-        WHERE e.status='finished'");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
         // O encerramento só muda o estado; os vencedores são apurados individualmente por castelo abaixo.
-        $finishId = (int)$election['id'];
-        $saveClanNames = $pdo->prepare("UPDATE vb_political_election_votes v
-            INNER JOIN vb_political_election_candidates c
-              ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
-            SET v.candidate_clan_name=c.clan_name
-            WHERE v.election_id=? AND v.candidate_clan_name=''");
-        $saveClanNames->execute([$finishId]);
         $finish = $pdo->prepare("UPDATE vb_political_elections SET status='finished',winner_leader_id=NULL,winner_name=NULL,forced=0 WHERE id=? AND status='open' AND ends_at<=NOW()");
-        $finish->execute([$finishId]);
-        if ($finish->rowCount() > 0) {
-            $clearCandidates = $pdo->prepare("DELETE FROM vb_political_election_candidates WHERE election_id=?");
-            $clearCandidates->execute([$finishId]);
-        }
+        $finish->execute([(int)$election['id']]);
         $election = null;
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -210,11 +185,8 @@ try {
                 if (!$candidate) $error = 'Esse candidato não está inscrito nesta eleição.';
                 else {
                     try {
-                        $vote = $pdo->prepare("INSERT INTO vb_political_election_votes (election_id,account_name,castle_id,candidate_leader_id,candidate_name,candidate_clan_name) VALUES (?,?,?,?,?,?)");
-                        $clanNameStmt = $pdo->prepare("SELECT clan_name FROM vb_political_election_candidates WHERE id=? AND election_id=? LIMIT 1");
-                        $clanNameStmt->execute([$candidateId, (int)$election['id']]);
-                        $candidateClanName = (string)($clanNameStmt->fetchColumn() ?: '');
-                        $vote->execute([(int)$election['id'], $accountName, (int)$candidate['castle_id'], (int)$candidate['leader_id'], (string)$candidate['candidate_name'], $candidateClanName]);
+                        $vote = $pdo->prepare("INSERT INTO vb_political_election_votes (election_id,account_name,castle_id,candidate_leader_id,candidate_name) VALUES (?,?,?,?,?)");
+                        $vote->execute([(int)$election['id'], $accountName, (int)$candidate['castle_id'], (int)$candidate['leader_id'], (string)$candidate['candidate_name']]);
                         $notice = 'Seu voto foi registrado para este castelo.';
                     } catch (PDOException $e) {
                         if ((string)$e->getCode() === '23000') $error = 'Sua conta já votou neste castelo nesta eleição.';
@@ -243,7 +215,7 @@ try {
             ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
         $candStmt->execute([(int)$election['id']]);
         foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
-        $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,MAX(candidate_clan_name) AS clan_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
+        $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
         $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
         $totalVotes = array_sum(array_map(static function ($v) { return (int)$v['votes']; }, $votes));
         if ($accountName !== '') {
@@ -262,22 +234,15 @@ try {
                 ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
             $candStmt->execute([(int)$election['id']]);
             foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
-            $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,MAX(candidate_clan_name) AS clan_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
+            $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
             $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
             $totalVotes = array_sum(array_map(static function ($v) { return (int)$v['votes']; }, $votes));
         }
     }
     if ($election && $election['status'] === 'finished') {
-        foreach ($votes as $resultRow) {
-            $resultCastleId = (int)$resultRow['castle_id'];
-            if ((int)$resultRow['votes'] > 0 && !isset($winnersByCastle[$resultCastleId])) {
-                $winnersByCastle[$resultCastleId] = [
-                    'candidate_name' => (string)$resultRow['candidate_name'],
-                    'clan_name' => (string)($resultRow['clan_name'] ?? ''),
-                    'votes' => (int)$resultRow['votes'],
-                    'leader_id' => (int)$resultRow['candidate_leader_id']
-                ];
-            }
+        foreach ($castles as $castle) {
+            $list = $candidatesByCastle[(int)$castle['castle_id']] ?? [];
+            if ($list) { usort($list, static function ($a, $b) { $byVotes = (int)$b['votes'] <=> (int)$a['votes']; return $byVotes ?: strcmp((string)$a['candidate_name'], (string)$b['candidate_name']); }); if ((int)$list[0]['votes'] > 0) $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
         }
     }
 } catch (Throwable $e) {
