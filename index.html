@@ -3632,6 +3632,26 @@ setInterval(atualizarContador, 1000);
 atualizarContador();
 
 /* =========================================================
+   TESOURO DOS CASTELOS EM TEMPO REAL
+========================================================= */
+async function atualizarTesouroCastelos(){
+    try{
+        const response = await fetch('/site/api/castle-treasury.php?t=' + Date.now(), { cache:'no-store' });
+        if(!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        if(data.success && Number.isFinite(Number(data.castleTreasury))){
+            const el = document.getElementById('dbCastleVault');
+            if(el) el.textContent = Number(data.castleTreasury).toLocaleString('pt-BR');
+        }
+    }catch(error){
+        // Mantém o valor de segurança já renderizado se a API estiver indisponível.
+        console.error('Erro ao carregar tesouro dos castelos:', error);
+    }
+}
+atualizarTesouroCastelos();
+setInterval(atualizarTesouroCastelos, 15000);
+
+/* =========================================================
    ECONOMIA EM TEMPO REAL
 ========================================================= */
 async function atualizarAdena(){
