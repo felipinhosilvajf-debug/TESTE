@@ -10,6 +10,14 @@ if (empty($_SESSION['vb_election_csrf']) || !is_string($_SESSION['vb_election_cs
 $csrf = $_SESSION['vb_election_csrf'];
 $error = ''; $notice = ''; $election = null; $castles = []; $candidatesByCastle = []; $myLeaders = [];
 $votes = []; $totalVotes = 0; $alreadyVoted = []; $winnersByCastle = [];
+// Carrega os castelos independentemente das tabelas da eleição. Assim, uma falha
+// na migração das tabelas de votação não deixa a página inteira sem castelos.
+try {
+    $castleListStmt = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury FROM castle ORDER BY ID ASC");
+    $castles = $castleListStmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $castleLoadError) {
+    error_log('[VirtualBoost election.php][castles] ' . get_class($castleLoadError) . ': ' . $castleLoadError->getMessage());
+}
 try {
     $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_elections (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
