@@ -141,9 +141,12 @@ try {
             $leaderId = filter_input(INPUT_POST, 'leader_id', FILTER_VALIDATE_INT);
             if (!$castleId || !$leaderId) $error = 'Selecione um castelo e um personagem líder válido.';
             else {
-                $leaderStmt = $pdo->prepare("SELECT cd.clan_id, cd.clan_name,
+                $leaderStmt = $pdo->prepare("SELECT cd.clan_id,
+                    COALESCE((SELECT cs.name FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id AND cs.type=0 LIMIT 1), cd.clan_name) AS clan_name,
                     ch.obj_Id AS leader_id, ch.char_name AS leader_name
-                    FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+                    FROM clan_data cd
+                    INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+                        OR EXISTS (SELECT 1 FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id AND cs.type=0 AND cs.leader_id=ch.obj_Id)
                     WHERE ch.account_name=? AND ch.obj_Id=? LIMIT 1");
                 $leaderStmt->execute([$accountName, $leaderId]); $leader = $leaderStmt->fetch(PDO::FETCH_ASSOC);
                 $castleCheck = $pdo->prepare("SELECT ID FROM castle WHERE ID=? LIMIT 1"); $castleCheck->execute([$castleId]);
@@ -187,9 +190,12 @@ try {
     }
     $castles = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
     if ($accountName !== '') {
-        $leadersStmt = $pdo->prepare("SELECT cd.clan_id, cd.clan_name,
+        $leadersStmt = $pdo->prepare("SELECT cd.clan_id,
+            COALESCE((SELECT cs.name FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id AND cs.type=0 LIMIT 1), cd.clan_name) AS clan_name,
             ch.obj_Id AS leader_id,ch.char_name AS leader_name
-            FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+            FROM clan_data cd
+            INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+                OR EXISTS (SELECT 1 FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id AND cs.type=0 AND cs.leader_id=ch.obj_Id)
             WHERE ch.account_name=? ORDER BY ch.char_name ASC");
         $leadersStmt->execute([$accountName]); $myLeaders = $leadersStmt->fetchAll(PDO::FETCH_ASSOC);
     }
