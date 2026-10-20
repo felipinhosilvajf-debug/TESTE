@@ -57,6 +57,7 @@ try {
         castle_id INT NOT NULL,
         candidate_leader_id INT NOT NULL,
         candidate_name VARCHAR(100) NOT NULL,
+        candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '',
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY uq_vb_election_account (election_id, account_name),
         KEY idx_vb_election_candidate (election_id, candidate_leader_id)
@@ -100,6 +101,18 @@ try {
         $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
     }
+    $voteColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('candidate_clan_name', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_name");
+    }
+    $pdo->exec("UPDATE vb_political_election_votes v
+        INNER JOIN vb_political_election_candidates c
+          ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
+        SET v.candidate_clan_name=c.clan_name
+        WHERE v.candidate_clan_name=''");
+    $pdo->exec("DELETE c FROM vb_political_election_candidates c
+        INNER JOIN vb_political_elections e ON e.id=c.election_id
+        WHERE e.status='finished'");
 } catch (Throwable $e) {
     $electionError = 'Não foi possível preparar as tabelas da eleição. Verifique as permissões do banco e a estrutura existente.';
 }
@@ -147,9 +160,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$electionError) {
                 $electionNotice = 'Eleição retomada.';
                 audit('election_resumed', 'Eleição #' . $activeElection['id']);
             } elseif (in_array($action, ['finish','force_finish'], true)) {
-                $winner = vb_election_winner($pdo, (int)$activeElection['id']);
+                $electionIdToFinish = (int)$activeElection['id'];
+                $winner = vb_election_winner($pdo, $electionIdToFinish);
+                $saveClanNames = $pdo->prepare("UPDATE vb_political_election_votes v
+                    INNER JOIN vb_political_election_candidates c
+                      ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
+                    SET v.candidate_clan_name=c.clan_name
+                    WHERE v.election_id=? AND v.candidate_clan_name=''");
+                $saveClanNames->execute([$electionIdToFinish]);
                 $stmt = $pdo->prepare("UPDATE vb_political_elections SET status='finished', ends_at=NOW(), winner_leader_id=?, winner_name=?, forced=? WHERE id=?");
-                $stmt->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, $action === 'force_finish' ? 1 : 0, (int)$activeElection['id']]);
+                $stmt->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, $action === 'force_finish' ? 1 : 0, $electionIdToFinish]);
+                $clearCandidates = $pdo->prepare("DELETE FROM vb_political_election_candidates WHERE election_id=?");
+                $clearCandidates->execute([$electionIdToFinish]);
                 $electionNotice = $winner
                     ? 'Eleição encerrada. A apuração dos vencedores está separada por castelo na seção de resultados abaixo. A troca de proprietário continua manual e depende de validação administrativa.'
                     : 'Eleição encerrada sem votos; nenhum vencedor foi definido.';
@@ -178,9 +200,20 @@ if (!$electionError) {
         $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
         $activeElection = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
         if ($activeElection && $activeElection['status'] === 'open' && strtotime($activeElection['ends_at']) <= time()) {
-            $winner = vb_election_winner($pdo, (int)$activeElection['id']);
+            $electionIdToFinish = (int)$activeElection['id'];
+            $winner = vb_election_winner($pdo, $electionIdToFinish);
+            $saveClanNames = $pdo->prepare("UPDATE vb_political_election_votes v
+                INNER JOIN vb_political_election_candidates c
+                  ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
+                SET v.candidate_clan_name=c.clan_name
+                WHERE v.election_id=? AND v.candidate_clan_name=''");
+            $saveClanNames->execute([$electionIdToFinish]);
             $finish = $pdo->prepare("UPDATE vb_political_elections SET status='finished', winner_leader_id=?, winner_name=?, forced=0 WHERE id=? AND status='open' AND ends_at <= NOW()");
-            $finish->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, (int)$activeElection['id']]);
+            $finish->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, $electionIdToFinish]);
+            if ($finish->rowCount() > 0) {
+                $clearCandidates = $pdo->prepare("DELETE FROM vb_political_election_candidates WHERE election_id=?");
+                $clearCandidates->execute([$electionIdToFinish]);
+            }
             $activeElection = null;
         }
         $latestStmt = $pdo->query("SELECT * FROM vb_political_elections ORDER BY id DESC LIMIT 1");
@@ -190,13 +223,12 @@ if (!$electionError) {
             $votesStmt->execute([(int)$latestElection['id']]);
             $electionVoteCounts = $votesStmt->fetchAll(PDO::FETCH_ASSOC);
             $latestElection['total_votes'] = array_sum(array_map(static fn($v) => (int)$v['votes'], $electionVoteCounts));
-            $resultsStmt = $pdo->prepare("SELECT c.castle_id, ca.name AS castle_name, c.candidate_name, c.clan_name, c.leader_id, COUNT(v.id) AS votes
-                FROM vb_political_election_candidates c
-                INNER JOIN castle ca ON ca.ID=c.castle_id
-                LEFT JOIN vb_political_election_votes v ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
-                WHERE c.election_id=?
-                GROUP BY c.castle_id,ca.name,c.candidate_name,c.clan_name,c.leader_id
-                ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
+            $resultsStmt = $pdo->prepare("SELECT v.castle_id, ca.name AS castle_name, v.candidate_name, MAX(v.candidate_clan_name) AS clan_name, v.candidate_leader_id AS leader_id, COUNT(*) AS votes
+                FROM vb_political_election_votes v
+                INNER JOIN castle ca ON ca.ID=v.castle_id
+                WHERE v.election_id=?
+                GROUP BY v.castle_id,ca.name,v.candidate_name,v.candidate_leader_id
+                ORDER BY v.castle_id ASC,votes DESC,v.candidate_name ASC");
             $resultsStmt->execute([(int)$latestElection['id']]);
             foreach ($resultsStmt->fetchAll(PDO::FETCH_ASSOC) as $resultRow) {
                 $castleId = (int)$resultRow['castle_id'];
