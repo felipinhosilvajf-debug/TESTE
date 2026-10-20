@@ -30,15 +30,15 @@ try {
     // Lista oficial dos nove castelos clássicos de Lineage II.
     // Mantém todos visíveis mesmo se a tabela castle do servidor estiver incompleta.
     $allCastles = [
-        1 => ['name' => 'Gludio', 'owner' => null, 'taxPercent' => 0],
-        2 => ['name' => 'Dion', 'owner' => null, 'taxPercent' => 0],
-        3 => ['name' => 'Giran', 'owner' => null, 'taxPercent' => 0],
-        4 => ['name' => 'Oren', 'owner' => null, 'taxPercent' => 0],
-        5 => ['name' => 'Aden', 'owner' => null, 'taxPercent' => 0],
-        6 => ['name' => 'Innadril', 'owner' => null, 'taxPercent' => 0],
-        7 => ['name' => 'Goddard', 'owner' => null, 'taxPercent' => 0],
-        8 => ['name' => 'Rune', 'owner' => null, 'taxPercent' => 0],
-        9 => ['name' => 'Schuttgart', 'owner' => null, 'taxPercent' => 0],
+        1 => ['name' => 'Gludio', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        2 => ['name' => 'Dion', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        3 => ['name' => 'Giran', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        4 => ['name' => 'Oren', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        5 => ['name' => 'Aden', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        6 => ['name' => 'Innadril', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        7 => ['name' => 'Goddard', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        8 => ['name' => 'Rune', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
+        9 => ['name' => 'Schuttgart', 'owner' => null, 'taxPercent' => 0, 'treasury' => null],
     ];
 
     $sql = "
@@ -46,6 +46,7 @@ try {
             c.ID AS castle_id,
             c.name AS castle_name,
             c.tax_percent,
+            c.treasury,
             cd.clan_id,
             (
                 SELECT cs.name
@@ -73,6 +74,7 @@ try {
             'name' => (string)($row['castle_name'] ?: $allCastles[$id]['name']),
             'owner' => $owner !== '' ? $owner : null,
             'taxPercent' => (float)($row['tax_percent'] ?? 0),
+            'treasury' => isset($row['treasury']) ? (int)$row['treasury'] : null,
         ];
     }
 
@@ -83,6 +85,7 @@ try {
             'name' => $castle['name'],
             'owner' => $castle['owner'],
             'taxPercent' => $castle['taxPercent'],
+            'treasury' => $castle['treasury'],
         ];
     }
 
