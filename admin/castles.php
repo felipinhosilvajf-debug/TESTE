@@ -200,7 +200,7 @@ if (!$electionError) {
             $resultsStmt->execute([(int)$latestElection['id']]);
             foreach ($resultsStmt->fetchAll(PDO::FETCH_ASSOC) as $resultRow) {
                 $castleId = (int)$resultRow['castle_id'];
-                if (!isset($electionResultsByCastle[$castleId])) $electionResultsByCastle[$castleId] = $resultRow;
+                if ((int)$resultRow['votes'] > 0 && !isset($electionResultsByCastle[$castleId])) $electionResultsByCastle[$castleId] = $resultRow;
             }
         }
     } catch (Throwable $e) {
