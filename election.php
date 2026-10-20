@@ -49,23 +49,32 @@ try {
         UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
         KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    // Migra tabelas da primeira versão, caso o painel público seja aberto antes do administrativo.
+    // Migração incremental para suportar a tabela antiga sem duplicar colunas existentes.
     $voteColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes")->fetchAll(PDO::FETCH_COLUMN);
     if (!in_array('election_id', $voteColumns, true)) {
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NULL FIRST");
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN castle_id INT NOT NULL DEFAULT 0 AFTER account_name");
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_leader_id INT NOT NULL DEFAULT 0 AFTER castle_id");
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_leader_id");
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-        $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
-        $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
-    } else {
-        if (!in_array('castle_id', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN castle_id INT NOT NULL DEFAULT 0 AFTER account_name");
-        if (!in_array('candidate_leader_id', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_leader_id INT NOT NULL DEFAULT 0 AFTER castle_id");
-        if (!in_array('candidate_name', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_leader_id");
-        if (!in_array('created_at', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+        $voteColumns[] = 'election_id';
     }
-    $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
+    if (!in_array('castle_id', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN castle_id INT NOT NULL DEFAULT 0 AFTER account_name");
+        $voteColumns[] = 'castle_id';
+    }
+    if (!in_array('candidate_leader_id', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_leader_id INT NOT NULL DEFAULT 0 AFTER castle_id");
+        $voteColumns[] = 'candidate_leader_id';
+    }
+    if (!in_array('candidate_name', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_leader_id");
+        $voteColumns[] = 'candidate_name';
+    }
+    if (!in_array('created_at', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+        $voteColumns[] = 'created_at';
+    }
+    $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
+    $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
+    $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
+    if ($voteIndexRows) $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
     $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
