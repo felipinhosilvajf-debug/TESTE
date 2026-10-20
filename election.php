@@ -1,98 +1,142 @@
 <?php
 declare(strict_types=1);
-
-/* Eleição pública do Virtual Boost. Usa a sessão criada por process_autg.php. */
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 $accountName = isset($_SESSION['user_login']) && is_string($_SESSION['user_login']) ? trim($_SESSION['user_login']) : '';
 require_once __DIR__ . '/admin/includes/database.php';
-if (!isset($pdo) || !($pdo instanceof PDO)) {
-    http_response_code(500);
-    exit('Não foi possível conectar ao banco da eleição.');
-}
+if (!isset($pdo) || !($pdo instanceof PDO)) { http_response_code(500); exit('Não foi possível conectar ao banco da eleição.'); }
 function election_h($v): string { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 function election_num($v): string { return number_format((int)$v, 0, ',', '.'); }
 if (empty($_SESSION['vb_election_csrf']) || !is_string($_SESSION['vb_election_csrf'])) $_SESSION['vb_election_csrf'] = bin2hex(random_bytes(32));
 $csrf = $_SESSION['vb_election_csrf'];
-$error = '';
-$notice = '';
-$election = null;
-$castles = [];
-$votes = [];
-$totalVotes = 0;
-$alreadyVoted = false;
+$error = ''; $notice = ''; $election = null; $castles = []; $candidatesByCastle = []; $myLeaders = [];
+$votes = []; $totalVotes = 0; $alreadyVoted = []; $winnersByCastle = [];
 try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_candidates (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        election_id BIGINT UNSIGNED NOT NULL,
+        castle_id INT NOT NULL,
+        leader_id INT NOT NULL,
+        candidate_name VARCHAR(100) NOT NULL,
+        clan_id INT NOT NULL,
+        clan_name VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_vb_candidate_castle_leader (election_id, castle_id, leader_id),
+        KEY idx_vb_candidate_election_castle (election_id, castle_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_votes (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        election_id BIGINT UNSIGNED NOT NULL,
+        account_name VARCHAR(45) NOT NULL,
+        castle_id INT NOT NULL,
+        candidate_leader_id INT NOT NULL,
+        candidate_name VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
+        KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $idx = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
+    $hasCastleInUnique = false;
+    foreach ($idx as $row) if (($row['Column_name'] ?? '') === 'castle_id') $hasCastleInUnique = true;
+    if ($idx && !$hasCastleInUnique) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
+    }
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
-        $winnerStmt = $pdo->prepare("SELECT candidate_leader_id, candidate_name FROM vb_political_election_votes WHERE election_id=? GROUP BY candidate_leader_id,candidate_name ORDER BY COUNT(*) DESC,candidate_name ASC LIMIT 1");
-        $winnerStmt->execute([(int)$election['id']]);
-        $winner = $winnerStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        $winnerStmt = $pdo->prepare("SELECT candidate_leader_id,candidate_name FROM vb_political_election_votes WHERE election_id=? GROUP BY candidate_leader_id,candidate_name ORDER BY COUNT(*) DESC,candidate_name ASC LIMIT 1");
+        $winnerStmt->execute([(int)$election['id']]); $winner = $winnerStmt->fetch(PDO::FETCH_ASSOC) ?: null;
         $finish = $pdo->prepare("UPDATE vb_political_elections SET status='finished',winner_leader_id=?,winner_name=?,forced=0 WHERE id=? AND status='open' AND ends_at<=NOW()");
         $finish->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, (int)$election['id']]);
         $election = null;
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $postedToken = isset($_POST['csrf_token']) && is_string($_POST['csrf_token']) ? $_POST['csrf_token'] : '';
-        if ($accountName === '') {
-            $error = 'Entre na sua conta pelo site para votar.';
-        } elseif (!hash_equals($csrf, $postedToken)) {
-            $error = 'Sua sessão expirou. Atualize a página e tente novamente.';
-        } elseif (!$election || $election['status'] !== 'open') {
-            $error = 'Não há uma eleição aberta para receber votos neste momento.';
-        } else {
+        $action = isset($_POST['election_action']) && is_string($_POST['election_action']) ? $_POST['election_action'] : '';
+        if ($accountName === '') $error = 'Entre na sua conta pelo site para se candidatar ou votar.';
+        elseif (!hash_equals($csrf, $postedToken)) $error = 'Sua sessão expirou. Atualize a página e tente novamente.';
+        elseif (!$election || $election['status'] !== 'open') $error = 'Não há uma eleição aberta para receber candidaturas ou votos.';
+        elseif ($action === 'register') {
             $castleId = filter_input(INPUT_POST, 'castle_id', FILTER_VALIDATE_INT);
-            if (!$castleId || $castleId < 1) {
-                $error = 'Selecione um candidato válido.';
-            } else {
-                $candidateStmt = $pdo->prepare("SELECT c.ID AS castle_id, c.name AS castle_name, cs.leader_id, ch.char_name AS leader_name
-                    FROM castle c
-                    INNER JOIN clan_data cd ON cd.hasCastle=c.ID
-                    INNER JOIN clan_subpledges cs ON cs.clan_id=cd.clan_id
-                    INNER JOIN characters ch ON ch.obj_Id=cs.leader_id
-                    WHERE c.ID=? LIMIT 1");
-                $candidateStmt->execute([$castleId]);
-                $candidate = $candidateStmt->fetch(PDO::FETCH_ASSOC);
-                if (!$candidate || empty($candidate['leader_id']) || empty($candidate['leader_name'])) {
-                    $error = 'Esse castelo não possui um líder elegível.';
-                } else {
+            $leaderId = filter_input(INPUT_POST, 'leader_id', FILTER_VALIDATE_INT);
+            if (!$castleId || !$leaderId) $error = 'Selecione um castelo e um personagem líder válido.';
+            else {
+                $leaderStmt = $pdo->prepare("SELECT cd.clan_id, cd.clan_name, ch.obj_Id AS leader_id, ch.char_name AS leader_name
+                    FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+                    WHERE ch.account_name=? AND ch.obj_Id=? LIMIT 1");
+                $leaderStmt->execute([$accountName, $leaderId]); $leader = $leaderStmt->fetch(PDO::FETCH_ASSOC);
+                $castleCheck = $pdo->prepare("SELECT ID FROM castle WHERE ID=? LIMIT 1"); $castleCheck->execute([$castleId]);
+                if (!$leader) $error = 'Somente o líder de um clã vinculado à sua conta pode se candidatar.';
+                elseif (!$castleCheck->fetchColumn()) $error = 'O castelo selecionado não existe.';
+                else {
+                    $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name) VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE candidate_name=VALUES(candidate_name),clan_id=VALUES(clan_id),clan_name=VALUES(clan_name)");
+                    $ins->execute([(int)$election['id'], $castleId, (int)$leader['leader_id'], (string)$leader['leader_name'], (int)$leader['clan_id'], (string)$leader['clan_name']]);
+                    $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
+                }
+            }
+        } elseif ($action === 'vote') {
+            $candidateId = filter_input(INPUT_POST, 'candidate_id', FILTER_VALIDATE_INT);
+            if (!$candidateId) $error = 'Selecione um candidato válido.';
+            else {
+                $candidateStmt = $pdo->prepare("SELECT id,castle_id,leader_id,candidate_name FROM vb_political_election_candidates WHERE id=? AND election_id=? LIMIT 1");
+                $candidateStmt->execute([$candidateId, (int)$election['id']]); $candidate = $candidateStmt->fetch(PDO::FETCH_ASSOC);
+                if (!$candidate) $error = 'Esse candidato não está inscrito nesta eleição.';
+                else {
                     try {
                         $vote = $pdo->prepare("INSERT INTO vb_political_election_votes (election_id,account_name,castle_id,candidate_leader_id,candidate_name) VALUES (?,?,?,?,?)");
-                        $vote->execute([(int)$election['id'], $accountName, (int)$candidate['castle_id'], (int)$candidate['leader_id'], (string)$candidate['leader_name']]);
-                        $notice = 'Seu voto foi registrado com sucesso.';
-                        $alreadyVoted = true;
+                        $vote->execute([(int)$election['id'], $accountName, (int)$candidate['castle_id'], (int)$candidate['leader_id'], (string)$candidate['candidate_name']]);
+                        $notice = 'Seu voto foi registrado para este castelo.';
                     } catch (PDOException $e) {
-                        if ((string)$e->getCode() === '23000') { $error = 'Sua conta já votou nesta eleição.'; $alreadyVoted = true; }
+                        if ((string)$e->getCode() === '23000') $error = 'Sua conta já votou neste castelo nesta eleição.';
                         else throw $e;
                     }
                 }
             }
-        }
+        } else $error = 'Ação de eleição inválida.';
     }
-    $sql = "SELECT c.ID AS castle_id,c.name AS castle_name,c.tax_percent,c.treasury,c.collected_shops,cd.clan_id,cs.name AS clan_name,cs.leader_id,ch.char_name AS leader_name
-        FROM castle c
-        LEFT JOIN clan_data cd ON cd.hasCastle=c.ID
-        LEFT JOIN clan_subpledges cs ON cs.clan_id=cd.clan_id
-        LEFT JOIN characters ch ON ch.obj_Id=cs.leader_id
-        ORDER BY c.ID ASC";
-    $castles = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    $castles = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury,collected_shops FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
+    if ($accountName !== '') {
+        $leadersStmt = $pdo->prepare("SELECT cd.clan_id,cd.clan_name,ch.obj_Id AS leader_id,ch.char_name AS leader_name
+            FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
+            WHERE ch.account_name=? ORDER BY ch.char_name ASC");
+        $leadersStmt->execute([$accountName]); $myLeaders = $leadersStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     if ($election) {
-        $voteCountStmt = $pdo->prepare("SELECT candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY candidate_leader_id ORDER BY votes DESC,candidate_name ASC");
-        $voteCountStmt->execute([(int)$election['id']]);
-        $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
+        $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,COUNT(v.id) AS votes
+            FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
+            ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
+            WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name
+            ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
+        $candStmt->execute([(int)$election['id']]);
+        foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
+        $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
+        $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
         $totalVotes = array_sum(array_map(static fn($v) => (int)$v['votes'], $votes));
         if ($accountName !== '') {
-            $check = $pdo->prepare("SELECT 1 FROM vb_political_election_votes WHERE election_id=? AND account_name=? LIMIT 1");
+            $check = $pdo->prepare("SELECT castle_id FROM vb_political_election_votes WHERE election_id=? AND account_name=?");
             $check->execute([(int)$election['id'], $accountName]);
-            $alreadyVoted = (bool)$check->fetchColumn();
+            foreach ($check->fetchAll(PDO::FETCH_COLUMN) as $votedCastle) $alreadyVoted[(int)$votedCastle] = true;
         }
     } else {
         $last = $pdo->query("SELECT * FROM vb_political_elections ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
         if ($last) {
             $election = $last;
-            $voteCountStmt = $pdo->prepare("SELECT candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY candidate_leader_id ORDER BY votes DESC,candidate_name ASC");
-            $voteCountStmt->execute([(int)$election['id']]);
-            $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
+            $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,COUNT(v.id) AS votes
+                FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
+                ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
+                WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name
+                ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
+            $candStmt->execute([(int)$election['id']]);
+            foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
+            $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
+            $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
             $totalVotes = array_sum(array_map(static fn($v) => (int)$v['votes'], $votes));
+        }
+    }
+    if ($election && $election['status'] === 'finished') {
+        foreach ($castles as $castle) {
+            $list = $candidatesByCastle[(int)$castle['castle_id']] ?? [];
+            if ($list) { usort($list, static fn($a,$b) => ((int)$b['votes'] <=> (int)$a['votes']) ?: strcmp((string)$a['candidate_name'],(string)$b['candidate_name']); $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
         }
     }
 } catch (Throwable $e) {
@@ -139,11 +183,11 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 @media(prefers-reduced-motion:reduce){#electionParticles{opacity:.35}}
 </style></head><body><canvas id="electionParticles" aria-hidden="true"></canvas><main class="wrap">
 <div class="topbar"><a class="back-site" href="dashboard.php">← RETORNAR PARA O SITE</a><div class="eyebrow">VIRTUAL BOOST · GOVERNANÇA DO REINO</div></div><h1>ELEIÇÃO POLÍTICA</h1>
-<p>O reino escolhe seus representantes. Cada conta autenticada pode votar uma vez por eleição.</p>
+<p>Líderes de clã se candidatam ao castelo que desejam governar. Cada conta pode votar uma vez em cada castelo.</p>
 <section class="hero"><div class="eyebrow">UMA NOVA ERA COMEÇA</div><h2 style="margin-top:10px;">Seu voto. Seu reino. Seu legado.</h2>
 <?php if ($isOpen): ?><p>Eleição aberta para votação. O prazo termina em <strong style="color:#fff;"><?= election_h($election['ends_at']) ?></strong>. O tempo restante é atualizado ao recarregar a página.</p>
 <?php elseif ($isPaused): ?><p style="color:#d5b46a;">A eleição está pausada pelo administrador. Nenhum voto será aceito até ser retomada.</p>
-<?php elseif ($election && $election['status']==='finished'): ?><p>Eleição encerrada. Vencedor registrado: <strong style="color:#75d7ff;"><?= election_h($election['winner_name'] ?: 'Sem vencedor — nenhum voto') ?></strong>. A alteração do dono do castelo será feita manualmente.</p>
+<?php elseif ($election && $election['status']==='finished'): ?><p>Eleição encerrada. Confira abaixo os vencedores de cada castelo. O resultado passa por validação administrativa e não altera automaticamente o proprietário.</p>
 <?php elseif ($election && $election['status']==='cancelled'): ?><p>A última eleição foi cancelada e não possui vencedor oficial.</p>
 <?php else: ?><p>Nenhuma eleição foi iniciada no momento. Acompanhe esta página para participar quando a votação abrir.</p><?php endif; ?>
 </section>
@@ -170,19 +214,31 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
     <article class="wiki-section"><h3>08 · Transparência e responsabilidades</h3><p>O poder do castelo traz influência e consequências. O líder pode mudar os impostos sem aviso prévio, com efeito imediato e impacto sobre a economia do território. Jogadores, comerciantes e clãs precisam reagir às decisões de quem governa.</p><p>A liderança exige estratégia e responsabilidade. Os resultados eleitorais e as decisões oficiais sobre a propriedade dos castelos são validados pela administração do Virtual Boost.</p></article>
   </div><div class="wiki-note"><strong>O poder do senhor do castelo:</strong> no Virtual Boost, o líder que governa um castelo não representa apenas seu clã: torna-se um <strong>senhor feudal e autoridade política</strong> daquele território. Ele tem poder para definir e alterar os impostos sem aviso prévio e com efeito imediato. Cada decisão pode mudar os custos do comércio, influenciar a circulação de adena e provocar consequências econômicas para todos que vivem, lutam ou negociam naquela região.<br><br><strong>A eleição e a legitimidade:</strong> a votação pública registra a preferência dos jogadores. O resultado passa por apuração e validação da administração antes de se tornar oficial. A eleição acrescenta uma via política ao reino, sem substituir automaticamente a disputa pelo castelo.<br><br><strong>A Siege continua sendo decisiva:</strong> as Sieges preservam seu valor militar e estratégico na disputa territorial. A política e a força militar fazem parte da história do reino: a votação não apaga as batalhas, as conquistas nem o peso de defender ou tomar um castelo.</div></div>
 </section>
-<?php if ($accountName===''): ?><div class="notice"><strong style="color:#fff;">Login necessário.</strong> Entre na sua conta do Virtual Boost para votar. A identificação é feita automaticamente pela sessão do site.</div>
-<?php elseif ($isOpen && $alreadyVoted): ?><div class="notice success">Sua conta já registrou um voto nesta eleição. Obrigado por participar!</div>
-<?php elseif ($isOpen): ?><div class="notice">Conta autenticada: <strong style="color:#fff;"><?= election_h($accountName) ?></strong>. Escolha um dos líderes abaixo para votar.</div>
+<?php if ($accountName===''): ?><div class="notice"><strong style="color:#fff;">Login necessário.</strong> Entre na sua conta do Virtual Boost para se candidatar ou votar.</div>
+<?php elseif ($isOpen): ?>
+<div class="panel"><h2>Inscrever-se como candidato</h2><p>Somente líderes de clã podem se inscrever. Escolha seu personagem líder e o castelo que deseja disputar. O líder do clã proprietário também pode concorrer.</p>
+<?php if (!$myLeaders): ?><div class="notice">Não encontramos nenhum líder de clã vinculado à sua conta.</div><?php else: ?>
+<form method="post" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;align-items:end;">
+<input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="register">
+<label style="display:grid;gap:7px;color:#8995a5;">Seu personagem líder<select name="leader_id" required style="padding:12px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"><?php foreach ($myLeaders as $leader): ?><option value="<?= (int)$leader['leader_id'] ?>"><?= election_h($leader['leader_name'].' — '.$leader['clan_name']) ?></option><?php endforeach; ?></select></label>
+<label style="display:grid;gap:7px;color:#8995a5;">Castelo disputado<select name="castle_id" required style="padding:12px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"><?php foreach ($castles as $castle): ?><option value="<?= (int)$castle['castle_id'] ?>"><?= election_h($castle['castle_name']) ?></option><?php endforeach; ?></select></label>
+<button class="vote" type="submit" style="margin-top:0;">CANDIDATAR-SE</button></form><?php endif; ?></div>
 <?php endif; ?>
-<div style="display:flex;justify-content:space-between;gap:15px;align-items:end;flex-wrap:wrap;margin:28px 0 14px;"><div><h2>Castelos e candidatos</h2><p style="margin:6px 0 0;">O candidato listado é o líder atual do clã que possui o castelo.</p></div></div>
+<div style="display:flex;justify-content:space-between;gap:15px;align-items:end;flex-wrap:wrap;margin:28px 0 14px;"><div><h2>Candidatos por castelo</h2><p style="margin:6px 0 0;">Os candidatos se inscrevem para um território específico. Veja as propostas e vote em cada castelo.</p></div></div>
 <?php if (!$castles): ?><div class="notice">Nenhum castelo foi retornado pelo banco.</div><?php else: ?><section class="grid">
-<?php foreach ($castles as $castle): $hasLeader=!empty($castle['leader_id'])&&!empty($castle['leader_name']); ?>
+<?php foreach ($castles as $castle): $castleId=(int)$castle['castle_id']; $castleCandidates=$candidatesByCastle[$castleId] ?? []; ?>
 <article class="castle"><h3><?= election_h($castle['castle_name']) ?></h3>
-<div class="leader"><small>Candidato / líder atual</small><strong><?= election_h($hasLeader?$castle['leader_name']:'Sem líder elegível') ?></strong><?php if (!empty($castle['clan_name'])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($castle['clan_name']) ?></div><?php endif; ?></div>
-<div class="metric"><span>Imposto</span><b><?= election_h($castle['tax_percent'] ?? 0) ?>%</b></div><div class="metric"><span>Tesouro</span><b><?= election_num($castle['treasury'] ?? 0) ?> adena</b></div><div class="metric"><span>Arrecadação lojas</span><b><?= election_num($castle['collected_shops'] ?? 0) ?> adena</b></div>
-<form method="post"><input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="castle_id" value="<?= (int)$castle['castle_id'] ?>"><button class="vote" type="submit" <?= (!$isOpen||$accountName===''||$alreadyVoted||!$hasLeader)?'disabled':'' ?>>VOTAR NESTE LÍDER</button></form>
-</article><?php endforeach; ?></section><?php endif; ?>
-<section class="panel" style="margin-top:22px;"><h2>Apuração dos votos</h2><?php if (!$votes): ?><p>Nenhum voto registrado para esta eleição.</p><?php else: ?><div class="leaderboard"><?php foreach ($votes as $v): ?><div class="score"><span><?= election_h($v['candidate_name']) ?></span><b><?= (int)$v['votes'] ?> voto(s)</b></div><?php endforeach; ?></div><?php endif; ?></section>
+<div class="metric"><span>Imposto atual</span><b><?= election_h($castle['tax_percent'] ?? 0) ?>%</b></div><div class="metric"><span>Tesouro</span><b><?= election_num($castle['treasury'] ?? 0) ?> adena</b></div>
+<?php if ($election && $election['status']==='finished'): ?>
+<div class="leader" style="margin-top:13px;"><small>Vencedor deste castelo</small><strong><?= !empty($winnersByCastle[$castleId]) ? election_h($winnersByCastle[$castleId]['candidate_name']) : 'Sem vencedor' ?></strong><?php if (!empty($winnersByCastle[$castleId])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($winnersByCastle[$castleId]['clan_name']) ?> · <?= (int)$winnersByCastle[$castleId]['votes'] ?> voto(s)</div><?php endif; ?></div>
+<?php endif; ?>
+<?php if (!$castleCandidates): ?><div class="notice">Ainda não há candidatos inscritos para este castelo.</div><?php else: ?>
+<?php foreach ($castleCandidates as $cand): ?><div class="leader"><small><?= election_h($cand['clan_name']) ?></small><strong><?= election_h($cand['candidate_name']) ?></strong><div class="metric"><span>Votos</span><b><?= (int)$cand['votes'] ?></b></div>
+<?php if ($isOpen && $accountName!==''): ?><form method="post"><input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="vote"><input type="hidden" name="candidate_id" value="<?= (int)$cand['id'] ?>"><button class="vote" type="submit" <?= !empty($alreadyVoted[$castleId])?'disabled':'' ?>><?= !empty($alreadyVoted[$castleId])?'VOTO JÁ REGISTRADO':'VOTAR NESTE CANDIDATO' ?></button></form><?php endif; ?></div><?php endforeach; ?>
+<?php endif; ?></article><?php endforeach; ?></section><?php endif; ?>
+<section class="panel" style="margin-top:22px;"><h2>Resultado por castelo</h2>
+<?php if ($election && $election['status']==='finished'): ?><div class="leaderboard"><?php foreach ($castles as $castle): $winner=$winnersByCastle[(int)$castle['castle_id']] ?? null; ?><div class="score"><span><?= election_h($castle['castle_name']) ?> — <?= $winner ? election_h($winner['candidate_name'].' ('.$winner['clan_name'].')') : 'Sem vencedor' ?></span><b><?= $winner ? (int)$winner['votes'].' voto(s)' : '0 votos' ?></b></div><?php endforeach; ?></div><p>Os resultados são encaminhados para validação administrativa. A propriedade dos castelos não é alterada automaticamente.</p>
+<?php elseif (!$votes): ?><p>Nenhum voto registrado para esta eleição.</p><?php else: ?><div class="leaderboard"><?php foreach ($votes as $v): ?><div class="score"><span><?= election_h(($castles[array_search((int)$v['castle_id'], array_column($castles,'castle_id'))]['castle_name'] ?? 'Castelo').' — '.$v['candidate_name']) ?></span><b><?= (int)$v['votes'] ?> voto(s)</b></div><?php endforeach; ?></div><?php endif; ?></section>
 <div class="foot">O resultado da eleição será apurado e validado pela administração antes de qualquer anúncio oficial. A votação representa a escolha política dos jogadores; a disputa militar pelas fortalezas continua tendo seu lugar na história do reino.</div>
 </main>
 <script>
