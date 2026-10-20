@@ -59,8 +59,9 @@ try {
                         $vote = $pdo->prepare("INSERT INTO vb_political_election_votes (election_id,account_name,castle_id,candidate_leader_id,candidate_name) VALUES (?,?,?,?,?)");
                         $vote->execute([(int)$election['id'], $accountName, (int)$candidate['castle_id'], (int)$candidate['leader_id'], (string)$candidate['leader_name']]);
                         $notice = 'Seu voto foi registrado com sucesso.';
+                        $alreadyVoted = true;
                     } catch (PDOException $e) {
-                        if ((string)$e->getCode() === '23000') $error = 'Sua conta já votou nesta eleição.';
+                        if ((string)$e->getCode() === '23000') { $error = 'Sua conta já votou nesta eleição.'; $alreadyVoted = true; }
                         else throw $e;
                     }
                 }
