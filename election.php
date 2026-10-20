@@ -53,6 +53,9 @@ try {
         candidate_name VARCHAR(100) NOT NULL,
         clan_id INT NOT NULL,
         clan_name VARCHAR(100) NOT NULL,
+        proposal_1 VARCHAR(255) NOT NULL DEFAULT '',
+        proposal_2 VARCHAR(255) NOT NULL DEFAULT '',
+        proposal_3 VARCHAR(255) NOT NULL DEFAULT '',
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY uq_vb_candidate_castle_leader (election_id, castle_id, leader_id),
         KEY idx_vb_candidate_election_castle (election_id, castle_id)
@@ -68,7 +71,18 @@ try {
         UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
         KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    // Migração incremental para suportar a tabela antiga sem duplicar colunas existentes.
+    // Migração incremental para instalações que já tinham tabelas de versões anteriores.
+    $candidateColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_candidates")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ([
+        'proposal_1' => "ALTER TABLE vb_political_election_candidates ADD COLUMN proposal_1 VARCHAR(255) NOT NULL DEFAULT ''",
+        'proposal_2' => "ALTER TABLE vb_political_election_candidates ADD COLUMN proposal_2 VARCHAR(255) NOT NULL DEFAULT ''",
+        'proposal_3' => "ALTER TABLE vb_political_election_candidates ADD COLUMN proposal_3 VARCHAR(255) NOT NULL DEFAULT ''"
+    ] as $column => $sql) {
+        if (!in_array($column, $candidateColumns, true)) {
+            $pdo->exec($sql);
+            $candidateColumns[] = $column;
+        }
+    }
     $voteColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes")->fetchAll(PDO::FETCH_COLUMN);
     if (!in_array('election_id', $voteColumns, true)) {
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NULL FIRST");
@@ -125,8 +139,7 @@ try {
             $leaderId = filter_input(INPUT_POST, 'leader_id', FILTER_VALIDATE_INT);
             if (!$castleId || !$leaderId) $error = 'Selecione um castelo e um personagem líder válido.';
             else {
-                $leaderStmt = $pdo->prepare("SELECT cd.clan_id,
-                    COALESCE((SELECT cs.name FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id ORDER BY cs.type ASC LIMIT 1), 'Clã sem nome') AS clan_name,
+                $leaderStmt = $pdo->prepare("SELECT cd.clan_id, cd.clan_name,
                     ch.obj_Id AS leader_id, ch.char_name AS leader_name
                     FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
                     WHERE ch.account_name=? AND ch.obj_Id=? LIMIT 1");
@@ -135,8 +148,18 @@ try {
                 if (!$leader) $error = 'Somente o líder de um clã vinculado à sua conta pode se candidatar.';
                 elseif (!$castleCheck->fetchColumn()) $error = 'O castelo selecionado não existe.';
                 else {
-                    $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name) VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE candidate_name=VALUES(candidate_name),clan_id=VALUES(clan_id),clan_name=VALUES(clan_name)");
-                    $ins->execute([(int)$election['id'], $castleId, (int)$leader['leader_id'], (string)$leader['leader_name'], (int)$leader['clan_id'], (string)$leader['clan_name']]);
+                    $proposal1 = trim((string)($_POST['proposal_1'] ?? ''));
+                    $proposal2 = trim((string)($_POST['proposal_2'] ?? ''));
+                    $proposal3 = trim((string)($_POST['proposal_3'] ?? ''));
+                    if ($proposal1 === '' || $proposal2 === '' || $proposal3 === '') {
+                        $error = 'Preencha as três propostas para concluir a candidatura.';
+                    } elseif (mb_strlen($proposal1, 'UTF-8') > 255 || mb_strlen($proposal2, 'UTF-8') > 255 || mb_strlen($proposal3, 'UTF-8') > 255) {
+                        $error = 'Cada proposta deve ter no máximo 255 caracteres.';
+                    } else {
+                        $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name,proposal_1,proposal_2,proposal_3) VALUES (?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE candidate_name=VALUES(candidate_name),clan_id=VALUES(clan_id),clan_name=VALUES(clan_name),proposal_1=VALUES(proposal_1),proposal_2=VALUES(proposal_2),proposal_3=VALUES(proposal_3)");
+                        $ins->execute([(int)$election['id'], $castleId, (int)$leader['leader_id'], (string)$leader['leader_name'], (int)$leader['clan_id'], (string)$leader['clan_name'], $proposal1, $proposal2, $proposal3]);
+                        $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
+                    }
                     $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
                 }
             }
@@ -162,18 +185,17 @@ try {
     }
     $castles = $pdo->query("SELECT ID AS castle_id,name AS castle_name,tax_percent,treasury FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
     if ($accountName !== '') {
-        $leadersStmt = $pdo->prepare("SELECT cd.clan_id,
-            COALESCE((SELECT cs.name FROM clan_subpledges cs WHERE cs.clan_id=cd.clan_id ORDER BY cs.type ASC LIMIT 1), 'Clã sem nome') AS clan_name,
+        $leadersStmt = $pdo->prepare("SELECT cd.clan_id, cd.clan_name,
             ch.obj_Id AS leader_id,ch.char_name AS leader_name
             FROM clan_data cd INNER JOIN characters ch ON ch.obj_Id=cd.leader_id
             WHERE ch.account_name=? ORDER BY ch.char_name ASC");
         $leadersStmt->execute([$accountName]); $myLeaders = $leadersStmt->fetchAll(PDO::FETCH_ASSOC);
     }
     if ($election) {
-        $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,COUNT(v.id) AS votes
+        $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,COUNT(v.id) AS votes
             FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
             ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
-            WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name
+            WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3
             ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
         $candStmt->execute([(int)$election['id']]);
         foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
@@ -189,10 +211,10 @@ try {
         $last = $pdo->query("SELECT * FROM vb_political_elections ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
         if ($last) {
             $election = $last;
-            $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,COUNT(v.id) AS votes
+            $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,COUNT(v.id) AS votes
                 FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
                 ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
-                WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name
+                WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3
                 ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
             $candStmt->execute([(int)$election['id']]);
             foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
@@ -255,7 +277,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 #electionParticles{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}
 @media(prefers-reduced-motion:reduce){#electionParticles{opacity:.35}}
 
-.candidate-card{display:flex;flex-direction:column;gap:12px}.candidate-head{display:flex;align-items:center;gap:12px;min-width:0}.candidate-avatar{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(117,215,255,.55);background:radial-gradient(circle at 30% 20%,rgba(117,215,255,.28),rgba(86,52,184,.22) 60%,#080d15);color:#eafaff;font:700 15px Orbitron,sans-serif;box-shadow:0 0 18px rgba(76,168,255,.12)}.candidate-identity{display:grid;gap:4px;min-width:0}.candidate-identity strong{overflow-wrap:anywhere}.candidate-identity .candidate-clan{color:#75d7ff;font-size:12px;letter-spacing:.2px;text-transform:none}
+.castle-image-frame{height:145px;margin:0 0 14px;border:1px dashed rgba(117,215,255,.32);border-radius:7px;overflow:hidden;background:linear-gradient(135deg,rgba(76,168,255,.09),rgba(140,101,255,.1));}.castle-image{width:100%;height:100%;object-fit:cover;display:block}.castle-image-placeholder{height:100%;place-items:center;text-align:center;color:#75d7ff;font:700 10px Orbitron,sans-serif;letter-spacing:.7px;line-height:1.8;padding:8px}.castle-image-placeholder small{font:10px Rajdhani,Arial,sans-serif;color:#8995a5;letter-spacing:0;overflow-wrap:anywhere}.proposal-toggle{align-self:flex-start;border:1px solid rgba(117,215,255,.28);background:rgba(76,168,255,.08);color:#bdeeff;border-radius:5px;padding:8px 11px;font:700 10px Orbitron,sans-serif;cursor:pointer}.proposal-card{padding:12px;border:1px solid rgba(140,101,255,.28);border-radius:7px;background:rgba(86,52,184,.08);line-height:1.6}.proposal-card h4{margin:0 0 9px;color:#dff7ff;font:700 11px Orbitron,sans-serif}.proposal-card p{margin:7px 0;color:#c5d1df;font-size:13px}.candidate-card{display:flex;flex-direction:column;gap:12px}.candidate-head{display:flex;align-items:center;gap:12px;min-width:0}.candidate-avatar{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(117,215,255,.55);background:radial-gradient(circle at 30% 20%,rgba(117,215,255,.28),rgba(86,52,184,.22) 60%,#080d15);color:#eafaff;font:700 15px Orbitron,sans-serif;box-shadow:0 0 18px rgba(76,168,255,.12)}.candidate-identity{display:grid;gap:4px;min-width:0}.candidate-identity strong{overflow-wrap:anywhere}.candidate-identity .candidate-clan{color:#75d7ff;font-size:12px;letter-spacing:.2px;text-transform:none}
 </style></head><body><canvas id="electionParticles" aria-hidden="true"></canvas><main class="wrap">
 <div class="topbar"><a class="back-site" href="dashboard.php">← RETORNAR PARA O SITE</a><div class="eyebrow">VIRTUAL BOOST · GOVERNANÇA DO REINO</div></div><h1>ELEIÇÃO POLÍTICA</h1>
 <p>Líderes de clã se candidatam ao castelo que desejam governar. Cada conta pode votar uma vez em cada castelo.</p>
@@ -297,18 +319,24 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="register">
 <label style="display:grid;gap:7px;color:#8995a5;">Seu personagem líder<select name="leader_id" required style="padding:12px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"><?php foreach ($myLeaders as $leader): ?><option value="<?= (int)$leader['leader_id'] ?>"><?= election_h($leader['leader_name'].' — '.$leader['clan_name']) ?></option><?php endforeach; ?></select></label>
 <label style="display:grid;gap:7px;color:#8995a5;">Castelo disputado<select name="castle_id" required style="padding:12px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"><?php foreach ($castles as $castle): ?><option value="<?= (int)$castle['castle_id'] ?>"><?= election_h($castle['castle_name']) ?></option><?php endforeach; ?></select></label>
+<label style="display:grid;gap:7px;color:#8995a5;">Proposta 1<textarea name="proposal_1" maxlength="255" required placeholder="Primeira proposta..." style="min-height:70px;padding:10px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"></textarea></label>
+<label style="display:grid;gap:7px;color:#8995a5;">Proposta 2<textarea name="proposal_2" maxlength="255" required placeholder="Segunda proposta..." style="min-height:70px;padding:10px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"></textarea></label>
+<label style="display:grid;gap:7px;color:#8995a5;">Proposta 3<textarea name="proposal_3" maxlength="255" required placeholder="Terceira proposta..." style="min-height:70px;padding:10px;background:#080d15;color:#e7edf5;border:1px solid rgba(117,215,255,.2);border-radius:5px;"></textarea></label>
 <button class="vote" type="submit" style="margin-top:0;">CANDIDATAR-SE</button></form><?php endif; ?></div>
 <?php endif; ?>
 <div style="display:flex;justify-content:space-between;gap:15px;align-items:end;flex-wrap:wrap;margin:28px 0 14px;"><div><h2>Candidatos por castelo</h2><p style="margin:6px 0 0;">Os candidatos se inscrevem para um território específico. Veja as propostas e vote em cada castelo.</p></div></div>
 <?php if (!$castles): ?><div class="notice">Nenhum castelo foi retornado pelo banco.</div><?php else: ?><section class="grid">
 <?php foreach ($castles as $castle): $castleId=(int)$castle['castle_id']; $castleCandidates=$candidatesByCastle[$castleId] ?? []; ?>
 <article class="castle"><h3><?= election_h($castle['castle_name']) ?></h3>
+<div class="castle-image-frame"><img class="castle-image" src="/site/assets/images/castles/castle-<?= $castleId ?>.jpg" alt="Imagem do castelo <?= election_h($castle['castle_name']) ?>" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="castle-image-placeholder" style="display:none;">COLOQUE A IMAGEM<br><small>/site/assets/images/castles/castle-<?= $castleId ?>.jpg</small></div></div>
 <div class="metric"><span>Imposto atual</span><b><?= election_h($castle['tax_percent'] ?? 0) ?>%</b></div><div class="metric"><span>Tesouro</span><b><?= election_num($castle['treasury'] ?? 0) ?> adena</b></div>
 <?php if ($election && $election['status']==='finished'): ?>
 <div class="leader" style="margin-top:13px;"><small>Vencedor deste castelo</small><strong><?= !empty($winnersByCastle[$castleId]) ? election_h($winnersByCastle[$castleId]['candidate_name']) : 'Sem vencedor' ?></strong><?php if (!empty($winnersByCastle[$castleId])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($winnersByCastle[$castleId]['clan_name']) ?> · <?= (int)$winnersByCastle[$castleId]['votes'] ?> voto(s)</div><?php endif; ?></div>
 <?php endif; ?>
 <?php if (!$castleCandidates): ?><div class="notice">Ainda não há candidatos inscritos para este castelo.</div><?php else: ?>
 <?php foreach ($castleCandidates as $cand): ?><div class="leader candidate-card"><div class="candidate-head"><div class="candidate-avatar" aria-hidden="true"><?= election_h(election_initials($cand['candidate_name'])) ?></div><div class="candidate-identity"><small>CANDIDATO</small><strong><?= election_h($cand['candidate_name']) ?></strong><small class="candidate-clan">Clã: <?= election_h($cand['clan_name'] ?: 'Clã não informado') ?></small></div></div><div class="metric"><span>Votos</span><b><?= (int)$cand['votes'] ?></b></div>
+<button type="button" class="proposal-toggle" aria-expanded="false" onclick="var p=document.getElementById('proposal-<?= (int)$cand['id'] ?>');var open=p.hidden;p.hidden=!open;this.setAttribute('aria-expanded',open?'true':'false');this.textContent=open?'OCULTAR PROPOSTAS':'PROPOSTAS';">PROPOSTAS</button>
+<div class="proposal-card" id="proposal-<?= (int)$cand['id'] ?>" hidden><h4>Propostas de <?= election_h($cand['candidate_name']) ?></h4><p><strong>1.</strong> <?= election_h($cand['proposal_1'] ?? 'Não informada') ?></p><p><strong>2.</strong> <?= election_h($cand['proposal_2'] ?? 'Não informada') ?></p><p><strong>3.</strong> <?= election_h($cand['proposal_3'] ?? 'Não informada') ?></p><p><strong>Clã:</strong> <?= election_h($cand['clan_name']) ?></p></div>
 <?php if ($isOpen && $accountName!==''): ?><form method="post"><input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="vote"><input type="hidden" name="candidate_id" value="<?= (int)$cand['id'] ?>"><button class="vote" type="submit" <?= !empty($alreadyVoted[$castleId])?'disabled':'' ?>><?= !empty($alreadyVoted[$castleId])?'VOTO JÁ REGISTRADO':'VOTAR NESTE CANDIDATO' ?></button></form><?php endif; ?></div><?php endforeach; ?>
 <?php endif; ?></article><?php endforeach; ?></section><?php endif; ?>
 <section class="panel" style="margin-top:22px;"><h2>Resultado por castelo</h2>
