@@ -64,9 +64,21 @@ try {
     // Migração simples caso a tabela de votos da versão inicial já exista.
     $colCheck = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes LIKE 'election_id'")->fetch(PDO::FETCH_ASSOC);
     if (!$colCheck) {
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NOT NULL DEFAULT 1 FIRST");
+        // Mantém votos antigos separados da primeira eleição real para não contaminar a apuração.
+        $oldVoteCount = (int) $pdo->query("SELECT COUNT(*) FROM vb_political_election_votes")->fetchColumn();
+        $legacyElectionId = null;
+        if ($oldVoteCount > 0) {
+            $pdo->exec("INSERT INTO vb_political_elections (status, starts_at, ends_at, remaining_seconds, winner_name, forced) VALUES ('finished', NOW(), NOW(), 0, 'Registro legado — não contabilizado', 0)");
+            $legacyElectionId = (int) $pdo->lastInsertId();
+        }
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NULL FIRST");
+        if ($legacyElectionId !== null) {
+            $migrateVotes = $pdo->prepare("UPDATE vb_political_election_votes SET election_id = ? WHERE election_id IS NULL");
+            $migrateVotes->execute([$legacyElectionId]);
+        }
+        $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
         try { $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account"); } catch (Throwable $ignored) {}
-        try { $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name)"); } catch (Throwable $ignored) {}
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name)");
     }
 } catch (Throwable $e) {
     $electionError = 'Não foi possível preparar as tabelas da eleição. Verifique as permissões do banco e a estrutura existente.';
