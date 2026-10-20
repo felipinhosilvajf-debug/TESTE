@@ -80,7 +80,7 @@ try {
         WHERE newer.election_id=0 AND older.election_id=0
           AND newer.castle_id=0 AND older.castle_id=0");
     $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account' ORDER BY Seq_in_index")->fetchAll(PDO::FETCH_ASSOC);
-    $voteIndexColumns = array_map(static fn($r) => (string)$r['Column_name'], $voteIndexRows);
+    $voteIndexColumns = array_map(static function ($r) { return (string)$r['Column_name']; }, $voteIndexRows);
     if ($voteIndexRows && $voteIndexColumns !== ['election_id','account_name','castle_id']) {
         $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
         $voteIndexRows = [];
@@ -155,7 +155,7 @@ try {
         foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
         $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
         $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
-        $totalVotes = array_sum(array_map(static fn($v) => (int)$v['votes'], $votes));
+        $totalVotes = array_sum(array_map(static function ($v) { return (int)$v['votes']; }, $votes));
         if ($accountName !== '') {
             $check = $pdo->prepare("SELECT castle_id FROM vb_political_election_votes WHERE election_id=? AND account_name=?");
             $check->execute([(int)$election['id'], $accountName]);
@@ -174,13 +174,13 @@ try {
             foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
             $voteCountStmt = $pdo->prepare("SELECT castle_id,candidate_leader_id,MAX(candidate_name) AS candidate_name,COUNT(*) AS votes FROM vb_political_election_votes WHERE election_id=? GROUP BY castle_id,candidate_leader_id ORDER BY castle_id ASC,votes DESC,candidate_name ASC");
             $voteCountStmt->execute([(int)$election['id']]); $votes = $voteCountStmt->fetchAll(PDO::FETCH_ASSOC);
-            $totalVotes = array_sum(array_map(static fn($v) => (int)$v['votes'], $votes));
+            $totalVotes = array_sum(array_map(static function ($v) { return (int)$v['votes']; }, $votes));
         }
     }
     if ($election && $election['status'] === 'finished') {
         foreach ($castles as $castle) {
             $list = $candidatesByCastle[(int)$castle['castle_id']] ?? [];
-            if ($list) { usort($list, static fn($a,$b) => ((int)$b['votes'] <=> (int)$a['votes']) ?: strcmp((string)$a['candidate_name'],(string)$b['candidate_name']); if ((int)$list[0]['votes'] > 0) $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
+            if ($list) { usort($list, static function ($a, $b) { $byVotes = (int)$b['votes'] <=> (int)$a['votes']; return $byVotes ?: strcmp((string)$a['candidate_name'], (string)$b['candidate_name']); }; if ((int)$list[0]['votes'] > 0) $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
         }
     }
 } catch (Throwable $e) {
