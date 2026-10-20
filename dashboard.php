@@ -473,6 +473,7 @@ try {
     <a href="#detalhes"><span class="nav-icon">♜</span> Informações</a>
     <a href="#subclasses"><span class="nav-icon">✧</span> Subclasses</a>
     <a href="comprar-donate.php" class="donate-nav-link"><span class="nav-icon">💎</span> Comprar Donate</a>
+    <a href="election.php"><span class="nav-icon">⚖</span> Eleição Política</a>
     <a href="historico-donate.php"><span class="nav-icon">📜</span> Histórico de transações</a>
     <a href="logout.php"><span class="nav-icon">↪</span> Sair da conta</a>
   </nav>
