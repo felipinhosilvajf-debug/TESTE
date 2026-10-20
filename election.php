@@ -21,39 +21,6 @@ $votes = [];
 $totalVotes = 0;
 $alreadyVoted = false;
 try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_elections (
-        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        status ENUM('open','paused','finished','cancelled') NOT NULL DEFAULT 'open',
-        starts_at DATETIME NOT NULL,
-        ends_at DATETIME NOT NULL,
-        remaining_seconds INT UNSIGNED NOT NULL DEFAULT 0,
-        paused_at DATETIME NULL,
-        winner_leader_id INT NULL,
-        winner_name VARCHAR(100) NULL,
-        forced TINYINT(1) NOT NULL DEFAULT 0,
-        created_by INT NULL,
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        KEY idx_vb_election_status (status, ends_at)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_votes (
-        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        election_id BIGINT UNSIGNED NOT NULL,
-        account_name VARCHAR(45) NOT NULL,
-        castle_id INT NOT NULL,
-        candidate_leader_id INT NOT NULL,
-        candidate_name VARCHAR(100) NOT NULL,
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE KEY uq_vb_election_account (election_id, account_name),
-        KEY idx_vb_election_candidate (election_id, candidate_leader_id)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    $oldColumn = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes LIKE 'election_id'")->fetch(PDO::FETCH_ASSOC);
-    if (!$oldColumn) {
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NOT NULL DEFAULT 1 FIRST");
-        try { $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account"); } catch (Throwable $ignored) {}
-        try { $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name)"); } catch (Throwable $ignored) {}
-    }
-    $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY account_name VARCHAR(45) NOT NULL");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
@@ -178,6 +145,6 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <div class="foot">A eleição registra votos e o resultado para consulta administrativa. Ela não transfere adena, não altera impostos e não troca automaticamente o dono do castelo. A definição final do proprietário continuará manual no banco/servidor, conforme configurado pelo administrador.</div>
 </main>
 <?php if ($isOpen): ?><script>
-(function(){var left=<?= (int)$secondsLeft ?>;var el=document.getElementById('countdown');function tick(){if(left<=0){el.textContent='00:00:00';return;}var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;el.textContent=[h,m,s].map(function(n){return String(n).padStart(2,'0')}).join(':');left--;if(left>=0)window.setTimeout(tick,1000);}tick();})();
+(function(){var left=<?= (int)$secondsLeft ?>;var el=document.getElementById('countdown');function tick(){if(left<=0){el.textContent='00:00:00';window.setTimeout(function(){window.location.reload();},1200);return;}var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;el.textContent=[h,m,s].map(function(n){return String(n).padStart(2,'0')}).join(':');left--;if(left>=0)window.setTimeout(tick,1000);}tick();})();
 </script><?php endif; ?>
 </body></html>
