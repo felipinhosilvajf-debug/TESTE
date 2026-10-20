@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$electionError) {
                 if (!$hours || $hours < 1 || $hours > 720) {
                     throw new RuntimeException('Informe uma duração entre 1 e 720 horas.');
                 }
-                $stmt = $pdo->prepare("INSERT INTO vb_political_elections (status, starts_at, ends_at, remaining_seconds, created_by) VALUES ('open', NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR), ?)");
+                $stmt = $pdo->prepare("INSERT INTO vb_political_elections (status, starts_at, ends_at, remaining_seconds, created_by) VALUES ('open', NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR), 0, ?)");
                 $stmt->execute([$hours, (int) ($_SESSION['admin_id'] ?? 0)]);
                 $electionNotice = 'Eleição iniciada com sucesso.';
                 audit('election_started', 'Duração: ' . $hours . ' horas');
