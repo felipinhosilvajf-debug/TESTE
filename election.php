@@ -106,12 +106,14 @@ try {
     }
     $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
     $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
-    // Votos antigos não têm castelo; elimina duplicatas legadas para não bloquear o índice novo.
+    // Remove duplicatas legadas por conta/eleição/castelo antes de criar a chave única.
+    // Preserva o voto mais antigo de cada combinação.
     $pdo->exec("DELETE newer FROM vb_political_election_votes newer
         INNER JOIN vb_political_election_votes older
-          ON newer.account_name=older.account_name AND newer.id>older.id
-        WHERE newer.election_id=0 AND older.election_id=0
-          AND newer.castle_id=0 AND older.castle_id=0");
+          ON newer.election_id=older.election_id
+         AND newer.account_name=older.account_name
+         AND newer.castle_id=older.castle_id
+         AND newer.id>older.id");
     $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
     usort($voteIndexRows, static function ($a, $b) { return (int)$a['Seq_in_index'] <=> (int)$b['Seq_in_index']; });
     $voteIndexColumns = array_map(static function ($r) { return (string)$r['Column_name']; }, $voteIndexRows);
@@ -153,7 +155,7 @@ try {
                     $proposal3 = trim((string)($_POST['proposal_3'] ?? ''));
                     if ($proposal1 === '' || $proposal2 === '' || $proposal3 === '') {
                         $error = 'Preencha as três propostas para concluir a candidatura.';
-                    } elseif (mb_strlen($proposal1, 'UTF-8') > 255 || mb_strlen($proposal2, 'UTF-8') > 255 || mb_strlen($proposal3, 'UTF-8') > 255) {
+                    } elseif ((function_exists('mb_strlen') ? mb_strlen($proposal1, 'UTF-8') : strlen($proposal1)) > 255 || (function_exists('mb_strlen') ? mb_strlen($proposal2, 'UTF-8') : strlen($proposal2)) > 255 || (function_exists('mb_strlen') ? mb_strlen($proposal3, 'UTF-8') : strlen($proposal3)) > 255) {
                         $error = 'Cada proposta deve ter no máximo 255 caracteres.';
                     } else {
                         $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name,proposal_1,proposal_2,proposal_3) VALUES (?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE candidate_name=VALUES(candidate_name),clan_id=VALUES(clan_id),clan_name=VALUES(clan_name),proposal_1=VALUES(proposal_1),proposal_2=VALUES(proposal_2),proposal_3=VALUES(proposal_3)");
