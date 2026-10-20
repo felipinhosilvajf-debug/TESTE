@@ -111,7 +111,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#05070b;--panel:#0b111b;--line:rgba(117,215,255,.16);--cyan:#75d7ff;--blue:#4ca8ff;--purple:#8c65ff;--gold:#d5b46a;--text:#e7edf5;--muted:#8995a5;--green:#63d39a;--red:#ff7777}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0,rgba(76,168,255,.12),transparent 32%),radial-gradient(circle at 0 80%,rgba(140,101,255,.09),transparent 28%),var(--bg);color:var(--text);font:16px Rajdhani,Arial,sans-serif;min-height:100vh}.wrap{max-width:1380px;margin:auto;padding:32px 22px 60px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.back-site{display:inline-flex;align-items:center;gap:8px;padding:11px 15px;border:1px solid rgba(117,215,255,.3);border-radius:6px;background:rgba(11,17,27,.85);color:#dff7ff;text-decoration:none;font:700 10px Orbitron,sans-serif;letter-spacing:.6px;transition:background .2s,border-color .2s,transform .2s}.back-site:hover{background:rgba(23,105,170,.25);border-color:var(--cyan);transform:translateY(-1px)}.topbar .eyebrow{margin-left:auto}.eyebrow{color:var(--cyan);font:700 11px Orbitron,sans-serif;letter-spacing:3px}h1{font:700 clamp(26px,4vw,38px) Orbitron,sans-serif;margin:12px 0;color:#fff}h2{font:700 17px Orbitron,sans-serif;margin:0 0 10px}p{line-height:1.65;color:var(--muted)}.hero,.panel,.stat,.castle{background:linear-gradient(145deg,rgba(14,23,36,.98),rgba(8,13,21,.98));border:1px solid var(--line);border-radius:10px}.hero{padding:26px;margin:22px 0}.hero p{max-width:800px;margin-bottom:0}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:22px}.stat{padding:18px}.stat small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}.stat strong{font:700 20px Orbitron,sans-serif;color:var(--cyan)}.panel{padding:20px;margin-bottom:22px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.castle{padding:18px}.castle h3{font:700 14px Orbitron,sans-serif;margin:0 0 15px}.leader{background:#080d15;border:1px solid rgba(117,215,255,.1);border-radius:6px;padding:13px;margin-bottom:12px}.leader small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;margin-bottom:5px}.leader strong{font-size:17px;color:#fff}.metric{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(117,215,255,.07);font-size:13px}.metric span{color:var(--muted)}.metric b{color:#dce7f0;text-align:right}.vote{width:100%;margin-top:14px;padding:12px;border:0;border-radius:5px;background:linear-gradient(90deg,#1769aa,#5634b8);color:white;font:700 11px Orbitron,sans-serif;cursor:pointer}.vote:disabled{opacity:.35;cursor:not-allowed}.notice{padding:13px 15px;margin:15px 0;border-radius:7px;border:1px solid var(--line);background:#080d15;color:#b7c6d8;line-height:1.6}.notice.error{color:var(--red);border-color:rgba(255,119,119,.25)}.notice.success{color:var(--green);border-color:rgba(99,211,154,.25)}.leaderboard{display:grid;gap:8px;margin-top:12px}.score{display:flex;justify-content:space-between;gap:12px;padding:11px 12px;background:#080d15;border-radius:5px}.score span{color:#c6d5e5}.score b{color:var(--cyan)}.foot{border-top:1px solid var(--line);padding-top:18px;margin-top:26px;color:#65778b;font-size:12px;line-height:1.7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0,rgba(76,168,255,.12),transparent 32%),radial-gradient(circle at 0 80%,rgba(140,101,255,.09),transparent 28%),var(--bg);color:var(--text);font:16px Rajdhani,Arial,sans-serif;min-height:100vh}.wrap{position:relative;z-index:1;max-width:1380px;margin:auto;padding:32px 22px 60px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.back-site{display:inline-flex;align-items:center;gap:8px;padding:11px 15px;border:1px solid rgba(117,215,255,.3);border-radius:6px;background:rgba(11,17,27,.85);color:#dff7ff;text-decoration:none;font:700 10px Orbitron,sans-serif;letter-spacing:.6px;transition:background .2s,border-color .2s,transform .2s}.back-site:hover{background:rgba(23,105,170,.25);border-color:var(--cyan);transform:translateY(-1px)}.topbar .eyebrow{margin-left:auto}.eyebrow{color:var(--cyan);font:700 11px Orbitron,sans-serif;letter-spacing:3px}h1{font:700 clamp(26px,4vw,38px) Orbitron,sans-serif;margin:12px 0;color:#fff}h2{font:700 17px Orbitron,sans-serif;margin:0 0 10px}p{line-height:1.65;color:var(--muted)}.hero,.panel,.stat,.castle{background:linear-gradient(145deg,rgba(14,23,36,.98),rgba(8,13,21,.98));border:1px solid var(--line);border-radius:10px}.hero{padding:26px;margin:22px 0}.hero p{max-width:800px;margin-bottom:0}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:22px}.stat{padding:18px}.stat small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}.stat strong{font:700 20px Orbitron,sans-serif;color:var(--cyan)}.panel{padding:20px;margin-bottom:22px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.castle{padding:18px}.castle h3{font:700 14px Orbitron,sans-serif;margin:0 0 15px}.leader{background:#080d15;border:1px solid rgba(117,215,255,.1);border-radius:6px;padding:13px;margin-bottom:12px}.leader small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;margin-bottom:5px}.leader strong{font-size:17px;color:#fff}.metric{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(117,215,255,.07);font-size:13px}.metric span{color:var(--muted)}.metric b{color:#dce7f0;text-align:right}.vote{width:100%;margin-top:14px;padding:12px;border:0;border-radius:5px;background:linear-gradient(90deg,#1769aa,#5634b8);color:white;font:700 11px Orbitron,sans-serif;cursor:pointer}.vote:disabled{opacity:.35;cursor:not-allowed}.notice{padding:13px 15px;margin:15px 0;border-radius:7px;border:1px solid var(--line);background:#080d15;color:#b7c6d8;line-height:1.6}.notice.error{color:var(--red);border-color:rgba(255,119,119,.25)}.notice.success{color:var(--green);border-color:rgba(99,211,154,.25)}.leaderboard{display:grid;gap:8px;margin-top:12px}.score{display:flex;justify-content:space-between;gap:12px;padding:11px 12px;background:#080d15;border-radius:5px}.score span{color:#c6d5e5}.score b{color:var(--cyan)}.foot{border-top:1px solid var(--line);padding-top:18px;margin-top:26px;color:#65778b;font-size:12px;line-height:1.7}
 /* Wiki de liderança: botão compacto e painel expansível */
 .wiki-launch{display:flex;justify-content:center;margin:4px 0 24px}
 .wiki-toggle{display:inline-flex;align-items:center;gap:9px;padding:10px 15px;border:1px solid rgba(117,215,255,.35);border-radius:7px;background:linear-gradient(110deg,rgba(23,105,170,.2),rgba(86,52,184,.22));color:#dff7ff;font:700 10px Orbitron,sans-serif;letter-spacing:.8px;cursor:pointer;box-shadow:0 0 0 rgba(76,168,255,0);animation:wikiPulse 2.8s ease-in-out infinite;transition:transform .2s,border-color .2s,background .2s}
@@ -133,7 +133,11 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 @media(max-width:620px){.wiki-grid{grid-template-columns:1fr}.wiki-body,.wiki-head{padding:16px}.wiki-toggle{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.wiki-toggle{animation:none;transition:none}.wiki-toggle .wiki-arrow{transition:none}}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.wrap{padding:20px 13px}.grid,.stats{grid-template-columns:1fr}}
-</style></head><body><main class="wrap">
+
+/* Partículas mágicas discretas no fundo da eleição */
+#electionParticles{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}
+@media(prefers-reduced-motion:reduce){#electionParticles{opacity:.35}}
+</style></head><body><canvas id="electionParticles" aria-hidden="true"></canvas><main class="wrap">
 <div class="topbar"><a class="back-site" href="dashboard.php">← RETORNAR PARA O SITE</a><div class="eyebrow">VIRTUAL BOOST · GOVERNANÇA DO REINO</div></div><h1>ELEIÇÃO POLÍTICA</h1>
 <p>O reino escolhe seus representantes. Cada conta autenticada pode votar uma vez por eleição.</p>
 <section class="hero"><div class="eyebrow">UMA NOVA ERA COMEÇA</div><h2 style="margin-top:10px;">Seu voto. Seu reino. Seu legado.</h2>
@@ -187,4 +191,40 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <?php if ($isOpen): ?><script>
 (function(){var left=<?= (int)$secondsLeft ?>;var el=document.getElementById('countdown');function tick(){if(left<=0){el.textContent='00:00:00';window.setTimeout(function(){window.location.reload();},1200);return;}var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;el.textContent=[h,m,s].map(function(n){return String(n).padStart(2,'0')}).join(':');left--;if(left>=0)window.setTimeout(tick,1000);}tick();})();
 </script><?php endif; ?>
+
+<script>
+(function(){
+  var canvas=document.getElementById('electionParticles');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var particles=[],w=0,h=0,raf=0;
+  function resize(){
+    w=window.innerWidth;h=window.innerHeight;
+    var dpr=Math.min(window.devicePixelRatio||1,1.5);
+    canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);
+    canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);
+    var count=Math.min(58,Math.max(22,Math.floor(w*h/23000)));
+    particles=Array.from({length:count},function(){return{x:Math.random()*w,y:Math.random()*h,r:.7+Math.random()*1.7,vx:(Math.random()-.5)*.22,vy:-.12-Math.random()*.2,a:.18+Math.random()*.45,hue:Math.random()>.25?195:260};});
+    draw();
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      if(!reduced){p.x+=p.vx;p.y+=p.vy;if(p.y<-5){p.y=h+5;p.x=Math.random()*w;}if(p.x<-5)p.x=w+5;if(p.x>w+5)p.x=-5;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='hsla('+p.hue+',100%,75%,'+p.a+')';ctx.shadowBlur=8;ctx.shadowColor='hsla('+p.hue+',100%,65%,.45)';ctx.fill();ctx.shadowBlur=0;
+      for(var j=i+1;j<particles.length;j++){
+        var q=particles[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<105){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(100,190,255,'+((1-dist/105)*.10)+')';ctx.lineWidth=.6;ctx.stroke();}
+      }
+    }
+    if(!reduced)raf=window.requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize,{passive:true});
+  resize();
+  if(reduced)window.cancelAnimationFrame(raf);
+})();
+</script>
 </body></html>
