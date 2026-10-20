@@ -594,7 +594,8 @@ try {
       if(!viewer||!look)return;
       viewer.src=look.src;
       viewer.alt=look.alt;
-      viewer.removeAttribute('autoplay');
+      // Mantém a reprodução das animações incluídas no GLB; sem autoplay, alguns rigs ficam em pose de cruz/T.
+      viewer.setAttribute('autoplay','');
       viewer.setAttribute('auto-rotate','');
       const controls=button.closest('.avatar-controls');
       controls.querySelectorAll('[data-avatar-look]').forEach((item)=>{
