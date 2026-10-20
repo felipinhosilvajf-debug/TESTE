@@ -526,7 +526,6 @@ try {
           <div class="avatar-controls-label animation-label">Movimento</div>
           <button type="button" class="avatar-control" data-avatar-animation="run" data-model="warriorModel-<?= (int)$i ?>">🏃 Correr</button>
           <button type="button" class="avatar-control" data-avatar-animation="walk" data-model="warriorModel-<?= (int)$i ?>">🚶 Caminhar</button>
-          <span class="avatar-animation-status" data-animation-status-for="warriorModel-<?= (int)$i ?>" aria-live="polite">Carregando animações…</span>
         </div>
         </div>
       </div>
@@ -596,15 +595,11 @@ try {
     const clips = Array.isArray(viewer.availableAnimations) ? viewer.availableAnimations : [];
     const clip = clips.find((name)=>animationMatches[kind].test(name));
     if (!clip) {
-      if (status) status.textContent = clips.length
-        ? 'Este modelo não tem clipe de '+(kind==='run'?'corrida':'caminhada')+'.'
-        : 'Este GLB não informou animações.';
       return false;
     }
     viewer.animationName = clip;
     viewer.setAttribute('autoplay','');
     if (typeof viewer.play === 'function') viewer.play();
-    if (status) status.textContent = 'Reproduzindo: '+clip;
     const controls = status && status.closest('.avatar-controls');
     if (controls) controls.querySelectorAll('[data-avatar-animation]').forEach((button)=>{
       button.classList.toggle('active', button.dataset.avatarAnimation===kind);
@@ -614,18 +609,15 @@ try {
   function prepareViewer(viewer) {
     if (!viewer || viewer.dataset.animationReady === 'true') return;
     viewer.dataset.animationReady = 'true';
-    const status = animationStatus(viewer.id);
     viewer.addEventListener('load',()=>{
       const clips = Array.isArray(viewer.availableAnimations) ? viewer.availableAnimations : [];
       if (!clips.length) {
-        if (status) status.textContent = 'Este GLB não contém animações.';
         return;
       }
-      if (!chooseAnimation(viewer, 'run', status) && !chooseAnimation(viewer, 'walk', status)) {
+      if (!chooseAnimation(viewer, 'run', null) && !chooseAnimation(viewer, 'walk', null)) {
         viewer.animationName = clips[0];
         viewer.setAttribute('autoplay','');
         if (typeof viewer.play === 'function') viewer.play();
-        if (status) status.textContent = 'Reproduzindo: '+clips[0];
       }
     });
   }
@@ -655,12 +647,8 @@ try {
     button.addEventListener('click',()=>{
       const viewer=document.getElementById(button.dataset.model);
       if (!viewer) return;
-      const status=animationStatus(viewer.id);
-      if (!viewer.loaded) {
-        if (status) status.textContent='Aguarde o modelo terminar de carregar.';
-        return;
-      }
-      chooseAnimation(viewer,button.dataset.avatarAnimation,status);
+      if (!viewer.loaded) return;
+      chooseAnimation(viewer,button.dataset.avatarAnimation,null);
     });
   });
   const first=views.find((v)=>v.classList.contains('active'));if(first)first.querySelectorAll('.bar-fill').forEach((bar)=>{bar.style.width=(Number(bar.dataset.width)||0)+'%';});
