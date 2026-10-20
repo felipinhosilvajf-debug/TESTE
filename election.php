@@ -200,12 +200,10 @@ try {
         $leadersStmt->execute([$accountName]); $myLeaders = $leadersStmt->fetchAll(PDO::FETCH_ASSOC);
     }
     if ($election) {
-        $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,ch.race AS candidate_race,ch.sex AS candidate_sex,COUNT(v.id) AS votes
-            FROM vb_political_election_candidates c
-            LEFT JOIN characters ch ON ch.obj_Id=c.leader_id
-            LEFT JOIN vb_political_election_votes v
+        $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,COUNT(v.id) AS votes
+            FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
             ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
-            WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,ch.race,ch.sex
+            WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3
             ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
         $candStmt->execute([(int)$election['id']]);
         foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
@@ -221,12 +219,10 @@ try {
         $last = $pdo->query("SELECT * FROM vb_political_elections ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
         if ($last) {
             $election = $last;
-            $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,ch.race AS candidate_race,ch.sex AS candidate_sex,COUNT(v.id) AS votes
-                FROM vb_political_election_candidates c
-                LEFT JOIN characters ch ON ch.obj_Id=c.leader_id
-                LEFT JOIN vb_political_election_votes v
+            $candStmt = $pdo->prepare("SELECT c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,COUNT(v.id) AS votes
+                FROM vb_political_election_candidates c LEFT JOIN vb_political_election_votes v
                 ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
-                WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3,ch.race,ch.sex
+                WHERE c.election_id=? GROUP BY c.id,c.castle_id,c.leader_id,c.candidate_name,c.clan_id,c.clan_name,c.proposal_1,c.proposal_2,c.proposal_3
                 ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
             $candStmt->execute([(int)$election['id']]);
             foreach ($candStmt->fetchAll(PDO::FETCH_ASSOC) as $cand) $candidatesByCastle[(int)$cand['castle_id']][] = $cand;
@@ -289,7 +285,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 #electionParticles{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}
 @media(prefers-reduced-motion:reduce){#electionParticles{opacity:.35}}
 
-.castle-image-frame{height:145px;margin:0 0 14px;border:1px dashed rgba(117,215,255,.32);border-radius:7px;overflow:hidden;background:linear-gradient(135deg,rgba(76,168,255,.09),rgba(140,101,255,.1));}.castle-image{width:100%;height:100%;object-fit:cover;display:block}.castle-image-placeholder{height:100%;place-items:center;text-align:center;color:#75d7ff;font:700 10px Orbitron,sans-serif;letter-spacing:.7px;line-height:1.8;padding:8px}.castle-image-placeholder small{font:10px Rajdhani,Arial,sans-serif;color:#8995a5;letter-spacing:0;overflow-wrap:anywhere}.proposal-toggle{align-self:flex-start;border:1px solid rgba(117,215,255,.28);background:rgba(76,168,255,.08);color:#bdeeff;border-radius:5px;padding:8px 11px;font:700 10px Orbitron,sans-serif;cursor:pointer}.proposal-card{padding:12px;border:1px solid rgba(140,101,255,.28);border-radius:7px;background:rgba(86,52,184,.08);line-height:1.6}.proposal-card h4{margin:0 0 9px;color:#dff7ff;font:700 11px Orbitron,sans-serif}.proposal-card p{margin:7px 0;color:#c5d1df;font-size:13px}.candidate-card{display:flex;flex-direction:column;gap:12px}.candidate-head{display:flex;align-items:center;gap:12px;min-width:0}.candidate-avatar{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;overflow:hidden;border-radius:50%;border:1px solid rgba(117,215,255,.55);background:radial-gradient(circle at 30% 20%,rgba(117,215,255,.28),rgba(86,52,184,.22) 60%,#080d15);color:#eafaff;font:700 15px Orbitron,sans-serif;box-shadow:0 0 18px rgba(76,168,255,.12)}.candidate-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}.candidate-avatar span{display:none}.candidate-avatar.avatar-fallback span{display:block}.candidate-identity{display:grid;gap:4px;min-width:0}.candidate-identity strong{overflow-wrap:anywhere}.candidate-identity .candidate-clan{color:#75d7ff;font-size:12px;letter-spacing:.2px;text-transform:none}
+.castle-image-frame{height:145px;margin:0 0 14px;border:1px dashed rgba(117,215,255,.32);border-radius:7px;overflow:hidden;background:linear-gradient(135deg,rgba(76,168,255,.09),rgba(140,101,255,.1));}.castle-image{width:100%;height:100%;object-fit:cover;display:block}.castle-image-placeholder{height:100%;place-items:center;text-align:center;color:#75d7ff;font:700 10px Orbitron,sans-serif;letter-spacing:.7px;line-height:1.8;padding:8px}.castle-image-placeholder small{font:10px Rajdhani,Arial,sans-serif;color:#8995a5;letter-spacing:0;overflow-wrap:anywhere}.proposal-toggle{align-self:flex-start;border:1px solid rgba(117,215,255,.28);background:rgba(76,168,255,.08);color:#bdeeff;border-radius:5px;padding:8px 11px;font:700 10px Orbitron,sans-serif;cursor:pointer}.proposal-card{padding:12px;border:1px solid rgba(140,101,255,.28);border-radius:7px;background:rgba(86,52,184,.08);line-height:1.6}.proposal-card h4{margin:0 0 9px;color:#dff7ff;font:700 11px Orbitron,sans-serif}.proposal-card p{margin:7px 0;color:#c5d1df;font-size:13px}.candidate-card{display:flex;flex-direction:column;gap:12px}.candidate-head{display:flex;align-items:center;gap:12px;min-width:0}.candidate-avatar{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(117,215,255,.55);background:radial-gradient(circle at 30% 20%,rgba(117,215,255,.28),rgba(86,52,184,.22) 60%,#080d15);color:#eafaff;font:700 15px Orbitron,sans-serif;box-shadow:0 0 18px rgba(76,168,255,.12)}.candidate-identity{display:grid;gap:4px;min-width:0}.candidate-identity strong{overflow-wrap:anywhere}.candidate-identity .candidate-clan{color:#75d7ff;font-size:12px;letter-spacing:.2px;text-transform:none}
 </style></head><body><canvas id="electionParticles" aria-hidden="true"></canvas><main class="wrap">
 <div class="topbar"><a class="back-site" href="dashboard.php">← RETORNAR PARA O SITE</a><div class="eyebrow">VIRTUAL BOOST · GOVERNANÇA DO REINO</div></div><h1>ELEIÇÃO POLÍTICA</h1>
 <p>Líderes de clã se candidatam ao castelo que desejam governar. Cada conta pode votar uma vez em cada castelo.</p>
@@ -346,12 +342,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <div class="leader" style="margin-top:13px;"><small>Vencedor deste castelo</small><strong><?= !empty($winnersByCastle[$castleId]) ? election_h($winnersByCastle[$castleId]['candidate_name']) : 'Sem vencedor' ?></strong><?php if (!empty($winnersByCastle[$castleId])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($winnersByCastle[$castleId]['clan_name']) ?> · <?= (int)$winnersByCastle[$castleId]['votes'] ?> voto(s)</div><?php endif; ?></div>
 <?php endif; ?>
 <?php if (!$castleCandidates): ?><div class="notice">Ainda não há candidatos inscritos para este castelo.</div><?php else: ?>
-<?php foreach ($castleCandidates as $cand): ?><div class="leader candidate-card"><div class="candidate-head"><?php
-$raceMap = [0=>'human',1=>'elf',2=>'dark-elf',3=>'orc',4=>'dwarf',5=>'kamael'];
-$raceKey = $raceMap[(int)($cand['candidate_race'] ?? -1)] ?? 'unknown';
-$sexKey = (int)($cand['candidate_sex'] ?? 0) === 1 ? 'female' : 'male';
-$avatarPath = '/site/assets/images/characters/'.$raceKey.'-'.$sexKey.'.png';
-?><div class="candidate-avatar" aria-hidden="true"><img src="<?= election_h($avatarPath) ?>" alt="" onerror="this.remove();this.parentElement.classList.add('avatar-fallback');"><span><?= election_h(election_initials($cand['candidate_name'])) ?></span></div><div class="candidate-identity"><small>CANDIDATO</small><strong><?= election_h($cand['candidate_name']) ?></strong><small class="candidate-clan">Clã: <?= election_h($cand['clan_name'] ?: 'Clã não informado') ?></small></div></div><div class="metric"><span>Votos</span><b><?= (int)$cand['votes'] ?></b></div>
+<?php foreach ($castleCandidates as $cand): ?><div class="leader candidate-card"><div class="candidate-head"><div class="candidate-avatar" aria-hidden="true"><?= election_h(election_initials($cand['candidate_name'])) ?></div><div class="candidate-identity"><small>CANDIDATO</small><strong><?= election_h($cand['candidate_name']) ?></strong><small class="candidate-clan">Clã: <?= election_h($cand['clan_name'] ?: 'Clã não informado') ?></small></div></div><div class="metric"><span>Votos</span><b><?= (int)$cand['votes'] ?></b></div>
 <button type="button" class="proposal-toggle" aria-expanded="false" onclick="var p=document.getElementById('proposal-<?= (int)$cand['id'] ?>');var open=p.hidden;p.hidden=!open;this.setAttribute('aria-expanded',open?'true':'false');this.textContent=open?'OCULTAR PROPOSTAS':'PROPOSTAS';">PROPOSTAS</button>
 <div class="proposal-card" id="proposal-<?= (int)$cand['id'] ?>" hidden><h4>Propostas de <?= election_h($cand['candidate_name']) ?></h4><p><strong>1.</strong> <?= election_h($cand['proposal_1'] ?? 'Não informada') ?></p><p><strong>2.</strong> <?= election_h($cand['proposal_2'] ?? 'Não informada') ?></p><p><strong>3.</strong> <?= election_h($cand['proposal_3'] ?? 'Não informada') ?></p><p><strong>Clã:</strong> <?= election_h($cand['clan_name']) ?></p></div>
 <?php if ($isOpen && $accountName!==''): ?><form method="post"><input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="vote"><input type="hidden" name="candidate_id" value="<?= (int)$cand['id'] ?>"><button class="vote" type="submit" <?= !empty($alreadyVoted[$castleId])?'disabled':'' ?>><?= !empty($alreadyVoted[$castleId])?'VOTO JÁ REGISTRADO':'VOTAR NESTE CANDIDATO' ?></button></form><?php endif; ?></div><?php endforeach; ?>
