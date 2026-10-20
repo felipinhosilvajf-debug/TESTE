@@ -74,6 +74,19 @@ try {
         UNIQUE KEY uq_vb_candidate_castle_leader (election_id, castle_id, leader_id),
         KEY idx_vb_candidate_election_castle (election_id, castle_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_results (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        election_id BIGINT UNSIGNED NOT NULL,
+        castle_id INT NOT NULL,
+        castle_name VARCHAR(100) NOT NULL,
+        winner_leader_id INT NULL,
+        winner_name VARCHAR(100) NULL,
+        clan_name VARCHAR(100) NULL,
+        vote_count INT UNSIGNED NOT NULL DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_vb_election_result_castle (election_id, castle_id),
+        KEY idx_vb_election_results_latest (election_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
     // Migração simples caso a tabela de votos da versão inicial já exista.
     $colCheck = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes LIKE 'election_id'")->fetch(PDO::FETCH_ASSOC);
@@ -143,6 +156,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$electionError) {
                 if (!$hours || $hours < 1 || $hours > 720) {
                     throw new RuntimeException('Informe uma duração entre 1 e 720 horas.');
                 }
+                // Antes de limpar votos antigos, garante que cada eleição encerrada tenha
+                // seu resultado permanente salvo por castelo.
+                $finishedWithoutResults = $pdo->query("SELECT e.id FROM vb_political_elections e
+                    WHERE e.status='finished'
+                      AND NOT EXISTS (SELECT 1 FROM vb_political_election_results r WHERE r.election_id=e.id)
+                    ORDER BY e.id ASC")->fetchAll(PDO::FETCH_COLUMN);
+                $resultCastles = $pdo->query("SELECT ID AS castle_id, name AS castle_name FROM castle ORDER BY ID ASC")->fetchAll(PDO::FETCH_ASSOC);
+                $resultVotesStmt = $pdo->prepare("SELECT candidate_leader_id, MAX(candidate_name) AS candidate_name, MAX(candidate_clan_name) AS clan_name, COUNT(*) AS votes
+                    FROM vb_political_election_votes
+                    WHERE election_id=? AND castle_id=?
+                    GROUP BY candidate_leader_id
+                    ORDER BY votes DESC, candidate_name ASC");
+                $saveResultStmt = $pdo->prepare("INSERT IGNORE INTO vb_political_election_results
+                    (election_id,castle_id,castle_name,winner_leader_id,winner_name,clan_name,vote_count)
+                    VALUES (?,?,?,?,?,?,?)");
+                foreach ($finishedWithoutResults as $finishedIdValue) {
+                    $finishedId = (int)$finishedIdValue;
+                    foreach ($resultCastles as $resultCastle) {
+                        $resultVotesStmt->execute([$finishedId, (int)$resultCastle['castle_id']]);
+                        $winnerRow = $resultVotesStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+                        $saveResultStmt->execute([
+                            $finishedId,
+                            (int)$resultCastle['castle_id'],
+                            (string)$resultCastle['castle_name'],
+                            $winnerRow ? (int)$winnerRow['candidate_leader_id'] : null,
+                            $winnerRow ? (string)$winnerRow['candidate_name'] : null,
+                            $winnerRow && $winnerRow['clan_name'] !== '' ? (string)$winnerRow['clan_name'] : null,
+                            $winnerRow ? (int)$winnerRow['votes'] : 0
+                        ]);
+                    }
+                }
+                // Com os resultados arquivados, apaga os votos detalhados de eleições
+                // antigas. Os votos da eleição nova começarão do zero.
+                $pdo->exec("DELETE v FROM vb_political_election_votes v
+                    INNER JOIN vb_political_elections e ON e.id=v.election_id
+                    WHERE e.status IN ('finished','cancelled')");
+
                 $stmt = $pdo->prepare("INSERT INTO vb_political_elections (status, starts_at, ends_at, remaining_seconds, created_by) VALUES ('open', NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR), 0, ?)");
                 $stmt->execute([$hours, (int) ($_SESSION['admin_id'] ?? 0)]);
                 $electionNotice = 'Eleição iniciada com sucesso.';
