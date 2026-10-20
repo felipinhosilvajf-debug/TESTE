@@ -136,7 +136,7 @@ try {
     if ($election && $election['status'] === 'finished') {
         foreach ($castles as $castle) {
             $list = $candidatesByCastle[(int)$castle['castle_id']] ?? [];
-            if ($list) { usort($list, static fn($a,$b) => ((int)$b['votes'] <=> (int)$a['votes']) ?: strcmp((string)$a['candidate_name'],(string)$b['candidate_name']); $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
+            if ($list) { usort($list, static fn($a,$b) => ((int)$b['votes'] <=> (int)$a['votes']) ?: strcmp((string)$a['candidate_name'],(string)$b['candidate_name']); if ((int)$list[0]['votes'] > 0) $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
         }
     }
 } catch (Throwable $e) {
