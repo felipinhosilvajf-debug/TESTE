@@ -130,12 +130,10 @@ try {
         $finish->execute([(int)$election['id']]);
         $election = null;
     }
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        // Limpa candidaturas de eleições encerradas/canceladas para não reaparecerem depois.
-        $pdo->exec("DELETE c FROM vb_political_election_candidates c
-            INNER JOIN vb_political_elections e ON e.id=c.election_id
-            WHERE e.status IN ('finished','cancelled')");
-    }
+    // Limpa candidaturas de eleições encerradas/canceladas para não reaparecerem depois.
+    $pdo->exec("DELETE c FROM vb_political_election_candidates c
+        INNER JOIN vb_political_elections e ON e.id=c.election_id
+        WHERE e.status IN ('finished','cancelled')");
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $postedToken = isset($_POST['csrf_token']) && is_string($_POST['csrf_token']) ? $_POST['csrf_token'] : '';
         $action = isset($_POST['election_action']) && is_string($_POST['election_action']) ? $_POST['election_action'] : '';
