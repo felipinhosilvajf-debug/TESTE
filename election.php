@@ -156,16 +156,24 @@ try {
                     $proposal1 = trim((string)($_POST['proposal_1'] ?? ''));
                     $proposal2 = trim((string)($_POST['proposal_2'] ?? ''));
                     $proposal3 = trim((string)($_POST['proposal_3'] ?? ''));
-                    if ($proposal1 === '' || $proposal2 === '' || $proposal3 === '') {
+                    $existingCandidate = $pdo->prepare("SELECT castle_id FROM vb_political_election_candidates WHERE election_id=? AND leader_id=? LIMIT 1");
+                    $existingCandidate->execute([(int)$election['id'], (int)$leader['leader_id']]);
+                    $registeredCastleId = $existingCandidate->fetchColumn();
+                    if ($registeredCastleId !== false) {
+                        if ((int)$registeredCastleId === (int)$castleId) {
+                            $error = 'Este líder já está inscrito neste castelo. Cada líder pode se candidatar apenas uma vez por eleição.';
+                        } else {
+                            $error = 'Este líder já está inscrito em outro castelo nesta eleição. Cada líder pode disputar apenas um castelo por eleição.';
+                        }
+                    } elseif ($proposal1 === '' || $proposal2 === '' || $proposal3 === '') {
                         $error = 'Preencha as três propostas para concluir a candidatura.';
                     } elseif ((function_exists('mb_strlen') ? mb_strlen($proposal1, 'UTF-8') : strlen($proposal1)) > 255 || (function_exists('mb_strlen') ? mb_strlen($proposal2, 'UTF-8') : strlen($proposal2)) > 255 || (function_exists('mb_strlen') ? mb_strlen($proposal3, 'UTF-8') : strlen($proposal3)) > 255) {
                         $error = 'Cada proposta deve ter no máximo 255 caracteres.';
                     } else {
-                        $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name,proposal_1,proposal_2,proposal_3) VALUES (?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE candidate_name=VALUES(candidate_name),clan_id=VALUES(clan_id),clan_name=VALUES(clan_name),proposal_1=VALUES(proposal_1),proposal_2=VALUES(proposal_2),proposal_3=VALUES(proposal_3)");
+                        $ins = $pdo->prepare("INSERT INTO vb_political_election_candidates (election_id,castle_id,leader_id,candidate_name,clan_id,clan_name,proposal_1,proposal_2,proposal_3) VALUES (?,?,?,?,?,?,?,?,?)");
                         $ins->execute([(int)$election['id'], $castleId, (int)$leader['leader_id'], (string)$leader['leader_name'], (int)$leader['clan_id'], (string)$leader['clan_name'], $proposal1, $proposal2, $proposal3]);
                         $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
                     }
-                    $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
                 }
             }
         } elseif ($action === 'vote') {
@@ -341,7 +349,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <?php if ($election && $election['status']==='finished'): ?>
 <div class="leader" style="margin-top:13px;"><small>Vencedor deste castelo</small><strong><?= !empty($winnersByCastle[$castleId]) ? election_h($winnersByCastle[$castleId]['candidate_name']) : 'Sem vencedor' ?></strong><?php if (!empty($winnersByCastle[$castleId])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($winnersByCastle[$castleId]['clan_name']) ?> · <?= (int)$winnersByCastle[$castleId]['votes'] ?> voto(s)</div><?php endif; ?></div>
 <?php endif; ?>
-<button type="button" class="candidates-toggle" data-label="<?= count($castleCandidates) ?> CANDIDATO<?= count($castleCandidates) === 1 ? '' : 'S' ?>" aria-expanded="false" aria-controls="candidates-panel-<?= $castleId ?>"><span>VER CANDIDATOS</span><span class="candidate-count"><?= count($castleCandidates) ?> CANDIDATO<?= count($castleCandidates) === 1 ? '' : 'S' ?>⌄</span></button>
+<button type="button" class="candidates-toggle wiki-toggle" data-label="<?= count($castleCandidates) ?> CANDIDATO<?= count($castleCandidates) === 1 ? '' : 'S' ?>" aria-expanded="false" aria-controls="candidates-panel-<?= $castleId ?>"><span class="wiki-icon" aria-hidden="true">✦</span><span><?= count($castleCandidates) ?> CANDIDATO<?= count($castleCandidates) === 1 ? '' : 'S' ?></span><span class="wiki-arrow" aria-hidden="true">⌄</span></button>
 <div class="candidates-panel" id="candidates-panel-<?= $castleId ?>" hidden>
 <?php if (!$castleCandidates): ?><div class="notice">Ainda não há candidatos inscritos para este castelo.</div><?php else: ?>
 <?php foreach ($castleCandidates as $cand): ?><div class="leader candidate-card"><div class="candidate-head"><div class="candidate-avatar" aria-hidden="true"><?= election_h(election_initials($cand['candidate_name'])) ?></div><div class="candidate-identity"><small>CANDIDATO</small><strong><?= election_h($cand['candidate_name']) ?></strong><small class="candidate-clan">Clã: <?= election_h($cand['clan_name'] ?: 'Clã não informado') ?></small></div></div><div class="metric"><span>Votos</span><b><?= (int)$cand['votes'] ?></b></div>
@@ -357,7 +365,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 </main>
 <script>
 (function(){var button=document.getElementById('wikiToggle');var panel=document.getElementById('leadershipWiki');if(!button||!panel)return;button.addEventListener('click',function(){var expanded=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!expanded));panel.hidden=expanded;if(!expanded){panel.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}});})();
-(function(){document.querySelectorAll('.candidates-toggle').forEach(function(button){button.addEventListener('click',function(){var panel=document.getElementById(button.getAttribute('aria-controls'));if(!panel)return;var expanded=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!expanded));panel.hidden=expanded;button.querySelector('span:first-child').textContent=expanded?'VER CANDIDATOS':'OCULTAR CANDIDATOS';button.querySelector('.candidate-count').textContent=expanded?button.getAttribute('data-label'):'FECHAR ⌃';});});})();
+(function(){document.querySelectorAll('.candidates-toggle').forEach(function(button){button.addEventListener('click',function(){var panel=document.getElementById(button.getAttribute('aria-controls'));if(!panel)return;var expanded=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!expanded));panel.hidden=expanded;var arrow=button.querySelector('.wiki-arrow');if(arrow)arrow.textContent=expanded?'⌄':'⌃';});});})();
 </script>
 <?php if ($isOpen): ?><script>
 (function(){var left=<?= (int)$secondsLeft ?>;var el=document.getElementById('countdown');function tick(){if(left<=0){el.textContent='00:00:00';window.setTimeout(function(){window.location.reload();},1200);return;}var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;el.textContent=[h,m,s].map(function(n){return String(n).padStart(2,'0')}).join(':');left--;if(left>=0)window.setTimeout(tick,1000);}tick();})();
