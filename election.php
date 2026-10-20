@@ -85,19 +85,6 @@ try {
         }
     }
     $voteColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes")->fetchAll(PDO::FETCH_COLUMN);
-    if (!in_array('candidate_clan_name', $voteColumns, true)) {
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_name");
-        $voteColumns[] = 'candidate_clan_name';
-    }
-    // Migra os clãs para os votos já existentes antes de remover candidaturas de eleições encerradas.
-    $pdo->exec("UPDATE vb_political_election_votes v
-        INNER JOIN vb_political_election_candidates c
-          ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
-        SET v.candidate_clan_name=c.clan_name
-        WHERE v.candidate_clan_name=''");
-    $pdo->exec("DELETE c FROM vb_political_election_candidates c
-        INNER JOIN vb_political_elections e ON e.id=c.election_id
-        WHERE e.status='finished'");
     if (!in_array('election_id', $voteColumns, true)) {
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NULL FIRST");
         $voteColumns[] = 'election_id';
@@ -118,6 +105,10 @@ try {
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
         $voteColumns[] = 'created_at';
     }
+    if (!in_array('candidate_clan_name', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_clan_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_name");
+        $voteColumns[] = 'candidate_clan_name';
+    }
     $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
     $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
     // Remove duplicatas legadas por conta/eleição/castelo antes de criar a chave única.
@@ -136,6 +127,15 @@ try {
         $voteIndexRows = [];
     }
     if (!$voteIndexRows) $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
+    // Só migra os clãs e limpa candidaturas após garantir que todas as colunas antigas existam.
+    $pdo->exec("UPDATE vb_political_election_votes v
+        INNER JOIN vb_political_election_candidates c
+          ON c.election_id=v.election_id AND c.castle_id=v.castle_id AND c.leader_id=v.candidate_leader_id
+        SET v.candidate_clan_name=c.clan_name
+        WHERE v.candidate_clan_name=''");
+    $pdo->exec("DELETE c FROM vb_political_election_candidates c
+        INNER JOIN vb_political_elections e ON e.id=c.election_id
+        WHERE e.status='finished'");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
