@@ -474,20 +474,21 @@ try {
 @media(max-width:800px){.main{width:100%;padding-inline:14px}.hero{grid-template-columns:minmax(0,1fr)}.warrior-art{min-height:290px;margin-top:0;padding-bottom:54px}.warrior-model{width:100%;max-width:360px;height:250px}.avatar-controls{right:8px;left:8px;bottom:8px;top:auto;transform:none;max-width:none;width:auto;flex-direction:row;justify-content:center}.avatar-control{white-space:nowrap}.avatar-controls-label{width:auto;margin:0 2px}.animation-label{margin-left:7px}}
 @media(max-width:460px){.main{padding-inline:10px}.hero-copy{padding:22px 18px 0}.warrior-art{min-height:280px;padding-bottom:60px}.warrior-model{height:225px}.avatar-controls{gap:4px}.avatar-control{font-size:10px;padding:6px 7px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.details-grid{grid-template-columns:minmax(0,1fr)}.panel{padding:15px}.section-heading{gap:7px}.section-heading span{letter-spacing:.04em}}
 
-/* Correção de largura após a inclusão do avatar 3D:
-   o model-viewer e seus controles não podem aumentar a largura intrínseca
-   das colunas nem empurrar os cartões de atributos para fora do painel. */
-html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
-.app{width:100%;max-width:100%;min-width:0}
-.sidebar{width:246px}
+/* Largura explícita: o main começa depois da sidebar e só ocupa o espaço restante da viewport. */
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}
+.app{position:relative;width:100%;max-width:100%;min-width:0}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:246px}
 .main{
   display:block;
-  width:auto;
-  max-width:none;
+  position:relative;
+  box-sizing:border-box;
+  width:calc(100vw - 246px);
+  max-width:calc(100vw - 246px);
   min-width:0;
-  margin:0 0 0 246px;
+  margin-left:246px;
+  margin-right:0;
   padding:27px clamp(14px,2.2vw,34px) 50px;
-  overflow:visible;
+  overflow-x:hidden;
 }
 .main > *, .character-view, .character-view > *,
 .hero, .hero-copy, .warrior-art, .section-heading,
@@ -498,23 +499,15 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
   max-width:100%;
 }
 .character-view.active{display:block;width:100%;min-width:0}
-.hero{width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.hero{display:grid;width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .hero-copy{overflow-wrap:anywhere}
-.warrior-art{width:100%;min-width:0;max-width:100%;contain:layout paint}
-.warrior-model{
-  display:block;
-  width:100%;
-  min-width:0;
-  max-width:100%;
-  height:320px;
-  flex:none;
-}
+.warrior-art{position:relative;width:100%;min-width:0;max-width:100%;contain:layout paint}
+.warrior-model{display:block;width:100%;min-width:0;max-width:100%;height:320px;flex:none}
 .avatar-controls{max-width:calc(100% - 16px);min-width:0}
 .avatar-control{min-width:0;max-width:100%;white-space:normal}
 .stats-grid{display:grid;width:100%;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
 .stat-card{width:100%;overflow:hidden}
-.stat-value,.stat-foot,.info-item strong,.subclass-name,.bar-head span,
-.hero-name,.hero-class,.hero-title{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.stat-value,.stat-foot,.info-item strong,.subclass-name,.bar-head span,.hero-name,.hero-class,.hero-title{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .details-grid{display:grid;width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .panel{width:100%;overflow:hidden}
 .bar-head{display:flex;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;gap:4px 10px}
@@ -523,14 +516,13 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 .info-list{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:1150px){
   .sidebar{width:215px}
-  .main{margin-left:215px;padding:27px 18px 50px}
-  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .main{width:calc(100vw - 215px);max-width:calc(100vw - 215px);margin-left:215px;padding:27px 18px 50px}
   .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .details-grid{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:800px){
   .sidebar{width:260px}
-  .main{width:100%;margin-left:0;padding:17px 14px 35px}
+  .main{width:100%;max-width:100%;margin-left:0;padding:17px 14px 35px}
   .hero{grid-template-columns:minmax(0,1fr)}
   .warrior-art{min-height:290px;padding-bottom:54px}
   .warrior-model{height:250px}
