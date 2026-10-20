@@ -474,59 +474,83 @@ try {
 @media(max-width:800px){.main{width:100%;padding-inline:14px}.hero{grid-template-columns:minmax(0,1fr)}.warrior-art{min-height:290px;margin-top:0;padding-bottom:54px}.warrior-model{width:100%;max-width:360px;height:250px}.avatar-controls{right:8px;left:8px;bottom:8px;top:auto;transform:none;max-width:none;width:auto;flex-direction:row;justify-content:center}.avatar-control{white-space:nowrap}.avatar-controls-label{width:auto;margin:0 2px}.animation-label{margin-left:7px}}
 @media(max-width:460px){.main{padding-inline:10px}.hero-copy{padding:22px 18px 0}.warrior-art{min-height:280px;padding-bottom:60px}.warrior-model{height:225px}.avatar-controls{gap:4px}.avatar-control{font-size:10px;padding:6px 7px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.details-grid{grid-template-columns:minmax(0,1fr)}.panel{padding:15px}.section-heading{gap:7px}.section-heading span{letter-spacing:.04em}}
 
-/* Layout alinhado à referência image.png: sidebar fixa e painel limitado à largura restante. */
-html,body{width:100%;max-width:100%;overflow-x:hidden;}
-.app{width:100%;max-width:100%;min-width:0;overflow-x:clip;}
+/* Correção de largura após a inclusão do avatar 3D:
+   o model-viewer e seus controles não podem aumentar a largura intrínseca
+   das colunas nem empurrar os cartões de atributos para fora do painel. */
+html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
+.app{width:100%;max-width:100%;min-width:0}
+.sidebar{width:246px}
 .main{
   display:block;
-  box-sizing:border-box;
-  width:calc(100% - 246px);
+  width:auto;
   max-width:none;
   min-width:0;
-  margin-left:246px;
+  margin:0 0 0 246px;
   padding:27px clamp(14px,2.2vw,34px) 50px;
-  overflow-x:clip;
+  overflow:visible;
 }
-#inicio,#inicio > *{box-sizing:border-box;width:100%;max-width:100%;min-width:0;}
-.character-view,.hero,.hero-copy,.warrior-art,.section-heading,
-.stats-grid,.details-grid,.panel,.bar-row,.bar-head,.bar,
-.info-list,.info-item,.subclasses,.subclass,.stat-card{
+.main > *, .character-view, .character-view > *,
+.hero, .hero-copy, .warrior-art, .section-heading,
+.stats-grid, .details-grid, .panel, .bar-row, .bar-head,
+.bar, .info-list, .info-item, .subclasses, .subclass, .stat-card {
   box-sizing:border-box;
   min-width:0;
   max-width:100%;
 }
-.hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);}
-.stats-grid{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));}
-.stat-card{overflow:hidden;}
-.stat-value,.stat-foot,.info-item strong,.subclass-name,
-.bar-head span,.hero-name,.hero-class,.hero-title{
+.character-view.active{display:block;width:100%;min-width:0}
+.hero{width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.hero-copy{overflow-wrap:anywhere}
+.warrior-art{width:100%;min-width:0;max-width:100%;contain:layout paint}
+.warrior-model{
+  display:block;
+  width:100%;
   min-width:0;
   max-width:100%;
-  overflow-wrap:anywhere;
+  height:320px;
+  flex:none;
 }
-.bar-head{display:flex;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;}
-.bar-head span:last-child{text-align:right;}
-.bar{width:100%;overflow:hidden;}
-.details-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}
-.info-list{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}
+.avatar-controls{max-width:calc(100% - 16px);min-width:0}
+.avatar-control{min-width:0;max-width:100%;white-space:normal}
+.stats-grid{display:grid;width:100%;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.stat-card{width:100%;overflow:hidden}
+.stat-value,.stat-foot,.info-item strong,.subclass-name,.bar-head span,
+.hero-name,.hero-class,.hero-title{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.details-grid{display:grid;width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.panel{width:100%;overflow:hidden}
+.bar-head{display:flex;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;gap:4px 10px}
+.bar-head span:last-child{text-align:right}
+.bar{width:100%;overflow:hidden}
+.info-list{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:1150px){
-  .main{width:calc(100% - 215px);margin-left:215px;padding:27px 18px 50px;}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .details-grid{grid-template-columns:minmax(0,1fr);}
+  .sidebar{width:215px}
+  .main{margin-left:215px;padding:27px 18px 50px}
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .details-grid{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:800px){
-  .main{width:100%;margin-left:0;padding:17px 14px 35px;}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .details-grid,.info-list{grid-template-columns:minmax(0,1fr);}
+  .sidebar{width:260px}
+  .main{width:100%;margin-left:0;padding:17px 14px 35px}
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .warrior-art{min-height:290px;padding-bottom:54px}
+  .warrior-model{height:250px}
+  .avatar-controls{right:8px;left:8px;bottom:8px;top:auto;transform:none;width:auto;max-width:calc(100% - 16px);flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .details-grid,.info-list{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:460px){
-  .main{padding:17px 10px 30px;}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
-  .stat-card{padding:12px;}
-  .stat-value{font-size:clamp(16px,4.8vw,21px);}
-  .panel{padding:13px;}
-  .bar-head{font-size:12px;gap:4px 7px;}
-  .info-item{gap:8px;}
+  .main{padding:17px 10px 30px}
+  .hero-copy{padding:22px 18px 0}
+  .warrior-art{min-height:280px;padding-bottom:60px}
+  .warrior-model{height:225px}
+  .avatar-controls{gap:4px}
+  .avatar-control{font-size:10px;padding:6px 7px}
+  .stats-grid{gap:9px}
+  .stat-card{padding:12px}
+  .stat-value{font-size:clamp(16px,4.8vw,21px)}
+  .panel{padding:13px}
+  .bar-head{font-size:12px;gap:4px 7px}
+  .info-item{gap:8px}
 }
 </style>
 </head>
