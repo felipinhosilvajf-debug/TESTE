@@ -265,6 +265,8 @@ content="width=device-width, initial-scale=1.0"
 >
 
 <style>
+.btn{border:1px solid rgba(117,215,255,.24);background:linear-gradient(90deg,rgba(23,105,170,.35),rgba(86,52,184,.25));color:#dceeff;padding:11px 15px;border-radius:6px;font:700 11px Orbitron,sans-serif;letter-spacing:.4px;cursor:pointer}.btn:hover{filter:brightness(1.2)}
+
 
 :root {
 
@@ -811,6 +813,10 @@ tr:hover td {
             Castles
         </a>
 
+        <a href="castles.php#election-control">
+            Eleição Política
+        </a>
+
         <a href="logs.php">
             Logs
         </a>
@@ -878,7 +884,7 @@ tr:hover td {
     </div>
 
 
-<section class="panel" style="margin-bottom:25px;">
+<section id="election-control" class="panel" style="margin-bottom:25px;">
   <div class="panel-header">
     <h2>Controle da Eleição Política</h2>
     <p>Inicie e administre a votação. O sistema registra o vencedor; a mudança do proprietário do castelo é manual.</p>
