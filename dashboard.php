@@ -583,7 +583,7 @@ try {
   }
   buttons.forEach((button)=>button.addEventListener('click',()=>selectCharacter(Number(button.dataset.select))));
   const avatarLooks = {
-    male: { src: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb', alt: 'Avatar masculino 3D com modelo humano texturizado' },
+    male: { src: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CesiumMan/glTF-Binary/CesiumMan.glb', alt: 'Avatar masculino 3D com modelo humano texturizado' },
     female: { src: 'https://threejs.org/examples/models/gltf/Michelle.glb', alt: 'Avatar feminino 3D' },
     armor: { src: 'https://threejs.org/examples/models/gltf/Soldier.glb', alt: 'Guerreiro 3D com armadura medieval' }
   };
