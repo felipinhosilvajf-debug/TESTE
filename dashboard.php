@@ -519,8 +519,15 @@ try {
       <div class="warrior-art">
         <div class="magic-ring"></div><span class="rune r1">ᚱ</span><span class="rune r2">ᛟ</span><span class="rune r3">ᚷ</span><span class="rune r4">ᛉ</span>
         <model-viewer class="warrior-model" id="warriorModel-<?= (int)$i ?>" src="https://threejs.org/examples/models/gltf/Soldier.glb" alt="Avatar 3D de demonstração do Virtual Boost" camera-controls auto-rotate autoplay shadow-intensity="1" exposure="1.1" interaction-prompt="none" environment-image="neutral" loading="lazy"></model-viewer>
-        <div class="avatar-controls" role="group" aria-label="Escolher sexo e visual do avatar">
-          <div class="avatar-controls-label">Escolha o avatar</div>
+        <div class="avatar-controls" role="group" aria-label="Escolher avatar e animação">
+          <div class="avatar-controls-label">Avatar</div>
+          <button type="button" class="avatar-control active" data-avatar-look="male" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="true">♂ Homem</button>
+          <button type="button" class="avatar-control" data-avatar-look="female" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="false">♀ Mulher</button>
+          <div class="avatar-controls-label animation-label">Movimento</div>
+          <button type="button" class="avatar-control" data-avatar-animation="run" data-model="warriorModel-<?= (int)$i ?>">🏃 Correr</button>
+          <button type="button" class="avatar-control" data-avatar-animation="walk" data-model="warriorModel-<?= (int)$i ?>">🚶 Caminhar</button>
+          <span class="avatar-animation-status" data-animation-status-for="warriorModel-<?= (int)$i ?>" aria-live="polite">Carregando animações…</span>
+        </div>
           <button type="button" class="avatar-control active" data-avatar-look="male" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="true">♂ Homem</button>
           <button type="button" class="avatar-control" data-avatar-look="female" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="false">♀ Mulher</button>
         </div>
@@ -585,26 +592,77 @@ try {
     male: { src: 'https://raw.githubusercontent.com/felipinhosilvajf-debug/TESTE/main/Modelos3d/male.glb', alt: 'Avatar masculino 3D com modelo humano texturizado' },
     female: { src: 'https://raw.githubusercontent.com/felipinhosilvajf-debug/TESTE/main/Modelos3d/female.glb', alt: 'Avatar feminino 3D' },
   };
+  const animationStatus = (modelId) => document.querySelector('[data-animation-status-for="'+modelId+'"]');
+  const animationMatches = { run: /run|running|sprint|jog/i, walk: /walk|walking/i };
+  function chooseAnimation(viewer, kind, status) {
+    const clips = Array.isArray(viewer.availableAnimations) ? viewer.availableAnimations : [];
+    const clip = clips.find((name)=>animationMatches[kind].test(name));
+    if (!clip) {
+      if (status) status.textContent = clips.length
+        ? 'Este modelo não tem clipe de '+(kind==='run'?'corrida':'caminhada')+'.'
+        : 'Este GLB não informou animações.';
+      return false;
+    }
+    viewer.animationName = clip;
+    viewer.setAttribute('autoplay','');
+    if (typeof viewer.play === 'function') viewer.play();
+    if (status) status.textContent = 'Reproduzindo: '+clip;
+    const controls = status && status.closest('.avatar-controls');
+    if (controls) controls.querySelectorAll('[data-avatar-animation]').forEach((button)=>{
+      button.classList.toggle('active', button.dataset.avatarAnimation===kind);
+    });
+    return true;
+  }
+  function prepareViewer(viewer) {
+    if (!viewer || viewer.dataset.animationReady === 'true') return;
+    viewer.dataset.animationReady = 'true';
+    const status = animationStatus(viewer.id);
+    viewer.addEventListener('load',()=>{
+      const clips = Array.isArray(viewer.availableAnimations) ? viewer.availableAnimations : [];
+      if (!clips.length) {
+        if (status) status.textContent = 'Este GLB não contém animações.';
+        return;
+      }
+      if (!chooseAnimation(viewer, 'run', status) && !chooseAnimation(viewer, 'walk', status)) {
+        viewer.animationName = clips[0];
+        viewer.setAttribute('autoplay','');
+        if (typeof viewer.play === 'function') viewer.play();
+        if (status) status.textContent = 'Reproduzindo: '+clips[0];
+      }
+    });
+  }
+  document.querySelectorAll('.warrior-model').forEach(prepareViewer);
   document.querySelectorAll('[data-avatar-look]').forEach((button)=>{
     button.addEventListener('click',()=>{
       const viewer=document.getElementById(button.dataset.model);
       const look=avatarLooks[button.dataset.avatarLook];
       if(!viewer||!look)return;
-      // Limpa o modelo anterior para não deixar a armadura visível se o novo arquivo falhar.
-      viewer.src='';
-      viewer.removeAttribute('auto-rotate');
-      viewer.setAttribute('camera-controls','');
-      viewer.setAttribute('autoplay','');
-      viewer.alt=look.alt;
-      viewer.src=look.src;
-      // Evita que a animação e a rotação automática disputem a interação manual.
-      if(button.dataset.avatarLook==='male') viewer.setAttribute('auto-rotate','');
+      if (viewer.getAttribute('src') !== look.src) {
+        viewer.removeAttribute('auto-rotate');
+        viewer.setAttribute('camera-controls','');
+        viewer.setAttribute('autoplay','');
+        viewer.alt=look.alt;
+        prepareViewer(viewer);
+        viewer.src=look.src;
+      }
       const controls=button.closest('.avatar-controls');
       controls.querySelectorAll('[data-avatar-look]').forEach((item)=>{
         const active=item===button;
         item.classList.toggle('active',active);
         item.setAttribute('aria-pressed',active?'true':'false');
       });
+    });
+  });
+  document.querySelectorAll('[data-avatar-animation]').forEach((button)=>{
+    button.addEventListener('click',()=>{
+      const viewer=document.getElementById(button.dataset.model);
+      if (!viewer) return;
+      const status=animationStatus(viewer.id);
+      if (!viewer.loaded) {
+        if (status) status.textContent='Aguarde o modelo terminar de carregar.';
+        return;
+      }
+      chooseAnimation(viewer,button.dataset.avatarAnimation,status);
     });
   });
   const first=views.find((v)=>v.classList.contains('active'));if(first)first.querySelectorAll('.bar-fill').forEach((bar)=>{bar.style.width=(Number(bar.dataset.width)||0)+'%';});
