@@ -1,20 +1,3 @@
-<?php
-// Carrega o total real dos tesouros dos castelos, sem interromper a página se o banco estiver indisponível.
-$totalCastleTreasuryDisplay = '—';
-$dbConfigPath = __DIR__ . '/db.php';
-if (is_file($dbConfigPath)) {
-    try {
-        require_once $dbConfigPath;
-        if (isset($pdo) && $pdo instanceof PDO) {
-            $treasuryQuery = $pdo->query('SELECT COALESCE(SUM(treasury), 0) FROM castle');
-            $totalCastleTreasuryDisplay = number_format((int) $treasuryQuery->fetchColumn(), 0, ',', '.');
-        }
-    } catch (Throwable $e) {
-        // Mantém a página pública funcionando caso o banco esteja temporariamente indisponível.
-        $totalCastleTreasuryDisplay = '—';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -3251,7 +3234,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
                     <span class="stat-title">Tesouro dos Castelos</span>
                     <span class="stat-icon">🏰</span>
                 </div>
-                <div class="stat-value" id="dbCastleVault"><?= htmlspecialchars($totalCastleTreasuryDisplay, ENT_QUOTES, 'UTF-8') ?></div>
+                <div class="stat-value" id="dbCastleVault">9.000.000</div>
                 <div class="stat-footer">Acumulado via Taxas de Domínio</div>
             </div>
             <div class="economy-stat-card reveal">
