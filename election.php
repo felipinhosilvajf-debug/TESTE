@@ -157,6 +157,17 @@ try {
                 if (!$leader) $error = 'Somente o líder de um clã vinculado à sua conta pode se candidatar.';
                 elseif (!$castleCheck->fetchColumn()) $error = 'O castelo selecionado não existe.';
                 else {
+                    // Cada líder pode disputar somente um castelo por eleição.
+                    $existingCandidateStmt = $pdo->prepare("SELECT castle_id FROM vb_political_election_candidates WHERE election_id=? AND leader_id=? LIMIT 1");
+                    $existingCandidateStmt->execute([(int)$election['id'], (int)$leader['leader_id']]);
+                    $existingCastleId = $existingCandidateStmt->fetchColumn();
+                    if ($existingCastleId !== false && (int)$existingCastleId !== (int)$castleId) {
+                        $existingCastleStmt = $pdo->prepare("SELECT name FROM castle WHERE ID=? LIMIT 1");
+                        $existingCastleStmt->execute([(int)$existingCastleId]);
+                        $existingCastleName = $existingCastleStmt->fetchColumn();
+                        $error = 'Este líder já está inscrito no castelo ' . ($existingCastleName ? (string)$existingCastleName : '#' . (int)$existingCastleId) . '. Cada líder pode se candidatar a apenas um castelo por eleição.';
+                    }
+                    if ($error === '') {
                     $proposal1 = trim((string)($_POST['proposal_1'] ?? ''));
                     $proposal2 = trim((string)($_POST['proposal_2'] ?? ''));
                     $proposal3 = trim((string)($_POST['proposal_3'] ?? ''));
@@ -170,6 +181,7 @@ try {
                         $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
                     }
                     $notice = $leader['leader_name'].' foi inscrito como candidato ao castelo selecionado.';
+                    }
                 }
             }
         } elseif ($action === 'vote') {
