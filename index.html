@@ -3257,11 +3257,12 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
                         <tr>
                             <th>Castelo</th>
                             <th>Clã Proprietário</th>
+                            <th>Saldo do Cofre</th>
                             <th>Taxa de Imposto</th>
                         </tr>
                     </thead>
                     <tbody id="castleStatusRows">
-                        <tr><td colspan="3">Carregando dados dos castelos do servidor...</td></tr>
+                        <tr><td colspan="4">Carregando dados dos castelos do servidor...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -3625,7 +3626,7 @@ async function atualizarStatusCastelos(){
         if(!data.success || !Array.isArray(data.castles)) throw new Error('Resposta inválida da API');
         tbody.innerHTML = '';
         if(data.castles.length === 0){
-            tbody.innerHTML = '<tr><td colspan="3">Nenhum castelo encontrado no banco de dados.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4">Nenhum castelo encontrado no banco de dados.</td></tr>';
             return;
         }
         for(const castle of data.castles){
@@ -3639,18 +3640,26 @@ async function atualizarStatusCastelos(){
             owner.className = 'clan-tag';
             owner.textContent = castle.owner || 'Sem dono';
             ownerCell.appendChild(owner);
+            const vaultCell = document.createElement('td');
+            const vault = document.createElement('span');
+            vault.className = 'tax-badge';
+            const vaultValue = castle.treasury;
+            vault.textContent = vaultValue === null || vaultValue === undefined || vaultValue === ''
+                ? 'Indisponível'
+                : Math.max(0, Number(vaultValue)).toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + ' Adena';
+            vaultCell.appendChild(vault);
             const taxCell = document.createElement('td');
             const tax = document.createElement('span');
             tax.className = 'tax-badge';
             const taxValue = Number(castle.taxPercent);
             tax.textContent = (Number.isFinite(taxValue) ? taxValue.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : '0') + '%';
             taxCell.appendChild(tax);
-            tr.append(nameCell, ownerCell, taxCell);
+            tr.append(nameCell, ownerCell, vaultCell, taxCell);
             tbody.appendChild(tr);
         }
     }catch(error){
         console.error('Erro ao carregar status dos castelos:', error);
-        if(!tbody.dataset.loaded) tbody.innerHTML = '<tr><td colspan="3">Não foi possível carregar os castelos agora.</td></tr>';
+        if(!tbody.dataset.loaded) tbody.innerHTML = '<tr><td colspan="4">Não foi possível carregar os castelos agora.</td></tr>';
     }
     tbody.dataset.loaded = '1';
 }
