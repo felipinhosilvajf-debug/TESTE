@@ -184,7 +184,12 @@ try {
         }
     }
 } catch (Throwable $e) {
-    $error = $error ?: 'Não foi possível carregar a eleição. Confira as permissões e a estrutura do banco.';
+    // Mantém a página segura para jogadores e registra a causa real no log PHP da hospedagem.
+    error_log('[VirtualBoost election.php] ' . get_class($e) . ': ' . $e->getMessage() . ' em ' . $e->getFile() . ':' . $e->getLine());
+    if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) {
+        try { $pdo->rollBack(); } catch (Throwable $ignored) {}
+    }
+    $error = $error ?: 'Não foi possível carregar a eleição. A falha foi registrada no log PHP da hospedagem.';
 }
 $isOpen = $election && $election['status'] === 'open' && strtotime($election['ends_at']) > time();
 $isPaused = $election && $election['status'] === 'paused';
