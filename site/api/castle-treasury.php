@@ -11,7 +11,7 @@ header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 
 try {
-    $rootDb = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'db.php';
+    $rootDb = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'db.php';
 
     if (!is_file($rootDb)) {
         throw new RuntimeException('Conexão do banco indisponível.');
