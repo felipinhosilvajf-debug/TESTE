@@ -11,6 +11,21 @@ $csrf = $_SESSION['vb_election_csrf'];
 $error = ''; $notice = ''; $election = null; $castles = []; $candidatesByCastle = []; $myLeaders = [];
 $votes = []; $totalVotes = 0; $alreadyVoted = []; $winnersByCastle = [];
 try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_elections (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        status ENUM('open','paused','finished','cancelled') NOT NULL DEFAULT 'open',
+        starts_at DATETIME NOT NULL,
+        ends_at DATETIME NOT NULL,
+        remaining_seconds INT UNSIGNED NOT NULL DEFAULT 0,
+        paused_at DATETIME NULL,
+        winner_leader_id INT NULL,
+        winner_name VARCHAR(100) NULL,
+        forced TINYINT(1) NOT NULL DEFAULT 0,
+        created_by INT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        KEY idx_vb_election_status (status, ends_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_candidates (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
         election_id BIGINT UNSIGNED NOT NULL,
@@ -34,20 +49,30 @@ try {
         UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
         KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    $idx = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
-    $hasCastleInUnique = false;
-    foreach ($idx as $row) if (($row['Column_name'] ?? '') === 'castle_id') $hasCastleInUnique = true;
-    if ($idx && !$hasCastleInUnique) {
-        $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
-        $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
+    // Migra tabelas da primeira versão, caso o painel público seja aberto antes do administrativo.
+    $voteColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('election_id', $voteColumns, true)) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN election_id BIGINT UNSIGNED NULL FIRST");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN castle_id INT NOT NULL DEFAULT 0 AFTER account_name");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_leader_id INT NOT NULL DEFAULT 0 AFTER castle_id");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_leader_id");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+        $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
+        $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
+    } else {
+        if (!in_array('castle_id', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN castle_id INT NOT NULL DEFAULT 0 AFTER account_name");
+        if (!in_array('candidate_leader_id', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_leader_id INT NOT NULL DEFAULT 0 AFTER castle_id");
+        if (!in_array('candidate_name', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN candidate_name VARCHAR(100) NOT NULL DEFAULT '' AFTER candidate_leader_id");
+        if (!in_array('created_at', $voteColumns, true)) $pdo->exec("ALTER TABLE vb_political_election_votes ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
     }
+    $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
+    $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
-        $winnerStmt = $pdo->prepare("SELECT candidate_leader_id,candidate_name FROM vb_political_election_votes WHERE election_id=? GROUP BY candidate_leader_id,candidate_name ORDER BY COUNT(*) DESC,candidate_name ASC LIMIT 1");
-        $winnerStmt->execute([(int)$election['id']]); $winner = $winnerStmt->fetch(PDO::FETCH_ASSOC) ?: null;
-        $finish = $pdo->prepare("UPDATE vb_political_elections SET status='finished',winner_leader_id=?,winner_name=?,forced=0 WHERE id=? AND status='open' AND ends_at<=NOW()");
-        $finish->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, (int)$election['id']]);
+        // O encerramento só muda o estado; os vencedores são apurados individualmente por castelo abaixo.
+        $finish = $pdo->prepare("UPDATE vb_political_elections SET status='finished',winner_leader_id=NULL,winner_name=NULL,forced=0 WHERE id=? AND status='open' AND ends_at<=NOW()");
+        $finish->execute([(int)$election['id']]);
         $election = null;
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
