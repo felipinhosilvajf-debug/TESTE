@@ -519,10 +519,11 @@ try {
       <div class="warrior-art">
         <div class="magic-ring"></div><span class="rune r1">ᚱ</span><span class="rune r2">ᛟ</span><span class="rune r3">ᚷ</span><span class="rune r4">ᛉ</span>
         <model-viewer class="warrior-model" id="warriorModel-<?= (int)$i ?>" src="https://threejs.org/examples/models/gltf/Soldier.glb" alt="Avatar 3D de demonstração do Virtual Boost" camera-controls auto-rotate autoplay shadow-intensity="1" exposure="1.1" interaction-prompt="none" environment-image="neutral" loading="lazy"></model-viewer>
-        <div class="avatar-controls" role="group" aria-label="Opções de visual do avatar">
-          <div class="avatar-controls-label">Visual</div>
-          <button type="button" class="avatar-control" data-avatar-look="simple" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="false">Roupa simples</button>
-          <button type="button" class="avatar-control active" data-avatar-look="armor" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="true">Armadura</button>
+        <div class="avatar-controls" role="group" aria-label="Escolher sexo e visual do avatar">
+          <div class="avatar-controls-label">Escolha o avatar</div>
+          <button type="button" class="avatar-control active" data-avatar-look="male" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="true">♂ Homem</button>
+          <button type="button" class="avatar-control" data-avatar-look="female" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="false">♀ Mulher</button>
+          <button type="button" class="avatar-control" data-avatar-look="armor" data-model="warriorModel-<?= (int)$i ?>" aria-pressed="false">⚔ Armadura</button>
         </div>
       </div>
     </div>
@@ -582,8 +583,9 @@ try {
   }
   buttons.forEach((button)=>button.addEventListener('click',()=>selectCharacter(Number(button.dataset.select))));
   const avatarLooks = {
-    simple: { src: 'https://pub-2534e921bf9c4314addcd4d8a6e98b7b.r2.dev/avatars/mixamo/glb/y-bot.glb', alt: 'Avatar humano 3D com roupa simples' },
-    armor: { src: 'https://threejs.org/examples/models/gltf/Soldier.glb', alt: 'Guerreiro 3D com armadura' }
+    male: { src: 'https://pub-2534e921bf9c4314addcd4d8a6e98b7b.r2.dev/avatars/mixamo/glb/y-bot.glb', alt: 'Avatar masculino 3D com roupa simples' },
+    female: { src: 'https://www.innerscene.com/api/library/low-poly-character-casual-female-walking-static-befaef7b/download', alt: 'Avatar feminino 3D com roupa simples' },
+    armor: { src: 'https://threejs.org/examples/models/gltf/Soldier.glb', alt: 'Guerreiro 3D com armadura medieval' }
   };
   document.querySelectorAll('[data-avatar-look]').forEach((button)=>{
     button.addEventListener('click',()=>{
@@ -592,6 +594,8 @@ try {
       if(!viewer||!look)return;
       viewer.src=look.src;
       viewer.alt=look.alt;
+      viewer.removeAttribute('autoplay');
+      viewer.setAttribute('auto-rotate','');
       const controls=button.closest('.avatar-controls');
       controls.querySelectorAll('[data-avatar-look]').forEach((item)=>{
         const active=item===button;
