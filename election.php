@@ -73,6 +73,12 @@ try {
     }
     $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
     $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
+    // Votos antigos não têm castelo; elimina duplicatas legadas para não bloquear o índice novo.
+    $pdo->exec("DELETE newer FROM vb_political_election_votes newer
+        INNER JOIN vb_political_election_votes older
+          ON newer.account_name=older.account_name AND newer.id>older.id
+        WHERE newer.election_id=0 AND older.election_id=0
+          AND newer.castle_id=0 AND older.castle_id=0");
     $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account' ORDER BY Seq_in_index")->fetchAll(PDO::FETCH_ASSOC);
     $voteIndexColumns = array_map(static fn($r) => (string)$r['Column_name'], $voteIndexRows);
     if ($voteIndexRows && $voteIndexColumns !== ['election_id','account_name','castle_id']) {
