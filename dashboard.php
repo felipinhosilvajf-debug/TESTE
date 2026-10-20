@@ -583,8 +583,8 @@ try {
   }
   buttons.forEach((button)=>button.addEventListener('click',()=>selectCharacter(Number(button.dataset.select))));
   const avatarLooks = {
-    male: { src: 'https://pub-2534e921bf9c4314addcd4d8a6e98b7b.r2.dev/avatars/mixamo/glb/y-bot.glb', alt: 'Avatar masculino 3D com roupa simples' },
-    female: { src: 'https://www.innerscene.com/api/library/low-poly-character-casual-female-walking-static-befaef7b/download', alt: 'Avatar feminino 3D com roupa simples' },
+    male: { src: 'https://threejs.org/examples/models/gltf/YBot.glb', alt: 'Avatar masculino 3D' },
+    female: { src: 'https://threejs.org/examples/models/gltf/XBot.glb', alt: 'Avatar feminino 3D' },
     armor: { src: 'https://threejs.org/examples/models/gltf/Soldier.glb', alt: 'Guerreiro 3D com armadura medieval' }
   };
   document.querySelectorAll('[data-avatar-look]').forEach((button)=>{
@@ -592,11 +592,15 @@ try {
       const viewer=document.getElementById(button.dataset.model);
       const look=avatarLooks[button.dataset.avatarLook];
       if(!viewer||!look)return;
-      viewer.src=look.src;
-      viewer.alt=look.alt;
-      // Mantém a reprodução das animações incluídas no GLB; sem autoplay, alguns rigs ficam em pose de cruz/T.
+      // Limpa o modelo anterior para não deixar a armadura visível se o novo arquivo falhar.
+      viewer.src='';
+      viewer.removeAttribute('auto-rotate');
+      viewer.setAttribute('camera-controls','');
       viewer.setAttribute('autoplay','');
-      viewer.setAttribute('auto-rotate','');
+      viewer.alt=look.alt;
+      viewer.src=look.src;
+      // Evita que a animação e a rotação automática disputem a interação manual.
+      if(button.dataset.avatarLook==='armor') viewer.setAttribute('auto-rotate','');
       const controls=button.closest('.avatar-controls');
       controls.querySelectorAll('[data-avatar-look]').forEach((item)=>{
         const active=item===button;
