@@ -3260,27 +3260,8 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
                             <th>Taxa de Imposto</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Aden</strong></td>
-                            <td><span class="clan-tag">Estado</span></td>
-                            <td><span class="tax-badge">0%</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Giran</strong></td>
-                            <td><span class="clan-tag">Estado</span></td>
-                            <td><span class="tax-badge">0%</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rune</strong></td>
-                            <td><span class="clan-tag">Estado</span></td>
-                            <td><span class="tax-badge">0%</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Schuttgart</strong></td>
-                            <td><span class="clan-tag">Estado</span></td>
-                            <td><span class="tax-badge">0%</span></td>
-                        </tr>
+                    <tbody id="castleStatusRows">
+                        <tr><td colspan="3">Carregando dados dos castelos do servidor...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -3630,6 +3611,51 @@ function atualizarContador(){
 
 setInterval(atualizarContador, 1000);
 atualizarContador();
+
+/* =========================================================
+   CASTELOS: PROPRIETÁRIO E IMPOSTO EM TEMPO REAL
+========================================================= */
+async function atualizarStatusCastelos(){
+    const tbody = document.getElementById('castleStatusRows');
+    if(!tbody) return;
+    try{
+        const response = await fetch('/site/api/castle-status.php?t=' + Date.now(), { cache:'no-store' });
+        if(!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        if(!data.success || !Array.isArray(data.castles)) throw new Error('Resposta inválida da API');
+        tbody.innerHTML = '';
+        if(data.castles.length === 0){
+            tbody.innerHTML = '<tr><td colspan="3">Nenhum castelo encontrado no banco de dados.</td></tr>';
+            return;
+        }
+        for(const castle of data.castles){
+            const tr = document.createElement('tr');
+            const name = document.createElement('strong');
+            name.textContent = castle.name || 'Castelo';
+            const nameCell = document.createElement('td');
+            nameCell.appendChild(name);
+            const ownerCell = document.createElement('td');
+            const owner = document.createElement('span');
+            owner.className = 'clan-tag';
+            owner.textContent = castle.owner || 'Sem dono';
+            ownerCell.appendChild(owner);
+            const taxCell = document.createElement('td');
+            const tax = document.createElement('span');
+            tax.className = 'tax-badge';
+            const taxValue = Number(castle.taxPercent);
+            tax.textContent = (Number.isFinite(taxValue) ? taxValue.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : '0') + '%';
+            taxCell.appendChild(tax);
+            tr.append(nameCell, ownerCell, taxCell);
+            tbody.appendChild(tr);
+        }
+    }catch(error){
+        console.error('Erro ao carregar status dos castelos:', error);
+        if(!tbody.dataset.loaded) tbody.innerHTML = '<tr><td colspan="3">Não foi possível carregar os castelos agora.</td></tr>';
+    }
+    tbody.dataset.loaded = '1';
+}
+atualizarStatusCastelos();
+setInterval(atualizarStatusCastelos, 30000);
 
 /* =========================================================
    TESOURO DOS CASTELOS EM TEMPO REAL
