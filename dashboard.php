@@ -630,9 +630,17 @@ try {
         viewer.removeAttribute('auto-rotate');
         viewer.setAttribute('camera-controls','');
         viewer.setAttribute('autoplay','');
+        viewer.setAttribute('loading','eager');
         viewer.alt=look.alt;
         prepareViewer(viewer);
-        viewer.src=look.src;
+
+        // Força o model-viewer a descarregar o modelo atual antes de trocar.
+        // Isso evita que o modelo anterior deixe o avatar seguinte em branco.
+        viewer.removeAttribute('src');
+        viewer.dataset.currentLook = button.dataset.avatarLook;
+        requestAnimationFrame(()=>{
+          viewer.setAttribute('src',look.src);
+        });
       }
       const controls=button.closest('.avatar-controls');
       controls.querySelectorAll('[data-avatar-look]').forEach((item)=>{
