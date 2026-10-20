@@ -474,22 +474,20 @@ try {
 @media(max-width:800px){.main{width:100%;padding-inline:14px}.hero{grid-template-columns:minmax(0,1fr)}.warrior-art{min-height:290px;margin-top:0;padding-bottom:54px}.warrior-model{width:100%;max-width:360px;height:250px}.avatar-controls{right:8px;left:8px;bottom:8px;top:auto;transform:none;max-width:none;width:auto;flex-direction:row;justify-content:center}.avatar-control{white-space:nowrap}.avatar-controls-label{width:auto;margin:0 2px}.animation-label{margin-left:7px}}
 @media(max-width:460px){.main{padding-inline:10px}.hero-copy{padding:22px 18px 0}.warrior-art{min-height:280px;padding-bottom:60px}.warrior-model{height:225px}.avatar-controls{gap:4px}.avatar-control{font-size:10px;padding:6px 7px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.details-grid{grid-template-columns:minmax(0,1fr)}.panel{padding:15px}.section-heading{gap:7px}.section-heading span{letter-spacing:.04em}}
 
-/* Correção de layout: o conteúdo ocupa somente o espaço restante ao lado da sidebar.
-   width:auto evita somar a largura da sidebar duas vezes em alguns tamanhos de tela. */
-html,body{max-width:100%;overflow-x:hidden;}
+/* Layout alinhado à referência image.png: sidebar fixa e painel limitado à largura restante. */
+html,body{width:100%;max-width:100%;overflow-x:hidden;}
 .app{width:100%;max-width:100%;min-width:0;overflow-x:clip;}
 .main{
   display:block;
   box-sizing:border-box;
-  width:auto;
+  width:calc(100% - 246px);
   max-width:none;
   min-width:0;
   margin-left:246px;
-  padding-left:clamp(14px,2.2vw,34px);
-  padding-right:clamp(14px,2.2vw,34px);
+  padding:27px clamp(14px,2.2vw,34px) 50px;
   overflow-x:clip;
 }
-#inicio > *{box-sizing:border-box;max-width:100%;min-width:0;}
+#inicio,#inicio > *{box-sizing:border-box;width:100%;max-width:100%;min-width:0;}
 .character-view,.hero,.hero-copy,.warrior-art,.section-heading,
 .stats-grid,.details-grid,.panel,.bar-row,.bar-head,.bar,
 .info-list,.info-item,.subclasses,.subclass,.stat-card{
@@ -497,7 +495,8 @@ html,body{max-width:100%;overflow-x:hidden;}
   min-width:0;
   max-width:100%;
 }
-.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);}
+.stats-grid{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));}
 .stat-card{overflow:hidden;}
 .stat-value,.stat-foot,.info-item strong,.subclass-name,
 .bar-head span,.hero-name,.hero-class,.hero-title{
@@ -508,15 +507,15 @@ html,body{max-width:100%;overflow-x:hidden;}
 .bar-head{display:flex;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;}
 .bar-head span:last-child{text-align:right;}
 .bar{width:100%;overflow:hidden;}
-.details-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-.info-list{grid-template-columns:repeat(2,minmax(0,1fr));}
+.details-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}
+.info-list{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}
 @media(max-width:1150px){
-  .main{width:auto;margin-left:215px;padding-left:18px;padding-right:18px;}
+  .main{width:calc(100% - 215px);margin-left:215px;padding:27px 18px 50px;}
   .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .details-grid{grid-template-columns:minmax(0,1fr);}
 }
 @media(max-width:800px){
-  .main{width:auto;margin-left:0;padding:17px 14px 35px;}
+  .main{width:100%;margin-left:0;padding:17px 14px 35px;}
   .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .details-grid,.info-list{grid-template-columns:minmax(0,1fr);}
 }
@@ -529,7 +528,6 @@ html,body{max-width:100%;overflow-x:hidden;}
   .bar-head{font-size:12px;gap:4px 7px;}
   .info-item{gap:8px;}
 }
-
 </style>
 </head>
 <body>
