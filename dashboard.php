@@ -527,7 +527,6 @@ try {
           <button type="button" class="avatar-control" data-avatar-animation="run" data-model="warriorModel-<?= (int)$i ?>">🏃 Correr</button>
           <button type="button" class="avatar-control" data-avatar-animation="walk" data-model="warriorModel-<?= (int)$i ?>">🚶 Caminhar</button>
         </div>
-        </div>
       </div>
     </div>
     <div class="section-heading"><h3>Relíquias e atributos</h3><span>Dados do personagem</span></div>
