@@ -583,8 +583,8 @@ try {
   }
   buttons.forEach((button)=>button.addEventListener('click',()=>selectCharacter(Number(button.dataset.select))));
   const avatarLooks = {
-    male: { src: 'https://threejs.org/examples/models/gltf/YBot.glb', alt: 'Avatar masculino 3D' },
-    female: { src: 'https://threejs.org/examples/models/gltf/XBot.glb', alt: 'Avatar feminino 3D' },
+    male: { src: 'https://threejs.org/examples/models/gltf/Xbot.glb', alt: 'Avatar masculino 3D' },
+    female: { src: 'https://threejs.org/examples/models/gltf/Michelle.glb', alt: 'Avatar feminino 3D' },
     armor: { src: 'https://threejs.org/examples/models/gltf/Soldier.glb', alt: 'Guerreiro 3D com armadura medieval' }
   };
   document.querySelectorAll('[data-avatar-look]').forEach((button)=>{
