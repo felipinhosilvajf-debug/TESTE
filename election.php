@@ -73,9 +73,13 @@ try {
     }
     $pdo->exec("UPDATE vb_political_election_votes SET election_id=0 WHERE election_id IS NULL");
     $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
-    $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
-    if ($voteIndexRows) $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
-    $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
+    $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account' ORDER BY Seq_in_index")->fetchAll(PDO::FETCH_ASSOC);
+    $voteIndexColumns = array_map(static fn($r) => (string)$r['Column_name'], $voteIndexRows);
+    if ($voteIndexRows && $voteIndexColumns !== ['election_id','account_name','castle_id']) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
+        $voteIndexRows = [];
+    }
+    if (!$voteIndexRows) $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
     $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
     $election = $activeStmt->fetch(PDO::FETCH_ASSOC) ?: null;
     if ($election && $election['status'] === 'open' && strtotime($election['ends_at']) <= time()) {
