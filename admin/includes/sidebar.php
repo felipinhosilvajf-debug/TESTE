@@ -19,7 +19,7 @@ function sidebarActive(string $page): string {
     <div class="menu-title">SERVIDOR</div>
     <a href="economy.php" class="<?= sidebarActive('economy.php') ?>">Economy</a>
     <a href="castles.php" class="<?= sidebarActive('castles.php') ?>">Castles</a>
-    <a href="election.php" class="<?= sidebarActive('election.php') ?>">Eleição Política</a>
+    <a href="castles.php#election-control" class="<?= sidebarActive('castles.php') ?>">Eleição Política</a>
     <a href="../election.php">Página pública da eleição</a>
     <a href="logs.php" class="<?= sidebarActive('logs.php') ?>">Logs</a>
     <div class="menu-title">SISTEMA</div>
