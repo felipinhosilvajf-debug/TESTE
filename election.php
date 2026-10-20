@@ -4,7 +4,7 @@ declare(strict_types=1);
 /* Eleição pública do Virtual Boost. Usa a sessão criada por process_autg.php. */
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 $accountName = isset($_SESSION['user_login']) && is_string($_SESSION['user_login']) ? trim($_SESSION['user_login']) : '';
-require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/admin/includes/database.php';
 if (!isset($pdo) || !($pdo instanceof PDO)) {
     http_response_code(500);
     exit('Não foi possível conectar ao banco da eleição.');
