@@ -151,9 +151,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$electionError) {
                 $stmt = $pdo->prepare("UPDATE vb_political_elections SET status='finished', ends_at=NOW(), winner_leader_id=?, winner_name=?, forced=? WHERE id=?");
                 $stmt->execute([$winner['candidate_leader_id'] ?? null, $winner['candidate_name'] ?? null, $action === 'force_finish' ? 1 : 0, (int)$activeElection['id']]);
                 $electionNotice = $winner
-                    ? 'Eleição encerrada. Vencedor apurado: ' . $winner['candidate_name'] . ' (' . $winner['votes'] . ' voto(s)). A troca de dono do castelo continua manual.'
+                    ? 'Eleição encerrada. A apuração dos vencedores está separada por castelo na seção de resultados abaixo. A troca de proprietário continua manual e depende de validação administrativa.'
                     : 'Eleição encerrada sem votos; nenhum vencedor foi definido.';
-                audit($action === 'force_finish' ? 'election_force_finished' : 'election_finished', 'Eleição #' . $activeElection['id'] . '; vencedor: ' . ($winner['candidate_name'] ?? 'sem votos'));
+                audit($action === 'force_finish' ? 'election_force_finished' : 'election_finished', 'Eleição #' . $activeElection['id'] . '; apuração por castelo; candidato mais votado no total: ' . ($winner['candidate_name'] ?? 'sem votos'));
             } elseif ($action === 'cancel') {
                 $stmt = $pdo->prepare("UPDATE vb_political_elections SET status='cancelled', ends_at=NOW() WHERE id=?");
                 $stmt->execute([(int)$activeElection['id']]);
