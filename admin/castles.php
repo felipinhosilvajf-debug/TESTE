@@ -869,21 +869,6 @@ tr:hover td {
 </div>
 
 
-<?php if (isset($databaseError)): ?>
-
-    <div class="error-box">
-
-        <strong>
-            Erro ao consultar os castelos:
-        </strong>
-
-        <br>
-
-        <?= h($databaseError) ?>
-
-    </div>
-
-
 <section id="election-control" class="panel" style="margin-bottom:25px;">
   <div class="panel-header">
     <h2>Controle da Eleição Política</h2>
@@ -939,6 +924,23 @@ tr:hover td {
     <?php endif; ?>
   </div>
 </section>
+
+<?php if (isset($databaseError)): ?>
+
+    <div class="error-box">
+
+        <strong>
+            Erro ao consultar os castelos:
+        </strong>
+
+        <br>
+
+        <?= h($databaseError) ?>
+
+    </div>
+
+
+
 
 
 
