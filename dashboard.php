@@ -1,7 +1,7 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
 session_start();
@@ -12,12 +12,6 @@ if (!isset($_SESSION['user_login'])) {
 }
 
 $loginUsuario = $_SESSION['user_login'];
-
-$host = '127.0.0.1';
-$port = '3306';
-$db   = 'l2mythras';
-$user = 'root';
-$pass = 'mas3510';
 
 
 /* =========================================================
@@ -78,18 +72,10 @@ try {
        DATABASE
     ===================================================== */
 
-    $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4",
-        $user,
-        $pass,
-        [
-            PDO::ATTR_ERRMODE =>
-                PDO::ERRMODE_EXCEPTION,
-
-            PDO::ATTR_DEFAULT_FETCH_MODE =>
-                PDO::FETCH_ASSOC
-        ]
-    );
+    // Usa a conexão central do site, sem credenciais duplicadas neste arquivo.
+    require_once __DIR__ . '/admin/includes/database.php';
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
     /* =====================================================
@@ -297,6 +283,19 @@ try {
 
         }
 
+        // Donate Coins (item_id 37000) no inventário; falha isolada não derruba o dashboard.
+        $donateCoins = 0;
+        try {
+            $stmtDonate = $pdo->prepare("
+                SELECT COALESCE(SUM(count), 0)
+                FROM items
+                WHERE owner_id = ? AND item_id = 37000 AND loc = 'INVENTORY'
+            ");
+            $stmtDonate->execute([$char['obj_Id']]);
+            $donateCoins = (int)$stmtDonate->fetchColumn();
+        } catch (PDOException $e) {
+            $donateCoins = null;
+        }
 
         /*
          * =================================================
@@ -310,16 +309,13 @@ try {
 
             try {
 
+                // No High Five, o nome visível do clã está no pledge principal.
                 $stmtClan = $pdo->prepare("
-
-                    SELECT clan_name
-
-                    FROM clan_data
-
+                    SELECT name
+                    FROM clan_subpledges
                     WHERE clan_id = ?
-
+                    ORDER BY type ASC
                     LIMIT 1
-
                 ");
 
                 $stmtClan->execute([
@@ -430,7 +426,10 @@ try {
                 $subclasses,
 
             'adena' =>
-                $adena
+                $adena,
+
+            'donateCoins' =>
+                $donateCoins
 
         ];
 
@@ -439,9 +438,8 @@ try {
 
 } catch (PDOException $e) {
 
-    $erroBanco =
-        "Erro ao carregar dados do reino: "
-        . $e->getMessage();
+    error_log('[dashboard.php] Falha ao carregar os dados do jogador: ' . $e->getMessage());
+    $erroBanco = 'Algumas informações não puderam ser carregadas. Tente novamente mais tarde.';
 
 }
 
@@ -550,17 +548,7 @@ try {
     <span class="stat-icon">💰</span>
     <div class="stat-label">Donate Coins</div>
     <div class="stat-value">
-        <?php
-        $stmtDonate = $pdo->prepare("
-            SELECT COALESCE(SUM(count), 0)
-            FROM items
-            WHERE owner_id = ?
-              AND item_id = 37000
-              AND loc = 'INVENTORY'
-        ");
-        $stmtDonate->execute([$c['obj_Id']]);
-        echo number_format((int)$stmtDonate->fetchColumn(), 0, ',', '.');
-        ?>
+<?= $c['donateCoins'] === null ? '—' : number_format((int)$c['donateCoins'], 0, ',', '.') ?>
     </div>
     <div class="stat-foot">Moedas Donate no inventário</div>
 </article>
