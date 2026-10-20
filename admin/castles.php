@@ -61,6 +61,19 @@ try {
         UNIQUE KEY uq_vb_election_account (election_id, account_name),
         KEY idx_vb_election_candidate (election_id, candidate_leader_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_candidates (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        election_id BIGINT UNSIGNED NOT NULL,
+        castle_id INT NOT NULL,
+        leader_id INT NOT NULL,
+        candidate_name VARCHAR(100) NOT NULL,
+        clan_id INT NOT NULL,
+        clan_name VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_vb_candidate_castle_leader (election_id, castle_id, leader_id),
+        KEY idx_vb_candidate_election_castle (election_id, castle_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
     // Migração simples caso a tabela de votos da versão inicial já exista.
     $colCheck = $pdo->query("SHOW COLUMNS FROM vb_political_election_votes LIKE 'election_id'")->fetch(PDO::FETCH_ASSOC);
     if (!$colCheck) {
@@ -79,6 +92,13 @@ try {
         $pdo->exec("ALTER TABLE vb_political_election_votes MODIFY election_id BIGINT UNSIGNED NOT NULL");
         try { $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account"); } catch (Throwable $ignored) {}
         $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name)");
+    }
+    $voteIndex = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
+    $uniqueHasCastle = false;
+    foreach ($voteIndex as $voteIndexRow) if (($voteIndexRow['Column_name'] ?? '') === 'castle_id') $uniqueHasCastle = true;
+    if ($voteIndex && !$uniqueHasCastle) {
+        $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
+        $pdo->exec("ALTER TABLE vb_political_election_votes ADD UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id)");
     }
 } catch (Throwable $e) {
     $electionError = 'Não foi possível preparar as tabelas da eleição. Verifique as permissões do banco e a estrutura existente.';
@@ -152,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$electionError) {
 $activeElection = null;
 $latestElection = null;
 $electionVoteCounts = [];
+$electionResultsByCastle = [];
 if (!$electionError) {
     try {
         $activeStmt = $pdo->query("SELECT * FROM vb_political_elections WHERE status IN ('open','paused') ORDER BY id DESC LIMIT 1");
@@ -169,6 +190,18 @@ if (!$electionError) {
             $votesStmt->execute([(int)$latestElection['id']]);
             $electionVoteCounts = $votesStmt->fetchAll(PDO::FETCH_ASSOC);
             $latestElection['total_votes'] = array_sum(array_map(static fn($v) => (int)$v['votes'], $electionVoteCounts));
+            $resultsStmt = $pdo->prepare("SELECT c.castle_id, ca.name AS castle_name, c.candidate_name, c.clan_name, c.leader_id, COUNT(v.id) AS votes
+                FROM vb_political_election_candidates c
+                INNER JOIN castle ca ON ca.ID=c.castle_id
+                LEFT JOIN vb_political_election_votes v ON v.election_id=c.election_id AND v.castle_id=c.castle_id AND v.candidate_leader_id=c.leader_id
+                WHERE c.election_id=?
+                GROUP BY c.castle_id,ca.name,c.candidate_name,c.clan_name,c.leader_id
+                ORDER BY c.castle_id ASC,votes DESC,c.candidate_name ASC");
+            $resultsStmt->execute([(int)$latestElection['id']]);
+            foreach ($resultsStmt->fetchAll(PDO::FETCH_ASSOC) as $resultRow) {
+                $castleId = (int)$resultRow['castle_id'];
+                if (!isset($electionResultsByCastle[$castleId])) $electionResultsByCastle[$castleId] = $resultRow;
+            }
         }
     } catch (Throwable $e) {
         $electionError = 'Não foi possível carregar o estado atual da eleição.';
@@ -929,6 +962,19 @@ tr:hover td {
           <?php foreach ($electionVoteCounts as $vc): ?>
             <div style="display:flex;justify-content:space-between;gap:15px;padding:10px 12px;background:#080d15;border-radius:5px;color:#b7c6d8;"><span><?= h($vc['candidate_name']) ?></span><strong><?= (int)$vc['votes'] ?> voto(s)</strong></div>
           <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+        <?php if ($electionResultsByCastle): ?>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #182535;">
+            <div style="color:#8995a5;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Apuração por castelo</div>
+            <div style="display:grid;gap:8px;">
+            <?php foreach ($electionResultsByCastle as $resultRow): ?>
+              <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:11px 12px;background:#080d15;border-radius:5px;color:#b7c6d8;">
+                <span><strong style="color:#75d7ff;"><?= h($resultRow['castle_name']) ?></strong> — <?= h($resultRow['candidate_name']) ?> <span style="color:#8995a5;">(<?= h($resultRow['clan_name']) ?>)</span></span>
+                <strong><?= (int)$resultRow['votes'] ?> voto(s)</strong>
+              </div>
+            <?php endforeach; ?>
+            </div>
           </div>
         <?php endif; ?>
         <p style="color:#8995a5;font-size:12px;line-height:1.6;margin-bottom:0;">Empate: o sistema usa o nome do candidato como critério estável de desempate. Nenhuma alteração automática é feita na propriedade do castelo.</p>
