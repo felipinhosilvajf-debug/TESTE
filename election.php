@@ -20,7 +20,7 @@ function election_initials($name): string {
 if (empty($_SESSION['vb_election_csrf']) || !is_string($_SESSION['vb_election_csrf'])) $_SESSION['vb_election_csrf'] = bin2hex(random_bytes(32));
 $csrf = $_SESSION['vb_election_csrf'];
 $error = ''; $notice = ''; $election = null; $castles = []; $candidatesByCastle = []; $myLeaders = [];
-$votes = []; $totalVotes = 0; $alreadyVoted = []; $winnersByCastle = [];
+$votes = []; $totalVotes = 0; $alreadyVoted = []; $winnersByCastle = []; $latestResults = []; $latestResultElectionId = null;
 // Carrega os castelos independentemente das tabelas da eleição. Assim, uma falha
 // na migração das tabelas de votação não deixa a página inteira sem castelos.
 try {
@@ -70,6 +70,19 @@ try {
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY uq_vb_election_account (election_id, account_name, castle_id),
         KEY idx_vb_election_candidate (election_id, castle_id, candidate_leader_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS vb_political_election_results (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        election_id BIGINT UNSIGNED NOT NULL,
+        castle_id INT NOT NULL,
+        castle_name VARCHAR(100) NOT NULL,
+        winner_leader_id INT NULL,
+        winner_name VARCHAR(100) NULL,
+        clan_name VARCHAR(100) NULL,
+        vote_count INT UNSIGNED NOT NULL DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_vb_election_result_castle (election_id, castle_id),
+        KEY idx_vb_election_results_latest (election_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     // Migração incremental para instalações que já tinham tabelas de versões anteriores.
     $candidateColumns = $pdo->query("SHOW COLUMNS FROM vb_political_election_candidates")->fetchAll(PDO::FETCH_COLUMN);
@@ -130,10 +143,57 @@ try {
         $finish->execute([(int)$election['id']]);
         $election = null;
     }
-    // Limpa candidaturas de eleições encerradas/canceladas para não reaparecerem depois.
+    // Salva um resultado permanente para cada eleição encerrada antes de limpar candidaturas.
+    // Isso também recupera resultados antigos usando os votos, caso as candidaturas já tenham sido apagadas.
+    $finishedWithoutResults = $pdo->query("SELECT e.id FROM vb_political_elections e
+        WHERE e.status='finished'
+          AND NOT EXISTS (SELECT 1 FROM vb_political_election_results r WHERE r.election_id=e.id)
+        ORDER BY e.id ASC")->fetchAll(PDO::FETCH_COLUMN);
+    $resultVotesStmt = $pdo->prepare("SELECT candidate_leader_id, MAX(candidate_name) AS candidate_name, COUNT(*) AS votes
+        FROM vb_political_election_votes
+        WHERE election_id=? AND castle_id=?
+        GROUP BY candidate_leader_id
+        ORDER BY votes DESC, candidate_name ASC");
+    $resultClanStmt = $pdo->prepare("SELECT clan_name FROM vb_political_election_candidates
+        WHERE election_id=? AND castle_id=? AND leader_id=? LIMIT 1");
+    $saveResultStmt = $pdo->prepare("INSERT IGNORE INTO vb_political_election_results
+        (election_id,castle_id,castle_name,winner_leader_id,winner_name,clan_name,vote_count)
+        VALUES (?,?,?,?,?,?,?)");
+    foreach ($finishedWithoutResults as $finishedIdValue) {
+        $finishedId = (int)$finishedIdValue;
+        foreach ($castles as $castleForResult) {
+            $resultCastleId = (int)$castleForResult['castle_id'];
+            $resultVotesStmt->execute([$finishedId, $resultCastleId]);
+            $resultCandidates = $resultVotesStmt->fetchAll(PDO::FETCH_ASSOC);
+            $winnerId = null; $winnerName = null; $winnerClan = null; $winnerVoteCount = 0;
+            if ($resultCandidates && (int)$resultCandidates[0]['votes'] > 0) {
+                $winnerId = (int)$resultCandidates[0]['candidate_leader_id'];
+                $winnerName = (string)$resultCandidates[0]['candidate_name'];
+                $winnerVoteCount = (int)$resultCandidates[0]['votes'];
+                $resultClanStmt->execute([$finishedId, $resultCastleId, $winnerId]);
+                $winnerClanValue = $resultClanStmt->fetchColumn();
+                $winnerClan = $winnerClanValue !== false ? (string)$winnerClanValue : null;
+            }
+            $saveResultStmt->execute([
+                $finishedId, $resultCastleId, (string)$castleForResult['castle_name'],
+                $winnerId, $winnerName, $winnerClan, $winnerVoteCount
+            ]);
+        }
+    }
+    // Limpa candidaturas encerradas/canceladas; o resultado já ficou guardado separadamente.
     $pdo->exec("DELETE c FROM vb_political_election_candidates c
         INNER JOIN vb_political_elections e ON e.id=c.election_id
         WHERE e.status IN ('finished','cancelled')");
+    // A seção "Resultado por castelo" sempre mostra a eleição concluída mais recente,
+    // inclusive enquanto uma nova eleição estiver aberta.
+    $latestResultElectionId = $pdo->query("SELECT MAX(id) FROM vb_political_elections WHERE status='finished'")->fetchColumn();
+    if ($latestResultElectionId !== false && $latestResultElectionId !== null) {
+        $latestResultElectionId = (int)$latestResultElectionId;
+        $latestResultsStmt = $pdo->prepare("SELECT castle_id,castle_name,winner_leader_id,winner_name,clan_name,vote_count
+            FROM vb_political_election_results WHERE election_id=? ORDER BY castle_id ASC");
+        $latestResultsStmt->execute([$latestResultElectionId]);
+        $latestResults = $latestResultsStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $postedToken = isset($_POST['csrf_token']) && is_string($_POST['csrf_token']) ? $_POST['csrf_token'] : '';
         $action = isset($_POST['election_action']) && is_string($_POST['election_action']) ? $_POST['election_action'] : '';
@@ -366,8 +426,9 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <?php if ($isOpen && $accountName!==''): ?><form method="post"><input type="hidden" name="csrf_token" value="<?= election_h($csrf) ?>"><input type="hidden" name="election_action" value="vote"><input type="hidden" name="candidate_id" value="<?= (int)$cand['id'] ?>"><button class="vote" type="submit" <?= !empty($alreadyVoted[$castleId])?'disabled':'' ?>><?= !empty($alreadyVoted[$castleId])?'VOTO JÁ REGISTRADO':'VOTAR NESTE CANDIDATO' ?></button></form><?php endif; ?></div><?php endforeach; ?>
 <?php endif; ?></div></article><?php endforeach; ?></section><?php endif; ?>
 <section class="panel" style="margin-top:22px;"><h2>Resultado por castelo</h2>
-<?php if ($election && $election['status']==='finished'): ?><div class="leaderboard"><?php foreach ($castles as $castle): $winner=$winnersByCastle[(int)$castle['castle_id']] ?? null; ?><div class="score"><span><?= election_h($castle['castle_name']) ?> — <?= $winner ? election_h($winner['candidate_name'].' ('.$winner['clan_name'].')') : 'Sem vencedor' ?></span><b><?= $winner ? (int)$winner['votes'].' voto(s)' : '0 votos' ?></b></div><?php endforeach; ?></div><p>Os resultados são encaminhados para validação administrativa. A propriedade dos castelos não é alterada automaticamente.</p>
-<?php elseif (!$votes): ?><p>Nenhum voto registrado para esta eleição.</p><?php else: ?><div class="leaderboard"><?php foreach ($votes as $v): ?><div class="score"><span><?= election_h(($castles[array_search((int)$v['castle_id'], array_column($castles,'castle_id'))]['castle_name'] ?? 'Castelo').' — '.$v['candidate_name']) ?></span><b><?= (int)$v['votes'] ?> voto(s)</b></div><?php endforeach; ?></div><?php endif; ?></section>
+<?php if ($latestResults): ?><div class="leaderboard"><?php foreach ($latestResults as $result): ?><div class="score"><span><?= election_h($result['castle_name']) ?> — <?= !empty($result['winner_name']) ? election_h($result['winner_name'].(!empty($result['clan_name']) ? ' ('.$result['clan_name'].')' : '')) : 'Sem vencedor' ?></span><b><?= (int)$result['vote_count'] ?> voto(s)</b></div><?php endforeach; ?></div><p>Resultado da última eleição concluída. Ele permanece salvo mesmo após a limpeza das candidaturas e será atualizado quando a próxima eleição terminar. A propriedade dos castelos não é alterada automaticamente.</p>
+<?php elseif ($votes): ?><div class="leaderboard"><?php foreach ($votes as $v): ?><div class="score"><span><?= election_h(($castles[array_search((int)$v['castle_id'], array_column($castles,'castle_id'))]['castle_name'] ?? 'Castelo').' — '.$v['candidate_name']) ?></span><b><?= (int)$v['votes'] ?> voto(s)</b></div><?php endforeach; ?></div>
+<?php else: ?><p>Ainda não há resultados de uma eleição concluída.</p><?php endif; ?></section>
 <div class="foot">O resultado da eleição será apurado e validado pela administração antes de qualquer anúncio oficial. A votação representa a escolha política dos jogadores; a disputa militar pelas fortalezas continua tendo seu lugar na história do reino.</div>
 </main>
 <script>
