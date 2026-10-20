@@ -87,7 +87,8 @@ try {
           ON newer.account_name=older.account_name AND newer.id>older.id
         WHERE newer.election_id=0 AND older.election_id=0
           AND newer.castle_id=0 AND older.castle_id=0");
-    $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account' ORDER BY Seq_in_index")->fetchAll(PDO::FETCH_ASSOC);
+    $voteIndexRows = $pdo->query("SHOW INDEX FROM vb_political_election_votes WHERE Key_name='uq_vb_election_account'")->fetchAll(PDO::FETCH_ASSOC);
+    usort($voteIndexRows, static function ($a, $b) { return (int)$a['Seq_in_index'] <=> (int)$b['Seq_in_index']; });
     $voteIndexColumns = array_map(static function ($r) { return (string)$r['Column_name']; }, $voteIndexRows);
     if ($voteIndexRows && $voteIndexColumns !== ['election_id','account_name','castle_id']) {
         $pdo->exec("ALTER TABLE vb_political_election_votes DROP INDEX uq_vb_election_account");
