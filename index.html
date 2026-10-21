@@ -1226,29 +1226,28 @@
   const citySigns = ["EDIFÍCIO PAULISTA", "CENTRO EMPRESARIAL", "RESIDENCIAL", "GALERIA URBANA", "TORRE CENTRAL", "CONDOMÍNIO", "ESCRITÓRIOS", "SHOPPING BAIRRO"];
   for (let bx = 40; bx < MAP_W - 4; bx += 10) {
     for (let by = 30; by < MAP_H - 4; by += 10) {
-      // Lotes 2x2 com recuos amplos: evita que as silhuetas se amontoem na vista isométrica.
+      // Quadras com lotes definidos: duas construções no máximo e um corredor verde central.
+      // Os lotes ficam afastados das faixas de asfalto (tiles 8-9 de cada quadra).
       const spots = [
-        { x0: bx + 1, y0: by + 1, x1: bx + 2, y1: by + 2 },
-        { x0: bx + 6, y0: by + 1, x1: bx + 7, y1: by + 2 },
-        { x0: bx + 1, y0: by + 6, x1: bx + 2, y1: by + 7 },
-        { x0: bx + 6, y0: by + 6, x1: bx + 7, y1: by + 7 }
+        { x0: bx + 1, y0: by + 1, x1: bx + 2, y1: by + 2, slot: 0 },
+        { x0: bx + 5, y0: by + 5, x1: bx + 6, y1: by + 6, slot: 1 }
       ];
       spots.forEach((spot, idx) => {
-        const n = hash2(bx + idx, by, 211);
-        if (n < 0.10) return; // pequenas praças internas quebram a repetição das quadras
+        // Alguns lotes ficam vazios de propósito para formar jardins e pequenas praças.
+        if (hash2(bx + idx, by, 211) < 0.18) return;
         const palette = cityPalettes[Math.floor(hash2(bx, by + idx, 223) * cityPalettes.length)];
-        const tower = hash2(bx + idx * 3, by + idx, 227) > 0.72;
+        const tower = hash2(bx + idx * 3, by + idx, 227) > 0.88;
         buildings.push({
           id: "city_" + bx + "_" + by + "_" + idx,
           x0: spot.x0, y0: spot.y0, x1: spot.x1, y1: spot.y1,
-          // Torres ficam restritas a alguns lotes e têm altura limitada para reduzir sobreposição visual.
-          height: tower ? 105 + Math.floor(hash2(bx, by, idx + 229) * 50) : 54 + Math.floor(hash2(by, bx, idx + 233) * 36),
+          // Edifícios mais baixos; torres raras para não invadir visualmente as quadras vizinhas.
+          height: tower ? 72 + Math.floor(hash2(bx, by, idx + 229) * 24) : 34 + Math.floor(hash2(by, bx, idx + 233) * 24),
           wallL: palette.wallL, wallR: palette.wallR, roof: palette.roof, parapet: palette.parapet,
           roofFloor: palette.roofFloor, accent: palette.accent,
           sign: citySigns[Math.floor(hash2(bx + idx, by + 3, 239) * citySigns.length)],
           icon: tower ? "🏙️" : (idx % 2 ? "🏢" : "🏬"),
           roofProp: tower ? "ac" : (idx % 2 ? "tank" : "antenna"),
-          rows: tower ? 4 : 2, seed: Math.floor(hash2(bx, by, idx + 241) * 1000),
+          rows: tower ? 3 : 2, seed: Math.floor(hash2(bx, by, idx + 241) * 1000),
           awning: idx % 2 ? ["#3b82f6", "#e0f2fe"] : ["#f59e0b", "#fff7ed"]
         });
       });
@@ -1298,12 +1297,13 @@
     questGiver: true
   };
 
-  // Praças de bairro e arborização nas quadras novas, sem bloquear as calçadas principais.
+  // Arborização concentrada nos canteiros verdes internos; nunca colocar árvores no asfalto.
   for (let bx = 40; bx < MAP_W - 4; bx += 10) {
     for (let by = 30; by < MAP_H - 4; by += 10) {
-      if (hash2(bx, by, 251) > 0.18) props.push({ kind: "tree", x: bx + 4, y: by + 4 });
-      if (hash2(bx, by, 257) > 0.58) props.push({ kind: "bench", x: bx + 4, y: by + 6 });
-      if (hash2(bx, by, 263) > 0.64) props.push({ kind: "lamp", x: bx + 4, y: by + 1 });
+      // Centro da quadra e faixa interna, longe das ruas nos tiles 8-9.
+      if (hash2(bx, by, 251) > 0.12) props.push({ kind: "tree", x: bx + 4, y: by + 4 });
+      if (hash2(bx, by, 257) > 0.58) props.push({ kind: "bench", x: bx + 4, y: by + 5 });
+      if (hash2(bx, by, 263) > 0.64) props.push({ kind: "lamp", x: bx + 3, y: by + 5 });
     }
   }
 
