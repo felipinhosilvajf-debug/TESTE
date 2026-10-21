@@ -1245,7 +1245,7 @@
     { id: "shop", x: 16, y: 5, targetX: 16, targetY: 5, icon: "🛍️", label: "LOJA", lift: -68, color: "#67e8f9" },
     { id: "rest", x: 7, y: 14, targetX: 8, targetY: 14, icon: "☕", label: "DESCANSAR", lift: -62, color: "#86efac" },
     { id: "quest", x: 10, y: 7, targetX: 10, targetY: 8, icon: "❗", label: "MISSÃO", lift: -108, color: "#c4b5fd" },
-    { id: "shopBank", x: 26, y: 3, targetX: 26, targetY: 3, icon: "🏦", label: "BANCO", lift: -70, color: "#fde68a" },
+    { id: "bank", x: 26, y: 3, targetX: 26, targetY: 3, icon: "🏦", label: "BANCO", lift: -70, color: "#fde68a" },
     { id: "shopFashion", x: 26, y: 16, targetX: 26, targetY: 16, icon: "👗", label: "MODA", lift: -70, color: "#f9a8d4" },
     { id: "shopFlower", x: 6, y: 24, targetX: 6, targetY: 24, icon: "🌼", label: "FLORICULTURA", lift: -70, color: "#bef264" },
     { id: "shopBooks", x: 22, y: 24, targetX: 22, targetY: 24, icon: "📚", label: "LIVRARIA", lift: -70, color: "#fdba74" },
@@ -1753,6 +1753,7 @@
     if (busy || gameState !== "playing") return;
     if (id === "work") doWork();
     else if (id === "shop" || id.indexOf("shop") === 0) openPanel("shop");
+    else if (id === "bank") { toast("Banco Central: serviços financeiros chegam em uma próxima atualização.", "info"); sound("click"); }
     else if (id === "rest") beginRest();
     else if (id === "quest") talkToQuestNPC();
     else if (id.indexOf("talk:") === 0) talkToNPC(id.slice(5));
@@ -2129,7 +2130,7 @@
       const messages = {
         work: "Clique em 💼 para trabalhar: -10 energia, +20 moedas.",
         shop: "Clique em 🛍️ para entrar no Mercadinho 24H.",
-        shopBank: "Visite o Banco Central — novos serviços em breve.",
+        bank: "Visite o Banco Central — serviços financeiros em breve.",
         shopFashion: "Entre na loja Moda & Estilo para ver os itens disponíveis.",
         shopFlower: "Visite a Floricultura e explore o bairro sul.",
         shopBooks: "Entre na Livraria e explore o bairro sul.",
