@@ -1226,21 +1226,23 @@
   const citySigns = ["EDIFÍCIO PAULISTA", "CENTRO EMPRESARIAL", "RESIDENCIAL", "GALERIA URBANA", "TORRE CENTRAL", "CONDOMÍNIO", "ESCRITÓRIOS", "SHOPPING BAIRRO"];
   for (let bx = 40; bx < MAP_W - 4; bx += 10) {
     for (let by = 30; by < MAP_H - 4; by += 10) {
+      // Lotes 2x2 com recuos amplos: evita que as silhuetas se amontoem na vista isométrica.
       const spots = [
-        { x0: bx + 1, y0: by + 1, x1: bx + 3, y1: by + 3 },
-        { x0: bx + 5, y0: by + 1, x1: bx + 7, y1: by + 3 },
-        { x0: bx + 1, y0: by + 5, x1: bx + 3, y1: by + 7 },
-        { x0: bx + 5, y0: by + 5, x1: bx + 7, y1: by + 7 }
+        { x0: bx + 1, y0: by + 1, x1: bx + 2, y1: by + 2 },
+        { x0: bx + 6, y0: by + 1, x1: bx + 7, y1: by + 2 },
+        { x0: bx + 1, y0: by + 6, x1: bx + 2, y1: by + 7 },
+        { x0: bx + 6, y0: by + 6, x1: bx + 7, y1: by + 7 }
       ];
       spots.forEach((spot, idx) => {
         const n = hash2(bx + idx, by, 211);
         if (n < 0.10) return; // pequenas praças internas quebram a repetição das quadras
         const palette = cityPalettes[Math.floor(hash2(bx, by + idx, 223) * cityPalettes.length)];
-        const tower = hash2(bx + idx * 3, by + idx, 227) > 0.58;
+        const tower = hash2(bx + idx * 3, by + idx, 227) > 0.72;
         buildings.push({
           id: "city_" + bx + "_" + by + "_" + idx,
           x0: spot.x0, y0: spot.y0, x1: spot.x1, y1: spot.y1,
-          height: tower ? 155 + Math.floor(hash2(bx, by, idx + 229) * 115) : 82 + Math.floor(hash2(by, bx, idx + 233) * 65),
+          // Torres ficam restritas a alguns lotes e têm altura limitada para reduzir sobreposição visual.
+          height: tower ? 105 + Math.floor(hash2(bx, by, idx + 229) * 50) : 54 + Math.floor(hash2(by, bx, idx + 233) * 36),
           wallL: palette.wallL, wallR: palette.wallR, roof: palette.roof, parapet: palette.parapet,
           roofFloor: palette.roofFloor, accent: palette.accent,
           sign: citySigns[Math.floor(hash2(bx + idx, by + 3, 239) * citySigns.length)],
