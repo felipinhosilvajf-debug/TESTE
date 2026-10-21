@@ -1032,8 +1032,9 @@
   let tileW = 72;
   let tileH = 36;
 
-  const MAP_W = 23;
-  const MAP_H = 19;
+  // Cidade expandida: 35 x 29 tiles (mais que o dobro da área original).
+  const MAP_W = 35;
+  const MAP_H = 29;
 
   let gameState = "start";
   let currentPanel = null;
@@ -1157,6 +1158,42 @@
       roof: "#bda9ff", parapet: "#e6dbff", roofFloor: "#8674d6",
       accent: "#e9dcff", sign: "RESIDENCIAL", icon: "🏢",
       roofProp: "tank", rows: 3, seed: 51
+    },
+    // Novos bairros: comércio, lazer e serviços espalhados pela cidade ampliada.
+    {
+      id: "bankBuilding", x0: 27, y0: 1, x1: 32, y1: 4, height: 118,
+      wallL: ["#a88b58", "#6f5935"], wallR: ["#c4a66d", "#82683e"],
+      roof: "#f1d99d", parapet: "#fff0c8", roofFloor: "#c9a55e",
+      accent: "#fff0c8", sign: "BANCO CENTRAL", icon: "🏦",
+      roofProp: "antenna", rows: 2, seed: 67
+    },
+    {
+      id: "fashionBuilding", x0: 27, y0: 14, x1: 32, y1: 17, height: 112,
+      wallL: ["#c35a91", "#85385f"], wallR: ["#e276ac", "#a74779"],
+      roof: "#ffc4e0", parapet: "#ffe4f1", roofFloor: "#d66b9e",
+      accent: "#fff0f7", sign: "MODA & ESTILO", icon: "👗",
+      roofProp: "ac", rows: 2, seed: 73, awning: ["#ec4899", "#fff1f7"]
+    },
+    {
+      id: "flowerBuilding", x0: 1, y0: 23, x1: 5, y1: 26, height: 92,
+      wallL: ["#8cba69", "#537b43"], wallR: ["#a4d47e", "#648c4b"],
+      roof: "#d6f3a9", parapet: "#efffd4", roofFloor: "#8fbf62",
+      accent: "#ffe9a8", sign: "FLORICULTURA", icon: "🌼",
+      roofProp: "chimney", rows: 2, seed: 79, awning: ["#f7c7df", "#fff4fb"]
+    },
+    {
+      id: "bookBuilding", x0: 16, y0: 23, x1: 21, y1: 26, height: 102,
+      wallL: ["#b87d4f", "#7e4d32"], wallR: ["#d39b6c", "#945c3d"],
+      roof: "#f2c79e", parapet: "#ffe5ca", roofFloor: "#c88a5d",
+      accent: "#fff0d8", sign: "LIVRARIA", icon: "📚",
+      roofProp: "chimney", rows: 2, seed: 83, awning: ["#7c3aed", "#ede9fe"]
+    },
+    {
+      id: "arcadeBuilding", x0: 27, y0: 23, x1: 32, y1: 26, height: 108,
+      wallL: ["#4c7fc4", "#31538c"], wallR: ["#609be4", "#3b65a6"],
+      roof: "#a8d3ff", parapet: "#e2f1ff", roofFloor: "#6397d2",
+      accent: "#fef08a", sign: "ARCADE", icon: "🎮",
+      roofProp: "ac", rows: 2, seed: 89, awning: ["#8b5cf6", "#dbeafe"]
     }
   ];
 
@@ -1172,7 +1209,27 @@
     { kind: "flowerbed", x: 8, y: 12 }, { kind: "flowerbed", x: 14, y: 12 },
     { kind: "bush", x: 2, y: 12 }, { kind: "bush", x: 19, y: 6 }, { kind: "bush", x: 13, y: 17 },
     { kind: "lamp", x: 6, y: 6 }, { kind: "lamp", x: 16, y: 6 },
-    { kind: "lamp", x: 6, y: 12 }, { kind: "lamp", x: 16, y: 12 }
+    { kind: "lamp", x: 6, y: 12 }, { kind: "lamp", x: 16, y: 12 },
+    // Decoração extra para preencher os novos bairros sem bloquear entradas.
+    { kind: "tree", x: 0, y: 6 }, { kind: "tree", x: 3, y: 20 },
+    { kind: "tree", x: 7, y: 21 }, { kind: "tree", x: 14, y: 21 },
+    { kind: "tree", x: 22, y: 21 }, { kind: "tree", x: 33, y: 7 },
+    { kind: "tree", x: 33, y: 12 }, { kind: "tree", x: 33, y: 19 },
+    { kind: "tree", x: 6, y: 27 }, { kind: "tree", x: 13, y: 27 },
+    { kind: "tree", x: 22, y: 27 }, { kind: "tree", x: 33, y: 27 },
+    { kind: "tree", x: 0, y: 20 }, { kind: "tree", x: 0, y: 27 },
+    { kind: "tree", x: 34, y: 20 },
+    { kind: "bench", x: 8, y: 20 }, { kind: "bench", x: 14, y: 20 },
+    { kind: "bench", x: 25, y: 12 }, { kind: "bench", x: 24, y: 21 },
+    { kind: "lamp", x: 7, y: 6 }, { kind: "lamp", x: 15, y: 6 },
+    { kind: "lamp", x: 25, y: 6 }, { kind: "lamp", x: 25, y: 18 },
+    { kind: "lamp", x: 13, y: 20 }, { kind: "lamp", x: 32, y: 20 },
+    { kind: "lamp", x: 7, y: 27 }, { kind: "lamp", x: 15, y: 27 },
+    { kind: "lamp", x: 25, y: 27 },
+    { kind: "flowerbed", x: 8, y: 20 }, { kind: "flowerbed", x: 15, y: 21 },
+    { kind: "flowerbed", x: 25, y: 11 }, { kind: "flowerbed", x: 25, y: 20 },
+    { kind: "bush", x: 6, y: 22 }, { kind: "bush", x: 13, y: 22 },
+    { kind: "bush", x: 23, y: 22 }, { kind: "bush", x: 33, y: 22 }
   ];
 
   const questNPC = {
@@ -1187,7 +1244,12 @@
     { id: "work", x: 6, y: 4, targetX: 6, targetY: 4, icon: "💼", label: "TRABALHAR +20", lift: -72, color: "#ffd166" },
     { id: "shop", x: 16, y: 5, targetX: 16, targetY: 5, icon: "🛍️", label: "LOJA", lift: -68, color: "#67e8f9" },
     { id: "rest", x: 7, y: 14, targetX: 8, targetY: 14, icon: "☕", label: "DESCANSAR", lift: -62, color: "#86efac" },
-    { id: "quest", x: 10, y: 7, targetX: 10, targetY: 8, icon: "❗", label: "MISSÃO", lift: -108, color: "#c4b5fd" }
+    { id: "quest", x: 10, y: 7, targetX: 10, targetY: 8, icon: "❗", label: "MISSÃO", lift: -108, color: "#c4b5fd" },
+    { id: "shopBank", x: 26, y: 3, targetX: 26, targetY: 3, icon: "🏦", label: "BANCO", lift: -70, color: "#fde68a" },
+    { id: "shopFashion", x: 26, y: 16, targetX: 26, targetY: 16, icon: "👗", label: "MODA", lift: -70, color: "#f9a8d4" },
+    { id: "shopFlower", x: 6, y: 24, targetX: 6, targetY: 24, icon: "🌼", label: "FLORICULTURA", lift: -70, color: "#bef264" },
+    { id: "shopBooks", x: 22, y: 24, targetX: 22, targetY: 24, icon: "📚", label: "LIVRARIA", lift: -70, color: "#fdba74" },
+    { id: "shopArcade", x: 26, y: 24, targetX: 26, targetY: 24, icon: "🎮", label: "ARCADE", lift: -70, color: "#93c5fd" }
   ];
 
   const blocked = new Set();
@@ -1362,15 +1424,19 @@
       if (x >= b.x0 && x <= b.x1 && y >= b.y0 && y <= b.y1) return "pad";
     }
     const plaza = x >= 6 && x <= 16 && y >= 6 && y <= 12;
-    const vRoad = x >= 10 && x <= 12;
-    const hRoad = y >= 9 && y <= 10;
+    // Avenidas e ruas transversais ligam os três bairros da cidade.
+    const vRoad = (x >= 10 && x <= 12) || (x >= 23 && x <= 24);
+    const hRoad = (y >= 5 && y <= 6) || (y >= 9 && y <= 10) ||
+                  (y >= 18 && y <= 19) || (y >= 27 && y <= 28);
     if (plaza) return "plaza";
     if (vRoad || hRoad) return "road";
     const near = [[1,0],[-1,0],[0,1],[0,-1]].some(function (d) {
       const nx = x + d[0], ny = y + d[1];
       if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) return false;
       const np = nx >= 6 && nx <= 16 && ny >= 6 && ny <= 12;
-      const nr = ((nx >= 10 && nx <= 12) || (ny >= 9 && ny <= 10)) && !np;
+      const nr = ((nx >= 10 && nx <= 12) || (nx >= 23 && nx <= 24) ||
+                  (ny >= 5 && ny <= 6) || (ny >= 9 && ny <= 10) ||
+                  (ny >= 18 && ny <= 19) || (ny >= 27 && ny <= 28)) && !np;
       return np || nr;
     });
     if (near) return "sidewalk";
@@ -1686,7 +1752,7 @@
   function performAction(id) {
     if (busy || gameState !== "playing") return;
     if (id === "work") doWork();
-    else if (id === "shop") openPanel("shop");
+    else if (id === "shop" || id.indexOf("shop") === 0) openPanel("shop");
     else if (id === "rest") beginRest();
     else if (id === "quest") talkToQuestNPC();
     else if (id.indexOf("talk:") === 0) talkToNPC(id.slice(5));
@@ -2063,10 +2129,15 @@
       const messages = {
         work: "Clique em 💼 para trabalhar: -10 energia, +20 moedas.",
         shop: "Clique em 🛍️ para entrar no Mercadinho 24H.",
+        shopBank: "Visite o Banco Central — novos serviços em breve.",
+        shopFashion: "Entre na loja Moda & Estilo para ver os itens disponíveis.",
+        shopFlower: "Visite a Floricultura e explore o bairro sul.",
+        shopBooks: "Entre na Livraria e explore o bairro sul.",
+        shopArcade: "Visite o Arcade — área de lazer da cidade.",
         rest: "Clique em ☕ para descansar por 5 moedas.",
         quest: "Clique em ❗ para conversar com Luna."
       };
-      hint.textContent = messages[nearest.item.id];
+      hint.textContent = messages[nearest.item.id] || "Clique para explorar este estabelecimento.";
     } else if (nearNPC && nearNPC.distance < 2.6) {
       hint.textContent = "Clique em " + nearNPC.npc.name + " para bater um papo.";
     } else {
