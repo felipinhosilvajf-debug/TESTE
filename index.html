@@ -1541,9 +1541,9 @@
     const n2 = hash2(x, y, 7);
 
     if (kind === "grass") {
-      const greens = ["#67b06e", "#5fa868", "#6fb876", "#64aa6c"];
+      const greens = ["#6eae72", "#68a96d", "#75b879", "#6bab70"];
       const base = greens[Math.floor(n * greens.length)];
-      polyFill(g, d, base, "rgba(34,80,46,.4)", .8);
+      polyFill(g, d, base, "rgba(34,80,46,.18)", .45);
       // Patch de sombra suave
       if (n2 > 0.55) {
         g.fillStyle = "rgba(40,95,55,.35)";
@@ -1609,8 +1609,11 @@
       if (edgePlaza) polyFill(g, d, null, "rgba(70,66,56,.75)", 2.4);
     }
     else if (kind === "road") {
-      const tones = ["#46464f", "#4c4c55"];
-      polyFill(g, d, tones[(x + y) % 2 === 0 ? 0 : 1], "rgba(20,20,28,.5)", 1);
+      const tones = ["#414c59", "#45515e"];
+      const roadShade = g.createLinearGradient(raw.x - tileW * .45, raw.y - tileH * .3, raw.x + tileW * .45, raw.y + tileH * .3);
+      roadShade.addColorStop(0, tones[(x + y) % 2 === 0 ? 0 : 1]);
+      roadShade.addColorStop(1, "#343f4c");
+      polyFill(g, d, roadShade, "rgba(15,24,34,.32)", .65);
       // Granulação do asfalto
       for (let i = 0; i < 6; i++) {
         const sx = raw.x + (hash2(x, y, 60 + i) - 0.5) * tileW * 0.78;
@@ -1621,8 +1624,8 @@
       // Faixa central tracejada
       const vRoad = (x >= 10 && x <= 12) || (x >= 23 && x <= 24) || isCityVerticalRoad(x);
       const hRoad = (y >= 9 && y <= 10) || (y >= 18 && y <= 19) || (y >= 27 && y <= 28) || isCityHorizontalRoad(y);
-      g.strokeStyle = "rgba(250,220,120,.6)";
-      g.lineWidth = 2.4;
+      g.strokeStyle = "rgba(255,213,105,.78)";
+      g.lineWidth = 2.1;
       g.lineCap = "round";
       if (vRoad && x === 11 && y % 2 === 0) {
         g.beginPath();
@@ -1644,8 +1647,8 @@
       }
     }
     else if (kind === "sidewalk") {
-      const tones = ["#a3abb4", "#99a1ab"];
-      polyFill(g, d, tones[(x + y) % 2 === 0 ? 0 : 1], "rgba(58,66,78,.5)", .9);
+      const tones = ["#c6cdd1", "#b9c3c9"];
+      polyFill(g, d, tones[(x + y) % 2 === 0 ? 0 : 1], "rgba(57,75,87,.34)", .65);
       g.strokeStyle = "rgba(66,74,88,.42)";
       g.lineWidth = 1.1;
       if ((x + y) % 2 === 0) {
@@ -1659,8 +1662,9 @@
       }
     }
     else if (kind === "pad") {
-      polyFill(g, d, "#8d959e", "rgba(48,54,64,.55)", 1);
-      g.strokeStyle = "rgba(52,58,68,.4)";
+      const lotTone = ((x + y) % 2 === 0) ? "#b4b8b5" : "#aeb4b2";
+      polyFill(g, d, lotTone, "rgba(48,64,66,.3)", .65);
+      g.strokeStyle = "rgba(52,68,68,.28)";
       g.lineWidth = 1;
       g.beginPath(); g.moveTo(d[0].x, d[0].y); g.lineTo(d[2].x, d[2].y); g.stroke();
       g.beginPath(); g.moveTo(d[3].x, d[3].y); g.lineTo(d[1].x, d[1].y); g.stroke();
@@ -2309,10 +2313,10 @@
   /* ================= DESENHO: CÉU & CHÃO ================= */
   function drawSky() {
     const bg = ctx.createLinearGradient(0, 0, 0, cssHeight);
-    bg.addColorStop(0, "#6db6d9");
-    bg.addColorStop(0.38, "#8fc8de");
-    bg.addColorStop(0.72, "#b8dcdc");
-    bg.addColorStop(1, "#d8e6d4");
+    bg.addColorStop(0, "#5c9fca");
+    bg.addColorStop(0.28, "#8dc4dc");
+    bg.addColorStop(0.62, "#c4e0e2");
+    bg.addColorStop(1, "#e7e9dc");
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, cssWidth, cssHeight);
 
@@ -2331,10 +2335,13 @@
       ctx.save();
       ctx.translate(cx, cy);
       ctx.scale(cloud.s, cloud.s);
-      ctx.fillStyle = "rgba(255,255,255,.82)";
-      [[0, 0, 46, 15], [33, 5, 33, 12], [-35, 6, 31, 11], [9, -10, 29, 11], [-12, -8, 24, 9]].forEach(e => {
+      ctx.fillStyle = "rgba(255,255,255,.58)";
+      ctx.shadowColor = "rgba(58,93,124,.12)";
+      ctx.shadowBlur = 12;
+      [[0, 0, 46, 13], [33, 5, 33, 10], [-35, 6, 31, 9], [9, -9, 29, 10], [-12, -7, 24, 8]].forEach(e => {
         ctx.beginPath(); ctx.ellipse(e[0], e[1], e[2], e[3], 0, 0, Math.PI * 2); ctx.fill();
       });
+      ctx.shadowBlur = 0;
       ctx.restore();
     }
 
@@ -2430,7 +2437,16 @@
       ctx.beginPath(); ctx.moveTo(Math.min(bb.x, c.x) - 12, ly); ctx.lineTo(Math.max(bb.x, c.x) + 12, ly); ctx.stroke();
     }
     ctx.restore();
-    polyPath(ctx, [bb, c, ct, bt]); ctx.strokeStyle = "rgba(0,0,0,.3)"; ctx.lineWidth = 1.1; ctx.stroke();
+    // Friso vertical de canto: define a silhueta e separa melhor cada volume.
+    const edgeGlowR = ctx.createLinearGradient(bb.x, 0, bb.x + 8, 0);
+    edgeGlowR.addColorStop(0, "rgba(255,255,255,.34)");
+    edgeGlowR.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.save();
+    polyPath(ctx, [bb, c, ct, bt]); ctx.clip();
+    ctx.fillStyle = edgeGlowR;
+    ctx.fillRect(bb.x - 2, bt.y, 10, h + 20);
+    ctx.restore();
+    polyPath(ctx, [bb, c, ct, bt]); ctx.strokeStyle = "rgba(18,31,43,.48)"; ctx.lineWidth = 1.15; ctx.stroke();
 
     // ===== Parede esquerda (c-d) =====
     const gradL = ctx.createLinearGradient(0, dt.y, 0, d.y);
@@ -2444,7 +2460,17 @@
       ctx.beginPath(); ctx.moveTo(Math.min(c.x, d.x) - 12, ly); ctx.lineTo(Math.max(c.x, d.x) + 12, ly); ctx.stroke();
     }
     ctx.restore();
-    polyPath(ctx, [c, d, dt, ct]); ctx.strokeStyle = "rgba(0,0,0,.3)"; ctx.lineWidth = 1.1; ctx.stroke();
+    // Faixa de sombra e filete claro para dar leitura de profundidade à fachada.
+    ctx.save();
+    polyPath(ctx, [c, d, dt, ct]); ctx.clip();
+    const facadeLight = ctx.createLinearGradient(d.x, 0, c.x, 0);
+    facadeLight.addColorStop(0, "rgba(255,255,255,.13)");
+    facadeLight.addColorStop(.22, "rgba(255,255,255,.035)");
+    facadeLight.addColorStop(1, "rgba(0,0,0,.08)");
+    ctx.fillStyle = facadeLight;
+    ctx.fillRect(Math.min(c.x,d.x)-4, dt.y, Math.abs(d.x-c.x)+8, h+12);
+    ctx.restore();
+    polyPath(ctx, [c, d, dt, ct]); ctx.strokeStyle = "rgba(18,31,43,.48)"; ctx.lineWidth = 1.15; ctx.stroke();
 
     // ===== Cornija =====
     const cornOffset = 9;
@@ -2489,20 +2515,22 @@
       const lit = hash2(b.seed, litSeed, 5) < 0.38;
       ctx.save();
       if (lit) { ctx.shadowColor = "#ffc46b"; ctx.shadowBlur = 13; }
-      roundedRectPath(pos.x - 9, pos.y - 8, 18, 16, 5);
-      ctx.fillStyle = "#1b2534"; ctx.fill();
+      // Caixilho, vidro em camadas e reflexo diagonal para fachadas mais contemporâneas.
+      roundedRectPath(pos.x - 10, pos.y - 9, 20, 18, 3.5);
+      ctx.fillStyle = "#263b4c"; ctx.fill();
       ctx.shadowBlur = 0;
-      const gg = ctx.createLinearGradient(0, pos.y - 7, 0, pos.y + 7);
-      if (lit) { gg.addColorStop(0, "#ffe39a"); gg.addColorStop(1, "#e8a34c"); }
-      else { gg.addColorStop(0, "#3d5a76"); gg.addColorStop(1, "#22303f"); }
-      roundedRectPath(pos.x - 7, pos.y - 6, 14, 12, 4);
+      const gg = ctx.createLinearGradient(pos.x - 6, pos.y - 7, pos.x + 7, pos.y + 7);
+      if (lit) { gg.addColorStop(0, "#fff0b2"); gg.addColorStop(.55, "#f5c66f"); gg.addColorStop(1, "#b8793f"); }
+      else { gg.addColorStop(0, "#7ca6c2"); gg.addColorStop(.45, "#426b8a"); gg.addColorStop(1, "#23394f"); }
+      roundedRectPath(pos.x - 7.5, pos.y - 6.5, 15, 13, 2.5);
       ctx.fillStyle = gg; ctx.fill();
-      if (!lit) {
-        ctx.strokeStyle = "rgba(255,255,255,.33)"; ctx.lineWidth = 1.3;
-        ctx.beginPath(); ctx.moveTo(pos.x - 5, pos.y + 3); ctx.lineTo(pos.x + 3, pos.y - 5); ctx.stroke();
-      }
-      ctx.strokeStyle = "rgba(15,22,32,.85)"; ctx.lineWidth = 1.3;
-      ctx.beginPath(); ctx.moveTo(pos.x, pos.y - 6); ctx.lineTo(pos.x, pos.y + 6); ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,.52)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pos.x - 5.2, pos.y - 4.8); ctx.lineTo(pos.x - 1.2, pos.y - 4.8); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pos.x - 5.5, pos.y - 3.2); ctx.lineTo(pos.x - 1.5, pos.y + 3.7); ctx.stroke();
+      ctx.strokeStyle = "rgba(15,22,32,.9)"; ctx.lineWidth = 1.25;
+      ctx.beginPath(); ctx.moveTo(pos.x, pos.y - 6.5); ctx.lineTo(pos.x, pos.y + 6.5); ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,.22)"; ctx.lineWidth = .8;
+      ctx.beginPath(); ctx.moveTo(pos.x - 8, pos.y + 7.8); ctx.lineTo(pos.x + 8, pos.y + 7.8); ctx.stroke();
       ctx.restore();
     };
     const colsR = faceCols(bt, ct), colsL = faceCols(dt, ct);
@@ -2706,8 +2734,11 @@
     const s = tileW / 72;
     const sway = Math.sin(worldTime * 1.5 + prop.x * 1.7) * 0.022;
     ctx.save();
-    ctx.fillStyle = "rgba(0,0,0,.24)";
-    ctx.beginPath(); ctx.ellipse(p.x, p.y + 6, 24 * s, 9 * s, 0, 0, Math.PI * 2); ctx.fill();
+    const treeShadow = ctx.createRadialGradient(p.x, p.y + 7, 2, p.x, p.y + 7, 34 * s);
+    treeShadow.addColorStop(0, "rgba(16,35,28,.28)");
+    treeShadow.addColorStop(1, "rgba(16,35,28,0)");
+    ctx.fillStyle = treeShadow;
+    ctx.beginPath(); ctx.ellipse(p.x, p.y + 7, 34 * s, 12 * s, 0, 0, Math.PI * 2); ctx.fill();
     ctx.translate(p.x, p.y);
     ctx.rotate(sway);
     // Tronco
@@ -2719,8 +2750,10 @@
     ctx.beginPath(); ctx.moveTo(-2 * s, -8 * s); ctx.quadraticCurveTo(1 * s, -24 * s, -3 * s, -40 * s); ctx.stroke();
     // Copa em camadas
     const blobs = [
-      [-16, -50, 15, "#2c7a47"], [12, -54, 16, "#348a50"],
-      [-2, -66, 21, "#3d9c5b"], [-21, -63, 13.5, "#358349"], [19, -67, 13, "#3f9460"], [-1, -80, 15.5, "#46ab66"]
+      [-20, -49, 15, "#286b42"], [13, -50, 17, "#2d7c49"],
+      [-4, -62, 22, "#368c50"], [-23, -63, 13.5, "#2e7846"],
+      [20, -64, 14, "#3a9256"], [-2, -79, 16.5, "#48a765"],
+      [8, -73, 12, "#57b872"], [-12, -71, 11, "#4cae66"]
     ];
     for (const blob of blobs) {
       const bg = ctx.createRadialGradient(
