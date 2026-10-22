@@ -267,7 +267,11 @@ async function loadClanData(){
   }));
   const balance=Number(clan.treasury_balance)||0;
   document.getElementById("balance").textContent=fmt(balance)+" Adena";
+  const balanceNote=document.querySelector("#balance").closest(".balance-box").querySelector(".balance-note");
+  if(balanceNote)balanceNote.textContent=clan.has_castle?("Saldo real de "+(clan.castle_name||"castelo")+" lido da tabela castle."):"Nenhum castelo associado a este clã na tabela castle.";
   document.getElementById("overview-balance").textContent=fmt(balance);
+  const treasuryNote=document.querySelector("#overview-balance").parentElement.querySelector(".stat-foot");
+  if(treasuryNote)treasuryNote.textContent=clan.has_castle?("Cofre real: "+(clan.castle_name||"castelo")+" · saldo lido do banco do jogo"):"Este clã não aparece como dono de um castelo.";
   document.getElementById("total-in").textContent="+"+fmt(money.filter(m=>m.value>0).reduce((s,m)=>s+m.value,0));
   document.getElementById("total-out").textContent="−"+fmt(money.filter(m=>m.value<0).reduce((s,m)=>s+Math.abs(m.value),0));
   document.getElementById("connection-status").textContent="Banco conectado";
