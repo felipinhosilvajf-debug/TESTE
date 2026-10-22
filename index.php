@@ -2906,6 +2906,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     </div>
     <div class="theend-nav-account">
       <div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div>
+      <div id="google_translate_element" class="vb-language-selector" aria-label="Selecionar idioma"></div>
       <a href="site/login.php">LOGIN</a>
       <a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a>
     </div>
@@ -4206,6 +4207,24 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 }
 @media(prefers-reduced-motion:reduce){.theend-feature-list article.vb-golden-rule-card,.theend-feature-list article.vb-golden-rule-card::before{animation:none!important}}
 </style>
+
+
+<style id="vb-language-selector-style">
+.vb-language-selector{display:flex;align-items:center;min-width:112px;max-width:150px;overflow:hidden;z-index:1000}
+.vb-language-selector .goog-te-gadget{font-family:'Cinzel',serif!important;font-size:0!important;color:transparent!important;white-space:nowrap}
+.vb-language-selector .goog-te-gadget .goog-te-combo{max-width:145px;margin:0!important;padding:8px 9px;border:1px solid rgba(56,189,248,.55);border-radius:7px;background:#07111f;color:#bae6fd;font:600 12px Arial,sans-serif;cursor:pointer;outline:none}
+.vb-language-selector .goog-te-gadget span,.vb-language-selector .goog-logo-link,.goog-te-banner-frame,.skiptranslate iframe{display:none!important}
+body{top:0!important}
+@media(max-width:850px){.vb-language-selector{margin:10px 0;max-width:100%}.vb-language-selector .goog-te-gadget .goog-te-combo{max-width:100%;width:145px}}
+</style>
+<script id="vb-google-translate-runtime">
+function googleTranslateElementInit(){
+  if(window.google&&google.translate&&document.getElementById('google_translate_element')){
+    new google.translate.TranslateElement({pageLanguage:'pt',includedLanguages:'pt,en',autoDisplay:false, layout:google.translate.TranslateElement.InlineLayout.SIMPLE},'google_translate_element');
+  }
+}
+(function(){var g=document.createElement('script');g.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';g.async=true;document.head.appendChild(g);})();
+</script>
 
 </body>
 <script>
