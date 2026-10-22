@@ -35,6 +35,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
       <button data-page="ranks"><span>✦</span> Hierarquia e patentes</button>
       <button data-page="treasury"><span>◉</span> Tesouro do castelo</button>
       <button data-page="history"><span>↻</span> Histórico</button>
+      <button data-page="announcements"><span>✉</span> Notícias do clã</button>
       <button data-page="settings"><span>⚙</span> Configurações</button>
     </nav></div>
     <div class="side-bottom"><div><span class="online-dot"></span><b style="font-size:12px" id="connection-status">Conectando ao banco...</b></div><small id="connection-note">Carregando dados do clã</small></div>
@@ -60,7 +61,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
         <div class="grid">
           <div class="card"><div class="card-head"><div><h2>Hierarquia militar</h2><p>Patentes e nível de autoridade</p></div><button class="subtle-btn" data-goto="ranks">Detalhes</button></div><div class="rank-list" id="overview-ranks"></div></div>
           <div class="card"><div class="card-head"><div><h2>Regras de comando</h2><p>Permissões principais</p></div></div>
-            <div class="event"><div class="event-icon">＋</div><div><p><b>Convidar membros</b></p><small>Disponível a partir de Tenente.</small></div></div>
+            <div class="event"><div class="event-icon">＋</div><div><p><b>Convidar membros</b></p><small>Convidar membros é feito dentro do jogo; esta ação não existe no painel.</small></div></div>
             <div class="event"><div class="event-icon">−</div><div><p><b>Expulsar membros</b></p><small>Disponível a partir de Capitão.</small></div></div>
             <div class="event"><div class="event-icon">♛</div><div><p><b>Gerir o tesouro</b></p><small>Reservado ao Coronel por padrão.</small></div></div>
           </div>
@@ -70,7 +71,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
 
     <section class="section" id="members">
       <div class="card">
-        <div class="card-head"><div><h2>Gestão de membros</h2><p>Consulte patentes, nível, estado e ações administrativas.</p></div><button class="primary-btn" id="invite-btn">＋ Convidar membro</button></div>
+        <div class="card-head"><div><h2>Gestão de membros</h2><p>Consulte patentes, nível, estado e ações administrativas.</p></div><span class="rank">Recrutamento feito dentro do jogo</span></div>
         <div class="notice">Modo de leitura conectado ao banco. Convites, expulsões e alterações de patente estão desativados até a validação de permissões no servidor.</div>
         <div class="toolbar"><input id="search-members" placeholder="Buscar personagem..."><select id="rank-filter"><option value="">Todas as patentes</option></select><select id="status-filter"><option value="">Todos os estados</option><option>Online</option><option>Offline</option></select></div>
         <div class="table-wrap"><table><thead><tr><th>Personagem</th><th>Patente</th><th>Nível</th><th>Estado</th><th>Entrou em</th><th>Ações</th></tr></thead><tbody id="members-table"></tbody></table></div>
@@ -107,6 +108,22 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
       <div class="card"><div class="card-head"><div><h2>Histórico e auditoria</h2><p>Registro administrativo de ações do clã.</p></div></div><div class="toolbar"><input id="search-history" placeholder="Buscar por personagem ou ação..."><select id="history-filter"><option value="">Todas as ações</option><option>Promoção</option><option>Convite</option><option>Expulsão</option><option>Depósito</option><option>Retirada</option><option>Permissão</option></select></div><div class="activity" id="history-list"></div></div>
     </section>
 
+    <section class="section" id="announcements">
+      <div class="grid content-grid">
+        <div class="card">
+          <div class="card-head"><div><h2>Notícias e mensagens do clã</h2><p>Comunicados publicados para todos os membros.</p></div><span class="rank gold" id="announcement-permission">Carregando permissão</span></div>
+          <div class="notice">O líder e membros com patente Capitão ou superior podem publicar. Os demais membros podem ler. As permissões são conferidas novamente no servidor.</div>
+          <form id="announcement-form" class="grid" style="gap:12px;display:none">
+            <div class="field"><label for="announcement-title">Título da notícia</label><input id="announcement-title" maxlength="120" required placeholder="Ex.: Cerco neste sábado"></div>
+            <div class="field"><label for="announcement-body">Mensagem para o clã</label><textarea id="announcement-body" rows="5" maxlength="5000" required placeholder="Escreva o comunicado para os membros..."></textarea></div>
+            <button class="primary-btn" type="submit">Publicar para o clã</button>
+          </form>
+          <div id="announcement-feedback" class="section-intro" style="margin-top:12px"></div>
+        </div>
+        <div class="card"><div class="card-head"><div><h2>Mural do clã</h2><p>Últimas 50 notícias publicadas.</p></div><button class="subtle-btn" id="refresh-announcements" type="button">Atualizar</button></div><div id="announcement-list" class="activity"><div class="empty">Carregando notícias...</div></div></div>
+      </div>
+    </section>
+
     <section class="section" id="settings">
       <div class="card"><div class="card-head"><div><h2>Configurações do painel</h2><p>Resumo das regras definidas para a gestão do clã.</p></div></div>
         <div class="form-grid">
@@ -138,7 +155,7 @@ let history=[];
 const fmt=n=>Math.abs(Number(n)||0).toLocaleString("pt-BR");
 const safe=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const rankNames={1:"Soldado",2:"Cabo",3:"Sargento",4:"Tenente",5:"Capitão",6:"Major",7:"General",8:"Coronel"};
-let apiData=null;
+let apiData=null; let announcementsCsrf=""; let announcementCharacterId=0;
 const rankClass=n=>n==="Coronel"||n==="General"?"rank gold":"rank";
 function personCell(m){return `<div class="person"><div class="person-icon">♟</div><div><b>${safe(m.name)}</b><small>${m.level==="—"?"Personagem do clã":"Nível "+safe(m.level)}</small></div></div>`}
 function renderMembers(){
@@ -156,7 +173,7 @@ function renderRanks(){document.getElementById("rank-details").innerHTML=ranks.m
 function renderMoney(){let q=(document.getElementById("search-money")?.value||"").toLowerCase(),f=document.getElementById("money-filter")?.value||"";let arr=money.filter(m=>(m.name+" "+m.reason).toLowerCase().includes(q)&&(!f||m.type===f));document.getElementById("money-table").innerHTML=arr.length?arr.map(m=>`<tr><td>${m.date}</td><td><span class="rank">${m.type}</span></td><td>${m.name}</td><td class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)}</td><td>${fmt(m.balance)}</td></tr>`).join(""):`<tr><td colspan="5" class="empty">Nenhuma movimentação encontrada.</td></tr>`}
 function renderHistory(){let q=(document.getElementById("search-history")?.value||"").toLowerCase(),f=document.getElementById("history-filter")?.value||"";let arr=history.filter(h=>(h.text+" "+h.actor).toLowerCase().includes(q)&&(!f||h.type===f));document.getElementById("history-list").innerHTML=arr.length?arr.map(h=>`<div class="event"><div class="event-icon">${h.type==="Promoção"?"✦":h.type==="Expulsão"?"−":h.type==="Convite"?"＋":h.type==="Retirada"?"↗":"↻"}</div><div><p><b>${h.type}</b> · ${h.text}</p><small>${h.date} · Responsável: ${h.actor}</small></div></div>`).join(""):`<div class="empty">Nenhum registro encontrado.</div>`}
 function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),3000)}
-function goto(id){document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));let names={overview:"Visão geral",members:"Membros",ranks:"Hierarquia e patentes",treasury:"Tesouro do castelo",history:"Histórico",settings:"Configurações"};document.getElementById("crumb").textContent=names[id];document.getElementById("page-title").textContent=id==="overview"?"Painel do Clã":names[id];document.getElementById("page-desc").textContent=({overview:"Administre os membros, a hierarquia militar e o tesouro do castelo em um só lugar.",members:"Consulte os integrantes e gerencie a composição do clã.",ranks:"Consulte as permissões e limitações de cada patente.",treasury:"Acompanhe o saldo e o histórico financeiro do castelo.",history:"Consulte os registros administrativos e financeiros.",settings:"Regras de segurança e permissões previstas para o painel."})[id];}
+function goto(id){document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));let names={overview:"Visão geral",members:"Membros",ranks:"Hierarquia e patentes",treasury:"Tesouro do castelo",history:"Histórico",announcements:"Notícias do clã",settings:"Configurações"};document.getElementById("crumb").textContent=names[id];document.getElementById("page-title").textContent=id==="overview"?"Painel do Clã":names[id];document.getElementById("page-desc").textContent=({overview:"Administre os membros, a hierarquia militar e o tesouro do castelo em um só lugar.",members:"Consulte os integrantes e gerencie a composição do clã.",ranks:"Consulte as permissões e limitações de cada patente.",treasury:"Acompanhe o saldo e o histórico financeiro do castelo.",history:"Consulte os registros administrativos e financeiros.",announcements:"Comunicados para todos os membros do clã.",settings:"Regras de segurança e permissões previstas para o painel."})[id];}
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.page)));
 document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.goto)));
 document.getElementById("rank-filter").innerHTML='<option value="">Todas as patentes</option>'+ranks.map(r=>`<option>${r.name}</option>`).join("");
@@ -164,6 +181,41 @@ document.getElementById("rank-filter").innerHTML='<option value="">Todas as pate
 ["search-money","money-filter"].forEach(id=>document.getElementById(id).addEventListener(id==="search-money"?"input":"change",renderMoney));
 ["search-history","history-filter"].forEach(id=>document.getElementById(id).addEventListener(id==="search-history"?"input":"change",renderHistory));
 function renderAll(){renderMembers();renderOverview();renderRanks();renderMoney();renderHistory()}
+function renderAnnouncements(posts){
+ const list=document.getElementById("announcement-list");
+ if(!posts||!posts.length){list.innerHTML='<div class="empty">Ainda não há notícias publicadas para este clã.</div>';return;}
+ list.innerHTML=posts.map(p=>`<div class="event"><div class="event-icon">✉</div><div><p><b>${safe(p.title)}</b></p><p style="margin-top:7px;white-space:pre-wrap;overflow-wrap:anywhere">${safe(p.body)}</p><small>Publicado por ${safe(p.author_name)} · ${safe(formatDate(p.created_at))}</small></div></div>`).join("");
+}
+async function loadAnnouncements(){
+ const list=document.getElementById("announcement-list");
+ try{
+  const response=await fetch("clan_announcements_api.php?character_id="+encodeURIComponent(announcementCharacterId),{credentials:"same-origin",cache:"no-store"});
+  const data=await response.json();
+  if(!response.ok||!data.ok)throw new Error(data.error||"Não foi possível carregar as notícias.");
+  announcementsCsrf=data.csrf_token;
+  const form=document.getElementById("announcement-form");
+  form.style.display=data.can_publish?"grid":"none";
+  document.getElementById("announcement-permission").textContent=data.can_publish?"Pode publicar":"Somente leitura";
+  renderAnnouncements(data.posts);
+ }catch(error){list.innerHTML='<div class="empty">'+safe(error.message)+'</div>';}
+}
+document.getElementById("announcement-form").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const feedback=document.getElementById("announcement-feedback");
+ const submit=e.submitter; if(submit)submit.disabled=true;
+ feedback.textContent="Publicando...";
+ try{
+  const response=await fetch("clan_announcements_api.php",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":announcementsCsrf},body:JSON.stringify({character_id:announcementCharacterId,title:document.getElementById("announcement-title").value,body:document.getElementById("announcement-body").value})});
+  const data=await response.json();
+  if(!response.ok||!data.ok)throw new Error(data.error||"Falha ao publicar.");
+  document.getElementById("announcement-title").value="";
+  document.getElementById("announcement-body").value="";
+  feedback.textContent="Notícia publicada para o clã.";
+  await loadAnnouncements();
+ }catch(error){feedback.textContent=error.message;}
+ finally{if(submit)submit.disabled=false;}
+});
+document.getElementById("refresh-announcements").addEventListener("click",loadAnnouncements);
 function formatDate(value){
  if(!value)return "—";
  const d=new Date(String(value).replace(" ","T"));
@@ -177,6 +229,7 @@ async function loadClanData(){
   const data=await response.json();
   if(!response.ok||!data.ok) throw new Error(data.error||"Não foi possível carregar o clã.");
   apiData=data;
+  announcementCharacterId=Number((data.characters||[])[0]?.character_id||0);
   const clan=(data.clans||[])[0];
   if(!clan) throw new Error("A conta não possui dados de clã disponíveis.");
   document.getElementById("current-clan").textContent=clan.clan_name||"Clã";
@@ -207,6 +260,7 @@ async function loadClanData(){
   document.getElementById("connection-status").textContent="Banco conectado";
   document.getElementById("connection-note").textContent="Dados reais em modo de leitura";
   renderAll();
+  await loadAnnouncements();
  }catch(error){
   status.textContent="Falha ao carregar";
   note.textContent="Confira login e API";
@@ -217,8 +271,6 @@ async function loadClanData(){
   toast(error.message||"Erro ao carregar os dados do clã.");
  }
 }
-document.getElementById("invite-btn").disabled=true;
-document.getElementById("invite-btn").title="Convites serão ativados após validação de permissões no servidor.";
 document.getElementById("members-table").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(b)toast("Ação bloqueada: ainda não está conectada ao backend seguro.");});
 document.getElementById("deposit-btn").addEventListener("click",()=>toast("Movimentações ainda desativadas por segurança."));
 document.getElementById("withdraw-btn").addEventListener("click",()=>toast("Movimentações ainda desativadas por segurança."));
