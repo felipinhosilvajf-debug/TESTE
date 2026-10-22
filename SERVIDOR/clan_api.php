@@ -73,6 +73,7 @@ try {
          FROM vb_clan_treasury_log l
          LEFT JOIN characters c ON c.obj_Id = l.character_id
          WHERE l.clan_id = ?
+           AND (l.details IS NULL OR l.details NOT LIKE 'Saldo inicial de teste%')
          ORDER BY l.id DESC
          LIMIT 20'
     );
