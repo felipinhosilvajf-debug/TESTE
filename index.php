@@ -2925,7 +2925,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
       <a href="#" onclick="openPanel('join');toggleMobileTopbar();return false;">DISCORD</a><a href="site/login.php">LOGIN</a><a href="#" onclick="openPanel('download');toggleMobileTopbar();return false;">DOWNLOAD</a>
     </div>
   </div>
-</nav>>
+</nav>
 <main class="theend-template">
 <header id="home" class="theend-hero">
   <video autoplay muted loop playsinline preload="auto" class="theend-hero-video" poster="asset/back.png"><source src="asset/video1.mp4" type="video/mp4"></video>
