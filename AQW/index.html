@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MeuAQWClient</title>
+  <style>
+    :root { color-scheme: dark; font-family: Segoe UI, Arial, sans-serif; background: #080b14; color: #edf2ff; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { background: radial-gradient(circle at 50% 0, #1a2850 0, #080b14 58%); }
+    #status { display: grid; place-items: center; width: 100%; height: 100%; padding: 28px; text-align: center; }
+    .panel { max-width: 700px; border: 1px solid #2a3a63; border-radius: 16px; background: rgba(9,15,31,.94); padding: 30px; box-shadow: 0 20px 80px #0008; }
+    h1 { margin: 0 0 10px; font-size: 28px; }
+    p { color: #c1cbe4; line-height: 1.6; }
+    code { color: #a9c7ff; overflow-wrap: anywhere; }
+    #game { display: none; width: 100%; height: 100%; }
+    #ruffle-container, #ruffle-player { width: 100%; height: 100%; }
+    .small { font-size: 13px; color: #9ba9c8; }
+  </style>
+</head>
+<body>
+  <main id="status">
+    <section class="panel">
+      <h1>MeuAQWClient</h1>
+      <p id="message">Preparando o cliente do jogo…</p>
+      <p class="small" id="details">Ruffle Flash Emulator</p>
+    </section>
+  </main>
+  <main id="game"><div id="ruffle-container"></div></main>
+  <script src="./node_modules/@ruffle-rs/ruffle/ruffle.js"></script>
+  <script>
+    const statusBox = document.getElementById('status');
+    const message = document.getElementById('message');
+    const details = document.getElementById('details');
+
+    function showSetupMessage() {
+      message.textContent = 'O launcher está preparado, mas falta configurar o endereço do arquivo SWF e a conexão do SmartFoxServer.';
+      details.innerHTML = 'O administrador deve preencher <code>config.json</code> antes de gerar o instalador. O jogador não precisará inserir IP ou porta.';
+    }
+
+    async function startGame() {
+      try {
+        const config = await window.aqwClient.getConfig();
+        if (!config.configured) {
+          showSetupMessage();
+          return;
+        }
+        if (!window.RufflePlayer || !window.RufflePlayer.newest) {
+          message.textContent = 'Não foi possível carregar o Ruffle.';
+          details.textContent = 'Verifique se a dependência @ruffle-rs/ruffle foi instalada com npm install.';
+          return;
+        }
+
+        const socketProxy = config.socketPorts.map(port => ({
+          host: config.socketHost,
+          port,
+          proxyUrl: config.proxyUrl + '?host=' +
+            encodeURIComponent(config.socketHost) + '&port=' + encodeURIComponent(port)
+        }));
+
+        window.RufflePlayer.config = {
+          splashScreen: false,
+          preloader: false,
+          allowFullscreen: true,
+          socketProxy
+        };
+
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        player.id = 'ruffle-player';
+        document.getElementById('ruffle-container').appendChild(player);
+        statusBox.style.display = 'none';
+        document.getElementById('game').style.display = 'block';
+
+        await player.load({
+          url: config.gameSwfUrl,
+          allowScriptAccess: true,
+          allowNetworking: 'all',
+          parameters: { allowNetworking: 'all' }
+        });
+      } catch (error) {
+        message.textContent = 'O jogo não iniciou.';
+        details.textContent = String(error && error.message ? error.message : error);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', startGame);
+  </script>
+</body>
+</html>
