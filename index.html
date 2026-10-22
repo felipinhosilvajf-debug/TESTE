@@ -2976,11 +2976,13 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     </div>
    </article>
 
-   <article>
-    <img src="asset/card3.gif">
+   <article class="vb-golden-rule-card">
+    <img src="asset/card3.gif" alt="Castelos, clãs e domínio do reino">
     <div>
-     <h3>CASTELOS, CLÃS & PODER</h3>
-     <p>Reúna seus aliados, forme alianças e dispute castelos em batalhas que definem o equilíbrio do reino. Conquistar um território significa prestígio, influência e poder estratégico. Os clãs vitoriosos podem assumir o governo e controlar os benefícios de seus domínios, enquanto os rivais se organizam para desafiar sua autoridade. No VirtualBoost, o poder precisa ser conquistado e defendido.</p>
+     <span class="vb-rule-kicker">O PODER ESTÁ NAS SUAS MÃOS</span>
+     <h3>ELEIÇÃO, CASTELOS & DOMÍNIO</h3>
+     <p>Conquiste seu lugar no comando: dispute eleições, assuma o trono do castelo e governe sua região. Defina impostos de forma imediata, sem burocracia, influencie a economia e as movimentações da cidade. Comande com mão de ferro, fortaleça seus aliados e faça cada decisão pesar no destino do reino — até que alguém tenha força para desafiar seu poder.</p>
+     <div class="vb-rule-tags"><span>ELEIÇÕES</span><span>IMPOSTOS IMEDIATOS</span><span>GOVERNO DO CASTELO</span></div>
     </div>
    </article>
 
@@ -4155,6 +4157,60 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 .theend-footer{position:relative;background:linear-gradient(180deg,#030711,rgba(2,5,10,.98))!important;border-top:1px solid rgba(56,189,248,.18)}
 @media(max-width:850px){.theend-live-section,.theend-features,.theend-progress,.theend-wiki,.theend-final{background-attachment:scroll!important}.theend-wrap{width:min(100% - 32px,1180px)}#panel-economy .economy-stat-card{padding:17px}}
 @media(prefers-reduced-motion:reduce){.theend-feature-list article img,.theend-wiki-grid article>img,.theend-live-player,.theend-live-ranking,.theend-feature-list article,.theend-wiki-grid article{transition:none!important}}
+</style>
+
+
+
+<style id="vb-golden-rule-card-v1">
+/* Card dourado exclusivo: eleições, castelos e domínio */
+.theend-feature-list article.vb-golden-rule-card{
+  --gold:#f6d889;--gold-bright:#fff3b0;--gold-deep:#9d6b19;
+  position:relative;isolation:isolate;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 85% 10%,rgba(255,210,105,.17),transparent 42%),
+    linear-gradient(135deg,rgba(42,29,12,.98),rgba(13,12,12,.98) 54%,rgba(31,22,9,.98))!important;
+  border:1px solid rgba(246,216,137,.82)!important;
+  box-shadow:0 0 0 1px rgba(255,238,177,.08) inset,0 0 28px rgba(218,164,54,.19),0 20px 55px rgba(0,0,0,.48)!important;
+  animation:vbGoldenBreath 4.5s ease-in-out infinite;
+}
+.theend-feature-list article.vb-golden-rule-card::before{
+  content:"";position:absolute;inset:-40% -70%;z-index:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 38%,rgba(255,231,157,.03) 43%,rgba(255,243,190,.62) 49%,rgba(255,255,235,.9) 50%,rgba(255,204,84,.3) 52%,transparent 59%);
+  transform:translateX(-75%) rotate(8deg);animation:vbGoldenFissure 5.8s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+.theend-feature-list article.vb-golden-rule-card::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.7;
+  background:
+   linear-gradient(124deg,transparent 0 24%,rgba(255,220,130,.0) 24.2%,rgba(255,220,130,.55) 24.35%,transparent 24.7%),
+   linear-gradient(72deg,transparent 0 69%,rgba(255,230,160,.0) 69.2%,rgba(255,230,160,.5) 69.35%,transparent 69.7%),
+   radial-gradient(ellipse at 50% 0,rgba(255,225,150,.12),transparent 62%);
+}
+.theend-feature-list article.vb-golden-rule-card>img{
+  filter:sepia(.55) saturate(1.18) brightness(.72);
+}
+.theend-feature-list article.vb-golden-rule-card>div{position:relative;z-index:1}
+.theend-feature-list article.vb-golden-rule-card h3{
+  color:var(--gold-bright)!important;text-shadow:0 0 18px rgba(246,216,137,.34);
+}
+.theend-feature-list article.vb-golden-rule-card p{color:#e7dcc0!important}
+.vb-rule-kicker{display:block;margin-bottom:9px;color:#d5ad5a;font:700 .63rem 'Cinzel',serif;letter-spacing:2.2px}
+.vb-rule-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:17px}
+.vb-rule-tags span{padding:6px 9px;border:1px solid rgba(246,216,137,.34);background:rgba(150,103,24,.12);color:#f3d58b;font:700 .56rem 'Cinzel',serif;letter-spacing:1px}
+.theend-feature-list article.vb-golden-rule-card:hover{
+  border-color:#fff0b4!important;box-shadow:0 0 0 1px rgba(255,243,176,.16) inset,0 0 38px rgba(232,184,73,.28),0 24px 60px rgba(0,0,0,.58)!important;
+}
+@keyframes vbGoldenFissure{
+  0%,12%{transform:translateX(-90%) rotate(8deg);opacity:0}
+  28%{opacity:.9}
+  62%{transform:translateX(85%) rotate(8deg);opacity:.75}
+  78%,100%{transform:translateX(110%) rotate(8deg);opacity:0}
+}
+@keyframes vbGoldenBreath{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,238,177,.08) inset,0 0 22px rgba(218,164,54,.14),0 20px 55px rgba(0,0,0,.48)}
+  50%{box-shadow:0 0 0 1px rgba(255,238,177,.15) inset,0 0 34px rgba(218,164,54,.25),0 20px 55px rgba(0,0,0,.48)}
+}
+@media(prefers-reduced-motion:reduce){.theend-feature-list article.vb-golden-rule-card,.theend-feature-list article.vb-golden-rule-card::before{animation:none!important}}
 </style>
 
 </body>
