@@ -46,7 +46,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
 
     <section class="section active" id="overview">
       <div class="grid stats">
-        <div class="card"><div class="stat-top">Tesouro do castelo <span class="stat-icon">◉</span></div><div class="stat-value" id="overview-balance">—</div><div class="stat-foot">Saldo de teste no banco <span class="positive">●</span></div></div>
+        <div class="card"><div class="stat-top">Tesouro do castelo <span class="stat-icon">◉</span></div><div class="stat-value" id="overview-balance">—</div><div class="stat-foot">Aguardando ligação ao cofre real do castelo</div></div>
         <div class="card"><div class="stat-top">Membros no clã <span class="stat-icon">♟</span></div><div class="stat-value" id="member-count">—</div><div class="stat-foot">Membros encontrados no banco</div></div>
         <div class="card"><div class="stat-top">Entradas registradas <span class="stat-icon">↙</span></div><div class="stat-value positive" id="total-in">—</div><div class="stat-foot">Entradas no histórico carregado</div></div>
         <div class="card"><div class="stat-top">Saídas registradas <span class="stat-icon">↗</span></div><div class="stat-value negative" id="total-out">—</div><div class="stat-foot">Saídas no histórico carregado</div></div>
@@ -127,7 +127,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
     <section class="section" id="settings">
       <div class="card"><div class="card-head"><div><h2>Configurações do painel</h2><p>Resumo das regras definidas para a gestão do clã.</p></div></div>
         <div class="form-grid">
-          <div class="field"><label>Patente de quem pode convidar</label><select disabled><option>Tenente ou superior</option></select></div>
+          <div class="field"><label>Recrutamento</label><select disabled><option>Somente dentro do jogo</option></select></div>
           <div class="field"><label>Patente de quem pode expulsar</label><select disabled><option>Capitão ou superior</option></select></div>
           <div class="field"><label>Quem pode movimentar o tesouro</label><select disabled><option>Somente Coronel</option></select></div>
           <div class="field"><label>Quem controla promoções e rebaixamentos</label><select disabled><option>Somente Coronel</option></select></div>
@@ -155,7 +155,7 @@ let history=[];
 const fmt=n=>Math.abs(Number(n)||0).toLocaleString("pt-BR");
 const safe=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const rankNames={1:"Soldado",2:"Cabo",3:"Sargento",4:"Tenente",5:"Capitão",6:"Major",7:"General",8:"Coronel"};
-let apiData=null; let announcementsCsrf=""; let announcementCharacterId=0;
+let apiData=null; let announcementsCsrf=""; let announcementCharacterId=0; let canDeleteAnnouncements=false;
 const rankClass=n=>n==="Coronel"||n==="General"?"rank gold":"rank";
 function personCell(m){return `<div class="person"><div class="person-icon">♟</div><div><b>${safe(m.name)}</b><small>${m.level==="—"?"Personagem do clã":"Nível "+safe(m.level)}</small></div></div>`}
 function renderMembers(){
@@ -184,7 +184,19 @@ function renderAll(){renderMembers();renderOverview();renderRanks();renderMoney(
 function renderAnnouncements(posts){
  const list=document.getElementById("announcement-list");
  if(!posts||!posts.length){list.innerHTML='<div class="empty">Ainda não há notícias publicadas para este clã.</div>';return;}
- list.innerHTML=posts.map(p=>`<div class="event"><div class="event-icon">✉</div><div><p><b>${safe(p.title)}</b></p><p style="margin-top:7px;white-space:pre-wrap;overflow-wrap:anywhere">${safe(p.body)}</p><small>Publicado por ${safe(p.author_name)} · ${safe(formatDate(p.created_at))}</small></div></div>`).join("");
+ list.innerHTML=posts.map(p=>`<div class="event"><div class="event-icon">✉</div><div><div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><p><b>${safe(p.title)}</b></p>${canDeleteAnnouncements?`<button class="danger-btn delete-announcement" data-id="${Number(p.id)}" type="button">Apagar</button>`:""}</div><p style="margin-top:7px;white-space:pre-wrap;overflow-wrap:anywhere">${safe(p.body)}</p><small>Publicado por ${safe(p.author_name)} · ${safe(formatDate(p.created_at))}</small></div></div>`).join("");
+ list.querySelectorAll(".delete-announcement").forEach(button=>button.addEventListener("click",()=>deleteAnnouncement(Number(button.dataset.id),button)));
+}
+async function deleteAnnouncement(postId,button){
+ if(!canDeleteAnnouncements||!confirm("Apagar esta notícia do clã? Esta ação não pode ser desfeita."))return;
+ button.disabled=true;
+ try{
+  const response=await fetch("clan_announcements_api.php",{method:"DELETE",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":announcementsCsrf},body:JSON.stringify({character_id:announcementCharacterId,post_id:postId})});
+  const data=await response.json();
+  if(!response.ok||!data.ok)throw new Error(data.error||"Não foi possível apagar a notícia.");
+  document.getElementById("announcement-feedback").textContent="Notícia apagada.";
+  await loadAnnouncements();
+ }catch(error){document.getElementById("announcement-feedback").textContent=error.message;button.disabled=false;}
 }
 async function loadAnnouncements(){
  const list=document.getElementById("announcement-list");
@@ -193,6 +205,7 @@ async function loadAnnouncements(){
   const data=await response.json();
   if(!response.ok||!data.ok)throw new Error(data.error||"Não foi possível carregar as notícias.");
   announcementsCsrf=data.csrf_token;
+  canDeleteAnnouncements=Boolean(data.can_delete);
   const form=document.getElementById("announcement-form");
   form.style.display=data.can_publish?"grid":"none";
   document.getElementById("announcement-permission").textContent=data.can_publish?"Pode publicar":"Somente leitura";
