@@ -55,8 +55,11 @@ try {
     );
     // O saldo verdadeiro do castelo fica na tabela do jogo, não na tesouraria personalizada do painel.
     $castleStmt = $pdo->prepare(
-        'SELECT id AS castle_id, name AS castle_name, treasury AS castle_treasury
-         FROM castle WHERE ownerId = ? LIMIT 1'
+        'SELECT c.ID AS castle_id, c.name AS castle_name, c.treasury AS castle_treasury
+         FROM castle c
+         INNER JOIN clan_data cd ON cd.hasCastle = c.ID
+         WHERE cd.clan_id = ?
+         LIMIT 1'
     );
     $membersStmt = $pdo->prepare(
         'SELECT c.obj_Id, c.char_name, c.online,
