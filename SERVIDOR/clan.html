@@ -37,18 +37,18 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
       <button data-page="history"><span>↻</span> Histórico</button>
       <button data-page="settings"><span>⚙</span> Configurações</button>
     </nav></div>
-    <div class="side-bottom"><div><span class="online-dot"></span><b style="font-size:12px">Painel demonstrativo</b></div><small>Dados de exemplo · não conectado ao servidor</small></div>
+    <div class="side-bottom"><div><span class="online-dot"></span><b style="font-size:12px" id="connection-status">Conectando ao banco...</b></div><small id="connection-note">Carregando dados do clã</small></div>
   </aside>
   <main>
-    <div class="topbar"><div class="crumb">Dashboard <span style="color:#5f6b7e"> / </span> <strong id="crumb">Visão geral</strong></div><div class="top-actions"><span class="pill">✦ &nbsp; Líder do clã</span><div class="avatar">C</div></div></div>
+    <div class="topbar"><div class="crumb">Dashboard <span style="color:#5f6b7e"> / </span> <strong id="crumb">Visão geral</strong></div><div class="top-actions"><span class="pill" id="current-clan">Clã</span><div class="avatar" id="current-avatar">C</div></div></div>
     <div class="pagehead"><div><div class="eyebrow">CENTRAL DE COMANDO</div><h1 id="page-title">Painel do Clã</h1><p id="page-desc">Administre os membros, a hierarquia militar e o tesouro do castelo em um só lugar.</p></div><div class="role-chip">♛ &nbsp; CORONEL · LÍDER</div></div>
 
     <section class="section active" id="overview">
       <div class="grid stats">
-        <div class="card"><div class="stat-top">Tesouro do castelo <span class="stat-icon">◉</span></div><div class="stat-value">125.000.000</div><div class="stat-foot">Adena disponível <span class="positive">●</span></div></div>
-        <div class="card"><div class="stat-top">Membros no clã <span class="stat-icon">♟</span></div><div class="stat-value" id="member-count">8</div><div class="stat-foot">Personagens no registro demonstrativo</div></div>
-        <div class="card"><div class="stat-top">Entradas registradas <span class="stat-icon">↙</span></div><div class="stat-value positive">+18.500.000</div><div class="stat-foot">Exemplo de movimentação</div></div>
-        <div class="card"><div class="stat-top">Saídas registradas <span class="stat-icon">↗</span></div><div class="stat-value negative">−4.200.000</div><div class="stat-foot">Exemplo de movimentação</div></div>
+        <div class="card"><div class="stat-top">Tesouro do castelo <span class="stat-icon">◉</span></div><div class="stat-value" id="overview-balance">—</div><div class="stat-foot">Saldo de teste no banco <span class="positive">●</span></div></div>
+        <div class="card"><div class="stat-top">Membros no clã <span class="stat-icon">♟</span></div><div class="stat-value" id="member-count">—</div><div class="stat-foot">Membros encontrados no banco</div></div>
+        <div class="card"><div class="stat-top">Entradas registradas <span class="stat-icon">↙</span></div><div class="stat-value positive" id="total-in">—</div><div class="stat-foot">Entradas no histórico carregado</div></div>
+        <div class="card"><div class="stat-top">Saídas registradas <span class="stat-icon">↗</span></div><div class="stat-value negative" id="total-out">—</div><div class="stat-foot">Saídas no histórico carregado</div></div>
       </div>
       <div class="grid content-grid">
         <div class="grid">
@@ -71,7 +71,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
     <section class="section" id="members">
       <div class="card">
         <div class="card-head"><div><h2>Gestão de membros</h2><p>Consulte patentes, nível, estado e ações administrativas.</p></div><button class="primary-btn" id="invite-btn">＋ Convidar membro</button></div>
-        <div class="notice">DEMONSTRAÇÃO: os personagens abaixo são fictícios. A versão conectada deve validar cada permissão no servidor.</div>
+        <div class="notice">Modo de leitura conectado ao banco. Convites, expulsões e alterações de patente estão desativados até a validação de permissões no servidor.</div>
         <div class="toolbar"><input id="search-members" placeholder="Buscar personagem..."><select id="rank-filter"><option value="">Todas as patentes</option></select><select id="status-filter"><option value="">Todos os estados</option><option>Online</option><option>Offline</option></select></div>
         <div class="table-wrap"><table><thead><tr><th>Personagem</th><th>Patente</th><th>Nível</th><th>Estado</th><th>Entrou em</th><th>Ações</th></tr></thead><tbody id="members-table"></tbody></table></div>
       </div>
@@ -87,9 +87,9 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
     <section class="section" id="treasury">
       <div class="grid content-grid">
         <div class="card"><div class="card-head"><div><h2>Tesouro do castelo</h2><p>Saldo e extrato financeiro do clã/castelo</p></div><span class="rank gold">♛ Acesso do Coronel</span></div>
-          <div class="notice">Os valores são ilustrativos. Na integração, o painel deverá consultar o saldo real mantido pela base do servidor, sem criar uma carteira duplicada.</div>
-          <div class="balance-box"><div class="balance-line"><div><small>SALDO DISPONÍVEL</small><div class="balance" id="balance">125.000.000 Adena</div></div><div style="font-size:23px;color:#e9c674">◉</div></div><div class="balance-note">Tesouro demonstrativo · saldo inicial fictício</div>
-            <div class="money-actions"><button class="primary-btn" id="deposit-btn">＋ Registrar depósito</button><button class="subtle-btn" id="withdraw-btn">− Registrar retirada</button></div>
+          <div class="notice">Este é o saldo da tesouraria personalizada do painel, não o inventário real de Adena do Lineage. Movimentações estão desativadas nesta etapa.</div>
+          <div class="balance-box"><div class="balance-line"><div><small>SALDO DISPONÍVEL</small><div class="balance" id="balance">Carregando...</div></div><div style="font-size:23px;color:#e9c674">◉</div></div><div class="balance-note">Saldo personalizado de teste armazenado no banco de dados</div>
+            <div class="money-actions"><button class="primary-btn" id="deposit-btn" disabled title="Ativado após validação de permissões">＋ Registrar depósito</button><button class="subtle-btn" id="withdraw-btn" disabled title="Ativado após validação de permissões">− Registrar retirada</button></div>
           </div>
           <div class="toolbar"><input id="search-money" placeholder="Buscar personagem ou motivo..."><select id="money-filter"><option value="">Todos os tipos</option><option>Depósito</option><option>Retirada</option><option>Imposto</option><option>Despesa</option></select></div>
           <div class="table-wrap"><table><thead><tr><th>Data / hora</th><th>Tipo</th><th>Responsável</th><th>Valor</th><th>Saldo após</th></tr></thead><tbody id="money-table"></tbody></table></div>
@@ -98,7 +98,7 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;jus
           <div class="event"><div class="event-icon">↙</div><div><p><b class="positive">18.500.000 Adena</b></p><small>Total de entradas demonstrativas</small></div></div>
           <div class="event"><div class="event-icon">↗</div><div><p><b class="negative">4.200.000 Adena</b></p><small>Total de saídas demonstrativas</small></div></div>
           <div class="event"><div class="event-icon">⌁</div><div><p><b>Extrato auditável</b></p><small>Data, responsável, valor e saldo anterior/posterior devem ser gravados no backend.</small></div></div>
-          <div class="notice" style="margin-top:16px;margin-bottom:0">Segurança: somente o Coronel movimenta o tesouro nesta configuração inicial. O backend deve conferir a permissão em toda operação.</div>
+          <div class="notice" style="margin-top:16px;margin-bottom:0">Segurança: as movimentações permanecem bloqueadas até existir uma rota de backend que confira a patente e registre a operação.</div>
         </div>
       </div>
     </section>
@@ -132,32 +132,15 @@ const ranks=[
 {name:"General",level:7,desc:"Oficial de alto comando.",perms:["Todas as permissões de Major","Consultar o histórico administrativo e financeiro"],limit:"Consulta financeira não autoriza saques; tesouro permanece reservado ao Coronel."},
 {name:"Coronel",level:8,desc:"Líder máximo do clã.",perms:["Gerir membros e nomear patentes","Conceder e retirar permissões delegadas","Convidar e expulsar membros","Movimentar o tesouro do castelo","Consultar todo o histórico e a auditoria"],limit:"A liderança deve ser alterada somente pelo mecanismo oficial de liderança do jogo."}
 ];
-let members=[
-{name:"DarkKnight",rank:"Coronel",level:85,status:"Online",joined:"12/08/2026"},
-{name:"ShadowBR",rank:"General",level:84,status:"Online",joined:"14/08/2026"},
-{name:"LordChaos",rank:"Capitão",level:82,status:"Offline",joined:"20/08/2026"},
-{name:"ArcherX",rank:"Sargento",level:80,status:"Online",joined:"02/09/2026"},
-{name:"Nocturna",rank:"Soldado",level:78,status:"Offline",joined:"06/09/2026"},
-{name:"DracoBR",rank:"Tenente",level:83,status:"Online",joined:"09/09/2026"},
-{name:"IronWolf",rank:"Cabo",level:79,status:"Offline",joined:"11/09/2026"},
-{name:"MysticSoul",rank:"Major",level:84,status:"Online",joined:"15/09/2026"}
-];
-let money=[
-{date:"22/10/2026 21:42",type:"Imposto",name:"Sistema do castelo",value:12500000,balance:125000000,reason:"Arrecadação de impostos"},
-{date:"22/10/2026 20:15",type:"Depósito",name:"DarkKnight",value:6000000,balance:112500000,reason:"Depósito no tesouro"},
-{date:"22/10/2026 19:08",type:"Despesa",name:"DarkKnight",value:-2200000,balance:106500000,reason:"Manutenção do castelo"},
-{date:"21/10/2026 23:30",type:"Retirada",name:"DarkKnight",value:-2000000,balance:108700000,reason:"Despesa autorizada"}
-];
-let history=[
-{date:"22/10/2026 · 21:42",type:"Depósito",text:"O sistema registrou uma arrecadação de impostos no tesouro do castelo.",actor:"Sistema do castelo"},
-{date:"22/10/2026 · 20:15",type:"Promoção",text:"DarkKnight promoveu ShadowBR para General.",actor:"DarkKnight"},
-{date:"22/10/2026 · 19:08",type:"Permissão",text:"DarkKnight revisou as permissões administrativas do clã.",actor:"DarkKnight"},
-{date:"21/10/2026 · 23:30",type:"Retirada",text:"Foi registrada uma retirada do tesouro do castelo.",actor:"DarkKnight"},
-{date:"20/10/2026 · 18:10",type:"Convite",text:"DracoBR convidou um novo membro para o clã.",actor:"DracoBR"}
-];
-const fmt=n=>Math.abs(n).toLocaleString("pt-BR");
+let members=[];
+let money=[];
+let history=[];
+const fmt=n=>Math.abs(Number(n)||0).toLocaleString("pt-BR");
+const safe=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const rankNames={1:"Soldado",2:"Cabo",3:"Sargento",4:"Tenente",5:"Capitão",6:"Major",7:"General",8:"Coronel"};
+let apiData=null;
 const rankClass=n=>n==="Coronel"||n==="General"?"rank gold":"rank";
-function personCell(m){return `<div class="person"><div class="person-icon">♟</div><div><b>${m.name}</b><small>Nível ${m.level}</small></div></div>`}
+function personCell(m){return `<div class="person"><div class="person-icon">♟</div><div><b>${safe(m.name)}</b><small>${m.level==="—"?"Personagem do clã":"Nível "+safe(m.level)}</small></div></div>`}
 function renderMembers(){
  let q=(document.getElementById("search-members")?.value||"").toLowerCase(),rf=document.getElementById("rank-filter")?.value||"",sf=document.getElementById("status-filter")?.value||"";
  const arr=members.filter(m=>m.name.toLowerCase().includes(q)&&(!rf||m.rank===rf)&&(!sf||m.status===sf));
@@ -167,7 +150,7 @@ function renderMembers(){
 function renderOverview(){
  document.getElementById("overview-members").innerHTML=members.slice(0,5).map(m=>`<tr><td>${personCell(m)}</td><td><span class="${rankClass(m.rank)}">${m.rank}</span></td><td><span class="status ${m.status==="Offline"?"off":""}">● ${m.status}</span></td></tr>`).join("");
  document.getElementById("overview-ranks").innerHTML=ranks.slice().reverse().map(r=>`<div class="rank-row ${r.name==="Coronel"?"leader":""}"><div class="rank-number">${r.level}</div><div><strong>${r.name}</strong><small>${r.name==="Coronel"?"Liderança máxima":r.name==="Tenente"?"Pode convidar":r.name==="Capitão"?"Pode expulsar":"Patente militar"}</small></div><div class="perm">${r.name==="Coronel"?"Comando total":r.name==="General"?"Consulta financeira":r.name==="Capitão"?"Expulsão":" "}</div></div>`).join("");
- document.getElementById("overview-activity").innerHTML=money.slice(0,3).map(m=>`<div class="event"><div class="event-icon">${m.value<0?"↗":"↙"}</div><div><p><b>${m.type}</b> · ${m.name}</p><small>${m.date} · <span class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)} Adena</span></small></div></div>`).join("");
+ document.getElementById("overview-activity").innerHTML=money.slice(0,3).map(m=>`<div class="event"><div class="event-icon">${m.value<0?"↗":"↙"}</div><div><p><b>${safe(m.type)}</b> · ${safe(m.name)}</p><small>${safe(m.date)} · <span class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)} Adena</span></small></div></div>`).join("")||`<div class="empty">Nenhuma movimentação encontrada.</div>`;
 }
 function renderRanks(){document.getElementById("rank-details").innerHTML=ranks.map(r=>`<div class="permission-item"><div class="rank-number">${r.level}</div><div><h3>${r.name}${r.name==="Coronel"?' <span class="rank gold">Líder</span>':""}</h3><p>${r.desc}</p><ul style="padding-left:18px;margin:10px 0 0;color:#d3dae6;font-size:12px">${r.perms.map(p=>`<li style="margin:5px 0">${p}</li>`).join("")}</ul><span class="perm-badge">Limite: ${r.limit}</span></div></div>`).join("")}
 function renderMoney(){let q=(document.getElementById("search-money")?.value||"").toLowerCase(),f=document.getElementById("money-filter")?.value||"";let arr=money.filter(m=>(m.name+" "+m.reason).toLowerCase().includes(q)&&(!f||m.type===f));document.getElementById("money-table").innerHTML=arr.length?arr.map(m=>`<tr><td>${m.date}</td><td><span class="rank">${m.type}</span></td><td>${m.name}</td><td class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)}</td><td>${fmt(m.balance)}</td></tr>`).join(""):`<tr><td colspan="5" class="empty">Nenhuma movimentação encontrada.</td></tr>`}
@@ -185,7 +168,66 @@ document.getElementById("invite-btn").addEventListener("click",()=>{let name=pro
 function moneyAction(type){let label=type==="Depósito"?"Registrar depósito de Adena":"Registrar retirada de Adena";let amount=prompt(label+" (valor numérico para demonstração):");if(!amount)return;let val=Number(amount);if(!Number.isFinite(val)||val<=0){toast("Informe um valor numérico positivo.");return;}let current=money.length?money[0].balance:125000000;if(type==="Retirada"&&val>current){toast("Saldo demonstrativo insuficiente.");return;}let next=current+(type==="Depósito"?val:-val);money.unshift({date:new Date().toLocaleString("pt-BR"),type,name:"DarkKnight",value:type==="Depósito"?val:-val,balance:next,reason:"Movimentação criada na demonstração"});history.unshift({date:new Date().toLocaleString("pt-BR"),type,text:`${type} demonstrativo de ${fmt(val)} Adena.`,actor:"DarkKnight"});document.getElementById("balance").textContent=fmt(next)+" Adena";renderAll();toast(type+" incluído somente na demonstração.");}
 document.getElementById("deposit-btn").addEventListener("click",()=>moneyAction("Depósito"));document.getElementById("withdraw-btn").addEventListener("click",()=>moneyAction("Retirada"));
 function renderAll(){renderMembers();renderOverview();renderRanks();renderMoney();renderHistory()}
+function formatDate(value){
+ if(!value)return "—";
+ const d=new Date(String(value).replace(" ","T"));
+ return Number.isNaN(d.getTime())?String(value):d.toLocaleString("pt-BR");
+}
+async function loadClanData(){
+ const status=document.getElementById("connection-status");
+ const note=document.getElementById("connection-note");
+ try{
+  const response=await fetch("clan_api.php",{credentials:"same-origin",cache:"no-store"});
+  const data=await response.json();
+  if(!response.ok||!data.ok) throw new Error(data.error||"Não foi possível carregar o clã.");
+  apiData=data;
+  const clan=(data.clans||[])[0];
+  if(!clan) throw new Error("A conta não possui dados de clã disponíveis.");
+  document.getElementById("current-clan").textContent=clan.clan_name||"Clã";
+  document.getElementById("current-avatar").textContent=(clan.clan_name||"C").charAt(0).toUpperCase();
+  document.querySelector(".role-chip").textContent="♛ "+(rankNames[Number(clan.my_rank_level)]||"Membro");
+  document.querySelector(".pagehead h1").textContent="Clã "+(clan.clan_name||"");
+  document.querySelector(".pagehead p").textContent="Dados carregados do banco de dados do Virtual Boost.";
+  members=(clan.members||[]).map(m=>({
+   id:m.character_id,name:m.name,rank:rankNames[Number(m.rank_level)]||"Soldado",
+   rankLevel:Number(m.rank_level)||1,level:"—",status:m.online?"Online":"Offline",joined:"—"
+  }));
+  money=(clan.treasury_history||[]).map(h=>({
+   date:formatDate(h.created_at),
+   type:({DEPOSITO:"Depósito",RETIRADA:"Retirada",IMPOSTO:"Imposto",DESPESA:"Despesa"}[String(h.action_type).toUpperCase()]||h.action_type),
+   name:h.character_name||"Sistema",
+   value:["RETIRADA","DESPESA"].includes(String(h.action_type).toUpperCase())?-Number(h.amount):Number(h.amount),
+   balance:Number(h.balance_after),reason:h.details||""
+  }));
+  history=(clan.treasury_history||[]).map(h=>({
+   date:formatDate(h.created_at),type:({DEPOSITO:"Depósito",RETIRADA:"Retirada",IMPOSTO:"Imposto",DESPESA:"Despesa"}[String(h.action_type).toUpperCase()]||h.action_type),
+   text:(h.details||"Movimentação da tesouraria")+" ("+fmt(h.amount)+" Adena).",actor:h.character_name||"Sistema"
+  }));
+  const balance=Number(clan.treasury_balance)||0;
+  document.getElementById("balance").textContent=fmt(balance)+" Adena";
+  document.getElementById("overview-balance").textContent=fmt(balance);
+  document.getElementById("total-in").textContent="+"+fmt(money.filter(m=>m.value>0).reduce((s,m)=>s+m.value,0));
+  document.getElementById("total-out").textContent="−"+fmt(money.filter(m=>m.value<0).reduce((s,m)=>s+Math.abs(m.value),0));
+  document.getElementById("connection-status").textContent="Banco conectado";
+  document.getElementById("connection-note").textContent="Dados reais em modo de leitura";
+  renderAll();
+ }catch(error){
+  status.textContent="Falha ao carregar";
+  note.textContent="Confira login e API";
+  document.getElementById("overview-members").innerHTML='<tr><td colspan="3" class="empty">'+safe(error.message)+'</td></tr>';
+  document.getElementById("members-table").innerHTML='<tr><td colspan="6" class="empty">'+safe(error.message)+'</td></tr>';
+  document.getElementById("balance").textContent="Indisponível";
+  document.getElementById("overview-balance").textContent="—";
+  toast(error.message||"Erro ao carregar os dados do clã.");
+ }
+}
+document.getElementById("invite-btn").disabled=true;
+document.getElementById("invite-btn").title="Convites serão ativados após validação de permissões no servidor.";
+document.getElementById("members-table").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(b)toast("Ação bloqueada: ainda não está conectada ao backend seguro.");});
+document.getElementById("deposit-btn").addEventListener("click",()=>toast("Movimentações ainda desativadas por segurança."));
+document.getElementById("withdraw-btn").addEventListener("click",()=>toast("Movimentações ainda desativadas por segurança."));
 renderAll();
+loadClanData();
 </script>
 </body>
 </html>
