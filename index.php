@@ -2906,7 +2906,11 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     </div>
     <div class="theend-nav-account">
       <div class="theend-nav-adena"><span>ADENA EM CIRCULAÇÃO</span><strong id="adenaCirculacao">Carregando...</strong></div>
-      <div id="google_translate_element" class="vb-language-selector" aria-label="Selecionar idioma"></div>
+      <div class="vb-language-selector" aria-label="Selecionar idioma">
+        <button type="button" class="vb-lang-btn is-active" data-lang="pt" aria-label="Português" title="Português">🇧🇷 <span>PT</span></button>
+        <button type="button" class="vb-lang-btn" data-lang="en" aria-label="English" title="English">🇺🇸 <span>EN</span></button>
+        <div id="google_translate_element" class="vb-google-translate-hidden" aria-hidden="true"></div>
+      </div>
       <a href="site/login.php">LOGIN</a>
       <a class="theend-nav-play" href="#" onclick="openPanel('download');return false;">DOWNLOAD</a>
     </div>
@@ -4210,20 +4214,42 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 
 
 <style id="vb-language-selector-style">
-.vb-language-selector{display:flex;align-items:center;min-width:112px;max-width:150px;overflow:hidden;z-index:1000}
-.vb-language-selector .goog-te-gadget{font-family:'Cinzel',serif!important;font-size:0!important;color:transparent!important;white-space:nowrap}
-.vb-language-selector .goog-te-gadget .goog-te-combo{max-width:145px;margin:0!important;padding:8px 9px;border:1px solid rgba(56,189,248,.55);border-radius:7px;background:#07111f;color:#bae6fd;font:600 12px Arial,sans-serif;cursor:pointer;outline:none}
-.vb-language-selector .goog-te-gadget span,.vb-language-selector .goog-logo-link,.goog-te-banner-frame,.skiptranslate iframe{display:none!important}
+.vb-language-selector{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.vb-lang-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 9px;border:1px solid rgba(199,165,91,.35);border-radius:5px;background:rgba(15,15,15,.88);color:#c9c4b8;font:700 10px 'Cinzel',serif;letter-spacing:1px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.vb-lang-btn:hover,.vb-lang-btn.is-active{border-color:#c7a55b;background:rgba(199,165,91,.16);color:#f0d58c}
+.vb-lang-btn:focus-visible{outline:2px solid #e5c878;outline-offset:2px}
+.vb-google-translate-hidden{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
+.goog-te-banner-frame,.skiptranslate iframe{display:none!important}
 body{top:0!important}
-@media(max-width:850px){.vb-language-selector{margin:10px 0;max-width:100%}.vb-language-selector .goog-te-gadget .goog-te-combo{max-width:100%;width:145px}}
+@media(max-width:1100px){.theend-nav-inner{gap:20px}.theend-nav-account{gap:10px}}
+@media(max-width:850px){.vb-language-selector{margin:8px 0}.vb-lang-btn{padding:8px 10px}}
 </style>
 <script id="vb-google-translate-runtime">
 function googleTranslateElementInit(){
   if(window.google&&google.translate&&document.getElementById('google_translate_element')){
-    new google.translate.TranslateElement({pageLanguage:'pt',includedLanguages:'pt,en',autoDisplay:false, layout:google.translate.TranslateElement.InlineLayout.SIMPLE},'google_translate_element');
+    new google.translate.TranslateElement({pageLanguage:'pt',includedLanguages:'pt,en',autoDisplay:false},'google_translate_element');
+    document.querySelectorAll('.vb-lang-btn').forEach(function(button){
+      button.addEventListener('click',function(){
+        var lang=button.getAttribute('data-lang');
+        var combo=document.querySelector('#google_translate_element select.goog-te-combo');
+        document.querySelectorAll('.vb-lang-btn').forEach(function(item){
+          item.classList.toggle('is-active',item===button);
+          item.setAttribute('aria-pressed',item===button?'true':'false');
+        });
+        if(combo){
+          combo.value=lang==='pt'?'':lang;
+          combo.dispatchEvent(new Event('change'));
+        }
+      });
+    });
   }
 }
-(function(){var g=document.createElement('script');g.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';g.async=true;document.head.appendChild(g);})();
+(function(){
+  var g=document.createElement('script');
+  g.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  g.async=true;
+  document.head.appendChild(g);
+})();
 </script>
 
 </body>
