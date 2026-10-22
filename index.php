@@ -2960,6 +2960,17 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 
   <div class="theend-feature-list">
 
+   <article class="vb-golden-rule-card">
+    <img src="asset/card3.gif" alt="Castelos, clãs e domínio do reino">
+    <div>
+     <span class="vb-rule-kicker">O PODER ESTÁ NAS SUAS MÃOS</span>
+     <h3>ELEIÇÃO, CASTELOS & DOMÍNIO</h3>
+     <p>Conquiste seu lugar no comando: dispute eleições, assuma o trono do castelo e governe sua região. Defina impostos de forma imediata, sem burocracia, influencie a economia e as movimentações da cidade. Comande com mão de ferro, fortaleça seus aliados e faça cada decisão pesar no destino do reino — até que alguém tenha força para desafiar seu poder.</p>
+     <div class="vb-rule-tags"><span>ELEIÇÕES</span><span>IMPOSTOS IMEDIATOS</span><span>GOVERNO DO CASTELO</span></div>
+    </div>
+   </article>
+
+
    <article>
     <img src="asset/cards1.gif">
     <div>
@@ -2973,16 +2984,6 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
     <div>
      <h3>ECONOMIA VIVA</h3>
      <p>Adena, materiais, equipamentos raros e negociações movimentam o reino. Acompanhe a economia do servidor em tempo real, explore oportunidades comerciais e construa sua própria riqueza. O controle dos castelos também influencia o poder econômico: governantes arrecadam impostos e administram recursos que podem fortalecer seus domínios e ampliar sua influência.</p>
-    </div>
-   </article>
-
-   <article class="vb-golden-rule-card">
-    <img src="asset/card3.gif" alt="Castelos, clãs e domínio do reino">
-    <div>
-     <span class="vb-rule-kicker">O PODER ESTÁ NAS SUAS MÃOS</span>
-     <h3>ELEIÇÃO, CASTELOS & DOMÍNIO</h3>
-     <p>Conquiste seu lugar no comando: dispute eleições, assuma o trono do castelo e governe sua região. Defina impostos de forma imediata, sem burocracia, influencie a economia e as movimentações da cidade. Comande com mão de ferro, fortaleça seus aliados e faça cada decisão pesar no destino do reino — até que alguém tenha força para desafiar seu poder.</p>
-     <div class="vb-rule-tags"><span>ELEIÇÕES</span><span>IMPOSTOS IMEDIATOS</span><span>GOVERNO DO CASTELO</span></div>
     </div>
    </article>
 
