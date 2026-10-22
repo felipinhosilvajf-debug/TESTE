@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="ico1.ico" />
+  <title>L2 Virtual Boost — Central de Suporte</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --fire-orange: #ff6b35;
+      --fire-red: #ff3d00;
+      --fire-yellow: #ffd700;
+      --gold: #ffb347;
+      --gold-light: #ffdd7a;
+      --gold-dark: #b8860b;
+      --bg: #0a0502;
+      --green: #69d17d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: #f5e6d3;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Background Fx */
+    .bg-fx {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255,107,53,.12), transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(255,61,0,.08), transparent 45%),
+        linear-gradient(180deg, #0a0502 0%, #1a0a05 100%);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 6vw;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(10,5,2,.9), rgba(10,5,2,.3));
+      border-bottom: 2px solid rgba(255,215,0,.3);
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      text-decoration: none;
+      background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 30%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logo span { color: var(--fire-orange); -webkit-text-fill-color: var(--fire-orange); }
+
+    .btn-shock {
+      padding: 12px 24px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      border: 2px solid var(--fire-orange);
+      border-radius: 8px;
+      background: transparent;
+      transition: .4s;
+    }
+
+    .btn-shock:hover {
+      border-color: var(--fire-yellow);
+      box-shadow: 0 0 20px var(--fire-orange);
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border: 2px solid rgba(255,215,0,.3);
+      border-radius: 8px;
+      color: #f5e6d3;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      transition: .3s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--fire-yellow);
+      color: var(--fire-yellow);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 120px 6vw 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .sec-title {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .sec-title .grad {
+      background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--fire-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sec-lead {
+      text-align: center;
+      color: #c9b8a4;
+      margin-bottom: 30px;
+      font-size: 1.05rem;
+    }
+
+    /* Info Cards Top */
+    .info-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 35px;
+    }
+
+    .info-card {
+      background: rgba(20, 10, 5, 0.6);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold-light);
+    }
+
+    .info-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .info-card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+
+    .info-card-desc {
+      font-size: 0.85rem;
+      color: #c9b8a4;
+      line-height: 1.3;
+    }
+
+    .card {
+      background: linear-gradient(160deg, rgba(30,15,5,.8), rgba(15,8,3,.9));
+      border: 1px solid rgba(255,215,0,.2);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(255,107,53,.15);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 6vw;
+      border-top: 2px solid rgba(255,215,0,.2);
+      color: #a89678;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-fx"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">L2 <span>VIRTUAL</span> BOOST</a>
+    <a href="index.html" class="btn-ghost" style="text-decoration: none; padding: 8px 16px;">⬅ Voltar ao Site</a>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL DE SUPORTE -->
+  <main>
+    <h1 class="sec-title"><span class="grad">💬 SUPORTE & TICKETS</span></h1>
+    <p class="sec-lead">
+      Abra um ticket e receba uma chave de acesso única para acompanhar, responder e verificar o status da sua solicitação a qualquer momento.
+    </p>
+
+    <!-- CARDS INFORMATIVOS SUPERIORES -->
+    <div class="info-cards-grid">
+      <div class="info-card">
+        <div class="info-card-icon">🛠️</div>
+        <div class="info-card-title">Bugs & Erros</div>
+        <div class="info-card-desc">Reporte bugs no jogo, falhas de conexão ou problemas no client.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">💡</div>
+        <div class="info-card-title">Dúvidas & Doações</div>
+        <div class="info-card-desc">Tire dúvidas gerais sobre o servidor, doações, eventos e regras.</div>
+      </div>
+    </div>
+
+    <!-- Botões de Seleção -->
+    <div style="display: flex; gap: 15px; margin-bottom: 25px; justify-content: center;">
+      <button onclick="showTicketSubTab('open')" id="tabOpenBtn" class="btn-shock">➕ ABRIR NOVO TICKET</button>
+      <button onclick="showTicketSubTab('consult')" id="tabConsultBtn" class="btn-ghost">🔑 CONSULTAR / RESPONDER</button>
+    </div>
+
+    <!-- PAINEL 1: ABERTURA -->
+    <div class="card" id="ticketFormCard">
+      <h3 style="font-family: 'Orbitron'; color: var(--gold-light); margin-bottom: 15px;">Abrir Novo Ticket</h3>
+      
+      <form id="ticketForm" onsubmit="submitTicket(event)" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" id="ticketName" placeholder="Seu Nome / Char" required style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,215,0,.3); background: rgba(0,0,0,.5); color: #fff; font-family: 'Rajdhani'; font-size: 1rem;">
+        <input type="email" id="ticketEmail" placeholder="Seu email (Opcional)" style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,215,0,.3); background: rgba(0,0,0,.5); color: #fff; font-family: 'Rajdhani'; font-size: 1rem;">
+        <textarea id="ticketMessage" rows="5" placeholder="Descreva seu problema ou dúvida..." required style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,215,0,.3); background: rgba(0,0,0,.5); color: #fff; font-family: 'Rajdhani'; font-size: 1rem; resize: vertical;"></textarea>
+        <button type="submit" class="btn-shock">🔥 ENVIAR TICKET</button>
+      </form>
+
+      <!-- Chave Gerada -->
+      <div id="ticketKeyContainer" style="display: none; margin-top: 20px; padding: 20px; border: 2px dashed var(--gold); border-radius: 8px; background: rgba(255,215,0,0.05); text-align: center;">
+        <p style="color: var(--gold-light); font-size: 1.1rem; margin-bottom: 8px;">Ticket criado com sucesso!</p>
+        <p style="color: #c9b8a4; font-size: 0.9rem;">Guarde sua Chave de Registro para consultar e responder o ticket mais tarde:</p>
+        <div style="margin: 15px 0; font-family: 'Orbitron'; font-size: 1.8rem; color: var(--fire-yellow); letter-spacing: 3px;" id="generatedKeyDisplay">VB-XXXXXX</div>
+        <button onclick="copyTicketKey()" class="btn-ghost" style="padding: 8px 16px; font-size: 0.75rem;">📋 COPIAR CHAVE</button>
+      </div>
+    </div>
+
+    <!-- PAINEL 2: CONSULTA VIA CHAVE -->
+    <div class="card" id="ticketConsultCard" style="display: none;">
+      <h3 style="font-family: 'Orbitron'; color: var(--gold-light); margin-bottom: 15px;">Acessar Ticket Existente</h3>
+
+      <form id="consultForm" onsubmit="consultTicket(event)" style="display: flex; gap: 10px;">
+        <input type="text" id="accessKeyInput" placeholder="Digite sua Chave (Ex: VB-A1B2C3)" required style="flex: 1; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,215,0,.3); background: rgba(0,0,0,.5); color: #fff; font-family: 'Orbitron'; font-size: 0.9rem; text-transform: uppercase;">
+        <button type="submit" class="btn-shock">ENTRAR</button>
+      </form>
+
+      <!-- Detalhes do Ticket -->
+      <div id="ticketViewDetails" style="display: none; margin-top: 25px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-family: 'Orbitron'; color: var(--gold-light);" id="viewKeyTitle">VB-XXXXXX</span>
+          <span id="viewStatusBadge" style="padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">-</span>
+        </div>
+
+        <p style="color: #a89678; font-size: 0.85rem;">Autor: <span id="viewAuthorName" style="color: #fff;"></span></p>
+
+        <!-- Histórico de Conversas -->
+        <div id="conversationThread" style="margin: 20px 0; display: flex; flex-direction: column; gap: 12px; max-height: 350px; overflow-y: auto; padding-right: 5px;"></div>
+
+        <!-- Resposta do Usuário -->
+        <form id="userReplyForm" onsubmit="sendUserReply(event)" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+          <textarea id="userReplyMessage" rows="3" placeholder="Escreva uma nova mensagem para a administração..." required style="padding: 10px; border-radius: 6px; border: 1px solid rgba(255,215,0,.3); background: rgba(0,0,0,.5); color: #fff; font-family: 'Rajdhani'; font-size: 1rem; resize: vertical;"></textarea>
+          <button type="submit" class="btn-shock" style="align-self: flex-end;">ENVIAR RESPOSTA</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Login Admin -->
+    <div style="text-align: right; margin-top: 15px;">
+      <button onclick="loginAdmin()" style="background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1rem;" title="Acesso Admin">🔐 Painel Admin</button>
+    </div>
+
+    <!-- PAINEL ADMINISTRATIVO -->
+    <div class="card" id="adminPanel" style="display: none; margin-top: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="color: var(--fire-yellow); font-family: 'Orbitron';">🛡️ PAINEL ADMINISTRATIVO</h3>
+        <button onclick="logoutAdmin()" style="background: transparent; border: 1px solid var(--fire-orange); color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Sair</button>
+      </div>
+      <div id="ticketsList" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 L2 Virtual Boost — Central de Atendimento. Projeto não-oficial de fãs.</p>
+  </footer>
+
+  <!-- SCRIPT FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, getDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEm7CnJ1muljuTjX2zkeLduQ7d5BG_Mbk",
+      authDomain: "mascrypto.firebaseapp.com",
+      projectId: "mascrypto",
+      storageBucket: "mascrypto.firebasestorage.app",
+      messagingSenderId: "310906627126",
+      appId: "1:310906627126:web:12636e4682772e4119e497",
+      measurementId: "G-2XYJP1MKH7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let currentActiveTicketId = null;
+
+    function generateTicketKey() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let result = 'VB-';
+      for (let i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    window.showTicketSubTab = function(tab) {
+      const formCard = document.getElementById('ticketFormCard');
+      const consultCard = document.getElementById('ticketConsultCard');
+      const btnOpen = document.getElementById('tabOpenBtn');
+      const btnConsult = document.getElementById('tabConsultBtn');
+
+      if (tab === 'open') {
+        formCard.style.display = 'block';
+        consultCard.style.display = 'none';
+        btnOpen.className = 'btn-shock';
+        btnConsult.className = 'btn-ghost';
+      } else {
+        formCard.style.display = 'none';
+        consultCard.style.display = 'block';
+        btnOpen.className = 'btn-ghost';
+        btnConsult.className = 'btn-shock';
+      }
+    };
+
+    window.submitTicket = async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('ticketName').value;
+      const email = document.getElementById('ticketEmail').value;
+      const message = document.getElementById('ticketMessage').value;
+      const accessKey = generateTicketKey();
+
+      try {
+        await addDoc(collection(db, "tickets"), {
+          accessKey: accessKey,
+          name: name,
+          email: email,
+          status: "Pendente",
+          createdAt: serverTimestamp(),
+          messages: [{ sender: 'user', text: message, timestamp: new Date().toISOString() }]
+        });
+
+        document.getElementById('ticketForm').reset();
+        document.getElementById('generatedKeyDisplay').innerText = accessKey;
+        document.getElementById('ticketKeyContainer').style.display = 'block';
+      } catch (err) {
+        alert("Erro ao enviar ticket: " + err.message);
+      }
+    };
+
+    window.copyTicketKey = function() {
+      const key = document.getElementById('generatedKeyDisplay').innerText;
+      navigator.clipboard.writeText(key).then(() => {
+        alert("Chave de registro copiada para a área de transferência!");
+      });
+    };
+
+    window.consultTicket = async function(e) {
+      e.preventDefault();
+      const accessKeyInput = document.getElementById('accessKeyInput').value.trim().toUpperCase();
+
+      try {
+        const q = query(collection(db, "tickets"), where("accessKey", "==", accessKeyInput));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          alert("Chave inválida ou o ticket foi encerrado/deletado pela administração.");
+          document.getElementById('ticketViewDetails').style.display = 'none';
+          currentActiveTicketId = null;
+          return;
+        }
+
+        const ticketDoc = querySnapshot.docs[0];
+        currentActiveTicketId = ticketDoc.id;
+        renderTicketDetails(ticketDoc.data());
+      } catch (err) {
+        alert("Erro ao consultar ticket: " + err.message);
+      }
+    };
+
+    function renderTicketDetails(data) {
+      document.getElementById('viewKeyTitle').innerText = data.accessKey;
+      document.getElementById('viewAuthorName').innerText = data.name;
+
+      const badge = document.getElementById('viewStatusBadge');
+      badge.innerText = data.status;
+      if (data.status === 'Respondido') {
+        badge.style.background = 'rgba(105,209,125,0.2)';
+        badge.style.color = 'var(--green)';
+        badge.style.border = '1px solid var(--green)';
+      } else {
+        badge.style.background = 'rgba(255,107,53,0.2)';
+        badge.style.color = 'var(--fire-orange)';
+        badge.style.border = '1px solid var(--fire-orange)';
+      }
+
+      const thread = document.getElementById('conversationThread');
+      thread.innerHTML = '';
+
+      if (data.messages && data.messages.length > 0) {
+        data.messages.forEach(msg => {
+          const msgBox = document.createElement('div');
+          const isAdmin = msg.sender === 'admin';
+          msgBox.style.cssText = `
+            padding: 10px 14px;
+            border-radius: 8px;
+            max-width: 85%;
+            word-break: break-word;
+            ${isAdmin ? 'background: rgba(105,209,125,0.15); border: 1px solid var(--green); align-self: flex-start; color: #fff;' : 'background: rgba(255,107,53,0.15); border: 1px solid var(--fire-orange); align-self: flex-end; color: #fff;'}
+          `;
+          msgBox.innerHTML = `
+            <div style="font-size: 0.75rem; color: ${isAdmin ? 'var(--green)' : 'var(--gold)'}; margin-bottom: 4px; font-weight: bold;">
+              ${isAdmin ? '🛡️ Suporte Virtual Boost' : '👤 ' + data.name}
+            </div>
+            <p style="font-size: 0.95rem; margin: 0;">${msg.text}</p>
+          `;
+          thread.appendChild(msgBox);
+        });
+      }
+      document.getElementById('ticketViewDetails').style.display = 'block';
+    }
+
+    window.sendUserReply = async function(e) {
+      e.preventDefault();
+      if (!currentActiveTicketId) return;
+
+      const replyMsg = document.getElementById('userReplyMessage').value;
+
+      try {
+        const docRef = doc(db, "tickets", currentActiveTicketId);
+        const newMsg = { sender: 'user', text: replyMsg, timestamp: new Date().toISOString() };
+
+        await updateDoc(docRef, {
+          messages: arrayUnion(newMsg),
+          status: "Pendente (Nova Resposta)"
+        });
+
+        document.getElementById('userReplyMessage').value = '';
+        const updatedSnap = await getDoc(docRef);
+        renderTicketDetails(updatedSnap.data());
+        alert("Resposta enviada!");
+      } catch (err) {
+        alert("Erro ao enviar resposta: " + err.message);
+      }
+    };
+
+    window.loginAdmin = function() {
+      const password = prompt("Digite a senha do administrador:");
+      if (password === "mas3510") {
+        document.getElementById('adminPanel').style.display = "block";
+        loadTickets();
+      } else if (password !== null) {
+        alert("Senha incorreta!");
+      }
+    };
+
+    window.logoutAdmin = function() {
+      document.getElementById('adminPanel').style.display = "none";
+    };
+
+    async function loadTickets() {
+      const list = document.getElementById('ticketsList');
+      list.innerHTML = "<p>Carregando tickets...</p>";
+      try {
+        const q = query(collection(db, "tickets"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        list.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          list.innerHTML = "<p>Nenhum ticket encontrado.</p>";
+          return;
+        }
+
+        querySnapshot.forEach((ticketDoc) => {
+          const data = ticketDoc.data();
+          const id = ticketDoc.id;
+
+          const ticketEl = document.createElement('div');
+          ticketEl.style.cssText = "background: rgba(0,0,0,0.6); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,215,0,0.2); text-align: left;";
+
+          let conversationHTML = '';
+          if (data.messages && data.messages.length > 0) {
+            data.messages.forEach(m => {
+              conversationHTML += `
+                <div style="margin-top: 6px; padding: 6px 10px; border-radius: 4px; background: ${m.sender === 'admin' ? 'rgba(105,209,125,0.1)' : 'rgba(255,255,255,0.05)'};">
+                  <b style="color: ${m.sender === 'admin' ? 'var(--green)' : 'var(--gold)'}; font-size: 0.8rem;">${m.sender === 'admin' ? 'Admin' : data.name}:</b>
+                  <span style="font-size: 0.9rem; color: #d4c5b0;">${m.text}</span>
+                </div>
+              `;
+            });
+          }
+
+          ticketEl.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <strong style="color: var(--gold-light);">${data.name} ${data.email ? '(' + data.email + ')' : ''}</strong>
+              <div>
+                <span style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--gold); margin-right: 10px;">Chave: ${data.accessKey}</span>
+                <span style="color: ${data.status.includes('Respondido') ? 'var(--green)' : 'var(--fire-orange)'}; font-size: 0.85rem; font-weight: bold;">${data.status}</span>
+              </div>
+            </div>
+            <div style="margin: 10px 0;">${conversationHTML}</div>
+            <div style="margin-top: 12px; display: flex; gap: 10px;">
+              <button onclick="replyTicket('${id}')" style="background: var(--fire-orange); border: none; color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.75rem;">Responder</button>
+              <button onclick="deleteTicket('${id}')" style="background: var(--fire-red); border: none; color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.75rem;">Deletar Ticket & Chave</button>
+            </div>
+          `;
+          list.appendChild(ticketEl);
+        });
+      } catch (err) {
+        list.innerHTML = "<p>Erro ao carregar tickets: " + err.message + "</p>";
+      }
+    }
+
+    window.replyTicket = async function(id) {
+      const replyText = prompt("Digite a resposta da administração:");
+      if (replyText) {
+        try {
+          const docRef = doc(db, "tickets", id);
+          const newMsg = { sender: 'admin', text: replyText, timestamp: new Date().toISOString() };
+          await updateDoc(docRef, { messages: arrayUnion(newMsg), status: "Respondido" });
+          alert("Resposta salva!");
+          loadTickets();
+        } catch (err) {
+          alert("Erro ao responder: " + err.message);
+        }
+      }
+    };
+
+    window.deleteTicket = async function(id) {
+      if (confirm("Tem certeza que deseja excluir este ticket?")) {
+        try {
+          await deleteDoc(doc(db, "tickets", id));
+          alert("Ticket apagado!");
+          loadTickets();
+        } catch (err) {
+          alert("Erro ao excluir: " + err.message);
+        }
+      }
+    };
+  </script>
+</body>
+</html>

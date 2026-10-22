@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do Clã | Virtual Boost</title>
+<style>
+:root{--bg:#0a0c11;--panel:#121620;--panel2:#171d29;--line:#293142;--text:#eef1f7;--muted:#9ca7ba;--gold:#e7bd67;--gold2:#a87a2b;--green:#62d6a0;--red:#ff8585;--blue:#86baff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#332817 0,transparent 35%),var(--bg);color:var(--text);font:14px/1.45 Inter,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+.sidebar{background:#0d1017;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.crest{width:42px;height:42px;display:grid;place-items:center;border:1px solid #8e6d35;border-radius:12px;background:linear-gradient(145deg,#3d301c,#17140e);color:var(--gold);font-size:22px}.brand b{letter-spacing:1.4px;font-size:15px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:2px}
+.side-label{font-size:10px;color:#68758b;letter-spacing:1.8px;padding:0 12px;margin-bottom:7px}.nav{display:grid;gap:5px}.nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;color:#aeb7c8;text-align:left;padding:12px;border-radius:10px}.nav button span{font-size:17px;width:22px;text-align:center}.nav button.active{background:linear-gradient(90deg,#392d1b,#201b14);border-color:#5b4828;color:#f4d38a}.nav button:hover{background:#1a202c}.side-bottom{margin-top:auto;border:1px solid var(--line);background:#121721;border-radius:12px;padding:14px}.online-dot{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:6px}.side-bottom small{color:var(--muted)}
+main{min-width:0;padding:28px clamp(16px,3vw,42px) 48px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}.crumb{color:var(--muted);font-size:12px}.crumb strong{color:#e6c67f;font-weight:600}.top-actions{display:flex;align-items:center;gap:10px}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 12px;color:#c7d0df;background:#111620;font-size:12px}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#43351e;border:1px solid #866a36;color:#f5d58e;font-weight:700}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}.eyebrow{color:var(--gold);font-size:10px;letter-spacing:2px;font-weight:700}.pagehead h1{font-size:clamp(25px,3vw,36px);line-height:1.1;margin:7px 0 8px;letter-spacing:-.8px}.pagehead p{margin:0;color:var(--muted);max-width:650px}.role-chip{white-space:nowrap;border:1px solid #6b542e;color:#f2d18a;background:#2a2114;padding:9px 12px;border-radius:10px;font-size:12px}
+.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.card{background:linear-gradient(145deg,rgba(24,30,43,.98),rgba(16,20,29,.98));border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0;box-shadow:0 12px 28px #00000012}.stat-top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px}.stat-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#292316;color:var(--gold);font-size:17px}.stat-value{font-size:clamp(19px,2vw,27px);font-weight:750;letter-spacing:-.7px;margin:12px 0 5px;overflow-wrap:anywhere}.stat-foot{font-size:11px;color:var(--muted)}.positive{color:var(--green)}.negative{color:var(--red)}
+.content-grid{grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);align-items:start}.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.card-head h2{font-size:15px;margin:0}.card-head p{color:var(--muted);font-size:11px;margin:4px 0 0}.subtle-btn,.primary-btn,.danger-btn{border:1px solid var(--line);border-radius:9px;background:#1a202c;color:#d9e0ed;padding:9px 12px;font-size:12px}.primary-btn{background:linear-gradient(135deg,#d9b25e,#9b7028);border-color:#e6c779;color:#17130c;font-weight:750}.danger-btn{color:#ffaaaa;border-color:#64393f;background:#28191e}.subtle-btn:hover{border-color:#7c6843}.primary-btn:hover{filter:brightness(1.08)}
+.balance-box{background:linear-gradient(115deg,#2b2417,#171a22);border:1px solid #59462a;border-radius:12px;padding:16px;margin-bottom:14px}.balance-box small{color:#c6b38e}.balance-line{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}.balance{font-size:clamp(22px,2.7vw,31px);font-weight:800;letter-spacing:-.8px;color:#f4d58d;margin-top:5px}.balance-note{font-size:11px;color:#c0b7a5}.money-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:540px}th{text-align:left;color:#7f8ba0;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;padding:10px 9px;border-bottom:1px solid var(--line)}td{padding:13px 9px;border-bottom:1px solid #232a37;font-size:12px;white-space:nowrap}tbody tr:last-child td{border-bottom:0}.person{display:flex;align-items:center;gap:9px}.person-icon{width:32px;height:32px;border-radius:9px;background:#252b38;display:grid;place-items:center;color:#e1c17d}.person b{display:block;font-size:12px}.person small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.rank{display:inline-flex;align-items:center;gap:5px;border:1px solid #3a4354;background:#202634;border-radius:6px;padding:5px 7px;font-size:11px}.rank.gold{border-color:#6c552d;background:#302615;color:#f2d18b}.status{font-size:10px;color:var(--green)}.status.off{color:#8490a3}.activity{display:grid;gap:0}.event{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid #252c39}.event:last-child{border-bottom:0}.event-icon{width:30px;height:30px;border-radius:9px;background:#222a37;display:grid;place-items:center;color:var(--gold)}.event p{margin:0;font-size:12px;color:#d8deea}.event p b{color:#fff}.event small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.rank-list{display:grid;gap:8px}.rank-row{display:flex;align-items:center;gap:11px;border:1px solid #2b3342;background:#141a25;border-radius:10px;padding:10px}.rank-number{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#292e3a;color:#bfc8d8;font-size:11px}.rank-row strong{display:block;font-size:12px}.rank-row small{color:var(--muted);font-size:10px}.rank-row .perm{margin-left:auto;font-size:10px;color:#c9d3e2;text-align:right}.rank-row.leader{border-color:#66502d;background:#282114}.rank-row.leader .rank-number{background:#60491f;color:#ffdf91}
+.section{display:none}.section.active{display:block}.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.toolbar input,.toolbar select,.field input,.field select,.field textarea{background:#0e131c;color:var(--text);border:1px solid #30394b;border-radius:9px;padding:10px 12px;outline:none}.toolbar input{flex:1;min-width:180px}.toolbar input:focus,.field input:focus,.field select:focus{border-color:#ad8744}.member-actions{display:flex;gap:6px}.mini-btn{background:#1b2230;border:1px solid #354055;color:#dbe2ee;border-radius:7px;padding:6px 8px;font-size:10px}.section-intro{color:var(--muted);font-size:12px;margin:-7px 0 18px}.permission-list{display:grid;gap:10px}.permission-item{border:1px solid var(--line);border-radius:11px;padding:14px;display:grid;grid-template-columns:42px 1fr;gap:12px}.permission-item h3{margin:0 0 4px;font-size:14px}.permission-item p{margin:0;color:var(--muted);font-size:12px}.permission-item .perm-badge{display:inline-block;margin-top:8px;color:#e8ca86;background:#302717;border:1px solid #554426;padding:4px 7px;border-radius:6px;font-size:10px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:grid;gap:6px}.field label{font-size:11px;color:#aeb8c9}.field input,.field select,.field textarea{width:100%}.field.full{grid-column:1/-1}.notice{padding:12px 14px;background:#201b12;border:1px solid #544326;color:#d9c59b;border-radius:10px;font-size:11px;margin-bottom:14px}
+.empty{padding:28px;text-align:center;color:var(--muted);font-size:12px}.toast{position:fixed;right:22px;bottom:22px;z-index:10;background:#18261f;border:1px solid #3d795a;color:#b9f0d0;padding:13px 17px;border-radius:10px;box-shadow:0 12px 30px #0008;display:none}.toast.show{display:block}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.sidebar{width:215px}.app{grid-template-columns:215px minmax(0,1fr)}}
+@media(max-width:720px){.app{display:block}.sidebar{padding:13px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0 4px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 11px}.nav button span{width:auto}.side-label,.side-bottom{display:none}main{padding:20px 13px 35px}.topbar{margin-bottom:20px}.pagehead{align-items:flex-start;flex-direction:column}.stats{gap:9px}.card{padding:14px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.top-actions .pill{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="crest">⚔</div><div><b>VIRTUAL BOOST</b><small>CLAN COMMAND</small></div></div>
+    <div><div class="side-label">CENTRAL DO CLÃ</div><nav class="nav" id="nav">
+      <button class="active" data-page="overview"><span>◈</span> Visão geral</button>
+      <button data-page="members"><span>♟</span> Membros</button>
+      <button data-page="ranks"><span>✦</span> Hierarquia e patentes</button>
+      <button data-page="treasury"><span>◉</span> Tesouro do castelo</button>
+      <button data-page="history"><span>↻</span> Histórico</button>
+      <button data-page="settings"><span>⚙</span> Configurações</button>
+    </nav></div>
+    <div class="side-bottom"><div><span class="online-dot"></span><b style="font-size:12px">Painel demonstrativo</b></div><small>Dados de exemplo · não conectado ao servidor</small></div>
+  </aside>
+  <main>
+    <div class="topbar"><div class="crumb">Dashboard <span style="color:#5f6b7e"> / </span> <strong id="crumb">Visão geral</strong></div><div class="top-actions"><span class="pill">✦ &nbsp; Líder do clã</span><div class="avatar">C</div></div></div>
+    <div class="pagehead"><div><div class="eyebrow">CENTRAL DE COMANDO</div><h1 id="page-title">Painel do Clã</h1><p id="page-desc">Administre os membros, a hierarquia militar e o tesouro do castelo em um só lugar.</p></div><div class="role-chip">♛ &nbsp; CORONEL · LÍDER</div></div>
+
+    <section class="section active" id="overview">
+      <div class="grid stats">
+        <div class="card"><div class="stat-top">Tesouro do castelo <span class="stat-icon">◉</span></div><div class="stat-value">125.000.000</div><div class="stat-foot">Adena disponível <span class="positive">●</span></div></div>
+        <div class="card"><div class="stat-top">Membros no clã <span class="stat-icon">♟</span></div><div class="stat-value" id="member-count">8</div><div class="stat-foot">Personagens no registro demonstrativo</div></div>
+        <div class="card"><div class="stat-top">Entradas registradas <span class="stat-icon">↙</span></div><div class="stat-value positive">+18.500.000</div><div class="stat-foot">Exemplo de movimentação</div></div>
+        <div class="card"><div class="stat-top">Saídas registradas <span class="stat-icon">↗</span></div><div class="stat-value negative">−4.200.000</div><div class="stat-foot">Exemplo de movimentação</div></div>
+      </div>
+      <div class="grid content-grid">
+        <div class="grid">
+          <div class="card"><div class="card-head"><div><h2>Composição do clã</h2><p>Visão rápida dos membros e suas patentes</p></div><button class="subtle-btn" data-goto="members">Ver membros →</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Personagem</th><th>Patente</th><th>Estado</th></tr></thead><tbody id="overview-members"></tbody></table></div>
+          </div>
+          <div class="card"><div class="card-head"><div><h2>Últimas movimentações</h2><p>Atividade recente do tesouro</p></div><button class="subtle-btn" data-goto="treasury">Abrir tesouro →</button></div><div class="activity" id="overview-activity"></div></div>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-head"><div><h2>Hierarquia militar</h2><p>Patentes e nível de autoridade</p></div><button class="subtle-btn" data-goto="ranks">Detalhes</button></div><div class="rank-list" id="overview-ranks"></div></div>
+          <div class="card"><div class="card-head"><div><h2>Regras de comando</h2><p>Permissões principais</p></div></div>
+            <div class="event"><div class="event-icon">＋</div><div><p><b>Convidar membros</b></p><small>Disponível a partir de Tenente.</small></div></div>
+            <div class="event"><div class="event-icon">−</div><div><p><b>Expulsar membros</b></p><small>Disponível a partir de Capitão.</small></div></div>
+            <div class="event"><div class="event-icon">♛</div><div><p><b>Gerir o tesouro</b></p><small>Reservado ao Coronel por padrão.</small></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="members">
+      <div class="card">
+        <div class="card-head"><div><h2>Gestão de membros</h2><p>Consulte patentes, nível, estado e ações administrativas.</p></div><button class="primary-btn" id="invite-btn">＋ Convidar membro</button></div>
+        <div class="notice">DEMONSTRAÇÃO: os personagens abaixo são fictícios. A versão conectada deve validar cada permissão no servidor.</div>
+        <div class="toolbar"><input id="search-members" placeholder="Buscar personagem..."><select id="rank-filter"><option value="">Todas as patentes</option></select><select id="status-filter"><option value="">Todos os estados</option><option>Online</option><option>Offline</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Personagem</th><th>Patente</th><th>Nível</th><th>Estado</th><th>Entrou em</th><th>Ações</th></tr></thead><tbody id="members-table"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="section" id="ranks">
+      <div class="card"><div class="card-head"><div><h2>Hierarquia e permissões</h2><p>As permissões são cumulativas; cargos superiores herdam as funções inferiores.</p></div></div>
+        <div class="notice">O Coronel é o líder do clã. A hierarquia não deve permitir que um oficial altere a própria patente, remova o líder ou conceda poderes acima da própria autoridade.</div>
+        <div class="permission-list" id="rank-details"></div>
+      </div>
+    </section>
+
+    <section class="section" id="treasury">
+      <div class="grid content-grid">
+        <div class="card"><div class="card-head"><div><h2>Tesouro do castelo</h2><p>Saldo e extrato financeiro do clã/castelo</p></div><span class="rank gold">♛ Acesso do Coronel</span></div>
+          <div class="notice">Os valores são ilustrativos. Na integração, o painel deverá consultar o saldo real mantido pela base do servidor, sem criar uma carteira duplicada.</div>
+          <div class="balance-box"><div class="balance-line"><div><small>SALDO DISPONÍVEL</small><div class="balance" id="balance">125.000.000 Adena</div></div><div style="font-size:23px;color:#e9c674">◉</div></div><div class="balance-note">Tesouro demonstrativo · saldo inicial fictício</div>
+            <div class="money-actions"><button class="primary-btn" id="deposit-btn">＋ Registrar depósito</button><button class="subtle-btn" id="withdraw-btn">− Registrar retirada</button></div>
+          </div>
+          <div class="toolbar"><input id="search-money" placeholder="Buscar personagem ou motivo..."><select id="money-filter"><option value="">Todos os tipos</option><option>Depósito</option><option>Retirada</option><option>Imposto</option><option>Despesa</option></select></div>
+          <div class="table-wrap"><table><thead><tr><th>Data / hora</th><th>Tipo</th><th>Responsável</th><th>Valor</th><th>Saldo após</th></tr></thead><tbody id="money-table"></tbody></table></div>
+        </div>
+        <div class="card"><div class="card-head"><div><h2>Resumo financeiro</h2><p>Totais de exemplo</p></div></div>
+          <div class="event"><div class="event-icon">↙</div><div><p><b class="positive">18.500.000 Adena</b></p><small>Total de entradas demonstrativas</small></div></div>
+          <div class="event"><div class="event-icon">↗</div><div><p><b class="negative">4.200.000 Adena</b></p><small>Total de saídas demonstrativas</small></div></div>
+          <div class="event"><div class="event-icon">⌁</div><div><p><b>Extrato auditável</b></p><small>Data, responsável, valor e saldo anterior/posterior devem ser gravados no backend.</small></div></div>
+          <div class="notice" style="margin-top:16px;margin-bottom:0">Segurança: somente o Coronel movimenta o tesouro nesta configuração inicial. O backend deve conferir a permissão em toda operação.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="history">
+      <div class="card"><div class="card-head"><div><h2>Histórico e auditoria</h2><p>Registro administrativo de ações do clã.</p></div></div><div class="toolbar"><input id="search-history" placeholder="Buscar por personagem ou ação..."><select id="history-filter"><option value="">Todas as ações</option><option>Promoção</option><option>Convite</option><option>Expulsão</option><option>Depósito</option><option>Retirada</option><option>Permissão</option></select></div><div class="activity" id="history-list"></div></div>
+    </section>
+
+    <section class="section" id="settings">
+      <div class="card"><div class="card-head"><div><h2>Configurações do painel</h2><p>Resumo das regras definidas para a gestão do clã.</p></div></div>
+        <div class="form-grid">
+          <div class="field"><label>Patente de quem pode convidar</label><select disabled><option>Tenente ou superior</option></select></div>
+          <div class="field"><label>Patente de quem pode expulsar</label><select disabled><option>Capitão ou superior</option></select></div>
+          <div class="field"><label>Quem pode movimentar o tesouro</label><select disabled><option>Somente Coronel</option></select></div>
+          <div class="field"><label>Quem controla promoções e rebaixamentos</label><select disabled><option>Somente Coronel</option></select></div>
+          <div class="field full"><label>Política de segurança</label><textarea rows="3" disabled>Validar todas as permissões no servidor. Registrar cada operação financeira e alteração administrativa. Impedir que oficiais alterem a própria patente, removam o líder ou concedam poderes acima da sua autoridade.</textarea></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const ranks=[
+{name:"Soldado",level:1,desc:"Membro padrão do clã.",perms:["Consultar informações gerais do clã","Ver a própria patente e o perfil"],limit:"Não pode convidar, expulsar, promover ou movimentar o tesouro."},
+{name:"Cabo",level:2,desc:"Membro reconhecido e de confiança.",perms:["Todas as permissões de Soldado","Acompanhar comunicados internos"],limit:"Não pode convidar, expulsar, promover ou movimentar o tesouro."},
+{name:"Sargento",level:3,desc:"Auxilia na organização dos integrantes.",perms:["Todas as permissões de Cabo","Consultar informações administrativas dos membros"],limit:"Ainda não possui permissão para convidar ou expulsar membros."},
+{name:"Tenente",level:4,desc:"Primeira patente com autoridade de recrutamento.",perms:["Todas as permissões de Sargento","Convidar novos membros"],limit:"Não pode expulsar membros nem movimentar o tesouro."},
+{name:"Capitão",level:5,desc:"Oficial autorizado a administrar a composição do clã.",perms:["Todas as permissões de Tenente","Expulsar membros de patente inferior, respeitando as regras de proteção"],limit:"Não pode expulsar oficiais de patente igual ou superior, alterar patentes ou movimentar o tesouro."},
+{name:"Major",level:6,desc:"Oficial superior que auxilia na administração.",perms:["Todas as permissões de Capitão","Acompanhar informações administrativas ampliadas"],limit:"Sem acesso ao tesouro por padrão; não pode alterar o Coronel."},
+{name:"General",level:7,desc:"Oficial de alto comando.",perms:["Todas as permissões de Major","Consultar o histórico administrativo e financeiro"],limit:"Consulta financeira não autoriza saques; tesouro permanece reservado ao Coronel."},
+{name:"Coronel",level:8,desc:"Líder máximo do clã.",perms:["Gerir membros e nomear patentes","Conceder e retirar permissões delegadas","Convidar e expulsar membros","Movimentar o tesouro do castelo","Consultar todo o histórico e a auditoria"],limit:"A liderança deve ser alterada somente pelo mecanismo oficial de liderança do jogo."}
+];
+let members=[
+{name:"DarkKnight",rank:"Coronel",level:85,status:"Online",joined:"12/08/2026"},
+{name:"ShadowBR",rank:"General",level:84,status:"Online",joined:"14/08/2026"},
+{name:"LordChaos",rank:"Capitão",level:82,status:"Offline",joined:"20/08/2026"},
+{name:"ArcherX",rank:"Sargento",level:80,status:"Online",joined:"02/09/2026"},
+{name:"Nocturna",rank:"Soldado",level:78,status:"Offline",joined:"06/09/2026"},
+{name:"DracoBR",rank:"Tenente",level:83,status:"Online",joined:"09/09/2026"},
+{name:"IronWolf",rank:"Cabo",level:79,status:"Offline",joined:"11/09/2026"},
+{name:"MysticSoul",rank:"Major",level:84,status:"Online",joined:"15/09/2026"}
+];
+let money=[
+{date:"22/10/2026 21:42",type:"Imposto",name:"Sistema do castelo",value:12500000,balance:125000000,reason:"Arrecadação de impostos"},
+{date:"22/10/2026 20:15",type:"Depósito",name:"DarkKnight",value:6000000,balance:112500000,reason:"Depósito no tesouro"},
+{date:"22/10/2026 19:08",type:"Despesa",name:"DarkKnight",value:-2200000,balance:106500000,reason:"Manutenção do castelo"},
+{date:"21/10/2026 23:30",type:"Retirada",name:"DarkKnight",value:-2000000,balance:108700000,reason:"Despesa autorizada"}
+];
+let history=[
+{date:"22/10/2026 · 21:42",type:"Depósito",text:"O sistema registrou uma arrecadação de impostos no tesouro do castelo.",actor:"Sistema do castelo"},
+{date:"22/10/2026 · 20:15",type:"Promoção",text:"DarkKnight promoveu ShadowBR para General.",actor:"DarkKnight"},
+{date:"22/10/2026 · 19:08",type:"Permissão",text:"DarkKnight revisou as permissões administrativas do clã.",actor:"DarkKnight"},
+{date:"21/10/2026 · 23:30",type:"Retirada",text:"Foi registrada uma retirada do tesouro do castelo.",actor:"DarkKnight"},
+{date:"20/10/2026 · 18:10",type:"Convite",text:"DracoBR convidou um novo membro para o clã.",actor:"DracoBR"}
+];
+const fmt=n=>Math.abs(n).toLocaleString("pt-BR");
+const rankClass=n=>n==="Coronel"||n==="General"?"rank gold":"rank";
+function personCell(m){return `<div class="person"><div class="person-icon">♟</div><div><b>${m.name}</b><small>Nível ${m.level}</small></div></div>`}
+function renderMembers(){
+ let q=(document.getElementById("search-members")?.value||"").toLowerCase(),rf=document.getElementById("rank-filter")?.value||"",sf=document.getElementById("status-filter")?.value||"";
+ const arr=members.filter(m=>m.name.toLowerCase().includes(q)&&(!rf||m.rank===rf)&&(!sf||m.status===sf));
+ document.getElementById("members-table").innerHTML=arr.length?arr.map(m=>`<tr><td>${personCell(m)}</td><td><span class="${rankClass(m.rank)}">${m.rank}</span></td><td>${m.level}</td><td><span class="status ${m.status==="Offline"?"off":""}">● ${m.status}</span></td><td>${m.joined}</td><td><div class="member-actions"><button class="mini-btn" data-action="promote" data-name="${m.name}">Patente</button>${m.rank!=="Coronel"?`<button class="mini-btn" data-action="kick" data-name="${m.name}">Expulsar</button>`:""}</div></td></tr>`).join(""):`<tr><td colspan="6" class="empty">Nenhum membro encontrado.</td></tr>`;
+ document.getElementById("member-count").textContent=members.length;
+}
+function renderOverview(){
+ document.getElementById("overview-members").innerHTML=members.slice(0,5).map(m=>`<tr><td>${personCell(m)}</td><td><span class="${rankClass(m.rank)}">${m.rank}</span></td><td><span class="status ${m.status==="Offline"?"off":""}">● ${m.status}</span></td></tr>`).join("");
+ document.getElementById("overview-ranks").innerHTML=ranks.slice().reverse().map(r=>`<div class="rank-row ${r.name==="Coronel"?"leader":""}"><div class="rank-number">${r.level}</div><div><strong>${r.name}</strong><small>${r.name==="Coronel"?"Liderança máxima":r.name==="Tenente"?"Pode convidar":r.name==="Capitão"?"Pode expulsar":"Patente militar"}</small></div><div class="perm">${r.name==="Coronel"?"Comando total":r.name==="General"?"Consulta financeira":r.name==="Capitão"?"Expulsão":" "}</div></div>`).join("");
+ document.getElementById("overview-activity").innerHTML=money.slice(0,3).map(m=>`<div class="event"><div class="event-icon">${m.value<0?"↗":"↙"}</div><div><p><b>${m.type}</b> · ${m.name}</p><small>${m.date} · <span class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)} Adena</span></small></div></div>`).join("");
+}
+function renderRanks(){document.getElementById("rank-details").innerHTML=ranks.map(r=>`<div class="permission-item"><div class="rank-number">${r.level}</div><div><h3>${r.name}${r.name==="Coronel"?' <span class="rank gold">Líder</span>':""}</h3><p>${r.desc}</p><ul style="padding-left:18px;margin:10px 0 0;color:#d3dae6;font-size:12px">${r.perms.map(p=>`<li style="margin:5px 0">${p}</li>`).join("")}</ul><span class="perm-badge">Limite: ${r.limit}</span></div></div>`).join("")}
+function renderMoney(){let q=(document.getElementById("search-money")?.value||"").toLowerCase(),f=document.getElementById("money-filter")?.value||"";let arr=money.filter(m=>(m.name+" "+m.reason).toLowerCase().includes(q)&&(!f||m.type===f));document.getElementById("money-table").innerHTML=arr.length?arr.map(m=>`<tr><td>${m.date}</td><td><span class="rank">${m.type}</span></td><td>${m.name}</td><td class="${m.value<0?"negative":"positive"}">${m.value<0?"−":"+"}${fmt(m.value)}</td><td>${fmt(m.balance)}</td></tr>`).join(""):`<tr><td colspan="5" class="empty">Nenhuma movimentação encontrada.</td></tr>`}
+function renderHistory(){let q=(document.getElementById("search-history")?.value||"").toLowerCase(),f=document.getElementById("history-filter")?.value||"";let arr=history.filter(h=>(h.text+" "+h.actor).toLowerCase().includes(q)&&(!f||h.type===f));document.getElementById("history-list").innerHTML=arr.length?arr.map(h=>`<div class="event"><div class="event-icon">${h.type==="Promoção"?"✦":h.type==="Expulsão"?"−":h.type==="Convite"?"＋":h.type==="Retirada"?"↗":"↻"}</div><div><p><b>${h.type}</b> · ${h.text}</p><small>${h.date} · Responsável: ${h.actor}</small></div></div>`).join(""):`<div class="empty">Nenhum registro encontrado.</div>`}
+function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),3000)}
+function goto(id){document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));let names={overview:"Visão geral",members:"Membros",ranks:"Hierarquia e patentes",treasury:"Tesouro do castelo",history:"Histórico",settings:"Configurações"};document.getElementById("crumb").textContent=names[id];document.getElementById("page-title").textContent=id==="overview"?"Painel do Clã":names[id];document.getElementById("page-desc").textContent=({overview:"Administre os membros, a hierarquia militar e o tesouro do castelo em um só lugar.",members:"Consulte os integrantes e gerencie a composição do clã.",ranks:"Consulte as permissões e limitações de cada patente.",treasury:"Acompanhe o saldo e o histórico financeiro do castelo.",history:"Consulte os registros administrativos e financeiros.",settings:"Regras de segurança e permissões previstas para o painel."})[id];}
+document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.goto)));
+document.getElementById("rank-filter").innerHTML='<option value="">Todas as patentes</option>'+ranks.map(r=>`<option>${r.name}</option>`).join("");
+["search-members","rank-filter","status-filter"].forEach(id=>document.getElementById(id).addEventListener(id==="search-members"?"input":"change",renderMembers));
+["search-money","money-filter"].forEach(id=>document.getElementById(id).addEventListener(id==="search-money"?"input":"change",renderMoney));
+["search-history","history-filter"].forEach(id=>document.getElementById(id).addEventListener(id==="search-history"?"input":"change",renderHistory));
+document.getElementById("members-table").addEventListener("click",e=>{let b=e.target.closest("button[data-action]");if(!b)return;let m=members.find(x=>x.name===b.dataset.name);if(!m)return;if(b.dataset.action==="promote"){if(m.rank==="Coronel"){toast("A liderança não pode ser alterada por esta tela.");return;}let next=prompt("Digite a nova patente para "+m.name+":\n"+ranks.map(r=>r.name).join(", "),m.rank);if(next&&ranks.some(r=>r.name.toLowerCase()===next.toLowerCase())){let old=m.rank;m.rank=ranks.find(r=>r.name.toLowerCase()===next.toLowerCase()).name;history.unshift({date:new Date().toLocaleString("pt-BR"),type:"Promoção",text:`A patente de ${m.name} foi alterada de ${old} para ${m.rank} (demonstração).`,actor:"DarkKnight"});renderAll();toast("Patente alterada apenas nesta demonstração.");}else if(next)toast("Patente não reconhecida.");}else if(b.dataset.action==="kick"){if(m.rank==="Coronel"){toast("O líder não pode ser removido por esta tela.");return;}if(confirm("Remover "+m.name+" da lista demonstrativa?")){members=members.filter(x=>x.name!==m.name);history.unshift({date:new Date().toLocaleString("pt-BR"),type:"Expulsão",text:`${m.name} foi removido da lista demonstrativa.`,actor:"DarkKnight"});renderAll();toast("Removido apenas da demonstração.");}}});
+document.getElementById("invite-btn").addEventListener("click",()=>{let name=prompt("Nome do personagem para convite (demonstração):");if(!name)return;if(members.some(m=>m.name.toLowerCase()===name.toLowerCase())){toast("Esse personagem já está na lista demonstrativa.");return;}members.push({name,rank:"Soldado",level:"—",status:"Offline",joined:new Date().toLocaleDateString("pt-BR")});history.unshift({date:new Date().toLocaleString("pt-BR"),type:"Convite",text:`${name} foi adicionado à lista demonstrativa como Soldado.`,actor:"DarkKnight"});renderAll();toast("Adicionado somente à demonstração visual.");});
+function moneyAction(type){let label=type==="Depósito"?"Registrar depósito de Adena":"Registrar retirada de Adena";let amount=prompt(label+" (valor numérico para demonstração):");if(!amount)return;let val=Number(amount);if(!Number.isFinite(val)||val<=0){toast("Informe um valor numérico positivo.");return;}let current=money.length?money[0].balance:125000000;if(type==="Retirada"&&val>current){toast("Saldo demonstrativo insuficiente.");return;}let next=current+(type==="Depósito"?val:-val);money.unshift({date:new Date().toLocaleString("pt-BR"),type,name:"DarkKnight",value:type==="Depósito"?val:-val,balance:next,reason:"Movimentação criada na demonstração"});history.unshift({date:new Date().toLocaleString("pt-BR"),type,text:`${type} demonstrativo de ${fmt(val)} Adena.`,actor:"DarkKnight"});document.getElementById("balance").textContent=fmt(next)+" Adena";renderAll();toast(type+" incluído somente na demonstração.");}
+document.getElementById("deposit-btn").addEventListener("click",()=>moneyAction("Depósito"));document.getElementById("withdraw-btn").addEventListener("click",()=>moneyAction("Retirada"));
+function renderAll(){renderMembers();renderOverview();renderRanks();renderMoney();renderHistory()}
+renderAll();
+</script>
+</body>
+</html>
