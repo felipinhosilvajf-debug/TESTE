@@ -4127,14 +4127,14 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 
 /* Fallback cinematográfico: só aparece quando o vídeo falha */
 .theend-hero-fallback{position:absolute;inset:-3%;z-index:0;overflow:hidden;pointer-events:none;opacity:0;visibility:hidden;background:#020711}
-.theend-hero-fallback::before{content:"";position:absolute;inset:-2%;background:url("asset/back.png") center/cover no-repeat;filter:brightness(.62) saturate(1.12) contrast(1.08);transform:scale(1.08);animation:vbHeroImageDepth 18s ease-in-out infinite alternate;will-change:transform}
+.theend-hero-fallback::before{content:"";position:absolute;inset:-14% -3%;background:url("asset/back.png") center/cover no-repeat;filter:brightness(.62) saturate(1.12) contrast(1.08);transform:scale(1.12);animation:vbHeroImageDepth 28s ease-in-out infinite;will-change:transform}
 .theend-hero-fallback::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(56,189,248,.18),transparent 48%),linear-gradient(180deg,rgba(1,6,16,.2),rgba(1,6,16,.05) 42%,rgba(2,7,17,.88) 100%);mix-blend-mode:screen;animation:vbHeroAura 5s ease-in-out infinite}
 .theend-hero.has-image-fallback .theend-hero-fallback{opacity:1;visibility:visible}
 .theend-hero.has-image-fallback .theend-hero-video{opacity:0;visibility:hidden}
 .theend-hero-lightning{display:none!important}
 .theend-hero-glow{position:absolute;inset:-20%;z-index:1;background:linear-gradient(115deg,transparent 30%,rgba(125,211,252,.02) 42%,rgba(186,230,253,.24) 49%,rgba(56,189,248,.1) 53%,transparent 66%);mix-blend-mode:screen;animation:vbHeroRaySweep 8s ease-in-out infinite}
 .theend-hero-particles{position:absolute;inset:0;z-index:1;background-image:radial-gradient(circle,rgba(186,230,253,.95) 0 1px,transparent 2px),radial-gradient(circle,rgba(56,189,248,.8) 0 1px,transparent 2px),radial-gradient(circle,rgba(255,255,255,.7) 0 1px,transparent 2px);background-size:170px 190px,230px 250px,310px 280px;background-position:20px 30px,80px 120px,140px 50px;opacity:.48;animation:vbHeroParticles 22s linear infinite}
-@keyframes vbHeroImageDepth{0%{transform:scale(1.08) translate3d(-.6%,.2%,0)}50%{transform:scale(1.15) translate3d(.7%,-.5%,0)}100%{transform:scale(1.1) translate3d(-.3%,.6%,0)}}
+@keyframes vbHeroImageDepth{0%,100%{transform:scale(1.12) translate3d(-.25%,7%,0)}50%{transform:scale(1.18) translate3d(.25%,-7%,0)}}
 @keyframes vbHeroAura{0%,100%{opacity:.55}50%{opacity:1}}
 @keyframes vbHeroLightning{0%,8%,12%,48%,52%,100%{opacity:0}9%,11%,49%,51%{opacity:.85}10%,50%{opacity:.25}}
 @keyframes vbHeroRaySweep{0%,100%{transform:translateX(-28%);opacity:.15}50%{transform:translateX(28%);opacity:.8}}
