@@ -53,8 +53,10 @@ try {
         'SELECT rank_level FROM vb_clan_ranks
          WHERE clan_id = ? AND character_id = ?'
     );
-    $treasuryStmt = $pdo->prepare(
-        'SELECT balance FROM vb_clan_treasury WHERE clan_id = ?'
+    // O saldo verdadeiro do castelo fica na tabela do jogo, não na tesouraria personalizada do painel.
+    $castleStmt = $pdo->prepare(
+        'SELECT id AS castle_id, name AS castle_name, treasury AS castle_treasury
+         FROM castle WHERE ownerId = ? LIMIT 1'
     );
     $membersStmt = $pdo->prepare(
         'SELECT c.obj_Id, c.char_name, c.online,
@@ -83,8 +85,8 @@ try {
         }
 
         $rankStmt->execute([$clanId, (int)$characters[0]['obj_Id']]);
-        $treasuryStmt->execute([$clanId]);
-        $treasury = $treasuryStmt->fetchColumn();
+        $castleStmt->execute([$clanId]);
+        $castle = $castleStmt->fetch();
 
         $membersStmt->execute([$clanId]);
         $members = $membersStmt->fetchAll();
@@ -95,7 +97,10 @@ try {
         $clan['clan_id'] = (int)$clan['clan_id'];
         $clan['clan_level'] = (int)$clan['clan_level'];
         $clan['reputation_score'] = (int)$clan['reputation_score'];
-        $clan['treasury_balance'] = $treasury === false ? 0 : (int)$treasury;
+        $clan['castle_id'] = $castle ? (int)$castle['castle_id'] : null;
+        $clan['castle_name'] = $castle ? $castle['castle_name'] : null;
+        $clan['treasury_balance'] = $castle ? (int)$castle['castle_treasury'] : 0;
+        $clan['has_castle'] = (bool)$castle;
         $clan['my_rank_level'] = (int)($rankStmt->fetchColumn() ?: 1);
         $clan['members'] = array_map(static function (array $member): array {
             return [
