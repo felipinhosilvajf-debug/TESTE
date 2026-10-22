@@ -72,12 +72,13 @@ try {
             'character'=>['id'=>(int)$selected['character_id'],'name'=>$selected['char_name']],
             'clan'=>['id'=>(int)$selected['clanid'],'name'=>$selected['clan_name']],
             'can_publish'=>$isLeader || $rank >= 5,
+            'can_delete'=>$isLeader || $rank >= 5,
             'posts'=>$posts
         ]);
     }
 
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header('Allow: GET, POST');
+    if (!in_array($_SERVER['REQUEST_METHOD'], ['POST', 'DELETE'], true)) {
+        header('Allow: GET, POST, DELETE');
         respond(405, ['ok'=>false,'error'=>'Método não permitido.']);
     }
 
@@ -91,6 +92,28 @@ try {
     $characterId = (int)($input['character_id'] ?? 0);
     $title = trim((string)($input['title'] ?? ''));
     $body = trim((string)($input['body'] ?? ''));
+
+    if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        $postId = (int)($input['post_id'] ?? 0);
+        if ($postId < 1) respond(400, ['ok'=>false,'error'=>'Notícia inválida.']);
+        $stmt = $pdo->prepare(
+            'SELECT c.obj_Id, c.clanid, COALESCE(r.rank_level, 1) AS rank_level, cs.leader_id
+             FROM characters c
+             LEFT JOIN vb_clan_ranks r ON r.clan_id=c.clanid AND r.character_id=c.obj_Id
+             LEFT JOIN clan_subpledges cs ON cs.clan_id=c.clanid AND cs.type=0
+             WHERE c.account_name=? AND c.obj_Id=? AND c.clanid>0 LIMIT 1'
+        );
+        $stmt->execute([$_SESSION['user_login'], $characterId]);
+        $actor = $stmt->fetch();
+        if (!$actor) respond(403, ['ok'=>false,'error'=>'Personagem inválido para esta conta ou sem clã.']);
+        if ((int)$actor['obj_Id'] !== (int)$actor['leader_id'] && (int)$actor['rank_level'] < 5) {
+            respond(403, ['ok'=>false,'error'=>'Somente o líder ou membros a partir de Capitão podem apagar notícias.']);
+        }
+        $stmt = $pdo->prepare('DELETE FROM vb_clan_announcements WHERE id=? AND clan_id=?');
+        $stmt->execute([$postId, (int)$actor['clanid']]);
+        if ($stmt->rowCount() < 1) respond(404, ['ok'=>false,'error'=>'Notícia não encontrada neste clã.']);
+        respond(200, ['ok'=>true,'message'=>'Notícia apagada.']);
+    }
 
     if ($title === '' || mb_strlen($title) > 120) respond(400, ['ok'=>false,'error'=>'O título é obrigatório e deve ter até 120 caracteres.']);
     if ($body === '' || mb_strlen($body) > 5000) respond(400, ['ok'=>false,'error'=>'A mensagem é obrigatória e deve ter até 5000 caracteres.']);
