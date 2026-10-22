@@ -1,0 +1,8 @@
+{
+  "_comment": "Preencha estes campos UMA VEZ como administrador do servidor antes de gerar o instalador. Não peça esses dados ao jogador.",
+  "gameSwfUrl": "",
+  "socketHost": "",
+  "tcpTargetHost": "163.245.202.163",
+  "socketPorts": [],
+  "proxyPort": 8181
+}
