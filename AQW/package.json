@@ -1,12 +1,48 @@
 {
   "name": "meu-aqw-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "Launcher Electron do MeuAQWClient com Ruffle integrado",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "dependencies": {
     "@ruffle-rs/ruffle": "^0.7.1",
-    "electron": "^30.0.0"
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "br.meuaqw.client",
+    "productName": "MeuAQWClient",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "config.json",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
