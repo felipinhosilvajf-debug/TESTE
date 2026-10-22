@@ -1,4 +1,43 @@
 <?php
+/*
+ * Compatibilidade temporária para este site legado no PHP 8.1.
+ * Migre estas chamadas para mysqli/PDO de forma definitiva.
+ */
+mysqli_report(MYSQLI_REPORT_OFF);
+
+if (!function_exists('mysql_connect')) {
+    $GLOBALS['legacy_db_link'] = null;
+
+    function mysql_connect($server = null, $username = null, $password = null, $new_link = false, $client_flags = 0) {
+        $link = mysqli_connect($server, $username, $password);
+        if ($link) {
+            $GLOBALS['legacy_db_link'] = $link;
+        }
+        return $link;
+    }
+
+    function mysql_select_db($database_name, $link_identifier = null) {
+        $link = $link_identifier ?: ($GLOBALS['legacy_db_link'] ?? null);
+        return $link ? mysqli_select_db($link, $database_name) : false;
+    }
+
+    function mysql_query($query, $link_identifier = null) {
+        $link = $link_identifier ?: ($GLOBALS['legacy_db_link'] ?? null);
+        return $link ? mysqli_query($link, $query) : false;
+    }
+
+    function mysql_num_rows($result) {
+        return ($result instanceof mysqli_result) ? mysqli_num_rows($result) : false;
+    }
+
+    function mysql_fetch_assoc($result) {
+        return ($result instanceof mysqli_result) ? mysqli_fetch_assoc($result) : false;
+    }
+
+    function mysql_fetch_array($result, $result_type = MYSQLI_BOTH) {
+        return ($result instanceof mysqli_result) ? mysqli_fetch_array($result, $result_type) : false;
+    }
+}
 $local = "localhost";
 $usuario = "root";
 $senha = "mas3510";
