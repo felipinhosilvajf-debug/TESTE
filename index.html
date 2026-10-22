@@ -2929,6 +2929,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 <main class="theend-template">
 <header id="home" class="theend-hero">
   <video autoplay muted loop playsinline preload="auto" class="theend-hero-video" poster="asset/back.png"><source src="asset/video1.mp4" type="video/mp4"></video>
+  <div class="theend-hero-fallback" aria-hidden="true"><span class="theend-hero-lightning"></span><span class="theend-hero-glow"></span><span class="theend-hero-particles"></span></div>
   <div class="theend-hero-shade"></div>
   <div class="theend-hero-content">
     <div class="theend-overline">PROJETO HIGH FIVE</div>
@@ -4123,6 +4124,26 @@ body{background-color:#030711;background-image:radial-gradient(ellipse at 50% -1
 .theend-template{isolation:isolate;overflow:clip}
 .theend-hero{isolation:isolate;background:#020711}
 .theend-hero-video{filter:saturate(.88) contrast(1.08);transform:scale(1.025)}
+
+/* Fallback cinematográfico: só aparece quando o vídeo falha */
+.theend-hero-fallback{position:absolute;inset:-3%;z-index:0;overflow:hidden;pointer-events:none;opacity:0;visibility:hidden;background:#020711}
+.theend-hero-fallback::before{content:"";position:absolute;inset:-2%;background:url("asset/back.png") center/cover no-repeat;filter:brightness(.62) saturate(1.12) contrast(1.08);transform:scale(1.08);animation:vbHeroImageDepth 18s ease-in-out infinite alternate;will-change:transform}
+.theend-hero-fallback::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(56,189,248,.18),transparent 48%),linear-gradient(180deg,rgba(1,6,16,.2),rgba(1,6,16,.05) 42%,rgba(2,7,17,.88) 100%);mix-blend-mode:screen;animation:vbHeroAura 5s ease-in-out infinite}
+.theend-hero.has-image-fallback .theend-hero-fallback{opacity:1;visibility:visible}
+.theend-hero.has-image-fallback .theend-hero-video{opacity:0;visibility:hidden}
+.theend-hero-lightning{position:absolute;inset:-15%;z-index:1;opacity:.68;background:
+linear-gradient(112deg,transparent 0 42%,rgba(125,211,252,0) 43%,rgba(186,230,253,.95) 43.15%,rgba(56,189,248,.85) 43.35%,transparent 43.7% 100%),
+linear-gradient(73deg,transparent 0 61%,rgba(56,189,248,0) 61.5%,rgba(186,230,253,.8) 61.65%,rgba(56,189,248,.7) 61.9%,transparent 62.2% 100%);
+filter:drop-shadow(0 0 8px #38bdf8) drop-shadow(0 0 22px rgba(56,189,248,.9));mix-blend-mode:screen;animation:vbHeroLightning 7.5s linear infinite}
+.theend-hero-glow{position:absolute;inset:-20%;z-index:1;background:linear-gradient(115deg,transparent 30%,rgba(125,211,252,.02) 42%,rgba(186,230,253,.24) 49%,rgba(56,189,248,.1) 53%,transparent 66%);mix-blend-mode:screen;animation:vbHeroRaySweep 8s ease-in-out infinite}
+.theend-hero-particles{position:absolute;inset:0;z-index:1;background-image:radial-gradient(circle,rgba(186,230,253,.95) 0 1px,transparent 2px),radial-gradient(circle,rgba(56,189,248,.8) 0 1px,transparent 2px),radial-gradient(circle,rgba(255,255,255,.7) 0 1px,transparent 2px);background-size:170px 190px,230px 250px,310px 280px;background-position:20px 30px,80px 120px,140px 50px;opacity:.48;animation:vbHeroParticles 22s linear infinite}
+@keyframes vbHeroImageDepth{0%{transform:scale(1.08) translate3d(-.6%,.2%,0)}50%{transform:scale(1.15) translate3d(.7%,-.5%,0)}100%{transform:scale(1.1) translate3d(-.3%,.6%,0)}}
+@keyframes vbHeroAura{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes vbHeroLightning{0%,8%,12%,48%,52%,100%{opacity:0}9%,11%,49%,51%{opacity:.85}10%,50%{opacity:.25}}
+@keyframes vbHeroRaySweep{0%,100%{transform:translateX(-28%);opacity:.15}50%{transform:translateX(28%);opacity:.8}}
+@keyframes vbHeroParticles{from{background-position:20px 30px,80px 120px,140px 50px}to{background-position:20px -230px,80px -130px,140px -250px}}
+@media(prefers-reduced-motion:reduce){.theend-hero-fallback::before,.theend-hero-fallback::after,.theend-hero-lightning,.theend-hero-glow,.theend-hero-particles{animation:none!important}}
+
 .theend-hero-shade{background:linear-gradient(180deg,rgba(2,7,15,.25) 0%,rgba(2,7,15,.34) 42%,#030711 100%),radial-gradient(ellipse at 50% 35%,transparent 0%,rgba(1,5,12,.42) 75%)!important}
 .theend-hero-content{position:relative;z-index:2}
 .theend-live-section,.theend-features,.theend-progress,.theend-wiki,.theend-final{position:relative;isolation:isolate;background-color:#030711!important;background-repeat:no-repeat!important;background-position:center,center!important;background-size:cover!important}
@@ -4306,6 +4327,32 @@ body{top:0!important}
     if(el) el.textContent=d+'d '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m '+String(sec).padStart(2,'0')+'s';
   }
   vbOnline();setInterval(vbOnline,1000);
+
+  // Usa asset/back.png com raios, brilhos e movimento 3D somente se o vídeo falhar.
+  (function vbHeroVideoFallback(){
+    const hero=document.querySelector('.theend-hero');
+    const video=hero&&hero.querySelector('.theend-hero-video');
+    if(!hero||!video)return;
+    let fallbackShown=false;
+    function showFallback(){
+      if(fallbackShown)return;
+      fallbackShown=true;
+      hero.classList.add('has-image-fallback');
+      video.setAttribute('aria-hidden','true');
+    }
+    video.addEventListener('error',showFallback);
+    const source=video.querySelector('source');
+    if(source)source.addEventListener('error',showFallback);
+    if(video.networkState===HTMLMediaElement.NETWORK_NO_SOURCE)showFallback();
+    // Se o arquivo não entregar nenhum frame, ativa a imagem após a tentativa de carregamento.
+    window.setTimeout(function(){
+      if(!fallbackShown&&video.readyState===HTMLMediaElement.HAVE_NOTHING&&
+         (video.networkState===HTMLMediaElement.NETWORK_NO_SOURCE||video.error)){
+        showFallback();
+      }
+    },2500);
+  })();
+
 
   async function vbAdena(){
     try{
