@@ -5,7 +5,6 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 import l2f.gameserver.ThreadPoolManager;
-import l2f.gameserver.handler.items.IItemHandler;
 import l2f.gameserver.model.GameObject;
 import l2f.gameserver.model.GameObjectsStorage;
 import l2f.gameserver.model.Player;
@@ -49,7 +48,6 @@ public class AutoFarmTask implements Runnable
 	private ItemInstance _lootTarget;
 	private int _lastLootObjectId = 0;
 	private long _lastLootAttempt = 0;
-	private long _lastPotionUse = 0;
 
 	private long _lastMoveCommand = 0L;
 
@@ -70,7 +68,6 @@ public class AutoFarmTask implements Runnable
 	private static final long IGNORED_TARGET_TIMEOUT = 10000L;
 	private static final int MAX_STUCK_BEFORE_RETURN = 2;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
-	private static final long POTION_INTERVAL = 3000L;
 
 	public AutoFarmTask(Player player)
 	{
@@ -118,7 +115,6 @@ public class AutoFarmTask implements Runnable
 		_lastLootScan = 0L;
 		_lastLootObjectId = 0;
 		_lastLootAttempt = 0;
-		_lastPotionUse = 0;
 		_attackStateSince = 0L;
 		_targetProgressSince = 0L;
 		_lastTargetDistance = -1.0;
@@ -227,9 +223,6 @@ public class AutoFarmTask implements Runnable
 		}
 
 		if (_player.isCastingNow())
-			return;
-
-		if (threat == null && tryUsePotion())
 			return;
 
 		ItemInstance loot = threat == null ? findNearestLoot() : null;
@@ -436,84 +429,6 @@ public class AutoFarmTask implements Runnable
 		_player.setTarget(null);
 	}
 
-	private boolean tryUsePotion()
-	{
-		String value = _player.getVar("autofarm_potion");
-
-		if (value == null || value.isEmpty())
-			return false;
-
-		int potionId;
-
-		try
-		{
-			potionId = Integer.parseInt(value);
-		}
-		catch (NumberFormatException e)
-		{
-			return false;
-		}
-
-		if (potionId != 1539 && potionId != 5592 && potionId != 728)
-			return false;
-
-		double percent = getResourcePercent(potionId);
-
-		if (percent > 60.0)
-			return false;
-
-		long now = System.currentTimeMillis();
-
-		if (now - _lastPotionUse < POTION_INTERVAL)
-			return false;
-
-		ItemInstance potion = _player.getInventory().getItemByItemId(potionId);
-
-		if (potion == null)
-			return false;
-
-		IItemHandler handler = potion.getTemplate().getHandler();
-
-		if (handler == null)
-			return false;
-
-		boolean used = handler.useItem(_player, potion, false);
-
-		if (used)
-		{
-			_lastPotionUse = now;
-			return true;
-		}
-
-		return false;
-	}
-
-	private double getResourcePercent(int potionId)
-	{
-		if (potionId == 1539)
-		{
-			double maxHp = _player.getMaxHp();
-			if (maxHp <= 0) return 100.0;
-			return (_player.getCurrentHp() * 100.0) / maxHp;
-		}
-
-		if (potionId == 5592)
-		{
-			double maxCp = _player.getMaxCp();
-			if (maxCp <= 0) return 100.0;
-			return (_player.getCurrentCp() * 100.0) / maxCp;
-		}
-
-		if (potionId == 728)
-		{
-			double maxMp = _player.getMaxMp();
-			if (maxMp <= 0) return 100.0;
-			return (_player.getCurrentMp() * 100.0) / maxMp;
-		}
-
-		return 100.0;
-	}
-
 	private void handleNormalAttack(MonsterInstance target)
 	{
 		if (target == null || target.isDead())
@@ -577,6 +492,7 @@ public class AutoFarmTask implements Runnable
 	{
 		int[] skills = { _skill1, _skill2, _skill3 };
 		boolean possuiAlgumaSkillConfigurada = false;
+		int preferredCastRange = 0;
 
 		for (int i = 0; i < skills.length; i++)
 		{
@@ -621,12 +537,10 @@ public class AutoFarmTask implements Runnable
 
 			if (distance > castRange)
 			{
-				if (!_player.isAttackingNow())
-				{
-					int offset = Math.max(10, castRange - 5);
-					_player.followToCharacter(target, offset, false);
-				}
-				return true;
+				// Não seguir por causa da primeira skill fora de alcance:
+				// verifica antes se outra skill pode ser usada agora.
+				preferredCastRange = Math.max(preferredCastRange, castRange);
+				continue;
 			}
 
 			if (mpConsume > 0 && _player.getCurrentMp() < mpConsume)
@@ -641,6 +555,21 @@ public class AutoFarmTask implements Runnable
 			if (_currentSkill > skills.length)
 				_currentSkill = 1;
 
+			return true;
+		}
+
+		if (preferredCastRange > 0 && target != null && !target.isDead())
+		{
+			if (!_player.isAttackingNow() && !_player.isCastingNow())
+			{
+				int offset = Math.max(10, preferredCastRange - 5);
+				long now = System.currentTimeMillis();
+				if (now - _lastMoveCommand >= MOVEMENT_COMMAND_INTERVAL)
+				{
+					_player.followToCharacter(target, offset, false);
+					_lastMoveCommand = now;
+				}
+			}
 			return true;
 		}
 
@@ -744,30 +673,50 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance findThreateningMonster()
 	{
 		long now = System.currentTimeMillis();
-		if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
+
+		if (_cachedThreat != null)
 		{
-			if (_cachedThreat != null && !_cachedThreat.isDead() && _cachedThreat.isVisible()
-				&& _cachedThreat.getTarget() == _player)
-				return _cachedThreat;
-			return null;
+			if (!_cachedThreat.isDead() && _cachedThreat.isVisible()
+				&& _cachedThreat.getTarget() == _player
+				&& _player.getDistance(_cachedThreat) <= _searchRadius)
+			{
+				if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
+					return _cachedThreat;
+			}
+			else
+			{
+				// Uma ameaça inválida não deve bloquear uma nova busca.
+				_cachedThreat = null;
+				_lastThreatScan = 0L;
+			}
 		}
+
+		if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
+			return null;
 
 		_lastThreatScan = now;
 		MonsterInstance nearest = null;
-		double nearestDistance = Double.MAX_VALUE;
-		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
+		double nearestDistance = _searchRadius;
+
+		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcsForIterate())
 		{
 			if (!(npc instanceof MonsterInstance))
 				continue;
+
 			MonsterInstance monster = (MonsterInstance) npc;
+
 			if (monster.isDead() || !monster.isVisible() || monster.getTarget() != _player)
 				continue;
+
 			double distance = _player.getDistance(monster);
+
 			if (distance > _searchRadius || distance >= nearestDistance)
 				continue;
+
 			nearestDistance = distance;
 			nearest = monster;
 		}
+
 		_cachedThreat = nearest;
 		return nearest;
 	}
@@ -775,19 +724,32 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance findNextMonster()
 	{
 		long now = System.currentTimeMillis();
-		if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
+
+		if (_cachedMonster != null)
 		{
-			if (_cachedMonster != null && !_cachedMonster.isDead() && _cachedMonster.isVisible()
+			if (!_cachedMonster.isDead() && _cachedMonster.isVisible()
 				&& _player.getDistance(_cachedMonster) <= _searchRadius
 				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
-				return _cachedMonster;
-			return null;
+			{
+				if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
+					return _cachedMonster;
+			}
+			else
+			{
+				// Alvo inválido: refaz a busca neste mesmo ciclo.
+				_cachedMonster = null;
+				_lastMonsterScan = 0L;
+			}
 		}
+
+		if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
+			return null;
+
 		_lastMonsterScan = now;
 		MonsterInstance nearest = null;
 		double nearestDistance = _searchRadius;
 
-		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcs())
+		for (l2f.gameserver.model.instances.NpcInstance npc : GameObjectsStorage.getAllNpcsForIterate())
 		{
 			if (!(npc instanceof MonsterInstance))
 				continue;
@@ -801,7 +763,7 @@ public class AutoFarmTask implements Runnable
 
 			if (objectId == _ignoredTargetObjectId)
 			{
-				if (System.currentTimeMillis() < _ignoredTargetUntil)
+				if (now < _ignoredTargetUntil)
 					continue;
 
 				_ignoredTargetObjectId = 0;
@@ -810,16 +772,11 @@ public class AutoFarmTask implements Runnable
 
 			double distance = _player.getDistance(monster);
 
-			if (distance > _searchRadius)
+			if (distance > _searchRadius || distance >= nearestDistance)
 				continue;
 
-			// Ao procurar um novo alvo, sempre escolhe o mais proximo.
-			// Nao troca por um alvo mais distante apenas para avancar.
-			if (distance < nearestDistance)
-			{
-				nearestDistance = distance;
-				nearest = monster;
-			}
+			nearestDistance = distance;
+			nearest = monster;
 		}
 
 		_cachedMonster = nearest;
