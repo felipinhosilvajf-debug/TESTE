@@ -264,7 +264,8 @@ public class AutoFarmTask implements Runnable
 			_targetProgressSince = System.currentTimeMillis();
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
-			_stuckCount = 0;
+			// Não zera _stuckCount aqui: trocar de alvo após uma falha não
+			// pode impedir a recuperação automática repetidamente.
 		}
 
 		if (checkTargetProgress(target))
@@ -396,8 +397,10 @@ public class AutoFarmTask implements Runnable
 			}
 		}
 
-		if (inAttackRange)
+		if (inAttackRange && (_player.isAttackingNow() || _player.isCastingNow()))
 		{
+			// Só considera progresso real quando há uma ação de combate em curso.
+			// Estar ao lado do monstro sem atacar também precisa disparar recuperação.
 			_targetProgressSince = now;
 			_lastTargetDistance = distance;
 			_stuckCount = 0;
