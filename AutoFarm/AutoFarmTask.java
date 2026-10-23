@@ -496,7 +496,8 @@ public class AutoFarmTask implements Runnable
 		int attackRange = getPhysicalAttackRange();
 		double distance = _player.getDistance(target);
 
-		if (distance > attackRange)
+		// Tolerância pequena evita oscilar entre mover e atacar na borda do alcance.
+		if (distance > attackRange + 20.0)
 		{
 			moveToAttackRange(target, attackRange);
 			return;
@@ -531,7 +532,11 @@ public class AutoFarmTask implements Runnable
 		if (_player.isCastingNow())
 			return;
 
-		int offset = Math.max(10, range - 5);
+		WeaponTemplate weapon = _player.getActiveWeaponItem();
+		boolean rangedWeapon = weapon != null
+			&& (weapon.getItemType() == WeaponType.BOW || weapon.getItemType() == WeaponType.CROSSBOW);
+		// Em melee, aproximar um pouco mais compensa o raio de colisão dos personagens.
+		int offset = rangedWeapon ? Math.max(10, range - 5) : Math.max(0, range - 50);
 		long now = System.currentTimeMillis();
 
 		if (now - _lastMoveCommand < MOVEMENT_COMMAND_INTERVAL)
