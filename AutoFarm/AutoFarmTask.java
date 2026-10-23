@@ -204,7 +204,6 @@ public class AutoFarmTask implements Runnable
 			handleReturnToStart();
 			return;
 		}
-		checkAttackWatchdog();
 
 		MonsterInstance threat = findThreateningMonster();
 		if (threat != null && !_player.isDead())
@@ -256,7 +255,17 @@ public class AutoFarmTask implements Runnable
 			_player.setTarget(target);
 		}
 
-		_lastTargetObjectId = target.getObjectId();
+		int targetObjectId = target.getObjectId();
+		if (_lastTargetObjectId != targetObjectId)
+		{
+			// Cada alvo ganha seu próprio período de progresso; não herda
+			// o temporizador do monstro anterior.
+			_lastTargetObjectId = targetObjectId;
+			_targetProgressSince = System.currentTimeMillis();
+			_lastTargetDistance = _player.getDistance(target);
+			_attackStateSince = 0L;
+			_stuckCount = 0;
+		}
 
 		if (checkTargetProgress(target))
 			return;
@@ -358,19 +367,39 @@ public class AutoFarmTask implements Runnable
 
 	private boolean checkTargetProgress(MonsterInstance target)
 	{
-		if (target == null || target.isDead())
+		if (target == null || target.isDead() || !target.isVisible())
 			return false;
 
 		long now = System.currentTimeMillis();
 		double distance = _player.getDistance(target);
-		int physicalRange = getPhysicalAttackRange();
 
-		// Combate corpo a corpo não é "travamento": se está atacando ou já
-		// está na distância de ataque, mantém o alvo e zera o watchdog de avanço.
-		if (_player.isAttackingNow() || distance <= physicalRange + 80)
+		// Ficar parado é normal durante o combate corpo a corpo. Não marque
+		// o alvo como travado só porque a distância não está diminuindo.
+		int physicalRange = getPhysicalAttackRange();
+		boolean inAttackRange = distance <= physicalRange + 80.0;
+
+		if (!inAttackRange)
 		{
-			_lastTargetDistance = distance;
+			int[] configuredSkills = { _skill1, _skill2, _skill3 };
+			for (int skillId : configuredSkills)
+			{
+				if (skillId <= 0)
+					continue;
+
+				Skill skill = _player.getKnownSkill(skillId);
+				if (skill != null && skill.isOffensive()
+					&& distance <= Math.max(10, skill.getCastRange()) + 80.0)
+				{
+					inAttackRange = true;
+					break;
+				}
+			}
+		}
+
+		if (inAttackRange)
+		{
 			_targetProgressSince = now;
+			_lastTargetDistance = distance;
 			_stuckCount = 0;
 			return false;
 		}
@@ -391,25 +420,20 @@ public class AutoFarmTask implements Runnable
 		}
 
 		long progressTimeout = _player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT;
-
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
 
-		// Só abandona o monstro quando realmente não há avanço fora do alcance.
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
 
 		_player.setTarget(null);
-		_lastTargetObjectId = target.getObjectId();
+		_lastTargetObjectId = 0;
 		_ignoredTargetObjectId = target.getObjectId();
 		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
-		_targetProgressSince = now;
+		_targetProgressSince = 0L;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
 		_stuckCount++;
-
-		_cachedMonster = null;
-		_lastMonsterScan = 0L;
 
 		if (_stuckCount >= MAX_STUCK_BEFORE_RETURN)
 			triggerAutomaticRecovery();
