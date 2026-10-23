@@ -34,7 +34,7 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance _cachedMonster = null;
 	private long _lastLootScan = 0L;
 	private ItemInstance _cachedLoot = null;
-	private static final long MONSTER_SCAN_INTERVAL = 300L;
+	private static final long MONSTER_SCAN_INTERVAL = 100L;
 	private static final long LOOT_SCAN_INTERVAL = 700L;
 	private long _lastThreatScan = 0L;
 	private MonsterInstance _cachedThreat = null;
@@ -322,6 +322,20 @@ public class AutoFarmTask implements Runnable
 			return;
 		}
 
+		// Atacar continuamente um alvo válido é comportamento normal.
+		// Não aborta a cada 3,5 s só porque o ataque permanece ativo.
+		GameObject current = _player.getTarget();
+		if (current instanceof MonsterInstance)
+		{
+			MonsterInstance target = (MonsterInstance) current;
+			if (!target.isDead() && target.isVisible()
+				&& _player.getDistance(target) <= getPhysicalAttackRange() + 80)
+			{
+				_attackStateSince = System.currentTimeMillis();
+				return;
+			}
+		}
+
 		long now = System.currentTimeMillis();
 
 		if (_attackStateSince == 0L)
@@ -349,6 +363,17 @@ public class AutoFarmTask implements Runnable
 
 		long now = System.currentTimeMillis();
 		double distance = _player.getDistance(target);
+		int physicalRange = getPhysicalAttackRange();
+
+		// Combate corpo a corpo não é "travamento": se está atacando ou já
+		// está na distância de ataque, mantém o alvo e zera o watchdog de avanço.
+		if (_player.isAttackingNow() || distance <= physicalRange + 80)
+		{
+			_lastTargetDistance = distance;
+			_targetProgressSince = now;
+			_stuckCount = 0;
+			return false;
+		}
 
 		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - TARGET_PROGRESS_MIN_DISTANCE)
 		{
@@ -370,9 +395,7 @@ public class AutoFarmTask implements Runnable
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
 
-		// O alvo continua vivo, mas o personagem nao esta conseguindo avancar.
-		// Primeiro abandona esse alvo. Se o problema se repetir, retorna
-		// automaticamente ao ponto inicial e reinicia a busca.
+		// Só abandona o monstro quando realmente não há avanço fora do alcance.
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
 
@@ -384,6 +407,9 @@ public class AutoFarmTask implements Runnable
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
 		_stuckCount++;
+
+		_cachedMonster = null;
+		_lastMonsterScan = 0L;
 
 		if (_stuckCount >= MAX_STUCK_BEFORE_RETURN)
 			triggerAutomaticRecovery();
@@ -731,17 +757,16 @@ public class AutoFarmTask implements Runnable
 				&& _player.getDistance(_cachedMonster) <= _searchRadius
 				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
 			{
-				if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
-					return _cachedMonster;
+				// Reusa imediatamente o alvo válido. A busca só roda quando
+				// precisamos substituir o alvo atual, não para trocar por outro.
+				return _cachedMonster;
 			}
-			else
-			{
-				// Alvo inválido: refaz a busca neste mesmo ciclo.
-				_cachedMonster = null;
-				_lastMonsterScan = 0L;
-			}
+
+			_cachedMonster = null;
+			_lastMonsterScan = 0L;
 		}
 
+		// Sem alvo em cache, tenta novamente em cada ciclo (100 ms).
 		if (now - _lastMonsterScan < MONSTER_SCAN_INTERVAL)
 			return null;
 
