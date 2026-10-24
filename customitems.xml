@@ -311,4 +311,90 @@
 
 	</npc>
 
+
+	<!-- ===================================================== -->
+	<!-- AURUM CUSTOM ARMOR - baseado na estrutura Vorpal      -->
+	<!-- IDs 35000-35017; P.Def. por peça usa valores Vorpal   -->
+	<!-- equivalentes como base de referência.                 -->
+	<!-- ===================================================== -->
+	<armor id="35000" name="Aurum Breastplate">
+		<set name="crystal_count" value="2680"/>
+		<set name="crystal_type" value="S84"/>
+		<set name="crystallizable" value="true"/>
+		<set name="icon" value="icon.armor_t94_u_i03"/>
+		<set name="price" value="55840000"/>
+		<set name="type" value="HEAVY"/>
+		<set name="weight" value="7520"/>
+		<equip><slot id="CHEST"/></equip>
+		<for><add stat="pDef" order="0x10" value="263"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35001" name="Aurum Gaiter">
+		<set name="crystal_count" value="1675"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t94_l_i03"/><set name="price" value="34900000"/><set name="type" value="HEAVY"/><set name="weight" value="3170"/>
+		<equip><slot id="LEGS"/></equip><for><add stat="pDef" order="0x10" value="164"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35002" name="Aurum Gauntlet">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t94_g_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="GLOVES"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35003" name="Aurum Boots">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t94_b_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="FEET"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35004" name="Aurum Helmet">
+		<set name="crystal_count" value="1005"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_helmet_i00"/><set name="price" value="20940000"/><set name="type" value="NONE"/><set name="weight" value="530"/>
+		<equip><slot id="HEAD"/></equip><for><add stat="pDef" order="0x10" value="107"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35005" name="Aurum Leather Breastplate">
+		<set name="crystal_count" value="2010"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t95_u_i03"/><set name="price" value="41880000"/><set name="type" value="LIGHT"/><set name="weight" value="4140"/>
+		<equip><slot id="CHEST"/></equip><for><add stat="pDef" order="0x10" value="197"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35006" name="Aurum Leather Leggins">
+		<set name="crystal_count" value="1256"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t95_l_i03"/><set name="price" value="26175000"/><set name="type" value="LIGHT"/><set name="weight" value="1320"/>
+		<equip><slot id="LEGS"/></equip><for><add stat="pDef" order="0x10" value="123"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35007" name="Aurum Leather Gloves">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t95_g_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="GLOVES"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35008" name="Aurum Leather Boots">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t95_b_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="FEET"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35009" name="Aurum Leather Helmet">
+		<set name="crystal_count" value="1005"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_helmet_i00"/><set name="price" value="20940000"/><set name="type" value="NONE"/><set name="weight" value="530"/>
+		<equip><slot id="HEAD"/></equip><for><add stat="pDef" order="0x10" value="107"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35010" name="Aurum Tunic">
+		<set name="crystal_count" value="2010"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t96_u_i03"/><set name="price" value="41880000"/><set name="type" value="MAGIC"/><set name="weight" value="1750"/>
+		<equip><slot id="CHEST"/></equip><for><add stat="pDef" order="0x10" value="132"/><add stat="maxMp" order="0x10" value="649"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35011" name="Aurum Stockings">
+		<set name="crystal_count" value="1256"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t96_l_i03"/><set name="price" value="26175000"/><set name="type" value="MAGIC"/><set name="weight" value="850"/>
+		<equip><slot id="LEGS"/></equip><for><add stat="pDef" order="0x10" value="82"/><add stat="maxMp" order="0x10" value="427"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35012" name="Aurum Gloves">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t96_g_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="GLOVES"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35013" name="Aurum Shoes">
+		<set name="crystal_count" value="670"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t96_b_i03"/><set name="price" value="13960000"/><set name="type" value="NONE"/><set name="weight" value="510"/>
+		<equip><slot id="FEET"/></equip><for><add stat="pDef" order="0x10" value="71"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35014" name="Aurum Circlet">
+		<set name="crystal_count" value="1005"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_helmet_i00"/><set name="price" value="20940000"/><set name="type" value="NONE"/><set name="weight" value="530"/>
+		<equip><slot id="HEAD"/></equip><for><add stat="pDef" order="0x10" value="107"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35015" name="Aurum Breastplate {PvP}">
+		<set name="crystal_count" value="2680"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t94_u_i03"/><set name="price" value="55840000"/><set name="type" value="HEAVY"/><set name="weight" value="7520"/>
+		<equip><slot id="CHEST"/></equip><for><add stat="pDef" order="0x10" value="263"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35016" name="Aurum Leather Breastplate {PvP}">
+		<set name="crystal_count" value="2010"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t95_u_i03"/><set name="price" value="41880000"/><set name="type" value="LIGHT"/><set name="weight" value="4140"/>
+		<equip><slot id="CHEST"/></equip><for><add stat="pDef" order="0x10" value="197"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+	<armor id="35017" name="Aurum Tunic {PvP}">
+		<set name="crystal_count" value="2010"/><set name="crystal_type" value="S84"/><set name="crystallizable" value="true"/><set name="icon" value="icon.armor_t96_u_i03"/><set name="price" value="41880000"/><set name="type" value="MAGIC"/><set name="weight" value="1750"/>
+		<equip><slot id="CHEST"/></equip><for><add stat="pDef" order="0x10" value="132"/><add stat="maxMp" order="0x10" value="649"/><enchant stat="pDef" order="0x0C" value="0"/><enchant stat="maxHp" order="0x80" value="0"/></for>
+	</armor>
+
 </list>
