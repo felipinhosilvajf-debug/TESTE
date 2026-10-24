@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE list SYSTEM "npc.dtd">
+
+<list>
+
+	<!-- ===================================================== -->
+	<!-- CIDADÃO DE GIRAN - TESTE 01                          -->
+	<!-- Baseado no NPC 32616 - Mine                          -->
+	<!-- ===================================================== -->
+
+	<npc id="50001" name="Cidadão" title="Morador">
+		<set name="displayId" value="35454" />
+
+		<set name="aggroRange" value="0" />
+		<set name="ai_type" value="CityNpcAI" />
+
+		<set name="baseAtkRange" value="40" />
+		<set name="baseCON" value="43" />
+		<set name="baseCritRate" value="40" />
+		<set name="baseDEX" value="30" />
+		<set name="baseHpMax" value="2444.468" />
+		<set name="baseHpRate" value="1" />
+		<set name="baseHpReg" value="7.5" />
+		<set name="baseINT" value="21" />
+		<set name="baseMAtk" value="780" />
+		<set name="baseMAtkSpd" value="500" />
+		<set name="baseMDef" value="382" />
+		<set name="baseMEN" value="20" />
+		<set name="baseMpMax" value="1345.8" />
+		<set name="baseMpReg" value="2.7" />
+		<set name="basePAtk" value="1303" />
+		<set name="basePAtkSpd" value="253" />
+		<set name="basePDef" value="471" />
+		<set name="baseRunSpd" value="180" />
+		<set name="baseSTR" value="40" />
+		<set name="baseShldDef" value="0" />
+		<set name="baseShldRate" value="0" />
+		<set name="baseWIT" value="20" />
+		<set name="baseWalkSpd" value="110" />
+
+		<set name="collision_height" value="23.0" />
+		<set name="collision_radius" value="8.0" />
+
+		<set name="level" value="70" />
+
+		<set name="rewardExp" value="0" />
+		<set name="rewardRp" value="0" />
+		<set name="rewardSp" value="0" />
+
+		<set name="shots" value="NONE" />
+		<set name="texture" value="" />
+		<set name="type" value="Npc" />
+
+		<!-- ================================================= -->
+		<!-- CONFIGURAÇÃO DO CIDADÃO                           -->
+		<!-- ================================================= -->
+
+		<ai_params>
+
+			<!-- Primeira fala após aparecer -->
+			<set name="city_first_talk" value="600000" />
+
+			<!-- Intervalo mínimo entre falas -->
+			<set name="city_talk_min" value="600000" />
+
+			<!-- Intervalo máximo entre falas -->
+			<set name="city_talk_max" value="1200000" />
+
+			<!-- Começa a andar após aparecer -->
+			<set name="city_walk_start" value="600000" />
+
+			<!-- Pausa ao chegar em um ponto -->
+			<set name="city_walk_pause" value="300000" />
+
+			<!-- Espera se ficar bloqueado -->
+			<set name="city_walk_blocked" value="60000" />
+
+			<!-- ============================================= -->
+			<!-- FALAS                                          -->
+			<!-- Separadas por ;                               -->
+			<!-- ============================================= -->
+
+			<set
+				name="city_phrases"
+				value="Olá, aventureiro!;Que belo dia em Giran!;Você já visitou o mercado hoje?;Cuidado nas estradas, aventureiro!;Giran será governado em breve!;Boa viagem!;Está procurando alguma coisa?;Que os deuses estejam com você!"
+			/>
+
+			<!-- ============================================= -->
+			<!-- ROTA                                           -->
+			<!-- X,Y,Z separados por ;                        -->
+			<!-- ============================================= -->
+
+			<set
+				name="city_route"
+				value="82808,147976,-3494;82792,149240,-3494;81144,149224,-3494;81128,147832,-3494"
+			/>
+
+		</ai_params>
+
+		<attributes>
+			<defence attribute="fire" value="20" />
+			<defence attribute="water" value="20" />
+			<defence attribute="wind" value="20" />
+			<defence attribute="earth" value="20" />
+			<defence attribute="holy" value="20" />
+			<defence attribute="unholy" value="20" />
+		</attributes>
+
+	</npc>
+	
+		<npc id="50002" name="Virtual Shop" title="Virtual Boost">
+		<set name="displayId" value="32186" />
+
+		<set name="aggroRange" value="0" />
+		<set name="ai_type" value="CityNpcAI" />
+
+		<set name="baseAtkRange" value="40" />
+		<set name="baseCON" value="43" />
+		<set name="baseCritRate" value="40" />
+		<set name="baseDEX" value="30" />
+		<set name="baseHpMax" value="2444.468" />
+		<set name="baseHpRate" value="1" />
+		<set name="baseHpReg" value="7.5" />
+		<set name="baseINT" value="21" />
+		<set name="baseMAtk" value="780" />
+		<set name="baseMAtkSpd" value="500" />
+		<set name="baseMDef" value="382" />
+		<set name="baseMEN" value="20" />
+		<set name="baseMpMax" value="1345.8" />
+		<set name="baseMpReg" value="2.7" />
+		<set name="basePAtk" value="1303" />
+		<set name="basePAtkSpd" value="253" />
+		<set name="basePDef" value="471" />
+		<set name="baseRunSpd" value="180" />
+		<set name="baseSTR" value="40" />
+		<set name="baseShldDef" value="0" />
+		<set name="baseShldRate" value="0" />
+		<set name="baseWIT" value="20" />
+		<set name="baseWalkSpd" value="110" />
+
+		<set name="collision_height" value="23.0" />
+		<set name="collision_radius" value="8.0" />
+
+		<set name="level" value="70" />
+
+		<set name="rewardExp" value="0" />
+		<set name="rewardRp" value="0" />
+		<set name="rewardSp" value="0" />
+
+		<set name="shots" value="NONE" />
+		<set name="texture" value="" />
+		<set name="type" value="Npc" />
+
+		<!-- ================================================= -->
+		<!-- CONFIGURAÇÃO DO CIDADÃO                           -->
+		<!-- ================================================= -->
+
+		<ai_params>
+
+			<!-- Abrir o HTML -->
+			<set name="showBoard" value="_bbsfile:smallNpcs/virtualshop" />
+
+			<!-- Primeira fala após aparecer -->
+			<set name="city_first_talk" value="600000" />
+
+			<!-- Intervalo mínimo entre falas -->
+			<set name="city_talk_min" value="600000" />
+
+			<!-- Intervalo máximo entre falas -->
+			<set name="city_talk_max" value="1200000" />
+
+			<!-- Começa a andar após aparecer -->
+			<set name="city_walk_start" value="600000" />
+
+			<!-- Pausa ao chegar em um ponto -->
+			<set name="city_walk_pause" value="300000" />
+
+			<!-- Espera se ficar bloqueado -->
+			<set name="city_walk_blocked" value="60000" />
+
+			<!-- ============================================= -->
+			<!-- FALAS                                          -->
+			<!-- Separadas por ;                               -->
+			<!-- ============================================= -->
+
+			<set
+				name="city_phrases"
+				value="Servidor forjado para ser único!;Virtual Boost foi feito na medida!;Posso vender itens que te deixam mais forte!;Os Deuses me abençoaram com essa missão!"
+			/>
+
+			<!-- ============================================= -->
+			<!-- ROTA                                           -->
+			<!-- X,Y,Z separados por ;                        -->
+			<!-- ============================================= -->
+
+
+
+		</ai_params>
+
+		<attributes>
+			<defence attribute="fire" value="20" />
+			<defence attribute="water" value="20" />
+			<defence attribute="wind" value="20" />
+			<defence attribute="earth" value="20" />
+			<defence attribute="holy" value="20" />
+			<defence attribute="unholy" value="20" />
+		</attributes>
+
+	</npc>
+	
+		<npc id="50003" name="Lindvor" title="Sabio das Ruinas">
+		<set name="displayId" value="22792" />
+
+		<set name="aggroRange" value="0" />
+		<set name="ai_type" value="CityNpcAI" />
+
+		<set name="baseAtkRange" value="40" />
+		<set name="baseCON" value="43" />
+		<set name="baseCritRate" value="40" />
+		<set name="baseDEX" value="30" />
+		<set name="baseHpMax" value="2444.468" />
+		<set name="baseHpRate" value="1" />
+		<set name="baseHpReg" value="7.5" />
+		<set name="baseINT" value="21" />
+		<set name="baseMAtk" value="780" />
+		<set name="baseMAtkSpd" value="500" />
+		<set name="baseMDef" value="382" />
+		<set name="baseMEN" value="20" />
+		<set name="baseMpMax" value="1345.8" />
+		<set name="baseMpReg" value="2.7" />
+		<set name="basePAtk" value="1303" />
+		<set name="basePAtkSpd" value="253" />
+		<set name="basePDef" value="471" />
+		<set name="baseRunSpd" value="180" />
+		<set name="baseSTR" value="40" />
+		<set name="baseShldDef" value="0" />
+		<set name="baseShldRate" value="0" />
+		<set name="baseWIT" value="20" />
+		<set name="baseWalkSpd" value="110" />
+
+		<set name="collision_height" value="30.0" />
+		<set name="collision_radius" value="15.0" />
+
+		<set name="level" value="70" />
+
+		<set name="rewardExp" value="0" />
+		<set name="rewardRp" value="0" />
+		<set name="rewardSp" value="0" />
+
+		<set name="shots" value="NONE" />
+		<set name="texture" value="" />
+		<set name="type" value="Npc" />
+
+		<!-- ================================================= -->
+		<!-- CONFIGURAÇÃO DO CIDADÃO                           -->
+		<!-- ================================================= -->
+
+		<ai_params>
+
+			<!-- Abrir o HTML -->
+			<set name="showBoard" value="_bbsfile:smallNpcs/lindvor" />
+
+			<!-- Primeira fala após aparecer -->
+			<set name="city_first_talk" value="600000" />
+
+			<!-- Intervalo mínimo entre falas -->
+			<set name="city_talk_min" value="600000" />
+
+			<!-- Intervalo máximo entre falas -->
+			<set name="city_talk_max" value="1200000" />
+
+			<!-- Começa a andar após aparecer -->
+			<set name="city_walk_start" value="600000" />
+
+			<!-- Pausa ao chegar em um ponto -->
+			<set name="city_walk_pause" value="300000" />
+
+			<!-- Espera se ficar bloqueado -->
+			<set name="city_walk_blocked" value="60000" />
+
+			<!-- ============================================= -->
+			<!-- FALAS                                          -->
+			<!-- Separadas por ;                               -->
+			<!-- ============================================= -->
+
+			<set
+				name="city_phrases"
+				value="Se quiser sair vivo, siga as ordens!;Virtual Boost foi feito na medida!;Posso dar conselhos que provavelmente vao te salvar!;Os Deuses me abençoaram com essa missão!"
+			/>
+
+			<!-- ============================================= -->
+			<!-- ROTA                                           -->
+			<!-- X,Y,Z separados por ;                        -->
+			<!-- ============================================= -->
+
+			<set
+				name="city_route"
+				value="108408,-87672,-2913;108424,-87880,-2915"
+			/>
+
+		</ai_params>
+
+		<attributes>
+			<defence attribute="fire" value="20" />
+			<defence attribute="water" value="20" />
+			<defence attribute="wind" value="20" />
+			<defence attribute="earth" value="20" />
+			<defence attribute="holy" value="20" />
+			<defence attribute="unholy" value="20" />
+		</attributes>
+
+	</npc>
+
+</list>

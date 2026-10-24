@@ -1,0 +1,20 @@
+itemname-e.dat
+
+35000	Aurum Breastplate		u,Heavy armor\0	-1	5	5	35000	35001	35002	35003	35004	a,STR +3; CON -2; P. Atk. +6.59% when equipped; Critical Rate +127; Resistance to Bleed/Hold/Sleep attacks +50%; Resistance to Magic Damage +2%; Max HP +550; Resistance to Fire/Water/Wind/Earth attributes +5; Recover some of the damage incurred by the enemy as HP. Can equip a cloak.\0	1	1	15587	a,	0	0	0	0	0	0	0	0	0	6	a,Increases P. Def. and MP Recovery Rate when all set items are enchanted to 6 or above.\0	3
+35001	Aurum Gaiter		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35002	Aurum Gauntlet		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35003	Aurum Boots		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35004	Aurum Helmet		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35005	Aurum Leather Breastplate		u,Light Armor.\0	-1	5	5	35005	35006	35007	35008	35009	a,STR +1;  DEX +2; CON -3; When equipped, P. Atk./P. Def. +5.57%; Atk. Spd. +5%; Speed +3%; Resistance to Stun +50%; Damage +182 during a critical attack ; Max MP +360; Resistance to Fire/Water/Wind/Earth +5. Opens cloak slot.\0	0	0		a,	0	0	0	0	0	0	0	0	0	6	a,M. Def. and Evasion increase when a set item is reinforced by 6 or more.\0	3
+35006	Aurum Leather Leggins		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35007	Aurum Leather Gloves		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35008	Aurum Leather Boots		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35009	Aurum Leather Helmet		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35010	Aurum Tunic		u,Magic Armor.\0	-1	5	5	35010	35011	35012	35013	35014	a,WIT +2; MEN -2; INT +1; M. Atk. +10% when equipped; Casting Spd. +15%; Speed +7; Max MP +97; MP Consumption -3% upon skill use; MP Recovery Bonus 5%; Resistance to Stun +50%; Resistance to Fire/Water/Wind/Earth +5. Opens cloak slot.\0	0	0		a,	0	0	0	0	0	0	0	0	0	6	a,Increases P. Def. and Weight Limit when all set items are enchanted to 6 or above.\0	3
+35011	Aurum Stockings		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35012	Aurum Gloves		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35013	Aurum Shoes		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35014	Aurum Circlet		a,	-1	0	0						a,	0	0		a,	0	0	0	0	0	0	0	0	0	0	a,	3
+35015	Aurum Breastplate	 {PvP}	a,	-1	5	5	35015	35001	35004	35002	35003	a,STR +3; CON -2; P. Atk. +6.59% when equipped; Critical Rate +127; Resistance to Bleed/Hold/Sleep attacks +50%; Resistance to Magic Damage +2%; Max HP +550; Resistance to Fire/Water/Wind/Earth attributes +5; Recover some of the damage incurred by the enemy as HP. Can equip a cloak. During PvP, incurred damage decreases and all of the attacker's speeds decrease at a fixed rate. Can equip a cloak.\0	1	1	15587	a,Additionally increases Shield Defense.\0	0	0	0	0	0	0	0	0	0	6	a,Increases P. Def. and MP Recovery Rate when all set items are enchanted to 6 or above.\0	3
+35016	Aurum Leather Breastplate	 {PvP}	a,	-1	5	5	35016	35006	35009	35007	43108	a,STR +1; DEX +2; CON -2; P. Atk. +6.59% when equipped; Atk. Spd. +6%, Critical Rate +171, Resistance to Paralysis +50%, Speed +3%, and Resistance to Fire/Water/Wind/Earth attributes +5. Can equip a cloak. During PvP, damage incurred upon attack decreases and a target's target is cancelled at a fixed rate. Can equip a cloak.\0	0	0		a,	0	0	0	0	0	0	0	0	0	6	a,M. Def. and Evasion increase when a set item is reinforced by 6 or more.\0	3
+35017	Aurum Tunic	 {PvP}	a,	-1	5	5	35017	35011	35014	35012	35013	a,WIT +2; MEN -2; INT +1; M. Atk. +10% when equipped; Casting Spd. +15%; Speed +7; Max MP +97; MP Consumption -3% upon skill use; MP Recovery Bonus 5%; Resistance to Stun +50%; Resistance to Fire/Water/Wind/Earth +5. Decreases damage received during PvP and has a chance to decrease Critical Rate/Damage when attacked. Opens cloak slot.\0	0	0		a,	0	0	0	0	0	0	0	0	0	6	a,Increases P. Def. and Weight Limit when all set items are enchanted to 6 or above.\0	3
