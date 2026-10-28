@@ -33,7 +33,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		"BlackRaven", "KauanX7", "LendarioBR", "SemCooldown", "HeadShotBR",
 		"FuriaNoturna", "MlkDoRush", "SaciPVP", "RagnarBR", "F4bioL1ght",
 		"Lordzin", "XxCaveiraxX", "CriticoBR", "DreadSoul", "Ligeirinho",
-		"ReaperBR", "BielzinPvP", "DonoDoPedaço", "NoiadoH5", "VortexBR",
+		"ReaperBR", "BielzinPvP", "DonoDoPedaco", "NoiadoH5", "VortexBR",
 		"DarkCleiton", "ZikaDoH5", "TsunamiBR", "MortalRush", "FrostKiller",
 		"SeuPiorPesadelo", "KillerDoVale", "DrakeBR", "BrutalMage", "RastaWarrior"
 	};
