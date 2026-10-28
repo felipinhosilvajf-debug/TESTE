@@ -5707,7 +5707,7 @@ private Player(final int objectId, final PlayerTemplate template)
 		final PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(0, false);
 		final Player player = new Player(IdFactory.getInstance().getNextId(), template);
 		player.setName(name);
-		player.setTitle("VB Bot");
+		player.setTitle("");
 		player.setFakePlayer();
 		return player;
 	}
