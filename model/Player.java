@@ -5699,6 +5699,19 @@ private Player(final int objectId, final PlayerTemplate template)
 	 * @param face The face type Identifier of the L2Player
 	 * @return The L2Player added to the database or null
 	 */
+	/**
+	 * Cria um personagem temporario para uso como bot, sem inserir na tabela characters.
+	 */
+	public static Player createFakeBot(final String name)
+	{
+		final PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(0, false);
+		final Player player = new Player(IdFactory.getInstance().getNextId(), template);
+		player.setName(name);
+		player.setTitle("VB Bot");
+		player.setFakePlayer();
+		return player;
+	}
+
 	public static Player create(int classId, int sex, String accountName, final String name, final int hairStyle, final int hairColor, final int face)
 	{
 		PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(classId, sex != 0);
