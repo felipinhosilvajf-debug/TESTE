@@ -5862,14 +5862,16 @@ private Player(final int objectId, final PlayerTemplate template)
 		else if (light)
 		{
 			// Conjuntos LIGHT comuns da base H5; não atribuir armadura HEAVY a Kamael.
-			// Kamael não equipa os IDs 410 (A) e 411 (S) neste servidor;
-			// para esses níveis, manter Prairie Leather Armor (ID 404), já usado na faixa B.
+			// Kamael não equipa os IDs 404 (torso) e 421 (calças), pois aparecem cinza.
+			// Nos níveis seguintes, reutiliza o torso LIGHT 400 e as calças LIGHT 420.
 			// Outras classes LIGHT continuam com Unicorn (A) e Dragon Leather (S).
 			body = isFakeBotKamael(classId)
-					? new int[] {396, 400, 404, 404, 404}[grade]
+					? new int[] {396, 400, 400, 400, 400}[grade]
 					: new int[] {396, 400, 404, 410, 411}[grade];
 			// Os IDs de torso acima não são todos armaduras full-body: completar com gaiters LIGHT.
-			legs = new int[] {417, 420, 421, -1, -1}[grade];
+		legs = isFakeBotKamael(classId)
+				? new int[] {417, 420, 420, -1, -1}[grade]
+				: new int[] {417, 420, 421, -1, -1}[grade];
 		}
 		else
 		{
