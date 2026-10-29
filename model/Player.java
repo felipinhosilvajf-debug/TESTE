@@ -5816,8 +5816,11 @@ private Player(final int objectId, final PlayerTemplate template)
 		}
 		else if (light)
 		{
-			body = new int[] {396, 401, 402, 410, 411}[grade];
-			legs = -1;
+			// Conjuntos LIGHT comuns da base H5; não atribuir armadura HEAVY a Kamael.
+			// IDs por grade: Salamander Skin Mail (D), Theca Leather Armor (C),
+			// Prairie Leather Armor (B), Unicorn Leather Armor (A), Dragon Leather Armor (S).
+			body = new int[] {396, 400, 404, 410, 411}[grade];
+			legs = -1; // estes itens são peças de corpo inteiro na base; não adicionar calças por fora.
 		}
 		else
 		{
