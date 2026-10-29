@@ -33,6 +33,7 @@ var EditBoxHandle eDelayMP;
 var EditBoxHandle eDelayQHP;
 var EditBoxHandle eDelaySCP;
 var EditBoxHandle eAmountS;
+var EditBoxHandle eAutoFarmRadius;
 
 var ButtonHandle bExpand;
 var ButtonHandle bExpandMore;
@@ -123,6 +124,7 @@ function OnLoad()
 	eDelayQHP = GetEditBoxHandle("AutoPotions.delayQHP");
 	eDelaySCP = GetEditBoxHandle("AutoPotions.delaySCP");
 	eAmountS = GetEditBoxHandle("AutoPotions.amountSouls");
+	eAutoFarmRadius = GetEditBoxHandle("AutoPotions.autoFarmRadius");
 	
 	bExpand = GetButtonHandle("AutoPotions.expandBtn");
 	bExpandMore = GetButtonHandle("AutoPotions.expandMoreBtn");
@@ -267,6 +269,15 @@ function OnDropItem(String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 			tBlankRand3.HideWindow();
 			ExecuteCommand(".autofarm select 3 " $ currentSkillId3);
 		break;
+	}
+}
+
+function OnEnterEditBox(String strID)
+{
+	if (strID == "autoFarmRadius")
+	{
+		ExecuteCommand(".autofarm radius " $ eAutoFarmRadius.GetString());
+		PlayConsoleSound(IFST_CLICK1);
 	}
 }
 
