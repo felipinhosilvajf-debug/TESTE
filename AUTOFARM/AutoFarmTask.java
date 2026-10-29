@@ -63,6 +63,7 @@ public class AutoFarmTask implements Runnable
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
+	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 15000L;
 	private static final long NO_TARGET_TIMEOUT = 7000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
 	private static final long IGNORED_TARGET_TIMEOUT = 10000L;
@@ -82,6 +83,8 @@ public class AutoFarmTask implements Runnable
 		_startX = _player.getX();
 		_startY = _player.getY();
 		_startZ = _player.getZ();
+		int configuredRadius = _player.getAutoFarmRadius();
+		_searchRadius = configuredRadius >= 1000 ? Math.min(configuredRadius, 80000) : 80000;
 		_returningToStart = false;
 		_lastMoveCommand = 0L;
 		_noTargetSince = 0L;
@@ -180,7 +183,26 @@ public class AutoFarmTask implements Runnable
 
 	public void setSearchRadius(int radius)
 	{
-		_searchRadius = radius;
+		_searchRadius = Math.max(1000, Math.min(radius, 80000));
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
+	}
+
+	public static void updateSearchRadius(Player player, int radius)
+	{
+		if (player == null)
+			return;
+
+		AutoFarmTask task;
+		synchronized (ACTIVE_TASKS)
+		{
+			task = ACTIVE_TASKS.get(player);
+		}
+
+		if (task != null)
+			task.setSearchRadius(radius);
 	}
 
 	public int getSearchRadius()
@@ -423,31 +445,11 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		long progressTimeout = _player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT;
+		long progressTimeout = isStationaryRangedPlayer()
+			? RANGED_TARGET_PROGRESS_TIMEOUT
+			: (_player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT);
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
-
-		// Um alvo fora do alcance não deve fazer arqueiros/magos perseguirem ou
-		// dispararem retorno automático. Descarta-o por alguns segundos.
-		if (isStationaryRangedPlayer() && !inAttackRange)
-		{
-			if (_player.isAttackingNow())
-				_player.abortAttack(false, false);
-			_player.setTarget(null);
-			_lastTargetObjectId = 0;
-			_ignoredTargetObjectId = target.getObjectId();
-			_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
-			_targetProgressSince = 0L;
-			_lastTargetDistance = -1.0;
-			_attackStateSince = 0L;
-			_stuckCount = 0;
-			if (_cachedMonster == target)
-				_cachedMonster = null;
-			if (_cachedThreat == target)
-				_cachedThreat = null;
-			_lastThreatScan = 0L;
-			return true;
-		}
 
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
@@ -533,8 +535,6 @@ public class AutoFarmTask implements Runnable
 		// Tolerância pequena evita oscilar entre mover e atacar na borda do alcance.
 		if (distance > attackRange + 20.0)
 		{
-			if (isStationaryRangedPlayer())
-				return;
 			moveToAttackRange(target, attackRange);
 			return;
 		}
@@ -575,9 +575,6 @@ public class AutoFarmTask implements Runnable
 
 	private void moveToAttackRange(MonsterInstance target, int range)
 	{
-		if (isStationaryRangedPlayer())
-			return;
-
 		if (target == null || target.isDead())
 			return;
 
@@ -673,9 +670,6 @@ public class AutoFarmTask implements Runnable
 
 		if (preferredCastRange > 0 && target != null && !target.isDead())
 		{
-			if (isStationaryRangedPlayer())
-				return _player.getDistance(target) > getPhysicalAttackRange() + 20.0;
-
 			if (!_player.isAttackingNow() && !_player.isCastingNow())
 			{
 				int offset = Math.max(10, preferredCastRange - 5);
