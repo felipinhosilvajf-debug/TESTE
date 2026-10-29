@@ -788,6 +788,7 @@ public class AutoFarmTask implements Runnable
 		if (_cachedThreat != null)
 		{
 			if (!_cachedThreat.isDead() && _cachedThreat.isVisible()
+				&& _cachedThreat.getReflection() == _player.getReflection()
 				&& _cachedThreat.getTarget() == _player
 				&& _player.getDistance(_cachedThreat) <= _searchRadius
 				&& (_cachedThreat.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
@@ -817,7 +818,9 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible() || monster.getTarget() != _player)
+			if (monster.isDead() || !monster.isVisible()
+				|| monster.getReflection() != _player.getReflection()
+				|| monster.getTarget() != _player)
 				continue;
 
 			if (monster.getObjectId() == _ignoredTargetObjectId && now < _ignoredTargetUntil)
@@ -843,6 +846,7 @@ public class AutoFarmTask implements Runnable
 		if (_cachedMonster != null)
 		{
 			if (!_cachedMonster.isDead() && _cachedMonster.isVisible()
+				&& _cachedMonster.getReflection() == _player.getReflection()
 				&& _player.getDistance(_cachedMonster) <= _searchRadius
 				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
 			{
@@ -870,7 +874,8 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible())
+			if (monster.isDead() || !monster.isVisible()
+				|| monster.getReflection() != _player.getReflection())
 				continue;
 
 			int objectId = monster.getObjectId();
