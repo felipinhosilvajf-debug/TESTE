@@ -5768,7 +5768,7 @@ private Player(final int objectId, final PlayerTemplate template)
 		}
 
 		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 30)
-				|| (classId >= 37 && classId <= 42) || (classId >= 48 && classId <= 51);
+				|| (classId >= 38 && classId <= 43) || (classId >= 49 && classId <= 52);
 		final boolean bow = classId == 9 || classId == 24 || classId == 36;
 		final boolean dagger = classId == 7 || classId == 8 || classId == 22 || classId == 23
 				|| classId == 34 || classId == 35 || classId == 53 || classId == 54;
@@ -5801,7 +5801,7 @@ private Player(final int objectId, final PlayerTemplate template)
 	{
 		final int grade = level < 40 ? 0 : level < 52 ? 1 : level < 61 ? 2 : level < 76 ? 3 : 4;
 		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 30)
-				|| (classId >= 37 && classId <= 42) || (classId >= 48 && classId <= 51);
+				|| (classId >= 38 && classId <= 43) || (classId >= 49 && classId <= 52);
 		// Kamael e classes de armadura leve recebem conjuntos LIGHT; cavaleiros, anões e destroyers não.
 		final boolean light = isFakeBotKamael(classId) || classId == 7 || classId == 8 || classId == 9
 				|| classId == 22 || classId == 23 || classId == 24 || classId == 34
@@ -5811,7 +5811,7 @@ private Player(final int objectId, final PlayerTemplate template)
 		final int legs;
 		if (mage)
 		{
-			body = new int[] {438, 440, 444, 459, 460}[grade];
+			body = new int[] {438, 440, 448, 459, 460}[grade];
 			legs = -1;
 		}
 		else if (light)
