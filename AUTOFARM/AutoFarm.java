@@ -30,7 +30,7 @@ public class AutoFarm implements IVoicedCommandHandler
 			farm.self = activeChar;
 			if (parts.length < 2)
 			{
-				activeChar.sendMessage("Uso: .autofarm radius 1000-80000");
+				activeChar.sendMessage("Uso: .autofarm radius 1000-20000");
 				return true;
 			}
 			farm.setRadius(new String[] { parts[1] });
