@@ -850,11 +850,8 @@ public class AutoFarmCommunity
 
 		int[] radii =
 		{
-			500,
-			750,
-			1000,
-			1500,
-			2000
+			1000, 1500, 2000, 2500, 3000,
+			3500, 4000, 4500, 5000
 		};
 
 		for (int radius : radii)
@@ -938,22 +935,14 @@ public class AutoFarmCommunity
 			int radius =
 				Integer.parseInt(args[0]);
 
-			if (radius != 500 &&
-				radius != 750 &&
-				radius != 1000 &&
-				radius != 1500 &&
-				radius != 2000)
+			if (radius < 1000 || radius > 5000)
 			{
-				self.sendMessage(
-					"Raio inválido."
-				);
-
+				self.sendMessage("Raio inválido. Escolha um valor entre 1000 e 5000.");
 				return;
 			}
 
 			self.setAutoFarmRadius(radius);
-
-			back();
+			self.sendMessage("Auto Farm: raio de busca definido para " + radius + ".");
 		}
 		catch (NumberFormatException e)
 		{
