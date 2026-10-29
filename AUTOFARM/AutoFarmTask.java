@@ -338,7 +338,9 @@ public class AutoFarmTask implements Runnable
 
 		MonsterInstance target = (MonsterInstance) current;
 
-		if (target.isDead() || !target.isVisible())
+		if (target.isDead() || !target.isVisible()
+			|| target.getReflection() != _player.getReflection()
+			|| _player.getDistance(target) > _searchRadius)
 		{
 			_player.setTarget(null);
 			return null;
