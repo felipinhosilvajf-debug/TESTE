@@ -23,6 +23,20 @@ public class AutoFarm implements IVoicedCommandHandler
 			return true;
 		}
 
+		if (target != null && target.trim().toLowerCase().startsWith("radius"))
+		{
+			String[] parts = target.trim().split("\\s+");
+			AutoFarmCommunity farm = new AutoFarmCommunity();
+			farm.self = activeChar;
+			if (parts.length < 2)
+			{
+				activeChar.sendMessage("Uso: .autofarm radius 1000-5000");
+				return true;
+			}
+			farm.setRadius(new String[] { parts[1] });
+			return true;
+		}
+
 		if (target != null && target.trim().equalsIgnoreCase("toggle"))
 		{
 			AutoFarmCommunity farm = new AutoFarmCommunity();
