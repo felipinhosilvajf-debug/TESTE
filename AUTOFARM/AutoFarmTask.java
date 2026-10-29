@@ -246,8 +246,8 @@ public class AutoFarmTask implements Runnable
 		if (_player.isCastingNow())
 			return;
 
-		// Ranged e magos ficam no ponto de ativação; não caminham para coletar drops.
-		ItemInstance loot = threat == null && !isStationaryRangedPlayer() ? findNearestLoot() : null;
+		// Ranged e magos não desviam da perseguição para coletar drops.
+		ItemInstance loot = threat == null && !isRangedPlayer() ? findNearestLoot() : null;
 		if (loot != null)
 		{
 			if (handleLoot(loot))
@@ -430,7 +430,8 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - TARGET_PROGRESS_MIN_DISTANCE)
+		double minimumProgress = isRangedPlayer() ? 30.0 : TARGET_PROGRESS_MIN_DISTANCE;
+		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - minimumProgress)
 		{
 			_lastTargetDistance = distance;
 			_targetProgressSince = now;
@@ -445,7 +446,7 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		long progressTimeout = isStationaryRangedPlayer()
+		long progressTimeout = isRangedPlayer()
 			? RANGED_TARGET_PROGRESS_TIMEOUT
 			: (_player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT);
 		if (now - _targetProgressSince < progressTimeout)
@@ -483,7 +484,7 @@ public class AutoFarmTask implements Runnable
 
 		// Em classes de ataque à distância, falta de alvo ou alvo inalcançável
 		// nunca deve iniciar movimento automático de retorno.
-		if (isStationaryRangedPlayer())
+		if (isRangedPlayer())
 		{
 			_stuckCount = 0;
 			_targetProgressSince = 0L;
@@ -542,7 +543,7 @@ public class AutoFarmTask implements Runnable
 		_player.doAttack(target);
 	}
 
-	private boolean isStationaryRangedPlayer()
+	private boolean isRangedPlayer()
 	{
 		if (_player == null)
 			return false;
