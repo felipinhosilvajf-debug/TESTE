@@ -5721,7 +5721,8 @@ private Player(final int objectId, final PlayerTemplate template)
 		player.setFakePlayer();
 
 		// Bots nao sao carregados do banco: inicializamos sua classe base manualmente.
-		final int botClassId = player.getClassId().getId();
+		// Usa a classe solicitada ao criar o bot; nao depende da classe inferida pelo Player.
+		final int botClassId = classId;
 		final SubClass botClass = new SubClass();
 		botClass.setBase(true);
 		botClass.setClassId(botClassId);
@@ -5740,6 +5741,10 @@ private Player(final int objectId, final PlayerTemplate template)
 		equipFakeBotItem(player, weaponId);
 		for (int armorId : armorIds)
 		{
+			// Bloqueio explicito: estas armaduras ficam cinza ou nao sao aceitas por Kamael.
+			if (isFakeBotKamael(botClassId) && (armorId == 404 || armorId == 410 || armorId == 411 || armorId == 421))
+				continue;
+
 			// Para Kamael, equipa apenas IDs com modelo e textura confirmados no ArmorGrp
 			// para os dois sexos. Isso evita introduzir peças sem visual nessa raça.
 			if (!isFakeBotKamael(botClassId) || isFakeBotKamaelArmorVisualVerified(armorId))
