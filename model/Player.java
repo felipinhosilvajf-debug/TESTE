@@ -5757,10 +5757,10 @@ private Player(final int objectId, final PlayerTemplate template)
 		// Kamael: usar somente armas exclusivas da raça e compatíveis com a especialização.
 		if (isFakeBotKamael(classId))
 		{
-			// IDs de classe H5: Warder/Arbalester/Trickster usam crossbow;
-			// Berserker/Inspector/Judicator usam ancient sword. As demais usam rapier.
-			final boolean crossbow = classId == 126 || classId == 130 || classId == 133;
-			final boolean ancientSword = classId == 127 || classId == 134 || classId == 135;
+			// Kamael H5: crossbow para Arbalester e Trickster; ancient sword para Berserker.
+			// Soldier, Warder, Soul Breaker/Soul Hound e demais subclasses usam rapier.
+			final boolean crossbow = classId == 130 || classId == 131;
+			final boolean ancientSword = classId == 127;
 			final int[] rapierIds = {9209, 9292, 9316, 9328, 9364};       // D, C, B, A, S
 			final int[] ancientSwordIds = {9220, 9284, 9320, 9332, 9368};
 			final int[] crossbowIds = {9221, 9300, 9324, 9336, 9372};
@@ -5820,7 +5820,8 @@ private Player(final int objectId, final PlayerTemplate template)
 			// IDs por grade: Salamander Skin Mail (D), Theca Leather Armor (C),
 			// Prairie Leather Armor (B), Unicorn Leather Armor (A), Dragon Leather Armor (S).
 			body = new int[] {396, 400, 404, 410, 411}[grade];
-			legs = -1; // estes itens são peças de corpo inteiro na base; não adicionar calças por fora.
+			// Os IDs de torso acima não são todos armaduras full-body: completar com gaiters LIGHT.
+			legs = new int[] {417, 420, 421, 424, -1}[grade];
 		}
 		else
 		{
