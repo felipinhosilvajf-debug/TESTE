@@ -5733,7 +5733,49 @@ private Player(final int objectId, final PlayerTemplate template)
 		player.setActiveClass(botClass);
 		player.updateStats();
 
+		// Equipamento visual inicial usando somente IDs existentes em items/01-99.xml.
+		// O conjunto e basico nesta primeira etapa; a selecao por grade/level pode ser refinada depois.
+		final int weaponId = getFakeBotWeaponId(botClassId);
+		equipFakeBotItem(player, weaponId, Inventory.PAPERDOLL_RHAND);
+		equipFakeBotItem(player, 21, Inventory.PAPERDOLL_CHEST); // Shirt
+		equipFakeBotItem(player, 28, Inventory.PAPERDOLL_LEGS); // Pants
+		equipFakeBotItem(player, 35, Inventory.PAPERDOLL_FEET); // Cloth Shoes
+		equipFakeBotItem(player, 41, Inventory.PAPERDOLL_HEAD); // Cloth Cap
+		equipFakeBotItem(player, 48, Inventory.PAPERDOLL_GLOVES); // Short Gloves
+		player.updateStats();
+
 		return player;
+	}
+
+	private static int getFakeBotWeaponId(final int classId)
+	{
+		// IDs conferidos no XML da base Mythras: Short Sword=1, Club=4,
+		// Willow Staff=8, Dagger=10, Short Bow=13, Short Spear=15.
+		if ((classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 30)
+				|| (classId >= 38 && classId <= 43) || (classId >= 49 && classId <= 52))
+			return 8; // magos e classes de suporte: staff
+
+		if (classId == 9 || classId == 24 || classId == 37)
+			return 13; // arqueiros
+
+		if (classId == 7 || classId == 8 || classId == 22 || classId == 23 || classId == 35 || classId == 36)
+			return 10; // adagas
+
+		if (classId == 3 || classId == 46)
+			return 15; // lanceiros
+
+		if (classId == 4 || classId == 5 || classId == 6 || classId == 19 || classId == 20
+				|| classId == 32 || classId == 33)
+			return 4; // classes de combate corpo a corpo: blunt simples
+
+		return 1; // arma padrao segura para as demais classes
+	}
+
+	private static void equipFakeBotItem(final Player player, final int itemId, final int paperdollSlot)
+	{
+		final ItemInstance item = player.getInventory().addItem(itemId, 1L, "FakeBotEquipment");
+		if (item != null)
+			player.getInventory().setPaperdollItem(paperdollSlot, item);
 	}
 
 	public static Player create(int classId, int sex, String accountName, final String name, final int hairStyle, final int hairColor, final int face)
