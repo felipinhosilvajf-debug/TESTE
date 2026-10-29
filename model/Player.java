@@ -5820,11 +5820,12 @@ private Player(final int objectId, final PlayerTemplate template)
 		else if (light)
 		{
 			// Conjuntos LIGHT comuns da base H5; não atribuir armadura HEAVY a Kamael.
-			// IDs por grade: Salamander Skin Mail (D), Theca Leather Armor (C),
-			// Prairie Leather Armor (B), Unicorn Leather Armor (A), Dragon Leather Armor (S).
-			// Kamael não pode usar Dragon Leather Armor (ID 411) neste servidor;
-			// usar Unicorn Leather Armor (ID 410) também na faixa S para evitar torso/pernas incompatíveis.
-			body = new int[] {396, 400, 404, 410, 410}[grade];
+			// Kamael não equipa os IDs 410 (A) e 411 (S) neste servidor;
+			// para esses níveis, manter Prairie Leather Armor (ID 404), já usado na faixa B.
+			// Outras classes LIGHT continuam com Unicorn (A) e Dragon Leather (S).
+			body = isFakeBotKamael(classId)
+					? new int[] {396, 400, 404, 404, 404}[grade]
+					: new int[] {396, 400, 404, 410, 411}[grade];
 			// Os IDs de torso acima não são todos armaduras full-body: completar com gaiters LIGHT.
 			legs = new int[] {417, 420, 421, -1, -1}[grade];
 		}
