@@ -13,6 +13,7 @@ import l2f.gameserver.handler.admincommands.IAdminCommandHandler;
 import l2f.gameserver.model.GameObjectsStorage;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.World;
+import l2f.gameserver.model.base.Experience;
 import l2f.gameserver.model.instances.MonsterInstance;
 import l2f.gameserver.model.instances.NpcInstance;
 import l2f.gameserver.network.serverpackets.Say2;
@@ -82,6 +83,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 	private static enum Commands
 	{
 		admin_create_fake_players,
+		admin_create_social_fake_players,
 		admin_remove_fake_players;
 	}
 
@@ -105,7 +107,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					}
 					catch (NumberFormatException e)
 					{
-						activeChar.sendMessage("Uso: //create_fake_players [quantidade] [mixed|town|farm|social]");
+						activeChar.sendMessage("Uso: //create_fake_players [quantidade] [mixed|town|farm] ou //create_social_fake_players [quantidade]");
 						return false;
 					}
 				}
@@ -116,10 +118,10 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					return false;
 				}
 
-				BotMode requestedMode = parseMode(wordList.length > 2 ? wordList[2] : "mixed");
-				if (requestedMode == null)
+				BotMode requestedMode = command == Commands.admin_create_social_fake_players ? BotMode.SOCIAL : parseMode(wordList.length > 2 ? wordList[2] : "mixed");
+				if (requestedMode == null || (command == Commands.admin_create_fake_players && requestedMode == BotMode.SOCIAL))
 				{
-					activeChar.sendMessage("Modo invalido. Use: mixed, town, farm ou social.");
+					activeChar.sendMessage("Modo invalido. Use mixed, town ou farm. Para bots que falam, use //create_social_fake_players.");
 					return false;
 				}
 
@@ -140,6 +142,8 @@ public class AdminFakePlayers implements IAdminCommandHandler
 						female = false;
 
 					Player bot = Player.createFakeBot(botName, classId, female);
+					int level = ThreadLocalRandom.current().nextInt(20, 86);
+					bot.setExp(Experience.LEVEL[level]);
 					BotMode mode = requestedMode == BotMode.MIXED ? chooseMode() : requestedMode;
 					bot.spawnMe(Location.findPointToStay(activeChar, 50, 100));
 					_fakeBots.add(bot);
@@ -182,8 +186,6 @@ public class AdminFakePlayers implements IAdminCommandHandler
 			return BotMode.TOWN;
 		if ("farm".equalsIgnoreCase(value))
 			return BotMode.FARM;
-		if ("social".equalsIgnoreCase(value))
-			return BotMode.SOCIAL;
 		return null;
 	}
 
@@ -192,9 +194,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		int roll = ThreadLocalRandom.current().nextInt(100);
 		if (roll < 45)
 			return BotMode.TOWN;
-		if (roll < 70)
-			return BotMode.SOCIAL;
-		if (roll < 85)
+		if (roll < 75)
 			return BotMode.FARM;
 		return BotMode.MIXED;
 	}
@@ -233,7 +233,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 				else if (bot.isSitting() && ThreadLocalRandom.current().nextInt(100) < 45)
 					bot.standUp();
 
-				if (ThreadLocalRandom.current().nextInt(100) < 18)
+				if (mode == BotMode.SOCIAL && ThreadLocalRandom.current().nextInt(100) < 30)
 				{
 					String line = _chatLines[ThreadLocalRandom.current().nextInt(_chatLines.length)];
 					bot.broadcastPacket(new Say2(bot, ChatType.ALL, line));
