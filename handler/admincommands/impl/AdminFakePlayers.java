@@ -49,7 +49,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		"Anazinha", "L2Veterano", "SnipeBR", "RushDoido", "KillerFox", "D4rkAngel", "RunaVermelha",
 		"BluePhoenix", "NightCrawler", "SilverArrow", "IronFistBR", "MestreDoDrop", "AdenaMan",
 		"VemNoX1", "FullCrit", "SemLag", "L2Raiz", "PvpLendario", "SombraDaNoite", "WarriorSoul",
-		"ElfoMisterioso", "AnazinhaBR", "KamaelSoul", "OrcDoido", "AnãoMercador", "MercadorAden",
+		"ElfoMisterioso", "AnazinhaBR", "KamaelSoul", "OrcDoido", "AnaoMercador", "MercadorAden",
 		"PotionSeller", "ShotExpress", "LojaDoCleiton", "ComproTudo", "VendoBuff", "FarmKing",
 		"MobHunter", "SoloPlayer", "PartyFinder", "ClanRecruit", "AdenTrader", "BlackKnightBR",
 		"WhiteMageBR", "RedRanger", "GoldenDwarf", "DarkElfBR", "OrcChampion", "KamaelHunter",
@@ -59,7 +59,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		"FacaNaBota", "CajadoArcano", "EscudoDeAden", "CavaleiraX", "BerserkerBR", "SoulBreaker",
 		"BlackArrow", "WhiteRaven", "RunaMistica", "FenixNegra", "FenixDourada", "TropaDoDrop",
 		"LordDoFarm", "VendedorRaiz", "LojaDaVila", "MestreArtesao", "AnãoDoCraft", "CraftMaster",
-		"CaçadorDeMobs", "PegaDrop", "CuraRapida", "BuffMeBR", "SemMedo", "PvpOuNada",
+		"CacadorDeMobs", "PegaDrop", "CuraRapida", "BuffMeBR", "SemMedo", "PvpOuNada",
 		"ShadowBlade", "ArcaneStorm", "SteelFist", "SilentKiller", "BlueRanger", "DarkMystic",
 		"WildOrc", "DwarfCrafter", "ElfWalker", "KamaelRage", "HumanKnight", "MysticBR"
 	};
@@ -268,7 +268,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 				continue;
 
 			MonsterInstance monster = (MonsterInstance) npc;
-			if (monster.isRaid() || monster.isRaidMinion())
+			if (monster.isRaid())
 				continue;
 
 			bot.getAI().Attack(monster, false, false);
