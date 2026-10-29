@@ -284,7 +284,7 @@ function OnEnterEditBox(String strID)
 		strRadius = eAutoFarmRadius.GetString();
 		strCleanRadius = "";
 
-		// Remove separadores de milhar (ex.: 80,000 -> 80000).
+		// Remove separadores de milhar (ex.: 80,000 -> 20000).
 		for (i = 0; i < Len(strRadius); i++)
 		{
 			if (InStr("0123456789", Mid(strRadius, i, 1)) >= 0)
@@ -294,8 +294,8 @@ function OnEnterEditBox(String strID)
 		if (Len(strCleanRadius) > 0)
 		{
 			radiusValue = int(strCleanRadius);
-			if (radiusValue > 80000)
-				radiusValue = 80000;
+			if (radiusValue > 20000)
+				radiusValue = 20000;
 
 			if (radiusValue >= 1000)
 			{
