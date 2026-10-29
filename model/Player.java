@@ -31,6 +31,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -5707,7 +5708,7 @@ private Player(final int objectId, final PlayerTemplate template)
 		return createFakeBot(name, 0, false);
 	}
 
-	/** Cria um bot temporario usando o template de classe/sexo solicitado. */
+	/** Cria um bot temporario com classe ativa e nivel inicial aleatorio. */
 	public static Player createFakeBot(final String name, final int classId, final boolean female)
 	{
 		PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(classId, female);
@@ -5718,6 +5719,20 @@ private Player(final int objectId, final PlayerTemplate template)
 		player.setName(name);
 		player.setTitle("");
 		player.setFakePlayer();
+
+		// Bots nao sao carregados do banco: inicializamos sua classe base manualmente.
+		final int botClassId = player.getClassId().getId();
+		final SubClass botClass = new SubClass();
+		botClass.setBase(true);
+		botClass.setClassId(botClassId);
+		final int level = ThreadLocalRandom.current().nextInt(20, 86);
+		botClass.setExp(Experience.LEVEL[level]);
+		botClass.setActive(true);
+		player.setBaseClass(botClassId);
+		player.getSubClasses().put(botClassId, botClass);
+		player.setActiveClass(botClass);
+		player.updateStats();
+
 		return player;
 	}
 
