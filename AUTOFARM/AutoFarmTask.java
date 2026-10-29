@@ -224,7 +224,8 @@ public class AutoFarmTask implements Runnable
 		if (_player.isCastingNow())
 			return;
 
-		ItemInstance loot = threat == null ? findNearestLoot() : null;
+		// Ranged e magos ficam no ponto de ativação; não caminham para coletar drops.
+		ItemInstance loot = threat == null && !isStationaryRangedPlayer() ? findNearestLoot() : null;
 		if (loot != null)
 		{
 			if (handleLoot(loot))
@@ -426,6 +427,25 @@ public class AutoFarmTask implements Runnable
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
 
+		// Um alvo fora do alcance não deve fazer arqueiros/magos perseguirem ou
+		// dispararem retorno automático. Descarta-o por alguns segundos.
+		if (isStationaryRangedPlayer())
+		{
+			if (_player.isAttackingNow())
+				_player.abortAttack(false, false);
+			_player.setTarget(null);
+			_lastTargetObjectId = 0;
+			_ignoredTargetObjectId = target.getObjectId();
+			_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+			_targetProgressSince = 0L;
+			_lastTargetDistance = -1.0;
+			_attackStateSince = 0L;
+			_stuckCount = 0;
+			if (_cachedMonster == target)
+				_cachedMonster = null;
+			return true;
+		}
+
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
 
@@ -455,6 +475,17 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		double distanceFromStart = _player.getDistance(_startX, _startY, _startZ);
+
+		// Em classes de ataque à distância, falta de alvo ou alvo inalcançável
+		// nunca deve iniciar movimento automático de retorno.
+		if (isStationaryRangedPlayer())
+		{
+			_stuckCount = 0;
+			_targetProgressSince = 0L;
+			_lastTargetDistance = -1.0;
+			_noTargetSince = now;
+			return;
+		}
 
 		if (distanceFromStart <= 500.0)
 		{
@@ -499,11 +530,29 @@ public class AutoFarmTask implements Runnable
 		// Tolerância pequena evita oscilar entre mover e atacar na borda do alcance.
 		if (distance > attackRange + 20.0)
 		{
+			if (isStationaryRangedPlayer())
+				return;
 			moveToAttackRange(target, attackRange);
 			return;
 		}
 
 		_player.doAttack(target);
+	}
+
+	private boolean isStationaryRangedPlayer()
+	{
+		if (_player == null)
+			return false;
+
+		if (_player.isMageClass())
+			return true;
+
+		WeaponTemplate weapon = _player.getActiveWeaponItem();
+		if (weapon == null)
+			return false;
+
+		WeaponType type = weapon.getItemType();
+		return type == WeaponType.BOW || type == WeaponType.CROSSBOW;
 	}
 
 	private int getPhysicalAttackRange()
@@ -523,6 +572,9 @@ public class AutoFarmTask implements Runnable
 
 	private void moveToAttackRange(MonsterInstance target, int range)
 	{
+		if (isStationaryRangedPlayer())
+			return;
+
 		if (target == null || target.isDead())
 			return;
 
@@ -618,6 +670,9 @@ public class AutoFarmTask implements Runnable
 
 		if (preferredCastRange > 0 && target != null && !target.isDead())
 		{
+			if (isStationaryRangedPlayer())
+				return _player.getDistance(target) > getPhysicalAttackRange() + 20.0;
+
 			if (!_player.isAttackingNow() && !_player.isCastingNow())
 			{
 				int offset = Math.max(10, preferredCastRange - 5);
