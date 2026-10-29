@@ -935,11 +935,15 @@ public class AutoFarmCommunity
 			int radius =
 				Integer.parseInt(args[0]);
 
-			if (radius < 1000 || radius > 80000)
+			if (radius < 1000)
 			{
-				self.sendMessage("Raio inválido. Escolha um valor entre 1000 e 80000.");
+				self.sendMessage("Raio mínimo: 1000.");
 				return;
 			}
+
+			// Nunca permite configurar um raio acima de 80000.
+			if (radius > 80000)
+				radius = 80000;
 
 			self.setAutoFarmRadius(radius);
 			AutoFarmTask.updateSearchRadius(self, radius);
