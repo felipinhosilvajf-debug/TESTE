@@ -13,7 +13,6 @@ import l2f.gameserver.handler.admincommands.IAdminCommandHandler;
 import l2f.gameserver.model.GameObjectsStorage;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.World;
-import l2f.gameserver.model.base.Experience;
 import l2f.gameserver.model.instances.MonsterInstance;
 import l2f.gameserver.model.instances.NpcInstance;
 import l2f.gameserver.network.serverpackets.Say2;
@@ -166,8 +165,6 @@ public class AdminFakePlayers implements IAdminCommandHandler
 						female = false;
 
 					Player bot = Player.createFakeBot(botName, classId, female);
-					int level = ThreadLocalRandom.current().nextInt(20, 86);
-					bot.setExp(Experience.LEVEL[level]);
 					BotMode mode = requestedMode == BotMode.MIXED ? chooseMode() : requestedMode;
 					bot.spawnMe(Location.findPointToStay(activeChar, 50, 100));
 					_fakeBots.add(bot);
