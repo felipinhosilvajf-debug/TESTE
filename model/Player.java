@@ -5821,7 +5821,7 @@ private Player(final int objectId, final PlayerTemplate template)
 			// Prairie Leather Armor (B), Unicorn Leather Armor (A), Dragon Leather Armor (S).
 			body = new int[] {396, 400, 404, 410, 411}[grade];
 			// Os IDs de torso acima não são todos armaduras full-body: completar com gaiters LIGHT.
-			legs = new int[] {417, 420, 421, 424, -1}[grade];
+			legs = new int[] {417, 420, 421, -1, -1}[grade];
 		}
 		else
 		{
