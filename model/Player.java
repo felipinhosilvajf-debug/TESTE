@@ -5757,8 +5757,10 @@ private Player(final int objectId, final PlayerTemplate template)
 		// Kamael: usar somente armas exclusivas da raça e compatíveis com a especialização.
 		if (isFakeBotKamael(classId))
 		{
-			final boolean crossbow = classId == 126 || classId == 130 || classId == 134;
-			final boolean ancientSword = classId == 125 || classId == 127 || classId == 131 || classId == 136;
+			// IDs de classe H5: Warder/Arbalester/Trickster usam crossbow;
+			// Berserker/Inspector/Judicator usam ancient sword. As demais usam rapier.
+			final boolean crossbow = classId == 126 || classId == 130 || classId == 133;
+			final boolean ancientSword = classId == 127 || classId == 134 || classId == 135;
 			final int[] rapierIds = {9209, 9292, 9316, 9328, 9364};       // D, C, B, A, S
 			final int[] ancientSwordIds = {9220, 9284, 9320, 9332, 9368};
 			final int[] crossbowIds = {9221, 9300, 9324, 9336, 9372};
