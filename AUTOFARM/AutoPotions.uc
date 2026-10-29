@@ -277,8 +277,9 @@ function OnEnterEditBox(String strID)
 	local string strRadius;
 	local string strCleanRadius;
 	local int i;
+	local int radiusValue;
 
-	if (strID == "autoFarmRadius")
+	if (strID == "autoFarmRadius" || strID == "AutoPotions.autoFarmRadius")
 	{
 		strRadius = eAutoFarmRadius.GetString();
 		strCleanRadius = "";
@@ -290,11 +291,21 @@ function OnEnterEditBox(String strID)
 				strCleanRadius = strCleanRadius $ Mid(strRadius, i, 1);
 		}
 
-		ExecuteCommand(".autofarm radius " $ strCleanRadius);
-		PlayConsoleSound(IFST_CLICK1);
+		if (Len(strCleanRadius) > 0)
+		{
+			radiusValue = int(strCleanRadius);
+			if (radiusValue > 80000)
+				radiusValue = 80000;
+
+			if (radiusValue >= 1000)
+			{
+				eAutoFarmRadius.SetString(string(radiusValue));
+				ExecuteCommand(".autofarm radius " $ string(radiusValue));
+				PlayConsoleSound(IFST_CLICK1);
+			}
+		}
 	}
 }
-
 function OnClickItem(String strID, int index)
 {
 	switch (strID)
