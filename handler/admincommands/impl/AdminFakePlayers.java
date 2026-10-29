@@ -21,7 +21,7 @@ import l2f.gameserver.utils.Location;
 
 public class AdminFakePlayers implements IAdminCommandHandler
 {
-	private static final int MAX_BOTS_PER_CATEGORY = 30;
+	private static final int MAX_BOTS_PER_COMMAND = 30;
 	private static final List<Player> _fakeBots = new CopyOnWriteArrayList<Player>();
 	private static final Map<Player, ScheduledFuture<?>> _movementTasks = new ConcurrentHashMap<Player, ScheduledFuture<?>>();
 	private static final Map<Player, BotMode> _botModes = new ConcurrentHashMap<Player, BotMode>();
@@ -134,19 +134,9 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					return false;
 				}
 
-				int activeInCategory = 0;
-				for (BotMode existingMode : _botModes.values())
-					if ((requestedMode == BotMode.SOCIAL && existingMode == BotMode.SOCIAL) || (requestedMode != BotMode.SOCIAL && existingMode != BotMode.SOCIAL))
-						activeInCategory++;
-
-				int available = MAX_BOTS_PER_CATEGORY - activeInCategory;
-				if (available <= 0)
-				{
-					activeChar.sendMessage("Limite de " + MAX_BOTS_PER_CATEGORY + " bots ativos nesta categoria ja foi atingido.");
-					return false;
-				}
-				if (count > available)
-					count = available;
+				// Limite de 30 por execução do comando; novas execuções podem adicionar mais bots.
+				if (count > MAX_BOTS_PER_COMMAND)
+					count = MAX_BOTS_PER_COMMAND;
 
 				int created = 0;
 				for (int i = 0; i < count; i++)
@@ -176,7 +166,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					startBehavior(bot);
 				}
 
-				activeChar.sendMessage("Bots temporarios criados: " + created + " (modo " + requestedMode.name().toLowerCase() + ", limite " + MAX_BOTS_PER_CATEGORY + " por categoria).");
+				activeChar.sendMessage("Bots temporarios criados: " + created + " (modo " + requestedMode.name().toLowerCase() + ", maximo " + MAX_BOTS_PER_COMMAND + " por execucao).");
 				break;
 
 			case admin_remove_fake_players:
@@ -242,6 +232,18 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		for (int attempt = 0; attempt < _names.length * 2; attempt++)
 		{
 			String name = _names[Rnd.get(_names.length)];
+			if (GameObjectsStorage.getPlayer(name) == null)
+				return name;
+		}
+
+		// Quando os nomes predefinidos estiverem ocupados, gera variantes únicas
+		// para permitir várias execuções do comando sem esgotar a lista fixa.
+		for (int attempt = 0; attempt < 10000; attempt++)
+		{
+			String base = _names[Rnd.get(_names.length)];
+			if (base.length() > 10)
+				base = base.substring(0, 10);
+			String name = base + ThreadLocalRandom.current().nextInt(100000, 1000000);
 			if (GameObjectsStorage.getPlayer(name) == null)
 				return name;
 		}
