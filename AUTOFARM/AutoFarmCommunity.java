@@ -935,13 +935,14 @@ public class AutoFarmCommunity
 			int radius =
 				Integer.parseInt(args[0]);
 
-			if (radius < 1000 || radius > 5000)
+			if (radius < 1000 || radius > 80000)
 			{
-				self.sendMessage("Raio inválido. Escolha um valor entre 1000 e 5000.");
+				self.sendMessage("Raio inválido. Escolha um valor entre 1000 e 80000.");
 				return;
 			}
 
 			self.setAutoFarmRadius(radius);
+			AutoFarmTask.updateSearchRadius(self, radius);
 			self.sendMessage("Auto Farm: raio de busca definido para " + radius + ".");
 		}
 		catch (NumberFormatException e)
