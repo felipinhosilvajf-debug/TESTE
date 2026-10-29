@@ -5739,7 +5739,12 @@ private Player(final int objectId, final PlayerTemplate template)
 		final int[] armorIds = getFakeBotArmorIds(botClassId, levelForGear);
 		equipFakeBotItem(player, weaponId);
 		for (int armorId : armorIds)
-			equipFakeBotItem(player, armorId);
+		{
+			// Para Kamael, equipa apenas IDs com modelo e textura confirmados no ArmorGrp
+			// para os dois sexos. Isso evita introduzir peças sem visual nessa raça.
+			if (!isFakeBotKamael(botClassId) || isFakeBotKamaelArmorVisualVerified(armorId))
+				equipFakeBotItem(player, armorId);
+		}
 		player.updateStats();
 
 		return player;
@@ -5748,6 +5753,45 @@ private Player(final int objectId, final PlayerTemplate template)
 	private static boolean isFakeBotKamael(final int classId)
 	{
 		return classId >= 123 && classId <= 136;
+	}
+
+	/**
+	 * IDs de armaduras selecionados para os bots Kamael e verificados no armorgrp.dat
+	 * do cliente Mythras: há modelo e textura para Kamael masculino e feminino.
+	 * Só adicionar IDs após validar o visual no cliente.
+	 */
+	private static boolean isFakeBotKamaelArmorVisualVerified(final int itemId)
+	{
+		switch (itemId)
+		{
+			// Torso leve por faixa de nível/grade.
+			case 396:
+			case 400:
+			case 404:
+			// Calças leves usadas nos níveis iniciais.
+			case 417:
+			case 420:
+			case 421:
+			// Capacetes.
+			case 41:
+			case 497:
+			case 502:
+			case 503:
+			case 504:
+			// Luvas.
+			case 605:
+			case 608:
+			case 610:
+			case 613:
+			// Botas.
+			case 553:
+			case 554:
+			case 583:
+			case 603:
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	private static int getFakeBotWeaponId(final int classId, final int level)
