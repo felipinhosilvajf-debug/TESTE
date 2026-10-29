@@ -165,6 +165,8 @@ public class AdminFakePlayers implements IAdminCommandHandler
 						female = false;
 
 					Player bot = Player.createFakeBot(botName, classId, female);
+					// Identidade visual do servidor em todos os bots gerados por este comando.
+					bot.setTitle("Virtual Boost");
 					BotMode mode = requestedMode == BotMode.MIXED ? chooseMode() : requestedMode;
 					bot.spawnMe(Location.findPointToStay(activeChar, 50, 100));
 					_fakeBots.add(bot);
