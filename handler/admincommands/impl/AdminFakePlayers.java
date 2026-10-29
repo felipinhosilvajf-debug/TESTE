@@ -98,6 +98,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		switch (command)
 		{
 			case admin_create_fake_players:
+			case admin_create_social_fake_players:
 				int count = 1;
 				if (wordList.length > 1)
 				{
