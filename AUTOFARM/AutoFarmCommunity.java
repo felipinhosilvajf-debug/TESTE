@@ -941,9 +941,9 @@ public class AutoFarmCommunity
 				return;
 			}
 
-			// Nunca permite configurar um raio acima de 80000.
-			if (radius > 80000)
-				radius = 80000;
+			// Nunca permite configurar um raio acima de 20000.
+			if (radius > 20000)
+				radius = 20000;
 
 			self.setAutoFarmRadius(radius);
 			AutoFarmTask.updateSearchRadius(self, radius);
