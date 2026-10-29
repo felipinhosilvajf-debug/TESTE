@@ -22,10 +22,11 @@ import l2f.gameserver.utils.Location;
 
 public class AdminFakePlayers implements IAdminCommandHandler
 {
-	private static final int MAX_BOTS_PER_COMMAND = 100;
+	private static final int MAX_BOTS_PER_CATEGORY = 30;
 	private static final List<Player> _fakeBots = new CopyOnWriteArrayList<Player>();
 	private static final Map<Player, ScheduledFuture<?>> _movementTasks = new ConcurrentHashMap<Player, ScheduledFuture<?>>();
 	private static final Map<Player, BotMode> _botModes = new ConcurrentHashMap<Player, BotMode>();
+	private static final Map<Player, BotBehavior> _botBehaviors = new ConcurrentHashMap<Player, BotBehavior>();
 
 	// Templates iniciais de cada raca. Os IDs sao ClassId da source H5.
 	private static final int[] _classTemplates = { 0, 10, 18, 25, 31, 38, 44, 49, 53, 123, 124 };
@@ -80,6 +81,14 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		SOCIAL
 	}
 
+	private static enum BotBehavior
+	{
+		SIT_FOREVER,
+		STAND_FOREVER,
+		WALK,
+		FARM
+	}
+
 	private static enum Commands
 	{
 		admin_create_fake_players,
@@ -113,9 +122,9 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					}
 				}
 
-				if (count < 1 || count > MAX_BOTS_PER_COMMAND)
+				if (count < 1)
 				{
-					activeChar.sendMessage("Informe uma quantidade entre 1 e " + MAX_BOTS_PER_COMMAND + ".");
+					activeChar.sendMessage("Informe uma quantidade maior que zero.");
 					return false;
 				}
 
@@ -125,6 +134,20 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					activeChar.sendMessage("Modo invalido. Use mixed, town ou farm. Para bots que falam, use //create_social_fake_players.");
 					return false;
 				}
+
+				int activeInCategory = 0;
+				for (BotMode existingMode : _botModes.values())
+					if ((requestedMode == BotMode.SOCIAL && existingMode == BotMode.SOCIAL) || (requestedMode != BotMode.SOCIAL && existingMode != BotMode.SOCIAL))
+						activeInCategory++;
+
+				int available = MAX_BOTS_PER_CATEGORY - activeInCategory;
+				if (available <= 0)
+				{
+					activeChar.sendMessage("Limite de " + MAX_BOTS_PER_CATEGORY + " bots ativos nesta categoria ja foi atingido.");
+					return false;
+				}
+				if (count > available)
+					count = available;
 
 				int created = 0;
 				for (int i = 0; i < count; i++)
@@ -149,11 +172,12 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					bot.spawnMe(Location.findPointToStay(activeChar, 50, 100));
 					_fakeBots.add(bot);
 					_botModes.put(bot, mode);
+					_botBehaviors.put(bot, chooseBehavior(mode));
 					created++;
 					startBehavior(bot);
 				}
 
-				activeChar.sendMessage("Bots temporarios criados: " + created + " (modo " + requestedMode.name().toLowerCase() + ").");
+				activeChar.sendMessage("Bots temporarios criados: " + created + " (modo " + requestedMode.name().toLowerCase() + ", limite " + MAX_BOTS_PER_CATEGORY + " por categoria).");
 				break;
 
 			case admin_remove_fake_players:
@@ -165,6 +189,7 @@ public class AdminFakePlayers implements IAdminCommandHandler
 						task.cancel(false);
 
 					_botModes.remove(bot);
+					_botBehaviors.remove(bot);
 					if (bot.isVisible())
 						bot.decayMe();
 					bot.deleteMe();
@@ -200,6 +225,19 @@ public class AdminFakePlayers implements IAdminCommandHandler
 		return BotMode.MIXED;
 	}
 
+	private static BotBehavior chooseBehavior(BotMode mode)
+	{
+		if (mode == BotMode.FARM)
+			return BotBehavior.FARM;
+
+		int roll = ThreadLocalRandom.current().nextInt(100);
+		if (roll < 25)
+			return BotBehavior.SIT_FOREVER;
+		if (roll < 50)
+			return BotBehavior.STAND_FOREVER;
+		return BotBehavior.WALK;
+	}
+
 	private static String getRandomAvailableName()
 	{
 		for (int attempt = 0; attempt < _names.length * 2; attempt++)
@@ -225,14 +263,9 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					return;
 
 				BotMode mode = _botModes.get(bot);
-				if (mode == null)
+				BotBehavior behavior = _botBehaviors.get(bot);
+				if (mode == null || behavior == null)
 					return;
-
-				// Alguns bots descansam; outros falam ocasionalmente.
-				if (ThreadLocalRandom.current().nextInt(100) < 12 && !bot.isSitting() && !bot.isMoving)
-					bot.sitDown(null);
-				else if (bot.isSitting() && ThreadLocalRandom.current().nextInt(100) < 45)
-					bot.standUp();
 
 				if (mode == BotMode.SOCIAL && ThreadLocalRandom.current().nextInt(100) < 30)
 				{
@@ -240,9 +273,26 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					bot.broadcastPacket(new Say2(bot, ChatType.ALL, line));
 				}
 
-				if (mode == BotMode.FARM && tryAttackNearbyMonster(bot))
+				// Os bots silenciosos nunca enviam mensagens: somente SOCIAL chega ao bloco de chat acima.
+				if (behavior == BotBehavior.SIT_FOREVER)
+				{
+					if (!bot.isSitting() && !bot.isMoving)
+						bot.sitDown(null);
+					return;
+				}
+
+				if (behavior == BotBehavior.STAND_FOREVER)
+				{
+					if (bot.isSitting())
+						bot.standUp();
+					return;
+				}
+
+				if (behavior == BotBehavior.FARM && tryAttackNearbyMonster(bot))
 					return;
 
+				if (behavior == BotBehavior.FARM && ThreadLocalRandom.current().nextInt(100) < 60)
+					return;
 				if (mode == BotMode.TOWN && ThreadLocalRandom.current().nextInt(100) < 65)
 					return;
 				if (mode == BotMode.SOCIAL && ThreadLocalRandom.current().nextInt(100) < 35)
@@ -251,9 +301,9 @@ public class AdminFakePlayers implements IAdminCommandHandler
 					return;
 
 				if (bot.isSitting())
-					return;
+					bot.standUp();
 
-				Location destination = Location.findPointToStay(bot, 100, mode == BotMode.FARM ? 450 : 350);
+				Location destination = Location.findPointToStay(bot, 100, behavior == BotBehavior.FARM ? 450 : 350);
 				bot.moveToLocation(destination, 0, true);
 			}
 		}, initialDelay, interval);
