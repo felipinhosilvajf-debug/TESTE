@@ -5721,7 +5721,8 @@ private Player(final int objectId, final PlayerTemplate template)
 		player.setFakePlayer();
 
 		// Bots nao sao carregados do banco: inicializamos sua classe base manualmente.
-		final int botClassId = player.getClassId().getId();
+		// Usa a classe solicitada ao criar o bot; nao depende da classe inferida pelo Player.
+		final int botClassId = classId;
 		final SubClass botClass = new SubClass();
 		botClass.setBase(true);
 		botClass.setClassId(botClassId);
@@ -5739,7 +5740,16 @@ private Player(final int objectId, final PlayerTemplate template)
 		final int[] armorIds = getFakeBotArmorIds(botClassId, levelForGear);
 		equipFakeBotItem(player, weaponId);
 		for (int armorId : armorIds)
-			equipFakeBotItem(player, armorId);
+		{
+			// Bloqueio explicito: estas armaduras ficam cinza ou nao sao aceitas por Kamael.
+			if (isFakeBotKamael(botClassId) && (armorId == 404 || armorId == 410 || armorId == 411 || armorId == 421))
+				continue;
+
+			// Para Kamael, equipa apenas IDs com modelo e textura confirmados no ArmorGrp
+			// para os dois sexos. Isso evita introduzir peças sem visual nessa raça.
+			if (!isFakeBotKamael(botClassId) || isFakeBotKamaelArmorVisualVerified(armorId))
+				equipFakeBotItem(player, armorId);
+		}
 		player.updateStats();
 
 		return player;
@@ -5748,6 +5758,43 @@ private Player(final int objectId, final PlayerTemplate template)
 	private static boolean isFakeBotKamael(final int classId)
 	{
 		return classId >= 123 && classId <= 136;
+	}
+
+	/**
+	 * IDs de armaduras selecionados para os bots Kamael e verificados no armorgrp.dat
+	 * do cliente Mythras: há modelo e textura para Kamael masculino e feminino.
+	 * Só adicionar IDs após validar o visual no cliente.
+	 */
+	private static boolean isFakeBotKamaelArmorVisualVerified(final int itemId)
+	{
+		switch (itemId)
+		{
+			// Torso leve por faixa de nível/grade.
+			case 396:
+			case 400:
+			// Calças leves usadas nos níveis iniciais.
+			case 417:
+			case 420:
+			// Capacetes.
+			case 41:
+			case 497:
+			case 502:
+			case 503:
+			case 504:
+			// Luvas.
+			case 605:
+			case 608:
+			case 610:
+			case 613:
+			// Botas.
+			case 553:
+			case 554:
+			case 583:
+			case 603:
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	private static int getFakeBotWeaponId(final int classId, final int level)
@@ -5820,14 +5867,16 @@ private Player(final int objectId, final PlayerTemplate template)
 		else if (light)
 		{
 			// Conjuntos LIGHT comuns da base H5; não atribuir armadura HEAVY a Kamael.
-			// Kamael não equipa os IDs 410 (A) e 411 (S) neste servidor;
-			// para esses níveis, manter Prairie Leather Armor (ID 404), já usado na faixa B.
+			// Kamael não equipa os IDs 404 (torso) e 421 (calças), pois aparecem cinza.
+			// Nos níveis seguintes, reutiliza o torso LIGHT 400 e as calças LIGHT 420.
 			// Outras classes LIGHT continuam com Unicorn (A) e Dragon Leather (S).
 			body = isFakeBotKamael(classId)
-					? new int[] {396, 400, 404, 404, 404}[grade]
+					? new int[] {396, 400, 400, 400, 400}[grade]
 					: new int[] {396, 400, 404, 410, 411}[grade];
 			// Os IDs de torso acima não são todos armaduras full-body: completar com gaiters LIGHT.
-			legs = new int[] {417, 420, 421, -1, -1}[grade];
+		legs = isFakeBotKamael(classId)
+				? new int[] {417, 420, 420, -1, -1}[grade]
+				: new int[] {417, 420, 421, -1, -1}[grade];
 		}
 		else
 		{
