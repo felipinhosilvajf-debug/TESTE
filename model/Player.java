@@ -5745,36 +5745,66 @@ private Player(final int objectId, final PlayerTemplate template)
 		return player;
 	}
 
+	private static boolean isFakeBotKamael(final int classId)
+	{
+		return classId >= 123 && classId <= 136;
+	}
+
 	private static int getFakeBotWeaponId(final int classId, final int level)
 	{
 		final int grade = level < 40 ? 0 : level < 52 ? 1 : level < 61 ? 2 : level < 76 ? 3 : 4;
-		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 29)
-				|| (classId >= 38 && classId <= 41) || classId == 47 || classId == 48 || classId == 49;
+
+		// Kamael: usar somente armas exclusivas da raça e compatíveis com a especialização.
+		if (isFakeBotKamael(classId))
+		{
+			final boolean crossbow = classId == 126 || classId == 130 || classId == 134;
+			final boolean ancientSword = classId == 125 || classId == 127 || classId == 131 || classId == 136;
+			final int[] rapierIds = {9209, 9292, 9316, 9328, 9364};       // D, C, B, A, S
+			final int[] ancientSwordIds = {9220, 9284, 9320, 9332, 9368};
+			final int[] crossbowIds = {9221, 9300, 9324, 9336, 9372};
+			return crossbow ? crossbowIds[grade] : ancientSword ? ancientSwordIds[grade] : rapierIds[grade];
+		}
+
+		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 30)
+				|| (classId >= 37 && classId <= 42) || (classId >= 48 && classId <= 51);
 		final boolean bow = classId == 9 || classId == 24 || classId == 36;
-		final boolean dagger = classId == 7 || classId == 8 || classId == 22 || classId == 23 || classId == 34 || classId == 35;
-		final boolean pole = classId == 3 || classId == 43 || classId == 44;
-		final boolean fist = classId == 45 || classId == 46;
-		final boolean sword = classId == 2 || classId == 19 || classId == 20 || classId == 31 || classId == 32;
-		final int[][] ids = {
-			// D, C, B, A, S: itens e tipos conferidos nos XMLs da base.
-			{ mage ? 183 : bow ? 274 : dagger ? 220 : pole ? 291 : fist ? 258 : sword ? 123 : 156,
-			  mage ? 192 : bow ? 281 : dagger ? 226 : pole ? 298 : fist ? 263 : sword ? 131 : 160,
-			  mage ? 207 : bow ? 284 : dagger ? 229 : pole ? 300 : fist ? 264 : sword ? 142 : 171,
-			  mage ? 212 : bow ? 288 : dagger ? 235 : pole ? 304 : fist ? 269 : sword ? 147 : 164,
-			  mage ? 214 : bow ? 290 : dagger ? 237 : pole ? 306 : fist ? 270 : sword ? 147 : 165 }
-		};
-		return ids[0][grade];
+		final boolean dagger = classId == 7 || classId == 8 || classId == 22 || classId == 23
+				|| classId == 34 || classId == 35 || classId == 53 || classId == 54;
+		final boolean pole = classId == 3 || classId == 44;
+		final boolean fist = classId == 46 || classId == 47;
+		final boolean sword = classId == 0 || classId == 1 || classId == 2
+				|| (classId >= 4 && classId <= 6) || classId == 18 || classId == 19
+				|| classId == 20 || classId == 21 || classId == 31 || classId == 32
+				|| classId == 33 || classId == 43 || classId == 45 || classId == 52;
+
+		final int[] ids;
+		if (mage)
+			ids = new int[] {183, 192, 207, 212, 214};
+		else if (bow)
+			ids = new int[] {274, 281, 284, 288, 290};
+		else if (dagger)
+			ids = new int[] {220, 226, 229, 235, 237};
+		else if (pole)
+			ids = new int[] {291, 298, 300, 304, 306};
+		else if (fist)
+			ids = new int[] {258, 263, 264, 269, 270};
+		else if (sword)
+			ids = new int[] {123, 131, 142, 147, 147};
+		else
+			ids = new int[] {156, 160, 171, 164, 165};
+		return ids[grade];
 	}
 
 	private static int[] getFakeBotArmorIds(final int classId, final int level)
 	{
 		final int grade = level < 40 ? 0 : level < 52 ? 1 : level < 61 ? 2 : level < 76 ? 3 : 4;
-		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 29)
-				|| (classId >= 38 && classId <= 41) || classId == 47 || classId == 48 || classId == 49;
-		final boolean light = classId == 7 || classId == 8 || classId == 9 || classId == 22 || classId == 23
-				|| classId == 24 || classId == 33 || classId == 34 || classId == 35 || classId == 36
-				|| classId == 45 || classId == 46 || classId == 50 || classId == 51 || classId == 52 || classId == 53 || classId == 54;
-		// IDs de corpo: D/C/B/A/S. As peças FULL_ARMOR já cobrem torso e pernas.
+		final boolean mage = (classId >= 10 && classId <= 17) || (classId >= 25 && classId <= 30)
+				|| (classId >= 37 && classId <= 42) || (classId >= 48 && classId <= 51);
+		// Kamael e classes de armadura leve recebem conjuntos LIGHT; cavaleiros, anões e destroyers não.
+		final boolean light = isFakeBotKamael(classId) || classId == 7 || classId == 8 || classId == 9
+				|| classId == 22 || classId == 23 || classId == 24 || classId == 34
+				|| classId == 35 || classId == 36 || classId == 46 || classId == 47;
+
 		final int body;
 		final int legs;
 		if (mage)
@@ -5792,9 +5822,11 @@ private Player(final int objectId, final PlayerTemplate template)
 			body = new int[] {347, 356, 359, 374, 375}[grade];
 			legs = new int[] {376, -1, -1, -1, 389}[grade];
 		}
-		final int head = new int[] {41, 497, 501, 502, 504}[grade];
-		final int gloves = new int[] {48, 608, 610, 613, 613}[grade];
-		final int feet = new int[] {35, 603, 554, 583, 555}[grade];
+
+		// IDs existentes nos XMLs: evita IDs ausentes e peças de grade errada.
+		final int head = new int[] {41, 497, 503, 502, 504}[grade];
+		final int gloves = new int[] {605, 608, 610, 613, 613}[grade];
+		final int feet = new int[] {553, 603, 554, 583, 583}[grade];
 		if (legs > 0)
 			return new int[] {body, legs, head, gloves, feet};
 		return new int[] {body, head, gloves, feet};
@@ -5805,31 +5837,9 @@ private Player(final int objectId, final PlayerTemplate template)
 		final ItemInstance item = player.getInventory().addItem(itemId, 1L, "FakeBotEquipment");
 		if (item == null)
 			return;
-		final int bodySlot = item.getBodyPart();
-		// setPaperdollItem exige o slot de paperdoll, que difere do bodyPart em alguns itens.
-		int paperdollSlot = -1;
-		switch (bodySlot)
-		{
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_R_HAND:
-				paperdollSlot = Inventory.PAPERDOLL_RHAND; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_L_HAND:
-				paperdollSlot = Inventory.PAPERDOLL_LHAND; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_L_HAND | l2f.gameserver.model.items.ItemTemplate.SLOT_R_HAND:
-				paperdollSlot = Inventory.PAPERDOLL_RHAND; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_HEAD:
-				paperdollSlot = Inventory.PAPERDOLL_HEAD; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_CHEST:
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_FULL_ARMOR:
-				paperdollSlot = Inventory.PAPERDOLL_CHEST; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_LEGS:
-				paperdollSlot = Inventory.PAPERDOLL_LEGS; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_GLOVES:
-				paperdollSlot = Inventory.PAPERDOLL_GLOVES; break;
-			case l2f.gameserver.model.items.ItemTemplate.SLOT_FEET:
-				paperdollSlot = Inventory.PAPERDOLL_FEET; break;
-		}
-		if (paperdollSlot >= 0)
-			player.getInventory().setPaperdollItem(paperdollSlot, item);
+
+		// Deixa o Inventory tratar SLOT_LR_HAND, FULL_ARMOR e a troca de slots corretamente.
+		player.getInventory().equipItem(item);
 	}
 
 	public static Player create(int classId, int sex, String accountName, final String name, final int hairStyle, final int hairColor, final int face)
