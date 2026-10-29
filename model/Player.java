@@ -5811,7 +5811,10 @@ private Player(final int objectId, final PlayerTemplate template)
 		final int legs;
 		if (mage)
 		{
-			body = new int[] {438, 440, 448, 459, 460}[grade];
+			// Robes da base com visual mais conhecido: Sage's Rag (D), Robe of Seal (C),
+			// Avadon Robe (B), Majestic Robe (A). O ID 460 (S) falha visualmente
+			// no cliente deste projeto, então S usa o A visualmente confirmado.
+			body = new int[] {438, 440, 2406, 2409, 2409}[grade];
 			legs = -1;
 		}
 		else if (light)
