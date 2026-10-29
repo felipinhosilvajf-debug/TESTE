@@ -274,9 +274,23 @@ function OnDropItem(String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 
 function OnEnterEditBox(String strID)
 {
+	local string strRadius;
+	local string strCleanRadius;
+	local int i;
+
 	if (strID == "autoFarmRadius")
 	{
-		ExecuteCommand(".autofarm radius " $ eAutoFarmRadius.GetString());
+		strRadius = eAutoFarmRadius.GetString();
+		strCleanRadius = "";
+
+		// Remove separadores de milhar (ex.: 80,000 -> 80000).
+		for (i = 0; i < Len(strRadius); i++)
+		{
+			if (InStr("0123456789", Mid(strRadius, i, 1)) >= 0)
+				strCleanRadius = strCleanRadius $ Mid(strRadius, i, 1);
+		}
+
+		ExecuteCommand(".autofarm radius " $ strCleanRadius);
 		PlayConsoleSound(IFST_CLICK1);
 	}
 }
