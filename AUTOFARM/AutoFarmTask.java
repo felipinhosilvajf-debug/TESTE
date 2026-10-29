@@ -34,11 +34,11 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance _cachedMonster = null;
 	private long _lastLootScan = 0L;
 	private ItemInstance _cachedLoot = null;
-	private static final long MONSTER_SCAN_INTERVAL = 100L;
+	private static final long MONSTER_SCAN_INTERVAL = 500L;
 	private static final long LOOT_SCAN_INTERVAL = 700L;
 	private long _lastThreatScan = 0L;
 	private MonsterInstance _cachedThreat = null;
-	private static final long THREAT_SCAN_INTERVAL = 200L;
+	private static final long THREAT_SCAN_INTERVAL = 500L;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
