@@ -429,7 +429,7 @@ public class AutoFarmTask implements Runnable
 
 		// Um alvo fora do alcance não deve fazer arqueiros/magos perseguirem ou
 		// dispararem retorno automático. Descarta-o por alguns segundos.
-		if (isStationaryRangedPlayer())
+		if (isStationaryRangedPlayer() && !inAttackRange)
 		{
 			if (_player.isAttackingNow())
 				_player.abortAttack(false, false);
@@ -443,6 +443,9 @@ public class AutoFarmTask implements Runnable
 			_stuckCount = 0;
 			if (_cachedMonster == target)
 				_cachedMonster = null;
+			if (_cachedThreat == target)
+				_cachedThreat = null;
+			_lastThreatScan = 0L;
 			return true;
 		}
 
@@ -791,7 +794,8 @@ public class AutoFarmTask implements Runnable
 		{
 			if (!_cachedThreat.isDead() && _cachedThreat.isVisible()
 				&& _cachedThreat.getTarget() == _player
-				&& _player.getDistance(_cachedThreat) <= _searchRadius)
+				&& _player.getDistance(_cachedThreat) <= _searchRadius
+				&& (_cachedThreat.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
 			{
 				if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
 					return _cachedThreat;
@@ -819,6 +823,9 @@ public class AutoFarmTask implements Runnable
 			MonsterInstance monster = (MonsterInstance) npc;
 
 			if (monster.isDead() || !monster.isVisible() || monster.getTarget() != _player)
+				continue;
+
+			if (monster.getObjectId() == _ignoredTargetObjectId && now < _ignoredTargetUntil)
 				continue;
 
 			double distance = _player.getDistance(monster);
