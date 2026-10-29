@@ -5704,7 +5704,16 @@ private Player(final int objectId, final PlayerTemplate template)
 	 */
 	public static Player createFakeBot(final String name)
 	{
-		final PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(0, false);
+		return createFakeBot(name, 0, false);
+	}
+
+	/** Cria um bot temporario usando o template de classe/sexo solicitado. */
+	public static Player createFakeBot(final String name, final int classId, final boolean female)
+	{
+		PlayerTemplate template = CharTemplateHolder.getInstance().getTemplate(classId, female);
+		if (template == null)
+			template = CharTemplateHolder.getInstance().getTemplate(0, false);
+
 		final Player player = new Player(IdFactory.getInstance().getNextId(), template);
 		player.setName(name);
 		player.setTitle("");
