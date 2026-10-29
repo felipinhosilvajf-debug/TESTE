@@ -5767,11 +5767,9 @@ private Player(final int objectId, final PlayerTemplate template)
 			// Torso leve por faixa de nível/grade.
 			case 396:
 			case 400:
-			case 404:
 			// Calças leves usadas nos níveis iniciais.
 			case 417:
 			case 420:
-			case 421:
 			// Capacetes.
 			case 41:
 			case 497:
