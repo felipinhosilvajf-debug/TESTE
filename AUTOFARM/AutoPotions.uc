@@ -5,6 +5,7 @@ const TIMER_HP = 2222;
 const TIMER_MP = 2223;
 const TIMER_QHP = 2224;
 const TIMER_SCP = 2225;
+const TIMER_RADIUS = 2226;
 
 var WindowHandle Me;
 
@@ -33,6 +34,7 @@ var EditBoxHandle eDelayMP;
 var EditBoxHandle eDelayQHP;
 var EditBoxHandle eDelaySCP;
 var EditBoxHandle eAmountS;
+var EditBoxHandle eAutoFarmRadius;
 
 var ButtonHandle bExpand;
 var ButtonHandle bExpandMore;
@@ -85,6 +87,7 @@ var ItemID idSCP;
 var int currentSkillId1;
 var int currentSkillId2;
 var int currentSkillId3;
+var int lastAutoFarmRadius;
 var bool autoFarmVisual;
 
 function OnRegisterEvent()
@@ -123,6 +126,7 @@ function OnLoad()
 	eDelayQHP = GetEditBoxHandle("AutoPotions.delayQHP");
 	eDelaySCP = GetEditBoxHandle("AutoPotions.delaySCP");
 	eAmountS = GetEditBoxHandle("AutoPotions.amountSouls");
+	eAutoFarmRadius = GetEditBoxHandle("AutoPotions.autoFarmRadius");
 	
 	bExpand = GetButtonHandle("AutoPotions.expandBtn");
 	bExpandMore = GetButtonHandle("AutoPotions.expandMoreBtn");
@@ -270,6 +274,51 @@ function OnDropItem(String a_WindowID, ItemInfo a_ItemInfo, int X, int Y)
 	}
 }
 
+function OnChangeEditBox(String strID)
+{
+	if (strID == "autoFarmRadius" || strID == "AutoPotions.autoFarmRadius")
+	{
+		// Aguarda o jogador parar de digitar antes de enviar o comando.
+		Me.KillTimer(TIMER_RADIUS);
+		Me.SetTimer(TIMER_RADIUS, 800);
+	}
+}
+
+function ApplyAutoFarmRadius()
+{
+	local string strRadius;
+	local string strCleanRadius;
+	local int i;
+	local int radiusValue;
+
+	strRadius = eAutoFarmRadius.GetString();
+	strCleanRadius = "";
+
+	// Remove separadores de milhar (ex.: 20,000 -> 20000).
+	for (i = 0; i < Len(strRadius); i++)
+	{
+		if (InStr("0123456789", Mid(strRadius, i, 1)) >= 0)
+			strCleanRadius = strCleanRadius $ Mid(strRadius, i, 1);
+	}
+
+	if (Len(strCleanRadius) > 0)
+	{
+		radiusValue = int(strCleanRadius);
+
+		if (radiusValue > 20000)
+		{
+			radiusValue = 20000;
+			eAutoFarmRadius.SetString("20000");
+		}
+
+		if (radiusValue >= 1000 && radiusValue != lastAutoFarmRadius)
+		{
+			lastAutoFarmRadius = radiusValue;
+			ExecuteCommand(".autofarm radius " $ string(radiusValue));
+			PlayConsoleSound(IFST_CLICK1);
+		}
+	}
+}
 function OnClickItem(String strID, int index)
 {
 	switch (strID)
@@ -357,7 +406,12 @@ function SetAutoTimer(int id, EditBoxHandle handle, string str)
 
 function OnTimer(int TimerID)
 {
-	if (TimerID == TIMER_CP) { Me.KillTimer(TIMER_CP); UsePotions(useCP, "CP", eDelayCP, hCP); Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000); }
+	if (TimerID == TIMER_RADIUS)
+	{
+		Me.KillTimer(TIMER_RADIUS);
+		ApplyAutoFarmRadius();
+	}
+	else if (TimerID == TIMER_CP) { Me.KillTimer(TIMER_CP); UsePotions(useCP, "CP", eDelayCP, hCP); Me.SetTimer(TIMER_CP, int(eDelayCP.GetString()) * 1000); }
 	else if (TimerID == TIMER_HP) { Me.KillTimer(TIMER_HP); UsePotions(useHP, "HP", eDelayHP, hHP); Me.SetTimer(TIMER_HP, int(eDelayHP.GetString()) * 1000); }
 	else if (TimerID == TIMER_MP) { Me.KillTimer(TIMER_MP); UsePotions(useMP, "MP", ePercentMP, hMP); Me.SetTimer(TIMER_MP, int(eDelayMP.GetString()) * 1000); }
 }
