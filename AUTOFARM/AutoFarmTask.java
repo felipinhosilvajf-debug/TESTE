@@ -59,6 +59,8 @@ public class AutoFarmTask implements Runnable
 	private int _stuckCount = 0;
 	private int _ignoredTargetObjectId = 0;
 	private long _ignoredTargetUntil = 0L;
+	private int _targetRepathAttempts = 0;
+	private long _lastTargetRepath = 0L;
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
@@ -67,6 +69,8 @@ public class AutoFarmTask implements Runnable
 	private static final long NO_TARGET_TIMEOUT = 7000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
 	private static final long IGNORED_TARGET_TIMEOUT = 20000L;
+	private static final long TARGET_REPATH_INTERVAL = 1500L;
+	private static final int MAX_TARGET_REPATH_ATTEMPTS = 2;
 	private static final int MAX_STUCK_BEFORE_RETURN = 2;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 
@@ -92,6 +96,8 @@ public class AutoFarmTask implements Runnable
 		_stuckCount = 0;
 		_ignoredTargetObjectId = 0;
 		_ignoredTargetUntil = 0L;
+		_targetRepathAttempts = 0;
+		_lastTargetRepath = 0L;
 		_lastMonsterScan = 0L;
 		_cachedMonster = null;
 		_lastLootScan = 0L;
@@ -128,6 +134,8 @@ public class AutoFarmTask implements Runnable
 		_stuckCount = 0;
 		_ignoredTargetObjectId = 0;
 		_ignoredTargetUntil = 0L;
+		_targetRepathAttempts = 0;
+		_lastTargetRepath = 0L;
 		synchronized (ACTIVE_TASKS)
 		{
 			if (ACTIVE_TASKS.get(_player) == this)
@@ -284,6 +292,8 @@ public class AutoFarmTask implements Runnable
 			// Cada alvo ganha seu próprio período de progresso; não herda
 			// o temporizador do monstro anterior.
 			_lastTargetObjectId = targetObjectId;
+			_targetRepathAttempts = 0;
+			_lastTargetRepath = 0L;
 			_targetProgressSince = System.currentTimeMillis();
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
@@ -429,6 +439,8 @@ public class AutoFarmTask implements Runnable
 			_targetProgressSince = now;
 			_lastTargetDistance = distance;
 			_stuckCount = 0;
+			_targetRepathAttempts = 0;
+			_lastTargetRepath = 0L;
 			return false;
 		}
 
@@ -453,6 +465,22 @@ public class AutoFarmTask implements Runnable
 			: (_player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT);
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
+
+		// Antes de desistir, força novas tentativas de pathfinding pela geodata.
+		// followToCharacter usa o pathfinder do Mythras; stopMove limpa a rota
+		// antiga para que o caminho seja calculado novamente ao redor do obstáculo.
+		if (_targetRepathAttempts < MAX_TARGET_REPATH_ATTEMPTS
+			&& now - _lastTargetRepath >= TARGET_REPATH_INTERVAL)
+		{
+			_targetRepathAttempts++;
+			_lastTargetRepath = now;
+			_player.stopMove(false, false);
+			boolean pathStarted = _player.followToCharacter(target, getPhysicalAttackRange(), false);
+			_targetProgressSince = pathStarted ? now : now - progressTimeout + TARGET_REPATH_INTERVAL;
+			_lastTargetDistance = distance;
+			_lastMoveCommand = now;
+			return true;
+		}
 
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
