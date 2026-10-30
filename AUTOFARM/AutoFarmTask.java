@@ -63,10 +63,10 @@ public class AutoFarmTask implements Runnable
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
-	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 15000L;
+	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
 	private static final long NO_TARGET_TIMEOUT = 7000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
-	private static final long IGNORED_TARGET_TIMEOUT = 10000L;
+	private static final long IGNORED_TARGET_TIMEOUT = 20000L;
 	private static final int MAX_STUCK_BEFORE_RETURN = 2;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 
@@ -461,6 +461,11 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_ignoredTargetObjectId = target.getObjectId();
 		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+		// Descarta os caches para procurar outro monstro imediatamente.
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
 		_targetProgressSince = 0L;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
