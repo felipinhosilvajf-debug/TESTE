@@ -475,7 +475,7 @@ public class AutoFarmTask implements Runnable
 			_targetRepathAttempts++;
 			_lastTargetRepath = now;
 			_player.stopMove(false, false);
-			boolean pathStarted = _player.followToCharacter(target, getPhysicalAttackRange(), false);
+			boolean pathStarted = _player.followToCharacter(target, getTargetApproachRange(), false);
 			_targetProgressSince = pathStarted ? now : now - progressTimeout + TARGET_REPATH_INTERVAL;
 			_lastTargetDistance = distance;
 			_lastMoveCommand = now;
@@ -592,6 +592,24 @@ public class AutoFarmTask implements Runnable
 
 		WeaponType type = weapon.getItemType();
 		return type == WeaponType.BOW || type == WeaponType.CROSSBOW;
+	}
+
+	private int getTargetApproachRange()
+	{
+		int range = getPhysicalAttackRange();
+		int[] configuredSkills = { _skill1, _skill2, _skill3 };
+
+		for (int skillId : configuredSkills)
+		{
+			if (skillId <= 0)
+				continue;
+
+			Skill skill = _player.getKnownSkill(skillId);
+			if (skill != null && skill.isOffensive())
+				range = Math.max(range, Math.max(10, skill.getCastRange()));
+		}
+
+		return range;
 	}
 
 	private int getPhysicalAttackRange()
