@@ -25,7 +25,7 @@ public class AutoFarmTask implements Runnable
 	private int _startZ;
 	private static final Map<Player, AutoFarmTask> ACTIVE_TASKS = new WeakHashMap<Player, AutoFarmTask>();
 
-	private int _searchRadius = 80000;
+	private int _searchRadius = 20000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
 	private static final double TARGET_ADVANCE_DISTANCE = 1200.0;
 
@@ -34,11 +34,11 @@ public class AutoFarmTask implements Runnable
 	private MonsterInstance _cachedMonster = null;
 	private long _lastLootScan = 0L;
 	private ItemInstance _cachedLoot = null;
-	private static final long MONSTER_SCAN_INTERVAL = 100L;
+	private static final long MONSTER_SCAN_INTERVAL = 500L;
 	private static final long LOOT_SCAN_INTERVAL = 700L;
 	private long _lastThreatScan = 0L;
 	private MonsterInstance _cachedThreat = null;
-	private static final long THREAT_SCAN_INTERVAL = 200L;
+	private static final long THREAT_SCAN_INTERVAL = 500L;
 
 	private int _skill1 = 0;
 	private int _skill2 = 0;
@@ -59,13 +59,18 @@ public class AutoFarmTask implements Runnable
 	private int _stuckCount = 0;
 	private int _ignoredTargetObjectId = 0;
 	private long _ignoredTargetUntil = 0L;
+	private int _targetRepathAttempts = 0;
+	private long _lastTargetRepath = 0L;
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
+	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
 	private static final long NO_TARGET_TIMEOUT = 7000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
-	private static final long IGNORED_TARGET_TIMEOUT = 10000L;
+	private static final long IGNORED_TARGET_TIMEOUT = 20000L;
+	private static final long TARGET_REPATH_INTERVAL = 1500L;
+	private static final int MAX_TARGET_REPATH_ATTEMPTS = 2;
 	private static final int MAX_STUCK_BEFORE_RETURN = 2;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 
@@ -82,6 +87,8 @@ public class AutoFarmTask implements Runnable
 		_startX = _player.getX();
 		_startY = _player.getY();
 		_startZ = _player.getZ();
+		int configuredRadius = _player.getAutoFarmRadius();
+		_searchRadius = configuredRadius >= 1000 ? Math.min(configuredRadius, 20000) : 20000;
 		_returningToStart = false;
 		_lastMoveCommand = 0L;
 		_noTargetSince = 0L;
@@ -89,6 +96,8 @@ public class AutoFarmTask implements Runnable
 		_stuckCount = 0;
 		_ignoredTargetObjectId = 0;
 		_ignoredTargetUntil = 0L;
+		_targetRepathAttempts = 0;
+		_lastTargetRepath = 0L;
 		_lastMonsterScan = 0L;
 		_cachedMonster = null;
 		_lastLootScan = 0L;
@@ -125,6 +134,8 @@ public class AutoFarmTask implements Runnable
 		_stuckCount = 0;
 		_ignoredTargetObjectId = 0;
 		_ignoredTargetUntil = 0L;
+		_targetRepathAttempts = 0;
+		_lastTargetRepath = 0L;
 		synchronized (ACTIVE_TASKS)
 		{
 			if (ACTIVE_TASKS.get(_player) == this)
@@ -180,7 +191,26 @@ public class AutoFarmTask implements Runnable
 
 	public void setSearchRadius(int radius)
 	{
-		_searchRadius = radius;
+		_searchRadius = Math.max(1000, Math.min(radius, 20000));
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
+	}
+
+	public static void updateSearchRadius(Player player, int radius)
+	{
+		if (player == null)
+			return;
+
+		AutoFarmTask task;
+		synchronized (ACTIVE_TASKS)
+		{
+			task = ACTIVE_TASKS.get(player);
+		}
+
+		if (task != null)
+			task.setSearchRadius(radius);
 	}
 
 	public int getSearchRadius()
@@ -224,7 +254,8 @@ public class AutoFarmTask implements Runnable
 		if (_player.isCastingNow())
 			return;
 
-		ItemInstance loot = threat == null ? findNearestLoot() : null;
+		// Ranged e magos não desviam da perseguição para coletar drops.
+		ItemInstance loot = threat == null && !isRangedPlayer() ? findNearestLoot() : null;
 		if (loot != null)
 		{
 			if (handleLoot(loot))
@@ -261,6 +292,8 @@ public class AutoFarmTask implements Runnable
 			// Cada alvo ganha seu próprio período de progresso; não herda
 			// o temporizador do monstro anterior.
 			_lastTargetObjectId = targetObjectId;
+			_targetRepathAttempts = 0;
+			_lastTargetRepath = 0L;
 			_targetProgressSince = System.currentTimeMillis();
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
@@ -315,7 +348,9 @@ public class AutoFarmTask implements Runnable
 
 		MonsterInstance target = (MonsterInstance) current;
 
-		if (target.isDead() || !target.isVisible())
+		if (target.isDead() || !target.isVisible()
+			|| target.getReflection() != _player.getReflection()
+			|| _player.getDistance(target) > _searchRadius)
 		{
 			_player.setTarget(null);
 			return null;
@@ -404,10 +439,13 @@ public class AutoFarmTask implements Runnable
 			_targetProgressSince = now;
 			_lastTargetDistance = distance;
 			_stuckCount = 0;
+			_targetRepathAttempts = 0;
+			_lastTargetRepath = 0L;
 			return false;
 		}
 
-		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - TARGET_PROGRESS_MIN_DISTANCE)
+		double minimumProgress = isRangedPlayer() ? 30.0 : TARGET_PROGRESS_MIN_DISTANCE;
+		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - minimumProgress)
 		{
 			_lastTargetDistance = distance;
 			_targetProgressSince = now;
@@ -422,9 +460,27 @@ public class AutoFarmTask implements Runnable
 			return false;
 		}
 
-		long progressTimeout = _player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT;
+		long progressTimeout = isRangedPlayer()
+			? RANGED_TARGET_PROGRESS_TIMEOUT
+			: (_player.isMageClass() ? MAGE_TARGET_PROGRESS_TIMEOUT : TARGET_PROGRESS_TIMEOUT);
 		if (now - _targetProgressSince < progressTimeout)
 			return false;
+
+		// Antes de desistir, força novas tentativas de pathfinding pela geodata.
+		// followToCharacter usa o pathfinder do Mythras; stopMove limpa a rota
+		// antiga para que o caminho seja calculado novamente ao redor do obstáculo.
+		if (_targetRepathAttempts < MAX_TARGET_REPATH_ATTEMPTS
+			&& now - _lastTargetRepath >= TARGET_REPATH_INTERVAL)
+		{
+			_targetRepathAttempts++;
+			_lastTargetRepath = now;
+			_player.stopMove(false, false);
+			boolean pathStarted = _player.followToCharacter(target, getTargetApproachRange(), false);
+			_targetProgressSince = pathStarted ? now : now - progressTimeout + TARGET_REPATH_INTERVAL;
+			_lastTargetDistance = distance;
+			_lastMoveCommand = now;
+			return true;
+		}
 
 		if (_player.isAttackingNow())
 			_player.abortAttack(false, false);
@@ -433,6 +489,11 @@ public class AutoFarmTask implements Runnable
 		_lastTargetObjectId = 0;
 		_ignoredTargetObjectId = target.getObjectId();
 		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+		// Descarta os caches para procurar outro monstro imediatamente.
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
 		_targetProgressSince = 0L;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
@@ -455,6 +516,17 @@ public class AutoFarmTask implements Runnable
 			return;
 
 		double distanceFromStart = _player.getDistance(_startX, _startY, _startZ);
+
+		// Em classes de ataque à distância, falta de alvo ou alvo inalcançável
+		// nunca deve iniciar movimento automático de retorno.
+		if (isRangedPlayer())
+		{
+			_stuckCount = 0;
+			_targetProgressSince = 0L;
+			_lastTargetDistance = -1.0;
+			_noTargetSince = now;
+			return;
+		}
 
 		if (distanceFromStart <= 500.0)
 		{
@@ -504,6 +576,40 @@ public class AutoFarmTask implements Runnable
 		}
 
 		_player.doAttack(target);
+	}
+
+	private boolean isRangedPlayer()
+	{
+		if (_player == null)
+			return false;
+
+		if (_player.isMageClass())
+			return true;
+
+		WeaponTemplate weapon = _player.getActiveWeaponItem();
+		if (weapon == null)
+			return false;
+
+		WeaponType type = weapon.getItemType();
+		return type == WeaponType.BOW || type == WeaponType.CROSSBOW;
+	}
+
+	private int getTargetApproachRange()
+	{
+		int range = getPhysicalAttackRange();
+		int[] configuredSkills = { _skill1, _skill2, _skill3 };
+
+		for (int skillId : configuredSkills)
+		{
+			if (skillId <= 0)
+				continue;
+
+			Skill skill = _player.getKnownSkill(skillId);
+			if (skill != null && skill.isOffensive())
+				range = Math.max(range, Math.max(10, skill.getCastRange()));
+		}
+
+		return range;
 	}
 
 	private int getPhysicalAttackRange()
@@ -735,8 +841,10 @@ public class AutoFarmTask implements Runnable
 		if (_cachedThreat != null)
 		{
 			if (!_cachedThreat.isDead() && _cachedThreat.isVisible()
+				&& _cachedThreat.getReflection() == _player.getReflection()
 				&& _cachedThreat.getTarget() == _player
-				&& _player.getDistance(_cachedThreat) <= _searchRadius)
+				&& _player.getDistance(_cachedThreat) <= _searchRadius
+				&& (_cachedThreat.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
 			{
 				if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
 					return _cachedThreat;
@@ -763,7 +871,12 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible() || monster.getTarget() != _player)
+			if (monster.isDead() || !monster.isVisible()
+				|| monster.getReflection() != _player.getReflection()
+				|| monster.getTarget() != _player)
+				continue;
+
+			if (monster.getObjectId() == _ignoredTargetObjectId && now < _ignoredTargetUntil)
 				continue;
 
 			double distance = _player.getDistance(monster);
@@ -786,6 +899,7 @@ public class AutoFarmTask implements Runnable
 		if (_cachedMonster != null)
 		{
 			if (!_cachedMonster.isDead() && _cachedMonster.isVisible()
+				&& _cachedMonster.getReflection() == _player.getReflection()
 				&& _player.getDistance(_cachedMonster) <= _searchRadius
 				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
 			{
@@ -813,7 +927,8 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible())
+			if (monster.isDead() || !monster.isVisible()
+				|| monster.getReflection() != _player.getReflection())
 				continue;
 
 			int objectId = monster.getObjectId();
