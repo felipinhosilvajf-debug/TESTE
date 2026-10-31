@@ -71,7 +71,7 @@ public class AutoFarmTask implements Runnable
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
 	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
-	private static final long NO_TARGET_TIMEOUT = 4000L;
+	private static final long NO_TARGET_TIMEOUT = 5000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
 	private static final long IGNORED_TARGET_TIMEOUT = 20000L;
 	private static final long TARGET_REPATH_INTERVAL = 1500L;
@@ -284,7 +284,7 @@ public class AutoFarmTask implements Runnable
 			if (_noTargetSince == 0L)
 				_noTargetSince = System.currentTimeMillis();
 			else if (System.currentTimeMillis() - _noTargetSince >= NO_TARGET_TIMEOUT)
-				triggerAutomaticRecovery();
+				returnToStartWhenNoTargets();
 
 			return;
 		}
@@ -522,6 +522,42 @@ public class AutoFarmTask implements Runnable
 			triggerAutomaticRecovery();
 
 		return true;
+	}
+
+	/**
+	 * Sem monstros por 5 segundos: retorna ao ponto onde o AutoFarm foi iniciado,
+	 * independentemente de ser uma classe melee ou ranged.
+	 */
+	private void returnToStartWhenNoTargets()
+	{
+		long now = System.currentTimeMillis();
+		double distanceFromStart = _player.getDistance(_startX, _startY, _startZ);
+
+		if (distanceFromStart <= 100.0)
+		{
+			_noTargetSince = now;
+			return;
+		}
+
+		_returningToStart = true;
+		_lastAutomaticRecovery = now;
+		_lastMoveCommand = 0L;
+		_lastTargetObjectId = 0;
+		_targetProgressSince = 0L;
+		_lastTargetDistance = -1.0;
+		_noTargetSince = 0L;
+		_ignoredTargetObjectId = 0;
+		_ignoredTargetUntil = 0L;
+		_lootTarget = null;
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
+
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
 	}
 
 	private void triggerAutomaticRecovery()
