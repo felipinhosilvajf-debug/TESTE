@@ -66,7 +66,7 @@ public class AutoFarmTask implements Runnable
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
 	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
-	private static final long NO_TARGET_TIMEOUT = 7000L;
+	private static final long NO_TARGET_TIMEOUT = 4000L;
 	private static final long AUTO_RETURN_COOLDOWN = 10000L;
 	private static final long IGNORED_TARGET_TIMEOUT = 20000L;
 	private static final long TARGET_REPATH_INTERVAL = 1500L;
@@ -339,6 +339,11 @@ public class AutoFarmTask implements Runnable
 		_lastMoveCommand = now;
 	}
 
+	private boolean isTreasureChest(MonsterInstance monster)
+	{
+		return monster != null && "Treasure Chest".equalsIgnoreCase(monster.getName());
+	}
+
 	private MonsterInstance getCurrentValidTarget()
 	{
 		GameObject current = _player.getTarget();
@@ -348,7 +353,7 @@ public class AutoFarmTask implements Runnable
 
 		MonsterInstance target = (MonsterInstance) current;
 
-		if (target.isDead() || !target.isVisible()
+		if (target.isDead() || !target.isVisible() || isTreasureChest(target)
 			|| target.getReflection() != _player.getReflection()
 			|| _player.getDistance(target) > _searchRadius)
 		{
@@ -840,7 +845,7 @@ public class AutoFarmTask implements Runnable
 
 		if (_cachedThreat != null)
 		{
-			if (!_cachedThreat.isDead() && _cachedThreat.isVisible()
+			if (!_cachedThreat.isDead() && _cachedThreat.isVisible() && !isTreasureChest(_cachedThreat)
 				&& _cachedThreat.getReflection() == _player.getReflection()
 				&& _cachedThreat.getTarget() == _player
 				&& _player.getDistance(_cachedThreat) <= _searchRadius
@@ -871,7 +876,7 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible()
+			if (monster.isDead() || !monster.isVisible() || isTreasureChest(monster)
 				|| monster.getReflection() != _player.getReflection()
 				|| monster.getTarget() != _player)
 				continue;
@@ -898,7 +903,7 @@ public class AutoFarmTask implements Runnable
 
 		if (_cachedMonster != null)
 		{
-			if (!_cachedMonster.isDead() && _cachedMonster.isVisible()
+			if (!_cachedMonster.isDead() && _cachedMonster.isVisible() && !isTreasureChest(_cachedMonster)
 				&& _cachedMonster.getReflection() == _player.getReflection()
 				&& _player.getDistance(_cachedMonster) <= _searchRadius
 				&& (_cachedMonster.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
@@ -927,7 +932,7 @@ public class AutoFarmTask implements Runnable
 
 			MonsterInstance monster = (MonsterInstance) npc;
 
-			if (monster.isDead() || !monster.isVisible()
+			if (monster.isDead() || !monster.isVisible() || isTreasureChest(monster)
 				|| monster.getReflection() != _player.getReflection())
 				continue;
 
