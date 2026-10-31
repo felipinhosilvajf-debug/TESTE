@@ -193,6 +193,17 @@ try {
             FROM vb_political_election_results WHERE election_id=? ORDER BY castle_id ASC");
         $latestResultsStmt->execute([$latestResultElectionId]);
         $latestResults = $latestResultsStmt->fetchAll(PDO::FETCH_ASSOC);
+        // Os cards usam a mesma apuração persistente exibida em "Resultado por castelo".
+        foreach ($latestResults as $result) {
+            $resultCastleId = (int)$result['castle_id'];
+            if (!empty($result['winner_name']) && (int)$result['vote_count'] > 0) {
+                $winnersByCastle[$resultCastleId] = [
+                    'candidate_name' => (string)$result['winner_name'],
+                    'clan_name' => (string)($result['clan_name'] ?? ''),
+                    'votes' => (int)$result['vote_count']
+                ];
+            }
+        }
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $postedToken = isset($_POST['csrf_token']) && is_string($_POST['csrf_token']) ? $_POST['csrf_token'] : '';
@@ -307,12 +318,6 @@ try {
             $totalVotes = array_sum(array_map(static function ($v) { return (int)$v['votes']; }, $votes));
         }
     }
-    if ($election && $election['status'] === 'finished') {
-        foreach ($castles as $castle) {
-            $list = $candidatesByCastle[(int)$castle['castle_id']] ?? [];
-            if ($list) { usort($list, static function ($a, $b) { $byVotes = (int)$b['votes'] <=> (int)$a['votes']; return $byVotes ?: strcmp((string)$a['candidate_name'], (string)$b['candidate_name']); }); if ((int)$list[0]['votes'] > 0) $winnersByCastle[(int)$castle['castle_id']] = $list[0]; }
-        }
-    }
 } catch (Throwable $e) {
     // Mantém a página segura para jogadores e registra a causa real no log PHP da hospedagem.
     error_log('[VirtualBoost election.php] ' . get_class($e) . ': ' . $e->getMessage() . ' em ' . $e->getFile() . ':' . $e->getLine());
@@ -415,7 +420,7 @@ $secondsLeft = $isOpen ? max(0, strtotime($election['ends_at']) - time()) : (int
 <article class="castle"><h3><?= election_h($castle['castle_name']) ?></h3>
 <div class="castle-image-frame"><img class="castle-image" src="/site/assets/images/castles/castle-<?= $castleId ?>.jpg" alt="Imagem do castelo <?= election_h($castle['castle_name']) ?>" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="castle-image-placeholder" style="display:none;">COLOQUE A IMAGEM<br><small>/site/assets/images/castles/castle-<?= $castleId ?>.jpg</small></div></div>
 <div class="metric"><span>Imposto atual</span><b><?= election_h($castle['tax_percent'] ?? 0) ?>%</b></div><div class="metric"><span>Tesouro</span><b><?= election_num($castle['treasury'] ?? 0) ?> adena</b></div>
-<?php if ($election && $election['status']==='finished'): ?>
+<?php if ($latestResults): ?>
 <div class="leader" style="margin-top:13px;"><small>Vencedor deste castelo</small><strong><?= !empty($winnersByCastle[$castleId]) ? election_h($winnersByCastle[$castleId]['candidate_name']) : 'Sem vencedor' ?></strong><?php if (!empty($winnersByCastle[$castleId])): ?><div style="color:#75d7ff;font-size:12px;margin-top:5px;"><?= election_h($winnersByCastle[$castleId]['clan_name']) ?> · <?= (int)$winnersByCastle[$castleId]['votes'] ?> voto(s)</div><?php endif; ?></div>
 <?php endif; ?>
 <button type="button" class="candidates-toggle" aria-expanded="false" aria-controls="candidate-list-<?= $castleId ?>" onclick="var p=document.getElementById('candidate-list-<?= $castleId ?>');var open=p.hidden;p.hidden=!open;this.setAttribute('aria-expanded',open?'true':'false');"><span><?= count($castleCandidates) ?> Candidatos</span><span class="candidate-arrow" aria-hidden="true">⌄</span></button>
