@@ -61,6 +61,11 @@ public class AutoFarmTask implements Runnable
 	private long _ignoredTargetUntil = 0L;
 	private int _targetRepathAttempts = 0;
 	private long _lastTargetRepath = 0L;
+	private int _pendingSkillTargetId = 0;
+	private double _pendingSkillTargetHp = 0.0;
+	private long _pendingSkillStartedAt = 0L;
+	private int _failedSkillAttempts = 0;
+	private int _failedSkillTargetId = 0;
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
@@ -72,6 +77,8 @@ public class AutoFarmTask implements Runnable
 	private static final long TARGET_REPATH_INTERVAL = 1500L;
 	private static final int MAX_TARGET_REPATH_ATTEMPTS = 2;
 	private static final int MAX_STUCK_BEFORE_RETURN = 2;
+	private static final int MAX_FAILED_SKILL_ATTEMPTS = 3;
+	private static final long SKILL_RESULT_CHECK_DELAY = 700L;
 	private static final double TARGET_PROGRESS_MIN_DISTANCE = 100.0;
 
 	public AutoFarmTask(Player player)
@@ -254,6 +261,9 @@ public class AutoFarmTask implements Runnable
 		if (_player.isCastingNow())
 			return;
 
+		if (checkFailedSkillResult())
+			return;
+
 		// Ranged e magos não desviam da perseguição para coletar drops.
 		ItemInstance loot = threat == null && !isRangedPlayer() ? findNearestLoot() : null;
 		if (loot != null)
@@ -297,6 +307,10 @@ public class AutoFarmTask implements Runnable
 			_targetProgressSince = System.currentTimeMillis();
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
+			_failedSkillAttempts = 0;
+			_failedSkillTargetId = targetObjectId;
+			_pendingSkillTargetId = 0;
+			_pendingSkillStartedAt = 0L;
 			// Não zera _stuckCount aqui: trocar de alvo após uma falha não
 			// pode impedir a recuperação automática repetidamente.
 		}
@@ -657,6 +671,80 @@ public class AutoFarmTask implements Runnable
 		_lastMoveCommand = now;
 	}
 
+	/**
+	 * Confere se a última skill ofensiva reduziu o HP do alvo.
+	 * Três tentativas sem dano no mesmo monstro fazem o AutoFarm abandoná-lo.
+	 */
+	private boolean checkFailedSkillResult()
+	{
+		if (_pendingSkillTargetId == 0 || _pendingSkillStartedAt == 0L)
+			return false;
+
+		long now = System.currentTimeMillis();
+		if (_player.isCastingNow() || now - _pendingSkillStartedAt < SKILL_RESULT_CHECK_DELAY)
+			return false;
+
+		GameObject current = _player.getTarget();
+		if (!(current instanceof MonsterInstance) || current.getObjectId() != _pendingSkillTargetId)
+		{
+			_pendingSkillTargetId = 0;
+			_pendingSkillStartedAt = 0L;
+			return false;
+		}
+
+		MonsterInstance target = (MonsterInstance) current;
+		double currentHp = target.getCurrentHp();
+		int targetId = _pendingSkillTargetId;
+		boolean causedDamage = currentHp < _pendingSkillTargetHp;
+
+		_pendingSkillTargetId = 0;
+		_pendingSkillStartedAt = 0L;
+
+		if (causedDamage || target.isDead())
+		{
+			_failedSkillAttempts = 0;
+			_failedSkillTargetId = targetId;
+			return false;
+		}
+
+		if (_failedSkillTargetId != targetId)
+		{
+			_failedSkillTargetId = targetId;
+			_failedSkillAttempts = 0;
+		}
+
+		_failedSkillAttempts++;
+		if (_failedSkillAttempts < MAX_FAILED_SKILL_ATTEMPTS)
+			return false;
+
+		// Terceira tentativa sem dano: abandona o alvo e procura outro.
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+
+		_player.setTarget(null);
+		_lastTargetObjectId = 0;
+		_ignoredTargetObjectId = targetId;
+		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+		_failedSkillAttempts = 0;
+		_failedSkillTargetId = 0;
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
+		_targetProgressSince = 0L;
+		_lastTargetDistance = -1.0;
+		_lastMoveCommand = 0L;
+		return true;
+	}
+
+	private void useSkillOnTarget(Skill skill, MonsterInstance target)
+	{
+		_pendingSkillTargetId = target.getObjectId();
+		_pendingSkillTargetHp = target.getCurrentHp();
+		_pendingSkillStartedAt = System.currentTimeMillis();
+		_player.doCast(skill, target, true);
+	}
+
 	private boolean useAutoSkill(MonsterInstance target)
 	{
 		int[] skills = { _skill1, _skill2, _skill3 };
@@ -718,7 +806,7 @@ public class AutoFarmTask implements Runnable
 			if (_player.isAttackingNow())
 				_player.abortAttack(false, false);
 
-			_player.doCast(skill, target, true);
+			useSkillOnTarget(skill, target);
 
 			_currentSkill = index + 2;
 			if (_currentSkill > skills.length)
