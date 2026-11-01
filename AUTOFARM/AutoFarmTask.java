@@ -53,6 +53,7 @@ public class AutoFarmTask implements Runnable
 
 	private long _attackStateSince = 0L;
 	private long _targetProgressSince = 0L;
+	private long _inRangeNoActionSince = 0L;
 	private double _lastTargetDistance = -1.0;
 	private long _noTargetSince = 0L;
 	private long _lastAutomaticRecovery = 0L;
@@ -68,6 +69,7 @@ public class AutoFarmTask implements Runnable
 	private int _failedSkillTargetId = 0;
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
+	private static final long IN_RANGE_NO_ACTION_TIMEOUT = 3000L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
 	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
@@ -133,6 +135,7 @@ public class AutoFarmTask implements Runnable
 		_lastLootAttempt = 0;
 		_attackStateSince = 0L;
 		_targetProgressSince = 0L;
+		_inRangeNoActionSince = 0L;
 		_lastTargetDistance = -1.0;
 		_lastMoveCommand = 0L;
 		_returningToStart = false;
@@ -305,6 +308,7 @@ public class AutoFarmTask implements Runnable
 			_targetRepathAttempts = 0;
 			_lastTargetRepath = 0L;
 			_targetProgressSince = System.currentTimeMillis();
+			_inRangeNoActionSince = 0L;
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
 			_failedSkillAttempts = 0;
@@ -451,17 +455,47 @@ public class AutoFarmTask implements Runnable
 			}
 		}
 
-		if (inAttackRange && (_player.isAttackingNow() || _player.isCastingNow()))
+		if (inAttackRange)
 		{
-			// Só considera progresso real quando há uma ação de combate em curso.
-			// Estar ao lado do monstro sem atacar também precisa disparar recuperação.
-			_targetProgressSince = now;
-			_lastTargetDistance = distance;
-			_stuckCount = 0;
-			_targetRepathAttempts = 0;
-			_lastTargetRepath = 0L;
-			return false;
+			if (_player.isAttackingNow() || _player.isCastingNow())
+			{
+				// Uma ação de combate em curso significa que o alvo está sendo atendido.
+				_targetProgressSince = now;
+				_inRangeNoActionSince = 0L;
+				_lastTargetDistance = distance;
+				_stuckCount = 0;
+				_targetRepathAttempts = 0;
+				_lastTargetRepath = 0L;
+				return false;
+			}
+
+			// Alvo dentro do alcance, mas nenhuma ação começou: após 3s,
+			// abandona o alvo e procura outro sem esperar o timeout de pathfinding.
+			if (_inRangeNoActionSince == 0L)
+				_inRangeNoActionSince = now;
+			else if (now - _inRangeNoActionSince >= IN_RANGE_NO_ACTION_TIMEOUT)
+			{
+				_player.setTarget(null);
+				_lastTargetObjectId = 0;
+				_ignoredTargetObjectId = target.getObjectId();
+				_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+				_cachedMonster = null;
+				_cachedThreat = null;
+				_lastMonsterScan = 0L;
+				_lastThreatScan = 0L;
+				_targetProgressSince = 0L;
+				_inRangeNoActionSince = 0L;
+				_lastTargetDistance = -1.0;
+				_lastMoveCommand = 0L;
+				_failedSkillAttempts = 0;
+				_failedSkillTargetId = 0;
+				_pendingSkillTargetId = 0;
+				_pendingSkillStartedAt = 0L;
+				return true;
+			}
 		}
+		else
+			_inRangeNoActionSince = 0L;
 
 		double minimumProgress = isRangedPlayer() ? 30.0 : TARGET_PROGRESS_MIN_DISTANCE;
 		if (_lastTargetDistance < 0.0 || distance < _lastTargetDistance - minimumProgress)
