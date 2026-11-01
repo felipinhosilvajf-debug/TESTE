@@ -54,6 +54,8 @@ public class AutoFarmTask implements Runnable
 	private long _attackStateSince = 0L;
 	private long _targetProgressSince = 0L;
 	private long _inRangeNoActionSince = 0L;
+	private double _lastTargetHp = -1.0;
+	private long _lastTargetHpProgressAt = 0L;
 	private double _lastTargetDistance = -1.0;
 	private long _noTargetSince = 0L;
 	private long _lastAutomaticRecovery = 0L;
@@ -70,6 +72,7 @@ public class AutoFarmTask implements Runnable
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long IN_RANGE_NO_ACTION_TIMEOUT = 3000L;
+	private static final long TARGET_HP_STAGNATION_TIMEOUT = 15000L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
 	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
@@ -309,6 +312,8 @@ public class AutoFarmTask implements Runnable
 			_lastTargetRepath = 0L;
 			_targetProgressSince = System.currentTimeMillis();
 			_inRangeNoActionSince = 0L;
+			_lastTargetHp = target.getCurrentHp();
+			_lastTargetHpProgressAt = System.currentTimeMillis();
 			_lastTargetDistance = _player.getDistance(target);
 			_attackStateSince = 0L;
 			_failedSkillAttempts = 0;
@@ -424,6 +429,31 @@ public class AutoFarmTask implements Runnable
 			triggerAutomaticRecovery();
 	}
 
+	private boolean abandonTarget(MonsterInstance target, long now)
+	{
+		_player.setTarget(null);
+		_lastTargetObjectId = 0;
+		_ignoredTargetObjectId = target.getObjectId();
+		_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
+		_cachedMonster = null;
+		_cachedThreat = null;
+		_lastMonsterScan = 0L;
+		_lastThreatScan = 0L;
+		_targetProgressSince = 0L;
+		_inRangeNoActionSince = 0L;
+		_lastTargetHp = -1.0;
+		_lastTargetHpProgressAt = 0L;
+		_lastTargetDistance = -1.0;
+		_lastMoveCommand = 0L;
+		_failedSkillAttempts = 0;
+		_failedSkillTargetId = 0;
+		_pendingSkillTargetId = 0;
+		_pendingSkillStartedAt = 0L;
+		if (_player.isAttackingNow())
+			_player.abortAttack(false, false);
+		return true;
+	}
+
 	private boolean checkTargetProgress(MonsterInstance target)
 	{
 		if (target == null || target.isDead() || !target.isVisible())
@@ -431,6 +461,19 @@ public class AutoFarmTask implements Runnable
 
 		long now = System.currentTimeMillis();
 		double distance = _player.getDistance(target);
+		double currentHp = target.getCurrentHp();
+
+		// Dano real é o sinal mais confiável de progresso: enquanto o HP cai,
+		// mantém o mesmo alvo mesmo que a luta demore para terminar.
+		if (_lastTargetHp < 0.0 || currentHp < _lastTargetHp - 0.1)
+		{
+			_lastTargetHp = currentHp;
+			_lastTargetHpProgressAt = now;
+			_inRangeNoActionSince = 0L;
+			_failedSkillAttempts = 0;
+		}
+		else if (currentHp > _lastTargetHp)
+			_lastTargetHp = currentHp;
 
 		// Ficar parado é normal durante o combate corpo a corpo. Não marque
 		// o alvo como travado só porque a distância não está diminuindo.
@@ -459,7 +502,12 @@ public class AutoFarmTask implements Runnable
 		{
 			if (_player.isAttackingNow() || _player.isCastingNow())
 			{
-				// Uma ação de combate em curso significa que o alvo está sendo atendido.
+				// Mesmo com animação de ataque/cast, não fique preso indefinidamente
+				// se o HP não cair por 15s. Se estiver causando dano, o timer reinicia.
+				if (_lastTargetHpProgressAt > 0L
+					&& now - _lastTargetHpProgressAt >= TARGET_HP_STAGNATION_TIMEOUT)
+					return abandonTarget(target, now);
+
 				_targetProgressSince = now;
 				_inRangeNoActionSince = 0L;
 				_lastTargetDistance = distance;
@@ -475,23 +523,7 @@ public class AutoFarmTask implements Runnable
 				_inRangeNoActionSince = now;
 			else if (now - _inRangeNoActionSince >= IN_RANGE_NO_ACTION_TIMEOUT)
 			{
-				_player.setTarget(null);
-				_lastTargetObjectId = 0;
-				_ignoredTargetObjectId = target.getObjectId();
-				_ignoredTargetUntil = now + IGNORED_TARGET_TIMEOUT;
-				_cachedMonster = null;
-				_cachedThreat = null;
-				_lastMonsterScan = 0L;
-				_lastThreatScan = 0L;
-				_targetProgressSince = 0L;
-				_inRangeNoActionSince = 0L;
-				_lastTargetDistance = -1.0;
-				_lastMoveCommand = 0L;
-				_failedSkillAttempts = 0;
-				_failedSkillTargetId = 0;
-				_pendingSkillTargetId = 0;
-				_pendingSkillStartedAt = 0L;
-				return true;
+				return abandonTarget(target, now);
 			}
 		}
 		else
@@ -774,6 +806,15 @@ public class AutoFarmTask implements Runnable
 		{
 			_failedSkillAttempts = 0;
 			_failedSkillTargetId = targetId;
+			return false;
+		}
+
+		// Uma falha isolada de skill não pode cancelar um alvo que ainda
+		// sofreu dano recentemente por ataque normal ou outra skill.
+		if (_lastTargetHpProgressAt > 0L
+			&& now - _lastTargetHpProgressAt < TARGET_HP_STAGNATION_TIMEOUT)
+		{
+			_failedSkillAttempts = 0;
 			return false;
 		}
 
