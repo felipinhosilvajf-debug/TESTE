@@ -242,15 +242,19 @@ public class AutoFarmTask implements Runnable
 
 		if (_player.isDead())
 			return;
-		if (_returningToStart)
-		{
-			handleReturnToStart();
-			return;
-		}
 
+		// Ameaças têm prioridade absoluta, inclusive durante o retorno ao ponto inicial.
 		MonsterInstance threat = findThreateningMonster();
-		if (threat != null && !_player.isDead())
+		if (threat != null)
 		{
+			_returningToStart = false;
+			_noTargetSince = 0L;
+			if (threat.getObjectId() == _ignoredTargetObjectId)
+			{
+				_ignoredTargetObjectId = 0;
+				_ignoredTargetUntil = 0L;
+			}
+
 			GameObject currentTarget = _player.getTarget();
 			if (currentTarget != threat)
 			{
@@ -262,6 +266,11 @@ public class AutoFarmTask implements Runnable
 				_lastTargetDistance = -1.0;
 				_player.setTarget(threat);
 			}
+		}
+		else if (_returningToStart)
+		{
+			handleReturnToStart();
+			return;
 		}
 
 		if (_player.isCastingNow())
@@ -1038,8 +1047,7 @@ public class AutoFarmTask implements Runnable
 			if (!_cachedThreat.isDead() && _cachedThreat.isVisible() && !isTreasureChest(_cachedThreat)
 				&& _cachedThreat.getReflection() == _player.getReflection()
 				&& _cachedThreat.getTarget() == _player
-				&& _player.getDistance(_cachedThreat) <= _searchRadius
-				&& (_cachedThreat.getObjectId() != _ignoredTargetObjectId || now >= _ignoredTargetUntil))
+				&& _player.getDistance(_cachedThreat) <= _searchRadius)
 			{
 				if (now - _lastThreatScan < THREAT_SCAN_INTERVAL)
 					return _cachedThreat;
@@ -1071,8 +1079,12 @@ public class AutoFarmTask implements Runnable
 				|| monster.getTarget() != _player)
 				continue;
 
-			if (monster.getObjectId() == _ignoredTargetObjectId && now < _ignoredTargetUntil)
-				continue;
+			// Ameaça ativa nunca é descartada por ter sido ignorada anteriormente.
+			if (monster.getObjectId() == _ignoredTargetObjectId)
+			{
+				_ignoredTargetObjectId = 0;
+				_ignoredTargetUntil = 0L;
+			}
 
 			double distance = _player.getDistance(monster);
 
