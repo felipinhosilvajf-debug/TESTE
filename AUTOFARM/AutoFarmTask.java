@@ -72,7 +72,7 @@ public class AutoFarmTask implements Runnable
 
 	private static final long ATTACK_STUCK_TIMEOUT = 3500L;
 	private static final long IN_RANGE_NO_ACTION_TIMEOUT = 3000L;
-	private static final long TARGET_HP_STAGNATION_TIMEOUT = 15000L;
+	private static final long TARGET_HP_STAGNATION_TIMEOUT = 3000L;
 	private static final long TARGET_PROGRESS_TIMEOUT = 4000L;
 	private static final long MAGE_TARGET_PROGRESS_TIMEOUT = 6000L;
 	private static final long RANGED_TARGET_PROGRESS_TIMEOUT = 7000L;
@@ -806,15 +806,6 @@ public class AutoFarmTask implements Runnable
 		{
 			_failedSkillAttempts = 0;
 			_failedSkillTargetId = targetId;
-			return false;
-		}
-
-		// Uma falha isolada de skill não pode cancelar um alvo que ainda
-		// sofreu dano recentemente por ataque normal ou outra skill.
-		if (_lastTargetHpProgressAt > 0L
-			&& now - _lastTargetHpProgressAt < TARGET_HP_STAGNATION_TIMEOUT)
-		{
-			_failedSkillAttempts = 0;
 			return false;
 		}
 
