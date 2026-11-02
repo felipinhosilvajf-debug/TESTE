@@ -5,10 +5,12 @@ import l2f.gameserver.Config;
 import l2f.gameserver.data.xml.holder.ItemHolder;
 import l2f.gameserver.data.xml.holder.MultiSellHolder;
 import l2f.gameserver.data.xml.holder.MultiSellHolder.MultiSellListContainer;
+import l2f.gameserver.instancemanager.MapRegionManager;
 import l2f.gameserver.instancemanager.ReflectionManager;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.base.MultiSellEntry;
 import l2f.gameserver.model.base.MultiSellIngredient;
+import l2f.gameserver.model.Zone.ZoneType;
 import l2f.gameserver.model.entity.residence.Castle;
 import l2f.gameserver.model.instances.NpcInstance;
 import l2f.gameserver.model.items.ItemAttributes;
@@ -19,6 +21,7 @@ import l2f.gameserver.network.serverpackets.SystemMessage2;
 import l2f.gameserver.network.serverpackets.components.CustomMessage;
 import l2f.gameserver.network.serverpackets.components.SystemMsg;
 import l2f.gameserver.templates.item.ItemTemplate;
+import l2f.gameserver.templates.mapregion.DomainArea;
 import l2f.gameserver.utils.ItemFunctions;
 
 import java.util.ArrayList;
@@ -177,6 +180,20 @@ public class RequestMultiSellChoose extends L2GameClientPacket
 		
 		NpcInstance merchant = activeChar.getLastNpc();
 		Castle castle = merchant != null ? merchant.getCastle(activeChar) : null;
+
+		// Compras pelo Community Board podem nao ter um NPC associado.
+		// Nesse caso, identifica o castelo pelo territorio onde o jogador esta.
+		if ((castle == null) && (merchant == null) && activeChar.getReflection().isDefault()
+			&& (activeChar.getReflection() != ReflectionManager.PARNASSUS || !Config.SERVICES_PARNASSUS_NOTAX)
+			&& !(Config.SERVICES_OFFSHORE_NO_CASTLE_TAX
+				&& (activeChar.getReflection() == ReflectionManager.GIRAN_HARBOR
+					|| activeChar.getReflection() == ReflectionManager.PARNASSUS
+					|| activeChar.isInZone(ZoneType.offshore))))
+		{
+			DomainArea domain = MapRegionManager.getInstance().getRegionData(DomainArea.class, activeChar);
+			if (domain != null)
+				castle = l2f.gameserver.data.xml.holder.ResidenceHolder.getInstance().getResidence(Castle.class, domain.getId());
+		}
 		
 		inventory.writeLock();
 		try
@@ -441,7 +458,8 @@ public class RequestMultiSellChoose extends L2GameClientPacket
 				if (castle != null)
 				{
 					activeChar.sendMessage(new CustomMessage("trade.HavePaidTax", activeChar).addNumber(tax));
-					if ((merchant != null) && (merchant.getReflection() == ReflectionManager.DEFAULT))
+					if ((merchant == null && activeChar.getReflection().isDefault())
+						|| (merchant != null && merchant.getReflection() == ReflectionManager.DEFAULT))
 					{
 						castle.addToTreasury(tax, true, false);
 					}
