@@ -372,20 +372,35 @@ public class Util extends Functions
 
 	public void CommunityMultisell(String[] param)
 	{
-		if (!getSelf().isInZonePeace())
+		Player player = getSelf();
+		if (player == null)
+			return;
+
+		if (!player.isInZonePeace())
 		{
-			getSelf().sendMessage("It can be used only in Peaceful zone!");
+			player.sendMessage("It can be used only in Peaceful zone!");
 			return;
 		}
 
-		if (getSelf().isJailed())
+		if (player.isJailed())
 		{
-			getSelf().sendMessage("You cannot do it in Jail!");
+			player.sendMessage("You cannot do it in Jail!");
 			return;
+		}
+
+		// Usa o NPC que abriu a loja para identificar o castelo do território.
+		// Sem um NPC válido, mantém a multisell sem imposto.
+		double taxRate = 0;
+		NpcInstance npc = player.getLastNpc();
+		if (npc != null && NpcInstance.canBypassCheck(player, npc))
+		{
+			Castle castle = npc.getCastle(player);
+			if (castle != null)
+				taxRate = castle.getTaxRate();
 		}
 
 		String listId = param[0];
-		MultiSellHolder.getInstance().SeparateAndSend(Integer.parseInt(listId), getSelf(), 0);
+		MultiSellHolder.getInstance().SeparateAndSend(Integer.parseInt(listId), player, taxRate);
 	}
 
 	public void CommunitySell()
