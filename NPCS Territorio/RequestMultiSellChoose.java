@@ -183,7 +183,7 @@ public class RequestMultiSellChoose extends L2GameClientPacket
 
 		// Compras pelo Community Board podem nao ter um NPC associado.
 		// Nesse caso, identifica o castelo pelo territorio onde o jogador esta.
-		if ((castle == null) && (merchant == null) && activeChar.getReflection().isDefault()
+		if ((castle == null) && activeChar.getReflection().isDefault()
 			&& (activeChar.getReflection() != ReflectionManager.PARNASSUS || !Config.SERVICES_PARNASSUS_NOTAX)
 			&& !(Config.SERVICES_OFFSHORE_NO_CASTLE_TAX
 				&& (activeChar.getReflection() == ReflectionManager.GIRAN_HARBOR
