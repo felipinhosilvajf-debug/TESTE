@@ -294,7 +294,7 @@ function ApplyAutoFarmRadius()
 	strRadius = eAutoFarmRadius.GetString();
 	strCleanRadius = "";
 
-	// Remove separadores de milhar (ex.: 20,000 -> 20000).
+	// Remove separadores de milhar (ex.: 5,000 -> 5000).
 	for (i = 0; i < Len(strRadius); i++)
 	{
 		if (InStr("0123456789", Mid(strRadius, i, 1)) >= 0)
@@ -305,10 +305,10 @@ function ApplyAutoFarmRadius()
 	{
 		radiusValue = int(strCleanRadius);
 
-		if (radiusValue > 20000)
+		if (radiusValue > 5000)
 		{
-			radiusValue = 20000;
-			eAutoFarmRadius.SetString("20000");
+			radiusValue = 5000;
+			eAutoFarmRadius.SetString("5000");
 		}
 
 		if (radiusValue >= 1000 && radiusValue != lastAutoFarmRadius)
