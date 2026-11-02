@@ -25,7 +25,7 @@ public class AutoFarmTask implements Runnable
 	private int _startZ;
 	private static final Map<Player, AutoFarmTask> ACTIVE_TASKS = new WeakHashMap<Player, AutoFarmTask>();
 
-	private int _searchRadius = 20000;
+	private int _searchRadius = 5000;
 	private static final long MOVEMENT_COMMAND_INTERVAL = 500L;
 	private static final double TARGET_ADVANCE_DISTANCE = 1200.0;
 
@@ -100,7 +100,7 @@ public class AutoFarmTask implements Runnable
 		_startY = _player.getY();
 		_startZ = _player.getZ();
 		int configuredRadius = _player.getAutoFarmRadius();
-		_searchRadius = configuredRadius >= 1000 ? Math.min(configuredRadius, 20000) : 20000;
+		_searchRadius = configuredRadius >= 1000 ? Math.min(configuredRadius, 5000) : 5000;
 		_returningToStart = false;
 		_lastMoveCommand = 0L;
 		_noTargetSince = 0L;
@@ -204,7 +204,7 @@ public class AutoFarmTask implements Runnable
 
 	public void setSearchRadius(int radius)
 	{
-		_searchRadius = Math.max(1000, Math.min(radius, 20000));
+		_searchRadius = Math.max(1000, Math.min(radius, 5000));
 		_cachedMonster = null;
 		_cachedThreat = null;
 		_lastMonsterScan = 0L;
