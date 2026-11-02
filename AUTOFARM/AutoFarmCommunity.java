@@ -941,7 +941,7 @@ public class AutoFarmCommunity
 				return;
 			}
 
-			// Nunca permite configurar um raio acima de 20000.
+			// Nunca permite configurar um raio acima de 5000.
 			if (radius > 20000)
 				radius = 20000;
 
