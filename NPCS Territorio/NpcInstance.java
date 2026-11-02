@@ -32,6 +32,7 @@ import l2f.gameserver.handler.bbs.CommunityBoardManager;
 import l2f.gameserver.handler.bbs.ICommunityBoardHandler;
 import l2f.gameserver.idfactory.IdFactory;
 import l2f.gameserver.instancemanager.DimensionalRiftManager;
+import l2f.gameserver.instancemanager.MapRegionManager;
 import l2f.gameserver.instancemanager.QuestManager;
 import l2f.gameserver.instancemanager.ReflectionManager;
 import l2f.gameserver.listener.NpcListener;
@@ -99,6 +100,7 @@ import l2f.gameserver.templates.StatsSet;
 import l2f.gameserver.templates.item.ItemTemplate;
 import l2f.gameserver.templates.item.WeaponTemplate;
 import l2f.gameserver.templates.npc.Faction;
+import l2f.gameserver.templates.mapregion.DomainArea;
 import l2f.gameserver.templates.npc.NpcTemplate;
 import l2f.gameserver.templates.spawn.SpawnRange;
 import l2f.gameserver.utils.CertificationFunctions;
@@ -898,15 +900,22 @@ public class NpcInstance extends Creature
 			return null;
 		}
 
+		// Identifica o território pelas coordenadas reais do NPC.
+		// Isso também atende NPCs spawnados manualmente, sem CastleId no template.
+		DomainArea domain = MapRegionManager.getInstance().getRegionData(DomainArea.class, this);
+		if (domain != null)
+		{
+			Castle territoryCastle = ResidenceHolder.getInstance().getResidence(Castle.class, domain.getId());
+			if (territoryCastle != null)
+				return territoryCastle;
+		}
+
+		// Compatibilidade com NPCs antigos configurados pelo CastleId do template.
 		if (_nearestCastle == null)
 		{
 			int castleId = getTemplate().getCastleId();
-
 			if (castleId > 0)
-			{
-				_nearestCastle =
-					ResidenceHolder.getInstance().getResidence(castleId);
-			}
+				_nearestCastle = ResidenceHolder.getInstance().getResidence(castleId);
 		}
 
 		return _nearestCastle;
@@ -946,12 +955,10 @@ public class NpcInstance extends Creature
 
 		if (_nearestDominion == null)
 		{
-			if (getTemplate().getCastleId() == 0)
-			{
+			Castle castle = getCastle();
+			if (castle == null)
 				return null;
-			}
 
-			Castle castle = ResidenceHolder.getInstance().getResidence(getTemplate().getCastleId());
 			_nearestDominion = castle.getDominion();
 		}
 
