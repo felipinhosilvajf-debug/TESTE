@@ -5,6 +5,7 @@ import l2f.gameserver.data.xml.holder.EventHolder;
 import l2f.gameserver.data.xml.holder.MultiSellHolder;
 import l2f.gameserver.data.xml.holder.ResidenceHolder;
 import l2f.gameserver.handler.bbs.CommunityBoardManager;
+import l2f.gameserver.instancemanager.MapRegionManager;
 import l2f.gameserver.instancemanager.ReflectionManager;
 import l2f.gameserver.model.Player;
 import l2f.gameserver.model.SubClass;
@@ -14,7 +15,9 @@ import l2f.gameserver.model.entity.events.EventType;
 import l2f.gameserver.model.entity.events.fightclubmanager.FightClubEventManager;
 import l2f.gameserver.model.entity.events.impl.AbstractFightClub;
 import l2f.gameserver.model.entity.olympiad.Olympiad;
+import l2f.gameserver.model.Zone.ZoneType;
 import l2f.gameserver.model.entity.residence.Castle;
+import l2f.gameserver.templates.mapregion.DomainArea;
 import l2f.gameserver.model.instances.NpcInstance;
 import l2f.gameserver.model.quest.QuestState;
 import l2f.gameserver.network.serverpackets.ExBuySellList;
@@ -388,15 +391,22 @@ public class Util extends Functions
 			return;
 		}
 
-		// Usa o NPC que abriu a loja para identificar o castelo do território.
-		// Sem um NPC válido, mantém a multisell sem imposto.
+		// Calcula o imposto pelo território onde o jogador está no momento da compra.
+		// Isso funciona também para lojas abertas pelo Community Board.
 		double taxRate = 0;
-		NpcInstance npc = player.getLastNpc();
-		if (npc != null && NpcInstance.canBypassCheck(player, npc))
+		if ((player.getReflection() != ReflectionManager.PARNASSUS || !Config.SERVICES_PARNASSUS_NOTAX)
+			&& !(Config.SERVICES_OFFSHORE_NO_CASTLE_TAX
+				&& (player.getReflection() == ReflectionManager.GIRAN_HARBOR
+					|| player.getReflection() == ReflectionManager.PARNASSUS
+					|| player.isInZone(ZoneType.offshore))))
 		{
-			Castle castle = npc.getCastle(player);
-			if (castle != null)
-				taxRate = castle.getTaxRate();
+			DomainArea domain = MapRegionManager.getInstance().getRegionData(DomainArea.class, player);
+			if (domain != null)
+			{
+				Castle castle = ResidenceHolder.getInstance().getResidence(Castle.class, domain.getId());
+				if (castle != null)
+					taxRate = castle.getTaxRate();
+			}
 		}
 
 		String listId = param[0];
