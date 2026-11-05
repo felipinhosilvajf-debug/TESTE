@@ -2946,6 +2946,27 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
 #vb-grand-intro .vb-intro-enter:focus-visible{outline:2px solid #fff0bd;outline-offset:4px}
 @keyframes vbIntroPlayShine{0%,18%{left:-65%;opacity:0}35%{opacity:1}72%,100%{left:135%;opacity:0}}
 @media(max-width:600px){#vb-grand-intro .vb-intro-music-card{bottom:88px;min-width:min(280px,86vw);padding:11px 16px}#vb-grand-intro .vb-intro-music-card strong{font-size:11px}#vb-grand-intro .vb-intro-enter{bottom:20px;min-width:170px;padding:14px 30px}}
+/* Controle compacto da trilha — canto superior direito, desktop e Android */
+#vb-grand-intro .vb-intro-audio-toggle{
+  position:absolute;z-index:20;top:calc(22px + env(safe-area-inset-top,0px));right:calc(22px + env(safe-area-inset-right,0px));
+  width:48px;height:48px;display:grid;place-items:center;padding:0;
+  border:1px solid rgba(246,216,137,.78);border-radius:50%;
+  background:linear-gradient(145deg,rgba(49,36,15,.96),rgba(12,13,19,.96));
+  color:#ffe6a3;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 0 0 1px rgba(255,239,190,.08) inset,0 0 22px rgba(218,164,54,.22),0 8px 24px rgba(0,0,0,.4);
+  -webkit-tap-highlight-color:transparent;transition:transform .2s,border-color .2s,box-shadow .2s
+}
+#vb-grand-intro .vb-intro-audio-toggle:hover{transform:scale(1.07);border-color:#fff0b4;box-shadow:0 0 28px rgba(232,184,73,.38)}
+#vb-grand-intro .vb-intro-audio-toggle:active{transform:scale(.96)}
+#vb-grand-intro .vb-intro-audio-toggle:focus-visible{outline:2px solid #fff0b4;outline-offset:4px}
+#vb-grand-intro .vb-intro-audio-toggle svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#vb-grand-intro .vb-intro-audio-toggle .vb-icon-play{display:none;fill:currentColor;stroke:none}
+#vb-grand-intro .vb-intro-audio-toggle.is-paused .vb-icon-pause{display:none}
+#vb-grand-intro .vb-intro-audio-toggle.is-paused .vb-icon-play{display:block}
+@media(max-width:600px){
+  #vb-grand-intro .vb-intro-audio-toggle{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:44px;height:44px}
+  #vb-grand-intro .vb-intro-audio-toggle svg{width:19px;height:19px}
+}
 
 </style>
 
@@ -2959,6 +2980,10 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
   <div class="vb-intro-sideword fire-word">UMA NOVA EXPERIÊNCIA</div>
   <div class="vb-intro-sideword blue-word">PROGRESSÃO EQUILIBRADA</div>
   <audio id="vb-intro-audio" src="https://virtualboost.online/asset/abertura2.mp3" preload="auto" autoplay loop playsinline></audio>
+  <button type="button" id="vb-intro-audio-toggle" class="vb-intro-audio-toggle" aria-label="Pausar música" title="Pausar música" aria-pressed="false">
+    <svg class="vb-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+    <svg class="vb-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>
+  </button>
   <div class="vb-intro-core"></div>
   <div class="vb-intro-sweep"></div>
   <div class="vb-intro-brand">
@@ -4405,7 +4430,17 @@ body{top:0!important}
   if(!intro)return;
   var audio=document.getElementById('vb-intro-audio');
   var enter=document.getElementById('vb-intro-enter');
+  var audioToggle=document.getElementById('vb-intro-audio-toggle');
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function syncAudioToggle(){
+    if(!audioToggle||!audio)return;
+    var paused=audio.paused;
+    audioToggle.classList.toggle('is-paused',paused);
+    audioToggle.setAttribute('aria-label',paused?'Tocar música':'Pausar música');
+    audioToggle.setAttribute('title',paused?'Tocar música':'Pausar música');
+    audioToggle.setAttribute('aria-pressed',paused?'true':'false');
+  }
 
   function enterSite(){
     if(audio){
@@ -4430,10 +4465,26 @@ body{top:0!important}
     var playAttempt=audio.play();
     if(playAttempt&&typeof playAttempt.catch==='function'){
       playAttempt.catch(function(){
-        // O navegador pode bloquear áudio automático; a abertura permanece
-        // visível até o visitante clicar em PLAY.
+        // O navegador pode bloquear áudio automático; o controle mostra o estado pausado.
+        syncAudioToggle();
       });
     }
+    audio.addEventListener('play',syncAudioToggle);
+    audio.addEventListener('pause',syncAudioToggle);
+    audio.addEventListener('ended',syncAudioToggle);
+    syncAudioToggle();
+  }
+
+  if(audioToggle&&audio){
+    audioToggle.addEventListener('click',function(){
+      if(audio.paused){
+        var attempt=audio.play();
+        if(attempt&&typeof attempt.catch==='function')attempt.catch(syncAudioToggle);
+      }else{
+        audio.pause();
+      }
+      syncAudioToggle();
+    });
   }
 
   if(enter){
