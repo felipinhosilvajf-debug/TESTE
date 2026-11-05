@@ -462,15 +462,16 @@ try {
 /* Efeitos arcanos: partículas discretas e descargas elétricas ocasionais */
 .arcane-effects{position:fixed;inset:0;z-index:12;overflow:hidden;pointer-events:none;contain:strict}
 .arcane-effects:before{content:"";position:absolute;inset:-20%;opacity:.34;background-image:radial-gradient(circle,rgba(125,207,255,.85) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(231,197,121,.7) 0 1px,transparent 1.8px);background-size:137px 151px,211px 193px;background-position:0 0,60px 90px;animation:particleDrift 32s linear infinite}
-.arcane-bolt{position:absolute;top:-18%;left:var(--bolt-left,28%);width:clamp(90px,15vw,220px);height:138vh;opacity:0;transform:translate3d(-18vw,-12vh,0) rotate(13deg);background:linear-gradient(90deg,transparent 0 39%,rgba(94,190,255,.06) 42%,rgba(142,218,255,.82) 49%,rgba(255,255,255,.96) 50%,rgba(79,164,255,.7) 52%,rgba(94,190,255,.05) 58%,transparent 62%);clip-path:polygon(45% 0,58% 0,51% 21%,72% 21%,37% 49%,53% 49%,20% 78%,38% 78%,0 100%,26% 73%,12% 73%,47% 45%,31% 45%,62% 17%,43% 17%);filter:drop-shadow(0 0 8px #65bdff) drop-shadow(0 0 22px #328dff);animation:lightningPass 11s ease-in-out infinite}
-.arcane-bolt.bolt-two{--bolt-left:72%;width:clamp(70px,11vw,160px);height:115vh;animation-delay:5.7s;animation-duration:13s;transform:translate3d(18vw,-10vh,0) rotate(-9deg)}
+.arcane-aura{position:absolute;top:-35%;left:-55%;width:72vw;height:170vh;opacity:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(93,184,255,.22) 0%,rgba(65,145,255,.12) 28%,rgba(57,117,255,.045) 52%,transparent 72%);filter:blur(30px);mix-blend-mode:screen;transform:translate3d(-12vw,0,0) scale(.88);animation:auraFlow 18s ease-in-out infinite}
+.arcane-aura.aura-two{left:auto;right:-55%;width:58vw;opacity:0;background:radial-gradient(ellipse at center,rgba(116,205,255,.17) 0%,rgba(75,143,255,.09) 34%,transparent 72%);animation:auraFlowReverse 22s ease-in-out infinite;animation-delay:4s}
 @keyframes particleDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-45px,70px,0)}}
-@keyframes lightningPass{0%,72%,100%{opacity:0;transform:translate3d(-18vw,-12vh,0) rotate(13deg)}74%{opacity:.72}76%{opacity:.08}78%{opacity:.9}81%{opacity:0;transform:translate3d(22vw,8vh,0) rotate(13deg)}}
+@keyframes auraFlow{0%,100%{opacity:0;transform:translate3d(-12vw,0,0) scale(.88)}18%{opacity:.75}48%{opacity:.42;transform:translate3d(78vw,0,0) scale(1.12)}72%{opacity:.68;transform:translate3d(38vw,0,0) scale(1.04)}}
+@keyframes auraFlowReverse{0%,100%{opacity:0;transform:translate3d(12vw,0,0) scale(.9)}22%{opacity:.48}52%{opacity:.72;transform:translate3d(-72vw,0,0) scale(1.12)}78%{opacity:.3;transform:translate3d(-28vw,0,0) scale(1.02)}}
 @media(prefers-reduced-motion:reduce){.arcane-effects{display:none}}
 </style>
 </head>
 <body>
-<div class="arcane-effects" aria-hidden="true"><span class="arcane-bolt"></span><span class="arcane-bolt bolt-two"></span></div>
+<div class="arcane-effects" aria-hidden="true"><span class="arcane-aura"></span><span class="arcane-aura aura-two"></span></div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-mark">✦ Reino de Aden ✦</div><h1>L2 <span>VIRTUAL BOOST</span></h1></div>
