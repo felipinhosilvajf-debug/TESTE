@@ -2970,6 +2970,34 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
 
 </style>
 
+<style id="vb-terms-panel-style">
+.vb-footer-legal{display:flex;justify-content:center;align-items:center;margin:10px 0 2px!important}
+.vb-footer-legal a{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid rgba(56,189,248,.28);border-radius:999px;background:rgba(8,22,38,.55);color:#9fc9df!important;font:700 9px 'Cinzel',serif!important;letter-spacing:1.8px;text-decoration:none;transition:all .25s}
+.vb-footer-legal a:hover{color:#e5f7ff!important;border-color:#38bdf8;background:rgba(14,165,233,.13);box-shadow:0 0 22px rgba(14,165,233,.14);transform:translateY(-2px)}
+#panel-terms{z-index:100100!important}
+#panel-terms .terms-window{width:min(900px,94vw);max-height:min(86vh,900px);overflow:auto;background:radial-gradient(ellipse at 50% 0,rgba(14,165,233,.13),transparent 42%),linear-gradient(145deg,#081526,#030912 72%);border:1px solid rgba(56,189,248,.42);border-radius:18px;box-shadow:0 35px 110px #000e,0 0 45px rgba(14,165,233,.12)}
+#panel-terms .info-heading{position:sticky;top:0;z-index:4;background:rgba(4,12,23,.94);backdrop-filter:blur(16px);color:#d9f3ff;border-bottom-color:rgba(56,189,248,.2);font-size:clamp(.85rem,2vw,1.05rem)}
+#panel-terms .terms-body{padding:0 34px 28px;color:#b6c8d8}
+#panel-terms .terms-intro{padding:32px 0 26px;border-bottom:1px solid rgba(56,189,248,.17)}
+#panel-terms .terms-kicker{color:#38bdf8;font:700 9px 'Cinzel',serif;letter-spacing:2.5px}
+#panel-terms .terms-intro h2{margin:13px 0 10px;color:#e6f6ff;font:600 clamp(24px,4vw,38px)/1.15 'Cinzel',serif}
+#panel-terms .terms-intro h2 span{color:#38bdf8}
+#panel-terms .terms-intro p{margin:0;color:#8da4b8;line-height:1.7}
+#panel-terms .terms-section{display:grid;grid-template-columns:42px 1fr;gap:16px;padding:23px 0;border-bottom:1px solid rgba(56,189,248,.12)}
+#panel-terms .terms-number{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(56,189,248,.35);border-radius:10px;color:#38bdf8;font:700 11px 'Cinzel',serif;background:rgba(14,165,233,.07)}
+#panel-terms .terms-section h3{margin:2px 0 10px;color:#e2f3ff;font:700 15px 'Cinzel',serif}
+#panel-terms .terms-section p{margin:0 0 10px;color:#9aafc2;font-size:14px;line-height:1.75}
+#panel-terms .terms-section p:last-child{margin-bottom:0}
+#panel-terms .terms-section strong{color:#d9f3ff}
+#panel-terms .terms-donation{background:linear-gradient(90deg,rgba(14,165,233,.07),transparent);margin:0 -14px;padding:23px 14px}
+#panel-terms .terms-notice{margin-top:24px;padding:18px 20px;border:1px solid rgba(56,189,248,.25);border-left:3px solid #38bdf8;border-radius:10px;background:rgba(14,165,233,.07)}
+#panel-terms .terms-notice strong{color:#38bdf8;font:700 9px 'Cinzel',serif;letter-spacing:2px}
+#panel-terms .terms-notice p{margin:8px 0 0;color:#a9bfd1;font-size:13px;line-height:1.65}
+#panel-terms .terms-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}
+#panel-terms .terms-footer span{color:#607d94;font:700 8px 'Cinzel',serif;letter-spacing:1.5px}
+#panel-terms .terms-footer button{padding:12px 18px;border:1px solid #38bdf8;border-radius:999px;background:linear-gradient(135deg,#075985,#0284c7);color:#fff;font:700 9px 'Cinzel',serif;letter-spacing:1.3px;cursor:pointer}
+@media(max-width:600px){#panel-terms .terms-window{width:96vw;max-height:90vh;border-radius:13px}#panel-terms .terms-body{padding:0 18px 22px}#panel-terms .terms-intro{padding:25px 0 20px}#panel-terms .terms-section{grid-template-columns:30px 1fr;gap:10px;padding:19px 0}#panel-terms .terms-number{width:28px;height:28px}#panel-terms .terms-section p{font-size:13px;line-height:1.65}#panel-terms .terms-footer{align-items:flex-start;flex-direction:column}#panel-terms .terms-footer button{width:100%}}
+</style>
 </head>
 <body>
 
@@ -3227,10 +3255,28 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
 <footer class="theend-footer">
  <div class="theend-wrap vb-footer-inner">
   <div class="vb-footer-copy"><p>© 2026 L2 Virtual Boost — Projeto independente e não-oficial de fãs.</p></div>
-  <div class="vb-footer-links"><a href="#home">INÍCIO</a><a href="#features">O REINO</a><a href="#progressao">PROGRESSÃO</a><a href="#wiki">WIKI</a><a href="#" onclick="openPanel('join');return false;">DISCORD</a></div>
+  <div class="vb-footer-legal"><a href="#" onclick="openPanel('terms');return false;">TERMOS DE USO</a></div>
   
  </div>
-</footer><div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
+</footer>
+<div class="info-modal" id="panel-terms" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+ <div class="info-backdrop" onclick="closePanel('terms')"></div>
+ <div class="info-window terms-window">
+  <button class="info-close" type="button" aria-label="Fechar termos de uso" onclick="closePanel('terms')">×</button>
+  <div class="info-heading" id="terms-title"><span class="info-heading-icon">§</span>TERMOS DE USO E AVISO LEGAL</div>
+  <div class="info-body terms-body">
+   <div class="terms-intro"><span class="terms-kicker">VIRTUAL BOOST · LINEAGE HIGH FIVE</span><h2>Transparência, respeito e <span>independência.</span></h2><p>Leia estas condições antes de utilizar o site ou acessar o servidor Virtual Boost.</p></div>
+   <section class="terms-section"><span class="terms-number">01</span><div><h3>Projeto independente e não oficial</h3><p><strong>Lineage II é uma marca registrada da NCSOFT Corporation.</strong> Todos os direitos sobre Lineage II, seus nomes, marcas, personagens, imagens, músicas, elementos visuais e demais propriedades intelectuais pertencem à NCSOFT Corporation e/ou aos respectivos titulares.</p><p>O Virtual Boost é um projeto privado, independente e desenvolvido por fãs. Não é um servidor oficial e não possui afiliação, autorização, patrocínio, parceria ou vínculo institucional com a NCSOFT Corporation ou com suas empresas relacionadas.</p><p>As referências a Lineage II e à crônica High Five são utilizadas para identificar o jogo no qual este projeto de fãs se baseia. A menção às marcas não significa endosso ou participação de seus titulares.</p></div></section>
+   <section class="terms-section"><span class="terms-number">02</span><div><h3>Direitos de propriedade intelectual</h3><p>Este projeto não reivindica a propriedade de Lineage II nem de qualquer marca, conteúdo ou material pertencente à NCSOFT Corporation ou a terceiros. Os direitos autorais, marcas e demais direitos de propriedade intelectual permanecem com seus respectivos titulares.</p><p>O nome Virtual Boost identifica apenas a iniciativa independente de fãs e não deve ser interpretado como marca, produto ou serviço oficial da NCSOFT.</p></div></section>
+   <section class="terms-section terms-donation"><span class="terms-number">03</span><div><h3>Doações voluntárias e manutenção</h3><p>Qualquer contribuição financeira realizada ao Virtual Boost é <strong>voluntária</strong> e tem como finalidade exclusiva auxiliar na manutenção do projeto, incluindo custos de hospedagem, infraestrutura, servidores e serviços técnicos necessários para manter o ambiente disponível.</p><p>A contribuição não é uma compra realizada junto à NCSOFT, não representa pagamento por produto ou serviço oficial da empresa e não concede qualquer vínculo com a titular dos direitos de Lineage II. O projeto não se apresenta como canal oficial de venda de itens, licenças ou conteúdos da NCSOFT.</p><p>Ao contribuir, o usuário declara compreender o caráter independente do projeto e que a iniciativa depende de apoio voluntário para custear sua infraestrutura.</p></div></section>
+   <section class="terms-section"><span class="terms-number">04</span><div><h3>Disponibilidade e alterações</h3><p>Por se tratar de um projeto independente, o site e o servidor podem passar por manutenções, atualizações, ajustes, períodos de indisponibilidade ou alterações em suas funcionalidades. A equipe buscará comunicar mudanças relevantes pelos canais da comunidade sempre que possível.</p></div></section>
+   <section class="terms-section"><span class="terms-number">05</span><div><h3>Aceitação destes termos</h3><p>Ao navegar neste site, criar uma conta ou utilizar o servidor, você declara que leu e compreendeu este aviso de independência e as condições aqui apresentadas. Caso não concorde com elas, interrompa o uso do site e do servidor.</p><p>Estes termos podem ser atualizados para refletir mudanças no funcionamento do projeto. A versão publicada nesta página será a referência vigente.</p></div></section>
+   <div class="terms-notice"><strong>IMPORTANTE</strong><p>Virtual Boost é uma iniciativa privada de fãs, sem caráter oficial. Lineage II e suas propriedades intelectuais pertencem à NCSOFT Corporation e/ou aos respectivos titulares.</p></div>
+   <div class="terms-footer"><span>VIRTUAL BOOST · PROJETO INDEPENDENTE</span><button type="button" onclick="closePanel('terms')">ENTENDI E FECHAR</button></div>
+  </div>
+ </div>
+</div>
+<div class="info-modal" id="panel-server" aria-hidden="true"><div class="info-backdrop" onclick="closePanel('server')"></div><div class="info-window"><button class="info-close" onclick="closePanel('server')">×</button><div class="info-heading"><span class="info-heading-icon">♛</span>O REINO</div><div class="info-body">
     <h2 class="sec-title reveal">
         <span class="blue">O REINO</span> EM NOVO RITMO
     </h2>
