@@ -2675,6 +2675,16 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 .vb-release-footnote{margin:23px 0 0;padding-top:17px;border-top:1px solid rgba(148,163,184,.13);color:#64748b;font-size:.78rem;line-height:1.6}
 @media(max-width:600px){.vb-release-history{padding:17px;margin-top:24px}.vb-release-entry{grid-template-columns:34px minmax(0,1fr);gap:12px;padding:19px 0}.vb-release-index{width:32px;height:32px;font-size:.68rem}.vb-release-date{grid-column:2;align-items:flex-start;flex-direction:row;flex-wrap:wrap;align-items:center;gap:9px}.vb-release-date small{font-size:.5rem}.vb-release-date b{padding:6px 10px}.vb-release-info p{font-size:.82rem}}
 
+
+
+/* Efeitos arcanos: partículas discretas e descargas elétricas ocasionais */
+.arcane-effects{position:fixed;inset:0;z-index:12;overflow:hidden;pointer-events:none;contain:strict}
+.arcane-effects:before{content:"";position:absolute;inset:-20%;opacity:.34;background-image:radial-gradient(circle,rgba(125,207,255,.85) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(231,197,121,.7) 0 1px,transparent 1.8px);background-size:137px 151px,211px 193px;background-position:0 0,60px 90px;animation:particleDrift 32s linear infinite}
+.arcane-bolt{position:absolute;top:-18%;left:var(--bolt-left,28%);width:clamp(90px,15vw,220px);height:138vh;opacity:0;transform:translate3d(-18vw,-12vh,0) rotate(13deg);background:linear-gradient(90deg,transparent 0 39%,rgba(94,190,255,.06) 42%,rgba(142,218,255,.82) 49%,rgba(255,255,255,.96) 50%,rgba(79,164,255,.7) 52%,rgba(94,190,255,.05) 58%,transparent 62%);clip-path:polygon(45% 0,58% 0,51% 21%,72% 21%,37% 49%,53% 49%,20% 78%,38% 78%,0 100%,26% 73%,12% 73%,47% 45%,31% 45%,62% 17%,43% 17%);filter:drop-shadow(0 0 8px #65bdff) drop-shadow(0 0 22px #328dff);animation:lightningPass 11s ease-in-out infinite}
+.arcane-bolt.bolt-two{--bolt-left:72%;width:clamp(70px,11vw,160px);height:115vh;animation-delay:5.7s;animation-duration:13s;transform:translate3d(18vw,-10vh,0) rotate(-9deg)}
+@keyframes particleDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-45px,70px,0)}}
+@keyframes lightningPass{0%,72%,100%{opacity:0;transform:translate3d(-18vw,-12vh,0) rotate(13deg)}74%{opacity:.72}76%{opacity:.08}78%{opacity:.9}81%{opacity:0;transform:translate3d(22vw,8vh,0) rotate(13deg)}}
+@media(prefers-reduced-motion:reduce){.arcane-effects{display:none}}
 </style></style></style><style>
 .theend-logo-text{color:#f3dfaa;text-decoration:none;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:900;letter-spacing:3px}
 .season-showcase{background:radial-gradient(circle at center,rgba(216,181,106,.08),transparent 55%)}
@@ -2888,6 +2898,7 @@ nav::after,.theend-nav::after{background:linear-gradient(90deg,transparent,#0759
 
 </head>
 <body>
+<div class="arcane-effects" aria-hidden="true"><span class="arcane-bolt"></span><span class="arcane-bolt bolt-two"></span></div>
 
 <!-- =========================================================
      VIRTUAL BOOST — LANDING V2 / THE END INSPIRED
