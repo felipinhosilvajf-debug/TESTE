@@ -2937,15 +2937,15 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
 @media(prefers-reduced-motion:reduce){html.vb-intro-lock,html.vb-intro-lock body{overflow:auto!important}#vb-grand-intro{display:none!important}}
 
 /* Card da trilha e botão de entrada — dourado com reflexo */
-#vb-grand-intro .vb-intro-music-card{position:absolute;z-index:8;bottom:clamp(92px,14vh,124px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;min-width:min(300px,82vw);padding:13px 24px;border:1px solid rgba(231,190,103,.68);border-radius:12px;background:linear-gradient(145deg,rgba(39,29,13,.94),rgba(13,12,12,.96));box-shadow:0 0 25px rgba(218,164,54,.18),inset 0 1px rgba(255,239,190,.12);text-align:center;backdrop-filter:blur(10px)}
+#vb-grand-intro .vb-intro-music-card{position:absolute;z-index:8;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;min-width:min(300px,82vw);padding:13px 24px;border:1px solid rgba(231,190,103,.68);border-radius:12px;background:linear-gradient(145deg,rgba(39,29,13,.94),rgba(13,12,12,.96));box-shadow:0 0 25px rgba(218,164,54,.18),inset 0 1px rgba(255,239,190,.12);text-align:center;backdrop-filter:blur(10px)}
 #vb-grand-intro .vb-intro-music-card strong{font:700 13px 'Cinzel',Georgia,serif;letter-spacing:.12em;color:#ffe6a3;text-shadow:0 0 14px rgba(246,216,137,.28)}
 #vb-grand-intro .vb-intro-music-card span{font:700 9px Arial,sans-serif;letter-spacing:.2em;color:#d7b66d}
-#vb-grand-intro .vb-intro-enter{position:absolute;z-index:9;bottom:28px;left:50%;transform:translateX(-50%);min-width:190px;padding:16px 38px;overflow:hidden;border:1px solid #ffd27a;border-radius:9px;background:linear-gradient(135deg,#a94b0b 0%,#f28a19 48%,#bd5a0b 100%);color:#fff8e8;font:900 15px 'Cinzel',Georgia,serif;letter-spacing:.22em;cursor:pointer;box-shadow:0 0 0 1px rgba(255,231,168,.18) inset,0 0 22px rgba(245,139,29,.38),0 10px 30px rgba(0,0,0,.5);text-shadow:0 1px 3px rgba(74,31,0,.8);transition:transform .25s,box-shadow .25s,border-color .25s}
+#vb-grand-intro .vb-intro-enter{position:absolute;z-index:9;bottom:clamp(92px,14vh,124px);left:50%;transform:translateX(-50%);min-width:190px;padding:16px 38px;overflow:hidden;border:1px solid #ffd27a;border-radius:9px;background:linear-gradient(135deg,#a94b0b 0%,#f28a19 48%,#bd5a0b 100%);color:#fff8e8;font:900 15px 'Cinzel',Georgia,serif;letter-spacing:.22em;cursor:pointer;box-shadow:0 0 0 1px rgba(255,231,168,.18) inset,0 0 22px rgba(245,139,29,.38),0 10px 30px rgba(0,0,0,.5);text-shadow:0 1px 3px rgba(74,31,0,.8);transition:transform .25s,box-shadow .25s,border-color .25s}
 #vb-grand-intro .vb-intro-enter:before{content:"";position:absolute;top:-70%;bottom:-70%;left:-65%;width:42%;transform:rotate(22deg);background:linear-gradient(90deg,transparent,rgba(255,255,235,.92),rgba(255,221,139,.55),transparent);filter:blur(1px);animation:vbIntroPlayShine 2.8s ease-in-out infinite;pointer-events:none}
 #vb-grand-intro .vb-intro-enter:hover{transform:translateX(-50%) translateY(-3px);border-color:#fff0bd;box-shadow:0 0 0 1px rgba(255,244,204,.25) inset,0 0 34px rgba(245,139,29,.58),0 14px 34px rgba(0,0,0,.58)}
 #vb-grand-intro .vb-intro-enter:focus-visible{outline:2px solid #fff0bd;outline-offset:4px}
 @keyframes vbIntroPlayShine{0%,18%{left:-65%;opacity:0}35%{opacity:1}72%,100%{left:135%;opacity:0}}
-@media(max-width:600px){#vb-grand-intro .vb-intro-music-card{bottom:88px;min-width:min(280px,86vw);padding:11px 16px}#vb-grand-intro .vb-intro-music-card strong{font-size:11px}#vb-grand-intro .vb-intro-enter{bottom:20px;min-width:170px;padding:14px 30px}}
+@media(max-width:600px){#vb-grand-intro .vb-intro-music-card{bottom:20px;min-width:min(280px,86vw);padding:11px 16px}#vb-grand-intro .vb-intro-music-card strong{font-size:11px}#vb-grand-intro .vb-intro-enter{bottom:88px;min-width:170px;padding:14px 30px}}
 /* Controle compacto da trilha — canto superior direito, desktop e Android */
 #vb-grand-intro .vb-intro-audio-toggle{
   position:absolute;z-index:20;top:calc(22px + env(safe-area-inset-top,0px));right:calc(22px + env(safe-area-inset-right,0px));
@@ -2995,7 +2995,6 @@ html.vb-intro-lock,html.vb-intro-lock body{overflow:hidden!important}
     <strong>LINEAGE HIGH FIVE - 2026</strong>
     <span>Todos direitos reservados</span>
   </div>
-  <button type="button" id="vb-intro-enter" class="vb-intro-enter">▶ PLAY</button>
 </div>
 
 <div class="arcane-effects" aria-hidden="true"><span class="arcane-aura"></span><span class="arcane-aura aura-two"></span></div>
