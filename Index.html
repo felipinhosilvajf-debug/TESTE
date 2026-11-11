@@ -174,9 +174,6 @@
 
 <script>
     const ytWsUrl = "wss://ws.virtualboost.online:2096";
-
-    let playerFechadoPeloUsuario = false;
-    let ultimoVideoId = null;
     let iframeAnterior = null;
 
     // Inicializa o overlay
@@ -184,88 +181,44 @@
         window.startYTOverlay(ssoTicket, ytWsUrl);
     }
 
-    // Botão de fechar
+    // X externo: chama o fechamento real do componente Vue.
     const closeYtBtn = document.createElement('button');
     closeYtBtn.id = 'closeYtBtn';
     closeYtBtn.innerText = 'X';
     closeYtBtn.title = 'Fechar vídeo';
     document.body.appendChild(closeYtBtn);
 
-    const appContainer = document.getElementById('app');
-
-    // Fecha e interrompe completamente o vídeo
-    
-
-function fecharYoutube() {
-    playerFechadoPeloUsuario = true;
-
-    const iframes = document.querySelectorAll('#app iframe');
-
-    iframes.forEach(function(iframe) {
-        try {
-            // Solicita a parada completa do vídeo
-            iframe.contentWindow.postMessage(
-                JSON.stringify({
-                    event: 'command',
-                    func: 'stopVideo',
-                    args: []
-                }),
-                '*'
-            );
-
-            // Reforça a pausa
-            iframe.contentWindow.postMessage(
-                JSON.stringify({
-                    event: 'command',
-                    func: 'pauseVideo',
-                    args: []
-                }),
-                '*'
-            );
-        } catch (e) {
-            console.log('Erro ao parar YouTube:', e);
+    function fecharYoutube(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
         }
-    });
 
-    // Esconde o player
-    if (appContainer) {
-        appContainer.style.display = 'none';
+        // O close() interno interrompe o iframe e limpa o estado do player.
+        const botaoFecharInterno = document.querySelector(
+            '#app > .box .box_head .box_cross'
+        );
+
+        if (botaoFecharInterno) {
+            botaoFecharInterno.click();
+        }
+
+        closeYtBtn.style.display = 'none';
     }
 
-    closeYtBtn.style.display = 'none';
+    closeYtBtn.addEventListener('click', fecharYoutube);
 
-    // Não remove o iframe: preserva o estado do overlay.
-}
-
-
-    // Não remove o iframe nem altera o estado interno do overlay.
-
-    closeYtBtn.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        fecharYoutube();
-    };
-
-    // Detecta quando um novo iframe é criado pelo overlay
-    
     function verificarPlayer() {
         const iframe = document.querySelector('#app iframe');
 
-        if (!iframe || !appContainer) {
+        // Não esconda #app: ele precisa continuar ativo para o próximo :youtube.
+        if (!iframe) {
             closeYtBtn.style.display = 'none';
+            iframeAnterior = null;
             return;
         }
 
-        // Atualiza a referência do iframe sem reabrir o player
-        if (iframe !== iframeAnterior) {
-            iframeAnterior = iframe;
-        }
-
-        // Se o usuário fechou, mantém tudo escondido
-        if (playerFechadoPeloUsuario || appContainer.style.display === 'none') {
-            closeYtBtn.style.display = 'none';
-            return;
-        }
+        if (iframe !== iframeAnterior) iframeAnterior = iframe;
 
         const rect = iframe.getBoundingClientRect();
 
@@ -278,32 +231,8 @@ function fecharYoutube() {
         }
     }
 
-    // Monitora o player
+    // Monitora o player sem bloquear a abertura de vídeos novos.
     setInterval(verificarPlayer, 300);
-
-    // Quando chegar um novo vídeo pelo comando, libera a abertura novamente
-    
-    window.addEventListener('message', function(event) {
-        if (!event.origin || !event.origin.includes('youtube.com')) return;
-        if (typeof event.data !== 'string') return;
-
-        try {
-            const dados = JSON.parse(event.data);
-
-            // 1 = vídeo começou a reproduzir
-            if (dados.info && dados.info.playerState === 1) {
-                // Libera novamente o player para um novo vídeo
-                playerFechadoPeloUsuario = false;
-
-                if (appContainer) {
-                    appContainer.style.display = 'block';
-                }
-
-                // Atualiza o botão X
-                setTimeout(verificarPlayer, 100);
-            }
-        } catch (e) {}
-    });
-</script>
+    </script>
   </body>
 </html>
