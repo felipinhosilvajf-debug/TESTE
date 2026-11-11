@@ -181,7 +181,6 @@
     const ytWsUrl = "wss://ws.virtualboost.online:2096";
 
     let playerFechadoPeloUsuario = false;
-    let ultimoVideoId = null;
     let iframeAnterior = null;
 
     // Inicializa o overlay
@@ -189,26 +188,32 @@
         window.startYTOverlay(ssoTicket, ytWsUrl);
     }
 
-    // Botão de fechar
+    // Botão X
     const closeYtBtn = document.createElement('button');
     closeYtBtn.id = 'closeYtBtn';
+    closeYtBtn.type = 'button';
     closeYtBtn.innerText = 'X';
     closeYtBtn.title = 'Fechar vídeo';
     document.body.appendChild(closeYtBtn);
 
     const appContainer = document.getElementById('app');
 
-    // Fecha e interrompe o vídeo sem remover o iframe.
+    // Fecha e para o vídeo, mas mantém o iframe para o próximo comando.
     function fecharYoutube() {
         playerFechadoPeloUsuario = true;
 
         document.querySelectorAll('#app iframe').forEach(function(iframe) {
             try {
-                iframe.contentWindow.postMessage(JSON.stringify({
-                    event: 'command',
-                    func: 'stopVideo',
-                    args: []
-                }), '*');
+                const command = function(func) {
+                    iframe.contentWindow.postMessage(JSON.stringify({
+                        event: 'command',
+                        func: func,
+                        args: []
+                    }), '*');
+                };
+
+                command('stopVideo');
+                command('pauseVideo');
             } catch (e) {
                 console.log('Erro ao parar YouTube:', e);
             }
@@ -224,7 +229,7 @@
         fecharYoutube();
     };
 
-    // Exibe o X sempre que o iframe do player estiver visível.
+    // Mostra o X somente quando a janela do player está aberta.
     function verificarPlayer() {
         const iframe = document.querySelector('#app iframe');
 
@@ -233,48 +238,48 @@
             return;
         }
 
-        const rect = iframe.getBoundingClientRect();
-        const iframeStyle = window.getComputedStyle(iframe);
-        const appStyle = window.getComputedStyle(appContainer);
+        if (iframe !== iframeAnterior) {
+            iframeAnterior = iframe;
+        }
 
-        const visivel =
-            rect.width > 0 &&
-            rect.height > 0 &&
-            iframeStyle.display !== 'none' &&
-            iframeStyle.visibility !== 'hidden' &&
-            appStyle.display !== 'none' &&
-            appStyle.visibility !== 'hidden';
-
-        if (!visivel) {
+        if (playerFechadoPeloUsuario || window.getComputedStyle(appContainer).display === 'none') {
             closeYtBtn.style.display = 'none';
             return;
         }
 
-        // X fica na quina superior direita da janela do vídeo.
-        closeYtBtn.style.setProperty('display', 'flex', 'important');
-        closeYtBtn.style.setProperty('top', Math.max(4, rect.top - 28) + 'px', 'important');
-        closeYtBtn.style.setProperty('left', (rect.right - 28) + 'px', 'important');
-        closeYtBtn.style.setProperty('position', 'fixed', 'important');
-        closeYtBtn.style.setProperty('z-index', '2147483647', 'important');
+        const rect = iframe.getBoundingClientRect();
+        const iframeStyle = window.getComputedStyle(iframe);
+
+        if (rect.width > 0 && rect.height > 0 &&
+            iframeStyle.display !== 'none' &&
+            iframeStyle.visibility !== 'hidden') {
+            closeYtBtn.style.display = 'flex';
+            closeYtBtn.style.top = Math.max(4, rect.top - 26) + 'px';
+            closeYtBtn.style.left = (rect.right - 28) + 'px';
+        } else {
+            closeYtBtn.style.display = 'none';
+        }
     }
 
-    // Reavalia a posição continuamente, inclusive quando a janela é arrastada.
     setInterval(verificarPlayer, 200);
     window.addEventListener('resize', verificarPlayer);
     window.addEventListener('scroll', verificarPlayer, true);
 
-    // Ao iniciar um vídeo, libera o estado de fechamento e atualiza o X.
+    // Quando um novo vídeo começa, libera a janela e o botão X novamente.
     window.addEventListener('message', function(event) {
         if (!event.origin || !event.origin.includes('youtube.com')) return;
         if (typeof event.data !== 'string') return;
 
         try {
             const dados = JSON.parse(event.data);
+
             if (dados.info && dados.info.playerState === 1) {
                 playerFechadoPeloUsuario = false;
+
                 if (appContainer) appContainer.style.display = 'block';
+
                 setTimeout(verificarPlayer, 100);
-                setTimeout(verificarPlayer, 500);
+                setTimeout(verificarPlayer, 400);
             }
         } catch (e) {}
     });
