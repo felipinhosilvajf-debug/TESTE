@@ -80,16 +80,14 @@
 
       /* Botão X sincronizado com a quina do player */
       #closeYtBtn {
-        position: fixed !important;
-        z-index: 2147483647 !important;
-        background: #d32f2f !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
+        position: fixed;
+        z-index: 999999;
+        background: #d32f2f;
+        color: #ffffff;
+        border: 1px solid #ffffff;
         border-radius: 4px;
         width: 24px;
         height: 22px;
-        min-width: 24px;
-        min-height: 22px;
         font-family: Arial, sans-serif;
         font-weight: bold;
         font-size: 13px;
@@ -100,9 +98,6 @@
         justify-content: center;
         box-shadow: 0px 2px 5px rgba(0,0,0,0.6);
         padding: 0;
-        pointer-events: auto !important;
-        visibility: visible !important;
-        opacity: 1 !important;
       }
       #closeYtBtn:hover {
         background: #b71c1c;
@@ -181,6 +176,7 @@
     const ytWsUrl = "wss://ws.virtualboost.online:2096";
 
     let playerFechadoPeloUsuario = false;
+    let ultimoVideoId = null;
     let iframeAnterior = null;
 
     // Inicializa o overlay
@@ -188,40 +184,63 @@
         window.startYTOverlay(ssoTicket, ytWsUrl);
     }
 
-    // Botão X
+    // Botão de fechar
     const closeYtBtn = document.createElement('button');
     closeYtBtn.id = 'closeYtBtn';
-    closeYtBtn.type = 'button';
     closeYtBtn.innerText = 'X';
     closeYtBtn.title = 'Fechar vídeo';
     document.body.appendChild(closeYtBtn);
 
     const appContainer = document.getElementById('app');
 
-    // Fecha e para o vídeo, mas mantém o iframe para o próximo comando.
-    function fecharYoutube() {
-        playerFechadoPeloUsuario = true;
+    // Fecha e interrompe completamente o vídeo
+    
 
-        document.querySelectorAll('#app iframe').forEach(function(iframe) {
-            try {
-                const command = function(func) {
-                    iframe.contentWindow.postMessage(JSON.stringify({
-                        event: 'command',
-                        func: func,
-                        args: []
-                    }), '*');
-                };
+function fecharYoutube() {
+    playerFechadoPeloUsuario = true;
 
-                command('stopVideo');
-                command('pauseVideo');
-            } catch (e) {
-                console.log('Erro ao parar YouTube:', e);
-            }
-        });
+    const iframes = document.querySelectorAll('#app iframe');
 
-        if (appContainer) appContainer.style.display = 'none';
-        closeYtBtn.style.display = 'none';
+    iframes.forEach(function(iframe) {
+        try {
+            // Solicita a parada completa do vídeo
+            iframe.contentWindow.postMessage(
+                JSON.stringify({
+                    event: 'command',
+                    func: 'stopVideo',
+                    args: []
+                }),
+                '*'
+            );
+
+            // Reforça a pausa
+            iframe.contentWindow.postMessage(
+                JSON.stringify({
+                    event: 'command',
+                    func: 'pauseVideo',
+                    args: []
+                }),
+                '*'
+            );
+        } catch (e) {
+            console.log('Erro ao parar YouTube:', e);
+        }
+    });
+
+    // Esconde o player
+    if (appContainer) {
+        appContainer.style.display = 'none';
     }
+
+    closeYtBtn.style.display = 'none';
+
+    // Não remove o iframe: preserva o estado do overlay.
+}
+
+
+    // Não remove o iframe nem altera o estado interno do overlay.
+}
+
 
     closeYtBtn.onclick = function(e) {
         e.preventDefault();
@@ -229,7 +248,8 @@
         fecharYoutube();
     };
 
-    // Mostra o X somente quando a janela do player está aberta.
+    // Detecta quando um novo iframe é criado pelo overlay
+    
     function verificarPlayer() {
         const iframe = document.querySelector('#app iframe');
 
@@ -238,34 +258,33 @@
             return;
         }
 
+        // Atualiza a referência do iframe sem reabrir o player
         if (iframe !== iframeAnterior) {
             iframeAnterior = iframe;
         }
 
-        if (playerFechadoPeloUsuario || window.getComputedStyle(appContainer).display === 'none') {
+        // Se o usuário fechou, mantém tudo escondido
+        if (playerFechadoPeloUsuario || appContainer.style.display === 'none') {
             closeYtBtn.style.display = 'none';
             return;
         }
 
         const rect = iframe.getBoundingClientRect();
-        const iframeStyle = window.getComputedStyle(iframe);
 
-        if (rect.width > 0 && rect.height > 0 &&
-            iframeStyle.display !== 'none' &&
-            iframeStyle.visibility !== 'hidden') {
+        if (rect.width > 0 && rect.height > 0) {
             closeYtBtn.style.display = 'flex';
-            closeYtBtn.style.top = Math.max(4, rect.top - 26) + 'px';
+            closeYtBtn.style.top = (rect.top - 26) + 'px';
             closeYtBtn.style.left = (rect.right - 28) + 'px';
         } else {
             closeYtBtn.style.display = 'none';
         }
     }
 
-    setInterval(verificarPlayer, 200);
-    window.addEventListener('resize', verificarPlayer);
-    window.addEventListener('scroll', verificarPlayer, true);
+    // Monitora o player
+    setInterval(verificarPlayer, 300);
 
-    // Quando um novo vídeo começa, libera a janela e o botão X novamente.
+    // Quando chegar um novo vídeo pelo comando, libera a abertura novamente
+    
     window.addEventListener('message', function(event) {
         if (!event.origin || !event.origin.includes('youtube.com')) return;
         if (typeof event.data !== 'string') return;
@@ -273,13 +292,17 @@
         try {
             const dados = JSON.parse(event.data);
 
+            // 1 = vídeo começou a reproduzir
             if (dados.info && dados.info.playerState === 1) {
+                // Libera novamente o player para um novo vídeo
                 playerFechadoPeloUsuario = false;
 
-                if (appContainer) appContainer.style.display = 'block';
+                if (appContainer) {
+                    appContainer.style.display = 'block';
+                }
 
+                // Atualiza o botão X
                 setTimeout(verificarPlayer, 100);
-                setTimeout(verificarPlayer, 400);
             }
         } catch (e) {}
     });
