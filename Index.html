@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" crossorigin="use-credentials" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#000000">
+    <meta name="apple-mobile-web-app-title" content="Nitro">
+    <meta name="application-name" content="Nitro">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <base href="./">
+    <title>Nitro</title>
+    <script type="module" crossorigin src="assets/index-34d8c395.js"></script>
+    <link rel="modulepreload" crossorigin href="assets/vendor-48792d42.js">
+    <link rel="modulepreload" crossorigin href="assets/nitro-renderer-493a6bde.js">
+    <link rel="stylesheet" href="src/assets/index.css">
+
+    <!-- CSS DO YOUTUBE OVERLAY -->
+    <link rel="stylesheet" href="/youtube-overlay/css/app.c193abe1.css">
+
+    <!-- Estilo Visual do Botão da Rádio e YouTube Overlay -->
+    <style>
+      #radioWidget {
+        position: fixed;
+        top: 20px;       
+        left: 20px;      
+        z-index: 99999;  
+        background: rgba(0, 0, 0, 0.75);
+        border: 2px solid #fff;
+        border-radius: 8px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+        font-family: Arial, sans-serif;
+        color: #fff;
+        transform: scale(0.8);
+        transform-origin: top left; 
+      }
+      #radioBtn {
+        background: #0088ff;
+        border: none;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 12px;
+        transition: background 0.2s;
+      }
+      #radioBtn:hover {
+        background: #0066cc;
+      }
+      #radioStatus {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+
+      /* Traz a janela do YouTube Overlay para frente do Nitro */
+      #app {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99998;
+        pointer-events: none;
+      }
+      #app > * {
+        pointer-events: auto;
+      }
+
+      /* Botão X sincronizado com a quina do player */
+      #closeYtBtn {
+        position: fixed;
+        z-index: 999999;
+        background: #d32f2f;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 4px;
+        width: 24px;
+        height: 22px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.6);
+        padding: 0;
+      }
+      #closeYtBtn:hover {
+        background: #b71c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- CONTAINER DO NITRO -->
+    <div id="root" class="w-100 h-100"></div>
+
+    <!-- CONTAINER DO YOUTUBE OVERLAY -->
+    <div id="app"></div>
+
+    <script>
+      const ssoTicket = (new URLSearchParams(window.location.search).get('sso') || null);
+
+      const NitroConfig = {
+        "config.urls": [ 'renderer-config.json', 'ui-config.json' ],
+        "sso.ticket": ssoTicket,
+        "forward.type": (new URLSearchParams(window.location.search).get('room') ? 2 : -1),
+        "forward.id": (new URLSearchParams(window.location.search).get('room') || 0),
+        "friend.id": (new URLSearchParams(window.location.search).get('friend') || 0),
+      };
+    </script>
+    
+    <!-- INTERFACE DA RÁDIO NO CLIENT -->
+    <div id="radioWidget">
+      <span id="radioStatus">Radio: Pausada</span>
+      <button id="radioBtn" onclick="toggleRadio()">PLAY</button>
+    </div>
+
+    <!-- PLAYER AUDIO -->
+    <audio id="habboRadio" loop preload="none">
+        <source src="https://live.hunter.fm/pop_stream?ag=mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+    </audio>
+
+    <!-- LOGICA DE PLAY / PAUSE E CONTORNO DE AUTOPLAY -->
+    <script>
+      var audio = document.getElementById('habboRadio');
+      var btn = document.getElementById('radioBtn');
+      var statusText = document.getElementById('radioStatus');
+
+      function toggleRadio() {
+          if (audio.paused) {
+              audio.play().then(function() {
+                  btn.innerText = "PAUSE";
+                  btn.style.background = "#ff3333";
+                  statusText.innerText = "Radio: Tocando";
+              }).catch(function(error) {
+                  console.log("Erro ao reproduzir rádio:", error);
+              });
+          } else {
+              audio.pause();
+              btn.innerText = "PLAY";
+              btn.style.background = "#0088ff";
+              statusText.innerText = "Radio: Pausada";
+          }
+      }
+
+      document.addEventListener('click', function() {
+          if (audio.paused && btn.innerText === "PLAY") {
+              toggleRadio();
+          }
+      }, { once: true });
+    </script>
+
+    
+<!-- SCRIPTS DO YOUTUBE OVERLAY -->
+<script src="/youtube-overlay/js/chunk-vendors.e3117a63.js"></script>
+<script src="/youtube-overlay/js/app.d6ff1731.js"></script>
+
+<script>
+    const ytWsUrl = "wss://ws.virtualboost.online:2096";
+
+    let playerFechadoPeloUsuario = false;
+    let ultimoVideoId = null;
+    let iframeAnterior = null;
+
+    // Inicializa o overlay
+    if (typeof window.startYTOverlay === 'function') {
+        window.startYTOverlay(ssoTicket, ytWsUrl);
+    }
+
+    // Botão de fechar
+    const closeYtBtn = document.createElement('button');
+    closeYtBtn.id = 'closeYtBtn';
+    closeYtBtn.innerText = 'X';
+    closeYtBtn.title = 'Fechar vídeo';
+    document.body.appendChild(closeYtBtn);
+
+    const appContainer = document.getElementById('app');
+
+    // Fecha e interrompe completamente o vídeo
+    
+
+function fecharYoutube() {
+    playerFechadoPeloUsuario = true;
+
+    const iframes = document.querySelectorAll('#app iframe');
+
+    iframes.forEach(function(iframe) {
+        try {
+            // Solicita a parada completa do vídeo
+            iframe.contentWindow.postMessage(
+                JSON.stringify({
+                    event: 'command',
+                    func: 'stopVideo',
+                    args: []
+                }),
+                '*'
+            );
+
+            // Reforça a pausa
+            iframe.contentWindow.postMessage(
+                JSON.stringify({
+                    event: 'command',
+                    func: 'pauseVideo',
+                    args: []
+                }),
+                '*'
+            );
+        } catch (e) {
+            console.log('Erro ao parar YouTube:', e);
+        }
+    });
+
+    // Esconde o player
+    if (appContainer) {
+        appContainer.style.display = 'none';
+    }
+
+    closeYtBtn.style.display = 'none';
+
+    // Não remove o iframe: preserva o estado do overlay.
+}
+
+
+    // Não remove o iframe nem altera o estado interno do overlay.
+}
+
+
+    closeYtBtn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fecharYoutube();
+    };
+
+    // Detecta quando um novo iframe é criado pelo overlay
+    
+    function verificarPlayer() {
+        const iframe = document.querySelector('#app iframe');
+
+        if (!iframe || !appContainer) {
+            closeYtBtn.style.display = 'none';
+            return;
+        }
+
+        // Atualiza a referência do iframe sem reabrir o player
+        if (iframe !== iframeAnterior) {
+            iframeAnterior = iframe;
+        }
+
+        // Se o usuário fechou, mantém tudo escondido
+        if (playerFechadoPeloUsuario || appContainer.style.display === 'none') {
+            closeYtBtn.style.display = 'none';
+            return;
+        }
+
+        const rect = iframe.getBoundingClientRect();
+
+        if (rect.width > 0 && rect.height > 0) {
+            closeYtBtn.style.display = 'flex';
+            closeYtBtn.style.top = (rect.top - 26) + 'px';
+            closeYtBtn.style.left = (rect.right - 28) + 'px';
+        } else {
+            closeYtBtn.style.display = 'none';
+        }
+    }
+
+    // Monitora o player
+    setInterval(verificarPlayer, 300);
+
+    // Quando chegar um novo vídeo pelo comando, libera a abertura novamente
+    
+    window.addEventListener('message', function(event) {
+        if (!event.origin || !event.origin.includes('youtube.com')) return;
+        if (typeof event.data !== 'string') return;
+
+        try {
+            const dados = JSON.parse(event.data);
+
+            // 1 = vídeo começou a reproduzir
+            if (dados.info && dados.info.playerState === 1) {
+                // Libera novamente o player para um novo vídeo
+                playerFechadoPeloUsuario = false;
+
+                if (appContainer) {
+                    appContainer.style.display = 'block';
+                }
+
+                // Atualiza o botão X
+                setTimeout(verificarPlayer, 100);
+            }
+        } catch (e) {}
+    });
+</script>
+  </body>
+</html>
