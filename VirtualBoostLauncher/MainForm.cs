@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Text.Json;
 
 namespace VirtualBoostLauncher;
 
@@ -13,6 +14,11 @@ public sealed class MainForm : Form
     private readonly TextBox _gamePath = new();
     private readonly Button _installClientButton = new();
     private ClientInstallation? _installation;
+    private readonly string _settingsPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "VirtualBoost", "launcher-settings.json");
+    private LauncherSettings _settings = new();
+    private bool _loadingSettings;
 
     private static readonly Color BackgroundColor = Color.FromArgb(9, 13, 24);
     private static readonly Color PanelColor = Color.FromArgb(17, 24, 39);
@@ -32,7 +38,9 @@ public sealed class MainForm : Form
         MaximizeBox = true;
         AutoScaleMode = AutoScaleMode.Dpi;
 
+        LoadSettings();
         BuildInterface();
+        FormClosing += (_, _) => SaveSettings();
         Shown += (_, _) => DetectInstallations();
     }
 
@@ -146,12 +154,13 @@ public sealed class MainForm : Form
         root.Controls.Add(nickPanel, 0, 2);
         var nickLabel = CreateLabel("SEU NICK", 9F, MutedColor, true);
         nickLabel.Location = new Point(18, 13);
-        _nickname.Text = "";
+        _nickname.Text = _settings.Nickname;
         _nickname.PlaceholderText = "Digite seu nick";
         _nickname.MaxLength = 20;
         _nickname.Location = new Point(18, 39);
         _nickname.Size = new Size(300, 34);
         StyleTextBox(_nickname);
+        _nickname.TextChanged += (_, _) => SaveSettings();
         nickPanel.Controls.Add(nickLabel);
         nickPanel.Controls.Add(_nickname);
 
@@ -175,9 +184,11 @@ public sealed class MainForm : Form
         var folderLabel = CreateLabel("PASTA DO GTA SAN ANDREAS (OPCIONAL)", 8F, MutedColor, true);
         folderLabel.Location = new Point(0, 5);
         folderLabel.AutoSize = true;
+        _gamePath.Text = _settings.GameDirectory;
         _gamePath.Location = new Point(0, 29);
         _gamePath.Size = new Size(600, 30);
         StyleTextBox(_gamePath);
+        _gamePath.TextChanged += (_, _) => SaveSettings();
         var browse = new Button
         {
             Text = "LOCALIZAR",
@@ -270,6 +281,46 @@ public sealed class MainForm : Form
         textBox.ForeColor = Color.White;
         textBox.BorderStyle = BorderStyle.FixedSingle;
         textBox.Font = new Font("Segoe UI", 10F);
+    }
+
+    private void LoadSettings()
+    {
+        try
+        {
+            if (!File.Exists(_settingsPath))
+                return;
+
+            var json = File.ReadAllText(_settingsPath);
+            _settings = JsonSerializer.Deserialize<LauncherSettings>(json) ?? new LauncherSettings();
+        }
+        catch
+        {
+            // Se as configurações estiverem inválidas, o launcher inicia com os campos vazios.
+            _settings = new LauncherSettings();
+        }
+    }
+
+    private void SaveSettings()
+    {
+        if (_loadingSettings)
+            return;
+
+        try
+        {
+            _settings.Nickname = _nickname.Text.Trim();
+            _settings.GameDirectory = _gamePath.Text.Trim();
+
+            var directory = Path.GetDirectoryName(_settingsPath);
+            if (!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
+
+            var json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_settingsPath, json);
+        }
+        catch
+        {
+            // Falha ao salvar preferências não deve impedir o uso do launcher.
+        }
     }
 
     private void DetectInstallations()
@@ -382,6 +433,7 @@ public sealed class MainForm : Form
         try
         {
             LauncherService.ValidateNickname(_nickname.Text.Trim());
+            SaveSettings();
             DetectInstallations();
 
             if (_installation is null)
