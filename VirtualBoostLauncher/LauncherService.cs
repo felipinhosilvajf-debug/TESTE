@@ -70,11 +70,15 @@ public sealed class LauncherService
         var candidates = new List<string>
         {
             Path.Combine(gameDirectory, "omp-launcher.exe"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Open Multiplayer Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "open.mp Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "omp-launcher", "omp-launcher.exe"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Open Multiplayer Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mp.open.launcher", "omp-launcher.exe"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Open Multiplayer Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "open.mp Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "open.mp", "omp-launcher.exe"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Open Multiplayer Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "open.mp Launcher", "omp-launcher.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "open.mp", "omp-launcher.exe")
         };
@@ -167,7 +171,8 @@ public sealed class LauncherService
             {
                 using var app = uninstall.OpenSubKey(subName);
                 var displayName = app?.GetValue("DisplayName")?.ToString() ?? "";
-                if (!displayName.Contains("open.mp", StringComparison.OrdinalIgnoreCase))
+                if (!displayName.Contains("open.mp", StringComparison.OrdinalIgnoreCase)
+                    && !displayName.Contains("Open Multiplayer", StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 var installLocation = app?.GetValue("InstallLocation")?.ToString();
@@ -183,6 +188,39 @@ public sealed class LauncherService
                         iconPath = iconPath[..comma].Trim().Trim('"');
                     if (Path.GetFileName(iconPath).Equals("omp-launcher.exe", StringComparison.OrdinalIgnoreCase))
                         yield return iconPath;
+                }
+            }
+        }
+
+        // Algumas versões do instalador registram o open.mp por usuário (HKCU),
+        // em vez de registrar a instalação em HKLM.
+        using (var currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
+        using (var uninstall = currentUser.OpenSubKey(uninstallPath))
+        {
+            if (uninstall is not null)
+            {
+                foreach (var subName in uninstall.GetSubKeyNames())
+                {
+                    using var app = uninstall.OpenSubKey(subName);
+                    var displayName = app?.GetValue("DisplayName")?.ToString() ?? "";
+                    if (!displayName.Contains("open.mp", StringComparison.OrdinalIgnoreCase)
+                        && !displayName.Contains("Open Multiplayer", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    var installLocation = app?.GetValue("InstallLocation")?.ToString();
+                    if (!string.IsNullOrWhiteSpace(installLocation))
+                        yield return Path.Combine(installLocation, "omp-launcher.exe");
+
+                    var displayIcon = app?.GetValue("DisplayIcon")?.ToString();
+                    if (!string.IsNullOrWhiteSpace(displayIcon))
+                    {
+                        var iconPath = displayIcon.Trim().Trim('"');
+                        var comma = iconPath.IndexOf(',');
+                        if (comma >= 0)
+                            iconPath = iconPath[..comma].Trim().Trim('"');
+                        if (Path.GetFileName(iconPath).Equals("omp-launcher.exe", StringComparison.OrdinalIgnoreCase))
+                            yield return iconPath;
+                    }
                 }
             }
         }
