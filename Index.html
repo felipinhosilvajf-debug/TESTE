@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090d18">
-<meta name="description" content="Entre no novo servidor de RPG SAMP para Android e PC. Escolha sua organização e escreva sua história.">
-<title>Brasil Virtual Boost — RPG SAMP</title>
+<meta name="description" content="Virtual Boost SAMP RPG: o básico bem feito para resgatar a raiz do SAMP. Android e PC, organizações e vagas abertas.">
+<title>Virtual Boost SAMP RPG — A raiz do Roleplay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,29 +26,60 @@ section{padding:88px 0}.section-tag{color:var(--green);font-size:10px;font-weigh
 footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-content:space-between;gap:15px;align-items:center}.foot strong{color:var(--green)}
 @media(max-width:760px){.navlinks{display:none}.hero{min-height:690px;background-position:60% center}.hero-content{padding-top:90px}.features,.org-grid{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr;grid-template-rows:190px 140px 140px}.shot:first-child{grid-row:span 2}.video-box{grid-template-columns:1fr}.join-inner{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.features,.org-grid{grid-template-columns:1fr}.ip{font-size:24px}.ip-card{gap:9px;padding:13px}.copy{padding:10px}.stat-grid{padding:18px 0}.stat strong{font-size:23px}.stat span{font-size:8px}.foot{flex-direction:column;text-align:center}}
+
+/* Efeitos visuais: partículas, reflexos e iluminação */
+#vb-particles{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none;opacity:.55}
+.btn,.nav-cta,.copy{position:relative;overflow:hidden;isolation:isolate}
+.btn:before,.nav-cta:before,.copy:before{content:"";position:absolute;top:-80%;left:-45%;width:35%;height:260%;transform:rotate(25deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);transition:left .65s ease;z-index:-1}
+.btn:hover:before,.nav-cta:hover:before,.copy:hover:before{left:130%}
+.primary,.nav-cta,.copy{box-shadow:0 0 16px rgba(184,255,59,.22),0 0 34px rgba(184,255,59,.12);transition:transform .25s,box-shadow .25s}
+.primary:hover,.nav-cta:hover,.copy:hover{box-shadow:0 0 22px rgba(184,255,59,.55),0 0 48px rgba(184,255,59,.24)}
+.ip-card{animation:ipGlow 2.8s ease-in-out infinite}
+@keyframes ipGlow{0%,100%{box-shadow:0 0 18px rgba(184,255,59,.12),inset 0 0 20px rgba(184,255,59,.03)}50%{box-shadow:0 0 36px rgba(184,255,59,.3),inset 0 0 28px rgba(184,255,59,.08)}}
+.feature,.org,.shot,.video-side{transition:transform .25s,border-color .25s,box-shadow .25s}
+.feature:hover,.org:hover,.video-side:hover{transform:translateY(-5px);border-color:rgba(184,255,59,.42);box-shadow:0 12px 35px rgba(0,0,0,.22)}
+/* Janela Como Jogar */
+.guide-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,5,12,.82);backdrop-filter:blur(12px)}
+.guide-overlay.open{display:flex;animation:fadeGuide .2s ease}
+@keyframes fadeGuide{from{opacity:0}to{opacity:1}}
+.guide-card{position:relative;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid rgba(184,255,59,.38);border-radius:18px;padding:clamp(22px,4vw,36px);background:linear-gradient(145deg,#172235,#090f1b 75%);box-shadow:0 0 55px rgba(184,255,59,.17),0 25px 90px rgba(0,0,0,.55)}
+.guide-close{position:absolute;right:17px;top:15px;width:38px;height:38px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.07);color:white;font-size:23px;cursor:pointer}
+.guide-card h2{font:800 clamp(34px,6vw,52px)/.95 "Barlow Condensed";text-transform:uppercase;margin:12px 45px 10px 0}
+.guide-intro{color:var(--muted);font-size:13px;line-height:1.7}
+.guide-platforms{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.guide-platform{padding:18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035)}
+.guide-platform h3{font:700 25px "Barlow Condensed";margin:0 0 10px;color:var(--green)}
+.guide-platform ol{padding-left:19px;margin:0;color:#d4dbea;font-size:12px;line-height:1.9}
+.guide-ip{padding:17px;border:1px solid rgba(184,255,59,.55);border-radius:12px;background:rgba(184,255,59,.07);text-align:center;box-shadow:0 0 30px rgba(184,255,59,.17);margin-top:15px}
+.guide-ip small{display:block;color:#c5d0df;font-size:9px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+.guide-ip strong{display:block;color:var(--green);font:900 clamp(25px,5vw,38px) "Barlow Condensed";letter-spacing:1px;text-shadow:0 0 18px rgba(184,255,59,.8);animation:ipGlow 2s infinite}
+.guide-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+@media(max-width:560px){.guide-platforms{grid-template-columns:1fr}.guide-card{padding:22px 17px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
 <header><div class="wrap nav">
-  <a class="brand" href="#inicio">BRASIL<span> Virtual</span> Boost</a>
-  <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a></nav>
-  <a class="nav-cta" href="#entrar">JOGUE AGORA ↗</a>
+  <a class="brand" href="#inicio">VIRTUAL<span> BOOST</span></a>
+  <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#como-jogar" data-open-guide>COMO JOGAR</a></nav>
+  <a class="nav-cta" href="#como-jogar" data-open-guide>JOGUE AGORA ↗</a>
 </div></header>
 
 <main>
 <section class="hero" id="inicio"><div class="wrap"><div class="hero-content">
-  <div class="eyebrow"><span class="dot"></span> SAMP • ANDROID & PC</div>
-  <h1>SUA HISTÓRIA.<br><span>SUA CIDADE.</span></h1>
-  <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
-  <div class="actions"><a class="btn primary" href="#entrar">QUERO JOGAR AGORA <span>➜</span></a><a class="btn secondary" href="#organizacoes">VER VAGAS NAS ORGS</a></div>
+  <div class="eyebrow"><span class="dot"></span> A RAIZ DO SAMP RPG • ANDROID & PC</div>
+  <h1>A RAIZ DO SAMP.<br><span>DO JEITO CERTO.</span></h1>
+  <p>O SAMP raiz está de volta: roleplay simples, divertido e bem feito. Faça seu nome, conheça jogadores, entre para uma organização e construa sua história no Virtual Boost — no Android ou no PC.</p>
+  <div class="actions"><a class="btn primary" href="#como-jogar" data-open-guide>QUERO JOGAR AGORA <span>➜</span></a><a class="btn secondary" href="#organizacoes">VER VAGAS NAS ORGS</a></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div></section>
 
 <div class="stats"><div class="wrap stat-grid"><div class="stat"><strong>ANDROID</strong><span>Jogue pelo celular</span></div><div class="stat"><strong>PC</strong><span>Jogue pelo computador</span></div><div class="stat"><strong>ROLEPLAY</strong><span>Você escreve a história</span></div></div></div>
 
 <section id="sobre"><div class="wrap">
-  <div class="section-tag">BEM-VINDO À CIDADE</div><h2 class="section-title">Muito mais que entrar e jogar.</h2>
-  <p class="section-desc">Aqui, cada escolha pode mudar seu caminho. Comece do zero, trabalhe, faça amizades, participe de operações, construa sua reputação e encontre seu lugar nessa cidade.</p>
+  <div class="section-tag">BEM-VINDO À CIDADE</div><h2 class="section-title">O SAMP básico. Bem feito.</h2>
+  <p class="section-desc">Nossa proposta é resgatar a essência do SAMP: uma cidade viva, boas histórias, amizades e roleplay sem complicação. O básico bem feito, com espaço para a comunidade crescer.</p>
   <div class="features">
     <article class="feature"><div class="ico">🚘</div><h3>VIDA NA CIDADE</h3><p>Explore, conheça pessoas, consiga seu veículo e construa sua própria trajetória.</p></article>
     <article class="feature"><div class="ico">🤝</div><h3>ROLEPLAY DE VERDADE</h3><p>Interprete seu personagem, crie histórias e faça cada encontro valer a pena.</p></article>
@@ -57,7 +88,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 </div></section>
 
 <section class="orgs" id="organizacoes"><div class="wrap">
-  <div class="center"><div class="section-tag">SEU PRÓXIMO PASSO</div><h2 class="section-title">A cidade precisa de você.</h2><p class="section-desc">Temos oportunidades para quem quer representar, liderar e fazer a diferença. Procure a equipe dentro do servidor para saber os requisitos e participar do recrutamento.</p></div>
+  <div class="center"><div class="section-tag">SEU PRÓXIMO PASSO</div><h2 class="section-title">A cidade precisa de você.</h2><p class="section-desc">RECRUTAMENTO ABERTO! Estamos procurando pessoas comprometidas para a STAFF e líderes que queiram desenvolver suas organizações e corporações. Apresente sua ideia e venha construir o servidor com a gente.</p></div>
   <div class="org-grid">
     <article class="org"><small>SEGURANÇA PÚBLICA</small><h3>POLÍCIA MILITAR</h3><p>Patrulhe a cidade, proteja os cidadãos e mantenha a ordem.</p><span class="tag">VAGAS ABERTAS</span></article>
     <article class="org"><small>SEGURANÇA PÚBLICA</small><h3>POLÍCIA CIVIL</h3><p>Investigue ocorrências e trabalhe na solução dos casos.</p><span class="tag">VAGAS ABERTAS</span></article>
@@ -83,9 +114,9 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   </div>
 </div></section>
 
-<section class="join" id="entrar"><div class="wrap join-inner"><div><div class="section-tag">A CIDADE ESTÁ TE ESPERANDO</div><h2>Não fique de fora.</h2><p>Copie o IP, entre no jogo e venha viver essa história.</p></div><div class="actions" style="margin:0"><button class="btn primary" onclick="copyIP()">COPIAR IP DO SERVIDOR</button></div></div></section>
+<section class="join" id="entrar"><div class="wrap join-inner"><div><div class="section-tag">A CIDADE ESTÁ TE ESPERANDO</div><h2>Não fique de fora.</h2><p>Escolha seu launcher, instale o jogo, adicione o servidor aos favoritos e venha viver essa história.</p></div><div class="actions" style="margin:0"><button class="btn primary" onclick="copyIP()">COPIAR IP DO SERVIDOR</button></div></div></section>
 </main>
-<footer><div class="wrap foot"><div class="brand">BRASIL<span> VIDA</span> REAL</div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
+<footer><div class="wrap foot"><div class="brand">VIRTUAL<span> BOOST</span></div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
 <script>
 function copyIP(){
  const ip='163.245.202.163:777';
@@ -99,5 +130,42 @@ function fallbackCopy(text,done){
  try{document.execCommand('copy');done();}catch(e){alert('IP do servidor: '+text);}el.remove();
 }
 </script>
+
+<canvas id="vb-particles" aria-hidden="true"></canvas>
+<div class="guide-overlay" id="guideOverlay" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+ <div class="guide-card">
+  <button class="guide-close" id="guideClose" aria-label="Fechar">×</button>
+  <div class="section-tag">VIRTUAL BOOST • SAMP RPG</div>
+  <h2 id="guideTitle">COMO JOGAR?</h2>
+  <p class="guide-intro">É simples: instale o launcher compatível com seu dispositivo, escolha seu nick, adicione nosso endereço aos favoritos e conecte-se!</p>
+  <div class="guide-platforms">
+   <div class="guide-platform">
+    <h3>🖥️ PC</h3>
+    <ol>
+     <li>Instale o GTA San Andreas para PC.</li>
+     <li>Instale um cliente compatível, como SA-MP ou OMP Launcher.</li>
+     <li>Abra o launcher e informe seu nome/nick.</li>
+     <li>Adicione o IP abaixo aos favoritos.</li>
+     <li>Selecione o servidor na lista e conecte-se.</li>
+    </ol>
+   </div>
+   <div class="guide-platform">
+    <h3>📱 ANDROID</h3>
+    <ol>
+     <li>Instale o GTA San Andreas compatível no Android.</li>
+     <li>Instale um launcher SAMP/OMP compatível com Android.</li>
+     <li>Abra o launcher e escolha seu nome/nick.</li>
+     <li>Adicione o IP abaixo aos favoritos.</li>
+     <li>Marque/selecione o servidor na lista e entre!</li>
+    </ol>
+   </div>
+  </div>
+  <div class="guide-ip">
+   <small>🎮 IP OFICIAL DO SERVIDOR — TOQUE PARA COPIAR</small>
+   <strong>163.245.202.163:777</strong>
+  </div>
+  <div class="guide-actions"><button class="btn primary" id="guideCopy">COPIAR IP DO SERVIDOR</button><button class="btn secondary" id="guideDone">ENTENDI, VAMOS JOGAR</button></div>
+ </div>
+</div>
 </body>
 </html>
