@@ -167,5 +167,37 @@ function fallbackCopy(text,done){
   <div class="guide-actions"><button class="btn primary" id="guideCopy">COPIAR IP DO SERVIDOR</button><button class="btn secondary" id="guideDone">ENTENDI, VAMOS JOGAR</button></div>
  </div>
 </div>
+<script>
+/* Controles do tutorial: abertura, fechamento e cópia do IP */
+(function(){
+ const overlay=document.getElementById('guideOverlay');
+ const closeBtn=document.getElementById('guideClose');
+ const doneBtn=document.getElementById('guideDone');
+ const copyBtn=document.getElementById('guideCopy');
+ if(!overlay) return;
+ function openGuide(event){
+  if(event) event.preventDefault();
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  if(closeBtn) closeBtn.focus();
+ }
+ function closeGuide(){
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+ }
+ document.querySelectorAll('[data-open-guide]').forEach(link=>{
+  link.addEventListener('click',openGuide);
+ });
+ if(closeBtn) closeBtn.addEventListener('click',closeGuide);
+ if(doneBtn) doneBtn.addEventListener('click',closeGuide);
+ if(copyBtn) copyBtn.addEventListener('click',copyIP);
+ overlay.addEventListener('click',function(event){
+  if(event.target===overlay) closeGuide();
+ });
+ document.addEventListener('keydown',function(event){
+  if(event.key==='Escape' && overlay.classList.contains('open')) closeGuide();
+ });
+})();
+</script>
 </body>
 </html>
