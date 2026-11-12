@@ -202,5 +202,4 @@ public sealed class LauncherService
         if (!string.IsNullOrWhiteSpace(userInstall))
             yield return userInstall;
     }
-    }
 }
