@@ -1,0 +1,30 @@
+name: Build Virtual Boost Launcher
+
+on:
+  push:
+    paths:
+      - "VirtualBoostLauncher/**"
+      - ".github/workflows/build-launcher.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publicar launcher Windows x64
+        run: dotnet publish VirtualBoostLauncher/VirtualBoostLauncher.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+
+      - name: Disponibilizar executável
+        uses: actions/upload-artifact@v4
+        with:
+          name: VirtualBoostLauncher-Windows-x64
+          path: VirtualBoostLauncher/bin/Release/net8.0-windows/win-x64/publish/
+          if-no-files-found: error
