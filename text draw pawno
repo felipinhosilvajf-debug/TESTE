@@ -16,7 +16,7 @@ showTelaLogin(playerid){
     }
     format(Str, sizeof(Str), "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_%d~n~ACESSOS:_%d", estatisticasplayer2, estatisticasplayer);
     TextDrawSetString(VirtualBoost[5], Str);
-    SelectTextDraw(playerid,0xa4a4a4FF);
+    SelectTextDraw(playerid,0xD6A84FFF);
 }
 
 hideTelaLogin(playerid){
@@ -26,8 +26,32 @@ hideTelaLogin(playerid){
     }
     CancelSelectTextDraw(playerid);
 }
-stock CreateTelaLogin(){
+// Ajuste a posicao de toda a interface alterando estes dois valores.
+// X positivo move para a direita; Y positivo move para baixo.
+#define VB_LOGIN_OFFSET_X (0.0)
+#define VB_LOGIN_OFFSET_Y (0.0)
 
+// Cria um card retangular. Os indices 6 a 11 ficam atras dos textos clicaveis.
+stock Text:VBLoginCard(Float:x, Float:y, Float:w, Float:h, color)
+{
+    new Text:td = TextDrawCreate(x + VB_LOGIN_OFFSET_X, y + VB_LOGIN_OFFSET_Y, "_");
+    TextDrawLetterSize(td, 0.0, 1.0);
+    TextDrawTextSize(td, x + w + VB_LOGIN_OFFSET_X, y + h + VB_LOGIN_OFFSET_Y);
+    TextDrawAlignment(td, 1);
+    TextDrawColor(td, 0xFFFFFFFF);
+    TextDrawUseBox(td, 1);
+    TextDrawBoxColor(td, color);
+    TextDrawSetShadow(td, 0);
+    TextDrawSetOutline(td, 0);
+    TextDrawBackgroundColor(td, 0x00000000);
+    TextDrawFont(td, 1);
+    TextDrawSetProportional(td, 1);
+    return td;
+}
+
+stock CreateTelaLogin()
+{
+    // Tela de carregamento original preservada.
     loadTela1 = TextDrawCreate(680.000000, 0.000000, "~w~");
     TextDrawBackgroundColor(loadTela1, 255);
     TextDrawFont(loadTela1, 1);
@@ -40,7 +64,6 @@ stock CreateTelaLogin(){
     TextDrawBoxColor(loadTela1, 255);
     TextDrawTextSize(loadTela1, -401.000000, 0.000000);
 
-
     loadTela2 = TextDrawCreate(199.035614, 132.075805, "Virtual_Boost_RPG");
     TextDrawLetterSize(loadTela2, 1.078616, 3.939166);
     TextDrawAlignment(loadTela2, 1);
@@ -49,7 +72,6 @@ stock CreateTelaLogin(){
     TextDrawBackgroundColor(loadTela2, 255);
     TextDrawFont(loadTela2, 0);
     TextDrawSetProportional(loadTela2, 1);
-
 
     loadTela4 = TextDrawCreate(203.582504, 169.834457, "CARREGANDO,_AGUARDE..");
     TextDrawLetterSize(loadTela4, 0.176681, 1.014165);
@@ -69,166 +91,132 @@ stock CreateTelaLogin(){
     TextDrawFont(loadTela5, 0);
     TextDrawSetProportional(loadTela5, 1);
 
-    VirtualBoost[0] = TextDrawCreate(-144.787673, -86.500007, "box");
-    TextDrawLetterSize(VirtualBoost[0], 0.000000, 78.076133);
-    TextDrawTextSize(VirtualBoost[0], 188.600280, 0.000000);
-    TextDrawAlignment(VirtualBoost[0], 1);
-    TextDrawColor(VirtualBoost[0], -1);
-    TextDrawUseBox(VirtualBoost[0], 1);
-    TextDrawBoxColor(VirtualBoost[0], 90);
-    TextDrawSetShadow(VirtualBoost[0], 0);
-    TextDrawBackgroundColor(VirtualBoost[0], 255);
-    TextDrawFont(VirtualBoost[0], 1);
-    TextDrawSetProportional(VirtualBoost[0], 1);
+    // Painel principal à esquerda.
+    VirtualBoost[0] = VBLoginCard(22.0, 92.0, 260.0, 260.0, 0x090D14E8);
 
-    VirtualBoost[1] = TextDrawCreate(16.868843, 126.583374, "Virtual_Boost_RPG");
-    TextDrawLetterSize(VirtualBoost[1], 0.545709, 2.037499);
+    // Marca.
+    VirtualBoost[1] = TextDrawCreate(47.0 + VB_LOGIN_OFFSET_X, 125.0 + VB_LOGIN_OFFSET_Y, "VIRTUAL");
+    TextDrawLetterSize(VirtualBoost[1], 0.48, 2.05);
     TextDrawAlignment(VirtualBoost[1], 1);
-    TextDrawColor(VirtualBoost[1], -1);
-    TextDrawSetShadow(VirtualBoost[1], 1);
-    TextDrawBackgroundColor(VirtualBoost[1], 150);
-    TextDrawFont(VirtualBoost[1], 0);
+    TextDrawColor(VirtualBoost[1], 0xF4F1E8FF);
+    TextDrawSetShadow(VirtualBoost[1], 0);
+    TextDrawSetOutline(VirtualBoost[1], 0);
+    TextDrawBackgroundColor(VirtualBoost[1], 0x000000FF);
+    TextDrawFont(VirtualBoost[1], 2);
     TextDrawSetProportional(VirtualBoost[1], 1);
 
-    VirtualBoost[2] = TextDrawCreate(62.139579, 145.450012, "Sua_segunda_vida_comeca_aqui!");
-    TextDrawLetterSize(VirtualBoost[2], 0.196199, 0.844166);
+    VirtualBoost[2] = TextDrawCreate(47.0 + VB_LOGIN_OFFSET_X, 153.0 + VB_LOGIN_OFFSET_Y, "BOOST");
+    TextDrawLetterSize(VirtualBoost[2], 0.48, 2.05);
     TextDrawAlignment(VirtualBoost[2], 1);
-    TextDrawColor(VirtualBoost[2], -1);
+    TextDrawColor(VirtualBoost[2], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[2], 0);
-    TextDrawBackgroundColor(VirtualBoost[2], 255);
-    TextDrawFont(VirtualBoost[2], 1);
+    TextDrawSetOutline(VirtualBoost[2], 0);
+    TextDrawBackgroundColor(VirtualBoost[2], 0x000000FF);
+    TextDrawFont(VirtualBoost[2], 2);
     TextDrawSetProportional(VirtualBoost[2], 1);
 
-    VirtualBoost[3] = TextDrawCreate(0.028032, 155.982971, "I");
-    TextDrawLetterSize(VirtualBoost[3], 14.600144, -0.190833);
-    TextDrawAlignment(VirtualBoost[3], 1);
-    TextDrawColor(VirtualBoost[3], -1);
-    TextDrawSetShadow(VirtualBoost[3], 0);
-    TextDrawBackgroundColor(VirtualBoost[3], 255);
-    TextDrawFont(VirtualBoost[3], 1);
-    TextDrawSetProportional(VirtualBoost[3], 1);
+    VirtualBoost[3] = VBLoginCard(47.0, 194.0, 76.0, 2.0, 0xD6A84FFF);
 
-    VirtualBoost[4] = TextDrawCreate(92.624671, 157.083450, "]]]");
-    TextDrawLetterSize(VirtualBoost[4], 0.438998, 1.759999);
+    VirtualBoost[4] = TextDrawCreate(47.0 + VB_LOGIN_OFFSET_X, 211.0 + VB_LOGIN_OFFSET_Y, "SUA HISTORIA. SEU MUNDO.");
+    TextDrawLetterSize(VirtualBoost[4], 0.16, 0.78);
     TextDrawAlignment(VirtualBoost[4], 1);
-    TextDrawColor(VirtualBoost[4], -2139062017);
+    TextDrawColor(VirtualBoost[4], 0xDDE2E8FF);
     TextDrawSetShadow(VirtualBoost[4], 0);
-    TextDrawBackgroundColor(VirtualBoost[4], 255);
-    TextDrawFont(VirtualBoost[4], 0);
+    TextDrawSetOutline(VirtualBoost[4], 0);
+    TextDrawBackgroundColor(VirtualBoost[4], 0x000000FF);
+    TextDrawFont(VirtualBoost[4], 2);
     TextDrawSetProportional(VirtualBoost[4], 1);
 
-    VirtualBoost[5] = TextDrawCreate(10.761368, 163.066619, "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_316~n~ACESSOS:_4878");
-    TextDrawLetterSize(VirtualBoost[5], 0.113576, 0.910000);
+    VirtualBoost[5] = TextDrawCreate(47.0 + VB_LOGIN_OFFSET_X, 270.0 + VB_LOGIN_OFFSET_Y, "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_0~n~ACESSOS:_0");
+    TextDrawLetterSize(VirtualBoost[5], 0.14, 0.82);
     TextDrawAlignment(VirtualBoost[5], 1);
-    TextDrawColor(VirtualBoost[5], -1);
+    TextDrawColor(VirtualBoost[5], 0xB8C0CAFF);
     TextDrawSetShadow(VirtualBoost[5], 0);
-    TextDrawBackgroundColor(VirtualBoost[5], 255);
+    TextDrawSetOutline(VirtualBoost[5], 0);
+    TextDrawBackgroundColor(VirtualBoost[5], 0x000000FF);
     TextDrawFont(VirtualBoost[5], 2);
     TextDrawSetProportional(VirtualBoost[5], 1);
 
-    VirtualBoost[6] = TextDrawCreate(0.113258, 200.982894, "I");
-    TextDrawLetterSize(VirtualBoost[6], 14.541988, 2.393332);
-    TextDrawAlignment(VirtualBoost[6], 1);
-    TextDrawColor(VirtualBoost[6], -2139062017);
-    TextDrawSetShadow(VirtualBoost[6], 0);
-    TextDrawBackgroundColor(VirtualBoost[6], 255);
-    TextDrawFont(VirtualBoost[6], 1);
-    TextDrawSetProportional(VirtualBoost[6], 1);
+    // Cards pretos individuais. Sao mostrados antes dos textos 12 a 17.
+    VirtualBoost[6]  = VBLoginCard(316.0, 142.0, 282.0, 39.0, 0x05070BEF);
+    VirtualBoost[7]  = VBLoginCard(316.0, 190.0, 282.0, 35.0, 0x05070BEF);
+    VirtualBoost[8]  = VBLoginCard(316.0, 234.0, 282.0, 35.0, 0x05070BEF);
+    VirtualBoost[9]  = VBLoginCard(316.0, 278.0, 282.0, 35.0, 0x05070BEF);
+    VirtualBoost[10] = VBLoginCard(316.0, 322.0, 282.0, 35.0, 0x05070BEF);
+    VirtualBoost[11] = VBLoginCard(316.0, 366.0, 282.0, 35.0, 0x05070BEF);
 
-    VirtualBoost[7] = TextDrawCreate(2.913257, 295.282928, "I");
-    TextDrawLetterSize(VirtualBoost[7], 14.564996, 2.393332);
-    TextDrawAlignment(VirtualBoost[7], 1);
-    TextDrawColor(VirtualBoost[7], -2139062017);
-    TextDrawSetShadow(VirtualBoost[7], 0);
-    TextDrawBackgroundColor(VirtualBoost[7], 255);
-    TextDrawFont(VirtualBoost[7], 1);
-    TextDrawSetProportional(VirtualBoost[7], 1);
-
-    VirtualBoost[8] = TextDrawCreate(4.413256, 329.982910, "I");
-    TextDrawLetterSize(VirtualBoost[8], 14.459994, 2.393332);
-    TextDrawAlignment(VirtualBoost[8], 1);
-    TextDrawColor(VirtualBoost[8], -2139062017);
-    TextDrawSetShadow(VirtualBoost[8], 0);
-    TextDrawBackgroundColor(VirtualBoost[8], 255);
-    TextDrawFont(VirtualBoost[8], 1);
-    TextDrawSetProportional(VirtualBoost[8], 1);
-
-    VirtualBoost[9] = TextDrawCreate(5.613252, 365.783294, "I");
-    TextDrawLetterSize(VirtualBoost[9], 14.400081, 1.959998);
-    TextDrawAlignment(VirtualBoost[9], 1);
-    TextDrawColor(VirtualBoost[9], -2139062017);
-    TextDrawSetShadow(VirtualBoost[9], 0);
-    TextDrawBackgroundColor(VirtualBoost[9], 255);
-    TextDrawFont(VirtualBoost[9], 1);
-    TextDrawSetProportional(VirtualBoost[9], 1);
-
-    VirtualBoost[10] = TextDrawCreate(1.613251, 241.683135, "I");
-    TextDrawLetterSize(VirtualBoost[10], 13.910083, 2.239997);
-    TextDrawAlignment(VirtualBoost[10], 1);
-    TextDrawColor(VirtualBoost[10], -2139062017);
-    TextDrawSetShadow(VirtualBoost[10], 0);
-    TextDrawBackgroundColor(VirtualBoost[10], 255);
-    TextDrawFont(VirtualBoost[10], 1);
-    TextDrawSetProportional(VirtualBoost[10], 1);
-
-
-    VirtualBoost[12] = TextDrawCreate(66.389495, 205.416702, "fazer_login");
-    TextDrawLetterSize(VirtualBoost[12], 0.345651, 1.314167);
+    // Textos dos botoes: indices mantidos para nao quebrar os callbacks.
+    VirtualBoost[12] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 153.0 + VB_LOGIN_OFFSET_Y, "ENTRAR NA CIDADE");
+    TextDrawLetterSize(VirtualBoost[12], 0.18, 0.90);
     TextDrawAlignment(VirtualBoost[12], 1);
-    TextDrawColor(VirtualBoost[12], -1);
+    TextDrawColor(VirtualBoost[12], 0xF4F1E8FF);
     TextDrawSetShadow(VirtualBoost[12], 0);
-    TextDrawBackgroundColor(VirtualBoost[12], 255);
-    TextDrawFont(VirtualBoost[12], 3);
+    TextDrawSetOutline(VirtualBoost[12], 0);
+    TextDrawBackgroundColor(VirtualBoost[12], 0x000000FF);
+    TextDrawFont(VirtualBoost[12], 2);
     TextDrawSetProportional(VirtualBoost[12], 1);
     TextDrawSetSelectable(VirtualBoost[12], true);
 
-    VirtualBoost[13] = TextDrawCreate(51.889495, 245.916702, "RECUPERAR_SENHA");
-    TextDrawLetterSize(VirtualBoost[13], 0.345651, 1.314167);
+    VirtualBoost[13] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 200.0 + VB_LOGIN_OFFSET_Y, "RECUPERAR SENHA");
+    TextDrawLetterSize(VirtualBoost[13], 0.16, 0.80);
     TextDrawAlignment(VirtualBoost[13], 1);
-    TextDrawColor(VirtualBoost[13], -1);
+    TextDrawColor(VirtualBoost[13], 0xC7CFD9FF);
     TextDrawSetShadow(VirtualBoost[13], 0);
-    TextDrawBackgroundColor(VirtualBoost[13], 255);
-    TextDrawFont(VirtualBoost[13], 3);
+    TextDrawSetOutline(VirtualBoost[13], 0);
+    TextDrawBackgroundColor(VirtualBoost[13], 0x000000FF);
+    TextDrawFont(VirtualBoost[13], 2);
     TextDrawSetProportional(VirtualBoost[13], 1);
     TextDrawSetSelectable(VirtualBoost[13], true);
 
-    VirtualBoost[14] = TextDrawCreate(63.889495, 299.916687, "informacoes");
-    TextDrawLetterSize(VirtualBoost[14], 0.345651, 1.314167);
+    VirtualBoost[14] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 244.0 + VB_LOGIN_OFFSET_Y, "INFORMACOES");
+    TextDrawLetterSize(VirtualBoost[14], 0.16, 0.80);
     TextDrawAlignment(VirtualBoost[14], 1);
-    TextDrawColor(VirtualBoost[14], -1);
+    TextDrawColor(VirtualBoost[14], 0xC7CFD9FF);
     TextDrawSetShadow(VirtualBoost[14], 0);
-    TextDrawBackgroundColor(VirtualBoost[14], 255);
-    TextDrawFont(VirtualBoost[14], 3);
+    TextDrawSetOutline(VirtualBoost[14], 0);
+    TextDrawBackgroundColor(VirtualBoost[14], 0x000000FF);
+    TextDrawFont(VirtualBoost[14], 2);
     TextDrawSetProportional(VirtualBoost[14], 1);
     TextDrawSetSelectable(VirtualBoost[14], true);
 
-    VirtualBoost[15] = TextDrawCreate(73.389495, 334.916687, "CREDITOS");
-    TextDrawLetterSize(VirtualBoost[15], 0.345651, 1.314167);
+    VirtualBoost[15] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 288.0 + VB_LOGIN_OFFSET_Y, "CREDITOS");
+    TextDrawLetterSize(VirtualBoost[15], 0.16, 0.80);
     TextDrawAlignment(VirtualBoost[15], 1);
-    TextDrawColor(VirtualBoost[15], -1);
+    TextDrawColor(VirtualBoost[15], 0xC7CFD9FF);
     TextDrawSetShadow(VirtualBoost[15], 0);
-    TextDrawBackgroundColor(VirtualBoost[15], 255);
-    TextDrawFont(VirtualBoost[15], 3);
+    TextDrawSetOutline(VirtualBoost[15], 0);
+    TextDrawBackgroundColor(VirtualBoost[15], 0x000000FF);
+    TextDrawFont(VirtualBoost[15], 2);
     TextDrawSetProportional(VirtualBoost[15], 1);
     TextDrawSetSelectable(VirtualBoost[15], true);
 
-    VirtualBoost[16] = TextDrawCreate(32.572525, 394.583221, "LEIA_AS_REGRAS_E_EVITE_PUNICOES");
-    TextDrawLetterSize(VirtualBoost[16], 0.190101, 0.725000);
+    VirtualBoost[16] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 332.0 + VB_LOGIN_OFFSET_Y, "REGRAS DO SERVIDOR");
+    TextDrawLetterSize(VirtualBoost[16], 0.16, 0.80);
     TextDrawAlignment(VirtualBoost[16], 1);
-    TextDrawColor(VirtualBoost[16], -16776961);
+    TextDrawColor(VirtualBoost[16], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[16], 0);
-    TextDrawBackgroundColor(VirtualBoost[16], 255);
+    TextDrawSetOutline(VirtualBoost[16], 0);
+    TextDrawBackgroundColor(VirtualBoost[16], 0x000000FF);
     TextDrawFont(VirtualBoost[16], 2);
     TextDrawSetProportional(VirtualBoost[16], 1);
+    TextDrawSetSelectable(VirtualBoost[16], true);
 
-    VirtualBoost[17] = TextDrawCreate(86.389495, 369.416687, "SAIR");
-    TextDrawLetterSize(VirtualBoost[17], 0.345651, 1.314167);
+    VirtualBoost[17] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 376.0 + VB_LOGIN_OFFSET_Y, "SAIR");
+    TextDrawLetterSize(VirtualBoost[17], 0.16, 0.80);
     TextDrawAlignment(VirtualBoost[17], 1);
-    TextDrawColor(VirtualBoost[17], -1);
+    TextDrawColor(VirtualBoost[17], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[17], 0);
-    TextDrawBackgroundColor(VirtualBoost[17], 255);
-    TextDrawFont(VirtualBoost[17], 3);
+    TextDrawSetOutline(VirtualBoost[17], 0);
+    TextDrawBackgroundColor(VirtualBoost[17], 0x000000FF);
+    TextDrawFont(VirtualBoost[17], 2);
     TextDrawSetProportional(VirtualBoost[17], 1);
     TextDrawSetSelectable(VirtualBoost[17], true);
 
+    // Detalhes de acento dos cards (a array de 24 continua totalmente preenchida).
+    VirtualBoost[18] = VBLoginCard(316.0, 142.0, 3.0, 39.0, 0xD6A84FFF);
+    VirtualBoost[19] = VBLoginCard(316.0, 190.0, 3.0, 35.0, 0x647181FF);
+    VirtualBoost[20] = VBLoginCard(316.0, 234.0, 3.0, 35.0, 0x647181FF);
+    VirtualBoost[21] = VBLoginCard(316.0, 278.0, 3.0, 35.0, 0x647181FF);
+    VirtualBoost[22] = VBLoginCard(316.0, 322.0, 3.0, 35.0, 0xD6A84FFF);
+    VirtualBoost[23] = VBLoginCard(316.0, 366.0, 3.0, 35.0, 0xD6A84FFF);
 }
