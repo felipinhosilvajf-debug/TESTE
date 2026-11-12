@@ -9,6 +9,8 @@ Primeira versão do launcher próprio do Virtual Boost SAMP RPG.
 - Campo de nick com validação básica.
 - Detecção do GTA San Andreas por caminhos comuns e registro do Windows.
 - Detecção do open.mp e do SA-MP.
+- Botão para baixar e abrir o instalador oficial do open.mp diretamente pelo launcher.
+- Download com barra de progresso e validação SHA-256 antes de executar o instalador.
 - Preferência automática pelo open.mp quando os dois clientes são encontrados.
 - Inicialização do cliente com os parâmetros de conexão.
 - Seleção manual da pasta do GTA quando a detecção automática não encontrar a instalação.
@@ -18,9 +20,9 @@ Primeira versão do launcher próprio do Virtual Boost SAMP RPG.
 - Windows 10 ou 11.
 - .NET 8 SDK (Windows).
 - GTA San Andreas para PC instalado.
-- Cliente SA-MP ou open.mp instalado e compatível com o servidor.
+- Conexão com a internet para baixar o instalador oficial do open.mp, caso necessário.
 
-O launcher não distribui GTA San Andreas nem os arquivos dos clientes multiplayer.
+O jogador continua precisando ter uma cópia legítima do GTA San Andreas instalada. O launcher não distribui o GTA. O cliente open.mp é baixado do repositório oficial do projeto; o assistente oficial de instalação é executado pelo Windows. O open.mp também oferece seleção/instalação de versões de cliente SA-MP.
 
 ## Compilar no Windows
 
@@ -53,4 +55,6 @@ O executável publicado ficará em:
 1. Testar em uma máquina com SA-MP instalado.
 2. Testar em outra máquina com open.mp instalado.
 3. Melhorar a detecção de instalações personalizadas com base nos caminhos reais usados pela comunidade.
-4. Adicionar verificação de atualização, logs e instalador do Virtual Boost.
+4. Testar a instalação do open.mp em um Windows limpo e confirmar a detecção após concluir o assistente.
+5. Testar o fluxo de instalação/seleção do cliente SA-MP dentro do open.mp.
+6. Adicionar verificação de atualização, logs e instalador do Virtual Boost.
