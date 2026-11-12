@@ -7,7 +7,7 @@
 // IMPORTANTE: manter a array VirtualBoost com pelo menos 18 elementos.
 //
 // Exemplo:
-// new Text:VirtualBoost[18];
+// new Text:VirtualBoost[24];
 //
 // -----------------------------------------------------------------------------
 
@@ -178,9 +178,12 @@ stock CreateTelaLogin()
     // IDENTIDADE / TEXTOS
     // -------------------------------------------------------------------------
 
-    // Nome principal.
-    VirtualBoost[12] = TextDrawCreate(145.0, 137.0, "VIRTUAL");
-    TextDrawLetterSize(VirtualBoost[12], 0.34, 1.48);
+    // -------------------------------------------------------------------------
+    // BOTOES - indices 12 a 17 preservados para os callbacks existentes.
+    // -------------------------------------------------------------------------
+
+    VirtualBoost[12] = TextDrawCreate(326.0, 171.0, "ENTRAR NA CIDADE");
+    TextDrawLetterSize(VirtualBoost[12], 0.17, 0.90);
     TextDrawAlignment(VirtualBoost[12], 1);
     TextDrawColor(VirtualBoost[12], 0xF4F1E8FF);
     TextDrawSetShadow(VirtualBoost[12], 0);
@@ -188,65 +191,130 @@ stock CreateTelaLogin()
     TextDrawBackgroundColor(VirtualBoost[12], 0x000000FF);
     TextDrawFont(VirtualBoost[12], 2);
     TextDrawSetProportional(VirtualBoost[12], 1);
+    TextDrawSetSelectable(VirtualBoost[12], true);
 
-    // Segunda linha da marca.
-    VirtualBoost[13] = TextDrawCreate(145.0, 164.0, "BOOST");
-    TextDrawLetterSize(VirtualBoost[13], 0.34, 1.48);
+    VirtualBoost[13] = TextDrawCreate(326.0, 204.0, "RECUPERAR SENHA");
+    TextDrawLetterSize(VirtualBoost[13], 0.15, 0.78);
     TextDrawAlignment(VirtualBoost[13], 1);
-    TextDrawColor(VirtualBoost[13], 0xD6A84FFF);
+    TextDrawColor(VirtualBoost[13], 0xC2CAD4FF);
     TextDrawSetShadow(VirtualBoost[13], 0);
     TextDrawSetOutline(VirtualBoost[13], 0);
     TextDrawBackgroundColor(VirtualBoost[13], 0x000000FF);
     TextDrawFont(VirtualBoost[13], 2);
     TextDrawSetProportional(VirtualBoost[13], 1);
+    TextDrawSetSelectable(VirtualBoost[13], true);
 
-    // Slogan.
-    VirtualBoost[14] = TextDrawCreate(145.0, 204.0, "SUA HISTORIA.");
-    TextDrawLetterSize(VirtualBoost[14], 0.16, 0.76);
+    VirtualBoost[14] = TextDrawCreate(326.0, 232.0, "INFORMACOES");
+    TextDrawLetterSize(VirtualBoost[14], 0.15, 0.78);
     TextDrawAlignment(VirtualBoost[14], 1);
-    TextDrawColor(VirtualBoost[14], 0xDDE2E8FF);
+    TextDrawColor(VirtualBoost[14], 0xC2CAD4FF);
     TextDrawSetShadow(VirtualBoost[14], 0);
     TextDrawSetOutline(VirtualBoost[14], 0);
     TextDrawBackgroundColor(VirtualBoost[14], 0x000000FF);
     TextDrawFont(VirtualBoost[14], 2);
     TextDrawSetProportional(VirtualBoost[14], 1);
+    TextDrawSetSelectable(VirtualBoost[14], true);
 
-    VirtualBoost[15] = TextDrawCreate(145.0, 219.0, "SEU MUNDO.");
-    TextDrawLetterSize(VirtualBoost[15], 0.16, 0.76);
+    VirtualBoost[15] = TextDrawCreate(326.0, 260.0, "CREDITOS");
+    TextDrawLetterSize(VirtualBoost[15], 0.15, 0.78);
     TextDrawAlignment(VirtualBoost[15], 1);
-    TextDrawColor(VirtualBoost[15], 0xDDE2E8FF);
+    TextDrawColor(VirtualBoost[15], 0xC2CAD4FF);
     TextDrawSetShadow(VirtualBoost[15], 0);
     TextDrawSetOutline(VirtualBoost[15], 0);
     TextDrawBackgroundColor(VirtualBoost[15], 0x000000FF);
     TextDrawFont(VirtualBoost[15], 2);
     TextDrawSetProportional(VirtualBoost[15], 1);
+    TextDrawSetSelectable(VirtualBoost[15], true);
 
-    // Rotulo da coluna de menu.
-    VirtualBoost[16] = TextDrawCreate(326.0, 125.0, "ACESSO AO SERVIDOR");
-    TextDrawLetterSize(VirtualBoost[16], 0.14, 0.70);
+    VirtualBoost[16] = TextDrawCreate(326.0, 306.0, "LEIA AS REGRAS E EVITE PUNICOES");
+    TextDrawLetterSize(VirtualBoost[16], 0.105, 0.60);
     TextDrawAlignment(VirtualBoost[16], 1);
-    TextDrawColor(VirtualBoost[16], 0xAAB4C0FF);
+    TextDrawColor(VirtualBoost[16], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[16], 0);
     TextDrawSetOutline(VirtualBoost[16], 0);
     TextDrawBackgroundColor(VirtualBoost[16], 0x000000FF);
     TextDrawFont(VirtualBoost[16], 2);
     TextDrawSetProportional(VirtualBoost[16], 1);
+    TextDrawSetSelectable(VirtualBoost[16], true);
 
-    // Pequena legenda.
-    VirtualBoost[17] = TextDrawCreate(326.0, 145.0, "ESCOLHA UMA OPCAO PARA CONTINUAR");
-    TextDrawLetterSize(VirtualBoost[17], 0.105, 0.56);
+    VirtualBoost[17] = TextDrawCreate(464.0, 260.0, "SAIR");
+    TextDrawLetterSize(VirtualBoost[17], 0.15, 0.78);
     TextDrawAlignment(VirtualBoost[17], 1);
-    TextDrawColor(VirtualBoost[17], 0x7F8B99FF);
+    TextDrawColor(VirtualBoost[17], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[17], 0);
     TextDrawSetOutline(VirtualBoost[17], 0);
     TextDrawBackgroundColor(VirtualBoost[17], 0x000000FF);
     TextDrawFont(VirtualBoost[17], 2);
     TextDrawSetProportional(VirtualBoost[17], 1);
+    TextDrawSetSelectable(VirtualBoost[17], true);
+
+    // -------------------------------------------------------------------------
+    // IDENTIDADE / TEXTOS - indices extras 18 a 23.
+    // -------------------------------------------------------------------------
+
+    VirtualBoost[18] = TextDrawCreate(145.0, 137.0, "VIRTUAL");
+    TextDrawLetterSize(VirtualBoost[18], 0.34, 1.48);
+    TextDrawAlignment(VirtualBoost[18], 1);
+    TextDrawColor(VirtualBoost[18], 0xF4F1E8FF);
+    TextDrawSetShadow(VirtualBoost[18], 0);
+    TextDrawSetOutline(VirtualBoost[18], 0);
+    TextDrawBackgroundColor(VirtualBoost[18], 0x000000FF);
+    TextDrawFont(VirtualBoost[18], 2);
+    TextDrawSetProportional(VirtualBoost[18], 1);
+
+    VirtualBoost[19] = TextDrawCreate(145.0, 164.0, "BOOST");
+    TextDrawLetterSize(VirtualBoost[19], 0.34, 1.48);
+    TextDrawAlignment(VirtualBoost[19], 1);
+    TextDrawColor(VirtualBoost[19], 0xD6A84FFF);
+    TextDrawSetShadow(VirtualBoost[19], 0);
+    TextDrawSetOutline(VirtualBoost[19], 0);
+    TextDrawBackgroundColor(VirtualBoost[19], 0x000000FF);
+    TextDrawFont(VirtualBoost[19], 2);
+    TextDrawSetProportional(VirtualBoost[19], 1);
+
+    VirtualBoost[20] = TextDrawCreate(145.0, 204.0, "SUA HISTORIA.");
+    TextDrawLetterSize(VirtualBoost[20], 0.16, 0.76);
+    TextDrawAlignment(VirtualBoost[20], 1);
+    TextDrawColor(VirtualBoost[20], 0xDDE2E8FF);
+    TextDrawSetShadow(VirtualBoost[20], 0);
+    TextDrawSetOutline(VirtualBoost[20], 0);
+    TextDrawBackgroundColor(VirtualBoost[20], 0x000000FF);
+    TextDrawFont(VirtualBoost[20], 2);
+    TextDrawSetProportional(VirtualBoost[20], 1);
+
+    VirtualBoost[21] = TextDrawCreate(145.0, 219.0, "SEU MUNDO.");
+    TextDrawLetterSize(VirtualBoost[21], 0.16, 0.76);
+    TextDrawAlignment(VirtualBoost[21], 1);
+    TextDrawColor(VirtualBoost[21], 0xDDE2E8FF);
+    TextDrawSetShadow(VirtualBoost[21], 0);
+    TextDrawSetOutline(VirtualBoost[21], 0);
+    TextDrawBackgroundColor(VirtualBoost[21], 0x000000FF);
+    TextDrawFont(VirtualBoost[21], 2);
+    TextDrawSetProportional(VirtualBoost[21], 1);
+
+    VirtualBoost[22] = TextDrawCreate(326.0, 125.0, "ACESSO AO SERVIDOR");
+    TextDrawLetterSize(VirtualBoost[22], 0.14, 0.70);
+    TextDrawAlignment(VirtualBoost[22], 1);
+    TextDrawColor(VirtualBoost[22], 0xAAB4C0FF);
+    TextDrawSetShadow(VirtualBoost[22], 0);
+    TextDrawSetOutline(VirtualBoost[22], 0);
+    TextDrawBackgroundColor(VirtualBoost[22], 0x000000FF);
+    TextDrawFont(VirtualBoost[22], 2);
+    TextDrawSetProportional(VirtualBoost[22], 1);
+
+    VirtualBoost[23] = TextDrawCreate(326.0, 145.0, "ESCOLHA UMA OPCAO PARA CONTINUAR");
+    TextDrawLetterSize(VirtualBoost[23], 0.105, 0.56);
+    TextDrawAlignment(VirtualBoost[23], 1);
+    TextDrawColor(VirtualBoost[23], 0x7F8B99FF);
+    TextDrawSetShadow(VirtualBoost[23], 0);
+    TextDrawSetOutline(VirtualBoost[23], 0);
+    TextDrawBackgroundColor(VirtualBoost[23], 0x000000FF);
+    TextDrawFont(VirtualBoost[23], 2);
+    TextDrawSetProportional(VirtualBoost[23], 1);
 
     // -------------------------------------------------------------------------
     // NOTA DE INTEGRACAO:
-    // Os textos clicaveis antigos ficavam nos indices 12-17. Como os indices
-    // acima agora compoem a identidade, os botoes clicaveis devem ser movidos
-    // para indices adicionais e os callbacks atualizados.
+    // Os indices 12 a 17 permanecem clicaveis para manter a compatibilidade
+    // com os callbacks existentes. A array VirtualBoost precisa ter 24 slots.
     // -------------------------------------------------------------------------
 }
