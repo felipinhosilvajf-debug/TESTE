@@ -11,6 +11,7 @@ public sealed class MainForm : Form
     private readonly Label _gameStatus = new();
     private readonly Label _message = new();
     private readonly TextBox _gamePath = new();
+    private readonly Button _installClientButton = new();
     private ClientInstallation? _installation;
 
     private static readonly Color BackgroundColor = Color.FromArgb(9, 13, 24);
@@ -181,12 +182,23 @@ public sealed class MainForm : Form
         };
         refresh.FlatAppearance.BorderColor = Color.FromArgb(65, 80, 101);
         refresh.Click += (_, _) => DetectInstallations();
-        _message.Text = "O launcher não inclui o GTA nem os clientes multiplayer.";
-        _message.Location = new Point(205, 78);
+
+        _installClientButton.Text = "INSTALAR CLIENTE";
+        _installClientButton.Location = new Point(205, 72);
+        _installClientButton.Size = new Size(170, 31);
+        _installClientButton.FlatStyle = FlatStyle.Flat;
+        _installClientButton.BackColor = Color.FromArgb(31, 43, 61);
+        _installClientButton.ForeColor = AccentColor;
+        _installClientButton.Cursor = Cursors.Hand;
+        _installClientButton.FlatAppearance.BorderColor = Color.FromArgb(65, 80, 101);
+        _installClientButton.Click += async (_, _) => await InstallClientAsync();
+
+        _message.Text = "O GTA precisa estar instalado no computador.";
+        _message.Location = new Point(390, 78);
         _message.AutoSize = true;
         _message.ForeColor = MutedColor;
         _message.Font = new Font("Segoe UI", 8F);
-        bottom.Controls.AddRange([folderLabel, _gamePath, browse, refresh, _message]);
+        bottom.Controls.AddRange([folderLabel, _gamePath, browse, refresh, _installClientButton, _message]);
     }
 
     private Panel CreatePanel() => new()
@@ -234,12 +246,64 @@ public sealed class MainForm : Form
             _clientStatus.Text = $"CLIENTE: {_installation.DisplayName} detectado automaticamente";
             _clientStatus.ForeColor = AccentColor;
             _message.Text = "Pronto para iniciar a conexão com o Virtual Boost.";
+            _installClientButton.Text = "CLIENTE INSTALADO";
+            _installClientButton.Enabled = false;
         }
         else
         {
             _clientStatus.Text = "CLIENTE: SA-MP / open.mp não encontrado";
             _clientStatus.ForeColor = Color.FromArgb(255, 190, 90);
-            _message.Text = "Instale um cliente compatível dentro/para a pasta do GTA.";
+            _message.Text = "Clique em INSTALAR CLIENTE para baixar o open.mp oficial.";
+            _installClientButton.Text = "INSTALAR CLIENTE";
+            _installClientButton.Enabled = true;
+        }
+    }
+
+    private async Task InstallClientAsync()
+    {
+        try
+        {
+            _installClientButton.Enabled = false;
+            _installClientButton.Text = "BAIXANDO...";
+            _message.Text = "Baixando instalador oficial do open.mp...";
+            var progress = new Progress<int>(value =>
+            {
+                _installClientButton.Text = $"BAIXANDO {value}%";
+                _message.Text = $"Download do cliente open.mp: {value}%";
+            });
+
+            var installerPath = await ClientInstaller.DownloadOpenMpInstallerAsync(progress);
+            _message.Text = "Download verificado. Abrindo instalação do open.mp...";
+
+            using var installer = Process.Start(new ProcessStartInfo
+            {
+                FileName = installerPath,
+                UseShellExecute = true
+            });
+
+            if (installer is null)
+                throw new InvalidOperationException("O Windows não conseguiu abrir o instalador do open.mp.");
+
+            await installer.WaitForExitAsync();
+            DetectInstallations();
+
+            if (_installation is null)
+                _message.Text = "Instalação encerrada. Se cancelou o assistente, clique em INSTALAR CLIENTE novamente.";
+            else
+                _message.Text = "Cliente detectado! Agora você já pode jogar no Virtual Boost.";
+        }
+        catch (Exception ex)
+        {
+            _message.Text = "Não foi possível instalar o cliente.";
+            MessageBox.Show(this, ex.Message, "Instalação do cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            if (!IsDisposed && _installation is null)
+            {
+                _installClientButton.Enabled = true;
+                _installClientButton.Text = "INSTALAR CLIENTE";
+            }
         }
     }
 
