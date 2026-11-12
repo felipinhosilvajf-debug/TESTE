@@ -1,0 +1,223 @@
+howTelaLogin(playerid){
+    new Str[700];
+    for(new i; i < sizeof(VirtualBoost); i++){
+        TextDrawShowForPlayer(playerid, VirtualBoost[i]);
+    }
+    format(Str, sizeof(Str), "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_%d~n~ACESSOS:_%d", estatisticasplayer2, estatisticasplayer);
+    TextDrawSetString(VirtualBoost[5], Str);
+    SelectTextDraw(playerid,0xa4a4a4FF);
+}
+
+hideTelaLogin(playerid){
+
+    for(new i; i < sizeof(VirtualBoost); i++){
+        TextDrawHideForPlayer(playerid, VirtualBoost[i]);
+    }
+    CancelSelectTextDraw(playerid);
+}
+stock CreateTelaLogin(){
+
+    loadTela1 = TextDrawCreate(680.000000, 0.000000, "~w~");
+    TextDrawBackgroundColor(loadTela1, 255);
+    TextDrawFont(loadTela1, 1);
+    TextDrawLetterSize(loadTela1, 1.899999, 52.099998);
+    TextDrawColor(loadTela1, -1);
+    TextDrawSetOutline(loadTela1, 0);
+    TextDrawSetProportional(loadTela1, 1);
+    TextDrawSetShadow(loadTela1, 1);
+    TextDrawUseBox(loadTela1, 1);
+    TextDrawBoxColor(loadTela1, 255);
+    TextDrawTextSize(loadTela1, -401.000000, 0.000000);
+
+
+    loadTela2 = TextDrawCreate(199.035614, 132.075805, "Virtual_Boost_RPG");
+    TextDrawLetterSize(loadTela2, 1.078616, 3.939166);
+    TextDrawAlignment(loadTela2, 1);
+    TextDrawColor(loadTela2, -1);
+    TextDrawSetShadow(loadTela2, 0);
+    TextDrawBackgroundColor(loadTela2, 255);
+    TextDrawFont(loadTela2, 0);
+    TextDrawSetProportional(loadTela2, 1);
+
+
+    loadTela4 = TextDrawCreate(203.582504, 169.834457, "CARREGANDO,_AGUARDE..");
+    TextDrawLetterSize(loadTela4, 0.176681, 1.014165);
+    TextDrawAlignment(loadTela4, 1);
+    TextDrawColor(loadTela4, -2139062017);
+    TextDrawSetShadow(loadTela4, 0);
+    TextDrawBackgroundColor(loadTela4, 255);
+    TextDrawFont(loadTela4, 2);
+    TextDrawSetProportional(loadTela4, 1);
+
+    loadTela5 = TextDrawCreate(190.506332, 429.013427, "Todos_direitos_autorais_reservados_2021_-_2021_Por:VBSTAFF");
+    TextDrawLetterSize(loadTela5, 0.218210, 0.903329);
+    TextDrawAlignment(loadTela5, 1);
+    TextDrawColor(loadTela5, -1);
+    TextDrawSetShadow(loadTela5, 0);
+    TextDrawBackgroundColor(loadTela5, 255);
+    TextDrawFont(loadTela5, 0);
+    TextDrawSetProportional(loadTela5, 1);
+
+    VirtualBoost[0] = TextDrawCreate(-144.787673, -86.500007, "box");
+    TextDrawLetterSize(VirtualBoost[0], 0.000000, 78.076133);
+    TextDrawTextSize(VirtualBoost[0], 188.600280, 0.000000);
+    TextDrawAlignment(VirtualBoost[0], 1);
+    TextDrawColor(VirtualBoost[0], -1);
+    TextDrawUseBox(VirtualBoost[0], 1);
+    TextDrawBoxColor(VirtualBoost[0], 90);
+    TextDrawSetShadow(VirtualBoost[0], 0);
+    TextDrawBackgroundColor(VirtualBoost[0], 255);
+    TextDrawFont(VirtualBoost[0], 1);
+    TextDrawSetProportional(VirtualBoost[0], 1);
+
+    VirtualBoost[1] = TextDrawCreate(16.868843, 126.583374, "Virtual_Boost_RPG");
+    TextDrawLetterSize(VirtualBoost[1], 0.545709, 2.037499);
+    TextDrawAlignment(VirtualBoost[1], 1);
+    TextDrawColor(VirtualBoost[1], -1);
+    TextDrawSetShadow(VirtualBoost[1], 1);
+    TextDrawBackgroundColor(VirtualBoost[1], 150);
+    TextDrawFont(VirtualBoost[1], 0);
+    TextDrawSetProportional(VirtualBoost[1], 1);
+
+    VirtualBoost[2] = TextDrawCreate(62.139579, 145.450012, "Sua_segunda_vida_comeca_aqui!");
+    TextDrawLetterSize(VirtualBoost[2], 0.196199, 0.844166);
+    TextDrawAlignment(VirtualBoost[2], 1);
+    TextDrawColor(VirtualBoost[2], -1);
+    TextDrawSetShadow(VirtualBoost[2], 0);
+    TextDrawBackgroundColor(VirtualBoost[2], 255);
+    TextDrawFont(VirtualBoost[2], 1);
+    TextDrawSetProportional(VirtualBoost[2], 1);
+
+    VirtualBoost[3] = TextDrawCreate(0.028032, 155.982971, "I");
+    TextDrawLetterSize(VirtualBoost[3], 14.600144, -0.190833);
+    TextDrawAlignment(VirtualBoost[3], 1);
+    TextDrawColor(VirtualBoost[3], -1);
+    TextDrawSetShadow(VirtualBoost[3], 0);
+    TextDrawBackgroundColor(VirtualBoost[3], 255);
+    TextDrawFont(VirtualBoost[3], 1);
+    TextDrawSetProportional(VirtualBoost[3], 1);
+
+    VirtualBoost[4] = TextDrawCreate(92.624671, 157.083450, "]]]");
+    TextDrawLetterSize(VirtualBoost[4], 0.438998, 1.759999);
+    TextDrawAlignment(VirtualBoost[4], 1);
+    TextDrawColor(VirtualBoost[4], -2139062017);
+    TextDrawSetShadow(VirtualBoost[4], 0);
+    TextDrawBackgroundColor(VirtualBoost[4], 255);
+    TextDrawFont(VirtualBoost[4], 0);
+    TextDrawSetProportional(VirtualBoost[4], 1);
+
+    VirtualBoost[5] = TextDrawCreate(10.761368, 163.066619, "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_316~n~ACESSOS:_4878");
+    TextDrawLetterSize(VirtualBoost[5], 0.113576, 0.910000);
+    TextDrawAlignment(VirtualBoost[5], 1);
+    TextDrawColor(VirtualBoost[5], -1);
+    TextDrawSetShadow(VirtualBoost[5], 0);
+    TextDrawBackgroundColor(VirtualBoost[5], 255);
+    TextDrawFont(VirtualBoost[5], 2);
+    TextDrawSetProportional(VirtualBoost[5], 1);
+
+    VirtualBoost[6] = TextDrawCreate(0.113258, 200.982894, "I");
+    TextDrawLetterSize(VirtualBoost[6], 14.541988, 2.393332);
+    TextDrawAlignment(VirtualBoost[6], 1);
+    TextDrawColor(VirtualBoost[6], -2139062017);
+    TextDrawSetShadow(VirtualBoost[6], 0);
+    TextDrawBackgroundColor(VirtualBoost[6], 255);
+    TextDrawFont(VirtualBoost[6], 1);
+    TextDrawSetProportional(VirtualBoost[6], 1);
+
+    VirtualBoost[7] = TextDrawCreate(2.913257, 295.282928, "I");
+    TextDrawLetterSize(VirtualBoost[7], 14.564996, 2.393332);
+    TextDrawAlignment(VirtualBoost[7], 1);
+    TextDrawColor(VirtualBoost[7], -2139062017);
+    TextDrawSetShadow(VirtualBoost[7], 0);
+    TextDrawBackgroundColor(VirtualBoost[7], 255);
+    TextDrawFont(VirtualBoost[7], 1);
+    TextDrawSetProportional(VirtualBoost[7], 1);
+
+    VirtualBoost[8] = TextDrawCreate(4.413256, 329.982910, "I");
+    TextDrawLetterSize(VirtualBoost[8], 14.459994, 2.393332);
+    TextDrawAlignment(VirtualBoost[8], 1);
+    TextDrawColor(VirtualBoost[8], -2139062017);
+    TextDrawSetShadow(VirtualBoost[8], 0);
+    TextDrawBackgroundColor(VirtualBoost[8], 255);
+    TextDrawFont(VirtualBoost[8], 1);
+    TextDrawSetProportional(VirtualBoost[8], 1);
+
+    VirtualBoost[9] = TextDrawCreate(5.613252, 365.783294, "I");
+    TextDrawLetterSize(VirtualBoost[9], 14.400081, 1.959998);
+    TextDrawAlignment(VirtualBoost[9], 1);
+    TextDrawColor(VirtualBoost[9], -2139062017);
+    TextDrawSetShadow(VirtualBoost[9], 0);
+    TextDrawBackgroundColor(VirtualBoost[9], 255);
+    TextDrawFont(VirtualBoost[9], 1);
+    TextDrawSetProportional(VirtualBoost[9], 1);
+
+    VirtualBoost[10] = TextDrawCreate(1.613251, 241.683135, "I");
+    TextDrawLetterSize(VirtualBoost[10], 13.910083, 2.239997);
+    TextDrawAlignment(VirtualBoost[10], 1);
+    TextDrawColor(VirtualBoost[10], -2139062017);
+    TextDrawSetShadow(VirtualBoost[10], 0);
+    TextDrawBackgroundColor(VirtualBoost[10], 255);
+    TextDrawFont(VirtualBoost[10], 1);
+    TextDrawSetProportional(VirtualBoost[10], 1);
+
+
+    VirtualBoost[12] = TextDrawCreate(66.389495, 205.416702, "fazer_login");
+    TextDrawLetterSize(VirtualBoost[12], 0.345651, 1.314167);
+    TextDrawAlignment(VirtualBoost[12], 1);
+    TextDrawColor(VirtualBoost[12], -1);
+    TextDrawSetShadow(VirtualBoost[12], 0);
+    TextDrawBackgroundColor(VirtualBoost[12], 255);
+    TextDrawFont(VirtualBoost[12], 3);
+    TextDrawSetProportional(VirtualBoost[12], 1);
+    TextDrawSetSelectable(VirtualBoost[12], true);
+
+    VirtualBoost[13] = TextDrawCreate(51.889495, 245.916702, "RECUPERAR_SENHA");
+    TextDrawLetterSize(VirtualBoost[13], 0.345651, 1.314167);
+    TextDrawAlignment(VirtualBoost[13], 1);
+    TextDrawColor(VirtualBoost[13], -1);
+    TextDrawSetShadow(VirtualBoost[13], 0);
+    TextDrawBackgroundColor(VirtualBoost[13], 255);
+    TextDrawFont(VirtualBoost[13], 3);
+    TextDrawSetProportional(VirtualBoost[13], 1);
+    TextDrawSetSelectable(VirtualBoost[13], true);
+
+    VirtualBoost[14] = TextDrawCreate(63.889495, 299.916687, "informacoes");
+    TextDrawLetterSize(VirtualBoost[14], 0.345651, 1.314167);
+    TextDrawAlignment(VirtualBoost[14], 1);
+    TextDrawColor(VirtualBoost[14], -1);
+    TextDrawSetShadow(VirtualBoost[14], 0);
+    TextDrawBackgroundColor(VirtualBoost[14], 255);
+    TextDrawFont(VirtualBoost[14], 3);
+    TextDrawSetProportional(VirtualBoost[14], 1);
+    TextDrawSetSelectable(VirtualBoost[14], true);
+
+    VirtualBoost[15] = TextDrawCreate(73.389495, 334.916687, "CREDITOS");
+    TextDrawLetterSize(VirtualBoost[15], 0.345651, 1.314167);
+    TextDrawAlignment(VirtualBoost[15], 1);
+    TextDrawColor(VirtualBoost[15], -1);
+    TextDrawSetShadow(VirtualBoost[15], 0);
+    TextDrawBackgroundColor(VirtualBoost[15], 255);
+    TextDrawFont(VirtualBoost[15], 3);
+    TextDrawSetProportional(VirtualBoost[15], 1);
+    TextDrawSetSelectable(VirtualBoost[15], true);
+
+    VirtualBoost[16] = TextDrawCreate(32.572525, 394.583221, "LEIA_AS_REGRAS_E_EVITE_PUNICOES");
+    TextDrawLetterSize(VirtualBoost[16], 0.190101, 0.725000);
+    TextDrawAlignment(VirtualBoost[16], 1);
+    TextDrawColor(VirtualBoost[16], -16776961);
+    TextDrawSetShadow(VirtualBoost[16], 0);
+    TextDrawBackgroundColor(VirtualBoost[16], 255);
+    TextDrawFont(VirtualBoost[16], 2);
+    TextDrawSetProportional(VirtualBoost[16], 1);
+
+    VirtualBoost[17] = TextDrawCreate(86.389495, 369.416687, "SAIR");
+    TextDrawLetterSize(VirtualBoost[17], 0.345651, 1.314167);
+    TextDrawAlignment(VirtualBoost[17], 1);
+    TextDrawColor(VirtualBoost[17], -1);
+    TextDrawSetShadow(VirtualBoost[17], 0);
+    TextDrawBackgroundColor(VirtualBoost[17], 255);
+    TextDrawFont(VirtualBoost[17], 3);
+    TextDrawSetProportional(VirtualBoost[17], 1);
+    TextDrawSetSelectable(VirtualBoost[17], true);
+
+}
