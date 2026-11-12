@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>VirtualBoostLauncher</AssemblyName>
+    <RootNamespace>VirtualBoostLauncher</RootNamespace>
+    <Version>0.1.0</Version>
+    <Product>Virtual Boost Launcher</Product>
+    <Company>Virtual Boost</Company>
+    <Description>Launcher oficial do servidor Virtual Boost SAMP RPG</Description>
+  </PropertyGroup>
+</Project>
