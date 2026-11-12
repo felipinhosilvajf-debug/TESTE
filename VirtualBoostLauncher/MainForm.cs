@@ -23,13 +23,14 @@ public sealed class MainForm : Form
     {
         Text = "Virtual Boost Launcher";
         StartPosition = FormStartPosition.CenterScreen;
-        MinimumSize = new Size(760, 620);
+        MinimumSize = new Size(1040, 760);
         Size = new Size(900, 700);
         BackColor = BackgroundColor;
         ForeColor = Color.White;
         Font = new Font("Segoe UI", 10F);
-        FormBorderStyle = FormBorderStyle.FixedSingle;
-        MaximizeBox = false;
+        FormBorderStyle = FormBorderStyle.Sizable;
+        MaximizeBox = true;
+        AutoScaleMode = AutoScaleMode.Dpi;
 
         BuildInterface();
         Shown += (_, _) => DetectInstallations();
@@ -42,11 +43,11 @@ public sealed class MainForm : Form
             Dock = DockStyle.Fill,
             ColumnCount = 1,
             RowCount = 5,
-            Padding = new Padding(34, 24, 34, 24),
+            Padding = new Padding(30, 22, 30, 22),
             BackColor = BackgroundColor
         };
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 74));
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 220));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 250));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 112));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 110));
         root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -79,9 +80,25 @@ public sealed class MainForm : Form
             BackColor = PanelColor,
             Padding = new Padding(24)
         };
+        var backgroundPath = Path.Combine(AppContext.BaseDirectory, "roleplay-bg.jpg");
+        if (File.Exists(backgroundPath))
+        {
+            try
+            {
+                hero.BackgroundImage = Image.FromFile(backgroundPath);
+                hero.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+            catch { DrawRolePlayBackdrop(hero); }
+        }
+        else
+        {
+            DrawRolePlayBackdrop(hero);
+        }
         hero.Paint += (_, e) =>
         {
-            using var pen = new Pen(Color.FromArgb(70, AccentColor), 1);
+            using var overlay = new SolidBrush(Color.FromArgb(125, 4, 8, 18));
+            e.Graphics.FillRectangle(overlay, hero.ClientRectangle);
+            using var pen = new Pen(Color.FromArgb(100, AccentColor), 1);
             e.Graphics.DrawRectangle(pen, 0, 0, hero.Width - 1, hero.Height - 1);
         };
         root.Controls.Add(hero, 0, 1);
@@ -92,7 +109,7 @@ public sealed class MainForm : Form
             Font = new Font("Segoe UI", 21F, FontStyle.Bold),
             ForeColor = Color.White,
             AutoSize = true,
-            Location = new Point(24, 22)
+            Location = new Point(28, 26)
         };
         var serverLabel = new Label
         {
@@ -100,7 +117,7 @@ public sealed class MainForm : Form
             Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
             ForeColor = MutedColor,
             AutoSize = true,
-            Location = new Point(27, 75)
+            Location = new Point(31, 83)
         };
         var serverAddress = new Label
         {
@@ -108,7 +125,7 @@ public sealed class MainForm : Form
             Font = new Font("Segoe UI", 22F, FontStyle.Bold),
             ForeColor = AccentColor,
             AutoSize = true,
-            Location = new Point(24, 95)
+            Location = new Point(28, 104)
         };
         var play = new Button
         {
@@ -118,7 +135,7 @@ public sealed class MainForm : Form
             ForeColor = Color.FromArgb(12, 18, 8),
             FlatStyle = FlatStyle.Flat,
             Size = new Size(250, 54),
-            Location = new Point(27, 150),
+            Location = new Point(31, 166),
             Cursor = Cursors.Hand
         };
         play.FlatAppearance.BorderSize = 0;
@@ -129,8 +146,8 @@ public sealed class MainForm : Form
         root.Controls.Add(nickPanel, 0, 2);
         var nickLabel = CreateLabel("SEU NICK", 9F, MutedColor, true);
         nickLabel.Location = new Point(18, 13);
-        _nickname.Text = "Jogador";
-        _nickname.MaxLength = 24;
+        _nickname.Text = "Felipe_Silva";
+        _nickname.MaxLength = 20;
         _nickname.Location = new Point(18, 39);
         _nickname.Size = new Size(300, 34);
         StyleTextBox(_nickname);
@@ -199,6 +216,36 @@ public sealed class MainForm : Form
         _message.ForeColor = MutedColor;
         _message.Font = new Font("Segoe UI", 8F);
         bottom.Controls.AddRange([folderLabel, _gamePath, browse, refresh, _installClientButton, _message]);
+    }
+
+    private static void DrawRolePlayBackdrop(Panel panel)
+    {
+        panel.Paint += (_, e) =>
+        {
+            var g = e.Graphics;
+            var r = panel.ClientRectangle;
+            using var sky = new LinearGradientBrush(r, Color.FromArgb(30, 34, 78), Color.FromArgb(5, 10, 22), 90F);
+            g.FillRectangle(sky, r);
+            var random = new Random(17);
+            for (var i = 0; i < 34; i++)
+            {
+                int w = random.Next(18, 54);
+                int h = random.Next(45, 145);
+                int x = i * Math.Max(1, r.Width / 34);
+                int y = r.Height - h - 18;
+                using var building = new SolidBrush(Color.FromArgb(180, 7, 13, 27));
+                g.FillRectangle(building, x, y, w, h);
+                using var lights = new SolidBrush(Color.FromArgb(150, 184, 255, 59));
+                for (int wy = y + 9; wy < r.Height - 24; wy += 17)
+                    for (int wx = x + 6; wx < x + w - 4; wx += 13)
+                        if (random.Next(3) == 0) g.FillRectangle(lights, wx, wy, 3, 5);
+            }
+            using var road = new LinearGradientBrush(new Rectangle(0, r.Height - 68, r.Width, 68),
+                Color.FromArgb(15, 20, 30), Color.FromArgb(2, 4, 10), 90F);
+            g.FillRectangle(road, 0, r.Height - 68, r.Width, 68);
+            using var roadPen = new Pen(Color.FromArgb(170, 184, 255, 59), 2);
+            g.DrawLine(roadPen, 0, r.Height - 20, r.Width, r.Height - 20);
+        };
     }
 
     private Panel CreatePanel() => new()
