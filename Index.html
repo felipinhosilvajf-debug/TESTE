@@ -72,7 +72,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   <h1>A RAIZ DO SAMP.<br><span>DO JEITO CERTO.</span></h1>
   <p>O SAMP raiz está de volta: roleplay simples, divertido e bem feito. Faça seu nome, conheça jogadores, entre para uma organização e construa sua história no Virtual Boost — no Android ou no PC.</p>
   <div class="actions"><a class="btn primary" href="#como-jogar" data-open-guide>QUERO JOGAR AGORA <span>➜</span></a><a class="btn secondary" href="#organizacoes">VER VAGAS NAS ORGS</a></div>
-  <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
+  <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:7777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div></section>
 
 <div class="stats"><div class="wrap stat-grid"><div class="stat"><strong>ANDROID</strong><span>Jogue pelo celular</span></div><div class="stat"><strong>PC</strong><span>Jogue pelo computador</span></div><div class="stat"><strong>ROLEPLAY</strong><span>Você escreve a história</span></div></div></div>
@@ -110,7 +110,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   </div>
   <div class="video-box">
     <a class="video-main" href="https://www.youtube.com/results?search_query=GTA+San+Andreas+Multiplayer+SAMP+roleplay" target="_blank" rel="noopener"><div><div class="play">▶</div><h3>VEJA O UNIVERSO SAMP</h3><p style="font-size:11px;color:#d5dbea">Clique para assistir vídeos de SAMP no YouTube</p></div></a>
-    <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><a class="btn primary" href="#entrar">COMO COMEÇAR ↗</a></div>
+    <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><a class="btn primary" href="#como-jogar" data-open-guide>COMO COMEÇAR ↗</a></div>
   </div>
 </div></section>
 
@@ -119,9 +119,9 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 <footer><div class="wrap foot"><div class="brand">VIRTUAL<span> BOOST</span></div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
 <script>
 function copyIP(){
- const ip='163.245.202.163:777';
- const btns=document.querySelectorAll('.copy');
- const done=()=>{btns.forEach(b=>{b.textContent='COPIADO!';setTimeout(()=>b.textContent='COPIAR IP',1800)});};
+ const ip='163.245.202.163:7777';
+ const btns=document.querySelectorAll('.copy, #guideCopy');
+ const done=()=>{btns.forEach(b=>{const original=b.dataset.originalLabel || b.textContent;b.dataset.originalLabel=original;b.textContent='IP COPIADO!';setTimeout(()=>b.textContent=original,1800)});};
  if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(ip).then(done).catch(()=>fallbackCopy(ip,done));}
  else fallbackCopy(ip,done);
 }
@@ -162,7 +162,7 @@ function fallbackCopy(text,done){
   </div>
   <div class="guide-ip">
    <small>🎮 IP OFICIAL DO SERVIDOR — TOQUE PARA COPIAR</small>
-   <strong>163.245.202.163:777</strong>
+   <strong>163.245.202.163:7777</strong>
   </div>
   <div class="guide-actions"><button class="btn primary" id="guideCopy">COPIAR IP DO SERVIDOR</button><button class="btn secondary" id="guideDone">ENTENDI, VAMOS JOGAR</button></div>
  </div>
