@@ -1,238 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" crossorigin="use-credentials" href="site.webmanifest">
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#000000">
-    <meta name="apple-mobile-web-app-title" content="Nitro">
-    <meta name="application-name" content="Nitro">
-    <meta name="msapplication-TileColor" content="#000000">
-    <meta name="theme-color" content="#000000" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <base href="./">
-    <title>Nitro</title>
-    <script type="module" crossorigin src="assets/index-34d8c395.js"></script>
-    <link rel="modulepreload" crossorigin href="assets/vendor-48792d42.js">
-    <link rel="modulepreload" crossorigin href="assets/nitro-renderer-493a6bde.js">
-    <link rel="stylesheet" href="src/assets/index.css">
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d18">
+<meta name="description" content="Entre no novo servidor de RPG SAMP para Android e PC. Escolha sua organização e escreva sua história.">
+<title>Brasil Virtual Boost — RPG SAMP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090d18;--panel:#111827;--muted:#a7b0c2;--text:#f7f8fc;--green:#b8ff3b;--cyan:#45e6d0;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1160px,92%);margin:auto}
+header{position:absolute;z-index:5;top:0;left:0;width:100%;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(7,10,18,.48);backdrop-filter:blur(12px)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{font-family:"Barlow Condensed",sans-serif;font-size:27px;font-weight:900;letter-spacing:1px}.brand span{color:var(--green)}.navlinks{display:flex;gap:26px;color:#d8deeb;font-size:13px;font-weight:700}.navlinks a:hover{color:var(--green)}.nav-cta{background:var(--green);color:#11180a;padding:12px 18px;border-radius:7px;font-size:12px;font-weight:900}
+.hero{min-height:730px;display:flex;align-items:center;position:relative;overflow:hidden;background:linear-gradient(90deg,rgba(5,8,15,.96) 0%,rgba(5,8,15,.78) 48%,rgba(5,8,15,.28) 100%),linear-gradient(0deg,var(--bg),transparent 35%),url('https://virtualboost.online/img/back.png?auto=format&fit=crop&w=2000&q=85') center/cover}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 45%,rgba(184,255,59,.13),transparent 28%);pointer-events:none}.hero-content{position:relative;z-index:1;padding-top:90px;max-width:700px}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--green);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 15px var(--green)}h1{font-family:"Barlow Condensed",sans-serif;font-size:clamp(58px,9vw,108px);line-height:.88;letter-spacing:-1px;margin:22px 0 20px;text-transform:uppercase}h1 span{color:var(--green);text-shadow:0 0 30px rgba(184,255,59,.25)}.hero p{max-width:540px;color:#c3cada;line-height:1.8;font-size:15px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 21px;border-radius:7px;font-size:12px;font-weight:900;letter-spacing:.4px;transition:.2s}.btn:hover{transform:translateY(-3px)}.primary{background:var(--green);color:#10170a;box-shadow:0 0 28px rgba(184,255,59,.2)}.secondary{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06)}.ip-card{display:flex;align-items:center;gap:15px;width:min(480px,100%);padding:16px 18px;margin-top:36px;border:1px solid rgba(184,255,59,.45);border-radius:10px;background:rgba(8,13,21,.78);box-shadow:0 0 30px rgba(184,255,59,.1),inset 0 0 25px rgba(184,255,59,.04)}.ip-label{font-size:9px;letter-spacing:2px;color:#aeb9c9;font-weight:900}.ip{font-family:"Barlow Condensed",sans-serif;font-size:29px;font-weight:800;letter-spacing:1px;color:var(--green);text-shadow:0 0 14px rgba(184,255,59,.65);white-space:nowrap}.copy{margin-left:auto;border:0;border-radius:6px;padding:11px 13px;background:var(--green);font-size:10px;font-weight:900;cursor:pointer}
+.stats{position:relative;margin-top:-1px;background:#0d1320;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);padding:24px 0}.stat{text-align:center;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat strong{display:block;font-family:"Barlow Condensed";font-size:28px;color:var(--green)}.stat span{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+section{padding:88px 0}.section-tag{color:var(--green);font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.section-title{font-family:"Barlow Condensed";font-size:clamp(40px,6vw,64px);line-height:.95;margin:12px 0 14px;text-transform:uppercase}.section-desc{color:var(--muted);line-height:1.8;max-width:620px;font-size:14px}.center{text-align:center}.center .section-desc{margin:0 auto}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}.feature{background:linear-gradient(145deg,#151f30,#0e1522);border:1px solid var(--line);padding:25px;border-radius:10px}.feature .ico{font-size:25px}.feature h3{font-family:"Barlow Condensed";font-size:25px;margin:15px 0 8px}.feature p{color:var(--muted);font-size:12px;line-height:1.7;margin:0}
+.orgs{background:#0d1320}.org-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:35px}.org{position:relative;overflow:hidden;min-height:180px;padding:22px;border-radius:9px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(20,31,49,.96),rgba(10,16,27,.98))}.org:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-45px;bottom:-55px;background:rgba(184,255,59,.08);filter:blur(2px)}.org small{color:var(--green);font-size:9px;font-weight:900;letter-spacing:1.5px}.org h3{font-family:"Barlow Condensed";font-size:27px;margin:10px 0 7px}.org p{color:var(--muted);font-size:11px;line-height:1.6;max-width:260px}.tag{display:inline-block;margin-top:9px;padding:7px 10px;border-radius:5px;background:rgba(184,255,59,.1);color:var(--green);font-size:9px;font-weight:900}
+.gallery{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:180px 180px;gap:12px;margin-top:35px}.shot{border-radius:9px;overflow:hidden;position:relative;background:#172235}.shot:first-child{grid-row:span 2}.shot img{width:100%;height:100%;object-fit:cover;transition:.4s;opacity:.82}.shot:hover img{transform:scale(1.06);opacity:1}.shot span{position:absolute;bottom:0;left:0;right:0;padding:30px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:11px;font-weight:900;letter-spacing:1px}
+.video-box{margin-top:35px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.video-main{min-height:300px;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px;background:linear-gradient(rgba(4,8,14,.35),rgba(4,8,14,.8)),url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85') center/cover}.play{display:inline-flex;width:64px;height:64px;border-radius:50%;align-items:center;justify-content:center;background:var(--green);color:#10170a;font-size:23px;margin-bottom:12px;box-shadow:0 0 35px rgba(184,255,59,.4)}.video-main h3{font-family:"Barlow Condensed";font-size:30px;margin:0}.video-side{border:1px solid var(--line);border-radius:10px;padding:25px;background:#111827;display:flex;flex-direction:column;justify-content:center}.video-side p{color:var(--muted);font-size:12px;line-height:1.8}
+.join{padding:75px 0;background:linear-gradient(110deg,rgba(184,255,59,.12),transparent 60%),#101827;border-top:1px solid rgba(184,255,59,.2);border-bottom:1px solid rgba(184,255,59,.2)}.join-inner{display:flex;align-items:center;justify-content:space-between;gap:25px}.join h2{font-family:"Barlow Condensed";font-size:clamp(38px,5vw,58px);margin:0 0 8px;text-transform:uppercase}.join p{margin:0;color:var(--muted);font-size:13px}
+footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-content:space-between;gap:15px;align-items:center}.foot strong{color:var(--green)}
+@media(max-width:760px){.navlinks{display:none}.hero{min-height:690px;background-position:60% center}.hero-content{padding-top:90px}.features,.org-grid{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr;grid-template-rows:190px 140px 140px}.shot:first-child{grid-row:span 2}.video-box{grid-template-columns:1fr}.join-inner{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.features,.org-grid{grid-template-columns:1fr}.ip{font-size:24px}.ip-card{gap:9px;padding:13px}.copy{padding:10px}.stat-grid{padding:18px 0}.stat strong{font-size:23px}.stat span{font-size:8px}.foot{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="brand" href="#inicio">BRASIL<span> Virtual</span> Boost</a>
+  <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a></nav>
+  <a class="nav-cta" href="#entrar">JOGUE AGORA ↗</a>
+</div></header>
 
-    <!-- CSS DO YOUTUBE OVERLAY -->
-    <link rel="stylesheet" href="/youtube-overlay/css/app.c193abe1.css">
+<main>
+<section class="hero" id="inicio"><div class="wrap"><div class="hero-content">
+  <div class="eyebrow"><span class="dot"></span> SAMP • ANDROID & PC</div>
+  <h1>SUA HISTÓRIA.<br><span>SUA CIDADE.</span></h1>
+  <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
+  <div class="actions"><a class="btn primary" href="#entrar">QUERO JOGAR AGORA <span>➜</span></a><a class="btn secondary" href="#organizacoes">VER VAGAS NAS ORGS</a></div>
+  <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
+</div></div></section>
 
-    <!-- Estilo Visual do Botão da Rádio e YouTube Overlay -->
-    <style>
-      #radioWidget {
-        position: fixed;
-        top: 20px;       
-        left: 20px;      
-        z-index: 99999;  
-        background: rgba(0, 0, 0, 0.75);
-        border: 2px solid #fff;
-        border-radius: 8px;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
-        font-family: Arial, sans-serif;
-        color: #fff;
-        transform: scale(0.8);
-        transform-origin: top left; 
-      }
-      #radioBtn {
-        background: #0088ff;
-        border: none;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 12px;
-        transition: background 0.2s;
-      }
-      #radioBtn:hover {
-        background: #0066cc;
-      }
-      #radioStatus {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        white-space: nowrap;
-      }
+<div class="stats"><div class="wrap stat-grid"><div class="stat"><strong>ANDROID</strong><span>Jogue pelo celular</span></div><div class="stat"><strong>PC</strong><span>Jogue pelo computador</span></div><div class="stat"><strong>ROLEPLAY</strong><span>Você escreve a história</span></div></div></div>
 
-      /* Traz a janela do YouTube Overlay para frente do Nitro */
-      #app {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 99998;
-        pointer-events: none;
-      }
-      #app > * {
-        pointer-events: auto;
-      }
+<section id="sobre"><div class="wrap">
+  <div class="section-tag">BEM-VINDO À CIDADE</div><h2 class="section-title">Muito mais que entrar e jogar.</h2>
+  <p class="section-desc">Aqui, cada escolha pode mudar seu caminho. Comece do zero, trabalhe, faça amizades, participe de operações, construa sua reputação e encontre seu lugar nessa cidade.</p>
+  <div class="features">
+    <article class="feature"><div class="ico">🚘</div><h3>VIDA NA CIDADE</h3><p>Explore, conheça pessoas, consiga seu veículo e construa sua própria trajetória.</p></article>
+    <article class="feature"><div class="ico">🤝</div><h3>ROLEPLAY DE VERDADE</h3><p>Interprete seu personagem, crie histórias e faça cada encontro valer a pena.</p></article>
+    <article class="feature"><div class="ico">📱</div><h3>ANDROID + PC</h3><p>Chame os amigos e venha jogar. A cidade espera por você nas duas plataformas.</p></article>
+  </div>
+</div></section>
 
-      /* Botão X sincronizado com a quina do player */
-      #closeYtBtn {
-        position: fixed !important;
-        z-index: 2147483647 !important;
-        background: #d32f2f;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 4px;
-        width: 24px;
-        height: 22px;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        font-size: 13px;
-        line-height: 1;
-        cursor: pointer;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.6);
-        padding: 0;
-      }
-      #closeYtBtn:hover {
-        background: #b71c1c;
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    
-    <!-- CONTAINER DO NITRO -->
-    <div id="root" class="w-100 h-100"></div>
+<section class="orgs" id="organizacoes"><div class="wrap">
+  <div class="center"><div class="section-tag">SEU PRÓXIMO PASSO</div><h2 class="section-title">A cidade precisa de você.</h2><p class="section-desc">Temos oportunidades para quem quer representar, liderar e fazer a diferença. Procure a equipe dentro do servidor para saber os requisitos e participar do recrutamento.</p></div>
+  <div class="org-grid">
+    <article class="org"><small>SEGURANÇA PÚBLICA</small><h3>POLÍCIA MILITAR</h3><p>Patrulhe a cidade, proteja os cidadãos e mantenha a ordem.</p><span class="tag">VAGAS ABERTAS</span></article>
+    <article class="org"><small>SEGURANÇA PÚBLICA</small><h3>POLÍCIA CIVIL</h3><p>Investigue ocorrências e trabalhe na solução dos casos.</p><span class="tag">VAGAS ABERTAS</span></article>
+    <article class="org"><small>EMERGÊNCIA</small><h3>HOSPITAL / SAMU</h3><p>Cuide da população e esteja pronto para atender chamados.</p><span class="tag">VAGAS ABERTAS</span></article>
+    <article class="org"><small>COMUNIDADE</small><h3>GOVERNO</h3><p>Participe das decisões e ajude a desenvolver a cidade.</p><span class="tag">VAGAS ABERTAS</span></article>
+    <article class="org"><small>COMUNIDADE</small><h3>JORNAL / MÍDIA</h3><p>Conte o que acontece, faça entrevistas e movimente a cidade.</p><span class="tag">VAGAS ABERTAS</span></article>
+    <article class="org"><small>OPORTUNIDADE</small><h3>LIDERANÇAS</h3><p>Quer comandar uma organização? Apresente sua proposta à administração.</p><span class="tag">FALE COM A STAFF</span></article>
+  </div>
+</div></section>
 
-    <!-- CONTAINER DO YOUTUBE OVERLAY -->
-    <div id="app"></div>
+<section id="midia"><div class="wrap">
+  <div class="section-tag">DÊ UMA OLHADA</div><h2 class="section-title">A cidade em movimento.</h2><p class="section-desc">Um gostinho do universo GTA e do roleplay. Em breve, esta área pode receber prints e vídeos reais do nosso servidor.</p>
+  <div class="gallery">
+    <div class="shot"><img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=85" alt="Setup gamer"><span>ENTRE NA EXPERIÊNCIA</span></div>
+    <div class="shot"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85" alt="Arena de games"><span>JOGUE COM A GALERA</span></div>
+    <div class="shot"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85" alt="Experiência gamer"></div>
+    <div class="shot"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=85" alt="Games clássicos"><span>ESSÊNCIA DOS GAMES</span></div>
+    <div class="shot"><img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=85" alt="Setup de computador"><span>ANDROID & PC</span></div>
+  </div>
+  <div class="video-box">
+    <a class="video-main" href="https://www.youtube.com/results?search_query=GTA+San+Andreas+Multiplayer+SAMP+roleplay" target="_blank" rel="noopener"><div><div class="play">▶</div><h3>VEJA O UNIVERSO SAMP</h3><p style="font-size:11px;color:#d5dbea">Clique para assistir vídeos de SAMP no YouTube</p></div></a>
+    <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><a class="btn primary" href="#entrar">COMO COMEÇAR ↗</a></div>
+  </div>
+</div></section>
 
-    <script>
-      const ssoTicket = (new URLSearchParams(window.location.search).get('sso') || null);
-
-      const NitroConfig = {
-        "config.urls": [ 'renderer-config.json', 'ui-config.json' ],
-        "sso.ticket": ssoTicket,
-        "forward.type": (new URLSearchParams(window.location.search).get('room') ? 2 : -1),
-        "forward.id": (new URLSearchParams(window.location.search).get('room') || 0),
-        "friend.id": (new URLSearchParams(window.location.search).get('friend') || 0),
-      };
-    </script>
-    
-    <!-- INTERFACE DA RÁDIO NO CLIENT -->
-    <div id="radioWidget">
-      <span id="radioStatus">Radio: Pausada</span>
-      <button id="radioBtn" onclick="toggleRadio()">PLAY</button>
-    </div>
-
-    <!-- PLAYER AUDIO -->
-    <audio id="habboRadio" loop preload="none">
-        <source src="https://live.hunter.fm/pop_stream?ag=mp3" type="audio/mpeg">
-        Seu navegador não suporta áudio.
-    </audio>
-
-    <!-- LOGICA DE PLAY / PAUSE E CONTORNO DE AUTOPLAY -->
-    <script>
-      var audio = document.getElementById('habboRadio');
-      var btn = document.getElementById('radioBtn');
-      var statusText = document.getElementById('radioStatus');
-
-      function toggleRadio() {
-          if (audio.paused) {
-              audio.play().then(function() {
-                  btn.innerText = "PAUSE";
-                  btn.style.background = "#ff3333";
-                  statusText.innerText = "Radio: Tocando";
-              }).catch(function(error) {
-                  console.log("Erro ao reproduzir rádio:", error);
-              });
-          } else {
-              audio.pause();
-              btn.innerText = "PLAY";
-              btn.style.background = "#0088ff";
-              statusText.innerText = "Radio: Pausada";
-          }
-      }
-
-      document.addEventListener('click', function() {
-          if (audio.paused && btn.innerText === "PLAY") {
-              toggleRadio();
-          }
-      }, { once: true });
-    </script>
-
-    
-<!-- SCRIPTS DO YOUTUBE OVERLAY -->
-<script src="/youtube-overlay/js/chunk-vendors.e3117a63.js"></script>
-<script src="/youtube-overlay/js/app.d6ff1731.js"></script>
-
+<section class="join" id="entrar"><div class="wrap join-inner"><div><div class="section-tag">A CIDADE ESTÁ TE ESPERANDO</div><h2>Não fique de fora.</h2><p>Copie o IP, entre no jogo e venha viver essa história.</p></div><div class="actions" style="margin:0"><button class="btn primary" onclick="copyIP()">COPIAR IP DO SERVIDOR</button></div></div></section>
+</main>
+<footer><div class="wrap foot"><div class="brand">BRASIL<span> VIDA</span> REAL</div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
 <script>
-    const ytWsUrl = "wss://ws.virtualboost.online:2096";
-    let iframeAnterior = null;
-
-    // Inicializa o overlay
-    if (typeof window.startYTOverlay === 'function') {
-        window.startYTOverlay(ssoTicket, ytWsUrl);
-    }
-
-    // X externo: chama o fechamento real do componente Vue.
-    const closeYtBtn = document.createElement('button');
-    closeYtBtn.id = 'closeYtBtn';
-    closeYtBtn.innerText = 'X';
-    closeYtBtn.title = 'Fechar vídeo';
-    document.body.appendChild(closeYtBtn);
-
-    function fecharYoutube(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        // O close() interno interrompe o iframe e limpa o estado do player.
-        const botaoFecharInterno = document.querySelector(
-            '#app > .box .box_head .box_cross'
-        );
-
-        if (botaoFecharInterno) {
-            botaoFecharInterno.click();
-        }
-
-        closeYtBtn.style.display = 'none';
-    }
-
-    closeYtBtn.addEventListener('click', fecharYoutube);
-
-    function verificarPlayer() {
-        const iframe = document.querySelector('#app iframe');
-
-        // Não esconda #app: ele precisa continuar ativo para o próximo :youtube.
-        if (!iframe) {
-            closeYtBtn.style.display = 'none';
-            iframeAnterior = null;
-            return;
-        }
-
-        if (iframe !== iframeAnterior) iframeAnterior = iframe;
-
-        const rect = iframe.getBoundingClientRect();
-
-        if (rect.width > 0 && rect.height > 0) {
-            closeYtBtn.style.display = 'flex';
-            closeYtBtn.style.top = (rect.top - 26) + 'px';
-            closeYtBtn.style.left = (rect.right - 28) + 'px';
-        } else {
-            closeYtBtn.style.display = 'none';
-        }
-    }
-
-    // Monitora o player sem bloquear a abertura de vídeos novos.
-    setInterval(verificarPlayer, 300);
-    </script>
-  </body>
+function copyIP(){
+ const ip='163.245.202.163:777';
+ const btns=document.querySelectorAll('.copy');
+ const done=()=>{btns.forEach(b=>{b.textContent='COPIADO!';setTimeout(()=>b.textContent='COPIAR IP',1800)});};
+ if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(ip).then(done).catch(()=>fallbackCopy(ip,done));}
+ else fallbackCopy(ip,done);
+}
+function fallbackCopy(text,done){
+ const el=document.createElement('textarea');el.value=text;el.style.position='fixed';el.style.opacity='0';document.body.appendChild(el);el.select();
+ try{document.execCommand('copy');done();}catch(e){alert('IP do servidor: '+text);}el.remove();
+}
+</script>
+</body>
 </html>
