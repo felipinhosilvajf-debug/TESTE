@@ -1,223 +1,252 @@
-howTelaLogin(playerid){
+// -----------------------------------------------------------------------------
+// VIRTUAL BOOST RPG - LOGIN / MENU TEXTDRAWS
+// Redesign: identidade escura, minimalista e dourado-ambar.
+// Os indices 12 a 17 continuam reservados aos botoes clicaveis existentes.
+// -----------------------------------------------------------------------------
+//
+// IMPORTANTE: manter a array VirtualBoost com pelo menos 18 elementos.
+//
+// Exemplo:
+// new Text:VirtualBoost[18];
+//
+// -----------------------------------------------------------------------------
+
+
+howTelaLogin(playerid)
+{
     new Str[700];
-    for(new i; i < sizeof(VirtualBoost); i++){
+
+    for(new i = 0; i < sizeof(VirtualBoost); i++)
+    {
         TextDrawShowForPlayer(playerid, VirtualBoost[i]);
     }
-    format(Str, sizeof(Str), "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_%d~n~ACESSOS:_%d", estatisticasplayer2, estatisticasplayer);
+
+    format(Str, sizeof(Str),
+        "PAINEL_DE_ATIVIDADE~n~~n~NOVOS_CADASTROS:_%d~n~ACESSOS_TOTAIS:_%d",
+        estatisticasplayer2, estatisticasplayer);
+
     TextDrawSetString(VirtualBoost[5], Str);
-    SelectTextDraw(playerid,0xa4a4a4FF);
+    SelectTextDraw(playerid, 0xD6A84FFF);
 }
 
-hideTelaLogin(playerid){
-
-    for(new i; i < sizeof(VirtualBoost); i++){
+hideTelaLogin(playerid)
+{
+    for(new i = 0; i < sizeof(VirtualBoost); i++)
+    {
         TextDrawHideForPlayer(playerid, VirtualBoost[i]);
     }
+
     CancelSelectTextDraw(playerid);
 }
-stock CreateTelaLogin(){
 
-    loadTela1 = TextDrawCreate(680.000000, 0.000000, "~w~");
-    TextDrawBackgroundColor(loadTela1, 255);
-    TextDrawFont(loadTela1, 1);
-    TextDrawLetterSize(loadTela1, 1.899999, 52.099998);
-    TextDrawColor(loadTela1, -1);
-    TextDrawSetOutline(loadTela1, 0);
-    TextDrawSetProportional(loadTela1, 1);
-    TextDrawSetShadow(loadTela1, 1);
+
+// Cria uma caixa TextDraw com dimensoes fixas.
+stock Text:VB_CreatePanel(Float:x, Float:y, Float:w, Float:h, color)
+{
+    new Text:td = TextDrawCreate(x, y, " ");
+    TextDrawLetterSize(td, 0.0, h / 10.0);
+    TextDrawTextSize(td, x + w, y + h);
+    TextDrawAlignment(td, 1);
+    TextDrawColor(td, 0xFFFFFFFF);
+    TextDrawUseBox(td, 1);
+    TextDrawBoxColor(td, color);
+    TextDrawSetShadow(td, 0);
+    TextDrawSetOutline(td, 0);
+    TextDrawBackgroundColor(td, 0x00000000);
+    TextDrawFont(td, 1);
+    TextDrawSetProportional(td, 1);
+    return td;
+}
+
+
+stock CreateTelaLogin()
+{
+    // -------------------------------------------------------------------------
+    // Tela de carregamento - mantida separada da tela principal.
+    // -------------------------------------------------------------------------
+    loadTela1 = TextDrawCreate(0.0, 0.0, " ");
+    TextDrawLetterSize(loadTela1, 0.0, 50.0);
+    TextDrawTextSize(loadTela1, 640.0, 0.0);
+    TextDrawAlignment(loadTela1, 1);
+    TextDrawColor(loadTela1, 0xFFFFFFFF);
     TextDrawUseBox(loadTela1, 1);
-    TextDrawBoxColor(loadTela1, 255);
-    TextDrawTextSize(loadTela1, -401.000000, 0.000000);
+    TextDrawBoxColor(loadTela1, 0x080B10FF);
+    TextDrawSetShadow(loadTela1, 0);
+    TextDrawSetOutline(loadTela1, 0);
+    TextDrawBackgroundColor(loadTela1, 0x000000FF);
+    TextDrawFont(loadTela1, 1);
+    TextDrawSetProportional(loadTela1, 1);
 
-
-    loadTela2 = TextDrawCreate(199.035614, 132.075805, "Virtual_Boost_RPG");
-    TextDrawLetterSize(loadTela2, 1.078616, 3.939166);
+    loadTela2 = TextDrawCreate(232.0, 190.0, "VIRTUAL BOOST");
+    TextDrawLetterSize(loadTela2, 0.34, 1.65);
     TextDrawAlignment(loadTela2, 1);
-    TextDrawColor(loadTela2, -1);
+    TextDrawColor(loadTela2, 0xF4F1E8FF);
     TextDrawSetShadow(loadTela2, 0);
-    TextDrawBackgroundColor(loadTela2, 255);
-    TextDrawFont(loadTela2, 0);
+    TextDrawSetOutline(loadTela2, 0);
+    TextDrawBackgroundColor(loadTela2, 0x000000FF);
+    TextDrawFont(loadTela2, 2);
     TextDrawSetProportional(loadTela2, 1);
 
-
-    loadTela4 = TextDrawCreate(203.582504, 169.834457, "CARREGANDO,_AGUARDE..");
-    TextDrawLetterSize(loadTela4, 0.176681, 1.014165);
+    loadTela4 = TextDrawCreate(239.0, 220.0, "PREPARANDO SUA EXPERIENCIA");
+    TextDrawLetterSize(loadTela4, 0.16, 0.85);
     TextDrawAlignment(loadTela4, 1);
-    TextDrawColor(loadTela4, -2139062017);
+    TextDrawColor(loadTela4, 0xB6B9BFFF);
     TextDrawSetShadow(loadTela4, 0);
-    TextDrawBackgroundColor(loadTela4, 255);
+    TextDrawSetOutline(loadTela4, 0);
+    TextDrawBackgroundColor(loadTela4, 0x000000FF);
     TextDrawFont(loadTela4, 2);
     TextDrawSetProportional(loadTela4, 1);
 
-    loadTela5 = TextDrawCreate(190.506332, 429.013427, "Todos_direitos_autorais_reservados_2021_-_2021_Por:VBSTAFF");
-    TextDrawLetterSize(loadTela5, 0.218210, 0.903329);
+    loadTela5 = TextDrawCreate(210.0, 420.0, "VIRTUAL BOOST ROLEPLAY  |  TODOS OS DIREITOS RESERVADOS");
+    TextDrawLetterSize(loadTela5, 0.13, 0.65);
     TextDrawAlignment(loadTela5, 1);
-    TextDrawColor(loadTela5, -1);
+    TextDrawColor(loadTela5, 0x777F89FF);
     TextDrawSetShadow(loadTela5, 0);
-    TextDrawBackgroundColor(loadTela5, 255);
-    TextDrawFont(loadTela5, 0);
+    TextDrawSetOutline(loadTela5, 0);
+    TextDrawBackgroundColor(loadTela5, 0x000000FF);
+    TextDrawFont(loadTela5, 2);
     TextDrawSetProportional(loadTela5, 1);
 
-    VirtualBoost[0] = TextDrawCreate(-144.787673, -86.500007, "box");
-    TextDrawLetterSize(VirtualBoost[0], 0.000000, 78.076133);
-    TextDrawTextSize(VirtualBoost[0], 188.600280, 0.000000);
-    TextDrawAlignment(VirtualBoost[0], 1);
-    TextDrawColor(VirtualBoost[0], -1);
-    TextDrawUseBox(VirtualBoost[0], 1);
-    TextDrawBoxColor(VirtualBoost[0], 90);
-    TextDrawSetShadow(VirtualBoost[0], 0);
-    TextDrawBackgroundColor(VirtualBoost[0], 255);
-    TextDrawFont(VirtualBoost[0], 1);
-    TextDrawSetProportional(VirtualBoost[0], 1);
 
-    VirtualBoost[1] = TextDrawCreate(16.868843, 126.583374, "Virtual_Boost_RPG");
-    TextDrawLetterSize(VirtualBoost[1], 0.545709, 2.037499);
-    TextDrawAlignment(VirtualBoost[1], 1);
-    TextDrawColor(VirtualBoost[1], -1);
-    TextDrawSetShadow(VirtualBoost[1], 1);
-    TextDrawBackgroundColor(VirtualBoost[1], 150);
-    TextDrawFont(VirtualBoost[1], 0);
-    TextDrawSetProportional(VirtualBoost[1], 1);
+    // -------------------------------------------------------------------------
+    // VIRTUAL BOOST - NOVA TELA PRINCIPAL
+    // Base escura + painel central + acento ambar.
+    // -------------------------------------------------------------------------
 
-    VirtualBoost[2] = TextDrawCreate(62.139579, 145.450012, "Sua_segunda_vida_comeca_aqui!");
-    TextDrawLetterSize(VirtualBoost[2], 0.196199, 0.844166);
-    TextDrawAlignment(VirtualBoost[2], 1);
-    TextDrawColor(VirtualBoost[2], -1);
-    TextDrawSetShadow(VirtualBoost[2], 0);
-    TextDrawBackgroundColor(VirtualBoost[2], 255);
-    TextDrawFont(VirtualBoost[2], 1);
-    TextDrawSetProportional(VirtualBoost[2], 1);
+    // 0 - Fundo total.
+    VirtualBoost[0] = VB_CreatePanel(0.0, 0.0, 640.0, 448.0, 0x070A0FE8);
 
-    VirtualBoost[3] = TextDrawCreate(0.028032, 155.982971, "I");
-    TextDrawLetterSize(VirtualBoost[3], 14.600144, -0.190833);
-    TextDrawAlignment(VirtualBoost[3], 1);
-    TextDrawColor(VirtualBoost[3], -1);
-    TextDrawSetShadow(VirtualBoost[3], 0);
-    TextDrawBackgroundColor(VirtualBoost[3], 255);
-    TextDrawFont(VirtualBoost[3], 1);
-    TextDrawSetProportional(VirtualBoost[3], 1);
+    // 1 - Cartao principal.
+    VirtualBoost[1] = VB_CreatePanel(112.0, 55.0, 416.0, 338.0, 0x111821F5);
 
-    VirtualBoost[4] = TextDrawCreate(92.624671, 157.083450, "]]]");
-    TextDrawLetterSize(VirtualBoost[4], 0.438998, 1.759999);
+    // 2 - Barra de identidade no topo.
+    VirtualBoost[2] = VB_CreatePanel(112.0, 55.0, 416.0, 3.0, 0xD6A84FFF);
+
+    // 3 - Separador vertical entre identidade e acoes.
+    VirtualBoost[3] = VB_CreatePanel(294.0, 112.0, 1.0, 224.0, 0x35404DFF);
+
+    // 4 - Marca / assinatura inferior.
+    VirtualBoost[4] = TextDrawCreate(132.0, 365.0, "VB  /  VIRTUAL BOOST ROLEPLAY");
+    TextDrawLetterSize(VirtualBoost[4], 0.13, 0.65);
     TextDrawAlignment(VirtualBoost[4], 1);
-    TextDrawColor(VirtualBoost[4], -2139062017);
+    TextDrawColor(VirtualBoost[4], 0x929BA6FF);
     TextDrawSetShadow(VirtualBoost[4], 0);
-    TextDrawBackgroundColor(VirtualBoost[4], 255);
-    TextDrawFont(VirtualBoost[4], 0);
+    TextDrawSetOutline(VirtualBoost[4], 0);
+    TextDrawBackgroundColor(VirtualBoost[4], 0x000000FF);
+    TextDrawFont(VirtualBoost[4], 2);
     TextDrawSetProportional(VirtualBoost[4], 1);
 
-    VirtualBoost[5] = TextDrawCreate(10.761368, 163.066619, "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_316~n~ACESSOS:_4878");
-    TextDrawLetterSize(VirtualBoost[5], 0.113576, 0.910000);
+    // 5 - Estatisticas dinamicas (atualizadas em howTelaLogin).
+    VirtualBoost[5] = TextDrawCreate(132.0, 285.0, "PAINEL_DE_ATIVIDADE~n~~n~NOVOS_CADASTROS:_0~n~ACESSOS_TOTAIS:_0");
+    TextDrawLetterSize(VirtualBoost[5], 0.14, 0.78);
     TextDrawAlignment(VirtualBoost[5], 1);
-    TextDrawColor(VirtualBoost[5], -1);
+    TextDrawColor(VirtualBoost[5], 0xB8C0CAFF);
     TextDrawSetShadow(VirtualBoost[5], 0);
-    TextDrawBackgroundColor(VirtualBoost[5], 255);
+    TextDrawSetOutline(VirtualBoost[5], 0);
+    TextDrawBackgroundColor(VirtualBoost[5], 0x000000FF);
     TextDrawFont(VirtualBoost[5], 2);
     TextDrawSetProportional(VirtualBoost[5], 1);
 
-    VirtualBoost[6] = TextDrawCreate(0.113258, 200.982894, "I");
-    TextDrawLetterSize(VirtualBoost[6], 14.541988, 2.393332);
-    TextDrawAlignment(VirtualBoost[6], 1);
-    TextDrawColor(VirtualBoost[6], -2139062017);
-    TextDrawSetShadow(VirtualBoost[6], 0);
-    TextDrawBackgroundColor(VirtualBoost[6], 255);
-    TextDrawFont(VirtualBoost[6], 1);
-    TextDrawSetProportional(VirtualBoost[6], 1);
+    // 6 - Fundo da area de marca.
+    VirtualBoost[6] = VB_CreatePanel(128.0, 111.0, 150.0, 146.0, 0x18222EFF);
 
-    VirtualBoost[7] = TextDrawCreate(2.913257, 295.282928, "I");
-    TextDrawLetterSize(VirtualBoost[7], 14.564996, 2.393332);
-    TextDrawAlignment(VirtualBoost[7], 1);
-    TextDrawColor(VirtualBoost[7], -2139062017);
-    TextDrawSetShadow(VirtualBoost[7], 0);
-    TextDrawBackgroundColor(VirtualBoost[7], 255);
-    TextDrawFont(VirtualBoost[7], 1);
-    TextDrawSetProportional(VirtualBoost[7], 1);
+    // 7 - Pequeno marcador de marca.
+    VirtualBoost[7] = VB_CreatePanel(128.0, 111.0, 3.0, 146.0, 0xD6A84FFF);
 
-    VirtualBoost[8] = TextDrawCreate(4.413256, 329.982910, "I");
-    TextDrawLetterSize(VirtualBoost[8], 14.459994, 2.393332);
-    TextDrawAlignment(VirtualBoost[8], 1);
-    TextDrawColor(VirtualBoost[8], -2139062017);
-    TextDrawSetShadow(VirtualBoost[8], 0);
-    TextDrawBackgroundColor(VirtualBoost[8], 255);
-    TextDrawFont(VirtualBoost[8], 1);
-    TextDrawSetProportional(VirtualBoost[8], 1);
+    // 8 - Fundo dos botoes (area de acao).
+    VirtualBoost[8] = VB_CreatePanel(311.0, 111.0, 201.0, 225.0, 0x151E28FF);
 
-    VirtualBoost[9] = TextDrawCreate(5.613252, 365.783294, "I");
-    TextDrawLetterSize(VirtualBoost[9], 14.400081, 1.959998);
-    TextDrawAlignment(VirtualBoost[9], 1);
-    TextDrawColor(VirtualBoost[9], -2139062017);
-    TextDrawSetShadow(VirtualBoost[9], 0);
-    TextDrawBackgroundColor(VirtualBoost[9], 255);
-    TextDrawFont(VirtualBoost[9], 1);
-    TextDrawSetProportional(VirtualBoost[9], 1);
+    // 9 - Linha fina de cabecalho da area de acoes.
+    VirtualBoost[9] = VB_CreatePanel(311.0, 111.0, 201.0, 2.0, 0x35404DFF);
 
-    VirtualBoost[10] = TextDrawCreate(1.613251, 241.683135, "I");
-    TextDrawLetterSize(VirtualBoost[10], 13.910083, 2.239997);
-    TextDrawAlignment(VirtualBoost[10], 1);
-    TextDrawColor(VirtualBoost[10], -2139062017);
-    TextDrawSetShadow(VirtualBoost[10], 0);
-    TextDrawBackgroundColor(VirtualBoost[10], 255);
-    TextDrawFont(VirtualBoost[10], 1);
-    TextDrawSetProportional(VirtualBoost[10], 1);
+    // 10 - Indicador decorativo inferior.
+    VirtualBoost[10] = VB_CreatePanel(132.0, 267.0, 146.0, 1.0, 0x35404DFF);
+
+    // 11 - Rotulo de versao.
+    VirtualBoost[11] = TextDrawCreate(452.0, 365.0, "ROLEPLAY");
+    TextDrawLetterSize(VirtualBoost[11], 0.12, 0.62);
+    TextDrawAlignment(VirtualBoost[11], 1);
+    TextDrawColor(VirtualBoost[11], 0xD6A84FFF);
+    TextDrawSetShadow(VirtualBoost[11], 0);
+    TextDrawSetOutline(VirtualBoost[11], 0);
+    TextDrawBackgroundColor(VirtualBoost[11], 0x000000FF);
+    TextDrawFont(VirtualBoost[11], 2);
+    TextDrawSetProportional(VirtualBoost[11], 1);
 
 
-    VirtualBoost[12] = TextDrawCreate(66.389495, 205.416702, "fazer_login");
-    TextDrawLetterSize(VirtualBoost[12], 0.345651, 1.314167);
+    // -------------------------------------------------------------------------
+    // IDENTIDADE / TEXTOS
+    // -------------------------------------------------------------------------
+
+    // Nome principal.
+    VirtualBoost[12] = TextDrawCreate(145.0, 137.0, "VIRTUAL");
+    TextDrawLetterSize(VirtualBoost[12], 0.34, 1.48);
     TextDrawAlignment(VirtualBoost[12], 1);
-    TextDrawColor(VirtualBoost[12], -1);
+    TextDrawColor(VirtualBoost[12], 0xF4F1E8FF);
     TextDrawSetShadow(VirtualBoost[12], 0);
-    TextDrawBackgroundColor(VirtualBoost[12], 255);
-    TextDrawFont(VirtualBoost[12], 3);
+    TextDrawSetOutline(VirtualBoost[12], 0);
+    TextDrawBackgroundColor(VirtualBoost[12], 0x000000FF);
+    TextDrawFont(VirtualBoost[12], 2);
     TextDrawSetProportional(VirtualBoost[12], 1);
-    TextDrawSetSelectable(VirtualBoost[12], true);
 
-    VirtualBoost[13] = TextDrawCreate(51.889495, 245.916702, "RECUPERAR_SENHA");
-    TextDrawLetterSize(VirtualBoost[13], 0.345651, 1.314167);
+    // Segunda linha da marca.
+    VirtualBoost[13] = TextDrawCreate(145.0, 164.0, "BOOST");
+    TextDrawLetterSize(VirtualBoost[13], 0.34, 1.48);
     TextDrawAlignment(VirtualBoost[13], 1);
-    TextDrawColor(VirtualBoost[13], -1);
+    TextDrawColor(VirtualBoost[13], 0xD6A84FFF);
     TextDrawSetShadow(VirtualBoost[13], 0);
-    TextDrawBackgroundColor(VirtualBoost[13], 255);
-    TextDrawFont(VirtualBoost[13], 3);
+    TextDrawSetOutline(VirtualBoost[13], 0);
+    TextDrawBackgroundColor(VirtualBoost[13], 0x000000FF);
+    TextDrawFont(VirtualBoost[13], 2);
     TextDrawSetProportional(VirtualBoost[13], 1);
-    TextDrawSetSelectable(VirtualBoost[13], true);
 
-    VirtualBoost[14] = TextDrawCreate(63.889495, 299.916687, "informacoes");
-    TextDrawLetterSize(VirtualBoost[14], 0.345651, 1.314167);
+    // Slogan.
+    VirtualBoost[14] = TextDrawCreate(145.0, 204.0, "SUA HISTORIA.");
+    TextDrawLetterSize(VirtualBoost[14], 0.16, 0.76);
     TextDrawAlignment(VirtualBoost[14], 1);
-    TextDrawColor(VirtualBoost[14], -1);
+    TextDrawColor(VirtualBoost[14], 0xDDE2E8FF);
     TextDrawSetShadow(VirtualBoost[14], 0);
-    TextDrawBackgroundColor(VirtualBoost[14], 255);
-    TextDrawFont(VirtualBoost[14], 3);
+    TextDrawSetOutline(VirtualBoost[14], 0);
+    TextDrawBackgroundColor(VirtualBoost[14], 0x000000FF);
+    TextDrawFont(VirtualBoost[14], 2);
     TextDrawSetProportional(VirtualBoost[14], 1);
-    TextDrawSetSelectable(VirtualBoost[14], true);
 
-    VirtualBoost[15] = TextDrawCreate(73.389495, 334.916687, "CREDITOS");
-    TextDrawLetterSize(VirtualBoost[15], 0.345651, 1.314167);
+    VirtualBoost[15] = TextDrawCreate(145.0, 219.0, "SEU MUNDO.");
+    TextDrawLetterSize(VirtualBoost[15], 0.16, 0.76);
     TextDrawAlignment(VirtualBoost[15], 1);
-    TextDrawColor(VirtualBoost[15], -1);
+    TextDrawColor(VirtualBoost[15], 0xDDE2E8FF);
     TextDrawSetShadow(VirtualBoost[15], 0);
-    TextDrawBackgroundColor(VirtualBoost[15], 255);
-    TextDrawFont(VirtualBoost[15], 3);
+    TextDrawSetOutline(VirtualBoost[15], 0);
+    TextDrawBackgroundColor(VirtualBoost[15], 0x000000FF);
+    TextDrawFont(VirtualBoost[15], 2);
     TextDrawSetProportional(VirtualBoost[15], 1);
-    TextDrawSetSelectable(VirtualBoost[15], true);
 
-    VirtualBoost[16] = TextDrawCreate(32.572525, 394.583221, "LEIA_AS_REGRAS_E_EVITE_PUNICOES");
-    TextDrawLetterSize(VirtualBoost[16], 0.190101, 0.725000);
+    // Rotulo da coluna de menu.
+    VirtualBoost[16] = TextDrawCreate(326.0, 125.0, "ACESSO AO SERVIDOR");
+    TextDrawLetterSize(VirtualBoost[16], 0.14, 0.70);
     TextDrawAlignment(VirtualBoost[16], 1);
-    TextDrawColor(VirtualBoost[16], -16776961);
+    TextDrawColor(VirtualBoost[16], 0xAAB4C0FF);
     TextDrawSetShadow(VirtualBoost[16], 0);
-    TextDrawBackgroundColor(VirtualBoost[16], 255);
+    TextDrawSetOutline(VirtualBoost[16], 0);
+    TextDrawBackgroundColor(VirtualBoost[16], 0x000000FF);
     TextDrawFont(VirtualBoost[16], 2);
     TextDrawSetProportional(VirtualBoost[16], 1);
 
-    VirtualBoost[17] = TextDrawCreate(86.389495, 369.416687, "SAIR");
-    TextDrawLetterSize(VirtualBoost[17], 0.345651, 1.314167);
+    // Pequena legenda.
+    VirtualBoost[17] = TextDrawCreate(326.0, 145.0, "ESCOLHA UMA OPCAO PARA CONTINUAR");
+    TextDrawLetterSize(VirtualBoost[17], 0.105, 0.56);
     TextDrawAlignment(VirtualBoost[17], 1);
-    TextDrawColor(VirtualBoost[17], -1);
+    TextDrawColor(VirtualBoost[17], 0x7F8B99FF);
     TextDrawSetShadow(VirtualBoost[17], 0);
-    TextDrawBackgroundColor(VirtualBoost[17], 255);
-    TextDrawFont(VirtualBoost[17], 3);
+    TextDrawSetOutline(VirtualBoost[17], 0);
+    TextDrawBackgroundColor(VirtualBoost[17], 0x000000FF);
+    TextDrawFont(VirtualBoost[17], 2);
     TextDrawSetProportional(VirtualBoost[17], 1);
-    TextDrawSetSelectable(VirtualBoost[17], true);
 
+    // -------------------------------------------------------------------------
+    // NOTA DE INTEGRACAO:
+    // Os textos clicaveis antigos ficavam nos indices 12-17. Como os indices
+    // acima agora compoem a identidade, os botoes clicaveis devem ser movidos
+    // para indices adicionais e os callbacks atualizados.
+    // -------------------------------------------------------------------------
 }
