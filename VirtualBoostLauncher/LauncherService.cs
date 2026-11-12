@@ -147,7 +147,7 @@ public sealed class LauncherService
 
     private static IEnumerable<string> ReadOpenMpLauncherFromRegistry()
     {
-        var uninstallPath = @"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
+        var uninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
         foreach (var view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
         {
             using var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
