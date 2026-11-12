@@ -199,7 +199,6 @@ stock CreateTelaLogin()
     TextDrawBackgroundColor(VirtualBoost[16], 0x000000FF);
     TextDrawFont(VirtualBoost[16], 2);
     TextDrawSetProportional(VirtualBoost[16], 1);
-    TextDrawSetSelectable(VirtualBoost[16], true);
 
     VirtualBoost[17] = TextDrawCreate(334.0 + VB_LOGIN_OFFSET_X, 376.0 + VB_LOGIN_OFFSET_Y, "SAIR");
     TextDrawLetterSize(VirtualBoost[17], 0.16, 0.80);
