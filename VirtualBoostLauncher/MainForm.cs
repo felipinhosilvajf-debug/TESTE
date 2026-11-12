@@ -146,7 +146,8 @@ public sealed class MainForm : Form
         root.Controls.Add(nickPanel, 0, 2);
         var nickLabel = CreateLabel("SEU NICK", 9F, MutedColor, true);
         nickLabel.Location = new Point(18, 13);
-        _nickname.Text = "Felipe_Silva";
+        _nickname.Text = "";
+        _nickname.PlaceholderText = "Digite seu nick";
         _nickname.MaxLength = 20;
         _nickname.Location = new Point(18, 39);
         _nickname.Size = new Size(300, 34);
