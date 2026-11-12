@@ -182,21 +182,25 @@ public sealed class LauncherService
 
     private static IEnumerable<string> ReadGameDirectoriesFromRegistry()
     {
-        var keys = new[]
+        const string subKey = @"SOFTWARE\Rockstar Games\GTA San Andreas";
+        foreach (var view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
         {
-            (RegistryHive.LocalMachine, @"SOFTWARE\Rockstar Games\GTA San Andreas"),
-            (RegistryHive.LocalMachine, @"SOFTWARE\WOW6432Node\Rockstar Games\GTA San Andreas"),
-            (RegistryHive.CurrentUser, @"SOFTWARE\Rockstar Games\GTA San Andreas")
-        };
-
-        foreach (var (hive, subKey) in keys)
-        {
-            using var baseKey = RegistryKey.OpenBaseKey(hive, RegistryView.Registry32);
+            using var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
             using var key = baseKey.OpenSubKey(subKey);
             var install = key?.GetValue("InstallFolder")?.ToString()
-                          ?? key?.GetValue("InstallDir")?.ToString();
+                          ?? key?.GetValue("InstallDir")?.ToString()
+                          ?? key?.GetValue("InstallationPath")?.ToString();
             if (!string.IsNullOrWhiteSpace(install))
                 yield return install;
         }
+
+        using var currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
+        using var userKey = currentUser.OpenSubKey(subKey);
+        var userInstall = userKey?.GetValue("InstallFolder")?.ToString()
+                          ?? userKey?.GetValue("InstallDir")?.ToString()
+                          ?? userKey?.GetValue("InstallationPath")?.ToString();
+        if (!string.IsNullOrWhiteSpace(userInstall))
+            yield return userInstall;
+    }
     }
 }
