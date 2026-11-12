@@ -55,7 +55,7 @@ public sealed class MainForm : Form
         var brand = new Label
         {
             Text = "VIRTUAL BOOST",
-            Font = new Font("Segoe UI", 24F, FontStyle.Black),
+            Font = new Font("Segoe UI", 24F, FontStyle.Bold),
             ForeColor = AccentColor,
             AutoSize = true,
             Location = new Point(0, 8)
@@ -88,7 +88,7 @@ public sealed class MainForm : Form
         var welcome = new Label
         {
             Text = "SUA CIDADE. SUA HISTÓRIA.",
-            Font = new Font("Segoe UI", 21F, FontStyle.Black),
+            Font = new Font("Segoe UI", 21F, FontStyle.Bold),
             ForeColor = Color.White,
             AutoSize = true,
             Location = new Point(24, 22)
@@ -112,7 +112,7 @@ public sealed class MainForm : Form
         var play = new Button
         {
             Text = "JOGAR AGORA",
-            Font = new Font("Segoe UI", 13F, FontStyle.Black),
+            Font = new Font("Segoe UI", 13F, FontStyle.Bold),
             BackColor = AccentColor,
             ForeColor = Color.FromArgb(12, 18, 8),
             FlatStyle = FlatStyle.Flat,
