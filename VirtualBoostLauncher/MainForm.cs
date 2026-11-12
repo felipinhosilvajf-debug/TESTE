@@ -454,4 +454,9 @@ public sealed class MainForm : Form
             MessageBox.Show(this, ex.Message, "Virtual Boost Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+    private sealed class LauncherSettings
+    {
+        public string Nickname { get; set; } = "";
+        public string GameDirectory { get; set; } = "";
+    }
 }
