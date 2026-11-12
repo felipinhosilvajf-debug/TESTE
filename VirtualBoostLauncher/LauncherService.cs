@@ -108,6 +108,13 @@ public sealed class LauncherService
             UseShellExecute = false
         };
 
+        // SA-MP lê o apelido do Registro do Windows. Sincronizamos o nome
+        // antes de abrir qualquer cliente para evitar um nick antigo em cache.
+        using (var sampKey = Registry.CurrentUser.CreateSubKey(@"Software\SAMP"))
+        {
+            sampKey?.SetValue("PlayerName", nickname, RegistryValueKind.String);
+        }
+
         if (installation.Type == MultiplayerClient.OpenMp)
         {
             // Parâmetros documentados do omp-launcher.exe.
@@ -138,11 +145,12 @@ public sealed class LauncherService
         if (string.IsNullOrWhiteSpace(nickname))
             throw new ArgumentException("Digite seu nick antes de jogar.");
 
-        if (nickname.Length < 3 || nickname.Length > 24)
-            throw new ArgumentException("O nick precisa ter entre 3 e 24 caracteres.");
+        if (nickname.Length < 3 || nickname.Length > 20)
+            throw new ArgumentException("O nick precisa ter entre 3 e 20 caracteres.");
 
-        if (nickname.Any(ch => !(char.IsLetterOrDigit(ch) || ch == '_' || ch == '.')))
-            throw new ArgumentException("Use somente letras, números, ponto ou underline no nick.");
+        const string allowedSymbols = "[]()$@._=";
+        if (nickname.Any(ch => !(char.IsAsciiLetterOrDigit(ch) || allowedSymbols.Contains(ch))))
+            throw new ArgumentException("Nick inválido. Use letras, números ou estes símbolos: []()$@._=");
     }
 
     private static IEnumerable<string> ReadOpenMpLauncherFromRegistry()
