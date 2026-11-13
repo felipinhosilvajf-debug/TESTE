@@ -80,6 +80,7 @@ $FamilyValues = @{
     NomeFamilia = "Ninguem"
     Lider = "Ninguem"
     SubLider = "Ninguem"
+    "SubLíder" = "Ninguem"
     Dias = "0"
     Data = "0"
 }
@@ -92,6 +93,11 @@ foreach ($File in (Get-Files "Familias" "Familia*.cfg")) {
 $OrgVipValues = @{ Tipo = "0"; Dias = "0"; Data = "0"; Membro0 = "Ninguem" }
 foreach ($File in (Get-Files "ORG VIPS" "*.ini")) {
     Update-FileKeys -Path $File.FullName -Values $OrgVipValues
+}
+
+# 4b) Votacoes de familias: zerar os totais anteriores.
+foreach ($File in (Get-Files "Votos Familia" "*.ini")) {
+    Update-FileKeys -Path $File.FullName -Values @{ "Total votos" = "0" }
 }
 
 # 5) Cofres das organizações (inclui backups e subpastas).
