@@ -208,6 +208,8 @@ public OnPlayerSpawn(playerid)
     }
     //
     SetPlayerSpawn(playerid);
+    // Impede que a ultima posicao seja reutilizada em mortes/spawns seguintes.
+    DeletePVar(playerid, "RestaurarUltimaPosicao");
     SetPlayerToTeamColor(playerid);
     PlayerFixRadio(playerid);
     ChecarAgendado(1, playerid);
@@ -385,28 +387,6 @@ public OnPlayerSpawn(playerid)
 //      MudarNome(playerid);
     }
 
-    // --- CARREGAR ÚLTIMA POSIÇÃO ---
-        // --- CARREGAR ÚLTIMA POSIÇÃO ---
-    new arquivoPos[64];
-    format(arquivoPos, sizeof(arquivoPos), "Posicoes/%s.txt", PlayerName(playerid));
-
-    if(DOF2_FileExists(arquivoPos))
-    {
-        new Float:posX = DOF2_GetFloat(arquivoPos, "PosX");
-        new Float:posY = DOF2_GetFloat(arquivoPos, "PosY");
-        new Float:posZ = DOF2_GetFloat(arquivoPos, "PosZ");
-        new Float:posA = DOF2_GetFloat(arquivoPos, "PosA");
-        new posInterior = DOF2_GetInt(arquivoPos, "Interior");
-
-        DOF2_RemoveFile(arquivoPos); // Apaga o arquivo para não interferir quando o jogador morrer
-
-        if(posX != 0.0 && posY != 0.0)
-        {
-            SetPlayerPos(playerid, posX, posY, posZ);
-            SetPlayerFacingAngle(playerid, posA);
-            SetPlayerInterior(playerid, posInterior);
-            SetCameraBehindPlayer(playerid);
-        }
-    }
+    // A ultima posicao e aplicada dentro de SetPlayerSpawn, somente no spawn civil inicial.
     return 1;
 }
