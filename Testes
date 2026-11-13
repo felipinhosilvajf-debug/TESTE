@@ -137,7 +137,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(CPorder2[playerid] == 21-2 && GetPlayerSpeed(playerid, true) < 80 && lataria >= 980.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir motos !");
@@ -162,7 +164,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          if(GetPlayerSpeed(playerid, true) > 80)
          {
              if(pontovelo[playerid] < 3)
@@ -191,7 +195,9 @@
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
                   SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
-             }
+
+    return 1;
+}
          }
          if(IsPlayerInVehicle(playerid, carro) || GetPlayerSpeed(playerid, true) >= 80 || GetPlayerSpeed(playerid, true) <= 80)
          {
@@ -236,7 +242,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(CPorder3[playerid] == 21-2 && lataria >= 100.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir helicopteros !");
@@ -261,7 +269,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(IsPlayerInVehicle(playerid, carro))
          {
              DisablePlayerRaceCheckpoint(playerid);
@@ -298,7 +308,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(CPorder4[playerid] == 21-2 && lataria >= 100.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir barcos !");
@@ -323,7 +335,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(IsPlayerInVehicle(playerid, carro))
          {
              DisablePlayerRaceCheckpoint(playerid);
@@ -367,7 +381,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          else if(CPorder5[playerid] == 21-2 && lataria >= 980.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir caminhao/onibus !");
@@ -392,7 +408,9 @@
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
              SetVehicleToRespawn(vid);
-         }
+
+    return 1;
+}
          if(GetPlayerSpeed(playerid, true) > 100)
          {
              if(pontovelo[playerid] < 3)
@@ -421,7 +439,9 @@
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
                   SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
-             }
+
+    return 1;
+}
          }
          if(IsPlayerInVehicle(playerid, carro) || GetPlayerSpeed(playerid, true) >= 100 || GetPlayerSpeed(playerid, true) <= 100)
          {
