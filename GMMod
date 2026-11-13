@@ -9331,7 +9331,7 @@ showTelaLogin(playerid){
     for(new i; i < sizeof(VirtualBoost); i++){
         TextDrawShowForPlayer(playerid, VirtualBoost[i]);
     }
-    format(Str, sizeof(Str), "ESTATISTICAS_DO_DIA~n~~n~REGISTROS:_%d~n~ACESSOS:_%d", estatisticasplayer2, estatisticasplayer);
+    format(Str, sizeof(Str), "RESUMO_DO_SERVIDOR~n~~n~REGISTROS:_%d~n~ACESSOS:_%d", estatisticasplayer2, estatisticasplayer);
     TextDrawSetString(VirtualBoost[5], Str);
     SelectTextDraw(playerid,0xa4a4a4FF);
 }
