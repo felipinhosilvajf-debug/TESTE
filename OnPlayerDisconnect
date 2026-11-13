@@ -41,7 +41,7 @@ public OnPlayerDisconnect(playerid, reason)
     {
         DOF2_RemoveFile(arquivofila);
     }
-    if(gPlayerLogged[playerid])
+    if(gPlayerLogged[playerid] && GetPVarInt(playerid, "RestaurarUltimaPosicao") != 1)
     {
         new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
         format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
@@ -56,7 +56,8 @@ public OnPlayerDisconnect(playerid, reason)
         DOF2_SetFloat(File, "PosY", pPosY[playerid]); // Escreve dentro do Arquivo: "PosY = pPosY (posicao que pegamos antes, lembra ?)
         DOF2_SetFloat(File, "PosZ", pPosZ[playerid]); // Escreve dentro do Arquivo: "PosZ = pPosZ (posicao que pegamos antes, lembra ?)
         DOF2_SetFloat(File, "PosA", pPosA[playerid]); // Escreve dentro do Arquivo: "PosA = pPosA (posicao que pegamos antes, lembra ?)
-        DOF2_SetInt(File, "Interior", pInterior[playerid]); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
+        DOF2_SetInt(File, "Interior", pInterior[playerid]);
+        DOF2_SetInt(File, "VirtualWorld", GetPlayerVirtualWorld(playerid)); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
         DOF2_SaveFile(); // Salva o arquivo.
     }
     //DestruirTimers
