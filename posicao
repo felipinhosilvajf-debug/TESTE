@@ -1,0 +1,465 @@
+public OnPlayerSpawn(playerid)
+{
+    hideTelaLogin(playerid);
+    PlayerTextDrawShow(playerid,BarraFome[playerid]);
+    PlayerTextDrawShow(playerid,BarraSede[playerid]);
+    PlayerTextDrawShow(playerid,BarraFome1[playerid]);
+    PlayerTextDrawShow(playerid,BarraSede1[playerid]);
+    TextDrawShowForPlayer(playerid, FomeFome);
+    TextDrawShowForPlayer(playerid, SedeSede);
+    TextDrawShowForPlayer(playerid, FomeFome1);
+    TextDrawShowForPlayer(playerid, SedeSede1);
+    NaPorraDoEvento[playerid] = false;
+    Sequestrado[playerid] = 0;
+    enjaulado[playerid] = 0;
+    PlayerMutado[playerid] = 0;
+    if(PlayerInfo[playerid][pTrazerChuck] == 1)
+    {
+        GivePlayerWeaponEx(playerid, 8, 1);
+        GivePlayerWeaponEx(playerid, 24, 1299);
+        SetPlayerSkin(playerid,34);
+        SetPlayerArmour(playerid, 100);
+        SetPlayerHealth(playerid, 100);
+        PlayerInfo[playerid][pTrazerChuck] = 1;
+        SetPlayerColor(playerid,0x3333FFFF);
+        new rand;
+        SetPlayerInterior(playerid, 10);
+        rand = random(sizeof(gChuckArena));
+        SetPlayerPos(playerid, gChuckArena[rand][0], gChuckArena[rand][1], gChuckArena[rand][2]);
+        SetPlayerFacingAngle(playerid, gChuckArena[rand][3]);
+        PrimeiroChuck[playerid] = 0;
+        SendClientMessage(playerid, COR_VERDE, "Voce nasceu na arena de paintball, quanto mais Voce matar, mais dinheiro ira ganhar !");
+        NaPorraDoEvento[playerid] = true;
+        return 1;
+    }
+    if(PrimeiroChuck[playerid] == 1)
+    {
+        GivePlayerWeaponEx(playerid, 38, 9999999);
+        GivePlayerWeaponEx(playerid, 24, 9999999);
+        GivePlayerWeaponEx(playerid, 8, 1);
+        SetPlayerSkin(playerid,34);
+        SetPlayerArmour(playerid, 100);
+        SetPlayerHealth(playerid, 100);
+        PlayerInfo[playerid][pTrazerChuck] = 1;
+        SetPlayerColor(playerid,0x3333FFFF);
+        new rand;
+        SetPlayerInterior(playerid, 10);
+        rand = random(sizeof(gChuckArena));
+        SetPlayerPos(playerid, gChuckArena[rand][0], gChuckArena[rand][1], gChuckArena[rand][2]);
+        SetPlayerFacingAngle(playerid, gChuckArena[rand][3]);
+        PrimeiroChuck[playerid] = 0;
+        NaPorraDoEvento[playerid] = true;
+        SendClientMessage(playerid, COR_VERDE, "Voce nasceu na arena de paintball, quanto mais Voce matar, mais dinheiro ira ganhar !");
+        return 1;
+    }
+    if(TDM[playerid] == 1)
+    {
+        new rand;
+        rand = random(sizeof(SpawnArena12));
+        SetPlayerPos(playerid, SpawnArena12[rand][0], SpawnArena12[rand][1], SpawnArena12[rand][2]);
+        SetPlayerFacingAngle(playerid, SpawnArena12[rand][3]);
+        SetPlayerInterior(playerid, 1);
+        SetPlayerVirtualWorld(playerid, 200);
+        GivePlayerWeaponEx(playerid, 24, 9999999);
+        SetPlayerSkin(playerid,230);
+        SetPlayerArmour(playerid, 100);
+        SetPlayerHealth(playerid, 100);
+        return 1;
+    }
+    if(sincronizando[playerid] == 1)
+    {
+        return 1;
+    }
+    gTeam[playerid] = PlayerInfo[playerid][pTeam];
+    if (gTeam[playerid] == 4)
+    {
+        gTeam[playerid] = 3;
+    }
+    if(gPlayerLogged[playerid] == 0 && !IsPlayerNPC(playerid))
+    {
+        SendClientMessage(playerid, COR_LIGHTRED, "[Servidor] Anti-BUG: Voce esta spawnado sem fazer login e foi kickado.");
+        Kick(playerid);
+        return 1;
+    }
+    CheckInfoOrg(playerid);
+    if(gTeam[playerid] == 11 && PlayerInfo[playerid][pLider] < 1)
+    {
+        MedicBill[playerid] = 0;
+        SendClientMessage(playerid, COR_LIGHTRED, "Voce nao foi aprovado pelo lider, agora e um Civil !");
+        PlayerInfo[playerid][pTeam] = 3;
+        gTeam[playerid] = 3;
+        if(PlayerInfo[playerid][pSex] == 1) { PlayerInfo[playerid][pSkin] = 23; } else { PlayerInfo[playerid][pSkin] = 41; }
+        SetSpawnInfo(playerid, gTeam[playerid], PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0);
+        SpawnPlayer(playerid);
+    }
+    if(gTeam[playerid] == 5)
+    {
+        if(PlayerInfo[playerid][pMembro] < 1)
+        {
+            MedicBill[playerid] = 0;
+            SendClientMessage(playerid, COR_LIGHTRED, "Voce nao faz parte de uma familia, agora e um Civil !");
+            PlayerInfo[playerid][pTeam] = 3;
+            gTeam[playerid] = 3;
+            SetSpawnInfo(playerid, gTeam[playerid], PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0);
+            SpawnPlayer(playerid);
+            if(PlayerInfo[playerid][pSex] == 1) { PlayerInfo[playerid][pSkin] = 23; } else { PlayerInfo[playerid][pSkin] = 41; }
+        }
+    }
+    if(gTeam[playerid] == 10)
+    {
+        if(PlayerInfo[playerid][pMembro] != 8 && PlayerInfo[playerid][pMembro] != 9 && PlayerInfo[playerid][pMembro] != 10 && PlayerInfo[playerid][pMembro] != 14 && PlayerInfo[playerid][pMembro] != 26)
+        {
+            MedicBill[playerid] = 0;
+            SendClientMessage(playerid, COR_LIGHTRED, "Voce nao faz parte de uma agencia, e um Civil !");
+            PlayerInfo[playerid][pTeam] = 3;
+            gTeam[playerid] = 3;
+            if(PlayerInfo[playerid][pSex] == 1) { SetPlayerSkin(playerid, 23); } else { SetPlayerSkin(playerid, 41); }
+            SetSpawnInfo(playerid, gTeam[playerid], PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0);
+            SpawnPlayer(playerid);
+        }
+    }
+    if(gTeam[playerid] == 2 && PlayerInfo[playerid][pMembro] < 1)
+    {
+        MedicBill[playerid] = 0;
+        SendClientMessage(playerid, COR_LIGHTRED, "Voce nao e mais um oficial, e um Civil !");
+        PlayerInfo[playerid][pTeam] = 3;
+        gTeam[playerid] = 3;
+        SetSpawnInfo(playerid, gTeam[playerid], PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0);
+        SpawnPlayer(playerid);
+        if(PlayerInfo[playerid][pSex] == 1) { PlayerInfo[playerid][pSkin] = 23; } else { PlayerInfo[playerid][pSkin] = 41; }
+    }
+    if(gTeam[playerid] == 3)
+    {
+        if(PlayerInfo[playerid][pMembro] > 0 || PlayerInfo[playerid][pLider] > 0)
+        {
+            MedicBill[playerid] = 0;//spawn orgs
+            if(PlayerInfo[playerid][pMembro] == 1) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 2) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 3) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 4) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 5) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 6) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 7) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 8) { SetSpawnInfo(playerid, 10, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 10; gTeam[playerid] = 10; }
+            else if(PlayerInfo[playerid][pMembro] == 9) { SetSpawnInfo(playerid, 10, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 10; gTeam[playerid] = 10; }
+            else if(PlayerInfo[playerid][pMembro] == 10) { SetSpawnInfo(playerid, 10, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 10; gTeam[playerid] = 10; }
+            else if(PlayerInfo[playerid][pMembro] == 11) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 12) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 13) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 14) { SetSpawnInfo(playerid, 10, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 10; gTeam[playerid] = 10; }
+            else if(PlayerInfo[playerid][pMembro] == 15) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 16) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 17) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 18) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 19) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 20) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 21) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 22) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 23) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 24) { SetSpawnInfo(playerid, 5, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 5; }
+            else if(PlayerInfo[playerid][pMembro] == 25) { SetSpawnInfo(playerid, 2, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 2; gTeam[playerid] = 2; }
+            else if(PlayerInfo[playerid][pMembro] == 26) { SetSpawnInfo(playerid, 10, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 10; gTeam[playerid] = 10; }
+            //Lideres
+            if(PlayerInfo[playerid][pLider] == 1) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 2) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 3) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 4) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 5) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 6) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 7) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11;  gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 8) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 9) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 10) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 11) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 12) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 13) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 14) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 15) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 16) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 17) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 18) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 5; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 19) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 20) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 21) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 22) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 23) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 24) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 25) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            else if(PlayerInfo[playerid][pLider] == 26) { SetSpawnInfo(playerid, 11, PlayerInfo[playerid][pSkin],0.0,0.0,0.0,0,0,0,0,0,0,0); PlayerInfo[playerid][pTeam] = 11; gTeam[playerid] = 11; }
+            SpawnPlayer(playerid);//nascimentos
+        }
+    }
+    if(PlayerInfo[playerid][pSkin] > 0)
+    {
+        SetPlayerSkin(playerid, PlayerInfo[playerid][pSkin]);
+    }
+    else
+    {
+        if(PlayerInfo[playerid][pSex] == 1)
+        {
+           PlayerInfo[playerid][pSkin] = 23;
+           SetPlayerSkin(playerid, PlayerInfo[playerid][pSkin]);
+        }
+        else
+        {
+          PlayerInfo[playerid][pSkin] = 41;
+          SetPlayerSkin(playerid, PlayerInfo[playerid][pSkin]);
+        }
+    }
+    //
+    SetPlayerSpawn(playerid);
+    SetPlayerToTeamColor(playerid);
+    PlayerFixRadio(playerid);
+    ChecarAgendado(1, playerid);
+    ChecarAgendadoMoedas(1, playerid);
+    ChecarAnuncioVendido(playerid);
+    if (SetarHospital[playerid] == 1)
+    {
+        for(new i = 0; i<75; i++)
+        {
+           if(InventarioInfo[playerid][i][iSlot] == 2894)
+           {
+               if(InventarioInfo[playerid][i][iUnidades] > 0){
+                    new dia, mes, ano, hora, minuto, segundo;
+                    getdate(ano, mes, dia);
+                    gettime(hora, minuto, segundo);
+                    format(stringZCMD, sizeof stringZCMD, "{df5454}* [Hospital Central | Virtual Boost RPG]\n\n{ffffff}Nick: {df5454}%s.\n{ffffff}Data e Hora que recebeu alta: {df5454}%02d:%02d:%02d - %02d/%02d/%02d.\n{ffffff}Taxa de Recuperacao: R$100.\n{ffffff}Voce tem um {df5454}Contrato Hospitalar{ffffff}, deseja usar para voltar a sua HQ?", PlayerName(playerid),hora, minuto, segundo, dia, mes, ano);
+                    ShowPlayerDialog(playerid, 3055, DIALOG_STYLE_MSGBOX, " ", stringZCMD, "Ir HQ", "Ficar Aqui");
+               }
+               return 1;
+           }
+        }
+        if(emduelo[playerid] == 1) return 1;
+        new aletorio = random(sizeof(RandoSpawnHospital));
+        SetPlayerInterior(playerid, 5);
+        InteriorAtual[playerid] = 5;
+        SetPlayerVirtualWorld(playerid, 2);
+        SetPlayerPos(playerid, RandoSpawnHospital[aletorio][0], RandoSpawnHospital[aletorio][1], RandoSpawnHospital[aletorio][2]);
+        SetPlayerFacingAngle(playerid, RandoSpawnHospital[aletorio][3]);
+        TimerHospital[playerid] = SetTimerEx("AnimHospital", 100, 1, "i", playerid);
+        TempoRecuperandoSe[playerid] = SetTimerEx("SairHospital", 10000, 0, "i", playerid);
+        ApplyAnimation(playerid,"CRACK","crckidle2",4.1,0,1,1,1,0);
+        SendClientMessage(playerid, COR_OBS, "* [HOSPITAL]: {ffffff}Voce esta de repouso se recuperando, logo sera liberado!");
+    }
+    // Animacoes Atores
+    ApplyActorAnimation(AtorHS[0], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[1], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[2], "PED", "IDLE_CHAT", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[3], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[4], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[5], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[6], "PED", "IDLE_CHAT", 4.1, 1, 1, 1, 0, 0);
+    //ApplyActorAnimation(AtorHS[7], "PED", "-", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[8], "CRACK", "crckidle2", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[9], "CRACK", "crckidle1", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[10], "CRACK", "crckdeth2", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[11], "BAR", "dnk_stndF_loop", 4.1, 1, 1, 1, 0, 0);
+    //ApplyActorAnimation(AtorHS[12], "PED", "-", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[13], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    //ApplyActorAnimation(AtorHS[14], "COP_AMBIENT", "Coplook_think", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[15], "RYDER", "VAN_PickUp_E", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[16], "COP_AMBIENT", "Coplook_think", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[17], "CRACK", "crckidle2", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[18], "COP_AMBIENT", "Copbrowse_shake", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[19], "RYDER", "VAN_PickUp_S", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[20], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[21], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[22], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[23], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[24], "COP_AMBIENT", "Copbrowse_nod", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[25], "COP_AMBIENT", "Copbrowse_nod", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[26], "COP_AMBIENT", "Coplook_nod", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[27], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[28], "PED", "SEAT_IDLE", 4.1, 1, 0, 0, 0, 0);
+    ApplyActorAnimation(AtorHS[29], "BAR", "dnk_stndF_loop", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[30], "PED", "IDLE_CHAT", 4.1, 1, 1, 1, 0, 0);
+    ApplyActorAnimation(AtorHS[31], "CRACK", "crckidle2", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorHS[32], "CRACK", "crckidle2", 4.1, 1, 1, 1, 1, 1);
+    ApplyActorAnimation(AtorMercadoNegro, "SMOKING", "M_smklean_loop", 4.0, 1, 0, 0, 0, 0);
+    //
+    // Ator Hospital 1
+    SetActorPos(AtorHS[0], 1162.4888,-1317.6584,-44.2763);
+    // Ator Hospital 2
+    SetActorPos(AtorHS[1], 1163.7817,-1317.7325,-44.2763);
+    // Ator Hospital 3
+    SetActorPos(AtorHS[2], 1170.5933,-1316.8535,-44.2836);
+    // Ator Hospital 4
+    SetActorPos(AtorHS[3], 1175.0618,-1328.4419,-44.2763);
+    // Ator Hospital 5
+    SetActorPos(AtorHS[4], 1175.4545,-1330.4432,-44.2836);
+    // Ator Hospital 6
+    SetActorPos(AtorHS[5], 1173.4073,-1330.3613,-44.2763);
+    // Ator Hospital 7
+    SetActorPos(AtorHS[6], 1172.2578,-1330.1912,-44.2836);
+    // Ator Hospital 8
+    SetActorPos(AtorHS[7],  1152.3639,-1324.5789,-44.2836);
+    // Ator Hospital 9
+    SetActorPos(AtorHS[8],  1151.2439,-1313.3135,-43.3857);
+    // Ator Hospital 10
+    SetActorPos(AtorHS[9],  1149.9236,-1313.0739,-43.3857);
+    // Ator Hospital 11
+    SetActorPos(AtorHS[10],  1150.2721,-1310.6918,-43.3857);
+    // Ator Hopistal 12
+    SetActorPos(AtorHS[11],  1161.9667,-1326.1674,-44.2836);
+    // Ator Hospital 13
+    SetActorPos(AtorHS[12],  1152.3860,-1312.7823,-44.2836);
+    // Ator Hospital 14
+    SetActorPos(AtorHS[13],  1164.7887,-1325.1915,-44.2836);
+    // Ator Hospital 15
+    SetActorPos(AtorHS[14],  1158.9094,-1313.6294,-44.2836);
+    // Ator Hospital 16
+    SetActorPos(AtorHS[15],  1160.3220,-1313.4536,-44.2836);
+    // Ator Hospital 17
+    SetActorPos(AtorHS[16],  1161.4368,-1313.4595,-44.2836);
+    // Ator Hospital 18
+    SetActorPos(AtorHS[17],  1160.3904,-1312.7845,-43.2287);
+    // Ator Hospital 19
+    SetActorPos(AtorHS[18],  1163.5415,-1327.3192,-44.2836);
+    // Ator Hospital 20
+    SetActorPos(AtorHS[19],  1163.2001,-1314.2628,-44.2836);
+    // Ator Hospital 21
+    SetActorPos(AtorHS[20],  1166.0807,-1326.8601,-44.2836);
+    // Ator Hospital 22
+    SetActorPos(AtorHS[21],  1170.5376,-1315.0913,-44.2836);
+    // Ator Hospital 23
+    SetActorPos(AtorHS[22],  1172.9111,-1315.0123,-44.2836);
+    // Ator Hospital 24
+    SetActorPos(AtorHS[23],  1175.0746,-1315.0142,-44.2836);
+    // Ator Hospital 25
+    SetActorPos(AtorHS[24], 1163.6564,-1329.6337,-44.2836);
+    // Ator Hospital 26
+    SetActorPos(AtorHS[25], 1162.4279,-1329.7173,-44.2836);
+    // Ator Hospital 27
+    SetActorPos(AtorHS[26], 1161.9567,-1339.4816,-44.2836);
+    // Ator Hospital 28
+    SetActorPos(AtorHS[27], 1173.8785,-1341.4683,-44.2836);
+    // Ator Hospital 29
+    SetActorPos(AtorHS[28], 1175.0562,-1341.0431,-44.2836);
+    // Ator Hospital 30
+    SetActorPos(AtorHS[29], 1173.8239,-1336.6687,-44.2836);
+    // Ator Hospital 31
+    SetActorPos(AtorHS[30], 1161.9514,-1337.6799,-44.2836);
+    // Ator Hospital 32
+    SetActorPos(AtorHS[31], 1165.4480,-1330.0576,-43.6433);
+    // Ator Hospital 33
+    SetActorPos(AtorHS[32], 1160.5548,-1329.8822,-43.6432);
+    //
+    SetActorVirtualWorld(AtorHS[0], 2);
+    SetActorVirtualWorld(AtorHS[1], 2);
+    SetActorVirtualWorld(AtorHS[2], 2);
+    SetActorVirtualWorld(AtorHS[3], 2);
+    SetActorVirtualWorld(AtorHS[4], 2);
+    SetActorVirtualWorld(AtorHS[5], 2);
+    SetActorVirtualWorld(AtorHS[6], 2);
+    SetActorVirtualWorld(AtorHS[7], 2);
+    SetActorVirtualWorld(AtorHS[8], 2);
+    SetActorVirtualWorld(AtorHS[9], 2);
+    SetActorVirtualWorld(AtorHS[10], 2);
+    SetActorVirtualWorld(AtorHS[11], 2);
+    SetActorVirtualWorld(AtorHS[12], 2);
+    SetActorVirtualWorld(AtorHS[13], 2);
+    SetActorVirtualWorld(AtorHS[14], 2);
+    SetActorVirtualWorld(AtorHS[15], 2);
+    SetActorVirtualWorld(AtorHS[16], 2);
+    SetActorVirtualWorld(AtorHS[17], 2);
+    SetActorVirtualWorld(AtorHS[18], 2);
+    SetActorVirtualWorld(AtorHS[19], 2);
+    SetActorVirtualWorld(AtorHS[20], 2);
+    SetActorVirtualWorld(AtorHS[21], 2);
+    SetActorVirtualWorld(AtorHS[22], 2);
+    SetActorVirtualWorld(AtorHS[23], 2);
+    SetActorVirtualWorld(AtorHS[24], 2);
+    SetActorVirtualWorld(AtorHS[25], 2);
+    SetActorVirtualWorld(AtorHS[26], 2);
+    SetActorVirtualWorld(AtorHS[27], 2);
+    SetActorVirtualWorld(AtorHS[28], 2);
+    SetActorVirtualWorld(AtorHS[29], 2);
+    SetActorVirtualWorld(AtorHS[30], 2);
+    SetActorVirtualWorld(AtorHS[31], 2);
+    SetActorVirtualWorld(AtorHS[32], 2);
+    new arquivo3[64];
+    format(arquivo3, sizeof(arquivo3), "Familias/ExNomes/%s.cfg",PlayerName(playerid));
+    if(DOF2_FileExists(arquivo3))
+    {
+//      MudarNome(playerid);
+    }
+    return 1;
+}
+stock TentouDivulgar(string[])
+{
+    new x=0;
+    for (new i = 0, j = strlen(string); i <= j; ++i)
+    {
+        if (string[i] >= 46 && string[i] <= 58)
+        {
+            x+=1;
+        }
+    }
+    if(x >= 8) return 1;
+    if(strfind(string, "67", true) != -1 || strfind(string, "75", true) != -1 || strfind(string, "91", true) != -1 || strfind(string, "109", true) != -1
+    || strfind(string, "112", true) != -1 || strfind(string, "120", true) != -1 || strfind(string, "121", true) != -1 || strfind(string, "124", true) != -1|| strfind(string, "157", true) != -1 || strfind(string, "157", true) != -1 || strfind(string, "167", true) != -1 ||  strfind(string, "168", true) != -1
+    || strfind(string, "168", true) != -1 || strfind(string, "1 6 8", true) != -1 || strfind(string, "169", true) != -1 ||  strfind(string, "1 6 9", true) != -1|| strfind(string, "172", true) != -1 || strfind(string, "175", true) != -1 || strfind(string, "178", true) != -1 ||  strfind(string, "189", true) != -1
+    || strfind(string, "1 8 9", true) != -1 || strfind(string, "192", true) != -1 || strfind(string, "199", true) != -1 ||  strfind(string, "201", true) != -1|| strfind(string, "2 0 1", true) != -1 || strfind(string, "205", true) != -1 || strfind(string, "211", true) != -1 ||  strfind(string, "212", true) != -1
+    || strfind(string, "232", true) != -1 || strfind(string, "238", true) != -1 || strfind(string, "242", true) != -1 ||  strfind(string, "254", true) != -1|| strfind(string, "BPF", true) != -1 || strfind(string, "B P F", true) != -1 || strfind(string, "BPG", true) != -1 || strfind(string, "VBR", true) != -1 ||  strfind(string, "B P G", true) != -1
+    || strfind(string, "BPF", true) != -1 || strfind(string, "B PF", true) != -1 || strfind(string, "BP G", true) != -1 ||  strfind(string, "B PG", true) != -1|| strfind(string, "BPF", true) != -1 || strfind(string, "BPU", true) != -1 || strfind(string, "B P U", true) != -1 ||  strfind(string, "playultimate", true) != -1
+    || strfind(string, "7717", true) != -1 || strfind(string, "7777", true) != -1 || strfind(string, "B P U", true) != -1 ||  strfind(string, "BPC", true) != -1|| strfind(string, "STOOOPFLOOD", true) != -1 || strfind(string, "7779", true) != -1 || strfind(string, "Brasil Play", true) != -1 ||  strfind(string, "Brasilplay", true) != -1)
+    {
+         return 1;
+    }
+    return 0;
+}
+stock Palavrao(string[])
+{
+    new x=0;
+    for (new i = 0, j = strlen(string); i <= j; ++i)
+    {
+        if (string[i] >= 46 && string[i] <= 58)
+        {
+            x+=1;
+        }
+    }
+    if(x >= 8) return 1;
+    if(strfind(string, "merda", true) != -1 || strfind(string, "pinto", true) != -1 || strfind(string, "rola", true) != -1 || strfind(string, "buceta", true) != -1 || strfind(string, "viado", true) != -1 || strfind(string, "vsf", true) != -1 || strfind(string, "bucetuda", true) != -1 || strfind(string, "boqueteiro", true) != -1 || strfind(string, "boqueteira", true) != -1 || strfind(string, "corno", true) != -1 || strfind(string, "vai se fuder", true) != -1 ||
+    strfind(string, "cu", true) != -1 || strfind(string, "kct", true) != -1 || strfind(string, "lixo", true) != -1 || strfind(string, "kacete", true) != -1 || strfind(string, "arrombado", true) != -1 || strfind(string, "viadinho", true) != -1 || strfind(string, "foda-se", true) != -1 || strfind(string, "capeta", true) != -1 || strfind(string, "diabo", true) != -1 || strfind(string, "viadao", true) != -1 ||
+    strfind(string, "pinto", true) != -1 || strfind(string, "pnc", true) != -1 || strfind(string, "puta", true) != -1 || strfind(string, "desgracado", true) != -1 || strfind(string, "arrombada", true) != -1  || strfind(string, "lixo", true) != -1 || strfind(string, "lixao", true) != -1 || strfind(string, "satanas", true) != -1 ||
+    strfind(string, "caralho", true) != -1 || strfind(string, "fdp", true) != -1 || strfind(string, "filho da puta", true) != -1 || strfind(string, "filho de rapariga", true) != -1 || strfind(string, "rapariga", true) != -1 || strfind(string, "vadia", true) != -1 || strfind(string, "poha", true) != -1  || strfind(string, "porra", true) != -1)
+    {
+         return 1;
+    }
+    return 0;
+}
+stock CrimesServidor(string[])
+{
+    new x=0;
+    for (new i = 0, j = strlen(string); i <= j; ++i)
+    {
+        if (string[i] >= 1 && string[i] <= 10)
+        {
+            x+=1;
+        }
+    }
+    if(x >= 8) return 1;
+    if(strfind(string, "agressao", true) != -1 || strfind(string, "ajuste", true) != -1 || strfind(string, "ameca", true) != -1 || strfind(string, "atentado", true) != -1 || strfind(string, "avp", true) != -1 || strfind(string, "cumplice", true) != -1 || strfind(string, "desacato", true) != -1 || strfind(string, "dinamite", true) != -1 || strfind(string, "dop", true) != -1 || strfind(string, "drogas", true) != -1 || strfind(string, "fuga", true) != -1 ||
+    strfind(string, "h", true) != -1 || strfind(string, "invasao", true) != -1 || strfind(string, "materiais", true) != -1 || strfind(string, "pia", true) != -1 || strfind(string, "racha", true) != -1 || strfind(string, "roubo", true) != -1 || strfind(string, "rp", true) != -1 || strfind(string, "seq", true) != -1 || strfind(string, "suborno", true) != -1 || strfind(string, "trafico", true) != -1 || strfind(string, "trote", true) != -1 || strfind(string, "dsc", true) != -1)
+    {
+         return 1;
+    }
+    return 0;
+}
+stock MultasServidor(string[])
+{
+    new x=0;
+    for (new i = 0, j = strlen(string); i <= j; ++i)
+    {
+        if (string[i] >= 1 && string[i] <= 10)
+        {
+            x+=1;
+        }
+    }
+    if(x >= 8) return 1;
+    if(strfind(string, "CM", true) != -1 || strfind(string, "DB", true) != -1 || strfind(string, "DP", true) != -1 || strfind(string, "EI", true) != -1 || strfind(string, "FD", true) != -1 || strfind(string, "VD", true) != -1 || strfind(string, "TNC", true) != -1)
+    {
+         return 1;
+    }
+    return 0;
+}
