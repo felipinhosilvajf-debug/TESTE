@@ -126,13 +126,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -151,13 +151,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -180,14 +180,14 @@
                   PlayerPlaySound(playerid,1057,X,Y,Z);
                   SetPlayerVirtualWorld(playerid, 0);
                   DisablePlayerRaceCheckpoint(playerid);
-                  if(ctlicencasls[playerid] == 1)
-                  {
-                       SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-                  }
-                  else if(ctlicencaslv[playerid] == 1)
-                  {
-                       SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
-                  }
+                  if(ctlicencaslv[playerid] == 1)
+             {
+                  SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
+             }
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
                   SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
@@ -225,13 +225,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -250,13 +250,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -287,13 +287,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -312,13 +312,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -356,13 +356,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -381,13 +381,13 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
-             if(ctlicencasls[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
-             else if(ctlicencaslv[playerid] == 1)
+             if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
@@ -410,14 +410,14 @@
                   PlayerPlaySound(playerid,1057,X,Y,Z);
                   SetPlayerVirtualWorld(playerid, 0);
                   DisablePlayerRaceCheckpoint(playerid);
-                  if(ctlicencasls[playerid] == 1)
-                  {
-                       SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-                  }
-                  else if(ctlicencaslv[playerid] == 1)
-                  {
-                       SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
-                  }
+                  if(ctlicencaslv[playerid] == 1)
+             {
+                  SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+             }
+             else
+             {
+                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
+             }
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
                   SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
