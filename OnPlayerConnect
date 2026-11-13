@@ -668,6 +668,8 @@ public OnPlayerConnect(playerid)
     gPlayerLogged[playerid] = 0;
     gPlayerLogTries[playerid] = 0;
     gPlayerSpawned[playerid] = 0;
+    // A ultima posicao so pode ser usada no primeiro nascimento apos o login.
+    SetPVarInt(playerid, "RestaurarUltimaPosicao", 1);
     PlayerTazeTime[playerid] = 0;
     PlayerStoned[playerid] = 0;
     TicketOffer[playerid] = 999;
