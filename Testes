@@ -6,7 +6,6 @@
              SendClientMessage(playerid, COR_GREY, "Pegue um dos carros que estao ao seu lado e siga os checkpoints !");
              return 1;
          }
-         
          if(lataria < 980.0)
          {
              SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
@@ -18,7 +17,6 @@
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
              SetVehicleToRespawn(vid);
-             
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -31,7 +29,6 @@
              ctlicencaslv[playerid] = 0;
              return 1;
          }
-         
          if(CPorder1[playerid] == 21-2 && GetPlayerSpeed(playerid, true) < 80 && lataria >= 980.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir carros !");
@@ -46,7 +43,6 @@
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
              SetVehicleToRespawn(vid);
-             
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -59,7 +55,6 @@
              ctlicencaslv[playerid] = 0;
              return 1;
          }
-         
          if(GetPlayerSpeed(playerid, true) > 80)
          {
              if(pontovelo[playerid] < 3)
@@ -77,7 +72,6 @@
                   PlayerPlaySound(playerid,1057,X,Y,Z);
                   SetPlayerVirtualWorld(playerid, 0);
                   DisablePlayerRaceCheckpoint(playerid);
-                  
                   if(ctlicencaslv[playerid] == 1)
                   {
                        SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -92,8 +86,6 @@
                   return 1;
              }
          }
-         
-         // Só avança para o próximo checkpoint se o teste ainda estiver ativo
          if(TesteCarro[playerid] == 1)
          {
              DisablePlayerRaceCheckpoint(playerid);
@@ -113,19 +105,21 @@
      {
          if(!IsPlayerInVehicle(playerid, carro))
          {
-             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um carro da auto escola para fazer o teste !");
-             SendClientMessage(playerid, COR_GREY, "Pegue um dos carros que estao ao seu lado e siga os checkpoints !");
+             SendClientMessage(playerid, COR_GREY, "Voce deve estar em uma moto da auto escola para fazer o teste !");
+             SendClientMessage(playerid, COR_GREY, "Pegue uma das motos que estao ao seu lado e siga os checkpoints !");
              return 1;
          }
-         else if(lataria < 980.0)
+         if(lataria < 980.0)
          {
-             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
+             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
              TesteMoto[playerid] = 0;
              PlayerPlaySound(playerid,1057,X,Y,Z);
              CPorder2[playerid] = 0;
+             pontovelo[playerid] = 0;
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -136,11 +130,9 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(CPorder2[playerid] == 21-2 && GetPlayerSpeed(playerid, true) < 80 && lataria >= 980.0)
+             return 1;
+         }
+         if(CPorder2[playerid] == 21-2 && GetPlayerSpeed(playerid, true) < 80 && lataria >= 980.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir motos !");
              SendClientMessage(playerid, COR_BRANCO, "Para ver suas atuais licencas digite: /minhaslicencas !");
@@ -153,6 +145,7 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -163,16 +156,14 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
+             return 1;
+         }
          if(GetPlayerSpeed(playerid, true) > 80)
          {
              if(pontovelo[playerid] < 3)
              {
                   pontovelo[playerid] += 1;
-                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Limite de velocidade excedido, vai perder o teste, va mais devagar[80 KM/H] !");
+                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Limite de velocidade excedido, vai perder o teste, va mais devagar[80 KM/H] !");
              }
              else if(pontovelo[playerid] >= 3)
              {
@@ -185,30 +176,29 @@
                   SetPlayerVirtualWorld(playerid, 0);
                   DisablePlayerRaceCheckpoint(playerid);
                   if(ctlicencaslv[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
-             }
-             else
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
+                  {
+                       SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+                  }
+                  else
+                  {
+                       SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
+                  }
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
-                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
-
-    return 1;
-}
+                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
+                  return 1;
+             }
          }
-         if(IsPlayerInVehicle(playerid, carro) || GetPlayerSpeed(playerid, true) >= 80 || GetPlayerSpeed(playerid, true) <= 80)
+         if(TesteMoto[playerid] == 1)
          {
              DisablePlayerRaceCheckpoint(playerid);
              if(CPorder2[playerid] == 20-2)
              {
-                 SetPlayerRaceCheckpoint(playerid, 1, MotoTeste[CPorder2[playerid]+1][0],MotoTeste[CPorder2[playerid]+1][1],MotoTeste[CPorder2[playerid]+1][2],MotoTeste[CPorder2[playerid]+2][0],MotoTeste[CPorder2[playerid]+2][1],MotoTeste[CPorder2[playerid]+2][1],4.0);
+                 SetPlayerRaceCheckpoint(playerid, 1, MotoTeste[CPorder2[playerid]+1][0],MotoTeste[CPorder2[playerid]+1][1],MotoTeste[CPorder2[playerid]+1][2],MotoTeste[CPorder2[playerid]+2][0],MotoTeste[CPorder2[playerid]+2][1],MotoTeste[CPorder2[playerid]+2][2],4.0);
              }
              else
              {
-                 SetPlayerRaceCheckpoint(playerid, 0, MotoTeste[CPorder2[playerid]+1][0],MotoTeste[CPorder2[playerid]+1][1],MotoTeste[CPorder2[playerid]+1][2],MotoTeste[CPorder2[playerid]+2][0],MotoTeste[CPorder2[playerid]+2][1],MotoTeste[CPorder2[playerid]+2][1],1.0);
+                 SetPlayerRaceCheckpoint(playerid, 0, MotoTeste[CPorder2[playerid]+1][0],MotoTeste[CPorder2[playerid]+1][1],MotoTeste[CPorder2[playerid]+1][2],MotoTeste[CPorder2[playerid]+2][0],MotoTeste[CPorder2[playerid]+2][1],MotoTeste[CPorder2[playerid]+2][2],1.0);
              }
              CPorder2[playerid] += 1;
              PlayerPlaySound(playerid,1058,X,Y,Z);
@@ -218,19 +208,21 @@
      {
          if(!IsPlayerInVehicle(playerid, carro))
          {
-             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um carro da auto escola para fazer o teste !");
-             SendClientMessage(playerid, COR_GREY, "Pegue um dos carros que estao ao seu lado e siga os checkpoints !");
+             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um helicoptero da auto escola para fazer o teste !");
+             SendClientMessage(playerid, COR_GREY, "Pegue um dos helicopteros ao seu lado e siga os checkpoints !");
              return 1;
          }
-         else if(lataria < 100.0)
+         if(lataria < 100.0)
          {
-             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
+             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
              TesteHeli[playerid] = 0;
              PlayerPlaySound(playerid,1057,X,Y,Z);
              CPorder3[playerid] = 0;
+             pontovelo[playerid] = 0;
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -241,11 +233,9 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(CPorder3[playerid] == 21-2 && lataria >= 100.0)
+             return 1;
+         }
+         if(CPorder3[playerid] == 21-2 && lataria >= 100.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir helicopteros !");
              SendClientMessage(playerid, COR_BRANCO, "Para ver suas atuais licencas digite: /minhaslicencas !");
@@ -258,6 +248,7 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -268,14 +259,12 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(IsPlayerInVehicle(playerid, carro))
+             return 1;
+         }
+         if(TesteHeli[playerid] == 1)
          {
              DisablePlayerRaceCheckpoint(playerid);
-             SetPlayerRaceCheckpoint(playerid, 4, HeliTeste[CPorder3[playerid]+1][0],HeliTeste[CPorder3[playerid]+1][1],HeliTeste[CPorder3[playerid]+1][2],HeliTeste[CPorder3[playerid]+2][0],HeliTeste[CPorder3[playerid]+2][1],HeliTeste[CPorder3[playerid]+2][1],4.0);
+             SetPlayerRaceCheckpoint(playerid, 4, HeliTeste[CPorder3[playerid]+1][0],HeliTeste[CPorder3[playerid]+1][1],HeliTeste[CPorder3[playerid]+1][2],HeliTeste[CPorder3[playerid]+2][0],HeliTeste[CPorder3[playerid]+2][1],HeliTeste[CPorder3[playerid]+2][2],4.0);
              CPorder3[playerid] += 1;
              PlayerPlaySound(playerid,1058,X,Y,Z);
          }
@@ -284,19 +273,21 @@
      {
          if(!IsPlayerInVehicle(playerid, carro))
          {
-             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um carro da auto escola para fazer o teste !");
-             SendClientMessage(playerid, COR_GREY, "Pegue um dos carros que estao ao seu lado e siga os checkpoints !");
+             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um barco da auto escola para fazer o teste !");
+             SendClientMessage(playerid, COR_GREY, "Pegue um dos barcos ao seu lado e siga os checkpoints !");
              return 1;
          }
-         else if(lataria < 100.0)
+         if(lataria < 100.0)
          {
-             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
+             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
              TesteBarco[playerid] = 0;
              PlayerPlaySound(playerid,1057,X,Y,Z);
              CPorder4[playerid] = 0;
+             pontovelo[playerid] = 0;
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -307,11 +298,9 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(CPorder4[playerid] == 21-2 && lataria >= 100.0)
+             return 1;
+         }
+         if(CPorder4[playerid] == 21-2 && lataria >= 100.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir barcos !");
              SendClientMessage(playerid, COR_BRANCO, "Para ver suas atuais licencas digite: /minhaslicencas !");
@@ -324,6 +313,7 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -334,22 +324,13 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(IsPlayerInVehicle(playerid, carro))
+             return 1;
+         }
+         if(TesteHeli[playerid] == 1)
          {
              DisablePlayerRaceCheckpoint(playerid);
-             if(CPorder4[playerid] == 20-2)
-             {
-                 SetPlayerRaceCheckpoint(playerid, 1, BarcoTeste[CPorder4[playerid]+1][0],BarcoTeste[CPorder4[playerid]+1][1],BarcoTeste[CPorder4[playerid]+1][2],BarcoTeste[CPorder4[playerid]+2][0],BarcoTeste[CPorder4[playerid]+2][1],BarcoTeste[CPorder4[playerid]+2][1],4.0);
-             }
-             else
-             {
-                 SetPlayerRaceCheckpoint(playerid, 0, BarcoTeste[CPorder4[playerid]+1][0],BarcoTeste[CPorder4[playerid]+1][1],BarcoTeste[CPorder4[playerid]+1][2],BarcoTeste[CPorder4[playerid]+2][0],BarcoTeste[CPorder4[playerid]+2][1],BarcoTeste[CPorder4[playerid]+2][1],4.0);
-             }
-             CPorder4[playerid] += 1;
+             SetPlayerRaceCheckpoint(playerid, 4, HeliTeste[CPorder3[playerid]+1][0],HeliTeste[CPorder3[playerid]+1][1],HeliTeste[CPorder3[playerid]+1][2],HeliTeste[CPorder3[playerid]+2][0],HeliTeste[CPorder3[playerid]+2][1],HeliTeste[CPorder3[playerid]+2][2],4.0);
+             CPorder3[playerid] += 1;
              PlayerPlaySound(playerid,1058,X,Y,Z);
          }
      }
@@ -357,19 +338,21 @@
      {
          if(!IsPlayerInVehicle(playerid, carro))
          {
-             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um carro da auto escola para fazer o teste !");
-             SendClientMessage(playerid, COR_GREY, "Pegue um dos carros que estao ao seu lado e siga os checkpoints !");
+             SendClientMessage(playerid, COR_GREY, "Voce deve estar em um caminhao da auto escola para fazer o teste !");
+             SendClientMessage(playerid, COR_GREY, "Pegue um dos caminhoes ao seu lado e siga os checkpoints !");
              return 1;
          }
-         else if(lataria < 980.0)
+         if(lataria < 980.0)
          {
-             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
+             SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por bater com o veiculo, tente novamente e tenha cautela.");
              TesteTruck[playerid] = 0;
              PlayerPlaySound(playerid,1057,X,Y,Z);
              CPorder5[playerid] = 0;
+             pontovelo[playerid] = 0;
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -380,11 +363,9 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
-         else if(CPorder5[playerid] == 21-2 && lataria >= 980.0)
+             return 1;
+         }
+         if(CPorder5[playerid] == 21-2 && lataria >= 980.0)
          {
              SendClientMessage(playerid, COR_BRANCO, "Voce conseguiu terminar o percurso e ganhou a licenca para dirigir caminhao/onibus !");
              SendClientMessage(playerid, COR_BRANCO, "Para ver suas atuais licencas digite: /minhaslicencas !");
@@ -397,6 +378,7 @@
              SetPlayerInterior(playerid, 0);
              SetPlayerVirtualWorld(playerid, 0);
              DisablePlayerRaceCheckpoint(playerid);
+             SetVehicleToRespawn(vid);
              if(ctlicencaslv[playerid] == 1)
              {
                   SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
@@ -407,16 +389,14 @@
              }
              ctlicencasls[playerid] = 0;
              ctlicencaslv[playerid] = 0;
-             SetVehicleToRespawn(vid);
-
-    return 1;
-}
+             return 1;
+         }
          if(GetPlayerSpeed(playerid, true) > 100)
          {
              if(pontovelo[playerid] < 3)
              {
                   pontovelo[playerid] += 1;
-                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Limite de velocidade excedido, vai perder o teste, va mais devagar[80 KM/H] !");
+                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Limite de velocidade excedido, vai perder o teste, va mais devagar[100 KM/H] !");
              }
              else if(pontovelo[playerid] >= 3)
              {
@@ -429,30 +409,29 @@
                   SetPlayerVirtualWorld(playerid, 0);
                   DisablePlayerRaceCheckpoint(playerid);
                   if(ctlicencaslv[playerid] == 1)
-             {
-                  SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
-             }
-             else
-             {
-                  SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
-             }
+                  {
+                       SetPlayerPos(playerid,-2618.7185,376.0660,6.1563);
+                  }
+                  else
+                  {
+                       SetPlayerPos(playerid,1408.6808,-1706.4678,13.5469);
+                  }
                   ctlicencasls[playerid] = 0;
                   ctlicencaslv[playerid] = 0;
-                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso]Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
-
-    return 1;
-}
+                  SendClientMessage(playerid, COR_LIGHTRED, "[Aviso] Voce perdeu o teste por excesso de velocidade, tente novamente e va mais devagar.");
+                  return 1;
+             }
          }
-         if(IsPlayerInVehicle(playerid, carro) || GetPlayerSpeed(playerid, true) >= 100 || GetPlayerSpeed(playerid, true) <= 100)
+         if(TesteTruck[playerid] == 1)
          {
              DisablePlayerRaceCheckpoint(playerid);
              if(CPorder5[playerid] == 20-2)
              {
-                 SetPlayerRaceCheckpoint(playerid, 1, TruckTeste[CPorder5[playerid]+1][0],TruckTeste[CPorder5[playerid]+1][1],TruckTeste[CPorder5[playerid]+1][2],TruckTeste[CPorder5[playerid]+2][0],TruckTeste[CPorder5[playerid]+2][1],TruckTeste[CPorder5[playerid]+2][1],4.0);
+                 SetPlayerRaceCheckpoint(playerid, 1, TruckTeste[CPorder5[playerid]+1][0],TruckTeste[CPorder5[playerid]+1][1],TruckTeste[CPorder5[playerid]+1][2],TruckTeste[CPorder5[playerid]+2][0],TruckTeste[CPorder5[playerid]+2][1],TruckTeste[CPorder5[playerid]+2][2],4.0);
              }
              else
              {
-                 SetPlayerRaceCheckpoint(playerid, 0, TruckTeste[CPorder5[playerid]+1][0],TruckTeste[CPorder5[playerid]+1][1],TruckTeste[CPorder5[playerid]+1][2],TruckTeste[CPorder5[playerid]+2][0],TruckTeste[CPorder5[playerid]+2][1],TruckTeste[CPorder5[playerid]+2][1],4.0);
+                 SetPlayerRaceCheckpoint(playerid, 0, TruckTeste[CPorder5[playerid]+1][0],TruckTeste[CPorder5[playerid]+1][1],TruckTeste[CPorder5[playerid]+1][2],TruckTeste[CPorder5[playerid]+2][0],TruckTeste[CPorder5[playerid]+2][1],TruckTeste[CPorder5[playerid]+2][2],4.0);
              }
              CPorder5[playerid] += 1;
              PlayerPlaySound(playerid,1058,X,Y,Z);
