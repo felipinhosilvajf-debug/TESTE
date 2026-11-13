@@ -165,7 +165,7 @@ if (Test-Path -LiteralPath $BizzPath) {
     $Lines = [System.IO.File]::ReadAllLines($BizzPath, $Encoding)
     $NewLines = foreach ($Line in $Lines) {
         if ([string]::IsNullOrWhiteSpace($Line)) { $Line; continue }
-        $Parts = $Line -split "\|", -1
+        $Parts = $Line -split "\|"
         if ($Parts.Count -ge 16) {
             $Parts[0] = "0"
             $Parts[1] = "O estado"
@@ -183,7 +183,7 @@ if (Test-Path -LiteralPath $SbizzPath) {
     $Lines = [System.IO.File]::ReadAllLines($SbizzPath, $Encoding)
     $NewLines = foreach ($Line in $Lines) {
         if ([string]::IsNullOrWhiteSpace($Line)) { $Line; continue }
-        $Parts = $Line -split "\|", -1
+        $Parts = $Line -split "\|"
         if ($Parts.Count -ge 12) {
             $Parts[0] = "0"
             $Parts[1] = "O estado"
