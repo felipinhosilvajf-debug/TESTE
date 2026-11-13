@@ -3,21 +3,27 @@ START::OnPlayerSave(playerid)
     if(gPlayerLogged[playerid])
     {
         //SalvarVeiculosConce(playerid);
-        new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
-        format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
-        GetPlayerPos(playerid, pPosX[playerid], pPosY[playerid], pPosZ[playerid]); // Pega a Posicao do Player em X, Y e Z, e converte para "pPosX", "pPosY" e "pPosZ", respectivamente.
-        GetPlayerFacingAngle(playerid, pPosA[playerid]); // Pega o angulo do Player em A e converte para pPosA, logo pPosA = angulo do Player
-        pInterior[playerid] = GetPlayerInterior(playerid); // Pega o interior do Player, que fica armazenado em pInterior.
-        if(!DOF2_FileExists(File)) // Checa se a File existe
+        // Durante o primeiro spawn do login, nao sobrescreve a ultima posicao antes de carrega-la.
+        if(GetPVarInt(playerid, "RestaurarUltimaPosicao") != 1)
         {
-            DOF2_CreateFile(File); // Se nao existir, cria
+            new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
+            format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
+            GetPlayerPos(playerid, pPosX[playerid], pPosY[playerid], pPosZ[playerid]); // Pega a Posicao do Player em X, Y e Z, e converte para "pPosX", "pPosY" e "pPosZ", respectivamente.
+            GetPlayerFacingAngle(playerid, pPosA[playerid]); // Pega o angulo do Player em A e converte para pPosA, logo pPosA = angulo do Player
+            pInterior[playerid] = GetPlayerInterior(playerid); // Pega o interior do Player, que fica armazenado em pInterior.
+            if(!DOF2_FileExists(File)) // Checa se a File existe
+            {
+                DOF2_CreateFile(File); // Se nao existir, cria
+            }
+            DOF2_SetFloat(File, "PosX", pPosX[playerid]); // Escreve dentro do Arquivo: "PosX = pPosX (posicao que pegamos antes, lembra ?)
+            DOF2_SetFloat(File, "PosY", pPosY[playerid]); // Escreve dentro do Arquivo: "PosY = pPosY (posicao que pegamos antes, lembra ?)
+            DOF2_SetFloat(File, "PosZ", pPosZ[playerid]); // Escreve dentro do Arquivo: "PosZ = pPosZ (posicao que pegamos antes, lembra ?)
+            DOF2_SetFloat(File, "PosA", pPosA[playerid]); // Escreve dentro do Arquivo: "PosA = pPosA (posicao que pegamos antes, lembra ?)
+            DOF2_SetInt(File, "Interior", pInterior[playerid]);
+            DOF2_SetInt(File, "VirtualWorld", GetPlayerVirtualWorld(playerid)); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
+            DOF2_SaveFile(); // Salva o arquivo.
         }
-        DOF2_SetFloat(File, "PosX", pPosX[playerid]); // Escreve dentro do Arquivo: "PosX = pPosX (posicao que pegamos antes, lembra ?)
-        DOF2_SetFloat(File, "PosY", pPosY[playerid]); // Escreve dentro do Arquivo: "PosY = pPosY (posicao que pegamos antes, lembra ?)
-        DOF2_SetFloat(File, "PosZ", pPosZ[playerid]); // Escreve dentro do Arquivo: "PosZ = pPosZ (posicao que pegamos antes, lembra ?)
-        DOF2_SetFloat(File, "PosA", pPosA[playerid]); // Escreve dentro do Arquivo: "PosA = pPosA (posicao que pegamos antes, lembra ?)
-        DOF2_SetInt(File, "Interior", pInterior[playerid]); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
-        DOF2_SaveFile(); // Salva o arquivo.
+
         SalvarInventario(playerid);
         SalvarVeiculosConce(playerid);
         SalvarDados(playerid);
