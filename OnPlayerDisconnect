@@ -41,7 +41,24 @@ public OnPlayerDisconnect(playerid, reason)
     {
         DOF2_RemoveFile(arquivofila);
     }
-    if(gPlayerLogged[playerid] && GetPVarInt(playerid, "RestaurarUltimaPosicao") != 1)
+    if(gPlayerLogged[playerid] && GetPVarInt(playerid, "RestaurarUltimaPosicao") != 1
+            && SetarHospital[playerid] == 0
+            && PlayerInfo[playerid][pJailed] == 0
+            && PlayerInfo[playerid][pTrazerChuck] == 0
+            && PlayerInfo[playerid][pTiroteio] == 0
+            && PrimeiroChuck[playerid] == 0
+            && TDM[playerid] == 0
+            && duelols[playerid] == 0
+            && duelolv[playerid] == 0
+            && emduelo[playerid] == 0
+            && TanoWarZone[playerid] == 0
+            && TanoEventoJogosVorazes[playerid] == 0
+            && Tanoevento[playerid] == 0
+            && TaNoQuarentena[playerid] == 0
+            && NaPorraDoEvento[playerid] == false
+            && Sequestrado[playerid] == 0
+            && enjaulado[playerid] == 0
+            && VozDePrisao[playerid] == 0)
     {
         new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
         format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
