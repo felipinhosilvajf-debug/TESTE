@@ -926,23 +926,56 @@ START::SetPlayerSpawn(playerid)
                 }
                 else
                 {
-                    if(PlayerInfo[playerid][pSpawnCity] == 0)
+                    new arquivoPos[64];
+                    new Float:posX, Float:posY, Float:posZ, Float:posA;
+                    new posInterior, posVirtualWorld;
+                    new usouUltimaPosicao = 0;
+
+                    format(arquivoPos, sizeof(arquivoPos), "Posicoes/%s.txt", PlayerName(playerid));
+
+                    // A ultima posicao so substitui o spawn civil padrao.
+                    // Casa, organizacao, emprego, prisao e eventos mantem suas regras.
+                    if(GetPVarInt(playerid, "RestaurarUltimaPosicao") == 1 && DOF2_FileExists(arquivoPos))
                     {
-                        SetPlayerPos(playerid,1154.1556,-1768.5778,16.5938); /* Spawn Novatos LS */
-                        SetPlayerFacingAngle(playerid, 1.5602);
-                        SetPlayerInterior(playerid,0);
-                        SetPlayerHealth(playerid, 100);
-                        SetPlayerVirtualWorld(playerid,0);
-                        InteriorAtual[playerid] = 0;
+                        posX = DOF2_GetFloat(arquivoPos, "PosX");
+                        posY = DOF2_GetFloat(arquivoPos, "PosY");
+                        posZ = DOF2_GetFloat(arquivoPos, "PosZ");
+                        posA = DOF2_GetFloat(arquivoPos, "PosA");
+                        posInterior = DOF2_GetInt(arquivoPos, "Interior");
+                        posVirtualWorld = DOF2_GetInt(arquivoPos, "VirtualWorld");
+
+                        if(posX != 0.0 && posY != 0.0 && posZ != 0.0)
+                        {
+                            SetPlayerInterior(playerid, posInterior);
+                            SetPlayerVirtualWorld(playerid, posVirtualWorld);
+                            SetPlayerPos(playerid, posX, posY, posZ);
+                            SetPlayerFacingAngle(playerid, posA);
+                            InteriorAtual[playerid] = posInterior;
+                            usouUltimaPosicao = 1;
+                        }
                     }
-                    else if(PlayerInfo[playerid][pSpawnCity] == 1)
+
+                    // Sem posicao salva valida, continua usando a cidade configurada.
+                    if(!usouUltimaPosicao)
                     {
-                        SetPlayerPos(playerid,-2651.0117,376.2788,6.0019); /* Spawn Novatos SF */
-                        SetPlayerFacingAngle(playerid, 266.9954);
-                        SetPlayerInterior(playerid,0);
-                        SetPlayerHealth(playerid, 100);
-                        SetPlayerVirtualWorld(playerid,0);
-                        InteriorAtual[playerid] = 0;
+                        if(PlayerInfo[playerid][pSpawnCity] == 0)
+                        {
+                            SetPlayerPos(playerid,1154.1556,-1768.5778,16.5938); /* Spawn Novatos LS */
+                            SetPlayerFacingAngle(playerid, 1.5602);
+                            SetPlayerInterior(playerid,0);
+                            SetPlayerHealth(playerid, 100);
+                            SetPlayerVirtualWorld(playerid,0);
+                            InteriorAtual[playerid] = 0;
+                        }
+                        else if(PlayerInfo[playerid][pSpawnCity] == 1)
+                        {
+                            SetPlayerPos(playerid,-2651.0117,376.2788,6.0019); /* Spawn Novatos SF */
+                            SetPlayerFacingAngle(playerid, 266.9954);
+                            SetPlayerInterior(playerid,0);
+                            SetPlayerHealth(playerid, 100);
+                            SetPlayerVirtualWorld(playerid,0);
+                            InteriorAtual[playerid] = 0;
+                        }
                     }
                 }
             }
