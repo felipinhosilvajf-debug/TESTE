@@ -9327,7 +9327,22 @@ new Text:loadTela5;
 new Text:loadTelaCard[4];
 new PlayerText:loadTela6[MAX_PLAYERS];
 
+stock hideTelaCarregamento(playerid)
+{
+    TextDrawHideForPlayer(playerid, loadTela1);
+    TextDrawHideForPlayer(playerid, loadTela2);
+    TextDrawHideForPlayer(playerid, loadTela3);
+    TextDrawHideForPlayer(playerid, loadTela4);
+    TextDrawHideForPlayer(playerid, loadTela5);
+    for(new loadingIndex; loadingIndex < sizeof(loadTelaCard); loadingIndex++)
+    {
+        TextDrawHideForPlayer(playerid, loadTelaCard[loadingIndex]);
+    }
+    PlayerTextDrawHide(playerid, loadTela6[playerid]);
+}
+
 showTelaLogin(playerid){
+    hideTelaCarregamento(playerid);
     new Str[700];
     for(new i; i < sizeof(VirtualBoost); i++){
         TextDrawShowForPlayer(playerid, VirtualBoost[i]);
