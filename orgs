@@ -68,7 +68,7 @@
             strcat(str, "{00D9FF}Categoria: {FFFFFF}Gangster (Total 6) - [Funcao: Traficar Drogas]\n");
 
             if(strcmp(InfoOrg[5][Lider], "Ninguem", true) == 0)
-            format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s ({FF6666}OFF{AFC8D2})\n", 5, GetOrgName(5), InfoOrg[25][Lider]);
+            format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s ({FF6666}OFF{AFC8D2})\n", 5, GetOrgName(5), InfoOrg[5][Lider]);
             else
             format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s (%s{818689})\n", 5, GetOrgName(5), InfoOrg[5][Lider], getOnline(InfoOrg[5][Lider]));
             strcat(str, Celulas);
@@ -149,7 +149,7 @@
             strcat(str, "{00D9FF}Categoria: {FFFFFF}Assassinos de Aluguel (Total 2) - [Funcao: Assassinar]\n");
 
             if(strcmp(InfoOrg[8][Lider], "Ninguem", true) == 0)
-            format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s ({FF6666}OFF{AFC8D2})\n", 16, GetOrgName(8), InfoOrg[8][Lider]);
+            format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s ({FF6666}OFF{AFC8D2})\n", 8, GetOrgName(8), InfoOrg[8][Lider]);
             else
             format(Celulas, 140, "{AFC8D2}(ID: %i) - {00D9FF}%s {AFC8D2}Lider: %s (%s{818689})\n", 8, GetOrgName(8), InfoOrg[8][Lider], getOnline(InfoOrg[8][Lider]));
             strcat(str, Celulas);
