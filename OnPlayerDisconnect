@@ -1,0 +1,568 @@
+public OnPlayerDisconnect(playerid, reason)
+{
+    if(PlayerInfo[playerid][pLogouVezHora] == 0)
+    {
+        PlayerInfo[playerid][pLogouVezHora] = 1;
+    }
+    else if(PlayerInfo[playerid][pLogouVezHora] == 0)
+    {
+        PlayerInfo[playerid][pLogouVezHora] = 1;
+    }
+    if(ModoTrabalhoDetran[playerid] == 2)
+    {
+        Mechanics -= 1;
+    }
+    SalvarVeiculosConce(playerid);
+    DestruirVeiculoConce(playerid);
+    DestroyVehicle(VeiculoPessoal[playerid]);
+    OnPlayerSave(playerid);
+    if(ChatAtendimento[playerid] > 0)
+    {
+        foreach(new i: Player)
+        {
+            if(InviteAtt[i] == playerid)
+            {
+                ChatAtendimento[playerid] = 0;
+                ChatAtendimento[i] = 0;
+                InviteAtt[i] = 999;
+                InviteAtt[playerid] = 999;
+                IDAvaliou[playerid] = 999;
+                IDAvaliou[i] = 999;
+                NumeroChatAtendimento[i] = 0;
+                NumeroChatAtendimento[playerid] = 0;
+                format(gstring, 128, "* %s saiu do jogo.", PlayerName(playerid));
+                SendClientMessage(i, COR_LIGHTBLUE, gstring);
+            }
+        }
+    }
+    new arquivofila[64];
+    format(arquivofila, sizeof(arquivofila), Pasta_Relatorios,playerid);
+    if(DOF2_FileExists(arquivofila))
+    {
+        DOF2_RemoveFile(arquivofila);
+    }
+    if(gPlayerLogged[playerid])
+    {
+        new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
+        format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
+        GetPlayerPos(playerid, pPosX[playerid], pPosY[playerid], pPosZ[playerid]); // Pega a Posicao do Player em X, Y e Z, e converte para "pPosX", "pPosY" e "pPosZ", respectivamente.
+        GetPlayerFacingAngle(playerid, pPosA[playerid]); // Pega o angulo do Player em A e converte para pPosA, logo pPosA = angulo do Player
+        pInterior[playerid] = GetPlayerInterior(playerid); // Pega o interior do Player, que fica armazenado em pInterior.
+        if(!DOF2_FileExists(File)) // Checa se a File existe
+        {
+            DOF2_CreateFile(File); // Se nao existir, cria
+        }
+        DOF2_SetFloat(File, "PosX", pPosX[playerid]); // Escreve dentro do Arquivo: "PosX = pPosX (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosY", pPosY[playerid]); // Escreve dentro do Arquivo: "PosY = pPosY (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosZ", pPosZ[playerid]); // Escreve dentro do Arquivo: "PosZ = pPosZ (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosA", pPosA[playerid]); // Escreve dentro do Arquivo: "PosA = pPosA (posicao que pegamos antes, lembra ?)
+        DOF2_SetInt(File, "Interior", pInterior[playerid]); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
+        DOF2_SaveFile(); // Salva o arquivo.
+    }
+    //DestruirTimers
+    KillTimer(TimerAtualizador[playerid]);
+    KillTimer(checkgastimer[playerid]);
+    KillTimer(procuradotimer[playerid]);
+    //SalvarGrafites(playerid);
+    graf[playerid] = 0;
+    RemoverCorpo(playerid);
+    Player_CleanUp(playerid, 1);
+    SalvarInventario(playerid);
+    if(HasTrash[playerid]) Trash_ResetPlayer(playerid);
+    if(tempobalao[playerid] != -1)
+    {
+        KillTimer(tempobalao[playerid]);
+    }
+    if(enjaulado[playerid] == 1)
+    {
+         SequestroAcontecendo = false;
+         sequestradoid[playerid] = 0;
+         sequestradolocal[playerid] = 0;
+    }
+    if(PlayerInfo[playerid][pEmprego] == 10)
+    {
+         DestroyDynamicPickup(Planta1[playerid]);
+         DestroyDynamicPickup(Planta2[playerid]);
+         DestroyDynamicPickup(Planta3[playerid]);
+         DestroyDynamicPickup(Planta4[playerid]);
+         DestroyDynamicPickup(Planta5[playerid]);
+         DestroyDynamicPickup(FenoPlantado1[playerid]);
+         DestroyDynamicPickup(FenoPlantado2[playerid]);
+         DestroyDynamicPickup(FenoPlantado3[playerid]);
+         DestroyDynamicPickup(FenoPlantado4[playerid]);
+         DestroyDynamicPickup(FenoPlantado5[playerid]);
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 1)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 1;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 2)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 2;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 3)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 3;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 4)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 4;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 5)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 5;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 6)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTiroteio] = 6;
+    }
+    if(PlayerInfo[playerid][pTrazerChuck] == 1)
+    {
+         DeslogouNoTiroteio[playerid] = 1;
+         PlayerInfo[playerid][pTrazerChuck] = 1;
+    }
+    if(DeslogandoSocio[playerid] == 1)
+    {
+         PlayerInfo[playerid][pSkin] = skinentrarorg[playerid];
+    }
+    if(LixoInfo[playerid][lCreated] != 0)
+    {
+        RemoveGangue(playerid);
+    }
+    if (TemBarraca[playerid] != 0)
+    {
+        RemoveBarraca(playerid);
+    }
+    if(PlantouBR[playerid] != 0)
+    {
+        RemoveBarreira(playerid);
+    }
+    if(PlantouBQ[playerid] != 0)
+    {
+        RemoveBloqueio(playerid);
+    }
+    if (PlantouParedao[playerid] != 0)
+    {
+        RemoveParedao(playerid);
+    }
+
+    if(PlayerInfo[playerid][pMembro] == 0 && PlayerInfo[playerid][pLider] == 0) //salvar armas
+    {
+        SaveWeaponsToFile(playerid);
+    }
+    if(!player_viewer[playerid]) RemovePlayer(playerid);
+
+    if(CameraInfo[cameraman] == playerid)
+    {
+          new string[128];
+          CameraInfo[cameraman] = INVALID_PLAYER_ID;
+          format(string, sizeof(string), "Reporter %s: deixou de ser o Camera-Man.", PlayerName(playerid));
+          SendFamilyMessage(9, COR_REP, string);
+          RemovePlayerAttachedObject(playerid, 9);
+          OffAir();
+    }
+    if(player_viewer[playerid] == true)
+    {
+        RemovePlayer(playerid);
+    }
+    if(PlayerInfo[playerid][pReg] == 0)
+    {
+        DestroyObject(ObjetoAviao[playerid]);
+    }
+    TDM[playerid] = 0;
+    TaEscutando[playerid] = 0;
+    spawnado[playerid] = 0;
+    verificado[playerid] = 0;
+    SetPVarInt(playerid, "laser", 0);
+    OnPlayerSave(playerid);
+    KillTimer(colheitapickup[playerid]);
+    DisablePlayerCheckpoint(playerid);
+    KillTimer(timer[playerid]);
+    LixoInfo[playerid][lCreated] = 0;
+    BarreiraInfo[playerid][brCreated] = 0;
+    BloqueioInfo[playerid][bqCreated] = 0;
+    TemBarraca[playerid] = 0;
+    PlantouBQ[playerid] = 0;
+    PlantouBR[playerid] = 0;
+    PlantouParedao[playerid] = 0;
+    BarracaPlantada[playerid] = 0;
+    PlayerCelular[playerid] = 0;
+    PlayerComputador[playerid] = 0;
+    Sequestrado[playerid] = 0;
+    enjaulado[playerid] = 0;
+    Inenforcer[playerid] = 0;
+    Incargobob[playerid] = 0;
+    Watching[playerid] = 0;
+    Goto[playerid] = 0;
+    bites[playerid][xenonazulb] = 0;
+    bites[playerid][xenonrojob] = 0;
+    bites[playerid][xenonverdeb] = 0;
+    DonoFesta[playerid] = 0;
+    DestroyDynamicObject(xenonazul1[playerid]);
+    DestroyDynamicObject(xenonazul2[playerid]);
+    DestroyDynamicObject(xenonazul3[playerid]);
+    DestroyDynamicObject(xenonazul4[playerid]);
+    DeletePVar(playerid,xenonazul1[playerid]);
+    DeletePVar(playerid,xenonazul2[playerid]);
+    DeletePVar(playerid,xenonazul3[playerid]);
+    DeletePVar(playerid,xenonazul4[playerid]);
+    DestroyDynamicObject(xenonverde1[playerid]);
+    DestroyDynamicObject(xenonverde2[playerid]);
+    DestroyDynamicObject(xenonverde3[playerid]);
+    DestroyDynamicObject(xenonverde4[playerid]);
+    DeletePVar(playerid,xenonverde1[playerid]);
+    DeletePVar(playerid,xenonverde2[playerid]);
+    DeletePVar(playerid,xenonverde3[playerid]);
+    DeletePVar(playerid,xenonverde4[playerid]);
+    DestroyDynamicObject(xenonrojo1[playerid]);
+    DestroyDynamicObject(xenonrojo2[playerid]);
+    DestroyDynamicObject(xenonrojo3[playerid]);
+    DestroyDynamicObject(xenonrojo4[playerid]);
+    DeletePVar(playerid,xenonrojo1[playerid]);
+    DeletePVar(playerid,xenonrojo2[playerid]);
+    DeletePVar(playerid,xenonrojo3[playerid]);
+    DeletePVar(playerid,xenonrojo4[playerid]);
+    OnPlayerSave(playerid);
+    DestruirMedKit(playerid);
+    KillTimer(TimerSalario[playerid]);
+    new caller = Mobile[playerid];
+    if(caller != 255)
+    {
+        if(caller < 255)
+        {
+            SendClientMessage(caller,  COR_HITMAN, "A Ligacao caiu...");
+            CellTime[caller] = 0;
+            CellTime[playerid] = 0;
+            Mobile[caller] = 255;
+        }
+        Mobile[playerid] = 255;
+        CellTime[playerid] = 0;
+    }
+    if(HireCar[playerid] > 0)
+    {
+        VTrancado[HireCar[playerid]] = 0;
+        UnLockCar(HireCar[playerid]);
+        SetVehicleToRespawn(HireCar[playerid]);
+        HireCar[playerid] = 0;
+    }
+    if(TaNoQuarentena[playerid] == 1)
+    {
+        new QuantidadeHumanos, QuantidadeInfectados;
+
+        foreach(new i: Player)
+        {
+            if(EquipeQuarentena[i] == 1) QuantidadeHumanos++;
+            if(EquipeQuarentena[i] == 2) QuantidadeInfectados++;
+        }
+        if(EquipeQuarentena[playerid] == 1)
+        {
+            format(gstring, sizeof(gstring), "[Quarentena][Humano] %s saiu do jogo durante o evento, estam[%d] humanos.",PlayerName(playerid),QuantidadeHumanos);
+            MensagemQuarentena(COR_GREEN, gstring);
+            EquipeQuarentena[playerid] = 0;
+            pClassiQuarentena[playerid] = 0;
+        }
+        else if(EquipeQuarentena[playerid] == 2)
+        {
+            format(gstring, sizeof(gstring), "[Quarentena][Infectado] %s saiu do jogo durante o evento, estam[%d] infectados.",PlayerName(playerid),QuantidadeInfectados);
+            MensagemQuarentena(COR_GREEN, gstring);
+            EquipeQuarentena[playerid] = 0;
+            pClassiQuarentena[playerid] = 0;
+        }
+
+        if(QuantidadeHumanos == 0)
+        {
+            InfectadosGanharam(playerid);
+        }
+        if(QuantidadeInfectados == 0)
+        {
+            HumanosGanharam(playerid);
+        }
+    }
+    if(TanoEventoJogosVorazes[playerid] == 1) //jogos vorazes
+    {
+        QuantidadeEvento --;
+        TanoEventoJogosVorazes[playerid] = 0;
+        format(gstring, sizeof(gstring), "[Jogos Vorazes] %s Saiu do jogo durante o evento, restam [%d] sobreviventes.",PlayerName(playerid),QuantidadeEvento);
+        SendClientMessageToAll(COR_VERDE,gstring);
+        VerificarGanhador(playerid);
+    }
+    if(CrashInfoSis == true)
+    {
+        switch(reason)
+        {
+                    case 0: format(gstring, sizeof(gstring), "%s saiu do server por erro de conexao ou crash", PlayerName(playerid));
+                    case 1: format(gstring, sizeof(gstring), "%s saiu por vontade propria.", PlayerName(playerid));
+                    case 2: format(gstring, sizeof(gstring), "%s Saiu do servidor kickado ou banido", PlayerName(playerid));
+        }
+        ProxDetector(100.0, playerid, gstring,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE);
+    }
+    if(WantedLevel[playerid] > 0)
+    {
+        foreach(new i: Player)
+        {
+            if(IsACop(i))
+            {
+                if(ProxDetectorS(30.0, playerid, i))
+                {
+                    new string[250];
+                    WantedLevel[playerid] += 1;
+                    //OnPlayerSave(playerid);
+                    format(string, sizeof(string), "[AVISO COPS] Suspeito %s estava perto de Voce e saiu do servidor com [%d] crimes.", PlayerName(playerid), WantedLevel[playerid]);
+                    if(ProxDetectorS(30.0, i, playerid))
+                    {
+                        SendClientMessage(i, COR_LIGHTRED, string);
+                    }
+                }
+            }
+        }
+    }
+    if(VozDePrisao[playerid] == 1)
+    {
+        PlayerInfo[playerid][pJailed] = 1;
+        PlayerInfo[playerid][pJailTime] = 8 * 60;
+        new string[99+MAX_PLAYER_NAME];
+        format(string, sizeof(string), "[AVISO COPS]:{FFFFFF} %s{FFFF00} saiu do servidor com voz de prisao, e foi preso automaticamente!", PlayerName(playerid));
+        SendFamilyMessage(1, COR_AMARELO, string);
+        SendFamilyMessage(2, COR_AMARELO, string);
+        SendFamilyMessage(3, COR_AMARELO, string);
+        SendFamilyMessage(12, COR_AMARELO, string);
+        SendFamilyMessage(13, COR_AMARELO, string);
+        SendFamilyMessage(17, COR_AMARELO, string);
+        SendFamilyMessage(25, COR_AMARELO, string);
+        VozDePrisao[playerid] = 0;
+    }
+    new files[MAX_PLAYER_NAME];
+    format(files, sizeof files, "DJ/%s.ini", PlayerName(playerid));
+    if(DOF2_FileExists(files))
+    {
+        new vid = GetPlayerVehicleID(PlayerInfo[playerid][pCarKey]);
+        if(TaEscutando[playerid] == 0) StopAudioStreamForPlayer(playerid);
+        PutPlayerInVehicle(playerid, vid, 0);
+        ForT:ligarsom(playerid);
+        DOF2_RemoveFile(files);
+    }
+    gActivePlayers[playerid]--;
+    numplayers--;
+    if(MudarSenhaAceito[playerid] == 1)
+    {
+        MudarSenhaAceito[playerid] = 0;
+    }
+    if(PrimeiroChuck[playerid] == 1)
+    {
+        LimiteChuck = 0;
+    }
+    if(ProvocoCasarao[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZCasarao);
+        GangZoneShowForAll(GZCasarao, 0xFFFFFF96);
+        GuerranoCasarao = 0;
+        ProvocoCasarao[playerid] = 0;
+        donocasarao = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraCasarao);
+    }
+    if(ProvocoMotelA[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZMotel);
+        GangZoneShowForAll(GZMotel, 0xFFFFFF96);
+        GuerranoMotel = 0;
+        ProvocoMotelA[playerid] = 0;
+        donoMotel = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraMotel);
+    }
+    if(ProvocoSkate[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZSkate);
+        GangZoneShowForAll(GZSkate, 0xFFFFFF96);
+        GuerranoSkate = 0;
+        ProvocoSkate[playerid] = 0;
+        donoskate = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraSkate);
+    }
+    if(ProvocoMata[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZMata);
+        GangZoneShowForAll(GZMata, 0xFFFFFF96);
+        GuerranaMata = 0;
+        ProvocoMata[playerid] = 0;
+        donoMata = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraMata);
+    }
+    if(ProvocoPark[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZPark);
+        GangZoneShowForAll(GZPark, 0xFFFFFF96);
+        GuerranoPark = 0;
+        ProvocoPark[playerid] = 0;
+        DonoPark = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraPark);
+    }
+    if(ProvocoEstacao[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZEstacao);
+        GangZoneShowForAll(GZEstacao, 0xFFFFFF96);
+        GuerranaEstacao = 0;
+        ProvocoEstacao[playerid] = 0;
+        donoestacao = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraEstacao);
+    }
+    foreach(new i: Player)
+    {
+        if(IsPlayerConnected(i))
+        {
+            if(TaxiAccepted[i] < 999)
+            {
+                if(TaxiAccepted[i] == playerid)
+                {
+                    TaxiAccepted[i] = 999;
+                    TaxiCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+            else if(CopsrondaAccepted[i] < 999)
+            {
+                if(CopsrondaAccepted[i] == playerid)
+                {
+                    CopsrondaAccepted[i] = 999;
+                    CopsrondaCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+            else if(MedicAccepted[i] < 999)
+            {
+                if(MedicAccepted[i] == playerid)
+                {
+                    MedicAccepted[i] = 999;
+                    MedicCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+            else if(MechanicAccepted[i] < 999)
+            {
+                if(MechanicAccepted[i] == playerid)
+                {
+                    MechanicAccepted[i] = 999;
+                    MechanicCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+            else if(BusAccepted[i] < 999)
+            {
+                if(BusAccepted[i] == playerid)
+                {
+                    BusAccepted[i] = 999;
+                    BusCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+            else if(PizzaAccepted[i] < 999)
+            {
+                if(PizzaAccepted[i] == playerid)
+                {
+                    PizzaAccepted[i] = 999;
+                    PizzaCallTime[i] = 0;
+                    DisablePlayerCheckpoint(i);
+                    SendClientMessage(playerid, COR_BRANCO, "O Jogador que Voce estava prestando servico saiu do jogo !");
+                }
+            }
+        }
+    }
+    if(TransportCost[playerid] > 0 && TransportDriver[playerid] < 999)
+    {
+        if(IsPlayerConnected(TransportDriver[playerid]))
+        {
+            TransportMoney[TransportDriver[playerid]] += TransportCost[playerid];
+            TransportTime[TransportDriver[playerid]] = 0;
+            TransportCost[TransportDriver[playerid]] = 0;
+            format(gstring, sizeof(gstring), "~w~Custo da corrida~n~~r~R$[%d]",TransportCost[playerid]);
+            GameTextForPlayer(playerid, gstring, 5000, 1);
+            format(gstring, sizeof(gstring), "~w~Passageiro saiu do taxi~n~~g~ganhou R$[%d]",TransportCost[playerid]);
+            GameTextForPlayer(TransportDriver[playerid], gstring, 5000, 1);
+        }
+    }
+    if(GotHit[playerid] > 0)
+    {
+        if(GetChased[playerid] < 999)
+        {
+            if(IsPlayerConnected(GetChased[playerid]))
+            {
+                SendClientMessage(GetChased[playerid], COR_AMARELO, "O seu contrato saiu do servidor.");
+                GoChase[GetChased[playerid]] = 999;
+            }
+        }
+    }
+    if(HireCar[playerid] != 299)
+    {
+        gLastDriver[HireCar[playerid]] = 300;
+        VTrancado[HireCar[playerid]] = 0;
+        UnLockCar(HireCar[playerid]);
+    }
+    if (gLastCar[playerid] > 0)
+    {
+        gLastDriver[gLastCar[playerid]] = 300;
+        if(PlayerInfo[playerid][pPHousekey] != gLastCar[playerid]-1)
+        {
+            gCarLock[gLastCar[playerid]] = 0;
+            UnLockCar(gLastCar[playerid]);
+        }
+    }
+    if(TransportDuty[playerid] == 1)
+    {
+        TaxiDrivers -= 1;
+    }
+    else if(TransportDuty[playerid] == 2)
+    {
+        BusDrivers -= 1;
+    }
+    if(IsACop(playerid))
+    {
+        if(EmpregoDuty[playerid] == 2) { Copsronda -= 1; }
+    }
+    if(PlayerInfo[playerid][pMembro] == 4 || PlayerInfo[playerid][pLider] == 4)
+    {
+        if(EmpregoDuty[playerid] == 1) { Medics -= 1; }
+    }
+    if(PlayerInfo[playerid][pMembro] == 24 || PlayerInfo[playerid][pLider] == 24)
+    {
+        if(EmpregoDuty[playerid] == 1) { Mechanics -= 1; }
+    }
+    if(PlayerInfo[playerid][pAdmin] >= 1 && PlayerInfo[playerid][pAdmin] <= 1343)
+    {
+        format(gstring, sizeof(gstring), "~p~%s ~r~OFF", PlayerName(playerid));
+        foreach(new i: Player)
+        {
+            if(IsPlayerConnected(i))
+            {
+                if(ModoExibidoADM[playerid] == true)
+                {
+                    GameTextForPlayer(i, gstring , 1000, 1);
+                }
+            }
+        }
+    }
+    CarregandoTelaLogin[playerid] = 0;
+    new newtext[5];
+    format(newtext, sizeof(newtext), "Progresso:_%d%", CarregandoTelaLogin[playerid]);
+    PlayerTextDrawSetString(playerid, loadTela6[playerid], newtext);
+    PlayerTextDrawDestroy(playerid, loadTela6[playerid]);
+    KillTimer(JogosVorazesTime);//OKS
+    KillTimer(ContagemVip[playerid]);
+    OnPlayerSave(playerid);
+    return 1;
+}

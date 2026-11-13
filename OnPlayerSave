@@ -1,0 +1,248 @@
+START::OnPlayerSave(playerid)
+{
+    if(gPlayerLogged[playerid])
+    {
+        //SalvarVeiculosConce(playerid);
+        new File[56],Float:pPosX[MAX_PLAYERS], Float:pPosY[MAX_PLAYERS], Float:pPosZ[MAX_PLAYERS], Float:pPosA[MAX_PLAYERS],pInterior[MAX_PLAYERS];
+        format(File, 56, "Posicoes/%s.txt", PlayerName(playerid)); // Cria o "caminho" ate o local onde sera salvo o Arquivo com a posicao do Player
+        GetPlayerPos(playerid, pPosX[playerid], pPosY[playerid], pPosZ[playerid]); // Pega a Posicao do Player em X, Y e Z, e converte para "pPosX", "pPosY" e "pPosZ", respectivamente.
+        GetPlayerFacingAngle(playerid, pPosA[playerid]); // Pega o angulo do Player em A e converte para pPosA, logo pPosA = angulo do Player
+        pInterior[playerid] = GetPlayerInterior(playerid); // Pega o interior do Player, que fica armazenado em pInterior.
+        if(!DOF2_FileExists(File)) // Checa se a File existe
+        {
+            DOF2_CreateFile(File); // Se nao existir, cria
+        }
+        DOF2_SetFloat(File, "PosX", pPosX[playerid]); // Escreve dentro do Arquivo: "PosX = pPosX (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosY", pPosY[playerid]); // Escreve dentro do Arquivo: "PosY = pPosY (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosZ", pPosZ[playerid]); // Escreve dentro do Arquivo: "PosZ = pPosZ (posicao que pegamos antes, lembra ?)
+        DOF2_SetFloat(File, "PosA", pPosA[playerid]); // Escreve dentro do Arquivo: "PosA = pPosA (posicao que pegamos antes, lembra ?)
+        DOF2_SetInt(File, "Interior", pInterior[playerid]); // Escreve dentro do Arquivo: "Interior = pInterior (interior que pegamos antes, lembra ?)
+        DOF2_SaveFile(); // Salva o arquivo.
+        SalvarInventario(playerid);
+        SalvarVeiculosConce(playerid);
+        SalvarDados(playerid);
+/*        new string[900];
+        new ULTRAString[5000];
+        ULTRAString[0] = EOS;
+        format(string, sizeof(string), "UPDATE `contas` SET `AntiBug`='%s',`Senha`='%s',", PlayerInfo[playerid][pAntiBug], PlayerInfo[playerid][pSenha]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Level`='%d',`AdminLevel`='%d',`Avaliacoes`='%d',`AvaFinal`='%d',`VipLevel`='%d',`SocioLevel`='%d',`HorasJogadas`='%d',`Registrado`='%d',`Sexo`='%d',`Respeito`='%d',`Dinheiro`='%d',`GranaBanco`='%d',`Crimes`='%d',`Kills`='%d',`Deaths`='%d',`AgendaTelefonica`='%d',`LottoNr`='%d',`Emprego`='%d',`Salario`='%d',",
+        PlayerInfo[playerid][pLevel],
+        PlayerInfo[playerid][pAdmin],
+        PlayerInfo[playerid][pAvaliacoes],
+        PlayerInfo[playerid][pAFinal],
+        PlayerInfo[playerid][pVIP],
+        PlayerInfo[playerid][pSocio],
+        PlayerInfo[playerid][pConnectTime],
+        PlayerInfo[playerid][pReg],
+        PlayerInfo[playerid][pSex],
+        PlayerInfo[playerid][pExp],
+        GetPlayerMoneyEx(playerid),
+        PlayerInfo[playerid][pConta],
+        PlayerInfo[playerid][pCrimes],
+        PlayerInfo[playerid][pKills],
+        PlayerInfo[playerid][pDeaths],
+        PlayerInfo[playerid][pAgendaT],
+        PlayerInfo[playerid][pLottoNr],
+        PlayerInfo[playerid][pEmprego],
+        PlayerInfo[playerid][pSalario]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`HeadValue`='%d',`Jailed`='%d',`EventoChuck`='%d',`JailTime`='%d',`BloqueadoChatDuvida`='%d',`Materiais`='%d',`Lider`='%d',`Membro`='%d',`Cargo`='%d',`Skin`='%d',`ContractTime`='%d',`DetSkill`='%d',`LawSkill`='%d',`MechSkill`='%d',`DrogasSkill`='%d',`pSHealth`='%d',`Team`='%d',`Celular`='%d',",
+        PlayerInfo[playerid][pHeadValue],
+        PlayerInfo[playerid][pJailed],
+        PlayerInfo[playerid][pTrazerChuck],
+        PlayerInfo[playerid][pJailTime],
+        PlayerInfo[playerid][pBloqueadoChatDuvida],
+        PlayerInfo[playerid][pMats],
+        PlayerInfo[playerid][pLider],
+        PlayerInfo[playerid][pMembro],
+        PlayerInfo[playerid][pCargo],
+        PlayerInfo[playerid][pSkin],
+        PlayerInfo[playerid][pContractTime],
+        PlayerInfo[playerid][pDetSkill],
+        PlayerInfo[playerid][pLawSkill],
+        PlayerInfo[playerid][pMechSkill],
+        PlayerInfo[playerid][pDrogasSkill],
+        PlayerInfo[playerid][pSHealth],
+        PlayerInfo[playerid][pTeam],
+        PlayerInfo[playerid][pPnumber]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`ChaveCasa`='%d',`ChaveEmpresa`='%d',`ChaveFazenda`='%d',`CarLic`='%d',`MotoLic`='%d',`FlyLic`='%d',`BoatLic`='%d',`CamOniLic`='%d',`GunLic`='%d',`DrugPerk`='%d',`Avisos`='%d',`Married`='%d',`MarriedTo`='%s',`Spawn`='%d',`SafeMaconha`='%d',`SafeCocaina`='%d',`SafeCrack`='%d',`SafeLsd`='%d',`CarroVIP`='%d',`CarroFIXO`='%d',",
+        PlayerInfo[playerid][pPHousekey],
+        PlayerInfo[playerid][pPbiskey],
+        PlayerInfo[playerid][pPFazkey],
+        PlayerInfo[playerid][pCarLic],
+        PlayerInfo[playerid][pMotoLic],
+        PlayerInfo[playerid][pFlyLic],
+        PlayerInfo[playerid][pBoatLic],
+        PlayerInfo[playerid][pCamOniLic],
+        PlayerInfo[playerid][pGunLic],
+        PlayerInfo[playerid][pDrugPerk],
+        PlayerInfo[playerid][pAvisos],
+        PlayerInfo[playerid][pMarried],
+        PlayerInfo[playerid][pMarriedTo],
+        PlayerInfo[playerid][pSpawn],
+        PlayerInfo[playerid][pSafeDrogas],
+        PlayerInfo[playerid][pSafeDrogas2],
+        PlayerInfo[playerid][pSafeDrogas3],
+        PlayerInfo[playerid][pSafeDrogas4],
+        PlayerInfo[playerid][pCarKey],
+        PlayerInfo[playerid][pCarFixo]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`OldCarroVIP`='%d',`OldCarroFixo`='%d',`SafeMateriais`='%d',`CarroCasa`='%d',`Luta`='%d',`Dorgado`='%d',`Dorgado2`='%d',`Doenca`='%d',`Creditos`='%d',`LU`='%s',`Gun1`='%d',`Gun2`='%d',`Gun3`='%d',`Gun4`='%d',`Gun5`='%d',`Gun6`='%d',`Gun7`='%d',`Gun8`='%d',`Gun9`='%d',`Gun10`='%d',`Gun11`='%d',`Gun12`='%d',`Ammo1`='%d',`Ammo2`='%d',`Ammo3`='%d',",
+        PlayerInfo[playerid][pOldCarKey],
+        PlayerInfo[playerid][pOldCarFixo],
+        PlayerInfo[playerid][psMats],
+        PlayerInfo[playerid][pCarroCasa],
+        PlayerInfo[playerid][pLuta],
+        PlayerInfo[playerid][pDorgado],
+        PlayerInfo[playerid][pDorgado2],
+        PlayerInfo[playerid][pDoenca],
+        PlayerInfo[playerid][pCreditos],
+        PlayerInfo[playerid][pLastLogin],
+        PlayerInfo[playerid][pGun1],
+        PlayerInfo[playerid][pGun2],
+        PlayerInfo[playerid][pGun3],
+        PlayerInfo[playerid][pGun4],
+        PlayerInfo[playerid][pGun5],
+        PlayerInfo[playerid][pGun6],
+        PlayerInfo[playerid][pGun7],
+        PlayerInfo[playerid][pGun8],
+        PlayerInfo[playerid][pGun9],
+        PlayerInfo[playerid][pGun10],
+        PlayerInfo[playerid][pGun11],
+        PlayerInfo[playerid][pGun12],
+        PlayerInfo[playerid][pAmmo1],
+        PlayerInfo[playerid][pAmmo2],
+        PlayerInfo[playerid][pAmmo3]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Ammo4`='%d',`Ammo5`='%d',`Ammo6`='%d',`Ammo7`='%d',`Ammo8`='%d',`Ammo9`='%d',`Ammo10`='%d',`Ammo11`='%d',`Ammo12`='%d',`Caixinha`='%d',`RoubosEvitados`='%d',`Sequestros`='%d',`Multas`='%d',`Televisao`='%d',`Maconheiro`='%d',`Cheirador`='%d',`Cracudo`='%d',`Psicopata`='%d',`Preso`='%d',`Carcereiro`='%d',`Cacador`='%d',`AtiradorElite`='%d',",
+        PlayerInfo[playerid][pAmmo4],
+        PlayerInfo[playerid][pAmmo5],
+        PlayerInfo[playerid][pAmmo6],
+        PlayerInfo[playerid][pAmmo7],
+        PlayerInfo[playerid][pAmmo8],
+        PlayerInfo[playerid][pAmmo9],
+        PlayerInfo[playerid][pAmmo10],
+        PlayerInfo[playerid][pAmmo11],
+        PlayerInfo[playerid][pAmmo12],
+        PlayerInfo[playerid][pCaixinha],
+        PlayerInfo[playerid][pRoubosEvitados],
+        PlayerInfo[playerid][pSequestros],
+        PlayerInfo[playerid][pMultas],
+        PlayerInfo[playerid][pTelevisao],
+        PlayerInfo[playerid][pMaconheiro],
+        PlayerInfo[playerid][pCheirador],
+        PlayerInfo[playerid][pCracudo],
+        PlayerInfo[playerid][pPsicopata],
+        PlayerInfo[playerid][pPreso],
+        PlayerInfo[playerid][pCarcereiro],
+        PlayerInfo[playerid][pCacador],
+        PlayerInfo[playerid][pAtiradorElite]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Bazucador`='%d',`Assaltante`='%d',`Ladrao`='%d',`Dominador`='%d',`Traficante`='%d',`Matador`='%d',`Incendiario`='%d',`Apagado`='%d',`Alcolatra`='%d',`Winner`='%d',`Deejay`='%d',`Degolador`='%d',",
+        PlayerInfo[playerid][pBazucador],
+        PlayerInfo[playerid][pAssaltante],
+        PlayerInfo[playerid][pLadrao],
+        PlayerInfo[playerid][pDominador],
+        PlayerInfo[playerid][pTraficante],
+        PlayerInfo[playerid][pMatador],
+        PlayerInfo[playerid][pIncendio],
+        PlayerInfo[playerid][pApagado],
+        PlayerInfo[playerid][pAlcolatra],
+        PlayerInfo[playerid][pWinner],
+        PlayerInfo[playerid][pDeejay],
+        PlayerInfo[playerid][pDegolador]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Titulo`='%s', `Pontos`='%d',`Multa`='%d',`NoteBook`='%d',",
+        PlayerInfo[playerid][pATitulo],
+        PlayerInfo[playerid][pPontos],
+        PlayerInfo[playerid][pMulta],
+        PlayerInfo[playerid][pNotebook]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Multado`='%d',`ChatVipAtivado`='%d',`ChatJornalAovido`='%d',`ChatSocioAtivado`='%d',`ChatTerritorio`='%d',`ChatDuelo`='%d',`ChatRoubo`='%d',`ValidadeCarro`='%d',`ValidadeMoto`='%d',`ValidadeBarco`='%d',`ValidadeAviao`='%d',`ValidadeOnibus`='%d',`DiaVIP`='%d',`LogouHoje`='%d',",
+        PlayerInfo[playerid][pMultado],
+        PlayerInfo[playerid][pChatVipDesativado],
+        PlayerInfo[playerid][pChatJornalAovido],
+        PlayerInfo[playerid][pChatSocioDesativado],
+        PlayerInfo[playerid][pChatTerritorio],
+        PlayerInfo[playerid][pChatDuelo],
+        PlayerInfo[playerid][pChatRoubo],
+        PlayerInfo[playerid][pValidadeCarro],
+        PlayerInfo[playerid][pValidadeMoto],
+        PlayerInfo[playerid][pValidadeBarco],
+        PlayerInfo[playerid][pValidadeAviao],
+        PlayerInfo[playerid][pValidadeOnibus],
+        PlayerInfo[playerid][pDiaVIP],
+        PlayerInfo[playerid][pLogouHoje]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Penitenciaria`='%d',`Tiroteio`='%d',`DiaLogin`='%d',`MesLogin`='%d',`AnoLogin`='%d',`Coins`='%d',`ReceberCoins`='%d',`DiasBanTemp`='%d',`MesBanTemp`='%d',`AnoBanTemp`='%d',",
+        PlayerInfo[playerid][pPenitenciaria],
+        PlayerInfo[playerid][pTiroteio],
+        PlayerInfo[playerid][pLastDia],
+        PlayerInfo[playerid][pLastMes],
+        PlayerInfo[playerid][pLastAno],
+        PlayerInfo[playerid][pCoins],
+        PlayerInfo[playerid][pReceberCoins],
+        PlayerInfo[playerid][pDiaBanTemp],
+        PlayerInfo[playerid][pMesBanTemp],
+        PlayerInfo[playerid][pAnoBanTemp]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Familia`='%d',`KitAlternado`='%d',`AtividadeAdmin`='%d',`Tutorial`='%d',`CoinsFree`='%d',",
+        PlayerInfo[playerid][pFamilia],
+        PlayerInfo[playerid][pKitAlternado],
+        PlayerInfo[playerid][pAtividadeAdmin],
+        PlayerInfo[playerid][pTutorial],
+        PlayerInfo[playerid][pCoinsFree]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`Sino`='%d',`Desafiador`='%d',`Desafiante`='%d',`SkinAntiga`='%d',`WantedLevel`='%d',`SpawnGuerra`='%d',`DeslogandoMulta`='%d',`DeslogandoSocio`='%d',`DeslogandoEnforcer`='%d',`DeslogouNoTiroteio`='%d',`MudarNick`='%d',",
+        PlayerInfo[playerid][pSino],
+        PlayerInfo[playerid][pDesafiador],
+        PlayerInfo[playerid][pDesafiante],
+        skincop[playerid],
+        WantedLevel[playerid],
+        SpawnGuerra[playerid],
+        DeslogandoMulta[playerid],
+        DeslogandoSocio[playerid],
+        DeslogandoEnforcer[playerid],
+        DeslogouNoTiroteio[playerid],
+        MudarNick[playerid]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`LicencaAdvogado`='%d',`MotoGuincho1`='%d',`MotoGuincho2`='%d',`MotoGuincho3`='%d',`MotoGuincho4`='%d',`MotoGuincho5`='%d',`DeatEvento`='%d',`KillEvento`='%d',`TemSkinPerm`='%d',`TemTituloPersonalizado`='%d',",
+        LicencaAdvogado[playerid],
+        MotoGuincho1[playerid],
+        MotoGuincho2[playerid],
+        MotoGuincho3[playerid],
+        MotoGuincho4[playerid],
+        MotoGuincho5[playerid],
+        DeatEvento[playerid],
+        KillEvento[playerid],
+        TemSkinPermanente[playerid],
+        TemTituloPersonalizado[playerid]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`PayDay`='%d',`LFamilia`='%d',`SubFamilia`='%d',`LogouHojeVIP`='%d',`Missao`='%d',`SocioGratis`='%d',`AnuncioCoins`='%d',",
+        PlayerInfo[playerid][pPayDay],
+        PlayerInfo[playerid][pLFamilia],
+        PlayerInfo[playerid][pCargoF],
+        PlayerInfo[playerid][pLogouHojeVIP],
+        PlayerInfo[playerid][pMissao],
+        GanhouSocio[playerid],
+        PlayerInfo[playerid][pAnuncioCoins]);
+        strcat(ULTRAString,string);//
+        format(string, sizeof(string), "`SFome`='%d', `Fome`='%d', `Sede`='%d', `TipoRG`='%d', `UP`='%d', `ChatDuvida`='%d', `DuvidaMensagens`='%d' WHERE `Nome` = '%s'",
+        PlayerInfo[playerid][pSFOME],
+        PlayerInfo[playerid][pFome],
+        PlayerInfo[playerid][pSede],
+        PlayerInfo[playerid][pTipoRG],
+        PlayerInfo[playerid][pUP],
+        PlayerInfo[playerid][pChatDuvida],
+        PlayerInfo[playerid][pDuvidaMensagens],
+        DB_Escape(PlayerName(playerid)));
+        strcat(ULTRAString,string);//
+        Resultado = db_query(Conexao,ULTRAString);
+        MySQLLog(ULTRAString);
+        format(ULTRAString, sizeof(ULTRAString), "");*/
+    }
+    //printf("Conta Salva: [%s]", PlayerName(playerid));
+    return 1;
+}

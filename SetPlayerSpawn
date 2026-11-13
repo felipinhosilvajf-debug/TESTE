@@ -1,0 +1,1024 @@
+START::SetPlayerSpawn(playerid)
+{
+    new rand;
+    if(IsPlayerConnected(playerid) && !IsPlayerNPC(playerid))
+    {
+        if(PlayerInfo[playerid][pSex] == 0)
+        {
+            PlayerInfo[playerid][pSex] = 1;
+        }
+        if(sincronizando[playerid] == 1)
+        {
+            return 1;
+        }
+        if(MedicBill[playerid] >= 2 && PlayerInfo[playerid][pJailed] == 0)
+        {
+
+        }
+        if(PlayerInfo[playerid][pVIP] > 0)
+        {
+            SetPlayerHealth(playerid, 100.0);
+        }
+        else
+        {
+            SetPlayerHealth(playerid, 100+PlayerInfo[playerid][pSHealth]);
+        }
+        MenuTR[playerid] = 0;
+        headshot[playerid] = 0;
+        spawnado[playerid] = 1;
+        MedicBill[playerid] ++;
+        SetPlayerToTeamColor(playerid);
+        protecao[playerid] = 0;
+        RemovePlayerAttachedObject(playerid,9);
+        // -------------------------------------------------//
+        if(AindaTemConta[playerid] == 1)
+        {
+             CarregarDados(playerid);
+             format(stringZCMD, 100, "Players/%s.ini", PlayerName(playerid));
+             strmid(PlayerInfo[playerid][pEmail], DOF2_GetString(stringZCMD, "Email"), 0, strlen(DOF2_GetString(stringZCMD, "Email")), 255);
+             logouagora[playerid] = 1;
+             ChecarDonob(playerid);
+             ChecarDonoh(playerid);
+             OnPlayerSave(playerid);
+             AindaTemConta[playerid] = 0;
+        }
+        if(PlayerInfo[playerid][pTutorial] == 0 && AindaTemConta[playerid] == 0)
+        {
+            new loginname[64];
+            new loginstring[250];
+            strmid(PlayerInfo[playerid][pATitulo], "",0,strlen(""), 30);
+            PlayerInfo[playerid][pCaixinha] = char;
+            pClassiQuarentena[playerid] = 0;
+            WantedLevel[playerid] = 0;
+            MudarNick[playerid] = 0;
+            gNews[playerid] = 1;
+            gFam[playerid] = 1;
+            TogglePlayerControllable(playerid, 0);
+            RegistrationStep[playerid] = 1;
+            ClearChatbox(playerid, 8);
+            SetPlayerVirtualWorld(playerid, 0);
+            SetPlayerSkin(playerid, 23);
+            TogglePlayerSpectating(playerid, false);
+            GetPlayerName(playerid,loginname,sizeof(loginname));
+            if(TaEscutando[playerid] == 0) StopAudioStreamForPlayer(playerid);
+
+            PlayerPlaySound(playerid,1039,0.0,0.0,0.0);
+            SetPlayerPos(playerid, 757.7693,-1430.8241,13.5234);
+            SendClientMessage(playerid, COR_BRANCO, "[Tutorial] Seja bem vindo ao {33ff00}Virtual Boost");
+            format(loginstring,sizeof(loginstring),"{ffffff}Bem Vindo(a): {df5454}%s\n\n{818689}Escolha o seu Sexo Abaixo:",PlayerName(playerid));
+            ShowPlayerDialog(playerid, 34, DIALOG_STYLE_MSGBOX,"{ffffff}Brasil {aaacae}Virtual{df5454}Boost {ffffff}- Registro",loginstring,"Masculino","Feminino");
+        }
+        ContagemItens[playerid] = SetTimerEx("CarregarItens", 2000, false, "i", playerid);
+        if(duelols[playerid] == 1)
+        {
+            duelols[playerid] = 0;
+            duelolv[playerid] = 0;
+            SetPlayerInterior(playerid, 0);
+            SetPlayerPos(playerid, 2688.7698,-1702.2043,10.3984);
+            SetPlayerVirtualWorld(playerid, 0);
+            emduelo[playerid] = 0;
+            desafiou[playerid] = 0;
+            desafiado[playerid] = 0;
+            PlayerInfo[playerid][pDesafiador] = 0;
+            PlayerInfo[playerid][pDesafiante] = 0;
+            return 1;
+        }
+        if(duelolv[playerid] == 1)
+        {
+            duelols[playerid] = 0;
+            duelolv[playerid] = 0;
+            SetPlayerInterior(playerid, 0);
+            SetPlayerPos(playerid, 1099.4791,1601.5282,12.5469);
+            SetPlayerVirtualWorld(playerid, 0);
+            emduelo[playerid] = 0;
+            desafiou[playerid] = 0;
+            desafiado[playerid] = 0;
+            PlayerInfo[playerid][pDesafiador] = 0;
+            PlayerInfo[playerid][pDesafiante] = 0;
+            return 1;
+        }
+        if(TanoWarZone[playerid] == 1) //war zone
+        {
+            GivePlayerWeaponEx(playerid, 24,1300);
+            GivePlayerWeaponEx(playerid, 29,1300);
+            GivePlayerWeaponEx(playerid, 8, 1);
+            SetPlayerArmour(playerid, 100);
+            SetPlayerHealth(playerid, 100);
+            if(EquipeWarZone[playerid] == 1)
+            {
+                SetPlayerSkin(playerid, skinsRed[random(7)]);
+                SetPlayerPos(playerid, -2520.7698,1215.6158,37.4283);
+                SetPlayerColor(playerid,COR_CV);
+            }
+            else if(EquipeWarZone[playerid] == 2)
+            {
+                SetPlayerSkin(playerid, skinsBlue[random(7)]);
+                SetPlayerPos(playerid, -2021.0950,-772.6932,30.1719);
+                SetPlayerColor(playerid,COR_AZTECAS);
+            }
+            else if(EquipeWarZone[playerid] == 3)
+            {
+                SetPlayerSkin(playerid, skinsGreen[random(7)]);
+                SetPlayerPos(playerid, -2405.7529,-601.1105,132.6484);
+                SetPlayerColor(playerid,COR_GREEN);
+            }
+            return 1;
+        }
+        if(PlayerInfo[playerid][pTrazerChuck] == 1)
+        {
+            SetPlayerSkin(playerid,34);
+            SetPlayerArmour(playerid, 100);
+            SetPlayerHealth(playerid, 100);
+            GivePlayerWeaponEx(playerid, 8, 1);
+            GivePlayerWeaponEx(playerid, 24, 1299);
+            PlayerInfo[playerid][pTrazerChuck] = 1;
+            SetPlayerColor(playerid,0x3333FFFF);
+            NaPorraDoEvento[playerid] = true;
+            SetPlayerInterior(playerid, 10);
+            rand = random(sizeof(gChuckArena));
+            SetPlayerPos(playerid, gChuckArena[rand][0], gChuckArena[rand][1], gChuckArena[rand][2]);
+            SetPlayerFacingAngle(playerid, gChuckArena[rand][3]);
+            PrimeiroChuck[playerid] = 0;
+            if(DeslogouNoTiroteio[playerid] == 1)
+            {
+
+                SendClientMessage(playerid, COR_GRAD1, "Voce deslogou em um evento, voltou para o evento, se desejar sair, digite: /sairevento.");
+            }
+            GameTextForPlayer(playerid, "~r~Evento Chuck Norris~n~Mete Bala Maluco !!!", 5000, 3);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/6ewb3ss40dx87hk/preparar.mp3");
+            return 1;
+        }
+        if(PlayerInfo[playerid][pTiroteio] > 0 && EventoAcontecendo == 1)
+        {
+
+            if(PlayerInfo[playerid][pTiroteio] == 1 || PlayerInfo[playerid][pTiroteio] == 4)
+            {
+
+                GivePlayerWeaponEx(playerid, 34, 40);
+            }
+            GivePlayerWeaponEx(playerid, 24, 1299);
+            GivePlayerWeaponEx(playerid, 8, 1);
+            if(PlayerInfo[playerid][pTiroteio] < 6)
+            {
+
+                if(PlayerInfo[playerid][pSex] == 0)
+                {
+
+                    if(PlayerInfo[playerid][pSocio] > 0)
+                    {
+
+                        SetPlayerSkin(playerid, 212);
+                    }
+                    else
+                    {
+
+                        SetPlayerSkin(playerid,200);
+                    }
+                }
+                else if(PlayerInfo[playerid][pSex] == 1)
+                {
+
+                    SetPlayerSkin(playerid,196);
+                }
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 6)
+            {
+
+                if(PlayerInfo[playerid][pSex] == 0)
+                {
+
+                    if(PlayerInfo[playerid][pSocio] > 0)
+                    {
+
+                        SetPlayerSkin(playerid, 274);
+                    }
+                    else
+                    {
+
+                        SetPlayerSkin(playerid,276);
+                    }
+                }
+                else if(PlayerInfo[playerid][pSex] == 1)
+                {
+
+                    SetPlayerSkin(playerid,56);
+                }
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 4)
+            {
+
+                if(PlayerInfo[playerid][pSex] == 0)
+                {
+
+                    if(PlayerInfo[playerid][pSocio] > 0)
+                    {
+
+                        SetPlayerSkin(playerid, 42);
+                    }
+                    else
+                    {
+
+                        SetPlayerSkin(playerid,268);
+                    }
+                }
+                else if(PlayerInfo[playerid][pSex] == 1)
+                {
+
+                    SetPlayerSkin(playerid,69);
+                }
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 5)
+            {
+
+                if(PlayerInfo[playerid][pSex] == 0)
+                {
+
+                    if(PlayerInfo[playerid][pVIP] > 0)
+                    {
+
+                        SetPlayerSkin(playerid, 153);
+                    }
+                    else
+                    {
+
+                        SetPlayerSkin(playerid,260);
+                    }
+                }
+                else if(PlayerInfo[playerid][pSex] == 1)
+                {
+
+                    SetPlayerSkin(playerid,69);
+                }
+            }
+            SetPlayerWeather(playerid, 42);
+            SetPlayerArmour(playerid, 100);
+            SetPlayerHealth(playerid, 100);
+            if(PlayerInfo[playerid][pTiroteio] == 1)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 1;
+                SetPlayerVirtualWorld(playerid, 13);
+                SetPlayerInterior(playerid, 0);
+                rand = random(sizeof(FlorestaSpawn));
+                SetPlayerPos(playerid, FlorestaSpawn[rand][0], FlorestaSpawn[rand][1], FlorestaSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, FlorestaSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio na Floresta~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 2)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 2;
+                SetPlayerInterior(playerid, 15);
+                SetPlayerVirtualWorld(playerid, 14);
+                rand = random(sizeof(ArenaSpawn));
+                SetPlayerPos(playerid, ArenaSpawn[rand][0], ArenaSpawn[rand][1], ArenaSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, ArenaSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio na Arena~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 3)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 3;
+                SetPlayerInterior(playerid, 5);
+                SetPlayerVirtualWorld(playerid, 16);
+                rand = random(sizeof(MansaoSpawn));
+                SetPlayerPos(playerid, MansaoSpawn[rand][0], MansaoSpawn[rand][1], MansaoSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, MansaoSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio na Mansao~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 4)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 4;
+                SetPlayerInterior(playerid, 0);
+                SetPlayerVirtualWorld(playerid, 17);
+                rand = random(sizeof(CarandiruSpawn));
+                SetPlayerPos(playerid, CarandiruSpawn[rand][0], CarandiruSpawn[rand][1], CarandiruSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, CarandiruSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio no Carandiru~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 5)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 5;
+                SetPlayerInterior(playerid, 0);
+                SetPlayerVirtualWorld(playerid, 18);
+                SetPlayerWeather(playerid, 0);
+                rand = random(sizeof(ConstSpawn));
+                SetPlayerPos(playerid, ConstSpawn[rand][0], ConstSpawn[rand][1], ConstSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, ConstSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio na Construcao~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            else if(PlayerInfo[playerid][pTiroteio] == 6)
+            {
+
+                PlayerInfo[playerid][pTiroteio] = 6;
+                SetPlayerInterior(playerid, 3);
+                SetPlayerVirtualWorld(playerid, 19);
+                SetPlayerWeather(playerid, 0);
+                rand = random(sizeof(DPSpawn));
+                SetPlayerPos(playerid, DPSpawn[rand][0], DPSpawn[rand][1], DPSpawn[rand][2]);
+                SetPlayerFacingAngle(playerid, DPSpawn[rand][3]);
+                GameTextForPlayer(playerid, "~y~Tiroteio no Departamento~n~Mete Bala Maluco !!!", 5000, 3);
+            }
+            NaPorraDoEvento[playerid] = true;
+            if(DeslogouNoTiroteio[playerid] == 1)
+            {
+
+                SendClientMessage(playerid, COR_GRAD1, "Voce deslogou em um evento, voltou para o evento, se desejar sair, digite: /sairevento.");
+            }
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/6ewb3ss40dx87hk/preparar.mp3");
+            return 1;
+        }
+    }
+    if(PlayerInfo[playerid][pJailed] == 1)//Preso Cop
+    {
+        InteriorAtual[playerid] = 24;
+        DeslogandoMulta[playerid] = 0;
+        DeslogandoEnforcer[playerid] = 0;
+        SetPlayerSkin(playerid, 268);
+        if(PlayerInfo[playerid][pSex] == 2) {  SetPlayerSkin(playerid, 69); }
+        if(PlayerInfo[playerid][pSocio] >= 1) {  SetPlayerSkin(playerid, 42); }
+        SetPlayerInterior(playerid, 6);
+        SetPlayerChatBubble(playerid, ".", COR_VERMELHO, 1, 1);
+        rand = random(sizeof(PenitenciariaSpawn));
+        LoadObjects(playerid);
+        SetPlayerPos(playerid, PenitenciariaSpawn[rand][0], PenitenciariaSpawn[rand][1], PenitenciariaSpawn[rand][2]); // Warp the player
+        SetPlayerFacingAngle(playerid, PenitenciariaSpawn[rand][3]);
+        SendClientMessage(playerid, COR_LIGHTBLUE, "Sentenca incompleta, Voce voltou para prisao");
+        VozDePrisao[playerid] = 0;
+        if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "https://phoenix-g1.sscdn.co/palcomp3/4/a/8/c/djraper--eu-sou-157.mp3");
+        return 1;
+    }
+    if(PlayerInfo[playerid][pJailed] == 2)//Carandiru
+    {
+
+        SetPlayerSkin(playerid, 268);
+        if(PlayerInfo[playerid][pSex] == 2) {  SetPlayerSkin(playerid, 69); }
+        if(PlayerInfo[playerid][pSocio] >= 1) {  SetPlayerSkin(playerid, 42); }
+        SetPlayerInterior(playerid, 0);
+        SetPlayerChatBubble(playerid, ".", COR_VERMELHO, 1, 1);
+        SetPlayerPos(playerid,268.5777,1857.9351,9.8133);
+        SetPlayerWorldBounds(playerid, 337.5694,101.5826,1940.9759,1798.7453);
+        if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/yaa9h7amuw89qj2/carandiru.mp3");
+        return 1;
+    }
+    if(PlayerInfo[playerid][pJailed] == 3)//Cela Admin
+    {
+        SetPlayerSkin(playerid, 268);
+        if(PlayerInfo[playerid][pSex] == 2) {  SetPlayerSkin(playerid, 69); }
+        if(PlayerInfo[playerid][pSocio] >= 1) {  SetPlayerSkin(playerid, 42); }
+        SetPlayerInterior(playerid, 0);
+        SetPlayerChatBubble(playerid, ".", COR_VERMELHO, 1, 1);
+        SetPlayerPos(playerid,1174.3188,-1179.1814,87.0183);
+        SendClientMessage(playerid, COR_LIGHTBLUE, "Sentenca incompleta, Voce voltou para prisao!");
+        VozDePrisao[playerid] = 0;
+        return 1;
+    }
+    /*new Houseee = PlayerInfo[playerid][pPHousekey];
+    if(Houseee !=999 && PlayerInfo[playerid][pSpawn] == 1)
+    {
+
+        SetPlayerToTeamColor(playerid);
+        SetPlayerInterior(playerid,HouseInfo[Houseee][hInt]);
+        SetPlayerVirtualWorld(playerid,HouseInfo[Houseee][hWorld]);
+        SetPlayerPos(playerid, HouseInfo[Houseee][hExitx], HouseInfo[Houseee][hExity],HouseInfo[Houseee][hExitz]); // Warp the player
+        LocalAtual[playerid] = Houseee;
+        InteriorAtual[playerid] = HouseInfo[Houseee][hInt];
+        HouseEntered[playerid] = Houseee;
+        SetPlayerSkin(playerid, PlayerInfo[playerid][pSkin]);
+        return 1;
+    }*/
+    if(MaletaAnexada[playerid] == 1)
+    {
+        GetPlayerPos(playerid,maletax,maletay,maletaz);
+        SetPlayerHoldingObject(playerid, 1210, 6 ,0.3 ,0.1 ,0 ,0 , -90, 0); //evento
+    }
+    //-----------------------------------------Nascimento das Organizacaoes--------------------------------//
+    if(PlayerInfo[playerid][pSpawnCasa] == 0)
+    {
+        switch(GetPlayerOrg(playerid))
+        {
+            case 1: //Policia Militar Nascimento
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid, 6);
+                SetPlayerPos(playerid, 262.3406,71.1922,1003.2422);
+                SetPlayerFacingAngle(playerid, 182.5997);
+                InteriorAtual[playerid] = 1;
+                PlayerInfo[playerid][pEmprego] = 1;
+                SetPlayerWantedLevelEx(playerid, 0);
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerColor(playerid, COR_PM);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+                return 1;
+            }
+            case 2: //BOPE Nascimento
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid, 10);
+                SetPlayerPos(playerid, 237.8288,123.1899,1003.2188);
+                SetPlayerFacingAngle(playerid, 359.9386);
+                InteriorAtual[playerid] = 2;
+                PlayerInfo[playerid][pEmprego] = 1;
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerColor(playerid, COR_BOPE);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+                return 1;
+            }
+            case 3: //Exercito Nascimento
+            {
+                if(TendoGuerra == 0 && SpawnGuerra[playerid] == 1)
+                {
+                    SetPlayerVirtualWorld(playerid,0);
+                    SetPlayerHealth(playerid, 100);
+                    SetPlayerInterior(playerid, 0);
+                    SetPlayerPos(playerid, 2669.4531,-2449.0491,13.6332);
+                    SetPlayerFacingAngle(playerid, 359.9386);
+                    InteriorAtual[playerid] = 0;
+                    PlayerInfo[playerid][pEmprego] = 1;
+                    WantedLevel[playerid] = 0;
+                    OnDuty[playerid] = 1;
+                    SetPlayerColor(playerid, COR_EXE);
+                    SetPlayerWantedLevelEx(playerid, 0);
+                    SetPlayerWantedLevelEx(playerid, 0);
+                }
+                else if(TendoGuerra == 1 && SpawnGuerra[playerid] == 0)
+                {
+                    SetPlayerVirtualWorld(playerid, 1);
+                    SetPlayerInterior(playerid, 0);
+                    InteriorAtual[playerid] = 0;
+                    SetPlayerPos(playerid, 217.3605,1823.0649,6.4141);
+                }
+                return 1;
+            }
+            case 4: //SAMU Nascimento
+            {
+                SetPlayerHealth(playerid, 100);
+                SetPlayerPos(playerid, 1173.6237,-1330.5612,13.9911);
+                SetPlayerFacingAngle(playerid, 359.9386);
+                SetPlayerColor(playerid, COR_SAMU);
+                SetPlayerInterior(playerid, 0);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 5: //Aztecas Nascimento
+            {
+                SetPlayerHealth(playerid, 100);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 8);
+                SetPlayerPos(playerid, 2816.7520,-1166.3427,1029.1719);
+                SetPlayerFacingAngle(playerid,181.4693);
+                InteriorAtual[playerid] = 3;
+                SetPlayerColor(playerid, COR_AZTECAS);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 6: //Taliban Nascimento
+            {
+                if(TendoGuerra == 0 && SpawnGuerra[playerid] == 1)
+                {
+                    SetPlayerVirtualWorld(playerid,0);
+                    SetPlayerInterior(playerid, 10);
+                    SetPlayerPos(playerid, 2264.7373,-1141.0076,1050.6328);
+                    SetPlayerFacingAngle(playerid,0.8485);
+                    InteriorAtual[playerid] = 4;
+                    SetPlayerColor(playerid, COR_TAL);
+                }
+                else if(TendoGuerra == 1 && SpawnGuerra[playerid] == 0)
+                {
+
+                    SetPlayerVirtualWorld(playerid, 2);
+                    SetPlayerInterior(playerid, 0);
+                    InteriorAtual[playerid] = 0;
+                    SetPlayerPos(playerid, 217.3605,1823.0649,6.4141);
+                }
+                return 1;
+            }
+            case 7: //Prefeito Nascimento
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 3);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerPos(playerid, 354.8267,154.4102,1025.7964);
+                SetPlayerFacingAngle(playerid,359.9386);
+                InteriorAtual[playerid] = 5;
+                LocalAtual[playerid] = 241;
+                SetPlayerColor(playerid, COR_GOV);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 8: //Hitmans Nascimento
+            {
+                SetPlayerPos(playerid, 345.1183,308.5313,999.1557);
+                SetPlayerFacingAngle(playerid,176.2614);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,6);
+                InteriorAtual[playerid] = 6;
+                SetPlayerColor(playerid, COR_HITMAN);
+                PlayerInfo[playerid][pEmprego] = 1;
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 9: //Rede Globo Nascimento
+            {
+                SetPlayerPos(playerid, 2198.3723,-1218.5553,1049.0234);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerInterior(playerid, 6);
+                InteriorAtual[playerid] = 7;
+                SetPlayerHealth(playerid, 100);
+                GivePlayerWeaponEx(playerid, 43, 300); //Camera
+                SetPlayerColor(playerid, COR_REP);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 10:
+            {
+                SetPlayerPos(playerid, 588.8351,-1491.7993,15.4013);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,0);
+                InteriorAtual[playerid] = 8;
+                SetPlayerColor(playerid, COR_TAXI);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 11:
+            {
+                SetPlayerPos(playerid, 2372.2239,-1125.7914,1050.8750);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,8);
+                InteriorAtual[playerid] = 9;
+                SetPlayerColor(playerid, COR_PCC);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 12:
+            {
+                SetPlayerPos(playerid, 1712.5830,-1643.2118,20.2212);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,18);
+                InteriorAtual[playerid] = 10;
+                PlayerInfo[playerid][pEmprego] = 1;
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerColor(playerid, COR_ROTA);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 13:
+            {
+                SetPlayerVirtualWorld(playerid,1);
+                SetPlayerInterior(playerid, 5);
+                SetPlayerPos(playerid, 324.5174,305.2636,999.1484);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                InteriorAtual[playerid] = 11;
+                PlayerInfo[playerid][pEmprego] = 1;
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerColor(playerid, COR_GATE);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 14:
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 0);
+                SetPlayerPos(playerid, 2480.8752,-1536.6949,24.1897);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                //InteriorAtual[playerid] = 12;
+                SetPlayerColor(playerid, COR_MECANICO);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 15:
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SetPlayerPos(playerid, 2523.2600,-1658.4955,15.4935);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerColor(playerid, COR_GRO);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 16:
+            {
+                if(TendoGuerra == 0 && SpawnGuerra[playerid] == 1)
+                {
+                    SetPlayerPos(playerid, 225.2487,1248.8900,1082.1406);
+                    SetPlayerHealth(playerid, 100);
+                    SetPlayerFacingAngle(playerid,359.9386);
+                    SetPlayerVirtualWorld(playerid,0);
+                    SetPlayerInterior(playerid,2);
+                    InteriorAtual[playerid] = 13;
+                    SetPlayerColor(playerid, COR_AL);
+                }
+                else if(TendoGuerra == 1 && SpawnGuerra[playerid] == 0)
+                {
+                    SetPlayerVirtualWorld(playerid, 3);
+                    SetPlayerInterior(playerid, 0);
+                    InteriorAtual[playerid] = 0;
+                    SetPlayerPos(playerid, 217.3605,1823.0649,6.4141);
+                }
+                return 1;
+            }
+            case 17: //Policia Civil Nascimento
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 3);
+                InteriorAtual[playerid] = 14;
+                PlayerInfo[playerid][pEmprego] = 1;
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerPos(playerid, 228.6406,182.0855,1003.0313);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerColor(playerid, COR_PC);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 18:
+            {
+                SetPlayerPos(playerid, 2258.3972,-1220.8291,1049.0234);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,10);
+                InteriorAtual[playerid] = 15;
+                SetPlayerColor(playerid, COR_BALLAS);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 19:
+            {
+                SetPlayerPos(playerid, 2454.5964,-1705.1339,1013.5078);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,1);
+                SetPlayerInterior(playerid,2);
+                InteriorAtual[playerid] = 16;
+                SetPlayerColor(playerid, COR_VAGOS);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 20:
+            {
+                SetPlayerPos(playerid, -2159.8860,638.7305,1057.5861);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,1);
+                InteriorAtual[playerid] = 17;
+                SetPlayerColor(playerid, COR_YAK);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 21:
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 11);
+                SetPlayerPos(playerid, 507.8416,-78.6018,998.9609);
+                SetPlayerFacingAngle(playerid,359.9386);
+                InteriorAtual[playerid] = 18;
+                SetPlayerColor(playerid, COR_SONS);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 22:
+            {
+                SetPlayerPos(playerid, -2667.0681,1424.8290,912.4063);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,3);
+                InteriorAtual[playerid] = 19;
+                SetPlayerColor(playerid, COR_COSA);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 23:
+            {
+                SetPlayerPos(playerid, 2319.5386,-1212.5231,1049.0234);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 20;
+                SetPlayerInterior(playerid, 6);
+                SetPlayerColor(playerid, COR_CV);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 24:
+            {
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid, 18);
+                SetPlayerPos(playerid, -223.2280,1396.1266,28.3595);
+                SetPlayerFacingAngle(playerid,2.9314);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                InteriorAtual[playerid] = 21;
+                SetPlayerColor(playerid, COR_MAYANS);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 25:
+            {
+                SetPlayerInterior(playerid, 5);
+                SetPlayerPos(playerid, 324.5174,305.2636,999.1484);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,359.9386);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 22;
+                PlayerInfo[playerid][pEmprego] = 1;
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                OnDuty[playerid] = 1;
+                SetPlayerColor(playerid, COR_PF);
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+            case 26:
+            {
+                SetPlayerPos(playerid, 2341.8308,-1063.9375,1049.0234);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerFacingAngle(playerid,176.2614);
+                SetPlayerVirtualWorld(playerid,0);
+                SetPlayerInterior(playerid,6);
+                InteriorAtual[playerid] = 23;
+                SetPlayerColor(playerid, COR_Triads);
+                PlayerInfo[playerid][pEmprego] = 1;
+                SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na HQ da sua Organizacao, para alterar o local de nascimento digite: /mudarlocal!");
+
+                return 1;
+            }
+        }
+        //------------------------------------Nascimento Empregos e Civis-----------------------------//
+        switch(PlayerInfo[playerid][pEmprego])
+        {
+            /*case 3: // Segurancas
+            {
+                SetPlayerInterior(playerid, 0);
+                InteriorAtual[playerid] = 0;
+                SetPlayerPos(playerid,2035.5109,-1279.1993,20.9761);
+                SetPlayerFacingAngle(playerid,181.4693);
+                SetPlayerHealth(playerid, 100);
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            case 4:
+            {
+                SetPlayerPos(playerid,1796.5217,-2344.7146,13.4911); // Motorista de onibus
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            case 2:
+            {
+                if(PlayerInfo[playerid][pSocio] > 0)
+                {
+                    if(GetPlayerOrg(playerid) != 0)
+                        return 1;
+                }
+                SetPlayerPos(playerid,1658.1134,-1394.9524,13.5469); // advogados
+                SetPlayerFacingAngle(playerid, 91.1808);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                AdvogadoOnline += 1;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+            }
+            case 7:
+            {
+                SetPlayerPos(playerid,1775.2545,-1571.6923,1742.4496); // Agente Penitenciario
+                SetPlayerFacingAngle(playerid, 181.4693);
+                GivePlayerWeaponEx(playerid, 3, 1);
+                GivePlayerWeaponEx(playerid, 41, 900);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,5);
+                SetPlayerVirtualWorld(playerid, 0);
+                InteriorAtual[playerid] = 24;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            /*case 6:
+            {
+                SetPlayerPos(playerid,-1854.9996,-1561.1172,21.7500); // caminhoneiros
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+            }
+            case 8:
+            {
+                SetPlayerPos(playerid,2200.0781,-1969.9874,13.7841); // Lixeiro Ls
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return true;
+            }
+            case 10:
+            {
+                SetPlayerPos(playerid,-93.6237,-26.5389,3.1172); // Fazendeiro
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            case 11:
+            {
+                SetPlayerPos(playerid,2225.1819,2538.0205,11.0222); // Coveiro
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            /*case 12:
+            {
+                SetPlayerPos(playerid,1441.7911,2360.0532,10.8203); // Carteiro
+                SetPlayerFacingAngle(playerid, 181.4693);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 0;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return 1;
+            }
+            case 15:
+            {
+                SetPlayerPos(playerid,377.2911,-115.3470,1001.4922); // Pizzaboy Ls
+                SetPlayerFacingAngle(playerid, 88.9771);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,5);
+                SetPlayerVirtualWorld(playerid,0);
+                InteriorAtual[playerid] = 30;
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return true;
+            }
+            case 16:
+            {
+                SetPlayerPos(playerid,1003.9560,-91.6045,22.4495); // Minerador
+                SetPlayerFacingAngle(playerid, 28.0772);
+                SetPlayerHealth(playerid, 100);
+                SetPlayerInterior(playerid,0);
+                SetPlayerVirtualWorld(playerid,0);
+                SendClientMessage(playerid, COR_START2, "[Nascimento]: Voce nasceu na HQ do seu emprego, caso queira mudar o seu local de nascimento digite: (/mudarlocal).");
+                return true;
+            }*/
+            default://--------- Spawn Civil --------------------
+            {
+                if(AdminTrabalhando[playerid] >= 1)
+                {
+                    SetPlayerPos(playerid,2454.8298,-2102.8135,13.5469); /* Spawn Administradores */
+                }
+                else
+                {
+                    if(PlayerInfo[playerid][pSpawnCity] == 0)
+                    {
+                        SetPlayerPos(playerid,1154.1556,-1768.5778,16.5938); /* Spawn Novatos LS */
+                        SetPlayerFacingAngle(playerid, 1.5602);
+                        SetPlayerInterior(playerid,0);
+                        SetPlayerHealth(playerid, 100);
+                        SetPlayerVirtualWorld(playerid,0);
+                        InteriorAtual[playerid] = 0;
+                    }
+                    else if(PlayerInfo[playerid][pSpawnCity] == 1)
+                    {
+                        SetPlayerPos(playerid,-2651.0117,376.2788,6.0019); /* Spawn Novatos SF */
+                        SetPlayerFacingAngle(playerid, 266.9954);
+                        SetPlayerInterior(playerid,0);
+                        SetPlayerHealth(playerid, 100);
+                        SetPlayerVirtualWorld(playerid,0);
+                        InteriorAtual[playerid] = 0;
+                    }
+                }
+            }
+        }
+    }
+    else if(PlayerInfo[playerid][pSpawnCasa] == 1)
+    {
+            new h = PlayerInfo[playerid][pPHousekey];
+            SetPlayerInterior(playerid, 0);
+            //SetPlayerVirtualWorld(playerid,HouseInfo[House][hWorld]);
+            SetPlayerPos(playerid, HouseInfo[h][hEntrancex], HouseInfo[h][hEntrancey], HouseInfo[h][hEntrancez]);
+            SendClientMessage(playerid, COR_START2, "[Nascimento] Voce nasceu na entrada de sua residencia, para alterar o local de nascimento digite: /mudarlocal!");
+    }
+    if(TesteMoto[playerid] == 1 || TesteCarro[playerid] == 1 || TesteHeli[playerid] == 1 || TesteBarco[playerid] == 1 || TesteTruck[playerid] == 1)
+    {
+        SendClientMessage(playerid, -1, "Voce morreu e perdeu o teste de licencas, tente novamente!");
+        TesteCarro[playerid] = 0;
+        TesteMoto[playerid] = 0;
+        TesteHeli[playerid] = 0;
+        TesteBarco[playerid] = 0;
+        TesteTruck[playerid] = 0;
+        return 1;
+    }
+    if(TaNoQuarentena[playerid] == 1)
+    {
+        new QuantidadeHumanos, QuantidadeInfectados;
+
+        foreach(new i: Player)
+        {
+            if(EquipeQuarentena[i] == 2) QuantidadeInfectados++;
+            if(EquipeQuarentena[i] == 1) QuantidadeHumanos++;
+        }
+
+        if(EquipeQuarentena[playerid] == 1)
+        {
+            NaPorraDoEvento[playerid] = false;
+           // ContagemQuarentena[playerid] = 0;
+            EquipeQuarentena[playerid] = 0;
+            TextDrawHideForPlayer(playerid, TextDrawCQ);
+            pClassiQuarentena[playerid] = 0;
+            SetHoraPlayer(playerid);
+            TimeQuarentena5 = SetTimer("VerificarHumanos", 1000, false);
+
+        }
+        if(EquipeQuarentena[playerid] == 2)
+        {
+            NaPorraDoEvento[playerid] = false;
+            EquipeQuarentena[playerid] = 0;
+       //     ContagemQuarentena[playerid] = 0;
+            TextDrawHideForPlayer(playerid, TextDrawCQ);
+            pClassiQuarentena[playerid] = 0;
+            SetHoraPlayer(playerid);
+            TimeQuarentena4 = SetTimer("VerificarInfectados", 1000, false);
+        }
+    }
+    if(TanoEventoJogosVorazes[playerid] == 1)
+    {
+        if(QuantidadeEvento == 0 && TanoEventoJogosVorazes[playerid] == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            QuantidadeEvento--; //evento jogos vorazes
+            format(gstring, sizeof(gstring), "[Jogos Vorazes] %s morreu no evento, restam [%d] sobreviventes.",PlayerName(playerid), QuantidadeEvento);
+            SendClientMessageToAll(COR_VERDE,gstring);
+            SetPlayerWorldBounds(playerid,20000.0000,-20000.0000,20000.0000,-20000.0000);
+            TanoEventoJogosVorazes[playerid] = 0;
+            NaPorraDoEvento[playerid] = false;
+            VerificarGanhador(playerid);
+            return 1;
+        }
+    }
+    VerBan(playerid);
+    VerBanTemp(playerid);
+    VerBanSerial(playerid);
+    SetCameraBehindPlayer(playerid);
+    return 1;
+}

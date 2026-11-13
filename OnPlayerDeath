@@ -1,0 +1,2211 @@
+public OnPlayerDeath(playerid, killerid, reason)
+{
+    new string[256];
+    new Float:px,Float:py,Float:pz;
+    new NomePlayerMatou[MAX_PLAYER_NAME];
+    new NomePlayerMorreu[MAX_PLAYER_NAME];
+    PlayerInfo[playerid][pDeaths]++;
+    if(enjaulado[playerid] == 1)
+    {
+         format(string, sizeof(string), "[SEQUESTRO] Os sequestradores mataram o refem %s. Fim do Sequestro!", PlayerName(playerid));
+         SendClientMessageToAll(COR_DBLUE, string);
+         SequestroAcontecendo = false;
+         sequestradoid[playerid] = 0;
+         sequestradolocal[playerid] = 0;
+         PLO += 100;
+         DepositarOrgGrana(7,100);
+    }
+    if(IniciouCombate[playerid] != 0) IniciouCombate[playerid] = 0;
+    GetPlayerName(killerid, NomePlayerMatou, sizeof(NomePlayerMatou));
+    GetPlayerName(playerid, NomePlayerMorreu, sizeof(NomePlayerMorreu));
+    NaPorraDoEvento[playerid] = false;
+    if(PlayerInfo[playerid][pSocio] < 1 && NaPorraDoEvento[playerid] == false)
+    {
+        if(TendoGuerra == 1 && GetPlayerOrg(playerid) == 3) return 1;
+        if(TendoGuerra == 1 && GetPlayerOrg(playerid) == 6) return 1;
+        if(TendoGuerra == 1 && GetPlayerOrg(playerid) == 16) return 1;
+        SetarHospital[playerid] = 1;
+    }
+    if(reason == 53)
+    {
+        new kstring[256];
+        format(kstring, sizeof(kstring), "[ADM-AVISO - ANT-RPG]: %s se matou afogado, deve der se matado para voltar ao Spawn!",PlayerName(playerid));
+        ABroadCast(COR_START,kstring,1);
+        SendClientMessage(playerid, COR_OBS, "AVISO - ANT-RPG: {FFFFFF}Voce se matou afogado, os admins foram avisados.");
+    }
+    DestruirMedKit(playerid);
+    KillTimer(TempoRecuperandoSe[playerid]);
+    KillTimer(TimerHospital[playerid]);
+    gPlayerSpawned[playerid] = 0;
+    MenuTR[playerid] = 0;
+    EscutandoSom[playerid] = 0;
+    DonoFesta[playerid] = 0;
+    LocalAtual[playerid] = 999;
+    GetPlayerPos(playerid, px, py, pz);
+    spawnado[playerid] = 0;
+    KillTimer(TempoContagem[playerid]);
+    Inenforcer[playerid] = 0;
+    Incargobob[playerid] = 0;
+    Watching[playerid] = 0;
+    Goto[playerid] = 0;
+    iniciarrally[playerid] = 0;
+    iniciarcross[playerid] = 0;
+    iniciartrilha[playerid] = 0;
+    iniciarbarco[playerid] = 0;
+    iniciarkart[playerid] = 0;
+    corridamaluca[playerid] = 0;
+    iniciartrato[playerid] = 0;
+    CPEvento1[playerid] = 0;
+    CPEvento2[playerid] = 0;
+    CPEvento3[playerid] = 0;
+    CPEvento4[playerid] = 0;
+    CPEvento5[playerid] = 0;
+    CPEvento6[playerid] = 0;
+    CPEvento7[playerid] = 0;
+    HouseEntered[playerid] = 999;
+    protecao[playerid] = 0;
+    enjaulado[playerid] = 0;
+    Sequestrado[playerid] = 0;
+    JoinedHay[playerid] = 0;
+    RemovePlayerAttachedObject(playerid,9);
+    DoubleKill[killerid] = 1;
+    dkill[killerid] = SetTimerEx("DouKill", 10000, 1, "i", killerid);
+    if(PlayerInfo[playerid][pHeadValue] == 0)
+    {
+         if(killerid != playerid)
+         {
+              if(killerid != INVALID_PLAYER_ID)
+              {
+                   SendDeathMessage(killerid, playerid, reason);
+              }
+         }
+    }
+    //Guerra Morro
+    if(GuerraMorro[gGuerra])
+    {
+        gPlayerSpawned[playerid] = 0;
+        gCheckPontos(playerid, killerid);
+        new Liberar = random(15);
+        if(Liberar == 8)
+        {
+            new RandomCaixa = random(120);
+            if(RandomCaixa == 120) TipoCaixinhaSurpresa = 19057;
+            else if(RandomCaixa >= 45 && RandomCaixa <= 79) TipoCaixinhaSurpresa = 19055;
+            else if(RandomCaixa >= 95 && RandomCaixa <= 98) TipoCaixinhaSurpresa = 19056;
+            else TipoCaixinhaSurpresa = 19054;
+            new str1[128];
+            if(TipoCaixinhaSurpresa == 19054) format(str1, sizeof(str1), "Bronze");
+            if(TipoCaixinhaSurpresa == 19055) format(str1, sizeof(str1), "Prata");
+            if(TipoCaixinhaSurpresa == 19056) format(str1, sizeof(str1), "Ouro");
+            if(TipoCaixinhaSurpresa == 19057) format(str1, sizeof(str1), "Platina");
+            format(string, sizeof(string), "[{FFFFFF}SPAWN SURPRESA{3498DB}]: Foi Spawnado uma{ffffff} Caixa %s {3498DB}no Morro!", str1);
+            SendClientMessageToAll(0x3498DBFF, string);
+            new Float: x, Float: y, Float: z;
+            GetPlayerPos(playerid, x, y, z);
+            CaixinhaSurpresa = CreateDynamicPickup(TipoCaixinhaSurpresa, 1, x, y, z+1.5);
+            foreach(new i: Player)
+            {
+                GetPlayerPos(i, x, y, z);
+                PlayerPlaySound(i, 5202, x, y, z);
+            }
+        }
+    }
+    //TDM
+    if(TDM[killerid] == 1 && TDM[playerid] == 1)
+    {
+        format(string,sizeof(string),"[ARENA DESERT]: {FFFFFF}%s matou %s.",PlayerName(killerid),PlayerName(playerid));
+        ProxDetector(100.0, playerid, string,COR_OBS,COR_OBS,COR_OBS,COR_OBS,COR_OBS);
+        SetPlayerArmour(killerid, 100);
+        SetPlayerHealth(killerid, 100);
+        return 1;
+    }
+    //Evento 1X1
+    if(killerid == Playersx1[0] || killerid == Playersx1[1])
+    {
+        if((killerid == Playersx1[0] && playerid == Playersx1[1]) || (killerid == Playersx1[1] && playerid == Playersx1[0]))
+        {
+            SendClientMessageToAll(COR_DBLUE, "|__________________[ Evento De X1 ]__________________|");
+            format(string, sizeof(string), "[EVENTO X1]: Player %s venceu %s com o tempo de %s", PlayerName(killerid), PlayerName(playerid), ConvertTime(gettime()-tempox1));
+            SendClientMessageToAll(COR_VERDE, string);
+            Playersx1[0] = 999;
+            Playersx1[1] = 999;
+            return 1;
+        }
+    }
+    //Evento X1
+    if(Tanoevento[playerid] == 1 && Tanoevento[killerid])
+    {
+        format(gstring, sizeof(gstring), "[EVENTO X1]: Player %s Matou %s No Evento de x1 e Ganhou 5000R$.", PlayerName(killerid),PlayerName(playerid));
+        ProxDetector(100.0, playerid, gstring,COR_AZTECAS,COR_AZTECAS,COR_AZTECAS,COR_AZTECAS,COR_AZTECAS);
+        GivePlayerMoneyEx(killerid, 5000);
+    }
+    //Anti Fake-Kill
+    if(killerid == INVALID_PLAYER_ID) return 1;
+    if(GetPVarInt(playerid, "Morte") > gettime()) //Bern by Equipe BGS
+    {
+        if(AvisoFakeKill[playerid] <= 5)
+        {
+            format(string, 128, "ANTIXITER: %s[%d] parece estar usando fake kill, /tvon nele rapido !",PlayerName(playerid), playerid);
+            ABroadCast(COR_LIGHTRED,string,1);
+            AvisoFakeKill[playerid] += 1;
+        }
+        else if(AvisoFakeKill[playerid] >= 6 && NaPorraDoEvento[playerid] == false)
+        {
+            format(string, 128, "ANTIXITER: %s[%d] estava usando fake kill e foi banido automaticamente !",PlayerName(playerid), playerid);
+            SendClientMessageToAll(COR_LIGHTRED, string);
+            AntiXiterLog(string);
+            BanBHC(playerid, "Fake Kill", "Automatico");
+            return 1;
+        }
+        else
+        format(string, 128, "ANTIXITER: %s[%d] parece estar usando fake kill, /tvon nele rapido !",PlayerName(playerid), playerid);
+        ABroadCast(COR_LIGHTRED,string,1);
+    }
+    //Evento quarentena
+    if(TaNoQuarentena[playerid] == 1 && TaNoQuarentena[killerid] == 1 && EquipeQuarentena[playerid] == 2 && EquipeQuarentena[killerid] == 1)
+    {
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+
+        ProxDetector(100.0, playerid, gstring,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE,COR_LIGHTBLUE);
+        if(pClassiQuarentena[playerid] == BOOMER)
+        {
+            foreach(new i: Player)
+            {
+                if(TaNoQuarentena[i] >= 0)
+                {
+                    new Float:boomx, Float:boomy, Float:boomz;
+                    GetPlayerPos(killerid,boomx, boomy, boomz);
+                    CreateExplosion(boomx, boomy , boomz, 7, 10);
+                    if(ProxDetectorS(10.0, playerid, i))
+                    {
+                        format(string, sizeof(string), "[Quarentena] Infectado %s morreu como boomer, quem estava proximo a ele foi infectado.",ProxDetectorS(10.0, i, playerid))//NomePlayerMorreu);
+                        MensagemQuarentena(COR_LIGHTRED, string);
+                        format(string, sizeof(string), "[Quarentena] Voce infectou o jogador %s ao explodir e ganhou R$[4000].",PlayerName(playerid));
+                        SendClientMessage(killerid,COR_LIGHTRED, string);
+                        GivePlayerMoneyEx(killerid, 4000);
+                        EquipeQuarentena[i] = 2;
+                        PlacarQuarentena(playerid);
+                    }
+                }
+            }
+        }
+        if(MorteEvento[killerid] == 1 || MorteEvento[killerid] == 2)
+        {
+
+            format(string, sizeof(string), "[Quarentena] Humano %s matou o infectado %s  - Ganhou:[R$4000] [1] bala de bazuka e [30] de vida.",NomePlayerMatou, NomePlayerMorreu);
+            MensagemQuarentena(COR_GREEN, string);
+            GivePlayerMoneyEx(killerid, 4000);
+            GivePlayerHealth(killerid, 30);
+            GivePlayerWeaponEx(killerid, 36, 1);//checada no setacao do cara,
+            PlacarQuarentena(playerid);
+            pClassiQuarentena[playerid] = 0;
+            return 1;
+        }
+        if(MorteEvento[killerid] == 3)
+        {
+
+            format(string, sizeof(string), "[Quarentena] Humano %s matou o infectado %s  - Ganhou:[R$4000] [1] bala de bazuka e [30] de vida.",NomePlayerMatou, NomePlayerMorreu);
+            MensagemQuarentena(COR_GREEN, string);
+            PlacarQuarentena(playerid);
+            format(string, sizeof(string), "[Quarentena] Humano %s matou 3 infectados  - Ganhou:R$[5000], [2] bazukas, [1] katana(mata rapido) e recuperou sua vida.",NomePlayerMatou);
+            MensagemQuarentena(COR_LIGHTBLUE, string);
+            GivePlayerMoneyEx(killerid, 4000);
+            SetPlayerHealth(killerid, 100);
+            GivePlayerWeaponEx(killerid, 36, 2);
+            GivePlayerWeaponEx(killerid, 8, 1);
+            SetPlayerSkin(killerid, SkinRandomHumano[random(16)]);
+            pClassiQuarentena[playerid] = 0;
+            return 1;
+        }
+        if(MorteEvento[killerid] == 4)
+        {
+
+            format(string, sizeof(string), "[Quarentena] Humano %s matou o infectado %s  - Ganhou:[R$4000] [1] bala de bazuka e [30] de vida.",NomePlayerMatou, NomePlayerMorreu);
+            MensagemQuarentena(COR_GREEN, string);
+            PlacarQuarentena(playerid);
+            GivePlayerMoneyEx(killerid, 4000);
+            GivePlayerHealth(killerid, 30);
+            GivePlayerWeaponEx(killerid, 36, 1);
+            pClassiQuarentena[playerid] = 0;
+            return 1;
+        }
+        if(MorteEvento[killerid] == 5)
+        {
+            format(string, sizeof(string), "[Quarentena] Humano %s matou o infectado %s  - Ganhou:[R$4000] [1] bala de bazuka e [30] de vida.",NomePlayerMatou, NomePlayerMorreu);
+            MensagemQuarentena(COR_GREEN, string);
+            PlacarQuarentena(playerid);
+            format(string, sizeof(string), "[Quarentena] Humano %s matou 5 infectados  - Ganhou:[R$6000], [3] bazucas e recuperou sua vida.", NomePlayerMatou);
+            MensagemQuarentena(COR_LIGHTBLUE, string);
+            GivePlayerMoneyEx(killerid, 4000);
+            SetPlayerHealth(killerid, 100);
+            GivePlayerWeaponEx(killerid, 36, 3);
+            SetPlayerSkin(killerid, SkinRandomHumano[random(16)]);
+            pClassiQuarentena[playerid] = 0;
+            return 1;
+        }
+    }
+    //Evento jogos vorazes
+    if(TendoJogosVorazes == 1 && TanoEventoJogosVorazes[playerid] == 1 && TanoEventoJogosVorazes[killerid] == 1)
+    {
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        if(MorteEvento[killerid] == 1)
+        {
+            format(string, sizeof(string), "[Jogos Vorazes] %s matou %s  - Ganhou:[R$2000], Recuperou[20], Balas de Rifle[1].",NomePlayerMatou, NomePlayerMorreu);
+            SendClientMessageToAll(COR_GREEN,string);
+            GivePlayerMoneyEx(killerid, 2000);
+            SetPlayerArmour(killerid, 20);
+            GivePlayerWeaponEx(killerid, 33, 1);
+            //QuantidadeEvento --; ja esta na Public SetPlayerSpawn
+            //TanoEventoJogosVorazes[playerid] = 0; ja esta na Public SetPlayerSpawn
+            //SetTimer("VerificarGanhador", 250, false); ja esta na Public SetPlayerSpawn
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    // Evento War Zone
+    if(TanoWarZone[playerid] == 1 && TanoWarZone[killerid] == 1)
+    {
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        if(MorteEvento[killerid] >= 0)
+        {
+            if(MaletaAnexada[playerid] == 1)
+            {
+                GetPlayerPos(playerid,maletax,maletay,maletaz);
+                maletaid = CreateDynamicObject(1210,maletax,maletay,maletaz-0.8,0,0,0.0);
+                MaletaAnexada[playerid] = 0;
+                StopPlayerHoldingObject(playerid);
+                MaletaEmUso = 0;
+            }
+            if(EquipeWarZone[killerid] == 1)
+            {
+                format(string, sizeof(string), "[Evento] %s matou o jogador %s  - Ganhou:[R$400] e 2 pontos para o time vermelho.",NomePlayerMatou, NomePlayerMorreu);
+                MensagemWarZone(COR_AMARELO,string);
+                GivePlayerMoneyEx(killerid, 2000);
+                ContagemRed += 2;
+                return 1;
+            }
+            else if(EquipeWarZone[killerid] == 2)
+            {
+                format(string, sizeof(string), "[Evento] %s matou o jogador %s  - Ganhou:[R$400] e 2 pontos para o time azul.",NomePlayerMatou, NomePlayerMorreu);
+                MensagemWarZone(COR_AMARELO,string);
+                GivePlayerMoneyEx(killerid, 2000);
+                ContagemBlue += 2;
+                return 1;
+            }
+            else if(EquipeWarZone[killerid] == 3)
+            {
+                format(string, sizeof(string), "[Evento] %s matou o jogador %s  - Ganhou:[R$400] e 2 pontos para o time verde.",NomePlayerMatou, NomePlayerMorreu);
+                MensagemWarZone(COR_AMARELO,string);
+                GivePlayerMoneyEx(killerid, 2000);
+                ContagemGreen += 2;
+                return 1;
+            }
+        }
+    }
+    if(TendoEmboscada == 1 && IsPlayerInEmboscada(playerid) && IsPlayerInEmboscada(killerid))
+    {
+        new evento[250];
+        if(IsACop(killerid) && GetPlayerOrg(killerid) != GetPlayerOrg(playerid))
+        {
+            format(evento, sizeof(evento), "[Emboscada] Policial %s matou o jogador %s e ganhou R$3000 !",NomePlayerMatou,NomePlayerMorreu);
+            MensagemEmboscada(COR_PURPLE, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+            GivePlayerMoneyEx(killerid, 3000);
+            return 1;
+        }
+        else if(GetPlayerOrg(killerid) != GetPlayerOrg(playerid))
+        {
+            format(evento, sizeof(evento), "[Emboscada] Meliante %s matou o jogador %s e ganhou R$3000 !",NomePlayerMatou,NomePlayerMorreu);
+            MensagemEmboscada(COR_PURPLE, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+            GivePlayerMoneyEx(killerid, 3000);
+            return 1;
+        }
+    }
+    if(TendoGuerra == 1 && IsPlayerInTerritorio(playerid) && IsPlayerInTerritorio(killerid))
+    {
+        new evento[250];
+        new evento2[250];
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um god like(matou 9) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um god like(matou 10) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um god like(matou 11) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Guerra Terrorista] Jogador %s fez um god like(matou 12) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Guerra Terrorista] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        if(PlayerInfo[killerid][pMembro] == 3 || PlayerInfo[killerid][pLider] == 3)
+        {
+            if(PlayerInfo[playerid][pMembro] == 6 || PlayerInfo[playerid][pLider] == 6)
+            {
+                Territorio[exercitokill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Exercito %s Matou o Terrorista(Taliban) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+            if(PlayerInfo[playerid][pMembro] == 16 || PlayerInfo[playerid][pLider] == 16)
+            {
+                Territorio[exercitokill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Exercito %s Matou o Terrorista(Al'qaeda) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+        }
+        if(PlayerInfo[killerid][pMembro] == 6 || PlayerInfo[killerid][pLider] == 6)
+        {
+            if(PlayerInfo[playerid][pMembro] == 3 || PlayerInfo[playerid][pLider] == 3)
+            {
+                Territorio[talibankill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Taliban %s Matou o Policial(Exercito) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+            if(PlayerInfo[playerid][pMembro] == 16 || PlayerInfo[playerid][pLider] == 16)
+            {
+                Territorio[talibankill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Taliban %s Matou o Terrorista(Al'qaeda) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+        }
+        if(PlayerInfo[killerid][pMembro] == 16 || PlayerInfo[killerid][pLider] == 16)
+        {
+            if(PlayerInfo[playerid][pMembro] == 3 || PlayerInfo[playerid][pLider] == 3)
+            {
+                Territorio[alqaedakill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Al'qaeda %s Matou o Policial(Exercito) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+            if(PlayerInfo[playerid][pMembro] == 6 || PlayerInfo[playerid][pLider] == 6)
+            {
+                Territorio[alqaedakill] += 1;
+                GivePlayerMoneyEx(killerid, 200);
+                format(string, sizeof(string), "[Guerra Terrorista] Al'qaeda %s Matou o Terrorista(Taliban) %s e ganhou R$200 !", NomePlayerMatou, NomePlayerMorreu);
+                MensagemGuerra(COR_DBLUE, string);
+                format(string, sizeof(string), "[Guerra Terrorista]: {f4005b}Taliban[%d] {FFFFFF}X {33aa33}Exercito[%d] {FFFFFF}X {ffcc99}Al'Qaeda[%d] !",Territorio[talibankill], Territorio[exercitokill] , Territorio[alqaedakill]);
+                MensagemGuerra(COR_DBLUE, string);
+            }
+        }
+    }
+    if(emduelo[playerid] == 1)
+    {
+         new Float:Vida;
+         new Float:Colete;
+         GetPlayerArmour(killerid, Colete);
+         GetPlayerHealth(killerid, Vida);
+         format(string, sizeof(string), "[Duelo] Voce ganhou 1x1 contra o jogador %s, e ficou com: Vida[%.0f] Colete[%.0f].", NomePlayerMorreu, Vida, Colete);
+         SendClientMessage(killerid, COR_LIGHTBLUE, string);
+         format(string, sizeof(string), "[Duelo] Voce perdeu o duelo 1x1 contra o jogador %s, ele ficou com: Vida[%.0f] Colete[%.0f].", NomePlayerMatou, NomePlayerMorreu, Vida, Colete);
+         SendClientMessage(playerid, COR_VERMELHO, string);
+         new Float:result;
+         result = Vida + Colete;
+         new StringDuelo[300];
+         foreach(new i: Player)
+         {
+              if(PlayerInfo[i][pChatDuelo] == 0)
+              {
+                    if(result >= 200)
+                    {
+                        format(StringDuelo, sizeof(StringDuelo),"(DUELO): O Player %s {df5454}venceu {FFFFFF}%s de {FFFF22}perfect {df5454}em {FFFFFF}%d {df5454}segundos!",NomePlayerMatou,NomePlayerMorreu,ContagemDuelo[killerid]);
+                    }
+                    else
+                    {
+                        format(StringDuelo, sizeof(StringDuelo),"(DUELO): O Player %s venceu %s, com : Vida[%.0f] Colete[%.0f] Segundos[%d].",NomePlayerMatou,NomePlayerMorreu,Vida,Colete,ContagemDuelo[killerid]);
+                    }
+                    SendClientMessage(i, 0x9CEA00FF, StringDuelo);
+              }
+         }
+         ContagemDuelo[killerid] = 0;
+         ContagemDuelo[playerid] = 0;
+         emduelo[playerid] = 0;
+         desafiou[playerid] = 0;
+         desafiado[playerid] = 0;
+         emduelo[killerid] = 0;
+         desafiou[killerid] = 0;
+         desafiado[killerid] = 0;
+         duelols[playerid] = duelols[killerid];
+         duelolv[playerid] = duelolv[killerid];
+         SetPlayerInterior(playerid, 0);
+         SetPlayerInterior(killerid, 0);
+         SetPlayerVirtualWorld(playerid, 0);
+         SetPlayerSpawn(killerid);
+    }
+    if(killerid != INVALID_PLAYER_ID && GetChased[killerid] != playerid && NaPorraDoEvento[playerid] == true)
+    {
+         if(GetPlayerWeapon(killerid) == 34)
+         {
+              PlayerInfo[killerid][pAtiradorElite] ++;
+         }
+         if(GetPlayerWeapon(killerid) == 35)
+         {
+              PlayerInfo[killerid][pBazucador] ++;
+         }
+         if(GetPlayerWeapon(killerid) == 24)
+         {
+              PlayerInfo[killerid][pMatador] ++;
+         }
+         if(GetPlayerWeapon(killerid) == 4)
+         {
+              PlayerInfo[killerid][pDegolador] ++;
+         }
+         if(AtirouCorpo[playerid] == 1)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lwwmia2uq4ho597/headshot2.mp3")
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/2fl7mv7z8dyfrds/headshot.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Cabeca].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 2)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Tronco].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 3)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/4okvllcpb97uv03/humiliation.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Virilia].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 4)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Braco Direito].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 5)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Braco Esquerdo].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 6)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Perna Direita].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+         else if(AtirouCorpo[playerid] == 7)
+         {
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/4vrqtpo1yvbl4fx/ownage.mp3");
+             format(string, sizeof(string), "Voce foi morto pelo jogador: %s, Arma:[%s] Local Tiro:[Perna Esquerda].", PlayerName(killerid), Nomesdasarmas[GetPlayerWeapon(killerid)]);
+             SendClientMessage(playerid, COR_LIGHTRED, string);
+         }
+    }
+    if(Trazervs[playerid] == 1)
+    {
+        if(TimeZumbis[killerid] == 1)
+        {
+            if(TimeZumbis[playerid] == 1)
+            {
+                 format(gstring, sizeof(gstring), "COP %s Matou o COP %s, perdeu R$300 e foi desclassificado do evento !", NomePlayerMatou, NomePlayerMorreu);
+                 ProxDetector(60.0, playerid, gstring, COR_BALLAS,COR_BALLAS,COR_BALLAS,COR_BALLAS,COR_BALLAS);
+                 TimeZumbis[playerid] = 1;
+                 ResetPlayerWeaponsEx(killerid);
+                 GivePlayerMoneyEx(killerid, -300);
+                 SetPlayerSpawn(killerid);
+                 SetPlayerToTeamColor(playerid);
+                 NaPorraDoEvento[playerid] = false;
+                 TimeCOPS[playerid] = 0;
+                 TimeCOPS[killerid] = 0;
+                 Trazervs[killerid] = 0;
+                 Trazervs[playerid] = 0;
+            }
+        }
+        if(TimeZumbis[killerid] == 1)
+        {
+            if(TimeCOPS[playerid] == 1)
+            {
+                 format(gstring, sizeof(gstring), "COP %s matou o Zombie %s e ganhou R$300 !", NomePlayerMatou, NomePlayerMorreu);
+                 ProxDetector(60.0, playerid, gstring, COR_DBLUE,COR_DBLUE,COR_DBLUE,COR_DBLUE,COR_DBLUE);
+                 TimeCOPS[playerid] = 1;
+                 GivePlayerMoneyEx(killerid, 300);
+                 SetPlayerToTeamColor(playerid);
+                 NaPorraDoEvento[playerid] = false;
+                 TimeCOPS[playerid] = 0;
+                 Trazervs[playerid] = 0;
+             }
+        }
+        if(TimeCOPS[playerid] == 1)
+        {
+             if(TimeCOPS[killerid] == 1)
+             {
+                 format(gstring, sizeof(gstring), "Zombie %s Matou o Zombie %s, perdeu R$300 e foi desclassificado do evento !", NomePlayerMatou, NomePlayerMorreu);
+                 ProxDetector(60.0, playerid, gstring, COR_BALLAS,COR_BALLAS,COR_BALLAS,COR_BALLAS,COR_BALLAS);
+                 TimeZumbis[playerid] = 1;
+                 ResetPlayerWeaponsEx(killerid);
+                 GivePlayerMoneyEx(killerid, -300);
+                 SetPlayerSpawn(killerid);
+                 SetPlayerToTeamColor(playerid);
+                 NaPorraDoEvento[playerid] = false;
+                 TimeCOPS[killerid] = 0;
+                 TimeCOPS[playerid] = 0;
+                 Trazervs[killerid] = 0;
+                 Trazervs[playerid] = 0;
+             }
+        }
+        if(TimeZumbis[killerid] == 1)
+        {
+             if(TimeCOPS[playerid] == 1)
+             {
+                 format(gstring, sizeof(gstring), "Zombie %s matou o COP %s e ganhou R$300 !", NomePlayerMatou, NomePlayerMorreu);
+                 ProxDetector(60.0, playerid, gstring, COR_VERMELHO,COR_VERMELHO,COR_VERMELHO,COR_VERMELHO,COR_VERMELHO);
+                 TimeCOPS[playerid] = 1;
+                 GivePlayerMoneyEx(killerid, 300);
+                 SetPlayerToTeamColor(playerid);
+                 NaPorraDoEvento[playerid] = false;
+                 TimeCOPS[playerid] = 0;
+                 Trazervs[playerid] = 0;
+             }
+        }
+        ultimokill[killerid] = playerid;
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 1)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Floresta] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Floresta] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 1;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Floresta] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 2)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             SendClientMessageToAll(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Arena] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Arena] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 2;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Arena] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 3)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Mansao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Mansao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 3;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Mansao] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 4)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Carandiru] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Carandiru] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 4;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Carandiru] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 5)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             SendClientMessageToAll(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Construcao] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Construcao] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 5;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Construcao] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTiroteio] == 6)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+             GivePlayerMoneyEx(killerid, 300);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+             GivePlayerMoneyEx(killerid, 1000);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_PURPLE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+             GivePlayerMoneyEx(killerid, 1200);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+             MensagemTiroteio(COR_BALLAS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+             GivePlayerMoneyEx(killerid, 1500);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+             SendClientMessageToAll(COR_LIGHTBLUE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+             GivePlayerMoneyEx(killerid, 1900);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VERDE, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+             GivePlayerMoneyEx(killerid, 2500);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+             MensagemTiroteio(COR_VAGOS, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+             GivePlayerMoneyEx(killerid, 4000);
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+             MensagemTiroteio(COR_LIGHTRED, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+             format(evento, sizeof(evento), "[Tiroteio Departamento] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+             MensagemTiroteio(COR_CV, evento);
+             format(evento2, sizeof(evento2), "[Tiroteio Departamento] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+             SendClientMessage(killerid, COR_BRANCO, evento2);
+             GivePlayerMoneyEx(killerid, 2000);
+             SetPlayerHealth(killerid, 100);
+             SetPlayerArmour(killerid, 100);
+             GivePlayerWeaponEx(killerid, 35, 1);
+             if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTiroteio] = 6;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Tiroteio Departamento] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemTiroteio(COR_AMARELO, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PrimeiroChuck[playerid] == 1 && PlayerInfo[playerid][pTrazerChuck] == 0)
+    {
+        new evento[150];
+        new evento2[150];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        format(gstring, sizeof(gstring), "%s matou o Chuck Norris %s, ganhou R$5000, agora ele e o Chuck Norris, digite: /pchuck %d para acha-lo !", NomePlayerMatou,NomePlayerMorreu, killerid);
+        SendClientMessageToAll(COR_BRANCO, gstring);
+        PlayerInfo[playerid][pTrazerChuck] = 1;
+        PlayerInfo[killerid][pTrazerChuck] = 0;
+        PrimeiroChuck[playerid] = 0;
+        PrimeiroChuck[killerid] = 1;
+        GivePlayerWeaponEx(killerid, 38, 9999999);
+        GivePlayerWeaponEx(killerid, 24, 9999999);
+        GivePlayerWeaponEx(killerid, 8, 1);
+        SetPlayerSkin(killerid, 264);
+        SetPlayerArmour(killerid, 100);
+        SetPlayerHealth(killerid, 100);
+        SetPlayerColor(killerid, 0xFF0000FF);
+        GivePlayerMoneyEx(killerid, 5000);
+        SetPlayerToTeamColor(playerid);
+        NaPorraDoEvento[killerid] = true;
+        TogglePlayerControllable(killerid, 1);
+        if(MorteEvento[killerid] == 1)
+        {
+            GivePlayerMoneyEx(killerid, 300);
+            format(evento, sizeof(evento), "[Chuck Norris] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+            GivePlayerMoneyEx(killerid, 300);
+            format(evento, sizeof(evento), "[Chuck Norris] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+            GivePlayerMoneyEx(killerid, 1000);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+            MensagemChuck(COR_PURPLE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+            GivePlayerMoneyEx(killerid, 1200);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+            MensagemChuck(COR_BALLAS, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+            GivePlayerMoneyEx(killerid, 1500);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+            MensagemChuck(COR_LIGHTBLUE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+            GivePlayerMoneyEx(killerid, 1900);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+            MensagemChuck(COR_VERDE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+            GivePlayerMoneyEx(killerid, 2500);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+            MensagemChuck(COR_VAGOS, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+            GivePlayerMoneyEx(killerid, 4000);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+            MensagemChuck(COR_LIGHTRED, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            SetPlayerHealth(killerid, 100);
+            SetPlayerArmour(killerid, 100);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        format(evento, sizeof(evento), "[Chuck Norris] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+        SendClientMessage(killerid, COR_BRANCO, evento);
+        ultimokill[killerid] = playerid;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(PlayerInfo[playerid][pTrazerChuck] == 1 && PrimeiroChuck[playerid] == 0)
+    {
+        new evento[250];
+        new evento2[250];
+        new valorinicial = 1;
+        valorinicial++;
+        DeslogouNoTiroteio[killerid] = 0;
+        DeslogouNoTiroteio[playerid] = 0;
+        MorteEvento[killerid] += 1;
+        MorteEvento[playerid] = 0;
+        DeatEvento[playerid] += 1;
+        KillEvento[killerid] +=1;
+        if(MorteEvento[killerid] == 1)
+        {
+            GivePlayerMoneyEx(killerid, 300);
+            format(evento, sizeof(evento), "[Chuck Norris] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/gqan2geho38d3gp/firstblood.mp3");
+        }
+        else if(MorteEvento[killerid] == 2)
+        {
+            GivePlayerMoneyEx(killerid, 300);
+            format(evento, sizeof(evento), "[Chuck Norris] Voce matou %s e ganhou R$300, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/yg8jgt1c3urcwbi/doublekill.mp3");
+        }
+        else if(MorteEvento[killerid] == 3)
+        {
+            GivePlayerMoneyEx(killerid, 1000);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um multi kill(matou 3) sem morrer e ganhou R$1000 !", NomePlayerMatou);
+            MensagemChuck(COR_PURPLE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/zuhwula433b1r4k/multikill.mp3");
+        }
+        else if(MorteEvento[killerid] == 4)
+        {
+            GivePlayerMoneyEx(killerid, 1200);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um ultra kill(matou 4) sem morrer e ganhou R$1200 !", NomePlayerMatou);
+            MensagemChuck(COR_BALLAS, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1200, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/8mahho9vpxypgjx/ultrakill.mp3");
+        }
+        else if(MorteEvento[killerid] == 5)
+        {
+            GivePlayerMoneyEx(killerid, 1500);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um monster kill(matou 5) sem morrer e ganhou R$1500 !", NomePlayerMatou);
+            MensagemChuck(COR_LIGHTBLUE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/66qvzkaiihjtcei/monsterkill.mp3");
+        }
+        else if(MorteEvento[killerid] == 6)
+        {
+            GivePlayerMoneyEx(killerid, 1900);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um unstoppable(matou 6) sem morrer e ganhou R$1900 !", NomePlayerMatou);
+            MensagemChuck(COR_VERDE, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$1900, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/ktc22w1fjyzvp8i/unstoppable.mp3");
+        }
+        else if(MorteEvento[killerid] == 7)
+        {
+            GivePlayerMoneyEx(killerid, 2500);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um Play kill(matou 7) sem morrer e ganhou R$2500 !", NomePlayerMatou);
+            MensagemChuck(COR_VAGOS, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$2500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 8)
+        {
+            GivePlayerMoneyEx(killerid, 4000);
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um holy shit(matou 8) sem morrer e ganhou R$4000 !", NomePlayerMatou);
+            MensagemChuck(COR_LIGHTRED, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4000, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/365bcci79ikuefd/holyshit.mp3");
+        }
+        else if(MorteEvento[killerid] == 9)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 10)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] == 11)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        else if(MorteEvento[killerid] > 12)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] Jogador %s fez um god like(matou %d) sem morrer e ganhou R$2000 e uma bala de bazuca e recuperou sua vida e colete !", NomePlayerMatou, KillEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            format(evento2, sizeof(evento2), "[Chuck Norris] Voce matou %s e ganhou R$4500, K/D =[%d/%d] !", NomePlayerMorreu, KillEvento[killerid], DeatEvento[killerid]);
+            SendClientMessage(killerid, COR_BRANCO, evento2);
+            GivePlayerMoneyEx(killerid, 2000);
+            SetPlayerHealth(killerid, 100);
+            SetPlayerArmour(killerid, 100);
+            GivePlayerWeaponEx(killerid, 35, 1);
+            if(TaEscutando[playerid] == 0) PlayAudioStreamForPlayer(killerid, "https://dl.dropboxusercontent.com/s/lge0bhpsp8tn2iy/godlike.mp3");
+        }
+        ultimokill[killerid] = playerid;
+        PlayerInfo[playerid][pTrazerChuck] = 1;
+        NaPorraDoEvento[killerid] = true;
+        if(KillEvento[killerid] >= CalculoGanhandoEvento)
+        {
+            format(evento, sizeof(evento), "[Chuck Norris] %s esta ganhando o evento com  K/D:[%d/%d]", NomePlayerMatou, KillEvento[killerid], DeatEvento[killerid]);
+            MensagemChuck(COR_CV, evento);
+            new valor = KillEvento[killerid];
+            CalculoGanhandoEvento = valor;
+            if(valorinicial == 2)
+            {
+                CalculoGanhandoEvento ++;
+            }
+        }
+    }
+    if(iniciarrally[playerid] > 0 && iniciarcross[playerid] > 0 && iniciartrilha[playerid] > 0 && iniciarbarco[playerid] > 0)
+    {
+         DisablePlayerRaceCheckpoint(playerid);
+         NaPorraDoEvento[playerid] = false;
+         iniciarrally[playerid] = 0;
+         iniciartrilha[playerid] = 0;
+         iniciarkart[playerid] = 0;
+         iniciartrato[playerid] = 0;
+         iniciarbarco[playerid] = 0;
+         corridamaluca[playerid] = 0;
+         CorridaGanha[playerid] = 0;
+         SendClientMessage(playerid, COR_VERMELHO, "* Voce morreu e automaticamente foi desclassificado do evento !");
+         SetVehicleToRespawn(GetPlayerVehicleID(playerid));
+    }
+    if(!gPlayerInGuerra(playerid) && !IsPlayerInSkate(playerid) && !IsPlayerInPark(playerid) && !IsPlayerInCasarao(playerid) && !IsPlayerInMotel(playerid) && !IsPlayerInMata(playerid) && !IsPlayerInEstacao(playerid) && !IsPlayerInChuck(playerid) && Trazervs[playerid] == 0 && PlayerInfo[playerid][pJailed] == 0 && GotHit[killerid] == 0 && NaPorraDoEvento[killerid] == false
+    && !IsPlayerInTerritorio(playerid) && PlayerInfo[playerid][pHeadValue] == 0 && !PlayerToPoint(80.0, playerid,-2330.9072,-1626.2087,483.7057) && !PlayerToPoint(80.0, playerid,1392.4659,-17.1629,1000.9188) && GetPlayerOrg(playerid) != 7)
+    {
+        SetPlayerCriminal(killerid, 255, "Assassinato em Primeiro Grau");
+        PlayerInfo[killerid][pKills] += 1;
+    }
+    if(fkill[playerid] < 3)
+    {
+         fkill[playerid]++;
+         SetTimerEx("MenosFKill",1000,false,"d",playerid);
+    }
+    else if(NaPorraDoEvento[playerid] == false)
+    {
+        new string23[128], nome23[MAX_PLAYER_NAME];
+        GetPlayerName(playerid,nome23, sizeof(nome23));
+        format(string23, sizeof(string23) ,"Jogador(Level %d): %s[%d] foi morto pelo Jogador: %s[%d], pode ser fake kill, fique de olho !", PlayerInfo[playerid][pLevel], PlayerName(playerid), playerid, PlayerName(killerid), killerid) ;
+        ABroadCast(COR_LIGHTRED, string23, 1);
+    }
+    if(WantedLevel[playerid] > 0)
+    {
+            new price = WantedLevel[playerid] * 50;
+            if(IsACop(killerid) || PlayerInfo[killerid][pEmprego] == 7)
+            {
+                foreach(new i: Player)
+                {
+                     if(IsPlayerConnected(i))
+                     {
+                          if(GetPlayerOrg(killerid) == 1)
+                          {
+                               if(GetPlayerOrg(i) == 1)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 2)
+                          {
+                               if(GetPlayerOrg(i) == 2)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 3)
+                          {
+                               if(GetPlayerOrg(i) == 3)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 12)
+                          {
+                               if(GetPlayerOrg(i) == 12)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 13)
+                          {
+                               if(GetPlayerOrg(i) == 13)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 17)
+                          {
+                               if(GetPlayerOrg(i) == 17)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(GetPlayerOrg(killerid) == 25)
+                          {
+                               if(GetPlayerOrg(i) == 25)
+                               {
+                                   format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                                   GameTextForPlayer(i, gstring, 5000, 1);
+                                   ConsumingMoney[i] = 1;
+                                   GivePlayerMoneyEx(i, price/2);
+                                   PlayerPlaySound(i, 1058, 0.0, 0.0, 0.0);
+                               }
+                          }
+                          if(PlayerInfo[killerid][pEmprego] == 7)
+                          {
+                               format(gstring, sizeof(gstring), "~w~Suspeito ~r~Morto~n~ Bonus~g~R$%d", price);
+                               GameTextForPlayer(killerid, gstring, 5000, 1);
+                               ConsumingMoney[killerid] = 1;
+                               GivePlayerMoneyEx(killerid, price/2);
+                               PlayerPlaySound(killerid, 1058, 0.0, 0.0, 0.0);
+                          }
+                     }
+                }
+                if(ProcuraOffer[killerid] == playerid)
+                {
+                    ProcuraOffer[killerid] = 999;
+                    format(gstring, sizeof(gstring), "[Procurando] %s[%d] que Voce estava procurado foi preso, para cancelar a busca, use /procuraroff.", PlayerName(playerid), playerid);
+                    SendClientMessage(killerid, COR_AMARELO, gstring);
+                }
+                GivePlayerMoneyEx(playerid, - price);
+                PlayerInfo[playerid][pJailed] = 1;
+                PlayerInfo[playerid][pJailTime] = (WantedLevel[playerid])*(180);
+                if(IsACop(killerid))
+                {
+                    PLO += 100;
+                    DepositarOrgGrana(7,100);
+                    format(gstring, sizeof(gstring), "[%s] %s lhe prendeu por %d segundos com %d crimes e Voce perdeu R$:[%d] por trocar tiros e tentar fugir.",NomeORG(killerid),PlayerName(killerid), PlayerInfo[playerid][pJailTime],WantedLevel[playerid], price);
+                    SendClientMessage(playerid, COR_LIGHTRED, gstring);
+                    CofreOrg[GetPlayerOrg(killerid)][Dinheiro] += price;
+                }
+                else if(PlayerInfo[killerid][pEmprego] == 7)
+                {
+                    PLO += 100;
+                    DepositarOrgGrana(7,100);
+                    format(gstring, sizeof(gstring), "* [Agente Penitenciario] Voce esta preso por %d segundos,perdeu R$[50] por trocar tiros e fugir dos policiais.", PlayerInfo[playerid][pJailTime], price);
+                    SendClientMessage(playerid, COR_LIGHTRED, gstring);
+                }
+                WantedLevel[playerid] = 0;
+                SetPlayerWantedLevelEx(playerid, 0);
+                for(new i=0; i<75; i++)
+                {
+                    if(InventarioInfo[playerid][i][iSlot] == 1578)
+                    {
+                        InventarioInfo[playerid][i][iSlot] = 19382;
+                        InventarioInfo[playerid][i][iUnidades] = 0;
+                    }
+                    if(InventarioInfo[playerid][i][iSlot] == 1279)
+                    {
+                        InventarioInfo[playerid][i][iSlot] = 19382;
+                        InventarioInfo[playerid][i][iUnidades] = 0;
+                    }
+                    if(InventarioInfo[playerid][i][iSlot] == 1575)
+                    {
+                        InventarioInfo[playerid][i][iSlot] = 19382;
+                        InventarioInfo[playerid][i][iUnidades] = 0;
+                    }
+                    if(InventarioInfo[playerid][i][iSlot] == 1576)
+                    {
+                        InventarioInfo[playerid][i][iSlot] = 19382;
+                        InventarioInfo[playerid][i][iUnidades] = 0;
+                    }
+                }
+                PlayerInfo[playerid][pMats] = 0;
+                PlayerInfo[playerid][pPreso] ++;
+                RemovePlayerAttachedObject(playerid, 4);
+                SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE); DinamiteMaos[playerid] = 0;
+                PlayerCuffed[playerid] = 0;
+                if(IsPlayerInLS(playerid))
+                {
+                     PlayerInfo[playerid][pPenitenciaria] = 1;
+                }
+                SetPlayerChatBubble(playerid, ".", COR_VERMELHO, 1, 1);
+            }
+    }
+    if(IsACop(killerid))
+    {
+        if(Roubando[playerid] == 1)
+        {
+            if(InteriorAtual[playerid] >= 53 && InteriorAtual[playerid] <= 72) FazendaRoubada = GetPlayerVirtualWorld(playerid);
+            foreach(new i: Player)
+            {
+                 if(PlayerInfo[i][pChatRoubo] == 0)
+                 {
+                      format(gstring, sizeof(gstring), "[Org %s] {FFFFFF}%s[%d]: Evitou um roubo %s e recebeu R$ 40.000 e 1 de respeito!", NomeORG(killerid), NomePlayerMatou,killerid, getNameLocalRoubo(LocalDeRoubo[playerid]));
+                      SendClientMessage(i, COR_DBLUE, gstring);
+                      format(gstring, sizeof(gstring), "[Roubo %s] {FFFFFF}%s[%d]: nao conseguiram roubar o cofre %s!", NomeORG(playerid), PlayerName(playerid) , playerid, getNameLocalRoubo(LocalDeRoubo[playerid]));
+                      SendClientMessage(i, GetPlayerColor(playerid), gstring);
+                 }
+            }
+            Roubando[playerid] = 0;
+            KillTimer(TimerRoubando[playerid]);
+            TempoRoubo_[playerid] = 0;
+            RemovePlayerAttachedObject(playerid,9);
+            TogglePlayerControllable(playerid, 1);
+            ClearAnimations(playerid);
+            GivePlayerMoneyEx(killerid, 40000);
+            PlayerInfo[killerid][pExp] += 1;//
+            PlayerInfo[killerid][pRoubosEvitados] ++;
+            if(TaEscutando[playerid] == 0) StopAudioStreamForPlayer(playerid);
+        }
+        if(ProvocoInvasao[playerid] == 1)
+        {
+            foreach(new i: Player)
+            {
+                 if(PlayerInfo[i][pChatRoubo] == 0)
+                 {
+                      format(gstring, sizeof(gstring), "[Invasao Sistema] %s[%d]: nao conseguiu invadir o sistema da penitenciaria!",PlayerName(playerid),playerid);
+                      SendClientMessage(i, GetPlayerColor(playerid), gstring);
+                      format(gstring, sizeof(gstring), "[Org %s] {FFFFFF}%s[%d]:Evitou uma invasao a prefeitura e recebeu R$15.000 e 1 respeito!", NomeORG(killerid), NomePlayerMatou,killerid);
+                      SendClientMessage(i, COR_DBLUE, gstring);
+                 }
+            }
+            ProvocoInvasao[playerid] = 0; invasaopenitenciaria = 0; KillTimer(tempoinvasao); tempoinvasaosistema = 0;
+            RemovePlayerAttachedObject(playerid,9);
+            TogglePlayerControllable(playerid, 1);
+            ClearAnimations(playerid);
+            KillTimer(TempoContagem[playerid]);
+            GivePlayerMoneyEx(killerid, 15000);
+            PlayerInfo[killerid][pExp] += 1;
+            PlayerInfo[killerid][pRoubosEvitados] ++;
+            if(TaEscutando[playerid] == 0) StopAudioStreamForPlayer(playerid);
+        }
+    }
+    if(ProvocoCasarao[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZCasarao);
+        GangZoneShowForAll(GZCasarao, 0xFFFFFF96);
+        GuerranoCasarao = 0;
+        ProvocoCasarao[playerid] = 0;
+        donocasarao = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraCasarao);
+    }
+    if(ProvocoMotelA[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZMotel);
+        GangZoneShowForAll(GZMotel, 0xFFFFFF96);
+        GuerranoMotel = 0;
+        ProvocoMotelA[playerid] = 0;
+        donoMotel = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraMotel);
+    }
+    if(ProvocoSkate[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZSkate);
+        GangZoneShowForAll(GZSkate, 0xFFFFFF96);
+        GuerranoSkate = 0;
+        ProvocoSkate[playerid] = 0;
+        donoskate = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraSkate);
+    }
+    if(ProvocoMata[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZMata);
+        GangZoneShowForAll(GZMata, 0xFFFFFF96);
+        GuerranaMata = 0;
+        ProvocoMata[playerid] = 0;
+        donoMata = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraMata);
+    }
+    if(ProvocoPark[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZPark);
+        GangZoneShowForAll(GZPark, 0xFFFFFF96);
+        GuerranoPark = 0;
+        ProvocoPark[playerid] = 0;
+        DonoPark = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraPark);
+    }
+    if(ProvocoEstacao[playerid] == 1)
+    {
+        GangZoneStopFlashForAll(GZEstacao);
+        GangZoneShowForAll(GZEstacao, 0xFFFFFF96);
+        GuerranaEstacao = 0;
+        ProvocoEstacao[playerid] = 0;
+        donoestacao = 0;
+        Dominando[playerid] = 0;
+        KillTimer(TempoGuerraEstacao);
+    }
+    if (gPlayerCheckpointStatus[playerid] > 4 && gPlayerCheckpointStatus[playerid] < 11)
+    {
+        DisablePlayerCheckpoint(playerid);
+        gPlayerCheckpointStatus[playerid] = CKPOINT_NENHUM;
+    }
+    new caller = Mobile[playerid];
+    if(caller != 255)
+    {
+        if(caller < 255)
+        {
+            SendClientMessage(caller,  COR_GRAD2, "Morreram do outro lado da linha....");
+            CellTime[caller] = 0;
+            CellTime[playerid] = 0;
+            Mobile[caller] = 255;
+        }
+        Mobile[playerid] = 255;
+        CellTime[playerid] = 0;
+    }
+    if(PlayerInfo[playerid][pHeadValue] > 0)
+    {
+        if(IsPlayerConnected(killerid))
+        {
+            if(gTeam[killerid] == 10 || PlayerInfo[killerid][pLider] == 8  || PlayerInfo[killerid][pMembro] == 8 || PlayerInfo[killerid][pLider] == 26  || PlayerInfo[killerid][pMembro] == 26)
+            {
+                if(GoChase[killerid] == playerid)
+                {
+                    ConsumingMoney[killerid] = 1;
+                    GivePlayerMoneyEx(killerid, PlayerInfo[playerid][pHeadValue]);
+                    SendClientMessage(playerid, COR_VERDE, "<<<<<<<<< Voce Foi Morto Por 1 Contrato,Portanto,nao FOI DM! >>>>>>>>>");
+                    SendClientMessage(playerid, COR_LIGHTRED, "Voce perdeu R$100 por morrer com um contrato !");
+                    format(gstring,128,"* Voce cumpriu o contrato no jogador: %s, e recebeu R$[%d]",PlayerName(playerid),PlayerInfo[playerid][pHeadValue]);
+                    SendClientMessage(killerid, COR_LIGHTRED, gstring);
+                    if(GetPlayerOrg(killerid) == 8)
+                    {
+                         DepositarGranaOrg(8,PlayerInfo[playerid][pHeadValue]);
+                         format(gstring,128,"<< Algum Hitman cumpriu o contrato em %s e recebeu R$[%d] >>",PlayerName(playerid),PlayerInfo[playerid][pHeadValue]);
+                         SendClientMessageToAll(COR_AMARELO, gstring);
+                         CHitman++;
+                    }
+                    else if(GetPlayerOrg(killerid) == 26)
+                    {
+                         DepositarGranaOrg(26,PlayerInfo[playerid][pHeadValue]);
+                         format(gstring,128,"<< Algum Triad cumpriu o contrato em %s e recebeu R$[%d] >>",PlayerName(playerid),PlayerInfo[playerid][pHeadValue]);
+                         SendClientMessageToAll(COR_AMARELO, gstring);
+                         CTriads++;
+                    }
+                    GameTextForPlayer(killerid, "~r~contrato cumprido", 5000, 1);
+                    SendClientMessage(playerid, COR_OBS, "Alerta: {ffffff}Voce ganhou mais um ponto do titulo cacador de recompensas.");
+                    PlayerInfo[playerid][pHeadValue] = 0;
+                    GivePlayerMoneyEx(playerid, -100);
+                    GotHit[playerid] = 0;
+                    GetChased[playerid] = 999;
+                    GoChase[killerid] = 999;
+                    PlayerInfo[killerid][pCacador] ++;
+                }
+            }
+        }
+    }
+    if (PlayerInfo[killerid][pHeadValue] > 0)
+    {
+        if (IsPlayerConnected(playerid))
+        {
+            if (GetPlayerOrg(playerid) == 8 || GetPlayerOrg(playerid) == 26)
+            {
+                if (GoChase[playerid] == killerid)
+                {
+                    ConsumingMoney[playerid] = 1;
+                    format(gstring, 128, "<< O Matador %s foi morto por %s, e perdeu o seu contrato >>", PlayerName(playerid), PlayerName(killerid));
+                    SendFamilyMessage(8, COR_AMARELO, gstring);
+                    SendFamilyMessage(26, COR_AMARELO, gstring);
+                    PlayerInfo[killerid][pHeadValue] = 0;
+                    GotHit[killerid] = 0;
+                    GetChased[killerid] = 999;
+                    GoChase[playerid] = 999;
+                }
+            }
+        }
+    }
+    if(!strcmp(cActor[playerid][cName], ""))
+    {
+        DestroyActor(cActor[playerid][cActorID]);
+        Delete3DTextLabel(cActor[playerid][cLabelID]);
+    }
+    if(DroparArmSis == true)
+    {
+        new playerweapons[13][2];
+        new Float:x,Float:y,Float:z;
+        GetPlayerPos(playerid, x, y, z);
+        for(new i=0;i<13;i++){
+            GetPlayerWeaponData(playerid, i, playerweapons[i][0], playerweapons[i][1]);
+            new model=GetWeaponModel(playerweapons[i][0]);
+            new Float:X=x+(random(3)-random(3));
+            new Float:Y=y+(random(3)-random(3));
+            if(playerweapons[i][1]!=0)
+            {
+                CreateDroppedItem(model, playerweapons[i][1], X, Y, z);
+            }
+        }
+    }
+    if(NaPorraDoEvento[playerid] == false)
+    {
+        GetPlayerName(playerid, cActor[playerid][cName], 24);
+        GetPlayerPos(playerid, cActor[playerid][cPos][0],cActor[playerid][cPos][1], cActor[playerid][cPos][2]);
+        GetPlayerFacingAngle(playerid, cActor[playerid][cPos][3]);
+        cActor[playerid][cSkinID] = GetPlayerSkin(playerid);
+        cActor[playerid][cInterior] = GetPlayerInterior(playerid);
+        cActor[playerid][cWorld] = GetPlayerVirtualWorld(playerid);
+        format(string, sizeof(string), "{818689}Corpo de {ffffff}%s\n{818689}Assassino: {ffffff}%s", cActor[playerid][cName], PlayerName(killerid));
+        cActor[playerid][cLabelID] = Create3DTextLabel(string, 0xFFFFFFFF, cActor[playerid][cPos][0], cActor[playerid][cPos][1], cActor[playerid][cPos][2], 10.0, cActor[playerid][cWorld], 1);
+        AtirouCorpo[playerid] = 0;
+        //SetTimerEx("CriarCorpo", 3000, false, "i", playerid);
+    }
+    return 1;
+}

@@ -1,0 +1,27 @@
+public OnPlayerRequestClass(playerid, classid)
+{
+    if(IsPlayerNPC(playerid))
+    {
+        SpawnPlayer(playerid);
+        return 1;
+    }
+    if (RegistrationStep[playerid] == 0 && gPlayerLogged[playerid] != 1)
+    {
+        TogglePlayerSpectating(playerid, true);
+        TimerLogin[playerid] = SetTimerEx("mostrarTelaLogin", 50, true, "d", playerid);
+        PlayerPlaySound(playerid, 1098, 0.0, 0.0, 0.0);
+        ClearChatbox(playerid, 10);
+        PlayAudioStreamForPlayer(playerid, "https://www.dropbox.com/scl/fi/3va2w0t53lihk3jtvl1zq/AtravesseiUmMardeFogo.mp3?rlkey=m965a97fm1ad2e46sslpz23hb&st=is3cd405&dl=1");
+        InterpolateCameraPos(playerid, 1153.7322, -1740.5629, 13.4129, 1153.7322, -1740.5629, 13.4129, 9000);
+        InterpolateCameraLookAt(playerid, 1153.7322, -1740.5629, 13.4129, 1153.7322, -1740.5629, 13.4129, 9000);
+        PlayerInfo[playerid][pSkin] = Peds[classid][0];
+        SetPlayerTeamFromClass(playerid,classid);
+        ClearChatbox(playerid, 10);
+        SendClientMessage(playerid, COR_GREY, "* Carregando dados, aguarde alguns segundos...");
+    }
+    else
+    {
+        SpawnPlayer(playerid);
+    }
+    return 1;
+}
