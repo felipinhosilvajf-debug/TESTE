@@ -1,0 +1,178 @@
+    CMD:orgs(playerid, params[])
+    {
+        if (IsPlayerConnected(playerid))
+        {
+            new Celulas[140], str[4000];
+            strcat(str, "{df5454}Total de organizacoes: {ffffff}26\n\n{818689}Categoria: {ffffff}Governamental (Total 10) - [Funcao: Combater o Crime]\n");
+            if(strcmp(InfoOrg[1][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {7491f6}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 1, GetOrgName(1), InfoOrg[1][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {7491f6}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 1, GetOrgName(1), InfoOrg[1][Lider], getOnline(InfoOrg[1][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[2][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {3655c4}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 2, GetOrgName(2), InfoOrg[2][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {3655c4}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 2, GetOrgName(2), InfoOrg[2][Lider], getOnline(InfoOrg[2][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[3][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {33aa33}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 3, GetOrgName(3), InfoOrg[3][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {33aa33}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 3, GetOrgName(3), InfoOrg[3][Lider], getOnline(InfoOrg[3][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[4][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {FF0000}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 4, GetOrgName(4), InfoOrg[4][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {FF0000}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 4, GetOrgName(4), InfoOrg[4][Lider], getOnline(InfoOrg[4][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[7][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {df5454}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 7, GetOrgName(7), InfoOrg[7][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {df5454}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 7, GetOrgName(7), InfoOrg[7][Lider], getOnline(InfoOrg[7][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[12][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {FF6347}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 12, GetOrgName(12), InfoOrg[12][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {FF6347}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 12, GetOrgName(12), InfoOrg[12][Lider], getOnline(InfoOrg[12][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[13][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {114411}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 13, GetOrgName(13), InfoOrg[13][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {114411}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 13, GetOrgName(13), InfoOrg[13][Lider], getOnline(InfoOrg[13][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[14][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {ccccff}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 14, GetOrgName(14), InfoOrg[14][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {ccccff}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 14, GetOrgName(14), InfoOrg[14][Lider], getOnline(InfoOrg[14][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[17][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {93833e}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 17, GetOrgName(17), InfoOrg[17][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {93833e}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 17, GetOrgName(17), InfoOrg[17][Lider], getOnline(InfoOrg[17][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[25][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {363636}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 25, GetOrgName(25), InfoOrg[25][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {363636}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 25, GetOrgName(25), InfoOrg[25][Lider], getOnline(InfoOrg[25][Lider]));
+            strcat(str, Celulas);
+
+            strcat(str, "{818689}Categoria: {ffffff}Gangster (Total 6) - [Funcao: Traficar Drogas]\n");
+
+            if(strcmp(InfoOrg[5][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {0000FF}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 5, GetOrgName(5), InfoOrg[25][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {0000FF}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 5, GetOrgName(5), InfoOrg[5][Lider], getOnline(InfoOrg[5][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[11][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {8bb78b}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 11, GetOrgName(11), InfoOrg[11][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {8bb78b}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 11, GetOrgName(11), InfoOrg[11][Lider], getOnline(InfoOrg[11][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[15][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {00d900}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 15, GetOrgName(15), InfoOrg[15][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {00d900}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 15, GetOrgName(15), InfoOrg[15][Lider], getOnline(InfoOrg[15][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[18][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {9900ff}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 18, GetOrgName(18), InfoOrg[18][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {9900ff}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 18, GetOrgName(18), InfoOrg[18][Lider], getOnline(InfoOrg[18][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[19][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {FFFF00}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 19, GetOrgName(19), InfoOrg[18][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {FFFF00}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 19, GetOrgName(19), InfoOrg[19][Lider], getOnline(InfoOrg[19][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[23][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {FF0000}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 23, GetOrgName(23), InfoOrg[23][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {FF0000}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 23, GetOrgName(23), InfoOrg[23][Lider], getOnline(InfoOrg[23][Lider]));
+            strcat(str, Celulas);
+
+            strcat(str, "{818689}Categoria: {ffffff}Mafiosa (Total 2) - [Funcao: Trafico de Armamentos e Dinamite]\n");
+
+            if(strcmp(InfoOrg[20][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {4682B4}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 20, GetOrgName(20), InfoOrg[20][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {4682B4}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 20, GetOrgName(20), InfoOrg[20][Lider], getOnline(InfoOrg[20][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[22][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {00FFFF}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 22, GetOrgName(22), InfoOrg[22][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {00FFFF}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 22, GetOrgName(22), InfoOrg[22][Lider], getOnline(InfoOrg[22][Lider]));
+            strcat(str, Celulas);
+
+            strcat(str, "{818689}Categoria: {ffffff}Terrorista (Total 2) - [Funcao: Trafico de Bazucas]\n");
+
+            if(strcmp(InfoOrg[6][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {f4005b}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 6, GetOrgName(6), InfoOrg[6][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {f4005b}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 6, GetOrgName(6), InfoOrg[6][Lider], getOnline(InfoOrg[6][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[16][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {ffcc99}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 16, GetOrgName(16), InfoOrg[16][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {ffcc99}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 16, GetOrgName(16), InfoOrg[16][Lider], getOnline(InfoOrg[16][Lider]));
+            strcat(str, Celulas);
+
+
+            strcat(str, "{818689}Categoria: {ffffff}Mercenario (Total 2) - [Funcao: Trafico de C4]\n");
+
+            if(strcmp(InfoOrg[21][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {570000}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 21, GetOrgName(21), InfoOrg[21][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {570000}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 21, GetOrgName(21), InfoOrg[21][Lider], getOnline(InfoOrg[21][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[24][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {a774e2}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 24, GetOrgName(24), InfoOrg[24][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {a774e2}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 24, GetOrgName(24), InfoOrg[24][Lider], getOnline(InfoOrg[24][Lider]));
+            strcat(str, Celulas);
+
+            strcat(str, "{818689}Categoria: {ffffff}Assassinos de Aluguel (Total 2) - [Funcao: Assassinar]\n");
+
+            if(strcmp(InfoOrg[8][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {aaacae}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 16, GetOrgName(8), InfoOrg[8][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {aaacae}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 8, GetOrgName(8), InfoOrg[8][Lider], getOnline(InfoOrg[8][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[26][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {a0522d}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n\n", 26, GetOrgName(26), InfoOrg[26][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {a0522d}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n\n", 26, GetOrgName(26), InfoOrg[26][Lider], getOnline(InfoOrg[26][Lider]));
+            strcat(str, Celulas);
+
+            strcat(str, "{818689}Categoria: {ffffff}nao Criminosa (Total 2) - [Funcao: Diversas]\n");
+
+            if(strcmp(InfoOrg[9][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {CD9B9B}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00\n", 9, GetOrgName(9), InfoOrg[9][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {CD9B9B}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**\n", 9, GetOrgName(9), InfoOrg[9][Lider], getOnline(InfoOrg[9][Lider]));
+            strcat(str, Celulas);
+
+            if(strcmp(InfoOrg[10][Lider], "Ninguem", true) == 0)
+            format(Celulas, 140, "{818689}(ID: %i) - {ffff00}%s {818689}Lider: %s ({da941e}off{818689}) Login: 00/00/0000 as 00:00:00", 10, GetOrgName(10), InfoOrg[10][Lider]);
+            else
+            format(Celulas, 140, "{818689}(ID: %i) - {ffff00}%s {818689}Lider: %s (%s{818689}) Login: **/**/**** as **:**:**", 10, GetOrgName(10), InfoOrg[10][Lider], getOnline(InfoOrg[10][Lider]));
+            strcat(str, Celulas);
+            ShowPlayerDialog(playerid, 999, DIALOG_STYLE_MSGBOX, " ", str, "Fechar", "");
+        }
+        return true;
+    }
