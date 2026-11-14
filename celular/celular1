@@ -545,29 +545,29 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 
     if(CelularModoMover[playerid])
     {
-        if(clickedid == CelularFechar[playerid]) { EsconderCelularVB(playerid); return 1; }
-        if(clickedid == CelularSetaCima[playerid]) return MoverCelular(playerid, 0.0, -5.0);
-        if(clickedid == CelularSetaBaixo[playerid]) return MoverCelular(playerid, 0.0, 5.0);
-        if(clickedid == CelularSetaEsquerda[playerid]) return MoverCelular(playerid, -5.0, 0.0);
-        if(clickedid == CelularSetaDireita[playerid]) return MoverCelular(playerid, 5.0, 0.0);
+        if(playertextid == CelularFechar[playerid]) { EsconderCelularVB(playerid); return 1; }
+        if(playertextid == CelularSetaCima[playerid]) return MoverCelular(playerid, 0.0, -5.0);
+        if(playertextid == CelularSetaBaixo[playerid]) return MoverCelular(playerid, 0.0, 5.0);
+        if(playertextid == CelularSetaEsquerda[playerid]) return MoverCelular(playerid, -5.0, 0.0);
+        if(playertextid == CelularSetaDireita[playerid]) return MoverCelular(playerid, 5.0, 0.0);
         return 1;
     }
-    if(clickedid == CelularAjuda[playerid])
+    if(playertextid == CelularAjuda[playerid])
         return ExecutarComandoCelular(playerid, "/ajuda");
 
-    if(clickedid == CelularRG[playerid])
+    if(playertextid == CelularRG[playerid])
         return ExecutarComandoCelular(playerid, "/rg");
 
-    if(clickedid == CelularGPS[playerid])
+    if(playertextid == CelularGPS[playerid])
         return ExecutarComandoCelular(playerid, "/gps");
 
-    if(clickedid == CelularConfig[playerid])
+    if(playertextid == CelularConfig[playerid])
         return ExecutarComandoCelular(playerid, "/config");
 
-    if(clickedid == CelularLicencas[playerid])
+    if(playertextid == CelularLicencas[playerid])
         return ExecutarComandoCelular(playerid, "/licencas");
 
-    if(clickedid == CelularFechar[playerid])
+    if(playertextid == CelularFechar[playerid])
     {
         EsconderCelularVB(playerid);
         return 1;
