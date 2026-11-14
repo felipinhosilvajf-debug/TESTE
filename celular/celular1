@@ -1,20 +1,372 @@
 #include <a_samp>
 
-new Text:CelularVB[10];
+// VirtualBoost Phone - FilterScript
+// Visual baseado no TDE "Celular pra implantar".
+// O avatar e individual por jogador; os demais TextDraws sao globais.
+
+new Text:CelularBG[13];
+new Text:CelularTitulo;
+new Text:CelularAjuda;
+new Text:CelularFechar;
+new Text:CelularRG;
+new Text:CelularGPS;
+new Text:CelularConfig;
+new Text:CelularLicencas;
+
+new PlayerText:CelularAvatar[MAX_PLAYERS];
+new bool:CelularAvatarCriado[MAX_PLAYERS];
 new bool:CelularAberto[MAX_PLAYERS];
+
+stock CriarCelularTextDraws()
+{
+    // Estrutura externa, tela e detalhes do aparelho.
+    CelularBG[0] = TextDrawCreate(507.000, 168.000, "_");
+    TextDrawLetterSize(CelularBG[0], -1.530, 18.799);
+    TextDrawTextSize(CelularBG[0], 611.000, -6.000);
+    TextDrawAlignment(CelularBG[0], 1);
+    TextDrawColor(CelularBG[0], -1);
+    TextDrawUseBox(CelularBG[0], true);
+    TextDrawBoxColor(CelularBG[0], 170);
+    TextDrawSetShadow(CelularBG[0], 0);
+    TextDrawSetOutline(CelularBG[0], 0);
+    TextDrawBackgroundColor(CelularBG[0], 0);
+    TextDrawFont(CelularBG[0], 1);
+    TextDrawSetProportional(CelularBG[0], true);
+
+    CelularBG[1] = TextDrawCreate(509.000, 170.000, "_");
+    TextDrawLetterSize(CelularBG[1], 0.379, 18.299);
+    TextDrawTextSize(CelularBG[1], 609.000, 0.000);
+    TextDrawAlignment(CelularBG[1], 1);
+    TextDrawColor(CelularBG[1], -1);
+    TextDrawUseBox(CelularBG[1], true);
+    TextDrawBoxColor(CelularBG[1], 168761599);
+    TextDrawSetShadow(CelularBG[1], 0);
+    TextDrawSetOutline(CelularBG[1], 0);
+    TextDrawBackgroundColor(CelularBG[1], 0);
+    TextDrawFont(CelularBG[1], 1);
+    TextDrawSetProportional(CelularBG[1], true);
+
+    CelularBG[2] = TextDrawCreate(511.000, 172.000, "_");
+    TextDrawLetterSize(CelularBG[2], 0.000, 17.799);
+    TextDrawTextSize(CelularBG[2], 607.000, 0.000);
+    TextDrawAlignment(CelularBG[2], 1);
+    TextDrawColor(CelularBG[2], -1);
+    TextDrawUseBox(CelularBG[2], true);
+    TextDrawBoxColor(CelularBG[2], 270150911);
+    TextDrawSetShadow(CelularBG[2], 0);
+    TextDrawSetOutline(CelularBG[2], 0);
+    TextDrawBackgroundColor(CelularBG[2], 0);
+    TextDrawFont(CelularBG[2], 1);
+    TextDrawSetProportional(CelularBG[2], true);
+
+    CelularBG[3] = TextDrawCreate(510.000, 243.000, "LOADSUK:loadsc6");
+    TextDrawTextSize(CelularBG[3], 96.000, 72.000);
+    TextDrawAlignment(CelularBG[3], 1);
+    TextDrawColor(CelularBG[3], -1);
+    TextDrawSetShadow(CelularBG[3], 0);
+    TextDrawSetOutline(CelularBG[3], 0);
+    TextDrawBackgroundColor(CelularBG[3], 255);
+    TextDrawFont(CelularBG[3], 4);
+    TextDrawSetProportional(CelularBG[3], true);
+
+    CelularBG[4] = TextDrawCreate(608.000, 174.000, "_");
+    TextDrawLetterSize(CelularBG[4], 0.069, -0.099);
+    TextDrawTextSize(CelularBG[4], 594.000, 1.000);
+    TextDrawAlignment(CelularBG[4], 1);
+    TextDrawColor(CelularBG[4], -1);
+    TextDrawUseBox(CelularBG[4], true);
+    TextDrawBoxColor(CelularBG[4], 742281471);
+    TextDrawSetShadow(CelularBG[4], 0);
+    TextDrawSetOutline(CelularBG[4], 0);
+    TextDrawBackgroundColor(CelularBG[4], 0);
+    TextDrawFont(CelularBG[4], 1);
+    TextDrawSetProportional(CelularBG[4], true);
+
+    CelularBG[5] = TextDrawCreate(561.000, 197.000, "_");
+    TextDrawLetterSize(CelularBG[5], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[5], 605.000, 0.000);
+    TextDrawAlignment(CelularBG[5], 1);
+    TextDrawColor(CelularBG[5], -1);
+    TextDrawUseBox(CelularBG[5], true);
+    TextDrawBoxColor(CelularBG[5], 8368127);
+    TextDrawSetShadow(CelularBG[5], 0);
+    TextDrawSetOutline(CelularBG[5], 0);
+    TextDrawBackgroundColor(CelularBG[5], 0);
+    TextDrawFont(CelularBG[5], 1);
+    TextDrawSetProportional(CelularBG[5], true);
+
+    CelularBG[6] = TextDrawCreate(586.000, 215.000, "_");
+    TextDrawLetterSize(CelularBG[6], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[6], 605.000, 0.000);
+    TextDrawAlignment(CelularBG[6], 1);
+    TextDrawColor(CelularBG[6], 8388863);
+    TextDrawUseBox(CelularBG[6], true);
+    TextDrawBoxColor(CelularBG[6], 2147418367);
+    TextDrawSetShadow(CelularBG[6], 0);
+    TextDrawSetOutline(CelularBG[6], 0);
+    TextDrawBackgroundColor(CelularBG[6], -92245249);
+    TextDrawFont(CelularBG[6], 1);
+    TextDrawSetProportional(CelularBG[6], true);
+
+    CelularBG[7] = TextDrawCreate(560.000, 320.000, "_");
+    TextDrawLetterSize(CelularBG[7], -0.039, 0.899);
+    TextDrawTextSize(CelularBG[7], 597.000, 24.000);
+    TextDrawAlignment(CelularBG[7], 2);
+    TextDrawColor(CelularBG[7], -1);
+    TextDrawUseBox(CelularBG[7], true);
+    TextDrawBoxColor(CelularBG[7], -2026157586);
+    TextDrawSetShadow(CelularBG[7], 0);
+    TextDrawSetOutline(CelularBG[7], 0);
+    TextDrawBackgroundColor(CelularBG[7], 0);
+    TextDrawFont(CelularBG[7], 1);
+    TextDrawSetProportional(CelularBG[7], true);
+
+    CelularBG[8] = TextDrawCreate(571.000, 215.000, "_");
+    TextDrawLetterSize(CelularBG[8], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[8], 605.000, 20.000);
+    TextDrawAlignment(CelularBG[8], 2);
+    TextDrawColor(CelularBG[8], 8388863);
+    TextDrawUseBox(CelularBG[8], true);
+    TextDrawBoxColor(CelularBG[8], 1221709055);
+    TextDrawSetShadow(CelularBG[8], 0);
+    TextDrawSetOutline(CelularBG[8], 0);
+    TextDrawBackgroundColor(CelularBG[8], -92245249);
+    TextDrawFont(CelularBG[8], 1);
+    TextDrawSetProportional(CelularBG[8], true);
+
+    CelularBG[9] = TextDrawCreate(561.000, 184.000, "_");
+    TextDrawLetterSize(CelularBG[9], 0.000, 0.899);
+    TextDrawTextSize(CelularBG[9], 605.000, -3.000);
+    TextDrawAlignment(CelularBG[9], 1);
+    TextDrawColor(CelularBG[9], 8388863);
+    TextDrawUseBox(CelularBG[9], true);
+    TextDrawBoxColor(CelularBG[9], -1327438081);
+    TextDrawSetShadow(CelularBG[9], 0);
+    TextDrawSetOutline(CelularBG[9], 0);
+    TextDrawBackgroundColor(CelularBG[9], -92245249);
+    TextDrawFont(CelularBG[9], 1);
+    TextDrawSetProportional(CelularBG[9], true);
+
+    CelularBG[10] = TextDrawCreate(598.000, 186.000, "HUD:radar_modGarage");
+    TextDrawTextSize(CelularBG[10], 8.000, 6.000);
+    TextDrawAlignment(CelularBG[10], 1);
+    TextDrawColor(CelularBG[10], -1);
+    TextDrawSetShadow(CelularBG[10], 0);
+    TextDrawSetOutline(CelularBG[10], 0);
+    TextDrawBackgroundColor(CelularBG[10], 255);
+    TextDrawFont(CelularBG[10], 4);
+    TextDrawSetProportional(CelularBG[10], true);
+
+    CelularBG[11] = TextDrawCreate(561.000, 232.000, "_");
+    TextDrawLetterSize(CelularBG[11], 0.000, 0.899);
+    TextDrawTextSize(CelularBG[11], 605.000, -3.000);
+    TextDrawAlignment(CelularBG[11], 1);
+    TextDrawColor(CelularBG[11], 8388863);
+    TextDrawUseBox(CelularBG[11], true);
+    TextDrawBoxColor(CelularBG[11], -1378294017);
+    TextDrawSetShadow(CelularBG[11], 0);
+    TextDrawSetOutline(CelularBG[11], 0);
+    TextDrawBackgroundColor(CelularBG[11], -92245249);
+    TextDrawFont(CelularBG[11], 1);
+    TextDrawSetProportional(CelularBG[11], true);
+
+    // Area inferior decorativa do TDE (mantida no indice 12).
+    CelularBG[12] = TextDrawCreate(561.000, 232.000, "_");
+    TextDrawLetterSize(CelularBG[12], 0.000, 0.899);
+    TextDrawTextSize(CelularBG[12], 605.000, -3.000);
+    TextDrawAlignment(CelularBG[12], 1);
+    TextDrawColor(CelularBG[12], 8388863);
+    TextDrawUseBox(CelularBG[12], true);
+    TextDrawBoxColor(CelularBG[12], -1378294017);
+    TextDrawSetShadow(CelularBG[12], 0);
+    TextDrawSetOutline(CelularBG[12], 0);
+    TextDrawBackgroundColor(CelularBG[12], -92245249);
+    TextDrawFont(CelularBG[12], 1);
+    TextDrawSetProportional(CelularBG[12], true);
+
+    CelularTitulo = TextDrawCreate(559.000, 175.000, "VIRTUAL~w~PHONE");
+    TextDrawLetterSize(CelularTitulo, 0.129, 0.600);
+    TextDrawAlignment(CelularTitulo, 2);
+    TextDrawColor(CelularTitulo, -1);
+    TextDrawSetShadow(CelularTitulo, 0);
+    TextDrawSetOutline(CelularTitulo, 0);
+    TextDrawBackgroundColor(CelularTitulo, 0);
+    TextDrawFont(CelularTitulo, 2);
+    TextDrawSetProportional(CelularTitulo, true);
+
+    // Botoes: os tamanhos de clique foram mantidos do TDE.
+    CelularAjuda = TextDrawCreate(582.000, 198.000, "AJUDA");
+    TextDrawLetterSize(CelularAjuda, 0.299, 1.050);
+    TextDrawTextSize(CelularAjuda, 18.000, 100.000);
+    TextDrawAlignment(CelularAjuda, 2);
+    TextDrawColor(CelularAjuda, 255);
+    TextDrawSetShadow(CelularAjuda, 0);
+    TextDrawSetOutline(CelularAjuda, 0);
+    TextDrawBackgroundColor(CelularAjuda, 0);
+    TextDrawFont(CelularAjuda, 1);
+    TextDrawSetProportional(CelularAjuda, true);
+    TextDrawSetSelectable(CelularAjuda, true);
+
+    CelularFechar = TextDrawCreate(560.000, 321.000, "FECHAR");
+    TextDrawLetterSize(CelularFechar, 0.140, 0.649);
+    TextDrawTextSize(CelularFechar, 16.000, 100.000);
+    TextDrawAlignment(CelularFechar, 2);
+    TextDrawColor(CelularFechar, -1);
+    TextDrawSetShadow(CelularFechar, 0);
+    TextDrawSetOutline(CelularFechar, 0);
+    TextDrawBackgroundColor(CelularFechar, 0);
+    TextDrawFont(CelularFechar, 2);
+    TextDrawSetProportional(CelularFechar, true);
+    TextDrawSetSelectable(CelularFechar, true);
+
+    CelularRG = TextDrawCreate(595.000, 217.000, "RG");
+    TextDrawLetterSize(CelularRG, 0.319, 0.950);
+    TextDrawTextSize(CelularRG, 18.000, 100.000);
+    TextDrawAlignment(CelularRG, 2);
+    TextDrawColor(CelularRG, 255);
+    TextDrawSetShadow(CelularRG, 0);
+    TextDrawSetOutline(CelularRG, 0);
+    TextDrawBackgroundColor(CelularRG, 0);
+    TextDrawFont(CelularRG, 1);
+    TextDrawSetProportional(CelularRG, true);
+    TextDrawSetSelectable(CelularRG, true);
+
+    CelularGPS = TextDrawCreate(571.000, 216.000, "GPS");
+    TextDrawLetterSize(CelularGPS, 0.260, 1.150);
+    TextDrawTextSize(CelularGPS, 32.000, 100.000);
+    TextDrawAlignment(CelularGPS, 2);
+    TextDrawColor(CelularGPS, 255);
+    TextDrawSetShadow(CelularGPS, 0);
+    TextDrawSetOutline(CelularGPS, 0);
+    TextDrawBackgroundColor(CelularGPS, 0);
+    TextDrawFont(CelularGPS, 1);
+    TextDrawSetProportional(CelularGPS, true);
+    TextDrawSetSelectable(CelularGPS, true);
+
+    CelularConfig = TextDrawCreate(579.000, 185.000, "Configuracoes");
+    TextDrawLetterSize(CelularConfig, 0.159, 0.750);
+    TextDrawTextSize(CelularConfig, 18.000, 100.000);
+    TextDrawAlignment(CelularConfig, 2);
+    TextDrawColor(CelularConfig, 255);
+    TextDrawSetShadow(CelularConfig, 0);
+    TextDrawSetOutline(CelularConfig, 0);
+    TextDrawBackgroundColor(CelularConfig, 0);
+    TextDrawFont(CelularConfig, 1);
+    TextDrawSetProportional(CelularConfig, true);
+    TextDrawSetSelectable(CelularConfig, true);
+
+    CelularLicencas = TextDrawCreate(584.000, 232.000, "Licencas");
+    TextDrawLetterSize(CelularLicencas, 0.159, 0.750);
+    TextDrawTextSize(CelularLicencas, 18.000, 100.000);
+    TextDrawAlignment(CelularLicencas, 2);
+    TextDrawColor(CelularLicencas, 255);
+    TextDrawSetShadow(CelularLicencas, 0);
+    TextDrawSetOutline(CelularLicencas, 0);
+    TextDrawBackgroundColor(CelularLicencas, 0);
+    TextDrawFont(CelularLicencas, 2);
+    TextDrawSetProportional(CelularLicencas, true);
+    TextDrawSetSelectable(CelularLicencas, true);
+    return 1;
+}
+
+stock CriarAvatarCelular(playerid)
+{
+    CelularAvatar[playerid] = CreatePlayerTextDraw(playerid, 510.000, 182.000, "_");
+    PlayerTextDrawTextSize(playerid, CelularAvatar[playerid], 49.000, 60.000);
+    PlayerTextDrawAlignment(playerid, CelularAvatar[playerid], 1);
+    PlayerTextDrawColor(playerid, CelularAvatar[playerid], -1);
+    PlayerTextDrawSetShadow(playerid, CelularAvatar[playerid], 0);
+    PlayerTextDrawSetOutline(playerid, CelularAvatar[playerid], 0);
+    PlayerTextDrawBackgroundColor(playerid, CelularAvatar[playerid], 85);
+    PlayerTextDrawFont(playerid, CelularAvatar[playerid], 5);
+    PlayerTextDrawSetProportional(playerid, CelularAvatar[playerid], false);
+    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
+    PlayerTextDrawSetPreviewRot(playerid, CelularAvatar[playerid], 0.000, 0.000, 0.000, 1.000);
+    CelularAvatarCriado[playerid] = true;
+    return 1;
+}
+
+stock MostrarCelularVB(playerid)
+{
+    for(new i = 0; i < sizeof(CelularBG); i++)
+        TextDrawShowForPlayer(playerid, CelularBG[i]);
+
+    TextDrawShowForPlayer(playerid, CelularTitulo);
+    TextDrawShowForPlayer(playerid, CelularAjuda);
+    TextDrawShowForPlayer(playerid, CelularFechar);
+    TextDrawShowForPlayer(playerid, CelularRG);
+    TextDrawShowForPlayer(playerid, CelularGPS);
+    TextDrawShowForPlayer(playerid, CelularConfig);
+    TextDrawShowForPlayer(playerid, CelularLicencas);
+
+    if(!CelularAvatarCriado[playerid])
+        CriarAvatarCelular(playerid);
+
+    // Atualiza a miniatura com a skin atual do jogador ao abrir o telefone.
+    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
+    PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
+
+    CelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x00D9FFFF);
+    return 1;
+}
+
+stock EsconderCelularVB(playerid)
+{
+    for(new i = 0; i < sizeof(CelularBG); i++)
+        TextDrawHideForPlayer(playerid, CelularBG[i]);
+
+    TextDrawHideForPlayer(playerid, CelularTitulo);
+    TextDrawHideForPlayer(playerid, CelularAjuda);
+    TextDrawHideForPlayer(playerid, CelularFechar);
+    TextDrawHideForPlayer(playerid, CelularRG);
+    TextDrawHideForPlayer(playerid, CelularGPS);
+    TextDrawHideForPlayer(playerid, CelularConfig);
+    TextDrawHideForPlayer(playerid, CelularLicencas);
+
+    if(CelularAvatarCriado[playerid])
+        PlayerTextDrawHide(playerid, CelularAvatar[playerid]);
+
+    CelularAberto[playerid] = false;
+    CancelSelectTextDraw(playerid);
+    return 1;
+}
+
+stock ExecutarComandoCelular(playerid, const comando[])
+{
+    EsconderCelularVB(playerid);
+    // Encaminha o comando para os scripts/GM que tratam OnPlayerCommandText.
+    CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+    return 1;
+}
 
 public OnFilterScriptInit()
 {
-    CriarCelularVB();
-    print("\n[FS] Celular VB carregado com sucesso!\n");
+    CriarCelularTextDraws();
+    print("[VirtualBoost] Celular FilterScript carregado.");
     return 1;
 }
 
 public OnFilterScriptExit()
 {
-    for(new i = 0; i < sizeof(CelularVB); i++)
+    for(new i = 0; i < sizeof(CelularBG); i++)
+        TextDrawDestroy(CelularBG[i]);
+
+    TextDrawDestroy(CelularTitulo);
+    TextDrawDestroy(CelularAjuda);
+    TextDrawDestroy(CelularFechar);
+    TextDrawDestroy(CelularRG);
+    TextDrawDestroy(CelularGPS);
+    TextDrawDestroy(CelularConfig);
+    TextDrawDestroy(CelularLicencas);
+
+    for(new playerid = 0; playerid < MAX_PLAYERS; playerid++)
     {
-        TextDrawDestroy(CelularVB[i]);
+        if(CelularAvatarCriado[playerid])
+        {
+            PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
+            CelularAvatarCriado[playerid] = false;
+        }
     }
     return 1;
 }
@@ -22,94 +374,32 @@ public OnFilterScriptExit()
 public OnPlayerConnect(playerid)
 {
     CelularAberto[playerid] = false;
+    CelularAvatarCriado[playerid] = false;
     return 1;
 }
 
-stock Text:FS_Box(Float:x, Float:y, Float:w, Float:h, color)
+public OnPlayerDisconnect(playerid, reason)
 {
-    new Text:td = TextDrawCreate(x, y, "_");
-    TextDrawLetterSize(td, 0.0, h / 10.0);
-    TextDrawTextSize(td, x + w, 0.0);
-    TextDrawAlignment(td, 1);
-    TextDrawColor(td, 0xFFFFFFFF);
-    TextDrawUseBox(td, 1);
-    TextDrawBoxColor(td, color);
-    TextDrawSetShadow(td, 0);
-    TextDrawSetOutline(td, 0);
-    TextDrawBackgroundColor(td, 0);
-    TextDrawFont(td, 1);
-    TextDrawSetProportional(td, 1);
-    return td;
-}
+    #pragma unused reason
+    if(CelularAberto[playerid])
+        EsconderCelularVB(playerid);
 
-stock Text:FS_Label(Float:x, Float:y, text[], Float:letterX, Float:letterY, color, font = 2)
-{
-    new Text:td = TextDrawCreate(x, y, text);
-    TextDrawLetterSize(td, letterX, letterY);
-    TextDrawAlignment(td, 1);
-    TextDrawColor(td, color);
-    TextDrawSetShadow(td, 0);
-    TextDrawSetOutline(td, 0);
-    TextDrawBackgroundColor(td, 0);
-    TextDrawFont(td, font);
-    TextDrawSetProportional(td, 1);
-    return td;
-}
-
-stock CriarCelularVB()
-{
-    // Carcaca e Tela do Celular (Canto inferior direito)
-    CelularVB[0] = FS_Box(488.0, 218.0, 124.0, 234.0, 0x000000AA); // Sombra
-    CelularVB[1] = FS_Box(485.0, 215.0, 124.0, 234.0, 0x0A0F18FF); // Borda externa
-    CelularVB[2] = FS_Box(489.0, 225.0, 116.0, 210.0, 0x101A2CFF); // Tela interna
-    CelularVB[3] = FS_Box(532.0, 219.0, 30.0, 2.0, 0x2C3E50FF);   // Alto-falante
-    CelularVB[4] = FS_Box(489.0, 225.0, 116.0, 14.0, 0x007FAFFF);  // Barra superior
-
-    // Titulo do Celular
-    CelularVB[5] = FS_Label(547.0, 227.0, "VIRTUAL~w~PHONE", 0.13, 0.60, 0xFFFFFFFF, 2);
-    TextDrawAlignment(CelularVB[5], 2);
-
-    // BOTAO 1: AJUDA (Indice 7 - Clicavel)
-    CelularVB[6] = FS_Box(497.0, 250.0, 100.0, 22.0, 0x1D3047FF); // Fundo do botao
-    CelularVB[7] = FS_Label(547.0, 255.0, "AJUDA", 0.16, 0.75, 0x00D9FFFF, 2);
-    TextDrawAlignment(CelularVB[7], 2);
-    TextDrawTextSize(CelularVB[7], 18.0, 100.0); // Area de clique
-    TextDrawSetSelectable(CelularVB[7], true);
-
-    // BOTAO FECHAR (Indice 9 - Clicavel)
-    CelularVB[8] = FS_Box(497.0, 412.0, 100.0, 18.0, 0x873B49EE); // Fundo fechar
-    CelularVB[9] = FS_Label(547.0, 416.0, "FECHAR", 0.14, 0.65, 0xFFFFFFFF, 2);
-    TextDrawAlignment(CelularVB[9], 2);
-    TextDrawTextSize(CelularVB[9], 16.0, 100.0);
-    TextDrawSetSelectable(CelularVB[9], true);
-}
-
-stock AbrirCelularVB(playerid)
-{
-    for(new i = 0; i < sizeof(CelularVB); i++)
+    if(CelularAvatarCriado[playerid])
     {
-        TextDrawShowForPlayer(playerid, CelularVB[i]);
+        PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
+        CelularAvatarCriado[playerid] = false;
     }
-    CelularAberto[playerid] = true;
-    SelectTextDraw(playerid, 0x00D9FFFF);
-}
-
-stock FecharCelularVB(playerid)
-{
-    for(new i = 0; i < sizeof(CelularVB); i++)
-    {
-        TextDrawHideForPlayer(playerid, CelularVB[i]);
-    }
-    CelularAberto[playerid] = false;
-    CancelSelectTextDraw(playerid);
+    return 1;
 }
 
 public OnPlayerCommandText(playerid, cmdtext[])
 {
     if(!strcmp(cmdtext, "/vb", true))
     {
-        if(CelularAberto[playerid]) FecharCelularVB(playerid);
-        else AbrirCelularVB(playerid);
+        if(CelularAberto[playerid])
+            EsconderCelularVB(playerid);
+        else
+            MostrarCelularVB(playerid);
         return 1;
     }
     return 0;
@@ -117,22 +407,33 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 public OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
+    if(!CelularAberto[playerid])
+        return 0;
+
     if(clickedid == Text:INVALID_TEXT_DRAW)
     {
-        if(CelularAberto[playerid]) FecharCelularVB(playerid);
+        EsconderCelularVB(playerid);
         return 1;
     }
 
-    if(clickedid == CelularVB[7]) // Clicou em AJUDA
-    {
-        FecharCelularVB(playerid);
-        CallRemoteFunction("OnPlayerCommandText", "is", playerid, "/ajuda");
-        return 1;
-    }
+    if(clickedid == CelularAjuda)
+        return ExecutarComandoCelular(playerid, "/ajuda");
 
-    if(clickedid == CelularVB[9]) // Clicou em FECHAR
+    if(clickedid == CelularRG)
+        return ExecutarComandoCelular(playerid, "/rg");
+
+    if(clickedid == CelularGPS)
+        return ExecutarComandoCelular(playerid, "/gps");
+
+    if(clickedid == CelularConfig)
+        return ExecutarComandoCelular(playerid, "/config");
+
+    if(clickedid == CelularLicencas)
+        return ExecutarComandoCelular(playerid, "/licencas");
+
+    if(clickedid == CelularFechar)
     {
-        FecharCelularVB(playerid);
+        EsconderCelularVB(playerid);
         return 1;
     }
     return 0;
