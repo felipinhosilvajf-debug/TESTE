@@ -293,6 +293,7 @@ stock MostrarCelularVB(playerid)
     PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
 
     CelularAberto[playerid] = true;
+    ShowPlayerHudComponentForPlayer(playerid, HUD_CLOCK, false);
     SelectTextDraw(playerid, 0x00D9FFFF);
     return 1;
 }
@@ -314,6 +315,7 @@ stock EsconderCelularVB(playerid)
         PlayerTextDrawHide(playerid, CelularAvatar[playerid]);
 
     CelularAberto[playerid] = false;
+    ShowPlayerHudComponentForPlayer(playerid, HUD_CLOCK, true);
     CancelSelectTextDraw(playerid);
     return 1;
 }
