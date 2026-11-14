@@ -384,6 +384,13 @@ stock MoverCelular(playerid, Float:dx, Float:dy)
 
 stock MostrarCelularVB(playerid)
 {
+    // Apenas exibe os PlayerTextDraws ja criados no OnPlayerConnect.
+    // Nao destrua/recrie a interface ao abrir: isso pode causar sumico/flicker.
+    if(!CelularAvatarCriado[playerid])
+        CriarAvatarCelular(playerid);
+
+    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
+
     for(new i = 0; i < 12; i++)
         PlayerTextDrawShow(playerid, CelularBG[playerid][i]);
 
@@ -394,18 +401,10 @@ stock MostrarCelularVB(playerid)
     PlayerTextDrawShow(playerid, CelularGPS[playerid]);
     PlayerTextDrawShow(playerid, CelularConfig[playerid]);
     PlayerTextDrawShow(playerid, CelularLicencas[playerid]);
-
-    if(!CelularAvatarCriado[playerid])
-        CriarAvatarCelular(playerid);
-
-    // Atualiza a miniatura com a skin atual do jogador ao abrir o telefone.
-    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
-    AtualizarPosicaoCelular(playerid);
     PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
 
     CelularAberto[playerid] = true;
     if(CelularModoMover[playerid]) MostrarControlesMover(playerid);
-    TogglePlayerClock(playerid, 0);
     SelectTextDraw(playerid, 0x00D9FFFF);
     return 1;
 }
@@ -429,7 +428,6 @@ stock EsconderCelularVB(playerid)
     CelularAberto[playerid] = false;
     CelularModoMover[playerid] = false;
     EsconderControlesMover(playerid);
-    TogglePlayerClock(playerid, 1);
     CancelSelectTextDraw(playerid);
     return 1;
 }
