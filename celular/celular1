@@ -212,7 +212,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularRG[playerid] = CreatePlayerTextDraw(playerid, 595.000 + CelularOffsetX[playerid], 217.000 + CelularOffsetY[playerid], "RG");
     PlayerTextDrawLetterSize(playerid, CelularRG[playerid], 0.319, 0.950);
-    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 30.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 20.000, 12.000);
     PlayerTextDrawAlignment(playerid, CelularRG[playerid], 2);
     PlayerTextDrawColor(playerid, CelularRG[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularRG[playerid], 0);
@@ -224,7 +224,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularGPS[playerid] = CreatePlayerTextDraw(playerid, 571.000 + CelularOffsetX[playerid], 216.000 + CelularOffsetY[playerid], "GPS");
     PlayerTextDrawLetterSize(playerid, CelularGPS[playerid], 0.260, 1.150);
-    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 38.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 22.000, 12.000);
     PlayerTextDrawAlignment(playerid, CelularGPS[playerid], 2);
     PlayerTextDrawColor(playerid, CelularGPS[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularGPS[playerid], 0);
@@ -248,7 +248,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularLicencas[playerid] = CreatePlayerTextDraw(playerid, 584.000 + CelularOffsetX[playerid], 232.000 + CelularOffsetY[playerid], "Licencas");
     PlayerTextDrawLetterSize(playerid, CelularLicencas[playerid], 0.159, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 62.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 42.000, 12.000);
     PlayerTextDrawAlignment(playerid, CelularLicencas[playerid], 2);
     PlayerTextDrawColor(playerid, CelularLicencas[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularLicencas[playerid], 0);
