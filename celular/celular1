@@ -1,0 +1,139 @@
+#include <a_samp>
+
+new Text:CelularVB[10];
+new bool:CelularAberto[MAX_PLAYERS];
+
+public OnFilterScriptInit()
+{
+    CriarCelularVB();
+    print("\n[FS] Celular VB carregado com sucesso!\n");
+    return 1;
+}
+
+public OnFilterScriptExit()
+{
+    for(new i = 0; i < sizeof(CelularVB); i++)
+    {
+        TextDrawDestroy(CelularVB[i]);
+    }
+    return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+    CelularAberto[playerid] = false;
+    return 1;
+}
+
+stock Text:FS_Box(Float:x, Float:y, Float:w, Float:h, color)
+{
+    new Text:td = TextDrawCreate(x, y, "_");
+    TextDrawLetterSize(td, 0.0, h / 10.0);
+    TextDrawTextSize(td, x + w, 0.0);
+    TextDrawAlignment(td, 1);
+    TextDrawColor(td, 0xFFFFFFFF);
+    TextDrawUseBox(td, 1);
+    TextDrawBoxColor(td, color);
+    TextDrawSetShadow(td, 0);
+    TextDrawSetOutline(td, 0);
+    TextDrawBackgroundColor(td, 0);
+    TextDrawFont(td, 1);
+    TextDrawSetProportional(td, 1);
+    return td;
+}
+
+stock Text:FS_Label(Float:x, Float:y, text[], Float:letterX, Float:letterY, color, font = 2)
+{
+    new Text:td = TextDrawCreate(x, y, text);
+    TextDrawLetterSize(td, letterX, letterY);
+    TextDrawAlignment(td, 1);
+    TextDrawColor(td, color);
+    TextDrawSetShadow(td, 0);
+    TextDrawSetOutline(td, 0);
+    TextDrawBackgroundColor(td, 0);
+    TextDrawFont(td, font);
+    TextDrawSetProportional(td, 1);
+    return td;
+}
+
+stock CriarCelularVB()
+{
+    // Carcaca e Tela do Celular (Canto inferior direito)
+    CelularVB[0] = FS_Box(488.0, 218.0, 124.0, 234.0, 0x000000AA); // Sombra
+    CelularVB[1] = FS_Box(485.0, 215.0, 124.0, 234.0, 0x0A0F18FF); // Borda externa
+    CelularVB[2] = FS_Box(489.0, 225.0, 116.0, 210.0, 0x101A2CFF); // Tela interna
+    CelularVB[3] = FS_Box(532.0, 219.0, 30.0, 2.0, 0x2C3E50FF);   // Alto-falante
+    CelularVB[4] = FS_Box(489.0, 225.0, 116.0, 14.0, 0x007FAFFF);  // Barra superior
+
+    // Titulo do Celular
+    CelularVB[5] = FS_Label(547.0, 227.0, "VIRTUAL~w~PHONE", 0.13, 0.60, 0xFFFFFFFF, 2);
+    TextDrawAlignment(CelularVB[5], 2);
+
+    // BOTAO 1: AJUDA (Indice 7 - Clicavel)
+    CelularVB[6] = FS_Box(497.0, 250.0, 100.0, 22.0, 0x1D3047FF); // Fundo do botao
+    CelularVB[7] = FS_Label(547.0, 255.0, "AJUDA", 0.16, 0.75, 0x00D9FFFF, 2);
+    TextDrawAlignment(CelularVB[7], 2);
+    TextDrawTextSize(CelularVB[7], 18.0, 100.0); // Area de clique
+    TextDrawSetSelectable(CelularVB[7], true);
+
+    // BOTAO FECHAR (Indice 9 - Clicavel)
+    CelularVB[8] = FS_Box(497.0, 412.0, 100.0, 18.0, 0x873B49EE); // Fundo fechar
+    CelularVB[9] = FS_Label(547.0, 416.0, "FECHAR", 0.14, 0.65, 0xFFFFFFFF, 2);
+    TextDrawAlignment(CelularVB[9], 2);
+    TextDrawTextSize(CelularVB[9], 16.0, 100.0);
+    TextDrawSetSelectable(CelularVB[9], true);
+}
+
+stock AbrirCelularVB(playerid)
+{
+    for(new i = 0; i < sizeof(CelularVB); i++)
+    {
+        TextDrawShowForPlayer(playerid, CelularVB[i]);
+    }
+    CelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x00D9FFFF);
+}
+
+stock FecharCelularVB(playerid)
+{
+    for(new i = 0; i < sizeof(CelularVB); i++)
+    {
+        TextDrawHideForPlayer(playerid, CelularVB[i]);
+    }
+    CelularAberto[playerid] = false;
+    CancelSelectTextDraw(playerid);
+}
+
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    if(!strcmp(cmdtext, "/vb", true))
+    {
+        if(CelularAberto[playerid]) FecharCelularVB(playerid);
+        else AbrirCelularVB(playerid);
+        return 1;
+    }
+    return 0;
+}
+
+public OnPlayerClickTextDraw(playerid, Text:clickedid)
+{
+    if(clickedid == Text:INVALID_TEXT_DRAW)
+    {
+        if(CelularAberto[playerid]) FecharCelularVB(playerid);
+        return 1;
+    }
+
+    if(clickedid == CelularVB[7]) // Clicou em AJUDA
+    {
+        FecharCelularVB(playerid);
+        CallRemoteFunction("OnPlayerCommandText", "is", playerid, "/ajuda");
+        return 1;
+    }
+
+    if(clickedid == CelularVB[9]) // Clicou em FECHAR
+    {
+        FecharCelularVB(playerid);
+        return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,257 @@
+new Text: Text_Global[13];
+
+Text_Global[0] = TextDrawCreate(507.000, 168.000, "_");
+TextDrawLetterSize(Text_Global[0], -1.530, 18.799);
+TextDrawTextSize(Text_Global[0], 611.000, -6.000);
+TextDrawAlignment(Text_Global[0], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[0], -1);
+TextDrawUseBox(Text_Global[0], true);
+TextDrawBoxColour(Text_Global[0], 170);
+TextDrawSetShadow(Text_Global[0], 0);
+TextDrawSetOutline(Text_Global[0], 0);
+TextDrawBackgroundColour(Text_Global[0], 0);
+TextDrawFont(Text_Global[0], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[0], true);
+
+Text_Global[1] = TextDrawCreate(509.000, 170.000, "_");
+TextDrawLetterSize(Text_Global[1], 0.379, 18.299);
+TextDrawTextSize(Text_Global[1], 609.000, 0.000);
+TextDrawAlignment(Text_Global[1], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[1], -1);
+TextDrawUseBox(Text_Global[1], true);
+TextDrawBoxColour(Text_Global[1], 168761599);
+TextDrawSetShadow(Text_Global[1], 0);
+TextDrawSetOutline(Text_Global[1], 0);
+TextDrawBackgroundColour(Text_Global[1], 0);
+TextDrawFont(Text_Global[1], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[1], true);
+
+Text_Global[2] = TextDrawCreate(511.000, 172.000, "_");
+TextDrawLetterSize(Text_Global[2], 0.000, 17.799);
+TextDrawTextSize(Text_Global[2], 607.000, 0.000);
+TextDrawAlignment(Text_Global[2], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[2], -1);
+TextDrawUseBox(Text_Global[2], true);
+TextDrawBoxColour(Text_Global[2], 270150911);
+TextDrawSetShadow(Text_Global[2], 0);
+TextDrawSetOutline(Text_Global[2], 0);
+TextDrawBackgroundColour(Text_Global[2], 0);
+TextDrawFont(Text_Global[2], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[2], true);
+
+Text_Global[3] = TextDrawCreate(510.000, 243.000, "LOADSUK:loadsc6");
+TextDrawTextSize(Text_Global[3], 96.000, 72.000);
+TextDrawAlignment(Text_Global[3], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[3], -1);
+TextDrawSetShadow(Text_Global[3], 0);
+TextDrawSetOutline(Text_Global[3], 0);
+TextDrawBackgroundColour(Text_Global[3], 255);
+TextDrawFont(Text_Global[3], TEXT_DRAW_FONT_SPRITE_DRAW);
+TextDrawSetProportional(Text_Global[3], true);
+
+Text_Global[4] = TextDrawCreate(608.000, 174.000, "_");
+TextDrawLetterSize(Text_Global[4], 0.069, -0.099);
+TextDrawTextSize(Text_Global[4], 594.000, 1.000);
+TextDrawAlignment(Text_Global[4], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[4], -1);
+TextDrawUseBox(Text_Global[4], true);
+TextDrawBoxColour(Text_Global[4], 742281471);
+TextDrawSetShadow(Text_Global[4], 0);
+TextDrawSetOutline(Text_Global[4], 0);
+TextDrawBackgroundColour(Text_Global[4], 0);
+TextDrawFont(Text_Global[4], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[4], true);
+
+Text_Global[5] = TextDrawCreate(561.000, 197.000, "_");
+TextDrawLetterSize(Text_Global[5], 0.000, 1.399);
+TextDrawTextSize(Text_Global[5], 605.000, 0.000);
+TextDrawAlignment(Text_Global[5], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[5], -1);
+TextDrawUseBox(Text_Global[5], true);
+TextDrawBoxColour(Text_Global[5], 8368127);
+TextDrawSetShadow(Text_Global[5], 0);
+TextDrawSetOutline(Text_Global[5], 0);
+TextDrawBackgroundColour(Text_Global[5], 0);
+TextDrawFont(Text_Global[5], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[5], true);
+
+Text_Global[6] = TextDrawCreate(559.000, 175.000, "VIRTUAL~w~PHONE");
+TextDrawLetterSize(Text_Global[6], 0.129, 0.600);
+TextDrawAlignment(Text_Global[6], TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(Text_Global[6], -1);
+TextDrawSetShadow(Text_Global[6], 0);
+TextDrawSetOutline(Text_Global[6], 0);
+TextDrawBackgroundColour(Text_Global[6], 0);
+TextDrawFont(Text_Global[6], TEXT_DRAW_FONT_2);
+TextDrawSetProportional(Text_Global[6], true);
+
+Text_Global[7] = TextDrawCreate(586.000, 215.000, "_");
+TextDrawLetterSize(Text_Global[7], 0.000, 1.399);
+TextDrawTextSize(Text_Global[7], 605.000, 0.000);
+TextDrawAlignment(Text_Global[7], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[7], 8388863);
+TextDrawUseBox(Text_Global[7], true);
+TextDrawBoxColour(Text_Global[7], 2147418367);
+TextDrawSetShadow(Text_Global[7], 0);
+TextDrawSetOutline(Text_Global[7], 0);
+TextDrawBackgroundColour(Text_Global[7], -92245249);
+TextDrawFont(Text_Global[7], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[7], true);
+
+Text_Global[8] = TextDrawCreate(560.000, 320.000, "_");
+TextDrawLetterSize(Text_Global[8], -0.039, 0.899);
+TextDrawTextSize(Text_Global[8], 597.000, 24.000);
+TextDrawAlignment(Text_Global[8], TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(Text_Global[8], -1);
+TextDrawUseBox(Text_Global[8], true);
+TextDrawBoxColour(Text_Global[8], -2026157586);
+TextDrawSetShadow(Text_Global[8], 0);
+TextDrawSetOutline(Text_Global[8], 0);
+TextDrawBackgroundColour(Text_Global[8], 0);
+TextDrawFont(Text_Global[8], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[8], true);
+
+Text_Global[9] = TextDrawCreate(571.000, 215.000, "_");
+TextDrawLetterSize(Text_Global[9], 0.000, 1.399);
+TextDrawTextSize(Text_Global[9], 605.000, 20.000);
+TextDrawAlignment(Text_Global[9], TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(Text_Global[9], 8388863);
+TextDrawUseBox(Text_Global[9], true);
+TextDrawBoxColour(Text_Global[9], 1221709055);
+TextDrawSetShadow(Text_Global[9], 0);
+TextDrawSetOutline(Text_Global[9], 0);
+TextDrawBackgroundColour(Text_Global[9], -92245249);
+TextDrawFont(Text_Global[9], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[9], true);
+
+Text_Global[10] = TextDrawCreate(561.000, 184.000, "_");
+TextDrawLetterSize(Text_Global[10], 0.000, 0.899);
+TextDrawTextSize(Text_Global[10], 605.000, -3.000);
+TextDrawAlignment(Text_Global[10], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[10], 8388863);
+TextDrawUseBox(Text_Global[10], true);
+TextDrawBoxColour(Text_Global[10], -1327438081);
+TextDrawSetShadow(Text_Global[10], 0);
+TextDrawSetOutline(Text_Global[10], 0);
+TextDrawBackgroundColour(Text_Global[10], -92245249);
+TextDrawFont(Text_Global[10], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[10], true);
+
+Text_Global[11] = TextDrawCreate(598.000, 186.000, "HUD:radar_modGarage");
+TextDrawTextSize(Text_Global[11], 8.000, 6.000);
+TextDrawAlignment(Text_Global[11], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[11], -1);
+TextDrawSetShadow(Text_Global[11], 0);
+TextDrawSetOutline(Text_Global[11], 0);
+TextDrawBackgroundColour(Text_Global[11], 255);
+TextDrawFont(Text_Global[11], TEXT_DRAW_FONT_SPRITE_DRAW);
+TextDrawSetProportional(Text_Global[11], true);
+
+Text_Global[12] = TextDrawCreate(561.000, 232.000, "_");
+TextDrawLetterSize(Text_Global[12], 0.000, 0.899);
+TextDrawTextSize(Text_Global[12], 605.000, -3.000);
+TextDrawAlignment(Text_Global[12], TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(Text_Global[12], 8388863);
+TextDrawUseBox(Text_Global[12], true);
+TextDrawBoxColour(Text_Global[12], -1378294017);
+TextDrawSetShadow(Text_Global[12], 0);
+TextDrawSetOutline(Text_Global[12], 0);
+TextDrawBackgroundColour(Text_Global[12], -92245249);
+TextDrawFont(Text_Global[12], TEXT_DRAW_FONT_1);
+TextDrawSetProportional(Text_Global[12], true);
+
+####################################################################################################
+
+new Text: ajuda_cel;
+new Text: fechar_cel;
+new Text: rg_cel;
+new Text: gps_cel;
+new Text: config_cel;
+new Text: avatar_cel;
+new Text: cnh_cel;
+
+ajuda_cel = TextDrawCreate(582.000, 198.000, "AJUDA");
+TextDrawLetterSize(ajuda_cel, 0.299, 1.050);
+TextDrawTextSize(ajuda_cel, 18.000, 100.000);
+TextDrawAlignment(ajuda_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(ajuda_cel, 255);
+TextDrawSetShadow(ajuda_cel, 0);
+TextDrawSetOutline(ajuda_cel, 0);
+TextDrawBackgroundColour(ajuda_cel, 0);
+TextDrawFont(ajuda_cel, TEXT_DRAW_FONT_1);
+TextDrawSetProportional(ajuda_cel, true);
+TextDrawSetSelectable(ajuda_cel, true);
+
+fechar_cel = TextDrawCreate(560.000, 321.000, "FECHAR");
+TextDrawLetterSize(fechar_cel, 0.140, 0.649);
+TextDrawTextSize(fechar_cel, 16.000, 100.000);
+TextDrawAlignment(fechar_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(fechar_cel, -1);
+TextDrawSetShadow(fechar_cel, 0);
+TextDrawSetOutline(fechar_cel, 0);
+TextDrawBackgroundColour(fechar_cel, 0);
+TextDrawFont(fechar_cel, TEXT_DRAW_FONT_2);
+TextDrawSetProportional(fechar_cel, true);
+TextDrawSetSelectable(fechar_cel, true);
+
+rg_cel = TextDrawCreate(595.000, 217.000, "RG");
+TextDrawLetterSize(rg_cel, 0.319, 0.950);
+TextDrawTextSize(rg_cel, 18.000, 100.000);
+TextDrawAlignment(rg_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(rg_cel, 255);
+TextDrawSetShadow(rg_cel, 0);
+TextDrawSetOutline(rg_cel, 0);
+TextDrawBackgroundColour(rg_cel, 0);
+TextDrawFont(rg_cel, TEXT_DRAW_FONT_1);
+TextDrawSetProportional(rg_cel, true);
+TextDrawSetSelectable(rg_cel, true);
+
+gps_cel = TextDrawCreate(571.000, 216.000, "GPS");
+TextDrawLetterSize(gps_cel, 0.260, 1.150);
+TextDrawTextSize(gps_cel, 32.000, 100.000);
+TextDrawAlignment(gps_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(gps_cel, 255);
+TextDrawSetShadow(gps_cel, 0);
+TextDrawSetOutline(gps_cel, 0);
+TextDrawBackgroundColour(gps_cel, 0);
+TextDrawFont(gps_cel, TEXT_DRAW_FONT_1);
+TextDrawSetProportional(gps_cel, true);
+TextDrawSetSelectable(gps_cel, true);
+
+config_cel = TextDrawCreate(579.000, 185.000, "Configuracoes");
+TextDrawLetterSize(config_cel, 0.159, 0.750);
+TextDrawTextSize(config_cel, 18.000, 100.000);
+TextDrawAlignment(config_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(config_cel, 255);
+TextDrawSetShadow(config_cel, 0);
+TextDrawSetOutline(config_cel, 0);
+TextDrawBackgroundColour(config_cel, 0);
+TextDrawFont(config_cel, TEXT_DRAW_FONT_1);
+TextDrawSetProportional(config_cel, true);
+TextDrawSetSelectable(config_cel, true);
+
+avatar_cel = TextDrawCreate(510.000, 182.000, "_");
+TextDrawTextSize(avatar_cel, 49.000, 60.000);
+TextDrawAlignment(avatar_cel, TEXT_DRAW_ALIGN_LEFT);
+TextDrawColour(avatar_cel, -1);
+TextDrawSetShadow(avatar_cel, 0);
+TextDrawSetOutline(avatar_cel, 0);
+TextDrawBackgroundColour(avatar_cel, 85);
+TextDrawFont(avatar_cel, TEXT_DRAW_FONT_MODEL_PREVIEW);
+TextDrawSetProportional(avatar_cel, false);
+TextDrawSetPreviewModel(avatar_cel, 0);
+TextDrawSetPreviewRot(avatar_cel, 0.000, 0.000, 0.000, 1.000);
+TextDrawSetPreviewVehicleColours(avatar_cel, 0, 0);
+
+cnh_cel = TextDrawCreate(584.000, 232.000, "Licencas");
+TextDrawLetterSize(cnh_cel, 0.159, 0.750);
+TextDrawTextSize(cnh_cel, 18.000, 100.000);
+TextDrawAlignment(cnh_cel, TEXT_DRAW_ALIGN_CENTER);
+TextDrawColour(cnh_cel, 255);
+TextDrawSetShadow(cnh_cel, 0);
+TextDrawSetOutline(cnh_cel, 0);
+TextDrawBackgroundColour(cnh_cel, 0);
+TextDrawFont(cnh_cel, TEXT_DRAW_FONT_2);
+TextDrawSetProportional(cnh_cel, true);
+TextDrawSetSelectable(cnh_cel, true);
+
