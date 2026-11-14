@@ -4,7 +4,7 @@
 // Visual baseado no TDE "Celular pra implantar".
 // O avatar e individual por jogador; os demais TextDraws sao globais.
 
-new Text:CelularBG[13];
+new Text:CelularBG[12];
 new Text:CelularTitulo;
 new Text:CelularAjuda;
 new Text:CelularFechar;
@@ -169,20 +169,6 @@ stock CriarCelularTextDraws()
     TextDrawBackgroundColor(CelularBG[11], -92245249);
     TextDrawFont(CelularBG[11], 1);
     TextDrawSetProportional(CelularBG[11], true);
-
-    // Area inferior decorativa do TDE (mantida no indice 12).
-    CelularBG[12] = TextDrawCreate(561.000, 232.000, "_");
-    TextDrawLetterSize(CelularBG[12], 0.000, 0.899);
-    TextDrawTextSize(CelularBG[12], 605.000, -3.000);
-    TextDrawAlignment(CelularBG[12], 1);
-    TextDrawColor(CelularBG[12], 8388863);
-    TextDrawUseBox(CelularBG[12], true);
-    TextDrawBoxColor(CelularBG[12], -1378294017);
-    TextDrawSetShadow(CelularBG[12], 0);
-    TextDrawSetOutline(CelularBG[12], 0);
-    TextDrawBackgroundColor(CelularBG[12], -92245249);
-    TextDrawFont(CelularBG[12], 1);
-    TextDrawSetProportional(CelularBG[12], true);
 
     CelularTitulo = TextDrawCreate(559.000, 175.000, "VIRTUAL~w~PHONE");
     TextDrawLetterSize(CelularTitulo, 0.129, 0.600);
@@ -380,7 +366,6 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerDisconnect(playerid, reason)
 {
-    #pragma unused reason
     if(CelularAberto[playerid])
         EsconderCelularVB(playerid);
 
