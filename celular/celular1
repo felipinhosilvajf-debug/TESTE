@@ -183,7 +183,7 @@ stock CriarCelularTextDraws()
     // Botoes: os tamanhos de clique foram mantidos do TDE.
     CelularAjuda = TextDrawCreate(582.000, 198.000, "AJUDA");
     TextDrawLetterSize(CelularAjuda, 0.299, 1.050);
-    TextDrawTextSize(CelularAjuda, 18.000, 100.000);
+    TextDrawTextSize(CelularAjuda, 48.000, 16.000);
     TextDrawAlignment(CelularAjuda, 2);
     TextDrawColor(CelularAjuda, 255);
     TextDrawSetShadow(CelularAjuda, 0);
@@ -195,7 +195,7 @@ stock CriarCelularTextDraws()
 
     CelularFechar = TextDrawCreate(560.000, 321.000, "FECHAR");
     TextDrawLetterSize(CelularFechar, 0.140, 0.649);
-    TextDrawTextSize(CelularFechar, 16.000, 100.000);
+    TextDrawTextSize(CelularFechar, 55.000, 16.000);
     TextDrawAlignment(CelularFechar, 2);
     TextDrawColor(CelularFechar, -1);
     TextDrawSetShadow(CelularFechar, 0);
@@ -207,7 +207,7 @@ stock CriarCelularTextDraws()
 
     CelularRG = TextDrawCreate(595.000, 217.000, "RG");
     TextDrawLetterSize(CelularRG, 0.319, 0.950);
-    TextDrawTextSize(CelularRG, 18.000, 100.000);
+    TextDrawTextSize(CelularRG, 30.000, 16.000);
     TextDrawAlignment(CelularRG, 2);
     TextDrawColor(CelularRG, 255);
     TextDrawSetShadow(CelularRG, 0);
@@ -219,7 +219,7 @@ stock CriarCelularTextDraws()
 
     CelularGPS = TextDrawCreate(571.000, 216.000, "GPS");
     TextDrawLetterSize(CelularGPS, 0.260, 1.150);
-    TextDrawTextSize(CelularGPS, 32.000, 100.000);
+    TextDrawTextSize(CelularGPS, 38.000, 16.000);
     TextDrawAlignment(CelularGPS, 2);
     TextDrawColor(CelularGPS, 255);
     TextDrawSetShadow(CelularGPS, 0);
@@ -231,7 +231,7 @@ stock CriarCelularTextDraws()
 
     CelularConfig = TextDrawCreate(579.000, 185.000, "Configuracoes");
     TextDrawLetterSize(CelularConfig, 0.159, 0.750);
-    TextDrawTextSize(CelularConfig, 18.000, 100.000);
+    TextDrawTextSize(CelularConfig, 92.000, 16.000);
     TextDrawAlignment(CelularConfig, 2);
     TextDrawColor(CelularConfig, 255);
     TextDrawSetShadow(CelularConfig, 0);
@@ -243,7 +243,7 @@ stock CriarCelularTextDraws()
 
     CelularLicencas = TextDrawCreate(584.000, 232.000, "Licencas");
     TextDrawLetterSize(CelularLicencas, 0.159, 0.750);
-    TextDrawTextSize(CelularLicencas, 18.000, 100.000);
+    TextDrawTextSize(CelularLicencas, 62.000, 16.000);
     TextDrawAlignment(CelularLicencas, 2);
     TextDrawColor(CelularLicencas, 255);
     TextDrawSetShadow(CelularLicencas, 0);
