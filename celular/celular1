@@ -18,8 +18,8 @@ new bool:CelularAvatarCriado[MAX_PLAYERS];
 new bool:CelularAberto[MAX_PLAYERS];
 new bool:CelularModoMover[MAX_PLAYERS];
 new Float:CelularOffsetX[MAX_PLAYERS], Float:CelularOffsetY[MAX_PLAYERS];
-new PlayerText:CelularSetaCima[MAX_PLAYERS], CelularSetaBaixo[MAX_PLAYERS];
-new PlayerText:CelularSetaEsquerda[MAX_PLAYERS], CelularSetaDireita[MAX_PLAYERS];
+new PlayerText:CelularSetaCima[MAX_PLAYERS], PlayerText:CelularSetaBaixo[MAX_PLAYERS];
+new PlayerText:CelularSetaEsquerda[MAX_PLAYERS], PlayerText:CelularSetaDireita[MAX_PLAYERS];
 new PlayerText:CelularMoverInfo[MAX_PLAYERS];
 
 stock CriarCelularTextDraws(playerid)
@@ -394,7 +394,7 @@ stock MostrarCelularVB(playerid)
 
 stock EsconderCelularVB(playerid)
 {
-    for(new i = 0; i < sizeof(CelularBG); i++)
+    for(new i = 0; i < 12; i++)
         PlayerTextDrawHide(playerid, CelularBG[playerid][i]);
 
     PlayerTextDrawHide(playerid, CelularTitulo[playerid]);
@@ -439,30 +439,42 @@ public OnFilterScriptInit()
     return 1;
 }
 
+stock DestruirCelularTextDraws(playerid)
+{
+    if(CelularAvatarCriado[playerid])
+    {
+        PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
+        CelularAvatarCriado[playerid] = false;
+    }
+    for(new i = 0; i < 12; i++)
+        PlayerTextDrawDestroy(playerid, CelularBG[playerid][i]);
+    PlayerTextDrawDestroy(playerid, CelularTitulo[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularAjuda[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularFechar[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularRG[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularGPS[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularConfig[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularLicencas[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularSetaCima[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularSetaBaixo[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularSetaEsquerda[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularSetaDireita[playerid]);
+    PlayerTextDrawDestroy(playerid, CelularMoverInfo[playerid]);
+    return 1;
+}
+
 public OnFilterScriptExit()
 {
-    for(new i = 0; i < sizeof(CelularBG); i++)
-        TextDrawDestroy(CelularBG[i]);
-
-    TextDrawDestroy(CelularTitulo);
-    TextDrawDestroy(CelularAjuda);
-    TextDrawDestroy(CelularFechar);
-    TextDrawDestroy(CelularRG);
-    TextDrawDestroy(CelularGPS);
-    TextDrawDestroy(CelularConfig);
-    TextDrawDestroy(CelularLicencas);
-
     for(new playerid = 0; playerid < MAX_PLAYERS; playerid++)
     {
-        if(CelularAvatarCriado[playerid])
+        if(IsPlayerConnected(playerid))
         {
-            PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
-            CelularAvatarCriado[playerid] = false;
+            if(CelularAberto[playerid]) EsconderCelularVB(playerid);
+            DestruirCelularTextDraws(playerid);
         }
     }
     return 1;
 }
-
 public OnPlayerConnect(playerid)
 {
     CelularAberto[playerid] = false;
