@@ -15,6 +15,7 @@ new PlayerText:CelularLicencas[MAX_PLAYERS];
 
 new PlayerText:CelularImagem[MAX_PLAYERS];
 new bool:CelularImagemCriada[MAX_PLAYERS];
+new bool:CelularCriado[MAX_PLAYERS];
 new bool:CelularAberto[MAX_PLAYERS];
 new bool:CelularModoMover[MAX_PLAYERS];
 new Float:CelularOffsetX[MAX_PLAYERS], Float:CelularOffsetY[MAX_PLAYERS];
@@ -24,6 +25,7 @@ new PlayerText:CelularMoverInfo[MAX_PLAYERS];
 
 stock CriarCelularTextDraws(playerid)
 {
+    if(CelularCriado[playerid]) return 1;
     // Text_Global[0] do TDE: imagem LOADSUK:loadsc6.
     CelularBG[playerid][0] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 243.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
     PlayerTextDrawTextSize(playerid, CelularBG[playerid][0], 90.000, 90.000);
@@ -287,6 +289,7 @@ stock CriarCelularTextDraws(playerid)
     PlayerTextDrawLetterSize(playerid, CelularMoverInfo[playerid], 0.16, 0.8);
     PlayerTextDrawFont(playerid, CelularMoverInfo[playerid], 1);
     PlayerTextDrawColor(playerid, CelularMoverInfo[playerid], -1);
+    CelularCriado[playerid] = true;
     return 1;
 }
 
@@ -380,8 +383,9 @@ stock MoverCelular(playerid, Float:dx, Float:dy)
 
 stock MostrarCelularVB(playerid)
 {
-    // Apenas exibe os PlayerTextDraws ja criados no OnPlayerConnect.
-    // Nao destrua/recrie a interface ao abrir: isso pode causar sumico/flicker.
+    // Constroi a interface somente quando o jogador abre o celular.
+    if(!CelularCriado[playerid])
+        CriarCelularTextDraws(playerid);
     if(!CelularImagemCriada[playerid])
         CriarImagemCelular(playerid);
 
@@ -406,24 +410,14 @@ stock MostrarCelularVB(playerid)
 
 stock EsconderCelularVB(playerid)
 {
-    for(new i = 0; i < 12; i++)
-        PlayerTextDrawHide(playerid, CelularBG[playerid][i]);
-
-    PlayerTextDrawHide(playerid, CelularTitulo[playerid]);
-    PlayerTextDrawHide(playerid, CelularAjuda[playerid]);
-    PlayerTextDrawHide(playerid, CelularFechar[playerid]);
-    PlayerTextDrawHide(playerid, CelularRG[playerid]);
-    PlayerTextDrawHide(playerid, CelularGPS[playerid]);
-    PlayerTextDrawHide(playerid, CelularConfig[playerid]);
-    PlayerTextDrawHide(playerid, CelularLicencas[playerid]);
-
-    if(CelularImagemCriada[playerid])
-        PlayerTextDrawHide(playerid, CelularImagem[playerid]);
-
+    // Fecha a selecao e libera o cursor antes de qualquer outro menu.
+    CancelSelectTextDraw(playerid);
     CelularAberto[playerid] = false;
     CelularModoMover[playerid] = false;
-    EsconderControlesMover(playerid);
-    CancelSelectTextDraw(playerid);
+
+    // Destruicao completa: nao deixa PlayerTextDraw antigo ocupando slots.
+    if(CelularCriado[playerid])
+        DestruirCelularTextDraws(playerid);
     return 1;
 }
 
@@ -439,12 +433,12 @@ public OnFilterScriptInit()
 {
     for(new playerid = 0; playerid < MAX_PLAYERS; playerid++)
     {
-        if(IsPlayerConnected(playerid))
-        {
-            CelularOffsetX[playerid] = 0.0;
-            CelularOffsetY[playerid] = 0.0;
-            CriarCelularTextDraws(playerid);
-        }
+        CelularCriado[playerid] = false;
+        CelularImagemCriada[playerid] = false;
+        CelularAberto[playerid] = false;
+        CelularModoMover[playerid] = false;
+        CelularOffsetX[playerid] = 0.0;
+        CelularOffsetY[playerid] = 0.0;
     }
     print("[VirtualBoost] Celular FilterScript carregado.");
     return 1;
@@ -452,6 +446,8 @@ public OnFilterScriptInit()
 
 stock DestruirCelularTextDraws(playerid)
 {
+    if(!CelularCriado[playerid]) return 1;
+    CancelSelectTextDraw(playerid);
     if(CelularImagemCriada[playerid])
     {
         PlayerTextDrawDestroy(playerid, CelularImagem[playerid]);
@@ -471,6 +467,10 @@ stock DestruirCelularTextDraws(playerid)
     PlayerTextDrawDestroy(playerid, CelularSetaEsquerda[playerid]);
     PlayerTextDrawDestroy(playerid, CelularSetaDireita[playerid]);
     PlayerTextDrawDestroy(playerid, CelularMoverInfo[playerid]);
+    CelularImagemCriada[playerid] = false;
+    CelularCriado[playerid] = false;
+    CelularAberto[playerid] = false;
+    CelularModoMover[playerid] = false;
     return 1;
 }
 
@@ -493,7 +493,7 @@ public OnPlayerConnect(playerid)
     CelularModoMover[playerid] = false;
     CelularOffsetX[playerid] = 0.0;
     CelularOffsetY[playerid] = 0.0;
-    CriarCelularTextDraws(playerid);
+    CelularCriado[playerid] = false;
     return 1;
 }
 
