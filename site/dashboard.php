@@ -15,138 +15,100 @@ if (!$d) {
     exit;
 }
 
-// Tratamento de valores financeiros e status
 $dinheiroMao = (int)($d['Dinheiro'] ?? $d['Dinheiro Mao'] ?? 0);
 $dinheiroBanco = (int)($d['GranaBanco'] ?? $d['Dinheiro Banco'] ?? 0);
 $coins = (int)($d['Coins'] ?? 0);
-$skinId = (int)($d['Skin'] ?? 0);
 $nivel = (int)($d['Level'] ?? 0);
 $respeito = (int)($d['Respeito'] ?? 0);
 $horas = (int)($d['HorasJogadas'] ?? 0);
 $ultimoLogin = $d['LU'] ?? 'Desconhecido';
 
-// Propriedades (255 geralmente significa "Nenhuma" em GMs GF/RPG)
 $casa = ($d['ChaveCasa'] ?? 255) != 255 && ($d['ChaveCasa'] ?? 0) > 0 ? "Casa ID #" . $d['ChaveCasa'] : "Não possui";
 $empresa = ($d['ChaveEmpresa'] ?? 255) != 255 && ($d['ChaveEmpresa'] ?? 0) > 0 ? "Empresa ID #" . $d['ChaveEmpresa'] : "Não possui";
 $fazenda = ($d['ChaveFazenda'] ?? 255) != 255 && ($d['ChaveFazenda'] ?? 0) > 0 ? "Fazenda ID #" . $d['ChaveFazenda'] : "Não possui";
+
+function h($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+function statusLicenca($ativa, $validade = null) {
+    if (!$ativa) return '<span class="status off">NÃO POSSUI</span>';
+    $texto = $validade !== null ? 'ATIVA · ' . (int)$validade . ' DIAS' : 'ATIVA';
+    return '<span class="status on">' . h($texto) . '</span>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Painel de <?= htmlspecialchars($nick) ?></title>
-  <script src="https://tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07131d">
+<title>Documento do cidadão · <?= h($nick) ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07131d;--panel:#0d202c;--panel2:#102936;--cyan:#28d9ef;--cyan2:#8af4ff;--text:#edf8fb;--muted:#8faab5;--line:rgba(112,207,222,.17);--green:#70e0b0;--red:#ff8585;--gold:#e9c879}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,rgba(28,169,190,.13),transparent 35%),var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}.shell{width:min(1180px,92%);margin:auto}.topbar{border-bottom:1px solid var(--line);background:rgba(5,17,25,.88);backdrop-filter:blur(14px)}.topinner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font:900 25px "Barlow Condensed",sans-serif;letter-spacing:1.4px}.brand span{color:var(--cyan)}.topmeta{font-size:10px;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase}.logout{padding:11px 16px;border:1px solid rgba(255,133,133,.35);border-radius:5px;color:#ffaaaa;font-size:11px;font-weight:800;letter-spacing:.8px}.logout:hover{background:rgba(255,133,133,.1)}
+main{padding:38px 0 70px}.eyebrow,.section-kicker{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}.pagehead{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.pagehead h1{font:800 clamp(34px,5vw,52px)/.95 "Barlow Condensed",sans-serif;text-transform:uppercase;margin:8px 0 0}.pagehead p{color:var(--muted);font-size:12px;margin:8px 0 0}
+.id-card{position:relative;overflow:hidden;display:grid;grid-template-columns:160px 1fr 190px;gap:24px;align-items:center;padding:25px;background:linear-gradient(115deg,rgba(15,53,67,.98),rgba(10,29,41,.98));border:1px solid rgba(40,217,239,.42);border-radius:9px;box-shadow:0 18px 55px rgba(0,0,0,.22);margin-bottom:22px}.id-card:after{content:"BR";position:absolute;right:175px;top:-50px;font:900 230px "Barlow Condensed";color:rgba(138,244,255,.035);pointer-events:none}.portrait{height:145px;border:1px solid rgba(138,244,255,.5);border-radius:5px;background:linear-gradient(145deg,#1c5261,#0b2634);display:flex;align-items:center;justify-content:center;color:var(--cyan2);font:900 58px "Barlow Condensed";position:relative}.portrait:after{content:"FOTO DO TITULAR";position:absolute;bottom:9px;font:700 8px Inter;letter-spacing:1.5px;color:#a3cbd3}.id-data{position:relative;z-index:1}.id-label{font-size:9px;color:#9ab9c2;letter-spacing:1.7px;text-transform:uppercase}.id-name{font:800 clamp(29px,4vw,42px)/1 "Barlow Condensed";margin:7px 0 17px;text-transform:uppercase;overflow-wrap:anywhere}.id-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.field small{display:block;color:#8daeb8;font-size:8px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px}.field strong{font-size:12px}.id-stamp{position:relative;z-index:1;border-left:1px solid var(--line);padding-left:22px}.stamp{border:1px solid rgba(138,244,255,.4);color:var(--cyan2);padding:13px 10px;text-align:center;font:800 13px "Barlow Condensed";letter-spacing:1.5px;transform:rotate(-4deg)}.stamp small{display:block;font:700 8px Inter;letter-spacing:1.4px;margin-top:5px;color:#a1c6cf}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}.stat{padding:20px;background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:7px}.stat small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}.stat strong{display:block;font:800 31px "Barlow Condensed";margin-top:7px}.stat.money strong{color:var(--green)}.stat.bank strong{color:var(--cyan2)}.stat.coins strong{color:var(--gold)}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{background:linear-gradient(145deg,rgba(15,35,47,.98),rgba(10,26,37,.98));border:1px solid var(--line);border-radius:7px;padding:23px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}.panel h2{font:800 23px "Barlow Condensed";text-transform:uppercase;margin:0}.panel-head span{font-size:8px;color:var(--cyan);letter-spacing:1.4px}.data-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid rgba(112,207,222,.09);font-size:11px}.data-row:last-child{border:0}.data-row .label{color:#a9c0c7}.data-row strong{text-align:right;font-size:11px;overflow-wrap:anywhere}.status{font-size:9px;font-weight:800;letter-spacing:.7px}.status.on{color:var(--green)}.status.off{color:var(--red)}.footer-note{margin-top:24px;text-align:center;color:#617f8a;font-size:9px;letter-spacing:1px}
+@media(max-width:760px){.id-card{grid-template-columns:105px 1fr;gap:16px;padding:17px}.portrait{height:125px;font-size:43px}.id-stamp{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);padding:14px 0 0}.stamp{max-width:210px;margin:auto}.id-fields{grid-template-columns:1fr 1fr}.content-grid{grid-template-columns:1fr}.pagehead{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.stats{grid-template-columns:1fr;gap:9px}.stat{padding:15px}.stat strong{font-size:26px}.topmeta{display:none}.id-card{grid-template-columns:1fr}.portrait{width:112px}.id-fields{grid-template-columns:1fr 1fr}.panel{padding:17px}.data-row{font-size:10px}}
+</style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-4 md:p-8 font-sans">
+<body>
+<header class="topbar"><div class="shell topinner">
+  <a class="brand" href="../index.html">BRASIL <span>VIDA REAL</span></a>
+  <div class="topmeta">Central do cidadão · Área autenticada</div>
+  <a class="logout" href="logout.php">SAIR DA CONTA ↗</a>
+</div></header>
+<main class="shell">
+  <div class="pagehead"><div><div class="eyebrow">REGISTRO MUNICIPAL · ACESSO RESTRITO</div><h1>Ficha do cidadão</h1><p>Consulte seus dados, habilitações e patrimônio na cidade.</p></div></div>
 
-  <div class="max-w-6xl mx-auto">
-    <!-- Cabeçalho -->
-    <div class="flex flex-wrap justify-between items-center bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6 gap-4">
-      <div class="flex items-center gap-4">
-        <img src="https://open.mp<?= $skinId ?>.png" alt="Skin" class="w-16 h-16 rounded-full bg-gray-700 object-cover border-2 border-orange-500">
-        <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-white"><?= htmlspecialchars($nick) ?></h1>
-          <p class="text-gray-400 text-sm">Nível <?= $nivel ?> (EXP: <?= $respeito ?>) • <?= $horas ?>h jogadas • Último login: <?= $ultimoLogin ?></p>
-        </div>
-      </div>
-      <a href="logout.php" class="bg-red-600 hover:bg-red-700 px-5 py-2.5 rounded-lg font-bold text-sm transition">Sair da Conta</a>
-    </div>
-
-    <!-- Cards Financeiros -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <p class="text-gray-400 text-sm">Dinheiro em Mãos</p>
-        <p class="text-3xl font-bold text-green-400 mt-1">$ <?= number_format($dinheiroMao, 0, ',', '.') ?></p>
-      </div>
-      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <p class="text-gray-400 text-sm">Saldo Bancário</p>
-        <p class="text-3xl font-bold text-blue-400 mt-1">$ <?= number_format($dinheiroBanco, 0, ',', '.') ?></p>
-      </div>
-      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <p class="text-gray-400 text-sm">Coins / VIP</p>
-        <p class="text-3xl font-bold text-yellow-400 mt-1"><?= number_format($coins, 0, ',', '.') ?> Coins</p>
+  <section class="id-card" aria-label="Identificação do jogador">
+    <div class="portrait"><?= h(strtoupper(substr($nick, 0, 1))) ?></div>
+    <div class="id-data">
+      <div class="id-label">Nome de identificação / cidadão</div>
+      <div class="id-name"><?= h($nick) ?></div>
+      <div class="id-fields">
+        <div class="field"><small>Registro</small><strong>#<?= h($nivel) ?>-<?= h($respeito) ?></strong></div>
+        <div class="field"><small>Horas registradas</small><strong><?= h($horas) ?> horas</strong></div>
+        <div class="field"><small>Último acesso</small><strong><?= h($ultimoLogin) ?></strong></div>
       </div>
     </div>
+    <div class="id-stamp"><div class="stamp">BRASIL VIDA REAL<small>DOCUMENTO DIGITAL · SAMP</small></div></div>
+  </section>
 
-    <!-- Grid de Informações -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      <!-- Licenças e Validades -->
-      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <h2 class="text-xl font-bold text-orange-400 mb-4">Habilitações e Licenças</h2>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-            <span>Carteira de Carro (Terrestre)</span>
-            <span class="<?= !empty($d['CarLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['CarLic']) ? 'Ativa (' . ($d['ValidadeCarro'] ?? 0) . ' dias)' : 'Não Possui' ?>
-            </span>
-          </div>
-          <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-            <span>Carteira de Moto</span>
-            <span class="<?= !empty($d['MotoLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['MotoLic']) ? 'Ativa (' . ($d['ValidadeMoto'] ?? 0) . ' dias)' : 'Não Possui' ?>
-            </span>
-          </div>
-          <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-            <span>Caminhão / Ônibus</span>
-            <span class="<?= !empty($d['CamOniLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['CamOniLic']) ? 'Ativa (' . ($d['ValidadeOnibus'] ?? 0) . ' dias)' : 'Não Possui' ?>
-            </span>
-          </div>
-          <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-            <span>Licença de Voo (Aérea)</span>
-            <span class="<?= !empty($d['FlyLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['FlyLic']) ? 'Ativa (' . ($d['ValidadeAviao'] ?? 0) . ' dias)' : 'Não Possui' ?>
-            </span>
-          </div>
-          <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-            <span>Licença Náutica (Barcos)</span>
-            <span class="<?= !empty($d['BoatLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['BoatLic']) ? 'Ativa (' . ($d['ValidadeBarco'] ?? 0) . ' dias)' : 'Não Possui' ?>
-            </span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span>Porte de Armas</span>
-            <span class="<?= !empty($d['GunLic']) ? 'text-green-400 font-bold' : 'text-red-400' ?>">
-              <?= !empty($d['GunLic']) ? 'Possui' : 'Não Possui' ?>
-            </span>
-          </div>
-        </div>
-      </div>
+  <section class="stats" aria-label="Resumo financeiro">
+    <article class="stat money"><small>Dinheiro em mãos</small><strong>R$ <?= number_format($dinheiroMao, 0, ',', '.') ?></strong></article>
+    <article class="stat bank"><small>Saldo bancário</small><strong>R$ <?= number_format($dinheiroBanco, 0, ',', '.') ?></strong></article>
+    <article class="stat coins"><small>Moedas / VIP</small><strong><?= number_format($coins, 0, ',', '.') ?> <span style="font:700 11px Inter">COINS</span></strong></article>
+  </section>
 
-      <!-- Patrimônio e Status -->
-      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <h2 class="text-xl font-bold text-orange-400 mb-4">Patrimônio e Dados Gerais</h2>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between border-b border-gray-700 pb-2">
-            <span class="text-gray-400">Casa:</span>
-            <span class="font-semibold"><?= $casa ?></span>
-          </div>
-          <div class="flex justify-between border-b border-gray-700 pb-2">
-            <span class="text-gray-400">Empresa:</span>
-            <span class="font-semibold"><?= $empresa ?></span>
-          </div>
-          <div class="flex justify-between border-b border-gray-700 pb-2">
-            <span class="text-gray-400">Fazenda:</span>
-            <span class="font-semibold"><?= $fazenda ?></span>
-          </div>
-          <div class="flex justify-between border-b border-gray-700 pb-2">
-            <span class="text-gray-400">Estado Civil:</span>
-            <span class="font-semibold"><?= ($d['Married'] ?? 0) == 1 ? 'Casado com ' . ($d['MarriedTo'] ?? '') : 'Solteiro(a)' ?></span>
-          </div>
-          <div class="flex justify-between border-b border-gray-700 pb-2">
-            <span class="text-gray-400">Celular:</span>
-            <span class="font-semibold"><?= ($d['Celular'] ?? 0) > 0 ? $d['Celular'] : 'Não possui' ?></span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-400">Matou / Morreu:</span>
-            <span class="font-semibold"><?= $d['Kills'] ?? 0 ?> / <?= $d['Deaths'] ?? 0 ?></span>
-          </div>
-        </div>
-      </div>
+  <div class="content-grid">
+    <section class="panel">
+      <div class="panel-head"><h2>Habilitações & licenças</h2><span>DETRAN · REGISTRO</span></div>
+      <div class="data-row"><span class="label">CNH · Automóvel</span><?= statusLicenca(!empty($d['CarLic']), $d['ValidadeCarro'] ?? 0) ?></div>
+      <div class="data-row"><span class="label">CNH · Motocicleta</span><?= statusLicenca(!empty($d['MotoLic']), $d['ValidadeMoto'] ?? 0) ?></div>
+      <div class="data-row"><span class="label">Categoria · Caminhão / ônibus</span><?= statusLicenca(!empty($d['CamOniLic']), $d['ValidadeOnibus'] ?? 0) ?></div>
+      <div class="data-row"><span class="label">Licença · Aeronaves</span><?= statusLicenca(!empty($d['FlyLic']), $d['ValidadeAviao'] ?? 0) ?></div>
+      <div class="data-row"><span class="label">Licença · Embarcações</span><?= statusLicenca(!empty($d['BoatLic']), $d['ValidadeBarco'] ?? 0) ?></div>
+      <div class="data-row"><span class="label">Porte de arma</span><?= statusLicenca(!empty($d['GunLic'])) ?></div>
+    </section>
 
-    </div>
+    <section class="panel">
+      <div class="panel-head"><h2>Patrimônio & dados civis</h2><span>CADASTRO GERAL</span></div>
+      <div class="data-row"><span class="label">Residência</span><strong><?= h($casa) ?></strong></div>
+      <div class="data-row"><span class="label">Empresa</span><strong><?= h($empresa) ?></strong></div>
+      <div class="data-row"><span class="label">Propriedade rural</span><strong><?= h($fazenda) ?></strong></div>
+      <div class="data-row"><span class="label">Estado civil</span><strong><?= ($d['Married'] ?? 0) == 1 ? 'Casado com ' . h($d['MarriedTo'] ?? '') : 'Solteiro(a)' ?></strong></div>
+      <div class="data-row"><span class="label">Telefone celular</span><strong><?= ($d['Celular'] ?? 0) > 0 ? h($d['Celular']) : 'Não possui' ?></strong></div>
+      <div class="data-row"><span class="label">Abates / mortes</span><strong><?= h($d['Kills'] ?? 0) ?> / <?= h($d['Deaths'] ?? 0) ?></strong></div>
+    </section>
   </div>
-
+  <div class="footer-note">BRASIL VIDA REAL · SISTEMA DE IDENTIFICAÇÃO DO CIDADÃO</div>
+</main>
 </body>
 </html>
