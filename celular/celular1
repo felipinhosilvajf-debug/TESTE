@@ -13,8 +13,8 @@ new PlayerText:CelularGPS[MAX_PLAYERS];
 new PlayerText:CelularConfig[MAX_PLAYERS];
 new PlayerText:CelularLicencas[MAX_PLAYERS];
 
-new PlayerText:CelularAvatar[MAX_PLAYERS];
-new bool:CelularAvatarCriado[MAX_PLAYERS];
+new PlayerText:CelularImagem[MAX_PLAYERS];
+new bool:CelularImagemCriada[MAX_PLAYERS];
 new bool:CelularAberto[MAX_PLAYERS];
 new bool:CelularModoMover[MAX_PLAYERS];
 new Float:CelularOffsetX[MAX_PLAYERS], Float:CelularOffsetY[MAX_PLAYERS];
@@ -24,18 +24,15 @@ new PlayerText:CelularMoverInfo[MAX_PLAYERS];
 
 stock CriarCelularTextDraws(playerid)
 {
-    // Estrutura externa, tela e detalhes do aparelho.
-    CelularBG[playerid][0] = CreatePlayerTextDraw(playerid, 507.000 + CelularOffsetX[playerid], 168.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][0], -1.530, 18.799);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][0], 611.000, -6.000);
+    // Text_Global[0] do TDE: imagem LOADSUK:loadsc6.
+    CelularBG[playerid][0] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 243.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
+    PlayerTextDrawTextSize(playerid, CelularBG[playerid][0], 90.000, 90.000);
     PlayerTextDrawAlignment(playerid, CelularBG[playerid][0], 1);
     PlayerTextDrawColor(playerid, CelularBG[playerid][0], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][0], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][0], 170);
     PlayerTextDrawSetShadow(playerid, CelularBG[playerid][0], 0);
     PlayerTextDrawSetOutline(playerid, CelularBG[playerid][0], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][0], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][0], 1);
+    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][0], 255);
+    PlayerTextDrawFont(playerid, CelularBG[playerid][0], 4);
     PlayerTextDrawSetProportional(playerid, CelularBG[playerid][0], true);
 
     CelularBG[playerid][1] = CreatePlayerTextDraw(playerid, 509.000 + CelularOffsetX[playerid], 170.000 + CelularOffsetY[playerid], "_");
@@ -188,7 +185,7 @@ stock CriarCelularTextDraws(playerid)
     // Botoes: hitboxes reduzidas e isoladas para evitar cliques em opcoes vizinhas.
     CelularAjuda[playerid] = CreatePlayerTextDraw(playerid, 582.000 + CelularOffsetX[playerid], 198.000 + CelularOffsetY[playerid], "AJUDA");
     PlayerTextDrawLetterSize(playerid, CelularAjuda[playerid], 0.299, 1.050);
-    PlayerTextDrawTextSize(playerid, CelularAjuda[playerid], 30.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularAjuda[playerid], 28.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularAjuda[playerid], 2);
     PlayerTextDrawColor(playerid, CelularAjuda[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularAjuda[playerid], 0);
@@ -200,7 +197,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularFechar[playerid] = CreatePlayerTextDraw(playerid, 560.000 + CelularOffsetX[playerid], 321.000 + CelularOffsetY[playerid], "FECHAR");
     PlayerTextDrawLetterSize(playerid, CelularFechar[playerid], 0.140, 0.649);
-    PlayerTextDrawTextSize(playerid, CelularFechar[playerid], 36.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularFechar[playerid], 26.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularFechar[playerid], 2);
     PlayerTextDrawColor(playerid, CelularFechar[playerid], -1);
     PlayerTextDrawSetShadow(playerid, CelularFechar[playerid], 0);
@@ -212,7 +209,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularRG[playerid] = CreatePlayerTextDraw(playerid, 595.000 + CelularOffsetX[playerid], 217.000 + CelularOffsetY[playerid], "RG");
     PlayerTextDrawLetterSize(playerid, CelularRG[playerid], 0.319, 0.950);
-    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 8.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 6.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularRG[playerid], 2);
     PlayerTextDrawColor(playerid, CelularRG[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularRG[playerid], 0);
@@ -224,7 +221,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularGPS[playerid] = CreatePlayerTextDraw(playerid, 571.000 + CelularOffsetX[playerid], 216.000 + CelularOffsetY[playerid], "GPS");
     PlayerTextDrawLetterSize(playerid, CelularGPS[playerid], 0.260, 1.150);
-    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 10.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 8.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularGPS[playerid], 2);
     PlayerTextDrawColor(playerid, CelularGPS[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularGPS[playerid], 0);
@@ -236,7 +233,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularConfig[playerid] = CreatePlayerTextDraw(playerid, 579.000 + CelularOffsetX[playerid], 185.000 + CelularOffsetY[playerid], "Configuracoes");
     PlayerTextDrawLetterSize(playerid, CelularConfig[playerid], 0.159, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularConfig[playerid], 48.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularConfig[playerid], 42.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularConfig[playerid], 2);
     PlayerTextDrawColor(playerid, CelularConfig[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularConfig[playerid], 0);
@@ -248,7 +245,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularLicencas[playerid] = CreatePlayerTextDraw(playerid, 584.000 + CelularOffsetX[playerid], 232.000 + CelularOffsetY[playerid], "Licencas");
     PlayerTextDrawLetterSize(playerid, CelularLicencas[playerid], 0.159, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 28.000, 8.000);
+    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 20.000, 6.000);
     PlayerTextDrawAlignment(playerid, CelularLicencas[playerid], 2);
     PlayerTextDrawColor(playerid, CelularLicencas[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularLicencas[playerid], 0);
@@ -293,20 +290,20 @@ stock CriarCelularTextDraws(playerid)
     return 1;
 }
 
-stock CriarAvatarCelular(playerid)
+stock CriarImagemCelular(playerid)
 {
-    // Imagem do avatar conforme o novo layout exportado do TDE.
-    // Substitui o preview 3D do skin por um sprite TXD.
-    CelularAvatar[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc3");
-    PlayerTextDrawTextSize(playerid, CelularAvatar[playerid], 49.000, 60.000);
-    PlayerTextDrawAlignment(playerid, CelularAvatar[playerid], 1);
-    PlayerTextDrawColor(playerid, CelularAvatar[playerid], -1);
-    PlayerTextDrawSetShadow(playerid, CelularAvatar[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularAvatar[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularAvatar[playerid], 255);
-    PlayerTextDrawFont(playerid, CelularAvatar[playerid], 4);
-    PlayerTextDrawSetProportional(playerid, CelularAvatar[playerid], true);
-    CelularAvatarCriado[playerid] = true;
+    // Text_Global[12] do TDE atual: imagem decorativa LOADSUK:loadsc3.
+    // Nao e avatar dinamico nem preview do skin do jogador.
+    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc3");
+    PlayerTextDrawTextSize(playerid, CelularImagem[playerid], 49.000, 60.000);
+    PlayerTextDrawAlignment(playerid, CelularImagem[playerid], 1);
+    PlayerTextDrawColor(playerid, CelularImagem[playerid], -1);
+    PlayerTextDrawSetShadow(playerid, CelularImagem[playerid], 0);
+    PlayerTextDrawSetOutline(playerid, CelularImagem[playerid], 0);
+    PlayerTextDrawBackgroundColor(playerid, CelularImagem[playerid], 255);
+    PlayerTextDrawFont(playerid, CelularImagem[playerid], 4);
+    PlayerTextDrawSetProportional(playerid, CelularImagem[playerid], true);
+    CelularImagemCriada[playerid] = true;
     return 1;
 }
 
@@ -327,15 +324,15 @@ stock AtualizarPosicaoCelular(playerid)
     PlayerTextDrawDestroy(playerid, CelularSetaEsquerda[playerid]);
     PlayerTextDrawDestroy(playerid, CelularSetaDireita[playerid]);
     PlayerTextDrawDestroy(playerid, CelularMoverInfo[playerid]);
-    if(CelularAvatarCriado[playerid])
+    if(CelularImagemCriada[playerid])
     {
-        PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
-        CelularAvatarCriado[playerid] = false;
+        PlayerTextDrawDestroy(playerid, CelularImagem[playerid]);
+        CelularImagemCriada[playerid] = false;
     }
 
     CriarCelularTextDraws(playerid);
-    CriarAvatarCelular(playerid);
-    PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
+    CriarImagemCelular(playerid);
+    PlayerTextDrawShow(playerid, CelularImagem[playerid]);
 
     for(new i = 0; i < 12; i++)
         PlayerTextDrawShow(playerid, CelularBG[playerid][i]);
@@ -385,8 +382,8 @@ stock MostrarCelularVB(playerid)
 {
     // Apenas exibe os PlayerTextDraws ja criados no OnPlayerConnect.
     // Nao destrua/recrie a interface ao abrir: isso pode causar sumico/flicker.
-    if(!CelularAvatarCriado[playerid])
-        CriarAvatarCelular(playerid);
+    if(!CelularImagemCriada[playerid])
+        CriarImagemCelular(playerid);
 
 
     for(new i = 0; i < 12; i++)
@@ -399,7 +396,7 @@ stock MostrarCelularVB(playerid)
     PlayerTextDrawShow(playerid, CelularGPS[playerid]);
     PlayerTextDrawShow(playerid, CelularConfig[playerid]);
     PlayerTextDrawShow(playerid, CelularLicencas[playerid]);
-    PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
+    PlayerTextDrawShow(playerid, CelularImagem[playerid]);
 
     CelularAberto[playerid] = true;
     if(CelularModoMover[playerid]) MostrarControlesMover(playerid);
@@ -420,8 +417,8 @@ stock EsconderCelularVB(playerid)
     PlayerTextDrawHide(playerid, CelularConfig[playerid]);
     PlayerTextDrawHide(playerid, CelularLicencas[playerid]);
 
-    if(CelularAvatarCriado[playerid])
-        PlayerTextDrawHide(playerid, CelularAvatar[playerid]);
+    if(CelularImagemCriada[playerid])
+        PlayerTextDrawHide(playerid, CelularImagem[playerid]);
 
     CelularAberto[playerid] = false;
     CelularModoMover[playerid] = false;
@@ -455,10 +452,10 @@ public OnFilterScriptInit()
 
 stock DestruirCelularTextDraws(playerid)
 {
-    if(CelularAvatarCriado[playerid])
+    if(CelularImagemCriada[playerid])
     {
-        PlayerTextDrawDestroy(playerid, CelularAvatar[playerid]);
-        CelularAvatarCriado[playerid] = false;
+        PlayerTextDrawDestroy(playerid, CelularImagem[playerid]);
+        CelularImagemCriada[playerid] = false;
     }
     for(new i = 0; i < 12; i++)
         PlayerTextDrawDestroy(playerid, CelularBG[playerid][i]);
@@ -492,7 +489,7 @@ public OnFilterScriptExit()
 public OnPlayerConnect(playerid)
 {
     CelularAberto[playerid] = false;
-    CelularAvatarCriado[playerid] = false;
+    CelularImagemCriada[playerid] = false;
     CelularModoMover[playerid] = false;
     CelularOffsetX[playerid] = 0.0;
     CelularOffsetY[playerid] = 0.0;
