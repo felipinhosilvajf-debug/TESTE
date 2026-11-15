@@ -292,9 +292,9 @@ stock CriarCelularTextDraws(playerid)
 
 stock CriarImagemCelular(playerid)
 {
-    // Text_Global[12] do TDE atual: imagem decorativa LOADSUK:loadsc3.
-    // Nao e avatar dinamico nem preview do skin do jogador.
-    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc3");
+    // Usa sprite nativo do GTA que ja aparece no proprio TDE (sem depender do TXD LOADSUK).
+    // Substitui LOADSUK:loadsc3, que pode nao estar disponivel no cliente.
+    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "HUD:radar_modGarage");
     PlayerTextDrawTextSize(playerid, CelularImagem[playerid], 49.000, 60.000);
     PlayerTextDrawAlignment(playerid, CelularImagem[playerid], 1);
     PlayerTextDrawColor(playerid, CelularImagem[playerid], -1);
