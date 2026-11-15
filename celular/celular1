@@ -294,7 +294,7 @@ stock CriarImagemCelular(playerid)
 {
     // Usa sprite nativo do GTA que ja aparece no proprio TDE (sem depender do TXD LOADSUK).
     // Substitui LOADSUK:loadsc3, que pode nao estar disponivel no cliente.
-    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "HUD:radar_modGarage");
+    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
     PlayerTextDrawTextSize(playerid, CelularImagem[playerid], 49.000, 60.000);
     PlayerTextDrawAlignment(playerid, CelularImagem[playerid], 1);
     PlayerTextDrawColor(playerid, CelularImagem[playerid], -1);
@@ -558,7 +558,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
         return ExecutarComandoCelular(playerid, "/config");
 
     if(playertextid == CelularLicencas[playerid])
-        return ExecutarComandoCelular(playerid, "/licencas");
+        return ExecutarComandoCelular(playerid, "/minhaslicencas");
 
     if(playertextid == CelularFechar[playerid])
     {
