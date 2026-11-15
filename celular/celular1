@@ -185,10 +185,10 @@ stock CriarCelularTextDraws(playerid)
     PlayerTextDrawFont(playerid, CelularTitulo[playerid], 2);
     PlayerTextDrawSetProportional(playerid, CelularTitulo[playerid], true);
 
-    // Botoes: os tamanhos de clique foram mantidos do TDE.
+    // Botoes: hitboxes reduzidas e isoladas para evitar cliques em opcoes vizinhas.
     CelularAjuda[playerid] = CreatePlayerTextDraw(playerid, 582.000 + CelularOffsetX[playerid], 198.000 + CelularOffsetY[playerid], "AJUDA");
     PlayerTextDrawLetterSize(playerid, CelularAjuda[playerid], 0.299, 1.050);
-    PlayerTextDrawTextSize(playerid, CelularAjuda[playerid], 48.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularAjuda[playerid], 30.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularAjuda[playerid], 2);
     PlayerTextDrawColor(playerid, CelularAjuda[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularAjuda[playerid], 0);
@@ -200,7 +200,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularFechar[playerid] = CreatePlayerTextDraw(playerid, 560.000 + CelularOffsetX[playerid], 321.000 + CelularOffsetY[playerid], "FECHAR");
     PlayerTextDrawLetterSize(playerid, CelularFechar[playerid], 0.140, 0.649);
-    PlayerTextDrawTextSize(playerid, CelularFechar[playerid], 55.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularFechar[playerid], 36.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularFechar[playerid], 2);
     PlayerTextDrawColor(playerid, CelularFechar[playerid], -1);
     PlayerTextDrawSetShadow(playerid, CelularFechar[playerid], 0);
@@ -212,7 +212,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularRG[playerid] = CreatePlayerTextDraw(playerid, 595.000 + CelularOffsetX[playerid], 217.000 + CelularOffsetY[playerid], "RG");
     PlayerTextDrawLetterSize(playerid, CelularRG[playerid], 0.319, 0.950);
-    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 20.000, 12.000);
+    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 8.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularRG[playerid], 2);
     PlayerTextDrawColor(playerid, CelularRG[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularRG[playerid], 0);
@@ -224,7 +224,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularGPS[playerid] = CreatePlayerTextDraw(playerid, 571.000 + CelularOffsetX[playerid], 216.000 + CelularOffsetY[playerid], "GPS");
     PlayerTextDrawLetterSize(playerid, CelularGPS[playerid], 0.260, 1.150);
-    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 22.000, 12.000);
+    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 10.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularGPS[playerid], 2);
     PlayerTextDrawColor(playerid, CelularGPS[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularGPS[playerid], 0);
@@ -236,7 +236,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularConfig[playerid] = CreatePlayerTextDraw(playerid, 579.000 + CelularOffsetX[playerid], 185.000 + CelularOffsetY[playerid], "Configuracoes");
     PlayerTextDrawLetterSize(playerid, CelularConfig[playerid], 0.159, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularConfig[playerid], 92.000, 16.000);
+    PlayerTextDrawTextSize(playerid, CelularConfig[playerid], 48.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularConfig[playerid], 2);
     PlayerTextDrawColor(playerid, CelularConfig[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularConfig[playerid], 0);
@@ -248,7 +248,7 @@ stock CriarCelularTextDraws(playerid)
 
     CelularLicencas[playerid] = CreatePlayerTextDraw(playerid, 584.000 + CelularOffsetX[playerid], 232.000 + CelularOffsetY[playerid], "Licencas");
     PlayerTextDrawLetterSize(playerid, CelularLicencas[playerid], 0.159, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 42.000, 12.000);
+    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 28.000, 8.000);
     PlayerTextDrawAlignment(playerid, CelularLicencas[playerid], 2);
     PlayerTextDrawColor(playerid, CelularLicencas[playerid], 255);
     PlayerTextDrawSetShadow(playerid, CelularLicencas[playerid], 0);
@@ -295,17 +295,17 @@ stock CriarCelularTextDraws(playerid)
 
 stock CriarAvatarCelular(playerid)
 {
-    CelularAvatar[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "_");
+    // Imagem do avatar conforme o novo layout exportado do TDE.
+    // Substitui o preview 3D do skin por um sprite TXD.
+    CelularAvatar[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc3");
     PlayerTextDrawTextSize(playerid, CelularAvatar[playerid], 49.000, 60.000);
     PlayerTextDrawAlignment(playerid, CelularAvatar[playerid], 1);
     PlayerTextDrawColor(playerid, CelularAvatar[playerid], -1);
     PlayerTextDrawSetShadow(playerid, CelularAvatar[playerid], 0);
     PlayerTextDrawSetOutline(playerid, CelularAvatar[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularAvatar[playerid], 85);
-    PlayerTextDrawFont(playerid, CelularAvatar[playerid], 5);
-    PlayerTextDrawSetProportional(playerid, CelularAvatar[playerid], false);
-    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
-    PlayerTextDrawSetPreviewRot(playerid, CelularAvatar[playerid], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawBackgroundColor(playerid, CelularAvatar[playerid], 255);
+    PlayerTextDrawFont(playerid, CelularAvatar[playerid], 4);
+    PlayerTextDrawSetProportional(playerid, CelularAvatar[playerid], true);
     CelularAvatarCriado[playerid] = true;
     return 1;
 }
@@ -335,7 +335,6 @@ stock AtualizarPosicaoCelular(playerid)
 
     CriarCelularTextDraws(playerid);
     CriarAvatarCelular(playerid);
-    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
     PlayerTextDrawShow(playerid, CelularAvatar[playerid]);
 
     for(new i = 0; i < 12; i++)
@@ -389,7 +388,6 @@ stock MostrarCelularVB(playerid)
     if(!CelularAvatarCriado[playerid])
         CriarAvatarCelular(playerid);
 
-    PlayerTextDrawSetPreviewModel(playerid, CelularAvatar[playerid], GetPlayerSkin(playerid));
 
     for(new i = 0; i < 12; i++)
         PlayerTextDrawShow(playerid, CelularBG[playerid][i]);
