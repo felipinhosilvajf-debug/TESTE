@@ -522,6 +522,11 @@ public OnPlayerCommandText(playerid, cmdtext[])
         else EsconderControlesMover(playerid);
         return 1;
     }
+
+    // Qualquer outro comando solicitado fecha e destroi o celular antes
+    // de a GM/filterscript abrir loja, inventario, skins ou outro menu.
+    if(CelularCriado[playerid] || CelularAberto[playerid])
+        EsconderCelularVB(playerid);
     return 0;
 }
 
