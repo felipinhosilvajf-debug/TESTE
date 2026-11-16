@@ -173,7 +173,7 @@ stock PlayerText:mS_CreatePlayerBGTextDraw(playerid, Float:Xpos, Float:Ypos, Flo
 	new PlayerText:txtBackground = CreatePlayerTextDraw(playerid, Xpos, Ypos,"                                            ~n~"); // enough space for everyone
     PlayerTextDrawUseBox(playerid, txtBackground, 1);
     PlayerTextDrawBoxColor(playerid, txtBackground, bgcolor);
-	PlayerTextDrawLetterSize(playerid, txtBackground, 5.0, 5.0);
+	PlayerTextDrawLetterSize(playerid, txtBackground, 0.0, 1.0);
 	PlayerTextDrawFont(playerid, txtBackground, 0);
 	PlayerTextDrawSetShadow(playerid, txtBackground, 0);
     PlayerTextDrawSetOutline(playerid, txtBackground, 0);
