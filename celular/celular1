@@ -1,7 +1,6 @@
 #include <a_samp>
 
 new Text:CelularBG[11];
-new Text:CelularTitulo;
 new Text:CelularAjuda;
 new Text:CelularFechar;
 new Text:CelularRG;
@@ -151,12 +150,6 @@ stock CriarCelularGlobal()
     TextDrawFont(CelularBG[10], 1);
     TextDrawSetProportional(CelularBG[10], 1);
 
-    new Text: CelularAjuda;
-    new Text: CelularFechar;
-    new Text: CelularRG;
-    new Text: CelularGPS;
-    new Text: CelularConfig;
-    new Text: CelularCNH;
     
     CelularAjuda = TextDrawCreate(579.000, 197.000, "AJUDA");
     TextDrawLetterSize(CelularAjuda, 0.258, 0.748);
