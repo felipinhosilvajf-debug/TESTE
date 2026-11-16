@@ -1,574 +1,356 @@
 #include <a_samp>
 
-// VirtualBoost Phone - FilterScript
-// Visual baseado no TDE "Celular pra implantar".
-// O avatar e individual por jogador; os demais TextDraws sao globais.
+new Text:CelularBG[12];
+new Text:CelularTitulo;
+new Text:CelularAjuda;
+new Text:CelularFechar;
+new Text:CelularRG;
+new Text:CelularGPS;
+new Text:CelularConfig;
+new Text:CelularLicencas;
+new Text:CelularImagem;
 
-new PlayerText:CelularBG[MAX_PLAYERS][12];
-new PlayerText:CelularTitulo[MAX_PLAYERS];
-new PlayerText:CelularAjuda[MAX_PLAYERS];
-new PlayerText:CelularFechar[MAX_PLAYERS];
-new PlayerText:CelularRG[MAX_PLAYERS];
-new PlayerText:CelularGPS[MAX_PLAYERS];
-new PlayerText:CelularConfig[MAX_PLAYERS];
-new PlayerText:CelularLicencas[MAX_PLAYERS];
-
-new PlayerText:CelularImagem[MAX_PLAYERS];
-new bool:CelularImagemCriada[MAX_PLAYERS];
-new bool:CelularCriado[MAX_PLAYERS];
+new bool:CelularCriadoGlobal = false;
 new bool:CelularAberto[MAX_PLAYERS];
-new bool:CelularModoMover[MAX_PLAYERS];
-new Float:CelularOffsetX[MAX_PLAYERS], Float:CelularOffsetY[MAX_PLAYERS];
-new PlayerText:CelularSetaCima[MAX_PLAYERS], PlayerText:CelularSetaBaixo[MAX_PLAYERS];
-new PlayerText:CelularSetaEsquerda[MAX_PLAYERS], PlayerText:CelularSetaDireita[MAX_PLAYERS];
-new PlayerText:CelularMoverInfo[MAX_PLAYERS];
 
-stock CriarCelularTextDraws(playerid)
+stock CriarCelularGlobal()
 {
-    if(CelularCriado[playerid]) return 1;
-    // Text_Global[0] do TDE: imagem LOADSUK:loadsc6.
-    CelularBG[playerid][0] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 243.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][0], 90.000, 90.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][0], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][0], -1);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][0], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][0], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][0], 255);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][0], 4);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][0], true);
+    if(CelularCriadoGlobal) return 1;
 
-    CelularBG[playerid][1] = CreatePlayerTextDraw(playerid, 509.000 + CelularOffsetX[playerid], 170.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][1], 0.379, 18.299);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][1], 609.000, 0.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][1], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][1], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][1], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][1], 168761599);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][1], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][1], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][1], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][1], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][1], true);
+    CelularBG[0] = TextDrawCreate(510.000, 243.000, "LOADSUK:loadsc6");
+    TextDrawTextSize(CelularBG[0], 90.000, 90.000);
+    TextDrawAlignment(CelularBG[0], 1);
+    TextDrawColor(CelularBG[0], -1);
+    TextDrawSetShadow(CelularBG[0], 0);
+    TextDrawSetOutline(CelularBG[0], 0);
+    TextDrawBackgroundColor(CelularBG[0], 255);
+    TextDrawFont(CelularBG[0], 4);
+    TextDrawSetProportional(CelularBG[0], 1);
 
-    CelularBG[playerid][2] = CreatePlayerTextDraw(playerid, 511.000 + CelularOffsetX[playerid], 172.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][2], 0.000, 17.799);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][2], 607.000, 0.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][2], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][2], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][2], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][2], 270150911);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][2], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][2], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][2], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][2], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][2], true);
+    CelularBG[1] = TextDrawCreate(509.000, 170.000, "_");
+    TextDrawLetterSize(CelularBG[1], 0.379, 18.299);
+    TextDrawTextSize(CelularBG[1], 609.000, 0.000);
+    TextDrawAlignment(CelularBG[1], 1);
+    TextDrawColor(CelularBG[1], -1);
+    TextDrawUseBox(CelularBG[1], 1);
+    TextDrawBoxColor(CelularBG[1], 168761599);
+    TextDrawSetShadow(CelularBG[1], 0);
+    TextDrawSetOutline(CelularBG[1], 0);
+    TextDrawBackgroundColor(CelularBG[1], 0);
+    TextDrawFont(CelularBG[1], 1);
+    TextDrawSetProportional(CelularBG[1], 1);
 
-    CelularBG[playerid][3] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 243.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][3], 96.000, 72.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][3], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][3], -1);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][3], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][3], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][3], 255);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][3], 4);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][3], true);
+    CelularBG[2] = TextDrawCreate(511.000, 172.000, "_");
+    TextDrawLetterSize(CelularBG[2], 0.000, 17.799);
+    TextDrawTextSize(CelularBG[2], 607.000, 0.000);
+    TextDrawAlignment(CelularBG[2], 1);
+    TextDrawColor(CelularBG[2], -1);
+    TextDrawUseBox(CelularBG[2], 1);
+    TextDrawBoxColor(CelularBG[2], 270150911);
+    TextDrawSetShadow(CelularBG[2], 0);
+    TextDrawSetOutline(CelularBG[2], 0);
+    TextDrawBackgroundColor(CelularBG[2], 0);
+    TextDrawFont(CelularBG[2], 1);
+    TextDrawSetProportional(CelularBG[2], 1);
 
-    CelularBG[playerid][4] = CreatePlayerTextDraw(playerid, 608.000 + CelularOffsetX[playerid], 174.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][4], 0.069, -0.099);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][4], 594.000, 1.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][4], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][4], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][4], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][4], 742281471);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][4], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][4], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][4], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][4], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][4], true);
+    CelularBG[3] = TextDrawCreate(510.000, 243.000, "LOADSUK:loadsc6");
+    TextDrawTextSize(CelularBG[3], 96.000, 72.000);
+    TextDrawAlignment(CelularBG[3], 1);
+    TextDrawColor(CelularBG[3], -1);
+    TextDrawSetShadow(CelularBG[3], 0);
+    TextDrawSetOutline(CelularBG[3], 0);
+    TextDrawBackgroundColor(CelularBG[3], 255);
+    TextDrawFont(CelularBG[3], 4);
+    TextDrawSetProportional(CelularBG[3], 1);
 
-    CelularBG[playerid][5] = CreatePlayerTextDraw(playerid, 561.000 + CelularOffsetX[playerid], 197.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][5], 0.000, 1.399);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][5], 605.000, 0.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][5], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][5], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][5], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][5], 8368127);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][5], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][5], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][5], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][5], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][5], true);
+    CelularBG[4] = TextDrawCreate(608.000, 174.000, "_");
+    TextDrawLetterSize(CelularBG[4], 0.069, -0.099);
+    TextDrawTextSize(CelularBG[4], 594.000, 1.000);
+    TextDrawAlignment(CelularBG[4], 1);
+    TextDrawColor(CelularBG[4], -1);
+    TextDrawUseBox(CelularBG[4], 1);
+    TextDrawBoxColor(CelularBG[4], 742281471);
+    TextDrawSetShadow(CelularBG[4], 0);
+    TextDrawSetOutline(CelularBG[4], 0);
+    TextDrawBackgroundColor(CelularBG[4], 0);
+    TextDrawFont(CelularBG[4], 1);
+    TextDrawSetProportional(CelularBG[4], 1);
 
-    CelularBG[playerid][6] = CreatePlayerTextDraw(playerid, 586.000 + CelularOffsetX[playerid], 215.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][6], 0.000, 1.399);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][6], 605.000, 0.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][6], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][6], 8388863);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][6], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][6], 2147418367);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][6], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][6], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][6], -92245249);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][6], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][6], true);
+    CelularBG[5] = TextDrawCreate(561.000, 197.000, "_");
+    TextDrawLetterSize(CelularBG[5], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[5], 605.000, 0.000);
+    TextDrawAlignment(CelularBG[5], 1);
+    TextDrawColor(CelularBG[5], -1);
+    TextDrawUseBox(CelularBG[5], 1);
+    TextDrawBoxColor(CelularBG[5], 8368127);
+    TextDrawSetShadow(CelularBG[5], 0);
+    TextDrawSetOutline(CelularBG[5], 0);
+    TextDrawBackgroundColor(CelularBG[5], 0);
+    TextDrawFont(CelularBG[5], 1);
+    TextDrawSetProportional(CelularBG[5], 1);
 
-    CelularBG[playerid][7] = CreatePlayerTextDraw(playerid, 560.000 + CelularOffsetX[playerid], 320.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][7], -0.039, 0.899);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][7], 597.000, 24.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][7], 2);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][7], -1);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][7], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][7], -2026157586);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][7], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][7], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][7], 0);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][7], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][7], true);
+    CelularBG[6] = TextDrawCreate(586.000, 215.000, "_");
+    TextDrawLetterSize(CelularBG[6], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[6], 605.000, 0.000);
+    TextDrawAlignment(CelularBG[6], 1);
+    TextDrawColor(CelularBG[6], 8388863);
+    TextDrawUseBox(CelularBG[6], 1);
+    TextDrawBoxColor(CelularBG[6], 2147418367);
+    TextDrawSetShadow(CelularBG[6], 0);
+    TextDrawSetOutline(CelularBG[6], 0);
+    TextDrawBackgroundColor(CelularBG[6], -92245249);
+    TextDrawFont(CelularBG[6], 1);
+    TextDrawSetProportional(CelularBG[6], 1);
 
-    CelularBG[playerid][8] = CreatePlayerTextDraw(playerid, 571.000 + CelularOffsetX[playerid], 215.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][8], 0.000, 1.399);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][8], 605.000, 20.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][8], 2);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][8], 8388863);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][8], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][8], 1221709055);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][8], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][8], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][8], -92245249);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][8], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][8], true);
+    CelularBG[7] = TextDrawCreate(560.000, 320.000, "_");
+    TextDrawLetterSize(CelularBG[7], -0.039, 0.899);
+    TextDrawTextSize(CelularBG[7], 597.000, 24.000);
+    TextDrawAlignment(CelularBG[7], 2);
+    TextDrawColor(CelularBG[7], -1);
+    TextDrawUseBox(CelularBG[7], 1);
+    TextDrawBoxColor(CelularBG[7], -2026157586);
+    TextDrawSetShadow(CelularBG[7], 0);
+    TextDrawSetOutline(CelularBG[7], 0);
+    TextDrawBackgroundColor(CelularBG[7], 0);
+    TextDrawFont(CelularBG[7], 1);
+    TextDrawSetProportional(CelularBG[7], 1);
 
-    CelularBG[playerid][9] = CreatePlayerTextDraw(playerid, 561.000 + CelularOffsetX[playerid], 184.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][9], 0.000, 0.899);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][9], 605.000, -3.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][9], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][9], 8388863);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][9], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][9], -1327438081);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][9], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][9], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][9], -92245249);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][9], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][9], true);
+    CelularBG[8] = TextDrawCreate(571.000, 215.000, "_");
+    TextDrawLetterSize(CelularBG[8], 0.000, 1.399);
+    TextDrawTextSize(CelularBG[8], 605.000, 20.000);
+    TextDrawAlignment(CelularBG[8], 2);
+    TextDrawColor(CelularBG[8], 8388863);
+    TextDrawUseBox(CelularBG[8], 1);
+    TextDrawBoxColor(CelularBG[8], 1221709055);
+    TextDrawSetShadow(CelularBG[8], 0);
+    TextDrawSetOutline(CelularBG[8], 0);
+    TextDrawBackgroundColor(CelularBG[8], -92245249);
+    TextDrawFont(CelularBG[8], 1);
+    TextDrawSetProportional(CelularBG[8], 1);
 
-    CelularBG[playerid][10] = CreatePlayerTextDraw(playerid, 598.000 + CelularOffsetX[playerid], 186.000 + CelularOffsetY[playerid], "HUD:radar_modGarage");
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][10], 8.000, 6.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][10], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][10], -1);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][10], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][10], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][10], 255);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][10], 4);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][10], true);
+    CelularBG[9] = TextDrawCreate(561.000, 184.000, "_");
+    TextDrawLetterSize(CelularBG[9], 0.000, 0.899);
+    TextDrawTextSize(CelularBG[9], 605.000, -3.000);
+    TextDrawAlignment(CelularBG[9], 1);
+    TextDrawColor(CelularBG[9], 8388863);
+    TextDrawUseBox(CelularBG[9], 1);
+    TextDrawBoxColor(CelularBG[9], -1327438081);
+    TextDrawSetShadow(CelularBG[9], 0);
+    TextDrawSetOutline(CelularBG[9], 0);
+    TextDrawBackgroundColor(CelularBG[9], -92245249);
+    TextDrawFont(CelularBG[9], 1);
+    TextDrawSetProportional(CelularBG[9], 1);
 
-    CelularBG[playerid][11] = CreatePlayerTextDraw(playerid, 561.000 + CelularOffsetX[playerid], 232.000 + CelularOffsetY[playerid], "_");
-    PlayerTextDrawLetterSize(playerid, CelularBG[playerid][11], 0.000, 0.899);
-    PlayerTextDrawTextSize(playerid, CelularBG[playerid][11], 605.000, -3.000);
-    PlayerTextDrawAlignment(playerid, CelularBG[playerid][11], 1);
-    PlayerTextDrawColor(playerid, CelularBG[playerid][11], 8388863);
-    PlayerTextDrawUseBox(playerid, CelularBG[playerid][11], true);
-    PlayerTextDrawBoxColor(playerid, CelularBG[playerid][11], -1378294017);
-    PlayerTextDrawSetShadow(playerid, CelularBG[playerid][11], 0);
-    PlayerTextDrawSetOutline(playerid, CelularBG[playerid][11], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularBG[playerid][11], -92245249);
-    PlayerTextDrawFont(playerid, CelularBG[playerid][11], 1);
-    PlayerTextDrawSetProportional(playerid, CelularBG[playerid][11], true);
+    CelularBG[10] = TextDrawCreate(598.000, 186.000, "HUD:radar_modGarage");
+    TextDrawTextSize(CelularBG[10], 8.000, 6.000);
+    TextDrawAlignment(CelularBG[10], 1);
+    TextDrawColor(CelularBG[10], -1);
+    TextDrawSetShadow(CelularBG[10], 0);
+    TextDrawSetOutline(CelularBG[10], 0);
+    TextDrawBackgroundColor(CelularBG[10], 255);
+    TextDrawFont(CelularBG[10], 4);
+    TextDrawSetProportional(CelularBG[10], 1);
 
-    CelularTitulo[playerid] = CreatePlayerTextDraw(playerid, 559.000 + CelularOffsetX[playerid], 175.000 + CelularOffsetY[playerid], "VIRTUAL~w~PHONE");
-    PlayerTextDrawLetterSize(playerid, CelularTitulo[playerid], 0.129, 0.600);
-    PlayerTextDrawAlignment(playerid, CelularTitulo[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularTitulo[playerid], -1);
-    PlayerTextDrawSetShadow(playerid, CelularTitulo[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularTitulo[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularTitulo[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularTitulo[playerid], 2);
-    PlayerTextDrawSetProportional(playerid, CelularTitulo[playerid], true);
+    CelularBG[11] = TextDrawCreate(561.000, 232.000, "_");
+    TextDrawLetterSize(CelularBG[11], 0.000, 0.899);
+    TextDrawTextSize(CelularBG[11], 605.000, -3.000);
+    TextDrawAlignment(CelularBG[11], 1);
+    TextDrawColor(CelularBG[11], 8388863);
+    TextDrawUseBox(CelularBG[11], 1);
+    TextDrawBoxColor(CelularBG[11], -1378294017);
+    TextDrawSetShadow(CelularBG[11], 0);
+    TextDrawSetOutline(CelularBG[11], 0);
+    TextDrawBackgroundColor(CelularBG[11], -92245249);
+    TextDrawFont(CelularBG[11], 1);
+    TextDrawSetProportional(CelularBG[11], 1);
 
-    // Botoes: TextSize igual ao export atual do TDE; nao alterar sem ajustar no editor.
-    CelularAjuda[playerid] = CreatePlayerTextDraw(playerid, 582.000 + CelularOffsetX[playerid], 198.000 + CelularOffsetY[playerid], "AJUDA");
-    PlayerTextDrawLetterSize(playerid, CelularAjuda[playerid], 0.298, 1.049);
-    PlayerTextDrawTextSize(playerid, CelularAjuda[playerid], 8.000, 30.000);
-    PlayerTextDrawAlignment(playerid, CelularAjuda[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularAjuda[playerid], 255);
-    PlayerTextDrawSetShadow(playerid, CelularAjuda[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularAjuda[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularAjuda[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularAjuda[playerid], 1);
-    PlayerTextDrawSetProportional(playerid, CelularAjuda[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularAjuda[playerid], true);
+    CelularImagem = TextDrawCreate(510.000, 182.000, "LOADSUK:loadsc6");
+    TextDrawTextSize(CelularImagem, 49.000, 60.000);
+    TextDrawAlignment(CelularImagem, 1);
+    TextDrawColor(CelularImagem, -1);
+    TextDrawSetShadow(CelularImagem, 0);
+    TextDrawSetOutline(CelularImagem, 0);
+    TextDrawBackgroundColor(CelularImagem, 255);
+    TextDrawFont(CelularImagem, 4);
+    TextDrawSetProportional(CelularImagem, 1);
 
-    CelularFechar[playerid] = CreatePlayerTextDraw(playerid, 560.000 + CelularOffsetX[playerid], 321.000 + CelularOffsetY[playerid], "FECHAR");
-    PlayerTextDrawLetterSize(playerid, CelularFechar[playerid], 0.140, 0.648);
-    PlayerTextDrawTextSize(playerid, CelularFechar[playerid], 10.000, 30.000);
-    PlayerTextDrawAlignment(playerid, CelularFechar[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularFechar[playerid], -1);
-    PlayerTextDrawSetShadow(playerid, CelularFechar[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularFechar[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularFechar[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularFechar[playerid], 2);
-    PlayerTextDrawSetProportional(playerid, CelularFechar[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularFechar[playerid], true);
+    CelularTitulo = TextDrawCreate(559.000, 175.000, "VIRTUAL~w~PHONE");
+    TextDrawLetterSize(CelularTitulo, 0.129, 0.600);
+    TextDrawAlignment(CelularTitulo, 2);
+    TextDrawColor(CelularTitulo, -1);
+    TextDrawSetShadow(CelularTitulo, 0);
+    TextDrawSetOutline(CelularTitulo, 0);
+    TextDrawBackgroundColor(CelularTitulo, 0);
+    TextDrawFont(CelularTitulo, 2);
+    TextDrawSetProportional(CelularTitulo, 1);
 
-    CelularRG[playerid] = CreatePlayerTextDraw(playerid, 595.000 + CelularOffsetX[playerid], 217.000 + CelularOffsetY[playerid], "RG");
-    PlayerTextDrawLetterSize(playerid, CelularRG[playerid], 0.319, 0.949);
-    PlayerTextDrawTextSize(playerid, CelularRG[playerid], 5.000, 20.000);
-    PlayerTextDrawAlignment(playerid, CelularRG[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularRG[playerid], 255);
-    PlayerTextDrawSetShadow(playerid, CelularRG[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularRG[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularRG[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularRG[playerid], 1);
-    PlayerTextDrawSetProportional(playerid, CelularRG[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularRG[playerid], true);
+    CelularAjuda = TextDrawCreate(582.000, 198.000, "AJUDA");
+    TextDrawLetterSize(CelularAjuda, 0.298, 1.049);
+    TextDrawTextSize(CelularAjuda, 8.000, 30.000);
+    TextDrawAlignment(CelularAjuda, 2);
+    TextDrawColor(CelularAjuda, 255);
+    TextDrawSetShadow(CelularAjuda, 0);
+    TextDrawSetOutline(CelularAjuda, 0);
+    TextDrawBackgroundColor(CelularAjuda, 0);
+    TextDrawFont(CelularAjuda, 1);
+    TextDrawSetProportional(CelularAjuda, 1);
+    TextDrawSetSelectable(CelularAjuda, 1);
 
-    CelularGPS[playerid] = CreatePlayerTextDraw(playerid, 571.000 + CelularOffsetX[playerid], 216.000 + CelularOffsetY[playerid], "GPS");
-    PlayerTextDrawLetterSize(playerid, CelularGPS[playerid], 0.259, 1.149);
-    PlayerTextDrawTextSize(playerid, CelularGPS[playerid], 5.000, 20.000);
-    PlayerTextDrawAlignment(playerid, CelularGPS[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularGPS[playerid], 255);
-    PlayerTextDrawSetShadow(playerid, CelularGPS[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularGPS[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularGPS[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularGPS[playerid], 1);
-    PlayerTextDrawSetProportional(playerid, CelularGPS[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularGPS[playerid], true);
+    CelularFechar = TextDrawCreate(560.000, 321.000, "FECHAR");
+    TextDrawLetterSize(CelularFechar, 0.140, 0.648);
+    TextDrawTextSize(CelularFechar, 10.000, 30.000);
+    TextDrawAlignment(CelularFechar, 2);
+    TextDrawColor(CelularFechar, -1);
+    TextDrawSetShadow(CelularFechar, 0);
+    TextDrawSetOutline(CelularFechar, 0);
+    TextDrawBackgroundColor(CelularFechar, 0);
+    TextDrawFont(CelularFechar, 2);
+    TextDrawSetProportional(CelularFechar, 1);
+    TextDrawSetSelectable(CelularFechar, 1);
 
-    CelularConfig[playerid] = CreatePlayerTextDraw(playerid, 579.000 + CelularOffsetX[playerid], 185.000 + CelularOffsetY[playerid], "Configuracoes");
-    PlayerTextDrawLetterSize(playerid, CelularConfig[playerid], 0.158, 0.750);
-    PlayerTextDrawTextSize(playerid, CelularConfig[playerid], 8.000, 30.000);
-    PlayerTextDrawAlignment(playerid, CelularConfig[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularConfig[playerid], 255);
-    PlayerTextDrawSetShadow(playerid, CelularConfig[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularConfig[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularConfig[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularConfig[playerid], 1);
-    PlayerTextDrawSetProportional(playerid, CelularConfig[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularConfig[playerid], true);
+    CelularRG = TextDrawCreate(595.000, 217.000, "RG");
+    TextDrawLetterSize(CelularRG, 0.319, 0.949);
+    TextDrawTextSize(CelularRG, 5.000, 20.000);
+    TextDrawAlignment(CelularRG, 2);
+    TextDrawColor(CelularRG, 255);
+    TextDrawSetShadow(CelularRG, 0);
+    TextDrawSetOutline(CelularRG, 0);
+    TextDrawBackgroundColor(CelularRG, 0);
+    TextDrawFont(CelularRG, 1);
+    TextDrawSetProportional(CelularRG, 1);
+    TextDrawSetSelectable(CelularRG, 1);
 
-    CelularLicencas[playerid] = CreatePlayerTextDraw(playerid, 584.000 + CelularOffsetX[playerid], 232.000 + CelularOffsetY[playerid], "Licencas");
-    PlayerTextDrawLetterSize(playerid, CelularLicencas[playerid], 0.210, 0.900);
-    PlayerTextDrawTextSize(playerid, CelularLicencas[playerid], 15.000, 30.000);
-    PlayerTextDrawAlignment(playerid, CelularLicencas[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularLicencas[playerid], 255);
-    PlayerTextDrawSetShadow(playerid, CelularLicencas[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularLicencas[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularLicencas[playerid], 0);
-    PlayerTextDrawFont(playerid, CelularLicencas[playerid], 2);
-    PlayerTextDrawSetProportional(playerid, CelularLicencas[playerid], true);
-    PlayerTextDrawSetSelectable(playerid, CelularLicencas[playerid], true);
+    CelularGPS = TextDrawCreate(571.000, 216.000, "GPS");
+    TextDrawLetterSize(CelularGPS, 0.259, 1.149);
+    TextDrawTextSize(CelularGPS, 5.000, 20.000);
+    TextDrawAlignment(CelularGPS, 2);
+    TextDrawColor(CelularGPS, 255);
+    TextDrawSetShadow(CelularGPS, 0);
+    TextDrawSetOutline(CelularGPS, 0);
+    TextDrawBackgroundColor(CelularGPS, 0);
+    TextDrawFont(CelularGPS, 1);
+    TextDrawSetProportional(CelularGPS, 1);
+    TextDrawSetSelectable(CelularGPS, 1);
 
-    CelularSetaCima[playerid] = CreatePlayerTextDraw(playerid, 560.0, 339.0, "^");
-    PlayerTextDrawLetterSize(playerid, CelularSetaCima[playerid], 0.35, 1.2);
-    PlayerTextDrawTextSize(playerid, CelularSetaCima[playerid], 18.0, 18.0);
-    PlayerTextDrawFont(playerid, CelularSetaCima[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularSetaCima[playerid], -1);
-    PlayerTextDrawSetSelectable(playerid, CelularSetaCima[playerid], true);
+    CelularConfig = TextDrawCreate(579.000, 185.000, "Configuracoes");
+    TextDrawLetterSize(CelularConfig, 0.158, 0.750);
+    TextDrawTextSize(CelularConfig, 8.000, 30.000);
+    TextDrawAlignment(CelularConfig, 2);
+    TextDrawColor(CelularConfig, 255);
+    TextDrawSetShadow(CelularConfig, 0);
+    TextDrawSetOutline(CelularConfig, 0);
+    TextDrawBackgroundColor(CelularConfig, 0);
+    TextDrawFont(CelularConfig, 1);
+    TextDrawSetProportional(CelularConfig, 1);
+    TextDrawSetSelectable(CelularConfig, 1);
 
-    CelularSetaBaixo[playerid] = CreatePlayerTextDraw(playerid, 560.0, 378.0, "v");
-    PlayerTextDrawLetterSize(playerid, CelularSetaBaixo[playerid], 0.35, 1.2);
-    PlayerTextDrawTextSize(playerid, CelularSetaBaixo[playerid], 18.0, 18.0);
-    PlayerTextDrawFont(playerid, CelularSetaBaixo[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularSetaBaixo[playerid], -1);
-    PlayerTextDrawSetSelectable(playerid, CelularSetaBaixo[playerid], true);
-
-    CelularSetaEsquerda[playerid] = CreatePlayerTextDraw(playerid, 540.0, 358.0, "<");
-    PlayerTextDrawLetterSize(playerid, CelularSetaEsquerda[playerid], 0.35, 1.2);
-    PlayerTextDrawTextSize(playerid, CelularSetaEsquerda[playerid], 18.0, 18.0);
-    PlayerTextDrawFont(playerid, CelularSetaEsquerda[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularSetaEsquerda[playerid], -1);
-    PlayerTextDrawSetSelectable(playerid, CelularSetaEsquerda[playerid], true);
-
-    CelularSetaDireita[playerid] = CreatePlayerTextDraw(playerid, 580.0, 358.0, ">");
-    PlayerTextDrawLetterSize(playerid, CelularSetaDireita[playerid], 0.35, 1.2);
-    PlayerTextDrawTextSize(playerid, CelularSetaDireita[playerid], 18.0, 18.0);
-    PlayerTextDrawFont(playerid, CelularSetaDireita[playerid], 2);
-    PlayerTextDrawColor(playerid, CelularSetaDireita[playerid], -1);
-    PlayerTextDrawSetSelectable(playerid, CelularSetaDireita[playerid], true);
-
-    CelularMoverInfo[playerid] = CreatePlayerTextDraw(playerid, 560.0, 399.0, "MOVER: /vbmove");
-    PlayerTextDrawLetterSize(playerid, CelularMoverInfo[playerid], 0.16, 0.8);
-    PlayerTextDrawFont(playerid, CelularMoverInfo[playerid], 1);
-    PlayerTextDrawColor(playerid, CelularMoverInfo[playerid], -1);
-    CelularCriado[playerid] = true;
-    return 1;
-}
-
-stock CriarImagemCelular(playerid)
-{
-    // Usa sprite nativo do GTA que ja aparece no proprio TDE (sem depender do TXD LOADSUK).
-    // Substitui LOADSUK:loadsc3, que pode nao estar disponivel no cliente.
-    CelularImagem[playerid] = CreatePlayerTextDraw(playerid, 510.000 + CelularOffsetX[playerid], 182.000 + CelularOffsetY[playerid], "LOADSUK:loadsc6");
-    PlayerTextDrawTextSize(playerid, CelularImagem[playerid], 49.000, 60.000);
-    PlayerTextDrawAlignment(playerid, CelularImagem[playerid], 1);
-    PlayerTextDrawColor(playerid, CelularImagem[playerid], -1);
-    PlayerTextDrawSetShadow(playerid, CelularImagem[playerid], 0);
-    PlayerTextDrawSetOutline(playerid, CelularImagem[playerid], 0);
-    PlayerTextDrawBackgroundColor(playerid, CelularImagem[playerid], 255);
-    PlayerTextDrawFont(playerid, CelularImagem[playerid], 4);
-    PlayerTextDrawSetProportional(playerid, CelularImagem[playerid], true);
-    CelularImagemCriada[playerid] = true;
-    return 1;
-}
-
-stock AtualizarPosicaoCelular(playerid)
-{
-    // SA-MP antigo nao possui PlayerTextDrawSetPos: recria os elementos na nova coordenada.
-    for(new i = 0; i < 12; i++)
-        PlayerTextDrawDestroy(playerid, CelularBG[playerid][i]);
-    PlayerTextDrawDestroy(playerid, CelularTitulo[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularAjuda[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularFechar[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularRG[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularGPS[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularConfig[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularLicencas[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaCima[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaBaixo[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaEsquerda[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaDireita[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularMoverInfo[playerid]);
-    if(CelularImagemCriada[playerid])
-    {
-        PlayerTextDrawDestroy(playerid, CelularImagem[playerid]);
-        CelularImagemCriada[playerid] = false;
-    }
-
-    CriarCelularTextDraws(playerid);
-    CriarImagemCelular(playerid);
-    PlayerTextDrawShow(playerid, CelularImagem[playerid]);
-
-    for(new i = 0; i < 12; i++)
-        PlayerTextDrawShow(playerid, CelularBG[playerid][i]);
-    PlayerTextDrawShow(playerid, CelularTitulo[playerid]);
-    PlayerTextDrawShow(playerid, CelularAjuda[playerid]);
-    PlayerTextDrawShow(playerid, CelularFechar[playerid]);
-    PlayerTextDrawShow(playerid, CelularRG[playerid]);
-    PlayerTextDrawShow(playerid, CelularGPS[playerid]);
-    PlayerTextDrawShow(playerid, CelularConfig[playerid]);
-    PlayerTextDrawShow(playerid, CelularLicencas[playerid]);
-
-    if(CelularModoMover[playerid]) MostrarControlesMover(playerid);
-    return 1;
-}
-
-stock MostrarControlesMover(playerid)
-{
-    PlayerTextDrawShow(playerid, CelularSetaCima[playerid]);
-    PlayerTextDrawShow(playerid, CelularSetaBaixo[playerid]);
-    PlayerTextDrawShow(playerid, CelularSetaEsquerda[playerid]);
-    PlayerTextDrawShow(playerid, CelularSetaDireita[playerid]);
-    PlayerTextDrawShow(playerid, CelularMoverInfo[playerid]);
-    return 1;
-}
-stock EsconderControlesMover(playerid)
-{
-    PlayerTextDrawHide(playerid, CelularSetaCima[playerid]);
-    PlayerTextDrawHide(playerid, CelularSetaBaixo[playerid]);
-    PlayerTextDrawHide(playerid, CelularSetaEsquerda[playerid]);
-    PlayerTextDrawHide(playerid, CelularSetaDireita[playerid]);
-    PlayerTextDrawHide(playerid, CelularMoverInfo[playerid]);
-    return 1;
-}
-stock MoverCelular(playerid, Float:dx, Float:dy)
-{
-    CelularOffsetX[playerid] += dx;
-    CelularOffsetY[playerid] += dy;
-    if(CelularOffsetX[playerid] < -500.0) CelularOffsetX[playerid] = -500.0;
-    if(CelularOffsetX[playerid] > 25.0) CelularOffsetX[playerid] = 25.0;
-    if(CelularOffsetY[playerid] < -160.0) CelularOffsetY[playerid] = -160.0;
-    if(CelularOffsetY[playerid] > 100.0) CelularOffsetY[playerid] = 100.0;
-    AtualizarPosicaoCelular(playerid);
-    return 1;
-}
-
-stock MostrarCelularVB(playerid)
-{
-    // Constroi a interface somente quando o jogador abre o celular.
-    if(!CelularCriado[playerid])
-        CriarCelularTextDraws(playerid);
-    if(!CelularImagemCriada[playerid])
-        CriarImagemCelular(playerid);
-
-
-    for(new i = 0; i < 12; i++)
-        PlayerTextDrawShow(playerid, CelularBG[playerid][i]);
-
-    PlayerTextDrawShow(playerid, CelularTitulo[playerid]);
-    PlayerTextDrawShow(playerid, CelularAjuda[playerid]);
-    PlayerTextDrawShow(playerid, CelularFechar[playerid]);
-    PlayerTextDrawShow(playerid, CelularRG[playerid]);
-    PlayerTextDrawShow(playerid, CelularGPS[playerid]);
-    PlayerTextDrawShow(playerid, CelularConfig[playerid]);
-    PlayerTextDrawShow(playerid, CelularLicencas[playerid]);
-    PlayerTextDrawShow(playerid, CelularImagem[playerid]);
-
-    CelularAberto[playerid] = true;
-    if(CelularModoMover[playerid]) MostrarControlesMover(playerid);
-    SelectTextDraw(playerid, 0x00D9FFFF);
-    return 1;
-}
-
-stock EsconderCelularVB(playerid)
-{
-    // Fecha a selecao e libera o cursor antes de qualquer outro menu.
-    CancelSelectTextDraw(playerid);
-    CelularAberto[playerid] = false;
-    CelularModoMover[playerid] = false;
-
-    // Destruicao completa: nao deixa PlayerTextDraw antigo ocupando slots.
-    if(CelularCriado[playerid])
-        DestruirCelularTextDraws(playerid);
-    return 1;
-}
-
-stock ExecutarComandoCelular(playerid, const comando[])
-{
-    EsconderCelularVB(playerid);
-    // Encaminha o comando para os scripts/GM que tratam OnPlayerCommandText.
-    CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
-    return 1;
-}
-
-public OnFilterScriptInit()
-{
-    for(new playerid = 0; playerid < MAX_PLAYERS; playerid++)
-    {
-        CelularCriado[playerid] = false;
-        CelularImagemCriada[playerid] = false;
-        CelularAberto[playerid] = false;
-        CelularModoMover[playerid] = false;
-        CelularOffsetX[playerid] = 0.0;
-        CelularOffsetY[playerid] = 0.0;
-    }
-    print("[VirtualBoost] Celular FilterScript carregado.");
-    return 1;
-}
-
-stock DestruirCelularTextDraws(playerid)
-{
-    if(!CelularCriado[playerid]) return 1;
-    CancelSelectTextDraw(playerid);
-    if(CelularImagemCriada[playerid])
-    {
-        PlayerTextDrawDestroy(playerid, CelularImagem[playerid]);
-        CelularImagemCriada[playerid] = false;
-    }
-    for(new i = 0; i < 12; i++)
-        PlayerTextDrawDestroy(playerid, CelularBG[playerid][i]);
-    PlayerTextDrawDestroy(playerid, CelularTitulo[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularAjuda[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularFechar[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularRG[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularGPS[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularConfig[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularLicencas[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaCima[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaBaixo[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaEsquerda[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularSetaDireita[playerid]);
-    PlayerTextDrawDestroy(playerid, CelularMoverInfo[playerid]);
-    CelularImagemCriada[playerid] = false;
-    CelularCriado[playerid] = false;
-    CelularAberto[playerid] = false;
-    CelularModoMover[playerid] = false;
-    return 1;
-}
-
-public OnFilterScriptExit()
-{
-    for(new playerid = 0; playerid < MAX_PLAYERS; playerid++)
-    {
-        if(IsPlayerConnected(playerid))
-        {
-            if(CelularAberto[playerid]) EsconderCelularVB(playerid);
-            DestruirCelularTextDraws(playerid);
-        }
-    }
-    return 1;
-}
-public OnPlayerConnect(playerid)
-{
-    CelularAberto[playerid] = false;
-    CelularImagemCriada[playerid] = false;
-    CelularModoMover[playerid] = false;
-    CelularOffsetX[playerid] = 0.0;
-    CelularOffsetY[playerid] = 0.0;
-    CelularCriado[playerid] = false;
-    return 1;
-}
-
-public OnPlayerDisconnect(playerid, reason)
-{
-    if(CelularAberto[playerid])
-        EsconderCelularVB(playerid);
-
-    DestruirCelularTextDraws(playerid);
-    return 1;
-}
-
-public OnPlayerCommandText(playerid, cmdtext[])
-{
-    if(!strcmp(cmdtext, "/vb", true))
-    {
-        if(CelularAberto[playerid]) EsconderCelularVB(playerid);
-        else MostrarCelularVB(playerid);
-        return 1;
-    }
-    if(!strcmp(cmdtext, "/vbmove", true))
-    {
-        if(!CelularAberto[playerid]) MostrarCelularVB(playerid);
-        CelularModoMover[playerid] = !CelularModoMover[playerid];
-        if(CelularModoMover[playerid]) MostrarControlesMover(playerid);
-        else EsconderControlesMover(playerid);
-        return 1;
-    }
-
-    // Qualquer outro comando solicitado fecha e destroi o celular antes
-    // de a GM/filterscript abrir loja, inventario, skins ou outro menu.
-    if(CelularCriado[playerid] || CelularAberto[playerid])
-        EsconderCelularVB(playerid);
-    return 0;
-}
-
-public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
-{
-    if(!CelularAberto[playerid])
-        return 0;
-
-    if(playertextid == PlayerText:INVALID_TEXT_DRAW)
-    {
-        EsconderCelularVB(playerid);
-        return 1;
-    }
-
-    if(CelularModoMover[playerid])
-    {
-        if(playertextid == CelularFechar[playerid]) { EsconderCelularVB(playerid); return 1; }
-        if(playertextid == CelularSetaCima[playerid]) return MoverCelular(playerid, 0.0, -5.0);
-        if(playertextid == CelularSetaBaixo[playerid]) return MoverCelular(playerid, 0.0, 5.0);
-        if(playertextid == CelularSetaEsquerda[playerid]) return MoverCelular(playerid, -5.0, 0.0);
-        if(playertextid == CelularSetaDireita[playerid]) return MoverCelular(playerid, 5.0, 0.0);
-        return 1;
-    }
-    if(playertextid == CelularAjuda[playerid])
-        return ExecutarComandoCelular(playerid, "/ajuda");
-
-    if(playertextid == CelularRG[playerid])
-        return ExecutarComandoCelular(playerid, "/rg");
-
-    if(playertextid == CelularGPS[playerid])
-        return ExecutarComandoCelular(playerid, "/gps");
-
-    if(playertextid == CelularConfig[playerid])
-        return ExecutarComandoCelular(playerid, "/config");
-
-    if(playertextid == CelularLicencas[playerid])
-        return ExecutarComandoCelular(playerid, "/minhaslicencas");
-
-    if(playertextid == CelularFechar[playerid])
-    {
-        EsconderCelularVB(playerid);
-        return 1;
-    }
-    return 0;
-}
+    CelularLicencas = TextDrawCreate(584.000, 232.000, "Licencas");
+    TextDrawLetterSize(CelularLicencas, 0.210, 0.900);
+    TextDrawTextSize(CelularLicencas, 15.000, 30.000);
+    TextDrawAlignment(CelularLicencas, 2);
+	TextDrawColor(CelularLicencas, 255);
+	TextDrawSetShadow(CelularLicencas, 0);
+	TextDrawSetOutline(CelularLicencas, 0);
+	TextDrawBackgroundColor(CelularLicencas, 0);
+	TextDrawFont(CelularLicencas, 2);
+	TextDrawSetProportional(CelularLicencas, 1);
+	TextDrawSetSelectable(CelularLicencas, 1);
+	CelularCriadoGlobal = true;
+	return 1;
+	}
+	stock MostrarCelularVB(playerid)
+	{
+	if(!CelularCriadoGlobal) CriarCelularGlobal();
+	for(new i = 0; i < 12; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
+	TextDrawShowForPlayer(playerid, CelularImagem);
+	TextDrawShowForPlayer(playerid, CelularTitulo);
+	TextDrawShowForPlayer(playerid, CelularAjuda);
+	TextDrawShowForPlayer(playerid, CelularFechar);
+	TextDrawShowForPlayer(playerid, CelularRG);
+	TextDrawShowForPlayer(playerid, CelularGPS);
+	TextDrawShowForPlayer(playerid, CelularConfig);
+	TextDrawShowForPlayer(playerid, CelularLicencas);
+	CelularAberto[playerid] = true;
+	SelectTextDraw(playerid, 0x00D9FFFF);
+	return 1;
+	}
+	stock EsconderCelularVB(playerid)
+	{
+	CancelSelectTextDraw(playerid);
+	for(new i = 0; i < 12; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
+	TextDrawHideForPlayer(playerid, CelularImagem);
+	TextDrawHideForPlayer(playerid, CelularTitulo);
+	TextDrawHideForPlayer(playerid, CelularAjuda);
+	TextDrawHideForPlayer(playerid, CelularFechar);
+	TextDrawHideForPlayer(playerid, CelularRG);
+	TextDrawHideForPlayer(playerid, CelularGPS);
+	TextDrawHideForPlayer(playerid, CelularConfig);
+	TextDrawHideForPlayer(playerid, CelularLicencas);
+	CelularAberto[playerid] = false;
+	return 1;
+	}
+	stock ExecutarComandoCelular(playerid, const comando[])
+	{
+	EsconderCelularVB(playerid);
+	CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+	return 1;
+	}
+	public OnFilterScriptInit()
+	{
+	CriarCelularGlobal();
+	for(new i = 0; i < MAX_PLAYERS; i++) CelularAberto[i] = false;
+	print("[VirtualBoost] Celular Global carregado com sucesso.");
+	return 1;
+	}
+	public OnFilterScriptExit()
+	{
+	if(CelularCriadoGlobal)
+	{
+	for(new i = 0; i < 12; i++) TextDrawDestroy(CelularBG[i]);
+	TextDrawDestroy(CelularImagem);
+	TextDrawDestroy(CelularTitulo);
+	TextDrawDestroy(CelularAjuda);
+	TextDrawDestroy(CelularFechar);
+	TextDrawDestroy(CelularRG);
+	TextDrawDestroy(CelularGPS);
+	TextDrawDestroy(CelularConfig);
+	TextDrawDestroy(CelularLicencas);
+	CelularCriadoGlobal = false;
+	}
+	return 1;
+	}
+	public OnPlayerConnect(playerid)
+	{
+	CelularAberto[playerid] = false;
+	return 1;
+	}
+	public OnPlayerCommandText(playerid, cmdtext[])
+	{
+	if(!strcmp(cmdtext, "/vb", true))
+	{
+	if(CelularAberto[playerid]) EsconderCelularVB(playerid);
+	else MostrarCelularVB(playerid);
+	return 1;
+	}
+	return 0;
+	}
+	public OnPlayerClickTextDraw(playerid, Text:clickedid)
+	{
+	if(!CelularAberto[playerid]) return 0;
+	if(clickedid == Text:INVALID_TEXT_DRAW)
+	{
+	EsconderCelularVB(playerid);
+	return 1;
+	}
+	if(clickedid == CelularAjuda) return ExecutarComandoCelular(playerid, "/ajuda");
+	if(clickedid == CelularRG) return ExecutarComandoCelular(playerid, "/rg");
+	if(clickedid == CelularGPS) return ExecutarComandoCelular(playerid, "/gps");
+	if(clickedid == CelularConfig) return ExecutarComandoCelular(playerid, "/config");
+	if(clickedid == CelularLicencas) return ExecutarComandoCelular(playerid, "/minhaslicencas");
+	if(clickedid == CelularFechar)
+	{
+	EsconderCelularVB(playerid);
+	return 1;
+	}
+	return 0;
+	}
