@@ -230,7 +230,6 @@ stock MostrarCelularVB(playerid)
 	{
 	if(!CelularCriadoGlobal) CriarCelularGlobal();
 	for(new i = 0; i < 11; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
-		TextDrawShowForPlayer(playerid, CelularTitulo);
 	TextDrawShowForPlayer(playerid, CelularAjuda);
 	TextDrawShowForPlayer(playerid, CelularFechar);
 	TextDrawShowForPlayer(playerid, CelularRG);
@@ -245,7 +244,6 @@ stock MostrarCelularVB(playerid)
 	{
 	CancelSelectTextDraw(playerid);
 	for(new i = 0; i < 11; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
-		TextDrawHideForPlayer(playerid, CelularTitulo);
 	TextDrawHideForPlayer(playerid, CelularAjuda);
 	TextDrawHideForPlayer(playerid, CelularFechar);
 	TextDrawHideForPlayer(playerid, CelularRG);
@@ -273,7 +271,6 @@ stock MostrarCelularVB(playerid)
 	if(CelularCriadoGlobal)
 	{
 	for(new i = 0; i < 11; i++) TextDrawDestroy(CelularBG[i]);
-		TextDrawDestroy(CelularTitulo);
 	TextDrawDestroy(CelularAjuda);
 	TextDrawDestroy(CelularFechar);
 	TextDrawDestroy(CelularRG);
