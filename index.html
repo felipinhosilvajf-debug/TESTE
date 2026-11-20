@@ -27,6 +27,39 @@ section{padding:88px 0}.section-tag{color:var(--green);font-size:10px;font-weigh
 footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-content:space-between;gap:15px;align-items:center}.foot strong{color:var(--green)}
 @media(max-width:760px){.navlinks{display:none}.hero{min-height:690px}.hero-video{object-position:60% center}.hero-content{padding-top:90px}.features,.org-grid{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr;grid-template-rows:190px 140px 140px}.shot:first-child{grid-row:span 2}.video-box{grid-template-columns:1fr}.join-inner{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.features,.org-grid{grid-template-columns:1fr}.ip{font-size:24px}.ip-card{gap:9px;padding:13px}.copy{padding:10px}.stat-grid{padding:18px 0}.stat strong{font-size:23px}.stat span{font-size:8px}.foot{flex-direction:column;text-align:center}}
+
+/* DOWNLOAD CARD */
+.download-cta{border:1px solid rgba(145,126,255,.65);color:#fff;background:linear-gradient(110deg,#16c9e8 0%,#5578f5 52%,#9162ed 100%);box-shadow:0 8px 28px rgba(65,116,245,.28),0 0 22px rgba(25,211,232,.18);cursor:pointer;position:relative;overflow:hidden}
+.download-cta:before{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transition:transform .65s}
+.download-cta:hover:before{transform:translateX(120%)}
+.download-cta:hover{box-shadow:0 12px 34px rgba(95,105,255,.42),0 0 28px rgba(25,211,232,.25)}
+.download-modal{position:fixed;z-index:30;inset:0;display:grid;place-items:center;padding:20px;background:rgba(3,7,16,.8);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s}
+.download-modal.open{opacity:1;visibility:visible}
+.download-card{position:relative;width:min(560px,100%);max-height:min(90vh,850px);overflow:auto;padding:34px;border:1px solid rgba(91,190,255,.35);border-radius:18px;background:radial-gradient(circle at 100% 0,rgba(132,91,255,.2),transparent 38%),linear-gradient(145deg,#17243a,#0b1220 72%);box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 42px rgba(44,171,255,.13);transform:translateY(24px) scale(.96);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow-x:hidden}
+.download-modal.open .download-card{transform:translateY(0) scale(1)}
+.download-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:linear-gradient(90deg,#19d5e8,#6381ff,#a16bfa)}
+.download-close{position:absolute;right:15px;top:13px;width:35px;height:35px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.06);color:#fff;font-size:21px;cursor:pointer}
+.download-kicker{color:#65d9f2;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.download-card h2{font-family:"Barlow Condensed";font-size:clamp(38px,7vw,52px);line-height:.95;margin:12px 0;color:#fff;text-transform:uppercase}
+.download-card h2 span{background:linear-gradient(90deg,#35d7e8,#9c79ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.download-intro{color:#bac6d9;font-size:13px;line-height:1.75;margin:0 0 20px}
+.download-facts{display:grid;gap:10px;margin:20px 0 24px}
+.download-fact{display:flex;align-items:flex-start;gap:12px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.035)}
+.download-fact b{display:block;color:#f5f7ff;font-size:12px;margin-bottom:3px}
+.download-fact small{display:block;color:#aab7cc;font-size:11px;line-height:1.55}
+.download-check{flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;border-radius:7px;color:#081522;background:linear-gradient(135deg,#39d9e8,#9a79ff);font-weight:900}
+.download-size{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 15px;margin-bottom:18px;border-radius:9px;background:rgba(39,215,255,.08);border:1px solid rgba(39,215,255,.2)}
+.download-size strong{font-family:"Barlow Condensed";font-size:25px;color:#70e4f3}
+.download-size span{font-size:9px;color:#b8c5d8;letter-spacing:1px;text-align:right}
+.download-link{width:100%;border:0;color:#fff;background:linear-gradient(100deg,#18cde1,#6675f5 58%,#9864ec);box-shadow:0 8px 25px rgba(80,112,245,.25)}
+.download-link:hover{box-shadow:0 12px 32px rgba(80,112,245,.4)}
+.download-divider{height:1px;margin:25px 0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent)}
+.mobile-kicker{color:#b99aff;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.mobile-note{padding:12px 14px;margin:13px 0 17px;border:1px solid rgba(168,132,255,.22);border-radius:9px;background:rgba(143,105,255,.08);color:#c7c3dc;font-size:11px;line-height:1.65}
+.mobile-link{background:linear-gradient(100deg,#7966ef,#a45fe8);box-shadow:0 8px 25px rgba(143,92,235,.22)}
+.download-footnote{margin:13px 0 0;color:#8392aa;font-size:10px;line-height:1.6;text-align:center}
+@media(max-width:480px){.download-card{padding:29px 20px 22px}.download-card h2{padding-right:20px}}
+
 </style>
 </head>
 <body>
@@ -45,7 +78,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   <div class="eyebrow"><span class="dot"></span> NOVO SERVIDOR • ANDROID & PC</div>
   <h1>GTA SAMP<br><span>SUA CIDADE.</span></h1>
   <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
-  <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc">DISCORD <span>➜</span></a><a class="btn secondary" href="#organizacoes">VER VAGAS NAS ORGS</a></div>
+  <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>↓</span></button></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div></section>
 
@@ -104,6 +137,50 @@ function fallbackCopy(text,done){
  const el=document.createElement('textarea');el.value=text;el.style.position='fixed';el.style.opacity='0';document.body.appendChild(el);el.select();
  try{document.execCommand('copy');done();}catch(e){alert('IP do servidor: '+text);}el.remove();
 }
+
+function openDownloadCard(){
+ const modal=document.getElementById('downloadModal');
+ if(!modal)return;
+ modal.classList.add('open');
+ modal.setAttribute('aria-hidden','false');
+ document.body.style.overflow='hidden';
+}
+function closeDownloadCard(){
+ const modal=document.getElementById('downloadModal');
+ if(!modal)return;
+ modal.classList.remove('open');
+ modal.setAttribute('aria-hidden','true');
+ document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){
+ if(e.key==='Escape')closeDownloadCard();
+});
+
 </script>
+
+<div class="download-modal" id="downloadModal" aria-hidden="true" onclick="if(event.target===this)closeDownloadCard()">
+  <section class="download-card" role="dialog" aria-modal="true" aria-labelledby="downloadTitle">
+    <button class="download-close" type="button" aria-label="Fechar" onclick="closeDownloadCard()">×</button>
+    <div class="download-kicker">VIRTUAL BOOST • INSTALAÇÃO</div>
+    <h2 id="downloadTitle">Prepare seu <span>GTA SA</span></h2>
+    <p class="download-intro">Baixe o pacote para PC e tenha o necessário para começar no SAMP sem precisar procurar arquivos separados.</p>
+    <div class="download-facts">
+      <div class="download-fact"><span class="download-check">✓</span><div><b>GTA San Andreas completo</b><small>Versão compacta, com aproximadamente 600 MB.</small></div></div>
+      <div class="download-fact"><span class="download-check">✓</span><div><b>SAMP já instalado</b><small>O pacote já acompanha o cliente Multiplayer para entrar no servidor.</small></div></div>
+      <div class="download-fact"><span class="download-check">✓</span><div><b>Launcher Virtual Boost opcional</b><small>Você pode instalar se quiser. Não é necessário digitar ou procurar o IP manualmente para usar o launcher.</small></div></div>
+    </div>
+    <div class="download-size"><strong>~600 MB</strong><span>DOWNLOAD PARA WINDOWS / PC</span></div>
+    <a class="btn download-link" href="https://virtualboost.online/site/download/GTA_SA_[VB].zip" target="_blank" rel="noopener">BAIXAR GTA + SAMP <span>↓</span></a>
+
+    <div class="download-divider"></div>
+    <div class="mobile-kicker">JOGUE TAMBÉM NO ANDROID</div>
+    <h2>Versão <span>Mobile</span></h2>
+    <p class="download-intro">O aplicativo oficial Virtual Boost para Android está em desenvolvimento. Enquanto ele não fica pronto, já existem versões alternativas funcionais para você jogar pelo celular.</p>
+    <div class="mobile-note"><b>Importante:</b> o link abaixo leva a uma versão alternativa disponível na Google Play. Não é o aplicativo oficial Virtual Boost.</div>
+    <a class="btn download-link mobile-link" href="https://play.google.com/store/apps/details?id=com.sampunity.game" target="_blank" rel="noopener">BAIXAR PARA ANDROID <span>↗</span></a>
+    <p class="download-footnote">Escolha a plataforma desejada e siga as instruções de instalação apresentadas pelo respectivo aplicativo.</p>
+  </section>
+</div>
+
 </body>
 </html>
