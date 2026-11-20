@@ -60,6 +60,43 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 .download-footnote{margin:13px 0 0;color:#8392aa;font-size:10px;line-height:1.6;text-align:center}
 @media(max-width:480px){.download-card{padding:29px 20px 22px}.download-card h2{padding-right:20px}}
 
+
+/* SELETOR DE PLATAFORMA E ILUSTRACOES DOS DISPOSITIVOS */
+.platform-tabs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:22px 0 18px;padding:5px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(0,0,0,.2)}
+.platform-tab{display:flex;align-items:center;justify-content:center;gap:9px;padding:13px 8px;border:1px solid transparent;border-radius:8px;background:transparent;color:#aebbd0;font-size:10px;font-weight:900;letter-spacing:.7px;cursor:pointer;transition:background .25s,color .25s,box-shadow .25s,transform .25s}
+.platform-tab span{font-size:17px}.platform-tab:hover{color:#fff;transform:translateY(-1px)}
+.platform-tab.active{color:#fff;border-color:rgba(91,204,255,.35);background:linear-gradient(110deg,rgba(24,205,225,.2),rgba(135,99,245,.22));box-shadow:0 4px 18px rgba(56,119,240,.14)}
+.platform-panel{display:none;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:24px;opacity:0;transform:translateY(12px) scale(.985)}
+.platform-panel.active{display:grid;animation:platformReveal .42s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes platformReveal{to{opacity:1;transform:translateY(0) scale(1)}}
+.platform-panel[hidden]{display:none!important}
+.platform-copy h3{font-family:"Barlow Condensed";font-size:35px;line-height:.98;margin:8px 0 12px;text-transform:uppercase;color:#fff}
+.platform-copy h3 span{background:linear-gradient(90deg,#35d7e8,#a17bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.platform-copy .download-facts{margin:15px 0}
+.device-stage{position:relative;min-height:270px;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;border:1px solid rgba(104,159,255,.16);border-radius:15px;background:radial-gradient(ellipse at 50% 48%,rgba(48,151,255,.17),transparent 58%),linear-gradient(145deg,rgba(24,39,67,.8),rgba(7,14,27,.8))}
+.device-glow{position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(52,187,239,.17);filter:blur(42px);animation:devicePulse 3.5s ease-in-out infinite}
+@keyframes devicePulse{50%{transform:scale(1.22);opacity:.65}}
+.device-caption{position:absolute;bottom:13px;color:#8ea6c6;font-size:8px;font-weight:900;letter-spacing:1.3px;text-align:center}
+.laptop-art{position:relative;z-index:1;width:82%;max-width:260px;filter:drop-shadow(0 18px 18px rgba(0,0,0,.5));animation:deviceFloat 4s ease-in-out infinite}
+.laptop-screen{position:relative;height:145px;padding:7px;overflow:hidden;border:5px solid #aebbd0;border-bottom-width:8px;border-radius:9px 9px 3px 3px;background:#101b2c;box-shadow:inset 0 0 0 1px #fff}
+.screen-sky,.phone-sky{position:absolute;inset:0;background:linear-gradient(155deg,#19b6d1 0%,#3856a9 48%,#141c38 100%)}
+.screen-city{position:absolute;left:0;right:0;bottom:34px;height:55px;background:linear-gradient(90deg,#101a2d 0 8%,transparent 8% 12%,#17253b 12% 22%,transparent 22% 28%,#111b31 28% 43%,transparent 43% 49%,#17233c 49% 64%,transparent 64% 70%,#101a2d 70% 86%,transparent 86%);clip-path:polygon(0 30%,12% 30%,12% 0,25% 0,25% 42%,39% 42%,39% 10%,54% 10%,54% 35%,70% 35%,70% 0,85% 0,85% 25%,100% 25%,100% 100%,0 100%)}
+.screen-road,.phone-road{position:absolute;left:0;right:0;bottom:0;height:45px;background:linear-gradient(170deg,#39465c,#101827 70%)}
+.screen-road:after,.phone-road:after{content:"";position:absolute;left:48%;top:8px;width:3px;height:38px;background:#d5d9dc;transform:perspective(20px) rotateX(15deg);opacity:.8}
+.screen-brand{position:absolute;z-index:2;top:17px;left:0;right:0;text-align:center;color:#fff;font-family:"Barlow Condensed";font-size:17px;line-height:.85;letter-spacing:2px;text-shadow:0 2px 8px #000}
+.screen-brand b,.phone-game-label b{color:#60e1f0}
+.laptop-base{height:10px;margin:0 -13px;background:linear-gradient(#e1e7f1,#64748b 55%,#26364b);border-radius:2px 2px 12px 12px;clip-path:polygon(5% 0,95% 0,100% 100%,0 100%)}
+.phone-art{position:relative;z-index:1;width:125px;height:225px;padding:7px;border:3px solid #aab8ce;border-radius:24px;background:linear-gradient(120deg,#dce8f7,#58677f 38%,#111c31 70%);box-shadow:0 18px 30px rgba(0,0,0,.55),inset 0 0 0 1px #fff;transform:rotate(-7deg);animation:deviceFloat 4s ease-in-out infinite}
+.phone-camera{position:absolute;z-index:3;top:8px;left:50%;width:38px;height:8px;border-radius:8px;background:#101827;transform:translateX(-50%)}
+.phone-screen{position:relative;width:100%;height:100%;overflow:hidden;border-radius:17px;background:#101a2e}
+.phone-palm{position:absolute;z-index:1;right:-20px;top:30px;width:70px;height:120px;background:linear-gradient(90deg,#173f42,#26736e 55%,#102d39);clip-path:polygon(45% 0,75% 10%,100% 100%,0 100%,10% 40%)}
+.phone-city{position:absolute;z-index:1;left:0;right:0;bottom:47px;height:68px;background:#15233b;clip-path:polygon(0 30%,15% 30%,15% 0,29% 0,29% 42%,43% 42%,43% 10%,58% 10%,58% 33%,75% 33%,75% 0,88% 0,88% 28%,100% 28%,100% 100%,0 100%)}
+.phone-game-label{position:absolute;z-index:2;top:48px;left:0;right:0;text-align:center;color:#fff;font-family:"Barlow Condensed";font-size:22px;line-height:.86;letter-spacing:1px;text-shadow:0 2px 9px #000}
+.phone-game-label small{display:block;margin-top:8px;font-family:Inter;font-size:6px;letter-spacing:1.4px;color:#cbd8ed}
+@keyframes deviceFloat{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@media(max-width:620px){.platform-panel.active{grid-template-columns:1fr;gap:15px}.device-stage{min-height:225px}.laptop-art{max-width:230px}.laptop-screen{height:125px}.phone-art{height:195px;width:110px}.platform-copy h3{font-size:31px}.download-card{padding:28px 19px 22px}}
+@media(prefers-reduced-motion:reduce){.platform-panel.active,.device-glow,.laptop-art,.phone-art{animation:none!important}.platform-tab,.download-modal,.download-card{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -161,26 +198,50 @@ document.addEventListener('keydown',function(e){
 <div class="download-modal" id="downloadModal" aria-hidden="true" onclick="if(event.target===this)closeDownloadCard()">
   <section class="download-card" role="dialog" aria-modal="true" aria-labelledby="downloadTitle">
     <button class="download-close" type="button" aria-label="Fechar" onclick="closeDownloadCard()">×</button>
-    <div class="download-kicker">VIRTUAL BOOST • INSTALAÇÃO</div>
-    <h2 id="downloadTitle">Prepare seu <span>GTA SA</span></h2>
-    <p class="download-intro">Baixe o pacote para PC e tenha o necessário para começar no SAMP sem precisar procurar arquivos separados.</p>
-    <div class="download-facts">
-      <div class="download-fact"><span class="download-check">✓</span><div><b>GTA San Andreas completo</b><small>Versão compacta, com aproximadamente 600 MB.</small></div></div>
-      <div class="download-fact"><span class="download-check">✓</span><div><b>SAMP já instalado</b><small>O pacote já acompanha o cliente Multiplayer para entrar no servidor.</small></div></div>
-      <div class="download-fact"><span class="download-check">✓</span><div><b>Launcher Virtual Boost opcional</b><small>Você pode instalar se quiser. Não é necessário digitar ou procurar o IP manualmente para usar o launcher.</small></div></div>
+    <div class="download-kicker">VIRTUAL BOOST • CENTRAL DE DOWNLOADS</div>
+    <h2 id="downloadTitle">Escolha sua <span>plataforma</span></h2>
+    <p class="download-intro">Selecione onde você vai jogar. O conteúdo muda com uma animação para mostrar a opção escolhida.</p>
+    <div class="platform-tabs" role="tablist" aria-label="Plataforma">
+      <button class="platform-tab active" id="tabPC" type="button" role="tab" aria-selected="true" aria-controls="panelPC" onclick="switchDownloadPlatform('pc')"><span>🖥️</span> COMPUTADOR</button>
+      <button class="platform-tab" id="tabAndroid" type="button" role="tab" aria-selected="false" aria-controls="panelAndroid" onclick="switchDownloadPlatform('android')"><span>📱</span> ANDROID</button>
     </div>
-    <div class="download-size"><strong>~600 MB</strong><span>DOWNLOAD PARA WINDOWS / PC</span></div>
-    <a class="btn download-link" href="https://virtualboost.online/site/download/GTA_SA_[VB].zip" target="_blank" rel="noopener">BAIXAR GTA + SAMP <span>↓</span></a>
 
-    <div class="download-divider"></div>
-    <div class="mobile-kicker">JOGUE TAMBÉM NO ANDROID</div>
-    <h2>Versão <span>Mobile</span></h2>
-    <p class="download-intro">O aplicativo oficial Virtual Boost para Android está em desenvolvimento. Enquanto ele não fica pronto, já existem versões alternativas funcionais para você jogar pelo celular.</p>
-    <div class="mobile-note"><b>Importante:</b> o link abaixo leva a uma versão alternativa disponível na Google Play. Não é o aplicativo oficial Virtual Boost.</div>
-    <a class="btn download-link mobile-link" href="https://play.google.com/store/apps/details?id=com.sampunity.game" target="_blank" rel="noopener">BAIXAR PARA ANDROID <span>↗</span></a>
-    <p class="download-footnote">Escolha a plataforma desejada e siga as instruções de instalação apresentadas pelo respectivo aplicativo.</p>
+    <div class="platform-panel active" id="panelPC" role="tabpanel" aria-labelledby="tabPC">
+      <div class="device-stage pc-stage" aria-hidden="true">
+        <div class="device-glow"></div>
+        <div class="laptop-art"><div class="laptop-screen"><div class="screen-sky"></div><div class="screen-city"></div><div class="screen-road"></div><div class="screen-brand">VIRTUAL<br><b>BOOST</b></div></div><div class="laptop-base"></div></div>
+        <span class="device-caption">WINDOWS • GTA SAN ANDREAS + SAMP</span>
+      </div>
+      <div class="platform-copy">
+        <div class="download-kicker">PACOTE PARA PC</div>
+        <h3>Seu GTA já vem <span>preparado.</span></h3>
+        <p class="download-intro">Baixe o pacote para Windows e comece sem precisar procurar os arquivos do Multiplayer separadamente.</p>
+        <div class="download-facts">
+          <div class="download-fact"><span class="download-check">✓</span><div><b>GTA San Andreas completo</b><small>Versão compacta com aproximadamente 600 MB.</small></div></div>
+          <div class="download-fact"><span class="download-check">✓</span><div><b>SAMP já instalado</b><small>O cliente Multiplayer já acompanha o pacote.</small></div></div>
+          <div class="download-fact"><span class="download-check">✓</span><div><b>Launcher Virtual Boost opcional</b><small>Instale se quiser. Com ele, não precisa procurar nem digitar o IP do servidor.</small></div></div>
+        </div>
+        <div class="download-size"><strong>~600 MB</strong><span>DOWNLOAD PARA WINDOWS / PC</span></div>
+        <a class="btn download-link" href="https://virtualboost.online/site/download/GTA_SA_[VB].zip" target="_blank" rel="noopener">BAIXAR GTA + SAMP <span>↓</span></a>
+      </div>
+    </div>
+
+    <div class="platform-panel" id="panelAndroid" role="tabpanel" aria-labelledby="tabAndroid" hidden>
+      <div class="device-stage phone-stage" aria-hidden="true">
+        <div class="device-glow"></div>
+        <div class="phone-art"><div class="phone-camera"></div><div class="phone-screen"><div class="phone-sky"></div><div class="phone-palm"></div><div class="phone-city"></div><div class="phone-road"></div><div class="phone-game-label">VIRTUAL<br><b>BOOST</b><small>ROLEPLAY MOBILE</small></div></div></div>
+        <span class="device-caption">ANDROID • ROLEPLAY NO CELULAR</span>
+      </div>
+      <div class="platform-copy">
+        <div class="mobile-kicker">JOGUE PELO CELULAR</div>
+        <h3>Virtual Boost <span>Mobile.</span></h3>
+        <p class="download-intro">O aplicativo oficial Virtual Boost para Android está em desenvolvimento. Enquanto ele não fica pronto, você já pode jogar usando uma versão alternativa funcional.</p>
+        <div class="mobile-note"><b>Versão alternativa:</b> o aplicativo do link abaixo é disponibilizado pela Google Play e não é o app oficial Virtual Boost.</div>
+        <a class="btn download-link mobile-link" href="https://play.google.com/store/apps/details?id=com.sampunity.game" target="_blank" rel="noopener">BAIXAR PARA ANDROID <span>↗</span></a>
+        <p class="download-footnote">A instalação e os requisitos seguem as informações apresentadas na página do aplicativo na Google Play.</p>
+      </div>
+    </div>
   </section>
 </div>
-
 </body>
 </html>
