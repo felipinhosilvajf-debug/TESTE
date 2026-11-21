@@ -393,7 +393,7 @@ document.addEventListener('keydown',function(e){
 // Metamorfose das secoes inteiras conforme a rolagem.
 // Cada area entra como um painel 3D e se dissolve ao sair da tela.
 (function(){
- const panels=[...document.querySelectorAll('main > .hero, main > .story-scenes, main > .stats, main > section')];
+ const panels=[...document.querySelectorAll('main > .hero, main > .story-scenes > .story-scene, main > .stats, main > section')];
  if(!panels.length)return;
  panels.forEach((panel,i)=>{
    panel.classList.add('morph-panel');
