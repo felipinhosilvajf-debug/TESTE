@@ -34,10 +34,10 @@ header{position:absolute;z-index:5;top:0;left:0;width:100%;border-bottom:1px sol
 .scene-title em{font-style:normal;color:#5de1f0}
 .scene-copy{max-width:440px;color:#d0d6e1;font-size:14px;line-height:1.85}
 .scene-stamp{display:inline-block;margin-top:22px;padding:10px 14px;border:1px solid rgba(255,255,255,.28);background:rgba(4,8,15,.35);color:#fff;font-size:9px;font-weight:900;letter-spacing:2px}
-.scene-one{--scene-image:url('/img/cenas/mulher-mira.webp');background-image:radial-gradient(circle at 75% 38%,rgba(23,155,191,.18),transparent 32%),linear-gradient(120deg,#121b2a,#070a11)}
-.scene-two{--scene-image:url('/img/cenas/mulher-correndo.webp');min-height:86vh;background-image:linear-gradient(120deg,#211a1a,#080b12)}
+.scene-one{--scene-image:url('/img/cenas/arte3.jpeg');background-image:radial-gradient(circle at 75% 38%,rgba(23,155,191,.18),transparent 32%),linear-gradient(120deg,#121b2a,#070a11)}
+.scene-two{--scene-image:url('/img/cenas/arte1.jpeg');min-height:86vh;background-image:linear-gradient(120deg,#211a1a,#080b12)}
 .scene-two:after{background:linear-gradient(90deg,rgba(3,6,12,.9),rgba(3,6,12,.38) 60%,rgba(3,6,12,.12)),linear-gradient(0deg,#070a11,transparent 55%)}
-.scene-three{--scene-image:url('/img/cenas/homem-cidade.webp');min-height:86vh;background-image:linear-gradient(120deg,#1b1820,#080b12)}
+.scene-three{--scene-image:url('/img/cenas/arte2.jpeg');min-height:86vh;background-image:linear-gradient(120deg,#1b1820,#080b12)}
 .scene-three:after{background:linear-gradient(90deg,rgba(3,6,12,.94),rgba(3,6,12,.48) 52%,rgba(3,6,12,.12)),linear-gradient(0deg,#070a11,transparent 55%)}
 .scene-side-label{position:absolute;right:4%;top:50%;writing-mode:vertical-rl;transform:translateY(-50%);color:rgba(255,255,255,.48);font-size:9px;letter-spacing:3px;font-weight:900}
 .story-scene.is-visible .scene-number{animation:sceneSlide .7s .1s both}
@@ -135,28 +135,6 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 @media(max-width:620px){.platform-panel.active{grid-template-columns:1fr;gap:15px}.device-stage{min-height:225px}.laptop-art{max-width:230px}.laptop-screen{height:125px}.phone-art{height:195px;width:110px}.platform-copy h3{font-size:31px}.download-card{padding:28px 19px 22px}}
 @media(prefers-reduced-motion:reduce){.platform-panel.active,.device-glow,.laptop-art,.phone-art{animation:none!important}.platform-tab,.download-modal,.download-card{transition:none!important}}
 
-
-/* ANIMACOES DE ENTRADA AO ROLAR - Virtual Boost */
-.vb-reveal{
-  opacity:0;
-  transform:translate3d(0,42px,0);
-  transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1);
-  will-change:opacity,transform;
-}
-.vb-reveal.from-left{transform:translate3d(-48px,0,0)}
-.vb-reveal.from-right{transform:translate3d(48px,0,0)}
-.vb-reveal.is-in{opacity:1;transform:translate3d(0,0,0)}
-.vb-reveal.delay-1{transition-delay:.12s}
-.vb-reveal.delay-2{transition-delay:.24s}
-.vb-reveal.delay-3{transition-delay:.36s}
-.vb-reveal.delay-4{transition-delay:.48s}
-.feature,.org,.shot{transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
-.feature.vb-reveal.is-in:hover,.org.vb-reveal.is-in:hover{transform:translateY(-7px);border-color:rgba(39,215,255,.42);box-shadow:0 15px 38px rgba(0,0,0,.2),0 0 24px rgba(39,215,255,.07)}
-.shot.vb-reveal.is-in:hover{transform:translateY(-4px)}
-@media(prefers-reduced-motion:reduce){
- .vb-reveal,.feature,.org,.shot{opacity:1!important;transform:none!important;transition:none!important;will-change:auto}
-}
-
 </style>
 </head>
 <body>
@@ -165,8 +143,8 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 <header><div class="wrap nav">
   <a class="brand" href="#inicio"><span>VIRTUAL BOOST</span> RP</a>
   <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a></nav>
-  <a class="nav-cta" href="site/login.php">LOGAR ↗</a>
-  <a class="nav-cta" href="#entrar">JOGUE AGORA ↗</a>
+  <a class="nav-cta" href="site/login.php">LOGAR 🔒</a>
+  <button class="nav-cta" type="button" onclick="openDownloadCard()">JOGUE AGORA <span>📥</span></button>
 </div></header>
 
 <main>
@@ -176,7 +154,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   <div class="eyebrow"><span class="dot"></span> NOVO SERVIDOR • ANDROID & PC</div>
   <h1>GTA SAMP<br><span>SUA CIDADE.</span></h1>
   <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
-  <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>↓</span></button></div>
+  <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>🔗</span></button></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div></section>
 
@@ -246,7 +224,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
   </div>
   <div class="video-box">
     <a class="video-main" href="https://www.youtube.com/watch?v=GENGvWcZoO4" target="_blank" rel="noopener"><div><div class="play">▶</div><h3>VEJA O VIRTUAL BOOST</h3><p style="font-size:11px;color:#d5dbea">Clique para assistir o servidor no YouTube</p></div></a>
-    <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><a class="btn primary" href="#entrar">COMO COMEÇAR ↗</a></div>
+    <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><button class="btn primary" type="button" onclick="openDownloadCard()">COMO COMEÇAR ↗</button></div>
   </div>
 </div></section>
 
@@ -323,47 +301,6 @@ document.addEventListener('keydown',function(e){
    ticking=false;
   });
  },{passive:true});
-})();
-
-
-// Anima os titulos, descricoes, cards, galeria e blocos ao entrarem na tela.
-(function(){
-  const selectors = [
-    '#sobre .section-tag','#sobre .section-title','#sobre .section-desc',
-    '.features .feature',
-    '#organizacoes .section-tag','#organizacoes .section-title','#organizacoes .section-desc',
-    '.org-grid .org',
-    '#midia .section-tag','#midia .section-title','#midia .section-desc',
-    '.gallery .shot','.video-box > *',
-    '.stats .stat','.join-inner > *'
-  ];
-  const elements = [...new Set(selectors.flatMap(selector => [...document.querySelectorAll(selector)]))];
-  elements.forEach((el,index)=>{
-    el.classList.add('vb-reveal');
-    if(el.matches('.feature,.org,.shot,.stat')) {
-      const siblingIndex=[...el.parentElement.children].indexOf(el);
-      if(siblingIndex>0) el.classList.add('delay-'+Math.min(siblingIndex,4));
-    }
-    if(el.matches('.section-tag,.section-title,.section-desc')) {
-      const siblings=[...el.parentElement.children];
-      const position=siblings.indexOf(el);
-      if(position===1) el.classList.add('delay-1');
-      if(position>=2) el.classList.add('delay-2');
-    }
-  });
-  if(!('IntersectionObserver' in window)){
-    elements.forEach(el=>el.classList.add('is-in'));
-    return;
-  }
-  const revealObserver=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('is-in');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },{threshold:.12,rootMargin:'0px 0px -45px 0px'});
-  elements.forEach(el=>revealObserver.observe(el));
 })();
 
 </script>
