@@ -135,6 +135,28 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 @media(max-width:620px){.platform-panel.active{grid-template-columns:1fr;gap:15px}.device-stage{min-height:225px}.laptop-art{max-width:230px}.laptop-screen{height:125px}.phone-art{height:195px;width:110px}.platform-copy h3{font-size:31px}.download-card{padding:28px 19px 22px}}
 @media(prefers-reduced-motion:reduce){.platform-panel.active,.device-glow,.laptop-art,.phone-art{animation:none!important}.platform-tab,.download-modal,.download-card{transition:none!important}}
 
+
+/* ANIMACOES DE ENTRADA AO ROLAR - Virtual Boost */
+.vb-reveal{
+  opacity:0;
+  transform:translate3d(0,42px,0);
+  transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1);
+  will-change:opacity,transform;
+}
+.vb-reveal.from-left{transform:translate3d(-48px,0,0)}
+.vb-reveal.from-right{transform:translate3d(48px,0,0)}
+.vb-reveal.is-in{opacity:1;transform:translate3d(0,0,0)}
+.vb-reveal.delay-1{transition-delay:.12s}
+.vb-reveal.delay-2{transition-delay:.24s}
+.vb-reveal.delay-3{transition-delay:.36s}
+.vb-reveal.delay-4{transition-delay:.48s}
+.feature,.org,.shot{transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
+.feature.vb-reveal.is-in:hover,.org.vb-reveal.is-in:hover{transform:translateY(-7px);border-color:rgba(39,215,255,.42);box-shadow:0 15px 38px rgba(0,0,0,.2),0 0 24px rgba(39,215,255,.07)}
+.shot.vb-reveal.is-in:hover{transform:translateY(-4px)}
+@media(prefers-reduced-motion:reduce){
+ .vb-reveal,.feature,.org,.shot{opacity:1!important;transform:none!important;transition:none!important;will-change:auto}
+}
+
 </style>
 </head>
 <body>
@@ -301,6 +323,47 @@ document.addEventListener('keydown',function(e){
    ticking=false;
   });
  },{passive:true});
+})();
+
+
+// Anima os titulos, descricoes, cards, galeria e blocos ao entrarem na tela.
+(function(){
+  const selectors = [
+    '#sobre .section-tag','#sobre .section-title','#sobre .section-desc',
+    '.features .feature',
+    '#organizacoes .section-tag','#organizacoes .section-title','#organizacoes .section-desc',
+    '.org-grid .org',
+    '#midia .section-tag','#midia .section-title','#midia .section-desc',
+    '.gallery .shot','.video-box > *',
+    '.stats .stat','.join-inner > *'
+  ];
+  const elements = [...new Set(selectors.flatMap(selector => [...document.querySelectorAll(selector)]))];
+  elements.forEach((el,index)=>{
+    el.classList.add('vb-reveal');
+    if(el.matches('.feature,.org,.shot,.stat')) {
+      const siblingIndex=[...el.parentElement.children].indexOf(el);
+      if(siblingIndex>0) el.classList.add('delay-'+Math.min(siblingIndex,4));
+    }
+    if(el.matches('.section-tag,.section-title,.section-desc')) {
+      const siblings=[...el.parentElement.children];
+      const position=siblings.indexOf(el);
+      if(position===1) el.classList.add('delay-1');
+      if(position>=2) el.classList.add('delay-2');
+    }
+  });
+  if(!('IntersectionObserver' in window)){
+    elements.forEach(el=>el.classList.add('is-in'));
+    return;
+  }
+  const revealObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -45px 0px'});
+  elements.forEach(el=>revealObserver.observe(el));
 })();
 
 </script>
