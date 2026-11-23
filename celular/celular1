@@ -35,7 +35,7 @@ stock CriarCelularGlobal()
     if(CelularCriadoGlobal) return 1;
 
     // Corpo externo e tela branca.
-    CelularBG[0] = TextDrawCreate(530.0, 53.0, "_");
+    CelularBG[0] = TextDrawCreate(210.0, 108.0, "_");
     TextDrawLetterSize(CelularBG[0], 0.0, 25.5);
     TextDrawTextSize(CelularBG[0], 635.0, 0.0);
     TextDrawUseBox(CelularBG[0], 1);
@@ -44,7 +44,7 @@ stock CriarCelularGlobal()
     TextDrawSetShadow(CelularBG[0], 0);
     TextDrawSetOutline(CelularBG[0], 0);
 
-    CelularBG[1] = TextDrawCreate(534.0, 57.0, "_");
+    CelularBG[1] = TextDrawCreate(214.0, 112.0, "_");
     TextDrawLetterSize(CelularBG[1], 0.0, 24.5);
     TextDrawTextSize(CelularBG[1], 631.0, 0.0);
     TextDrawUseBox(CelularBG[1], 1);
@@ -54,7 +54,7 @@ stock CriarCelularGlobal()
     TextDrawSetOutline(CelularBG[1], 0);
 
     // Barra superior e inferior.
-    CelularBG[2] = TextDrawCreate(582.0, 66.0, "VIRTUAL PHONE");
+    CelularBG[2] = TextDrawCreate(262.0, 121.0, "VIRTUAL PHONE");
     TextDrawLetterSize(CelularBG[2], 0.22, 1.1);
     TextDrawAlignment(CelularBG[2], 2);
     TextDrawTextSize(CelularBG[2], 631.0, 0.0);
@@ -64,7 +64,7 @@ stock CriarCelularGlobal()
     TextDrawSetShadow(CelularBG[2], 0);
     TextDrawSetOutline(CelularBG[2], 0);
 
-    CelularBG[3] = TextDrawCreate(582.0, 78.0, "VIRTUAL BOOST  |  RP");
+    CelularBG[3] = TextDrawCreate(262.0, 133.0, "VIRTUAL BOOST  |  RP");
     TextDrawLetterSize(CelularBG[3], 0.13, 0.7);
     TextDrawAlignment(CelularBG[3], 2);
     TextDrawTextSize(CelularBG[3], 631.0, 0.0);
@@ -74,7 +74,7 @@ stock CriarCelularGlobal()
     TextDrawSetShadow(CelularBG[3], 0);
     TextDrawSetOutline(CelularBG[3], 0);
 
-    CelularBG[4] = TextDrawCreate(582.0, 221.0, "●   ●   ●");
+    CelularBG[4] = TextDrawCreate(262.0, 268.0, "●   ●   ●");
     TextDrawLetterSize(CelularBG[4], 0.12, 0.7);
     TextDrawAlignment(CelularBG[4], 2);
     TextDrawTextSize(CelularBG[4], 631.0, 0.0);
@@ -84,7 +84,7 @@ stock CriarCelularGlobal()
     TextDrawSetShadow(CelularBG[4], 0);
     TextDrawSetOutline(CelularBG[4], 0);
 
-    CelularBG[5] = TextDrawCreate(582.0, 231.0, "VB  •  VIRTUAL BOOST");
+    CelularBG[5] = TextDrawCreate(262.0, 279.0, "VB  •  VIRTUAL BOOST");
     TextDrawLetterSize(CelularBG[5], 0.10, 0.55);
     TextDrawAlignment(CelularBG[5], 2);
     TextDrawTextSize(CelularBG[5], 631.0, 0.0);
@@ -99,12 +99,12 @@ stock CriarCelularGlobal()
     {
         new coluna = i % 3;
         new linha = i / 3;
-        new Float:x = 548.0 + (coluna * 33.0);
-        new Float:y = 96.0 + (linha * 22.0);
+        new Float:x = 228.0 + (coluna * 33.0);
+        new Float:y = 153.0 + (linha * 23.5);
 
         CelularApp[i] = TextDrawCreate(x, y, CelularNomeApp[i]);
-        TextDrawLetterSize(CelularApp[i], 0.105, 0.68);
-        TextDrawTextSize(CelularApp[i], 28.0, 25.0);
+        TextDrawLetterSize(CelularApp[i], 0.095, 0.62);
+        TextDrawTextSize(CelularApp[i], 29.0, 21.0);
         TextDrawAlignment(CelularApp[i], 2);
         TextDrawColor(CelularApp[i], 0xFFFFFFFF);
         TextDrawUseBox(CelularApp[i], 1);
