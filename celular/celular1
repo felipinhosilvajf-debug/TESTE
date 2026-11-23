@@ -1,323 +1,279 @@
 #include <a_samp>
 
-new Text:CelularBG[11];
-new Text:CelularAjuda;
-new Text:CelularFechar;
-new Text:CelularRG;
-new Text:CelularGPS;
-new Text:CelularConfig;
-new Text:CelularCNH;
+// VirtualBoost Phone - Filterscript independente.
+// Mantem os comandos da GameMode; os aplicativos apenas encaminham os comandos existentes.
 
+#define DIALOG_CELULAR_LIGAR (9876)
+
+new Text:CelularBG[6];
+new Text:CelularApp[18];
 new bool:CelularCriadoGlobal = false;
 new bool:CelularAberto[MAX_PLAYERS];
+
+static const CelularNomeApp[18][16] =
+{
+    "AJUDA", "RG", "GPS",
+    "CONFIG", "CNH", "ORGS",
+    "VEICULO", "UBER", "BUS",
+    "IFOOD", "HOSPITAL", "SERVICOS",
+    "ADVOGADOS", "MECANICO", "LIGAR",
+    "SMS", "NUBANK", "FECHAR"
+};
+
+static const CelularCorApp[18] =
+{
+    0x3978D4FF, 0x607D8BFF, 0x20A4D8FF,
+    0x7E57C2FF, 0x26A69AFF, 0x455A64FF,
+    0x546E7AFF, 0xF9A825FF, 0x1976D2FF,
+    0xE53935FF, 0x43A047FF, 0x00897BFF,
+    0x5E35B1FF, 0x78909CFF, 0x2E7D32FF,
+    0x039BE5FF, 0x820AD1FF, 0x455A64FF
+};
 
 stock CriarCelularGlobal()
 {
     if(CelularCriadoGlobal) return 1;
 
-    CelularBG[0] = TextDrawCreate(509.000, 170.000, "_");
-    TextDrawLetterSize(CelularBG[0], 0.379, 18.298);
-    TextDrawTextSize(CelularBG[0], 609.000, 0.000);
-    TextDrawAlignment(CelularBG[0], 1);
-    TextDrawColor(CelularBG[0], -1);
+    // Corpo externo e tela branca.
+    CelularBG[0] = TextDrawCreate(474.0, 53.0, "_");
+    TextDrawLetterSize(CelularBG[0], 0.0, 39.0);
+    TextDrawTextSize(CelularBG[0], 636.0, 0.0);
     TextDrawUseBox(CelularBG[0], 1);
-    TextDrawBoxColor(CelularBG[0], -1);
+    TextDrawBoxColor(CelularBG[0], 0x22252BFF);
+    TextDrawFont(CelularBG[0], 1);
     TextDrawSetShadow(CelularBG[0], 0);
     TextDrawSetOutline(CelularBG[0], 0);
-    TextDrawBackgroundColor(CelularBG[0], 0);
-    TextDrawFont(CelularBG[0], 1);
-    TextDrawSetProportional(CelularBG[0], 1);
 
-    CelularBG[1] = TextDrawCreate(511.000, 172.000, "_");
-    TextDrawLetterSize(CelularBG[1], 0.000, 17.798);
-    TextDrawTextSize(CelularBG[1], 607.000, 0.000);
-    TextDrawAlignment(CelularBG[1], 1);
-    TextDrawColor(CelularBG[1], -1);
+    CelularBG[1] = TextDrawCreate(478.0, 57.0, "_");
+    TextDrawLetterSize(CelularBG[1], 0.0, 38.0);
+    TextDrawTextSize(CelularBG[1], 632.0, 0.0);
     TextDrawUseBox(CelularBG[1], 1);
-    TextDrawBoxColor(CelularBG[1], 1887473919);
+    TextDrawBoxColor(CelularBG[1], 0xFFFFFFFF);
+    TextDrawFont(CelularBG[1], 1);
     TextDrawSetShadow(CelularBG[1], 0);
     TextDrawSetOutline(CelularBG[1], 0);
-    TextDrawBackgroundColor(CelularBG[1], -1);
-    TextDrawFont(CelularBG[1], 1);
-    TextDrawSetProportional(CelularBG[1], 1);
 
-    CelularBG[2] = TextDrawCreate(528.000, 284.000, "_");
-    TextDrawLetterSize(CelularBG[2], 0.009, 1.799);
-    TextDrawTextSize(CelularBG[2], 605.000, 15.000);
+    // Barra superior e inferior.
+    CelularBG[2] = TextDrawCreate(484.0, 67.0, "VIRTUAL PHONE");
+    TextDrawLetterSize(CelularBG[2], 0.22, 1.1);
     TextDrawAlignment(CelularBG[2], 2);
-    TextDrawColor(CelularBG[2], -1);
-    TextDrawUseBox(CelularBG[2], 1);
-    TextDrawBoxColor(CelularBG[2], 8368127);
+    TextDrawTextSize(CelularBG[2], 620.0, 0.0);
+    TextDrawColor(CelularBG[2], 0x17191DFF);
+    TextDrawFont(CelularBG[2], 2);
+    TextDrawSetProportional(CelularBG[2], 1);
     TextDrawSetShadow(CelularBG[2], 0);
     TextDrawSetOutline(CelularBG[2], 0);
-    TextDrawBackgroundColor(CelularBG[2], 0);
-    TextDrawFont(CelularBG[2], 1);
-    TextDrawSetProportional(CelularBG[2], 1);
 
-    CelularBG[3] = TextDrawCreate(521.000, 240.000, "VIRTUAL BOOST");
-    TextDrawLetterSize(CelularBG[3], 0.300, 1.500);
-    TextDrawAlignment(CelularBG[3], 1);
-    TextDrawColor(CelularBG[3], 16777215);
-    TextDrawSetShadow(CelularBG[3], 1);
-    TextDrawSetOutline(CelularBG[3], 1);
-    TextDrawBackgroundColor(CelularBG[3], 150);
-    TextDrawFont(CelularBG[3], 3);
+    CelularBG[3] = TextDrawCreate(484.0, 88.0, "VIRTUAL BOOST  |  RP");
+    TextDrawLetterSize(CelularBG[3], 0.13, 0.7);
+    TextDrawAlignment(CelularBG[3], 2);
+    TextDrawTextSize(CelularBG[3], 620.0, 0.0);
+    TextDrawColor(CelularBG[3], 0x777777FF);
+    TextDrawFont(CelularBG[3], 1);
     TextDrawSetProportional(CelularBG[3], 1);
+    TextDrawSetShadow(CelularBG[3], 0);
+    TextDrawSetOutline(CelularBG[3], 0);
 
-    CelularBG[4] = TextDrawCreate(561.000, 197.000, "_");
-    TextDrawLetterSize(CelularBG[4], 0.000, 0.898);
-    TextDrawTextSize(CelularBG[4], 605.000, -3.000);
-    TextDrawAlignment(CelularBG[4], 1);
-    TextDrawColor(CelularBG[4], 8388863);
-    TextDrawUseBox(CelularBG[4], 1);
-    TextDrawBoxColor(CelularBG[4], -1327438081);
-    TextDrawSetShadow(CelularBG[4], 0);
-    TextDrawSetOutline(CelularBG[4], 0);
-    TextDrawBackgroundColor(CelularBG[4], -92245249);
+    CelularBG[4] = TextDrawCreate(484.0, 394.0, "●   ●   ●");
+    TextDrawLetterSize(CelularBG[4], 0.12, 0.7);
+    TextDrawAlignment(CelularBG[4], 2);
+    TextDrawTextSize(CelularBG[4], 620.0, 0.0);
+    TextDrawColor(CelularBG[4], 0x555555FF);
     TextDrawFont(CelularBG[4], 1);
     TextDrawSetProportional(CelularBG[4], 1);
-    TextDrawSetSelectable(CelularBG[4], 1);
+    TextDrawSetShadow(CelularBG[4], 0);
+    TextDrawSetOutline(CelularBG[4], 0);
 
-    CelularBG[5] = TextDrawCreate(559.000, 175.000, "VIRTUAL~w~PHONE");
-    TextDrawLetterSize(CelularBG[5], 0.128, 0.600);
+    CelularBG[5] = TextDrawCreate(484.0, 411.0, "TOQUE EM UM APLICATIVO");
+    TextDrawLetterSize(CelularBG[5], 0.10, 0.55);
     TextDrawAlignment(CelularBG[5], 2);
-    TextDrawColor(CelularBG[5], -1);
+    TextDrawTextSize(CelularBG[5], 620.0, 0.0);
+    TextDrawColor(CelularBG[5], 0x888888FF);
+    TextDrawFont(CelularBG[5], 1);
+    TextDrawSetProportional(CelularBG[5], 1);
     TextDrawSetShadow(CelularBG[5], 0);
     TextDrawSetOutline(CelularBG[5], 0);
-    TextDrawBackgroundColor(CelularBG[5], 0);
-    TextDrawFont(CelularBG[5], 2);
-    TextDrawSetProportional(CelularBG[5], 1);
 
-    CelularBG[6] = TextDrawCreate(598.000, 198.000, "HUD:radar_qmark");
-    TextDrawTextSize(CelularBG[6], 6.000, 6.000);
-    TextDrawAlignment(CelularBG[6], 1);
-    TextDrawColor(CelularBG[6], -1);
-    TextDrawSetShadow(CelularBG[6], 0);
-    TextDrawSetOutline(CelularBG[6], 0);
-    TextDrawBackgroundColor(CelularBG[6], 255);
-    TextDrawFont(CelularBG[6], 4);
-    TextDrawSetProportional(CelularBG[6], 1);
+    // Grade 3 x 6 de aplicativos.
+    for(new i = 0; i < 18; i++)
+    {
+        new coluna = i % 3;
+        new linha = i / 3;
+        new Float:x = 503.0 + (coluna * 51.0);
+        new Float:y = 119.0 + (linha * 45.0);
 
-    CelularBG[7] = TextDrawCreate(593.000, 284.000, "_");
-    TextDrawLetterSize(CelularBG[7], 0.000, 1.789);
-    TextDrawTextSize(CelularBG[7], 605.000, 15.000);
-    TextDrawAlignment(CelularBG[7], 2);
-    TextDrawColor(CelularBG[7], 8388863);
-    TextDrawUseBox(CelularBG[7], 1);
-    TextDrawBoxColor(CelularBG[7], 2147418367);
-    TextDrawSetShadow(CelularBG[7], 0);
-    TextDrawSetOutline(CelularBG[7], 0);
-    TextDrawBackgroundColor(CelularBG[7], -92245249);
-    TextDrawFont(CelularBG[7], 1);
-    TextDrawSetProportional(CelularBG[7], 1);
+        CelularApp[i] = TextDrawCreate(x, y, CelularNomeApp[i]);
+        TextDrawLetterSize(CelularApp[i], 0.115, 0.78);
+        TextDrawTextSize(CelularApp[i], 20.0, 42.0);
+        TextDrawAlignment(CelularApp[i], 2);
+        TextDrawColor(CelularApp[i], 0xFFFFFFFF);
+        TextDrawUseBox(CelularApp[i], 1);
+        TextDrawBoxColor(CelularApp[i], CelularCorApp[i]);
+        TextDrawFont(CelularApp[i], 1);
+        TextDrawSetProportional(CelularApp[i], 1);
+        TextDrawSetShadow(CelularApp[i], 0);
+        TextDrawSetOutline(CelularApp[i], 0);
+        TextDrawSetSelectable(CelularApp[i], 1);
+    }
 
-    CelularBG[8] = TextDrawCreate(560.000, 320.000, "_");
-    TextDrawLetterSize(CelularBG[8], -0.039, 0.898);
-    TextDrawTextSize(CelularBG[8], 597.000, 24.000);
-    TextDrawAlignment(CelularBG[8], 2);
-    TextDrawColor(CelularBG[8], -1);
-    TextDrawUseBox(CelularBG[8], 1);
-    TextDrawBoxColor(CelularBG[8], -16776961);
-    TextDrawSetShadow(CelularBG[8], 0);
-    TextDrawSetOutline(CelularBG[8], 0);
-    TextDrawBackgroundColor(CelularBG[8], 0);
-    TextDrawFont(CelularBG[8], 1);
-    TextDrawSetProportional(CelularBG[8], 1);
-
-    CelularBG[9] = TextDrawCreate(559.000, 284.000, "_");
-    TextDrawLetterSize(CelularBG[9], 605.000, 1.789);
-    TextDrawTextSize(CelularBG[9], 605.000, 15.000);
-    TextDrawAlignment(CelularBG[9], 2);
-    TextDrawColor(CelularBG[9], 8388863);
-    TextDrawUseBox(CelularBG[9], 1);
-    TextDrawBoxColor(CelularBG[9], 1221709055);
-    TextDrawSetShadow(CelularBG[9], 0);
-    TextDrawSetOutline(CelularBG[9], 0);
-    TextDrawBackgroundColor(CelularBG[9], -92245249);
-    TextDrawFont(CelularBG[9], 1);
-    TextDrawSetProportional(CelularBG[9], 1);
-
-    CelularBG[10] = TextDrawCreate(551.000, 184.000, "_");
-    TextDrawLetterSize(CelularBG[10], -0.019, 0.898);
-    TextDrawTextSize(CelularBG[10], 605.000, -3.000);
-    TextDrawAlignment(CelularBG[10], 1);
-    TextDrawColor(CelularBG[10], 8388863);
-    TextDrawUseBox(CelularBG[10], 1);
-    TextDrawBoxColor(CelularBG[10], -1327438081);
-    TextDrawSetShadow(CelularBG[10], 0);
-    TextDrawSetOutline(CelularBG[10], 0);
-    TextDrawBackgroundColor(CelularBG[10], -92245249);
-    TextDrawFont(CelularBG[10], 1);
-    TextDrawSetProportional(CelularBG[10], 1);
-
-
-    CelularAjuda = TextDrawCreate(579.000, 197.000, "AJUDA");
-    TextDrawLetterSize(CelularAjuda, 0.258, 0.748);
-    TextDrawTextSize(CelularAjuda, 8.000, 30.000);
-    TextDrawAlignment(CelularAjuda, 2);
-    TextDrawColor(CelularAjuda, 255);
-    TextDrawSetShadow(CelularAjuda, 0);
-    TextDrawSetOutline(CelularAjuda, 0);
-    TextDrawBackgroundColor(CelularAjuda, 0);
-    TextDrawFont(CelularAjuda, 2);
-    TextDrawSetProportional(CelularAjuda, 1);
-    TextDrawSetSelectable(CelularAjuda, 1);
-
-    CelularFechar = TextDrawCreate(560.000, 321.000, "FECHAR");
-    TextDrawLetterSize(CelularFechar, 0.140, 0.648);
-    TextDrawTextSize(CelularFechar, 10.000, 30.000);
-    TextDrawAlignment(CelularFechar, 2);
-    TextDrawColor(CelularFechar, -1);
-    TextDrawSetShadow(CelularFechar, 0);
-    TextDrawSetOutline(CelularFechar, 0);
-    TextDrawBackgroundColor(CelularFechar, 0);
-    TextDrawFont(CelularFechar, 2);
-    TextDrawSetProportional(CelularFechar, 1);
-    TextDrawSetSelectable(CelularFechar, 1);
-
-    CelularRG = TextDrawCreate(528.000, 287.000, "RG");
-    TextDrawLetterSize(CelularRG, 0.319, 0.949);
-    TextDrawTextSize(CelularRG, 5.000, 20.000);
-    TextDrawAlignment(CelularRG, 2);
-    TextDrawColor(CelularRG, 255);
-    TextDrawSetShadow(CelularRG, 0);
-    TextDrawSetOutline(CelularRG, 0);
-    TextDrawBackgroundColor(CelularRG, 0);
-    TextDrawFont(CelularRG, 1);
-    TextDrawSetProportional(CelularRG, 1);
-    TextDrawSetSelectable(CelularRG, 1);
-
-    CelularGPS = TextDrawCreate(559.000, 287.000, "GPS");
-    TextDrawLetterSize(CelularGPS, 0.259, 1.149);
-    TextDrawTextSize(CelularGPS, 5.000, 20.000);
-    TextDrawAlignment(CelularGPS, 2);
-    TextDrawColor(CelularGPS, 255);
-    TextDrawSetShadow(CelularGPS, 0);
-    TextDrawSetOutline(CelularGPS, 0);
-    TextDrawBackgroundColor(CelularGPS, 0);
-    TextDrawFont(CelularGPS, 1);
-    TextDrawSetProportional(CelularGPS, 1);
-    TextDrawSetSelectable(CelularGPS, 1);
-
-    CelularConfig = TextDrawCreate(579.000, 185.000, "Configuracoes");
-    TextDrawLetterSize(CelularConfig, 0.158, 0.750);
-    TextDrawTextSize(CelularConfig, 8.000, 30.000);
-    TextDrawAlignment(CelularConfig, 2);
-    TextDrawColor(CelularConfig, 255);
-    TextDrawSetShadow(CelularConfig, 0);
-    TextDrawSetOutline(CelularConfig, 0);
-    TextDrawBackgroundColor(CelularConfig, 0);
-    TextDrawFont(CelularConfig, 2);
-    TextDrawSetProportional(CelularConfig, 1);
-    TextDrawSetSelectable(CelularConfig, 1);
-
-    CelularCNH = TextDrawCreate(593.000, 286.000, "CNH");
-    TextDrawLetterSize(CelularCNH, 0.250, 1.300);
-    TextDrawTextSize(CelularCNH, 15.000, 30.000);
-    TextDrawAlignment(CelularCNH, 2);
-    TextDrawColor(CelularCNH, 255);
-    TextDrawSetShadow(CelularCNH, 0);
-    TextDrawSetOutline(CelularCNH, 0);
-    TextDrawBackgroundColor(CelularCNH, 0);
-    TextDrawFont(CelularCNH, 1);
-    TextDrawSetProportional(CelularCNH, 1);
-    TextDrawSetSelectable(CelularCNH, 1);
     CelularCriadoGlobal = true;
     return 1;
 }
 
 stock MostrarCelularVB(playerid)
-	{
-	if(!CelularCriadoGlobal) CriarCelularGlobal();
-	for(new i = 0; i < 11; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
-	TextDrawShowForPlayer(playerid, CelularAjuda);
-	TextDrawShowForPlayer(playerid, CelularFechar);
-	TextDrawShowForPlayer(playerid, CelularRG);
-	TextDrawShowForPlayer(playerid, CelularGPS);
-	TextDrawShowForPlayer(playerid, CelularConfig);
-	TextDrawShowForPlayer(playerid, CelularCNH);
-	CelularAberto[playerid] = true;
-	SelectTextDraw(playerid, 0x00D9FFFF);
-	return 1;
-	}
-	stock EsconderCelularVB(playerid)
-	{
-	CancelSelectTextDraw(playerid);
-	for(new i = 0; i < 11; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
-	TextDrawHideForPlayer(playerid, CelularAjuda);
-	TextDrawHideForPlayer(playerid, CelularFechar);
-	TextDrawHideForPlayer(playerid, CelularRG);
-	TextDrawHideForPlayer(playerid, CelularGPS);
-	TextDrawHideForPlayer(playerid, CelularConfig);
-	TextDrawHideForPlayer(playerid, CelularCNH);
-	CelularAberto[playerid] = false;
-	return 1;
-	}
-	stock ExecutarComandoCelular(playerid, const comando[])
-	{
-	EsconderCelularVB(playerid);
-	CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
-	return 1;
-	}
-	public OnFilterScriptInit()
-	{
-	CriarCelularGlobal();
-	for(new i = 0; i < MAX_PLAYERS; i++) CelularAberto[i] = false;
-	print("[VirtualBoost] Celular Global carregado com sucesso.");
-	return 1;
-	}
-	public OnFilterScriptExit()
-	{
-	if(CelularCriadoGlobal)
-	{
-	for(new i = 0; i < 11; i++) TextDrawDestroy(CelularBG[i]);
-	TextDrawDestroy(CelularAjuda);
-	TextDrawDestroy(CelularFechar);
-	TextDrawDestroy(CelularRG);
-	TextDrawDestroy(CelularGPS);
-	TextDrawDestroy(CelularConfig);
-	TextDrawDestroy(CelularCNH);
-	CelularCriadoGlobal = false;
-	}
-	return 1;
-	}
-	public OnPlayerConnect(playerid)
-	{
-	CelularAberto[playerid] = false;
-	return 1;
-	}
-	public OnPlayerCommandText(playerid, cmdtext[])
-	{
-	if(!strcmp(cmdtext, "/celular", true))
-	{
-	if(CelularAberto[playerid]) EsconderCelularVB(playerid);
-	else MostrarCelularVB(playerid);
-	return 1;
-	}
-	return 0;
-	}
-	public OnPlayerClickTextDraw(playerid, Text:clickedid)
-	{
-	if(!CelularAberto[playerid]) return 0;
-	if(clickedid == Text:INVALID_TEXT_DRAW)
-	{
-	EsconderCelularVB(playerid);
-	return 1;
-	}
-	if(clickedid == CelularAjuda) return ExecutarComandoCelular(playerid, "/ajuda");
-	if(clickedid == CelularRG) return ExecutarComandoCelular(playerid, "/rg");
-	if(clickedid == CelularGPS) return ExecutarComandoCelular(playerid, "/gps");
-	if(clickedid == CelularConfig) return ExecutarComandoCelular(playerid, "/config");
-	if(clickedid == CelularCNH) return ExecutarComandoCelular(playerid, "/minhaslicencas");
-	if(clickedid == CelularFechar)
-	{
-	EsconderCelularVB(playerid);
-	return 1;
-	}
-	return 0;
-	}
-	forward AbrirCelularRemoto(playerid);
-	public AbrirCelularRemoto(playerid)
-	{
-		return OnPlayerCommandText(playerid, "/celular");
-	}
+{
+    if(!CelularCriadoGlobal) CriarCelularGlobal();
+
+    for(new i = 0; i < 6; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawShowForPlayer(playerid, CelularApp[i]);
+
+    CelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x820AD1FF);
+    return 1;
+}
+
+stock EsconderCelularVB(playerid)
+{
+    CancelSelectTextDraw(playerid);
+    for(new i = 0; i < 6; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawHideForPlayer(playerid, CelularApp[i]);
+    CelularAberto[playerid] = false;
+    return 1;
+}
+
+stock ExecutarComandoCelular(playerid, const comando[])
+{
+    EsconderCelularVB(playerid);
+    CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+    return 1;
+}
+
+stock AcionarAppCelular(playerid, appid)
+{
+    switch(appid)
+    {
+        case 0: return ExecutarComandoCelular(playerid, "/ajuda");
+        case 1: return ExecutarComandoCelular(playerid, "/rg");
+        case 2: return ExecutarComandoCelular(playerid, "/gps");
+        case 3: return ExecutarComandoCelular(playerid, "/configuracoes");
+        case 4: return ExecutarComandoCelular(playerid, "/minhaslicencas");
+        case 5: return ExecutarComandoCelular(playerid, "/orgs");
+        case 6: return ExecutarComandoCelular(playerid, "/veiculo ajuda");
+        case 7: return ExecutarComandoCelular(playerid, "/servico taxi");
+        case 8: return ExecutarComandoCelular(playerid, "/servico onibus");
+        case 9: return ExecutarComandoCelular(playerid, "/servico pizza");
+        case 10: return ExecutarComandoCelular(playerid, "/servico medico");
+        case 11: return ExecutarComandoCelular(playerid, "/servicos");
+        case 12: return ExecutarComandoCelular(playerid, "/servico advogado");
+        case 13: return ExecutarComandoCelular(playerid, "/servico mecanico");
+        case 14:
+        {
+            EsconderCelularVB(playerid);
+            ShowPlayerDialog(playerid, DIALOG_CELULAR_LIGAR, DIALOG_STYLE_INPUT,
+                "VIRTUAL PHONE - LIGAR",
+                "Digite o numero de telefone que deseja chamar:",
+                "LIGAR", "VOLTAR");
+            return 1;
+        }
+        case 15: return ExecutarComandoCelular(playerid, "/sms");
+        case 16:
+        {
+            // Abre o menu bancario original da GameMode. Assim o saldo e as
+            // transferencias continuam usando PlayerInfo[pConta] e o banco existente.
+            return ExecutarComandoCelular(playerid, "/banco");
+        }
+        case 17:
+        {
+            EsconderCelularVB(playerid);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+public OnFilterScriptInit()
+{
+    CriarCelularGlobal();
+    for(new i = 0; i < MAX_PLAYERS; i++) CelularAberto[i] = false;
+    print("[VirtualBoost] VIRTUAL PHONE estilo iPhone carregado.");
+    return 1;
+}
+
+public OnFilterScriptExit()
+{
+    if(CelularCriadoGlobal)
+    {
+        for(new i = 0; i < 6; i++) TextDrawDestroy(CelularBG[i]);
+        for(new i = 0; i < 18; i++) TextDrawDestroy(CelularApp[i]);
+        CelularCriadoGlobal = false;
+    }
+    return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+    CelularAberto[playerid] = false;
+    return 1;
+}
+
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    if(!strcmp(cmdtext, "/celular", true))
+    {
+        if(CelularAberto[playerid]) EsconderCelularVB(playerid);
+        else MostrarCelularVB(playerid);
+        return 1;
+    }
+    return 0;
+}
+
+public OnPlayerClickTextDraw(playerid, Text:clickedid)
+{
+    if(!CelularAberto[playerid]) return 0;
+
+    if(clickedid == Text:INVALID_TEXT_DRAW)
+    {
+        EsconderCelularVB(playerid);
+        return 1;
+    }
+
+    for(new i = 0; i < 18; i++)
+    {
+        if(clickedid == CelularApp[i]) return AcionarAppCelular(playerid, i);
+    }
+    return 0;
+}
+
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+    if(dialogid == DIALOG_CELULAR_LIGAR)
+    {
+        if(!response) return 1;
+
+        if(strlen(inputtext) < 1)
+        {
+            SendClientMessage(playerid, 0xE74C3CFF, "[VIRTUAL PHONE] Digite um numero valido.");
+            return 1;
+        }
+
+        new numero = strval(inputtext);
+        if(numero <= 0)
+        {
+            SendClientMessage(playerid, 0xE74C3CFF, "[VIRTUAL PHONE] Numero invalido.");
+            return 1;
+        }
+
+        new comando[32];
+        format(comando, sizeof(comando), "/ligar %d", numero);
+        CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+        return 1;
+    }
+    return 0;
+}
+
+forward AbrirCelularRemoto(playerid);
+public AbrirCelularRemoto(playerid)
+{
+    if(CelularAberto[playerid]) return EsconderCelularVB(playerid);
+    return MostrarCelularVB(playerid);
+}
