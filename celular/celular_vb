@@ -1,0 +1,533 @@
+#include <a_samp>
+
+#define DIALOG_CELULAR_LIGAR (9876)
+
+new Text:CelularBG[6];
+new Text:CelularApp[18];
+new Text:NubankAppBG[7];
+new PlayerText:NubankSaldoTD[MAX_PLAYERS];
+new bool:CelularCriadoGlobal = false;
+new bool:CelularAberto[MAX_PLAYERS];
+new bool:NubankCelularAberto[MAX_PLAYERS];
+new Text:CnhAppBG[6];
+new PlayerText:CnhDadosTD[MAX_PLAYERS];
+new bool:CnhCelularAberto[MAX_PLAYERS];
+
+static const CelularNomeApp[18][16] =
+{
+    "AJUDA", "RG", "GPS",
+    "CONFIG", "CNH", "ORGS",
+    "VEICULO", "UBER", "BUS",
+    "IFOOD", "HOSPITAL", "SERVICOS",
+    "ADVOGADOS", "MECANICO", "LIGAR",
+    "SMS", "NUBANK", "FECHAR"
+};
+
+static const CelularCorApp[18] =
+{
+    0x3978D4FF, 0x607D8BFF, 0x20A4D8FF,
+    0x7E57C2FF, 0x26A69AFF, 0x455A64FF,
+    0x546E7AFF, 0xF9A825FF, 0x1976D2FF,
+    0xE53935FF, 0x43A047FF, 0x00897BFF,
+    0x5E35B1FF, 0x78909CFF, 0x2E7D32FF,
+    0x039BE5FF, 0x820AD1FF, 0x455A64FF
+};
+
+stock CriarCelularGlobal()
+{
+    if(CelularCriadoGlobal) return 1;
+
+    CelularBG[0] = TextDrawCreate(516.5, 108.0, "_");
+    TextDrawLetterSize(CelularBG[0], 0.0, 25.5);
+    TextDrawTextSize(CelularBG[0], 639.5, 0.0);
+    TextDrawUseBox(CelularBG[0], 1);
+    TextDrawBoxColor(CelularBG[0], 0x22252BFF);
+    TextDrawFont(CelularBG[0], 1);
+
+    CelularBG[1] = TextDrawCreate(520.5, 112.0, "_");
+    TextDrawLetterSize(CelularBG[1], 0.0, 24.5);
+    TextDrawTextSize(CelularBG[1], 635.5, 0.0);
+    TextDrawUseBox(CelularBG[1], 1);
+    TextDrawBoxColor(CelularBG[1], 0xFFFFFFFF);
+    TextDrawFont(CelularBG[1], 1);
+
+    CelularBG[2] = TextDrawCreate(578.0, 121.0, "VIRTUAL PHONE");
+    TextDrawLetterSize(CelularBG[2], 0.22, 1.1);
+    TextDrawAlignment(CelularBG[2], 2);
+    TextDrawColor(CelularBG[2], 0x17191DFF);
+    TextDrawFont(CelularBG[2], 2);
+    TextDrawSetProportional(CelularBG[2], 1);
+    TextDrawSetShadow(CelularBG[2], 0);
+
+    CelularBG[3] = TextDrawCreate(578.0, 133.0, "VIRTUAL BOOST  |  RP");
+    TextDrawLetterSize(CelularBG[3], 0.13, 0.7);
+    TextDrawAlignment(CelularBG[3], 2);
+    TextDrawColor(CelularBG[3], 0x777777FF);
+    TextDrawFont(CelularBG[3], 1);
+    TextDrawSetProportional(CelularBG[3], 1);
+    TextDrawSetShadow(CelularBG[3], 0);
+
+    CelularBG[4] = TextDrawCreate(578.0, 297.0, "<     O     =");
+    TextDrawLetterSize(CelularBG[4], 0.12, 0.7);
+    TextDrawAlignment(CelularBG[4], 2);
+    TextDrawColor(CelularBG[4], 0x555555FF);
+    TextDrawFont(CelularBG[4], 1);
+    TextDrawSetProportional(CelularBG[4], 1);
+    TextDrawSetShadow(CelularBG[4], 0);
+
+    CelularBG[5] = TextDrawCreate(578.0, 308.0, "VB  -  VIRTUAL BOOST");
+    TextDrawLetterSize(CelularBG[5], 0.10, 0.55);
+    TextDrawAlignment(CelularBG[5], 2);
+    TextDrawColor(CelularBG[5], 0x888888FF);
+    TextDrawFont(CelularBG[5], 1);
+    TextDrawSetProportional(CelularBG[5], 1);
+    TextDrawSetShadow(CelularBG[5], 0);
+
+    for(new i = 0; i < 18; i++)
+    {
+        new coluna = i % 3;
+        new linha = i / 3;
+        new Float:x = 544.0 + (coluna * 34.0);
+        new Float:y = 153.0 + (linha * 23.5);
+
+        CelularApp[i] = TextDrawCreate(x, y, CelularNomeApp[i]);
+        TextDrawLetterSize(CelularApp[i], 0.095, 0.62);
+        TextDrawTextSize(CelularApp[i], 18.0, 30.0);
+        TextDrawAlignment(CelularApp[i], 2);
+        TextDrawColor(CelularApp[i], 0xFFFFFFFF);
+        TextDrawUseBox(CelularApp[i], 1);
+        TextDrawBoxColor(CelularApp[i], CelularCorApp[i]);
+        TextDrawFont(CelularApp[i], 1);
+        TextDrawSetProportional(CelularApp[i], 1);
+        TextDrawSetShadow(CelularApp[i], 0);
+        TextDrawSetSelectable(CelularApp[i], 1);
+    }
+
+    NubankAppBG[0] = TextDrawCreate(520.5, 112.0, "_");
+    TextDrawLetterSize(NubankAppBG[0], 0.0, 5.2);
+    TextDrawTextSize(NubankAppBG[0], 635.5, 0.0);
+    TextDrawUseBox(NubankAppBG[0], 1);
+    TextDrawBoxColor(NubankAppBG[0], 0x820AD1FF);
+    TextDrawFont(NubankAppBG[0], 1);
+
+    NubankAppBG[1] = TextDrawCreate(578.0, 122.0, "NUBANK");
+    TextDrawLetterSize(NubankAppBG[1], 0.28, 1.3);
+    TextDrawAlignment(NubankAppBG[1], 2);
+    TextDrawColor(NubankAppBG[1], 0xFFFFFFFF);
+    TextDrawFont(NubankAppBG[1], 2);
+    TextDrawSetProportional(NubankAppBG[1], 1);
+    TextDrawSetShadow(NubankAppBG[1], 0);
+
+    NubankAppBG[2] = TextDrawCreate(578.0, 138.0, "CONTA DIGITAL VB");
+    TextDrawLetterSize(NubankAppBG[2], 0.13, 0.7);
+    TextDrawAlignment(NubankAppBG[2], 2);
+    TextDrawColor(NubankAppBG[2], 0xE0B0FFFF);
+    TextDrawFont(NubankAppBG[2], 1);
+    TextDrawSetProportional(NubankAppBG[2], 1);
+    TextDrawSetShadow(NubankAppBG[2], 0);
+
+    NubankAppBG[3] = TextDrawCreate(526.0, 168.0, "_");
+    TextDrawLetterSize(NubankAppBG[3], 0.0, 5.0);
+    TextDrawTextSize(NubankAppBG[3], 630.0, 0.0);
+    TextDrawUseBox(NubankAppBG[3], 1);
+    TextDrawBoxColor(NubankAppBG[3], 0xF0F1F5FF);
+    TextDrawFont(NubankAppBG[3], 1);
+
+    NubankAppBG[4] = TextDrawCreate(578.0, 173.0, "SALDO DISPONIVEL");
+    TextDrawLetterSize(NubankAppBG[4], 0.14, 0.75);
+    TextDrawAlignment(NubankAppBG[4], 2);
+    TextDrawColor(NubankAppBG[4], 0x555555FF);
+    TextDrawFont(NubankAppBG[4], 1);
+    TextDrawSetProportional(NubankAppBG[4], 1);
+    TextDrawSetShadow(NubankAppBG[4], 0);
+
+    NubankAppBG[5] = TextDrawCreate(578.0, 228.0, "TRANSFERIR");
+    TextDrawLetterSize(NubankAppBG[5], 0.18, 0.95);
+    TextDrawTextSize(NubankAppBG[5], 18.0, 96.0);
+    TextDrawAlignment(NubankAppBG[5], 2);
+    TextDrawColor(NubankAppBG[5], 0xFFFFFFFF);
+    TextDrawUseBox(NubankAppBG[5], 1);
+    TextDrawBoxColor(NubankAppBG[5], 0x820AD1FF);
+    TextDrawFont(NubankAppBG[5], 2);
+    TextDrawSetProportional(NubankAppBG[5], 1);
+    TextDrawSetShadow(NubankAppBG[5], 0);
+    TextDrawSetSelectable(NubankAppBG[5], 1);
+
+    NubankAppBG[6] = TextDrawCreate(578.0, 256.0, "FECHAR APP");
+    TextDrawLetterSize(NubankAppBG[6], 0.16, 0.85);
+    TextDrawTextSize(NubankAppBG[6], 18.0, 96.0);
+    TextDrawAlignment(NubankAppBG[6], 2);
+    TextDrawColor(NubankAppBG[6], 0xFFFFFFFF);
+    TextDrawUseBox(NubankAppBG[6], 1);
+    TextDrawBoxColor(NubankAppBG[6], 0x455A64FF);
+    TextDrawFont(NubankAppBG[6], 2);
+    TextDrawSetProportional(NubankAppBG[6], 1);
+    TextDrawSetShadow(NubankAppBG[6], 0);
+    TextDrawSetSelectable(NubankAppBG[6], 1);
+    
+        // 0: Fundo azul escuro
+    CnhAppBG[0] = TextDrawCreate(520.500, 112.000, "_");
+	CnhAppBG[0] = TextDrawCreate(520.500, 112.000, "_");
+	TextDrawLetterSize(CnhAppBG[0], 0.4800, 23.6243);
+	TextDrawTextSize(CnhAppBG[0], 635.500, 0.000);
+	TextDrawAlignment(CnhAppBG[0], 1);
+	TextDrawColor(CnhAppBG[0], -1);
+	TextDrawUseBox(CnhAppBG[0], 1);
+	TextDrawBoxColor(CnhAppBG[0], 202974975);
+	TextDrawSetShadow(CnhAppBG[0], 1);
+	TextDrawSetOutline(CnhAppBG[0], 0);
+	TextDrawBackgroundColor(CnhAppBG[0], 255);
+	TextDrawFont(CnhAppBG[0], 1);
+	TextDrawSetProportional(CnhAppBG[0], 1);
+
+    // 1: Cabecalho Azul Ciano
+    CnhAppBG[1] = TextDrawCreate(520.5, 112.0, "_");
+    TextDrawLetterSize(CnhAppBG[1], 0.0, 3.2);
+    TextDrawTextSize(CnhAppBG[1], 635.5, 0.0);
+    TextDrawUseBox(CnhAppBG[1], 1);
+    TextDrawBoxColor(CnhAppBG[1], 0x00B4D8FF);
+    TextDrawFont(CnhAppBG[1], 1);
+
+    // 2: Titulo CNH DIGITAL
+    CnhAppBG[2] = TextDrawCreate(578.0, 118.0, "CNH DIGITAL");
+    TextDrawLetterSize(CnhAppBG[2], 0.24, 1.15);
+    TextDrawAlignment(CnhAppBG[2], 2);
+    TextDrawColor(CnhAppBG[2], 0xFFFFFFFF);
+    TextDrawFont(CnhAppBG[2], 2);
+    TextDrawSetProportional(CnhAppBG[2], 1);
+    TextDrawSetShadow(CnhAppBG[2], 0);
+
+    // 3: Subtitulo DETRAN VB
+    CnhAppBG[3] = TextDrawCreate(578.0, 131.0, "DETRAN VIRTUAL BOOST");
+    TextDrawLetterSize(CnhAppBG[3], 0.11, 0.6);
+    TextDrawAlignment(CnhAppBG[3], 2);
+    TextDrawColor(CnhAppBG[3], 0xE0F7FAFF);
+    TextDrawFont(CnhAppBG[3], 1);
+    TextDrawSetProportional(CnhAppBG[3], 1);
+    TextDrawSetShadow(CnhAppBG[3], 0);
+
+    // 4: Cabecalho tabela
+    CnhAppBG[4] = TextDrawCreate(525.0, 146.0, "~b~CATEGORIA          STATUS / PTS");
+    TextDrawLetterSize(CnhAppBG[4], 0.115, 0.65);
+    TextDrawColor(CnhAppBG[4], 0x00E5FFFF);
+    TextDrawFont(CnhAppBG[4], 2);
+    TextDrawSetProportional(CnhAppBG[4], 1);
+    TextDrawSetShadow(CnhAppBG[4], 0);
+
+    // 5: Botao FECHAR APP (clicavel - volta para os icones)
+    CnhAppBG[5] = TextDrawCreate(578.0, 268.0, "FECHAR APP");
+    TextDrawLetterSize(CnhAppBG[5], 0.16, 0.85);
+    TextDrawTextSize(CnhAppBG[5], 18.0, 96.0);
+    TextDrawAlignment(CnhAppBG[5], 2);
+    TextDrawColor(CnhAppBG[5], 0xFFFFFFFF);
+    TextDrawUseBox(CnhAppBG[5], 1);
+    TextDrawBoxColor(CnhAppBG[5], 0xD32F2FFF);
+    TextDrawFont(CnhAppBG[5], 2);
+    TextDrawSetProportional(CnhAppBG[5], 1);
+    TextDrawSetShadow(CnhAppBG[5], 0);
+    TextDrawSetSelectable(CnhAppBG[5], 1);
+
+    CelularCriadoGlobal = true;
+    return 1;
+}
+stock CriarPlayerTD_NubankCelular(playerid)
+{
+    new PlayerText:dummy = CreatePlayerTextDraw(playerid, -500.0, -500.0, " ");
+    PlayerTextDrawHide(playerid, dummy);
+
+    NubankSaldoTD[playerid] = CreatePlayerTextDraw(playerid, 578.0, 188.0, "R$ 0");
+    PlayerTextDrawLetterSize(playerid, NubankSaldoTD[playerid], 0.24, 1.25);
+    PlayerTextDrawAlignment(playerid, NubankSaldoTD[playerid], 2);
+    PlayerTextDrawColor(playerid, NubankSaldoTD[playerid], 0x2ECC71FF);
+    PlayerTextDrawFont(playerid, NubankSaldoTD[playerid], 2);
+    PlayerTextDrawSetProportional(playerid, NubankSaldoTD[playerid], 1);
+    PlayerTextDrawSetShadow(playerid, NubankSaldoTD[playerid], 0);
+    PlayerTextDrawHide(playerid, NubankSaldoTD[playerid]);
+
+    CnhDadosTD[playerid] = CreatePlayerTextDraw(playerid, 525.0, 159.0, "_");
+    PlayerTextDrawLetterSize(playerid, CnhDadosTD[playerid], 0.125, 0.85);
+    PlayerTextDrawColor(playerid, CnhDadosTD[playerid], 0xFFFFFFFF);
+    PlayerTextDrawFont(playerid, CnhDadosTD[playerid], 2);
+    PlayerTextDrawSetProportional(playerid, CnhDadosTD[playerid], 1);
+    PlayerTextDrawSetShadow(playerid, CnhDadosTD[playerid], 0);
+    PlayerTextDrawHide(playerid, CnhDadosTD[playerid]);
+
+    return 1;
+}
+stock MostrarCelularVB(playerid)
+{
+    if(!CelularCriadoGlobal) CriarCelularGlobal();
+
+    for(new i = 0; i < 7; i++) TextDrawHideForPlayer(playerid, NubankAppBG[i]);
+    PlayerTextDrawHide(playerid, NubankSaldoTD[playerid]);
+    NubankCelularAberto[playerid] = false;
+
+    for(new i = 0; i < 6; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawShowForPlayer(playerid, CelularApp[i]);
+    
+    for(new i = 0; i < 6; i++) TextDrawHideForPlayer(playerid, CnhAppBG[i]);
+    PlayerTextDrawHide(playerid, CnhDadosTD[playerid]);
+    CnhCelularAberto[playerid] = false;
+
+    CelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x820AD1FF);
+    return 1;
+}
+stock AbrirAppNubankCelular(playerid, saldo)
+{
+    for(new i = 0; i < 18; i++) TextDrawHideForPlayer(playerid, CelularApp[i]);
+    for(new i = 2; i < 6; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
+
+    new str[32];
+    format(str, sizeof(str), "R$ %d", saldo);
+    PlayerTextDrawSetString(playerid, NubankSaldoTD[playerid], str);
+
+    for(new i = 0; i < 7; i++) TextDrawShowForPlayer(playerid, NubankAppBG[i]);
+    PlayerTextDrawShow(playerid, NubankSaldoTD[playerid]);
+
+    NubankCelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x820AD1FF);
+    return 1;
+}
+stock FecharAppNubankCelular(playerid)
+{
+    for(new i = 0; i < 7; i++) TextDrawHideForPlayer(playerid, NubankAppBG[i]);
+    PlayerTextDrawHide(playerid, NubankSaldoTD[playerid]);
+    NubankCelularAberto[playerid] = false;
+
+    for(new i = 2; i < 6; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawShowForPlayer(playerid, CelularApp[i]);
+    return 1;
+}
+stock AbrirAppCNHCelular(playerid, car, moto, cam, fly, boat, gun, vCar, vMoto, vCam, vFly, vBoat)
+{
+    for(new i = 0; i < 18; i++) TextDrawHideForPlayer(playerid, CelularApp[i]);
+    for(new i = 2; i < 6; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
+
+    new str[256];
+    format(str, sizeof(str),
+        "Carro (B): %s ~w~(%d)~n~Moto (A): %s ~w~(%d)~n~Cam/Onibus: %s ~w~(%d)~n~Aerea: %s ~w~(%d)~n~Nautica: %s ~w~(%d)~n~Armas: %s",
+        (car == 1)  ? ("~g~OK") : ("~r~NAO"), vCar,
+        (moto == 1) ? ("~g~OK") : ("~r~NAO"), vMoto,
+        (cam == 1)  ? ("~g~OK") : ("~r~NAO"), vCam,
+        (fly == 1)  ? ("~g~OK") : ("~r~NAO"), vFly,
+        (boat == 1) ? ("~g~OK") : ("~r~NAO"), vBoat,
+        (gun == 1)  ? ("~g~OK") : ("~r~NAO")
+    );
+    PlayerTextDrawSetString(playerid, CnhDadosTD[playerid], str);
+
+    for(new i = 0; i < 6; i++) TextDrawShowForPlayer(playerid, CnhAppBG[i]);
+    PlayerTextDrawShow(playerid, CnhDadosTD[playerid]);
+
+    CnhCelularAberto[playerid] = true;
+    SelectTextDraw(playerid, 0x00B4D8FF);
+    return 1;
+}
+
+stock FecharAppCNHCelular(playerid)
+{
+    for(new i = 0; i < 6; i++) TextDrawHideForPlayer(playerid, CnhAppBG[i]);
+    PlayerTextDrawHide(playerid, CnhDadosTD[playerid]);
+    CnhCelularAberto[playerid] = false;
+
+    for(new i = 2; i < 6; i++) TextDrawShowForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawShowForPlayer(playerid, CelularApp[i]);
+    return 1;
+}
+
+stock EsconderCelularVB(playerid)
+{
+    if(!CelularAberto[playerid]) return 1;
+    CelularAberto[playerid] = false;
+    NubankCelularAberto[playerid] = false;
+    
+    for(new i = 0; i < 6; i++) TextDrawHideForPlayer(playerid, CnhAppBG[i]);
+    PlayerTextDrawHide(playerid, CnhDadosTD[playerid]);
+    CnhCelularAberto[playerid] = false;
+
+    CancelSelectTextDraw(playerid);
+    for(new i = 0; i < 6; i++) TextDrawHideForPlayer(playerid, CelularBG[i]);
+    for(new i = 0; i < 18; i++) TextDrawHideForPlayer(playerid, CelularApp[i]);
+    for(new i = 0; i < 7; i++) TextDrawHideForPlayer(playerid, NubankAppBG[i]);
+    PlayerTextDrawHide(playerid, NubankSaldoTD[playerid]);
+    return 1;
+}
+
+stock ExecutarComandoCelular(playerid, const comando[])
+{
+    EsconderCelularVB(playerid);
+    CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+    return 1;
+}
+stock AcionarAppCelular(playerid, appid)
+{
+    switch(appid)
+    {
+        case 0: return ExecutarComandoCelular(playerid, "/ajuda");
+        case 1: return ExecutarComandoCelular(playerid, "/rg");
+        case 2: return ExecutarComandoCelular(playerid, "/gps");
+        case 3: return ExecutarComandoCelular(playerid, "/configuracoes");
+        case 4:
+        {
+            CallRemoteFunction("SolicitarCNHCelular", "i", playerid);
+            return 1;
+        }
+        case 5: return ExecutarComandoCelular(playerid, "/orgs");
+        case 6: return ExecutarComandoCelular(playerid, "/veiculo ajuda");
+        case 7: return ExecutarComandoCelular(playerid, "/servico taxi");
+        case 8: return ExecutarComandoCelular(playerid, "/servico onibus");
+        case 9: return ExecutarComandoCelular(playerid, "/servico pizza");
+        case 10: return ExecutarComandoCelular(playerid, "/servico medico");
+        case 11: return ExecutarComandoCelular(playerid, "/servicos");
+        case 12: return ExecutarComandoCelular(playerid, "/servico advogado");
+        case 13: return ExecutarComandoCelular(playerid, "/servico mecanico");
+        case 14:
+        {
+            EsconderCelularVB(playerid);
+            ShowPlayerDialog(playerid, DIALOG_CELULAR_LIGAR, DIALOG_STYLE_INPUT,
+                "VIRTUAL PHONE - LIGAR",
+                "Digite o numero de telefone que deseja chamar:",
+                "LIGAR", "VOLTAR");
+            return 1;
+        }
+        case 15: return ExecutarComandoCelular(playerid, "/sms");
+        case 16: // NUBANK (solicita o saldo ao GameMode e abre dentro do celular)
+        {
+            CallRemoteFunction("SolicitarSaldoNubankCelular", "i", playerid);
+            return 1;
+        }
+        case 17:
+        {
+            EsconderCelularVB(playerid);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+public OnFilterScriptInit()
+{
+    CriarCelularGlobal();
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        CelularAberto[i] = false;
+        NubankCelularAberto[i] = false;
+        if(IsPlayerConnected(i)) CriarPlayerTD_NubankCelular(i);
+    }
+    print("[VirtualBoost] VIRTUAL PHONE carregado.");
+    return 1;
+}
+
+public OnFilterScriptExit()
+{
+    if(CelularCriadoGlobal)
+    {
+        for(new i = 0; i < 6; i++) TextDrawDestroy(CelularBG[i]);
+        for(new i = 0; i < 18; i++) TextDrawDestroy(CelularApp[i]);
+        for(new i = 0; i < 7; i++) TextDrawDestroy(NubankAppBG[i]);
+        CelularCriadoGlobal = false;
+    }
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(IsPlayerConnected(i)) PlayerTextDrawDestroy(i, NubankSaldoTD[i]);
+    }
+    return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+    CelularAberto[playerid] = false;
+    NubankCelularAberto[playerid] = false;
+    CriarPlayerTD_NubankCelular(playerid);
+    return 1;
+}
+
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    if(!strcmp(cmdtext, "/celular", true))
+    {
+        if(CelularAberto[playerid]) EsconderCelularVB(playerid);
+        else MostrarCelularVB(playerid);
+        return 1;
+    }
+    return 0;
+}
+
+public OnPlayerClickTextDraw(playerid, Text:clickedid)
+{
+    if(!CelularAberto[playerid]) return 0;
+
+    if(clickedid == Text:INVALID_TEXT_DRAW)
+    {
+        EsconderCelularVB(playerid);
+        return 1;
+    }
+
+    if(NubankCelularAberto[playerid])
+    {
+        if(clickedid == NubankAppBG[5]) // TRANSFERIR
+        {
+            EsconderCelularVB(playerid);
+            CallRemoteFunction("AbrirTransferenciaNubankCelular", "i", playerid);
+            return 1;
+        }
+        if(clickedid == NubankAppBG[6]) // FECHAR APP (volta para os icones do celular)
+        {
+            FecharAppNubankCelular(playerid);
+            return 1;
+        }
+        return 1;
+    }
+    if(CnhCelularAberto[playerid])
+    {
+        if(clickedid == CnhAppBG[5])
+        {
+            FecharAppCNHCelular(playerid);
+            return 1;
+        }
+        return 1;
+    }
+
+    for(new i = 0; i < 18; i++)
+    {
+        if(clickedid == CelularApp[i]) return AcionarAppCelular(playerid, i);
+    }
+    return 0;
+}
+
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+    if(dialogid == DIALOG_CELULAR_LIGAR)
+    {
+        if(!response) return 1;
+        new numero = strval(inputtext);
+        if(strlen(inputtext) < 1 || numero <= 0)
+        {
+            SendClientMessage(playerid, 0xE74C3CFF, "[VIRTUAL PHONE] Numero invalido.");
+            return 1;
+        }
+        new comando[32];
+        format(comando, sizeof(comando), "/ligar %d", numero);
+        CallRemoteFunction("OnPlayerCommandText", "is", playerid, comando);
+        return 1;
+    }
+    return 0;
+}
+
+forward ReceberSaldoNubankCelular(playerid, saldo);
+public ReceberSaldoNubankCelular(playerid, saldo)
+{
+    return AbrirAppNubankCelular(playerid, saldo);
+}
+
+forward AbrirCelularRemoto(playerid);
+public AbrirCelularRemoto(playerid)
+{
+    if(CelularAberto[playerid]) return EsconderCelularVB(playerid);
+    return MostrarCelularVB(playerid);
+}
+forward ReceberCNHCelular(playerid, car, moto, cam, fly, boat, gun, vCar, vMoto, vCam, vFly, vBoat);
+public ReceberCNHCelular(playerid, car, moto, cam, fly, boat, gun, vCar, vMoto, vCam, vFly, vBoat)
+{
+    return AbrirAppCNHCelular(playerid, car, moto, cam, fly, boat, gun, vCar, vMoto, vCam, vFly, vBoat);
+}
