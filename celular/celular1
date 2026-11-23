@@ -316,3 +316,8 @@ stock MostrarCelularVB(playerid)
 	}
 	return 0;
 	}
+	forward AbrirCelularRemoto(playerid);
+	public AbrirCelularRemoto(playerid)
+	{
+		return OnPlayerCommandText(playerid, "/celular");
+	}
