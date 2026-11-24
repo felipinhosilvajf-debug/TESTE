@@ -1,0 +1,2509 @@
+    if(dialogid == 4507)
+    {
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST,
+        "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        if(response >= 1)
+        {
+            new org = GetPlayerOrg(playerid);
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"O Saldo da Sua Organizacao e de R$%s",ConvertMoney(CofreOrg[org][Dinheiro]));
+                ShowPlayerDialog(playerid, 1333, DIALOG_STYLE_MSGBOX, "Cofre da Organizacao", string, "Depositar","Sair");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                if(!IsAMafia(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Materiais!");
+                    return 1;
+                }
+                format(string,sizeof(string),"A Sua Organizacao tem %d de Materiais",CofreOrg[org][Materiais]);
+                ShowPlayerDialog(playerid, 1444, DIALOG_STYLE_MSGBOX, "Cofre da Organizacao", string, "Depositar","Sair");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                if(!IsAGangster(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Drogas!");
+                    return 1;
+                }
+
+                format(string,sizeof(string),"A Sua Organizacao tem %d de Maconha\nO que Voce deseja fazer ?",CofreOrg[org][Maconha]);
+                ShowPlayerDialog(playerid, 1555, DIALOG_STYLE_MSGBOX, "Cofre da Organizacao", string, "Depositar", "Sair");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                if(!IsAGangster(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Drogas!");
+                    return 1;
+                }
+                format(string,sizeof(string),"A Sua Organizacao tem %d de Cocaina\nO que Voce deseja fazer ?",CofreOrg[org][Cocaina]);
+                ShowPlayerDialog(playerid, 1666, DIALOG_STYLE_MSGBOX, "Cofre da Organizacao", string, "Depositar", "Sair");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                if(!IsAGangster(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Drogas!");
+                    return 1;
+                }
+                format(string,sizeof(string),"A Sua Organizacao tem %d de Crack\nO que Voce deseja fazer ?",CofreOrg[org][Crack]);
+                ShowPlayerDialog(playerid, 1777, DIALOG_STYLE_MSGBOX, "Cofre da Organizacao", string, "Depositar", "Sair");
+                return true;
+            }
+        }
+        return true;
+    }
+    if(dialogid == 1200)
+    {
+        new org = OrgCofre[playerid];
+        //new darmaconha = CofreOrg[org][dMaconha];
+        //new maconha = CofreOrg[org][Maconha];
+        MEGAString[0] = EOS;
+        if(!response) return true;
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Lider:  %s\n",InfoOrg[org][Lider]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Sub-Lider:  %s\n",InfoOrg[org][SubLider]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 1:  %s\n",InfoOrg[org][Membro1]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 2:  %s\n",InfoOrg[org][Membro2]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 3:  %s\n",InfoOrg[org][Membro3]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 4:  %s\n",InfoOrg[org][Membro4]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 5:  %s\n",InfoOrg[org][Membro5]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 6:  %s\n",InfoOrg[org][Membro6]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 7:  %s\n",InfoOrg[org][Membro7]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 8:  %s\n",InfoOrg[org][Membro8]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 9:  %s\n",InfoOrg[org][Membro9]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 10:  %s\n",InfoOrg[org][Membro10]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 11:  %s\n",InfoOrg[org][Membro11]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 12:  %s\n",InfoOrg[org][Membro12]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 13:  %s\n",InfoOrg[org][Membro13]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 14:  %s\n",InfoOrg[org][Membro14]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 15:  %s\n",InfoOrg[org][Membro15]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 16:  %s\n",InfoOrg[org][Membro16]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 17:  %s\n",InfoOrg[org][Membro17]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 18:  %s\n",InfoOrg[org][Membro18]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 19:  %s\n",InfoOrg[org][Membro19]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 20:  %s\n",InfoOrg[org][Membro20]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 21:  %s\n",InfoOrg[org][Membro21]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 22:  %s\n",InfoOrg[org][Membro22]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 23:  %s\n",InfoOrg[org][Membro23]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 24:  %s\n",InfoOrg[org][Membro24]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 25:  %s\n",InfoOrg[org][Membro25]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 26:  %s\n",InfoOrg[org][Membro26]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 27:  %s\n",InfoOrg[org][Membro27]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 28:  %s\n",InfoOrg[org][Membro28]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 29:  %s\n",InfoOrg[org][Membro29]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 30:  %s\n",InfoOrg[org][Membro30]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 31:  %s\n",InfoOrg[org][Membro31]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 32:  %s\n",InfoOrg[org][Membro32]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 33:  %s\n",InfoOrg[org][Membro33]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 34:  %s\n",InfoOrg[org][Membro34]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 35:  %s\n",InfoOrg[org][Membro35]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 36:  %s\n",InfoOrg[org][Membro36]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 37:  %s\n",InfoOrg[org][Membro37]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 38:  %s\n",InfoOrg[org][Membro38]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 39:  %s\n",InfoOrg[org][Membro39]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Membro 40:  %s\n",InfoOrg[org][Membro40]);
+                strcat(MEGAString,string);
+                ShowPlayerDialog(playerid, 9919, DIALOG_STYLE_LIST, "Membros da Organizacao", MEGAString, "OK", "VOLTAR");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                if(OrgCofre[playerid] == 7)
+                {
+                    if(PlayerInfo[playerid][pLider] != 7)
+                    {
+                        return SendClientMessage(playerid, COR_GRAD1, "As Informacoes da Prefeitura sao Confidenciais!");
+                    }
+                }
+                strcat(MEGAString,"{33FF00}Â»|-----[ Lideres ]-----|Â«\n");
+                format(string,sizeof(string),"Lider:  %s\n",InfoOrg[org][Lider]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Sub-Lider:  %s\n",InfoOrg[org][SubLider]);
+                strcat(MEGAString,string);
+                strcat(MEGAString,"{33FF00}Â»|-----[ Cofre ]-----|Â«\n");
+                format(string,sizeof(string),"Dinheiro: R$%s\n",ConvertMoney(CofreOrg[org][Dinheiro]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Maconha: %d\n",CofreOrg[org][Maconha]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Crack: %d\n",CofreOrg[org][Crack]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Cocaina: %d\n",CofreOrg[org][Cocaina]);
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Materiais: %d\n",CofreOrg[org][Materiais]);
+                strcat(MEGAString,string);
+                strcat(MEGAString,"{33FF00}Â»|-----[ Pedidos ]-----|Â«\n");
+                format(string,sizeof(string),"Pedindo %d de Materiais e Paga R$%d\n",CofreOrg[org][cMateriais], ConvertMoney(CofreOrg[org][mMateriais]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Pedindo %d de Maconha e Paga R$%s\n",CofreOrg[org][cMaconha], ConvertMoney(CofreOrg[org][mMaconha]));
+                strcat(MEGAString,string);
+                strcat(MEGAString,"{33FF00}Â»|-----[ Salarios ]-----|Â«\n");
+                format(string,sizeof(string),"Cargo 1: R$%s\n",ConvertMoney(CofreOrg[org][salarioc1]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Cargo 2: R$%s\n",ConvertMoney(CofreOrg[org][salarioc2]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Cargo 3: R$%s\n",ConvertMoney(CofreOrg[org][salarioc3]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Cargo 4: R$%s\n",ConvertMoney(CofreOrg[org][salarioc4]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Cargo 5: R$%s\n",ConvertMoney(CofreOrg[org][salarioc5]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Sub-Lideres: R$%s\n",ConvertMoney(CofreOrg[org][salarioc5]));
+                strcat(MEGAString,string);
+                format(string,sizeof(string),"Lider: R$%s\n",ConvertMoney(CofreOrg[org][salariolider]));
+                strcat(MEGAString,string);
+                ShowPlayerDialog(playerid, 9919, DIALOG_STYLE_LIST, "Informacoes da HQ", MEGAString, "OK", "VOLTAR");
+            }
+            if(listitem == 2)
+            {
+                if(OrgCofre[playerid] != GetPlayerOrg(playerid))
+                    return SendClientMessage(playerid, COR_GRAD1, "Esta area e somente para membros dessa organizacao!");
+                if(PlayerInfo[playerid][pCargo] < 6)
+                {
+                    SendClientMessage(playerid, COR_GRAD1, " Esta area e apenas para Lider e SubLideres!");
+                    return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+                }
+                ShowPlayerDialog(playerid, 4502, DIALOG_STYLE_LIST, "Definicoes de membros", "Convidar Membro\nDemitir Membro\nLimpar Membro\nAnuncio de Recrutamento\nTrocar Vagas\nLimpar todas as Vagas\nultimo Login dos Membros", #Selecionar, #Voltar);
+            }
+            if(listitem == 3)
+            {
+                ForT:RSvenderhqRS(playerid);
+            }
+            if(listitem == 4)
+            {
+                //new orgid = OrgCofre[playerid];
+                if(OrgCofre[playerid] != GetPlayerOrg(playerid))
+                    return SendClientMessage(playerid, COR_GRAD1, "Esta area e somente para membros dessa organizacao!");
+                if(PlayerInfo[playerid][pCargo] < 5)
+                {
+                    SendClientMessage(playerid, COR_GRAD1, " Esta area e apenas para Cargos 5+!");
+                    return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+                }
+                ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            }
+            if(listitem == 5)
+            {
+                if(OrgCofre[playerid] != GetPlayerOrg(playerid))
+                    return SendClientMessage(playerid, COR_GRAD1, "Esta area e somente para membros dessa organizacao!");
+                if(PlayerInfo[playerid][pCargo] < 4)
+                {
+                    SendClientMessage(playerid, COR_GRAD1, "Apenas cargo 4+ podem ver as informacoes de candidatos!");
+                    return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+                }
+                MostrarCandidatos(playerid);
+                return true;
+            }
+            if(listitem == 6)
+            {
+                if(OrgCofre[playerid] != GetPlayerOrg(playerid))
+                {
+                    return SendClientMessage(playerid, COR_GRAD1, "Esta area e somente para membros dessa organizacao!");
+                }
+                Equipando(playerid);
+                return true;
+            }
+            if(listitem == 7)
+            {
+                if(OrgCofre[playerid] == GetPlayerOrg(playerid))
+                    return SendClientMessage(playerid, COR_GRAD1, "Voce ja pertence a esta Org/Gang.");
+                if(PediuPraEntrar[playerid] == 1)
+                {
+                    SendClientMessage(playerid, COR_LIGHTBLUE, "[ERRO] Espere um pouco para pedir pra entrar em uma organizacao novamente");
+                    return 1;
+                }
+                DCandidatoInfoOrg(PlayerName(playerid), OrgCofre[playerid]);
+                SetTimerEx("PediuAgora", 100000, 0, "i", playerid);
+                PediuPraEntrar[playerid] = 1;
+                format(string,sizeof(string),"ATENcao: %s [ID:%d] esta pedindo para entrar na organizacao",PlayerName(playerid),playerid);
+                SendFamilyMessage(OrgCofre[playerid], COR_LIGHTBLUE, string);
+                format(string,sizeof(string),"INFO: Nivel:[%d] Horas Jogadas:[%d] Celular:[%d]",PlayerInfo[playerid][pLevel], PlayerInfo[playerid][pConnectTime], PlayerInfo[playerid][pPnumber]);
+                SendFamilyMessage(OrgCofre[playerid], COR_LIGHTBLUE, string);
+                SendClientMessage(playerid, COR_BRANCO, "Voce pediu para entrar na organizacao, aguarde uma resposta dos Lideres");
+                CandidatoInfoOrg(PlayerName(playerid), OrgCofre[playerid], 1);
+                return true;
+            }
+        }
+        return true;
+    }
+    if(dialogid == 4502)
+    {
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        if(listitem == 0)
+        {
+            ShowPlayerDialog(playerid, 4501, DIALOG_STYLE_INPUT, "Digite o ID", "Digite o ID ou Nome do Player que Voce deseja convidar", #Convidar, #Voltar);
+        }
+        if(listitem == 1)
+        {
+            ShowPlayerDialog(playerid, 4500, DIALOG_STYLE_INPUT, "Digite o ID", "Digite o ID ou Nome do Player que Voce deseja demitir", #Demitir, #Voltar);
+        }
+        if(listitem == 2)
+        {
+            SendClientMessage(playerid, COR_GRAD1, "OBS: Clique 2x no nome do player que Voce deseja limpar a vaga!");
+            MostrarMembrosOrg(playerid);
+        }
+        if(listitem == 3)
+        {
+            if(gettime() < GetPVarInt(playerid, #VarFlood6))
+                return SendClientMessage(playerid, COR_GRAD1, #Voce nao pode fazer isto com tanta frequencia);
+            SetPVarInt(playerid, #VarFlood6, gettime()+60);
+
+            format(string, sizeof string, "RECRUTAMENTO: A Organizacao [%s] esta recrutando! Contato: %s Celular:[%d]",
+            GetOrgName(GetPlayerOrg(playerid)), PlayerName(playerid), PlayerInfo[playerid][pPnumber]);
+            SendClientMessageToAll(TEAM_GROOVE_COR, string);
+        }
+        if(listitem == 4)
+        {
+            new org = GetPlayerOrg(playerid);
+            MEGAString[0]=EOS;
+            format(string,sizeof(string),"Membro 1:  %s\n",InfoOrg[org][Membro1]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 2:  %s\n",InfoOrg[org][Membro2]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 3:  %s\n",InfoOrg[org][Membro3]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 4:  %s\n",InfoOrg[org][Membro4]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 5:  %s\n",InfoOrg[org][Membro5]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 6:  %s\n",InfoOrg[org][Membro6]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 7:  %s\n",InfoOrg[org][Membro7]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 8:  %s\n",InfoOrg[org][Membro8]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 9:  %s\n",InfoOrg[org][Membro9]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 10:  %s\n",InfoOrg[org][Membro10]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 11:  %s\n",InfoOrg[org][Membro11]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 12:  %s\n",InfoOrg[org][Membro12]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 13:  %s\n",InfoOrg[org][Membro13]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 14:  %s\n",InfoOrg[org][Membro14]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 15:  %s\n",InfoOrg[org][Membro15]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 16:  %s\n",InfoOrg[org][Membro16]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 17:  %s\n",InfoOrg[org][Membro17]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 18:  %s\n",InfoOrg[org][Membro18]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 19:  %s\n",InfoOrg[org][Membro19]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 20:  %s\n",InfoOrg[org][Membro20]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 21:  %s\n",InfoOrg[org][Membro21]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 22:  %s\n",InfoOrg[org][Membro22]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 23:  %s\n",InfoOrg[org][Membro23]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 24:  %s\n",InfoOrg[org][Membro24]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 25:  %s\n",InfoOrg[org][Membro25]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 26:  %s\n",InfoOrg[org][Membro26]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 27:  %s\n",InfoOrg[org][Membro27]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 28:  %s\n",InfoOrg[org][Membro28]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 29:  %s\n",InfoOrg[org][Membro29]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 30:  %s\n",InfoOrg[org][Membro30]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 31:  %s\n",InfoOrg[org][Membro31]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 32:  %s\n",InfoOrg[org][Membro32]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 33:  %s\n",InfoOrg[org][Membro33]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 34:  %s\n",InfoOrg[org][Membro34]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 35:  %s\n",InfoOrg[org][Membro35]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 36:  %s\n",InfoOrg[org][Membro36]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 37:  %s\n",InfoOrg[org][Membro37]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 38:  %s\n",InfoOrg[org][Membro38]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 39:  %s\n",InfoOrg[org][Membro39]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 40:  %s\n",InfoOrg[org][Membro40]);
+            strcat(MEGAString,string);
+            ShowPlayerDialog(playerid, 5900, DIALOG_STYLE_LIST, "Clique no PRIMEIRO nome a ser trocado", MEGAString, "Continuar", "Voltar");
+            //SendClientMessage(playerid, COR_AMARELO, "OK, Agora escolha a PRIMEIRA vaga a ser trocada!");
+        }
+        if(listitem == 5)
+        {
+            ShowPlayerDialog(playerid, 12134, DIALOG_STYLE_MSGBOX, "Limpar vagas", "Tem certeza que quer Limpar todas as Vagas?\nEsta opcao nao pode ser desfeita.", #Sim, #nao);
+        }
+        if(listitem == 6)
+        {
+                if(OrgCofre[playerid] != GetPlayerOrg(playerid))
+                    return SendClientMessage(playerid, COR_GRAD1, "Esta area e somente para membros dessa organizacao!");
+                if(PlayerInfo[playerid][pCargo] < 4)
+                {
+                    SendClientMessage(playerid, COR_GRAD1, " Esta area e apenas para Cargos 4+!");
+                    return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+                }
+//              ForT:showul(playerid);
+                return true;
+        }
+        return true;
+    }
+    if(dialogid == 5900)
+    {
+        if(response)
+        {
+
+            SetPVarInt(playerid, "PrimeiroNome", listitem+1);
+
+            new org = GetPlayerOrg(playerid);
+            MEGAString[0]=EOS;
+            format(string,sizeof(string),"Membro 1:  %s\n",InfoOrg[org][Membro1]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 2:  %s\n",InfoOrg[org][Membro2]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 3:  %s\n",InfoOrg[org][Membro3]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 4:  %s\n",InfoOrg[org][Membro4]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 5:  %s\n",InfoOrg[org][Membro5]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 6:  %s\n",InfoOrg[org][Membro6]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 7:  %s\n",InfoOrg[org][Membro7]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 8:  %s\n",InfoOrg[org][Membro8]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 9:  %s\n",InfoOrg[org][Membro9]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 10:  %s\n",InfoOrg[org][Membro10]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 11:  %s\n",InfoOrg[org][Membro11]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 12:  %s\n",InfoOrg[org][Membro12]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 13:  %s\n",InfoOrg[org][Membro13]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 14:  %s\n",InfoOrg[org][Membro14]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 15:  %s\n",InfoOrg[org][Membro15]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 16:  %s\n",InfoOrg[org][Membro16]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 17:  %s\n",InfoOrg[org][Membro17]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 18:  %s\n",InfoOrg[org][Membro18]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 19:  %s\n",InfoOrg[org][Membro19]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 20:  %s\n",InfoOrg[org][Membro20]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 21:  %s\n",InfoOrg[org][Membro21]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 22:  %s\n",InfoOrg[org][Membro22]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 23:  %s\n",InfoOrg[org][Membro23]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 24:  %s\n",InfoOrg[org][Membro24]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 25:  %s\n",InfoOrg[org][Membro25]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 26:  %s\n",InfoOrg[org][Membro26]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 27:  %s\n",InfoOrg[org][Membro27]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 28:  %s\n",InfoOrg[org][Membro28]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 29:  %s\n",InfoOrg[org][Membro29]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 30:  %s\n",InfoOrg[org][Membro30]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 31:  %s\n",InfoOrg[org][Membro31]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 32:  %s\n",InfoOrg[org][Membro32]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 33:  %s\n",InfoOrg[org][Membro33]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 34:  %s\n",InfoOrg[org][Membro34]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 35:  %s\n",InfoOrg[org][Membro35]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 36:  %s\n",InfoOrg[org][Membro36]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 37:  %s\n",InfoOrg[org][Membro37]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 38:  %s\n",InfoOrg[org][Membro38]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 39:  %s\n",InfoOrg[org][Membro39]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 40:  %s\n",InfoOrg[org][Membro40]);
+            strcat(MEGAString,string);
+            ShowPlayerDialog(playerid, 5901, DIALOG_STYLE_LIST, "Clique na SEGUNDA vaga a ser trocada", MEGAString, "CONCLUIR", "Voltar");
+            //SendClientMessage(playerid, COR_GREEN, "OK, Agora escolha a SEGUNDA vaga a ser trocada!");
+        }
+        else
+        {
+            ShowPlayerDialog(playerid, 4502, DIALOG_STYLE_LIST, "Definicoes de membros", "Convidar Membro\nDemitir Membro\nLimpar Membro\nAnuncio de Recrutamento\nTrocar Vagas\nLimpar todas as Vagas\nultimo Login dos Membros", #Selecionar, #Voltar);
+        }
+        return 1;
+    }
+    if(dialogid == 5901)
+    {
+        ShowPlayerDialog(playerid, 4502, DIALOG_STYLE_LIST, "Definicoes de membros", "Convidar Membro\nDemitir Membro\nLimpar Membro\nAnuncio de Recrutamento\nTrocar Vagas\nLimpar todas as Vagas\nultimo Login dos Membros", #Selecionar, #Voltar);
+        if(response)
+        {
+            format(string, sizeof string, "%d %d", GetPVarInt(playerid, "PrimeiroNome"), listitem+1);
+        //  ForT:trocarvagas(playerid, string);
+
+            new org = GetPlayerOrg(playerid);
+            MEGAString[0]=EOS;
+            format(string,sizeof(string),"Membro 1:  %s\n",InfoOrg[org][Membro1]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 2:  %s\n",InfoOrg[org][Membro2]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 3:  %s\n",InfoOrg[org][Membro3]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 4:  %s\n",InfoOrg[org][Membro4]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 5:  %s\n",InfoOrg[org][Membro5]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 6:  %s\n",InfoOrg[org][Membro6]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 7:  %s\n",InfoOrg[org][Membro7]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 8:  %s\n",InfoOrg[org][Membro8]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 9:  %s\n",InfoOrg[org][Membro9]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 10:  %s\n",InfoOrg[org][Membro10]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 11:  %s\n",InfoOrg[org][Membro11]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 12:  %s\n",InfoOrg[org][Membro12]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 13:  %s\n",InfoOrg[org][Membro13]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 14:  %s\n",InfoOrg[org][Membro14]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 15:  %s\n",InfoOrg[org][Membro15]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 16:  %s\n",InfoOrg[org][Membro16]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 17:  %s\n",InfoOrg[org][Membro17]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 18:  %s\n",InfoOrg[org][Membro18]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 19:  %s\n",InfoOrg[org][Membro19]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 20:  %s\n",InfoOrg[org][Membro20]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 21:  %s\n",InfoOrg[org][Membro21]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 22:  %s\n",InfoOrg[org][Membro22]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 23:  %s\n",InfoOrg[org][Membro23]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 24:  %s\n",InfoOrg[org][Membro24]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 25:  %s\n",InfoOrg[org][Membro25]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 26:  %s\n",InfoOrg[org][Membro26]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 27:  %s\n",InfoOrg[org][Membro27]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 28:  %s\n",InfoOrg[org][Membro28]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 29:  %s\n",InfoOrg[org][Membro29]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 30:  %s\n",InfoOrg[org][Membro30]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 31:  %s\n",InfoOrg[org][Membro31]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 32:  %s\n",InfoOrg[org][Membro32]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 33:  %s\n",InfoOrg[org][Membro33]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 34:  %s\n",InfoOrg[org][Membro34]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 35:  %s\n",InfoOrg[org][Membro35]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 36:  %s\n",InfoOrg[org][Membro36]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 37:  %s\n",InfoOrg[org][Membro37]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 38:  %s\n",InfoOrg[org][Membro38]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 39:  %s\n",InfoOrg[org][Membro39]);
+            strcat(MEGAString,string);
+            format(string,sizeof(string),"Membro 40:  %s\n",InfoOrg[org][Membro40]);
+            strcat(MEGAString,string);
+            ShowPlayerDialog(playerid, 5900, DIALOG_STYLE_LIST, "Clique no PRIMEIRO nome a ser trocado", MEGAString, "Continuar", "Voltar");
+            //SendClientMessage(playerid, COR_AMARELO, "OK, Agora escolha a PRIMEIRA vaga a ser trocada!");
+        }
+        return 1;
+    }
+    if(dialogid == 4501)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        ForT:convidar(playerid, inputtext);
+        return true;
+    }
+    if(dialogid == 4500)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        format(string, sizeof string, "%s Demitido pelo CofreOrg", inputtext);
+        ForT:demitir(playerid, string);
+        return true;
+    }
+    if(dialogid == 4505)
+    {
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        else
+        {
+            if(listitem == 0)
+            {
+                SendClientMessage(playerid, COR_GRAD1, " Voce nao pode limpar a vaga do Lider!");
+                MostrarMembrosOrg(playerid);
+                return true;
+            }
+            else if(listitem == 1)
+            {
+                ForT:limparvaga(playerid, "sub");
+                MostrarMembrosOrg(playerid);
+                return true;
+            }
+            else if(listitem == 2)
+            {
+                ForT:limparvaga(playerid, "sub2");
+                MostrarMembrosOrg(playerid);
+                return true;
+            }
+            else
+            {
+                format(string,sizeof(string),"%d",listitem-1);
+                ForT:limparvaga(playerid, string);
+                MostrarMembrosOrg(playerid);
+                return true;
+            }
+        }
+    }
+
+    if(dialogid == 8991)
+    {
+        if(!response)return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da sua Organizacao", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        else
+        {
+
+        }
+        //return 1;
+    }
+    if(dialogid == 12134)
+    {
+        if(!response)return ShowPlayerDialog(playerid, 4502, DIALOG_STYLE_LIST, "Definicoes de membros", "Convidar Membro\nDemitir Membro\nLimpar Membro\nAnuncio de Recrutamento\nTrocar Vagas\nLimpar todas as Vagas\nultimo Login dos Membros", #Selecionar, #Voltar);
+        if(response >= 1)
+        {
+//          ForT:limpartodasvagas(playerid);
+            return 1;
+        }
+        return 0;
+    }
+
+    if(dialogid == 8901)
+    {
+        new CheckNumero = TipoOrg[playerid];
+        MEGAString[0] = EOS;
+        Controle(playerid, 1);
+        if(!response)
+        {
+            return ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre dessa organizacao",
+            "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+        }
+        else
+        {
+            if(listitem == 0)
+            {
+                if(OrgsLegais(TipoOrg[playerid]))
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] Esta HQ nao trabalha com materiais");
+                    return 1;
+                }
+                if(PlayerInfo[playerid][pEmprego] != 13)
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] Area somente para vendedores de armas");
+                    return 1;
+                }
+                if(CofreOrg[CheckNumero][cMateriais] < 2)
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] A organizacao nao esta precisando de materiais no momento");
+                    return 1;
+                }
+                format(string,sizeof(string),"A HQ paga R$%s por %d Materiais\nDeseja vender?",ConvertMoney(CofreOrg[CheckNumero][mMateriais]), CofreOrg[CheckNumero][cMateriais]);
+                ShowPlayerDialog(playerid, 8920, DIALOG_STYLE_MSGBOX, "Definicao de Materiais", string, "Vender", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                if(OrgsLegais(TipoOrg[playerid]))
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] Esta HQ nao trabalha com Drogas");
+                    return 1;
+                }
+                if(PlayerInfo[playerid][pEmprego] != 13)
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] Area somente para vendedores de drogas");
+                    return 1;
+                }
+                if(CofreOrg[CheckNumero][cMaconha] < 2)
+                {
+                    SendClientMessage(playerid, COR_GRAD2, "[ERRO] A organizacao nao esta precisando de Maconha no momento");
+                    return 1;
+                }
+                format(string,sizeof(string),"A HQ paga R$%s por %d Gramas de Maconhas\nDeseja vender?",ConvertMoney(CofreOrg[CheckNumero][mMaconha]), CofreOrg[CheckNumero][cMaconha]);
+                ShowPlayerDialog(playerid, 8921, DIALOG_STYLE_MSGBOX, "Definicao de Maconha", string, "Vender", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    if(dialogid == 8920)
+    {
+        new CheckNumero = TipoOrg[playerid];
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8901, DIALOG_STYLE_LIST, "Vender para essa HQ", "Vender Materiais\nVender Drogas", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(PlayerInfo[playerid][pMats] < CofreOrg[CheckNumero][cMateriais])
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "[ERRO] Voce nao tem os materiais que a HQ precisa em maos");
+                return 1;
+            }
+            if(CofreOrg[CheckNumero][Dinheiro] < CofreOrg[CheckNumero][mMateriais])
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "[ERRO] A Organizacao nao pode pagar pelos materiais");
+                return 1;
+            }
+            PlayerInfo[playerid][pMats] -= CofreOrg[CheckNumero][cMateriais];
+            GivePlayerMoneyEx(playerid, CofreOrg[CheckNumero][mMateriais]);
+            SacarGranaOrg(CheckNumero,CofreOrg[CheckNumero][mMateriais]);
+            //CofreOrg[CheckNumero][Materiais] += CofreOrg[CheckNumero][cMateriais];
+            //CofreOrg[CheckNumero][Dinheiro] -= CofreOrg[CheckNumero][mMateriais];
+            format(string,sizeof(string),"Voce vendeu %d materiais por R$%s para a HQ dos %s", ConvertMoney(CofreOrg[CheckNumero][cMateriais]), CofreOrg[CheckNumero][mMateriais], GetOrgName(CheckNumero));
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            DepositarMaterialOrg(CheckNumero,CofreOrg[CheckNumero][cMateriais]);
+            CofreOrg[CheckNumero][cMateriais] = 0;
+            CofreOrg[CheckNumero][mMateriais] = 0;
+            SalvarmMateriais(CheckNumero,0);
+            SalvarcMateriais(CheckNumero,0);
+            return true;
+        }
+    }
+
+    if(dialogid == 8921)
+    {
+        new CheckNumero = TipoOrg[playerid];
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8901, DIALOG_STYLE_LIST, "Vender para essa HQ", "Vender Materiais\nVender Drogas", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            new ContarMaconha;
+            new slot;
+            for(new i=0; i<15; i++)
+            {
+                if(InventarioInfo[playerid][i][iSlot] == 1578)
+                {
+                    slot = i;
+                    ContarMaconha = InventarioInfo[playerid][i][iUnidades];
+                    SendClientMessage(playerid, -1, "Para Vender Combine todas as unidades!");
+                    break;
+                }
+            }
+            if(ContarMaconha < CofreOrg[CheckNumero][cMaconha])
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "[ERRO] Voce nao tem a quantidade de drogas que a HQ precisa em maos");
+                return 1;
+            }
+            if(CofreOrg[CheckNumero][Dinheiro] < CofreOrg[CheckNumero][mMaconha])
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "[ERRO] A Organizacao nao pode pagar pela Maconha");
+                return 1;
+            }
+            InventarioInfo[playerid][slot][iUnidades] -= CofreOrg[CheckNumero][cMaconha];
+            if(InventarioInfo[playerid][slot][iUnidades] <= 0)
+            {
+                InventarioInfo[playerid][slot][iSlot] = 0;
+                InventarioInfo[playerid][slot][iUnidades] = 0;
+            }
+            DepositarMaconhaOrg(CheckNumero,CofreOrg[CheckNumero][cMaconha]);
+            GivePlayerMoneyEx(playerid, CofreOrg[CheckNumero][mMaconha]);
+            SacarGranaOrg(CheckNumero,CofreOrg[CheckNumero][mMaconha]);
+            //CofreOrg[CheckNumero][Maconha] += CofreOrg[CheckNumero][cMaconha];
+            format(string,sizeof(string),"Voce vendeu %s de maconha por R$%s para a HQ dos %s", ConvertMoney(CofreOrg[CheckNumero][cMaconha]), CofreOrg[CheckNumero][mMaconha], GetOrgName(CheckNumero));
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            CofreOrg[CheckNumero][cMateriais] = 0;
+            CofreOrg[CheckNumero][mMateriais] = 0;
+            SalvarmMaconha(CheckNumero,0);
+            SalvarcMaconha(CheckNumero,0);
+            return true;
+        }
+    }
+    if(dialogid == 8547)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 1200, DIALOG_STYLE_LIST, "Cofre da ORG", "Membros\nInformacoes\nDefinicoes de Membros\nArea para vendedores\nOutras Definicoes\nCandidatos\nEquipar\n{33CCFF}Pedir para entrar", "Confirmar", "Cancelar");
+            return true;
+        }
+        if(PlayerInfo[playerid][pCargo] < 5)
+        {
+            SendClientMessage(playerid,COR_LIGHTBLUE,"Voce deve ter cargo 5+ para poder acessar esta area");
+            return 1;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                if(!IsAGangster(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Drogas!");
+                    return 1;
+                }
+                format(string,sizeof(string),"Defina a quantidade de Maconha ao Equipar\nAtualmente esta definido em: %d Maconha",CofreOrg[org][dMaconha]);
+                ShowPlayerDialog(playerid, 8549, DIALOG_STYLE_INPUT, "Definicao de Maconha", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                if(!IsAGangster(playerid))
+                {
+                    SendClientMessage(playerid, COR_BRANCO," Sua organizacao nao trabalha com Drogas!");
+                    return 1;
+                }
+                format(string,sizeof(string),"Defina o Pedido de Maconha\nAtualmente esta definido em: %d Maconha",CofreOrg[org][cMaconha]);
+                ShowPlayerDialog(playerid, 8851, DIALOG_STYLE_INPUT, "Pedido de Maconha", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Salario Cargo  1\nSalario Cargo 2\nSalario Cargo 3\nSalario Cargo 4\nSalario Cargo 5 e SubLideres\nSalario Lider");
+                ShowPlayerDialog(playerid, 8877, DIALOG_STYLE_LIST, "Salarios", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                ShowPlayerDialog(playerid, 4507, DIALOG_STYLE_LIST, "Drogas/Dinheiro da Organizacao", "Dinheiro\nMateriais\nMaconha\nCocaina\nCrack", "Selecionar","Voltar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+
+    if(dialogid == 8877)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina o Salario do Cargo 1\nAtualmente esta definido em %d",CofreOrg[org][salarioc1]);
+                ShowPlayerDialog(playerid, 8878, DIALOG_STYLE_INPUT, "Salario Cargo 1", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina o Salario do Cargo 2\nAtualmente esta definido em %d",CofreOrg[org][salarioc2]);
+                ShowPlayerDialog(playerid, 8879, DIALOG_STYLE_INPUT, "Salario Cargo 2", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina o Salario do Cargo 3\nAtualmente esta definido em %d",CofreOrg[org][salarioc3]);
+                ShowPlayerDialog(playerid, 8880, DIALOG_STYLE_INPUT, "Salario Cargo 3", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina o Salario do Cargo 4\nAtualmente esta definido em %d",CofreOrg[org][salarioc4]);
+                ShowPlayerDialog(playerid, 8881, DIALOG_STYLE_INPUT, "Salario Cargo 4", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina o Salario do Cargo 5 e SUBs\nAtualmente esta definido em %d",CofreOrg[org][salarioc5]);
+                ShowPlayerDialog(playerid, 8882, DIALOG_STYLE_INPUT, "Salario Cargo 5 e SUBs", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 5)
+            {
+                format(string,sizeof(string),"Defina o Salario do Lider\nAtualmente esta definido em %d",CofreOrg[org][salariolider]);
+                ShowPlayerDialog(playerid, 8883, DIALOG_STYLE_INPUT, "Salario Lider", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    if(dialogid == 8878)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salarioc1] = definicao;
+            DefinirSalarioc1(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do cargo 1 para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8879)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salarioc2] = definicao;
+            DefinirSalarioc2(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do cargo 2 para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8880)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salarioc3] = definicao;
+            DefinirSalarioc3(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do cargo 3 para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8881)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salarioc4] = definicao;
+            DefinirSalarioc4(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do cargo 4 para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8882)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salarioc5] = definicao;
+            DefinirSalarioc5(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do cargo 5 e Sub's para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+
+    if(dialogid == 8883)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(definicao > 100000)
+            {
+                SendClientMessage(playerid, COR_LIGHTBLUE, "Voce definiu um Salario muito alto");
+                return true;
+            }
+            CofreOrg[org][salariolider] = definicao;
+            DefinirSalarioc6(org,definicao);
+            format(string,sizeof(string),"  Voce ajustou o Salario do Lider para: %d.",definicao);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8850)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            CofreOrg[org][cMateriais] = definicao;
+            SalvarcMateriais(org,definicao);
+            format(string,sizeof(string),"Defina a quantidade que paga por %d Materiais",CofreOrg[org][cMateriais]);
+            ShowPlayerDialog(playerid, 8855, DIALOG_STYLE_INPUT, "Definicao", string, "Salvar", "Cancelar");
+            return true;
+        }
+    }
+
+    if(dialogid == 8851)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            CofreOrg[org][cMaconha] = definicao;
+            SalvarcMaconha(org,definicao);
+            format(string,sizeof(string),"Defina a quantidade que paga por %d Maconhas",CofreOrg[org][cMaconha]);
+            ShowPlayerDialog(playerid, 8860, DIALOG_STYLE_INPUT, "Definicao", string, "Salvar", "Cancelar");
+            return true;
+        }
+    }
+    if(dialogid == 8860)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            CofreOrg[org][mMaconha] = definicao;
+            SalvarmMaconha(org,definicao);
+            format(string,sizeof(string),"â€¢|SERVER|» Voce paga R$%s por %d Maconhas.",ConvertMoney(CofreOrg[org][mMaconha]), CofreOrg[org][cMaconha]);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+
+    if(dialogid == 8855)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new definicao = strval(inputtext);
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            CofreOrg[org][mMateriais] = definicao;
+            SalvarmMateriais(org,definicao);
+            format(string,sizeof(string),"â€¢|SERVER|» Voce paga R$%s por %d materiais.",ConvertMoney(CofreOrg[org][mMateriais]), CofreOrg[org][cMateriais]);
+            SendClientMessage(playerid, COR_LIGHTBLUE, string);
+            return true;
+        }
+    }
+    if(dialogid == 8553)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Eagle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dEaglec4]);
+                ShowPlayerDialog(playerid, 8675, DIALOG_STYLE_INPUT, "Definicao de Eagle", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de ShotGun\nAtualmente esta definido em: %d Balas",CofreOrg[org][dShotc4]);
+                ShowPlayerDialog(playerid, 8676, DIALOG_STYLE_INPUT, "Definicao de ShotGun", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de MP5\nAtualmente esta definido em: %d Balas",CofreOrg[org][dMP5c4]);
+                ShowPlayerDialog(playerid, 8677, DIALOG_STYLE_INPUT, "Definicao de MP5", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de AK47\nAtualmente esta definido em: %d Balas",CofreOrg[org][dAKc4]);
+                ShowPlayerDialog(playerid, 8678, DIALOG_STYLE_INPUT, "Definicao de AK47", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Rifle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dRiflec4]);
+                ShowPlayerDialog(playerid, 8679, DIALOG_STYLE_INPUT, "Definicao de Rifle", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    if(dialogid == 8675)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec4] = definicao;
+            dSalvarEaglec4(org,definicao);
+            ShowPlayerDialog(playerid, 8553, DIALOG_STYLE_LIST, "Definicoes para Cargo 4", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8676)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc4] = definicao;
+            dSalvarShotc4(org,definicao);
+            ShowPlayerDialog(playerid, 8553, DIALOG_STYLE_LIST, "Definicoes para Cargo 4", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8677)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c4] = definicao;
+            dSalvarMP5c4(org,definicao);
+            ShowPlayerDialog(playerid, 8553, DIALOG_STYLE_LIST, "Definicoes para Cargo 4", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8678)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc4] = definicao;
+            dSalvarAKc4(org,definicao);
+            ShowPlayerDialog(playerid, 8553, DIALOG_STYLE_LIST, "Definicoes para Cargo 4", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8679)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec4] = definicao;
+            dSalvarRiflec4(org,definicao);
+            ShowPlayerDialog(playerid, 8553, DIALOG_STYLE_LIST, "Definicoes para Cargo 4", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8549)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 500)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu o total de maconha para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMaconha] = definicao;
+            dSalvarMaconha(org,definicao);
+        }
+        return true;
+    }
+
+    if(dialogid == 8555)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec1] = definicao;
+        }
+        return true;
+    }
+    if(dialogid == 8556)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc1] = definicao;
+        }
+        return true;
+    }
+    if(dialogid == 8557)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c1] = definicao;
+        }
+        return true;
+    }
+    if(dialogid == 8558)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc1] = definicao;
+        }
+        return true;
+    }
+    if(dialogid == 8559)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec1] = definicao;
+        }
+        return true;
+    }
+    if(dialogid == 8550)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Eagle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dEaglec1]);
+                ShowPlayerDialog(playerid, 8560, DIALOG_STYLE_INPUT, "Definicao de Eagle", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de ShotGun\nAtualmente esta definido em: %d Balas",CofreOrg[org][dShotc1]);
+                ShowPlayerDialog(playerid, 8561, DIALOG_STYLE_INPUT, "Definicao de ShotGun", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de MP5\nAtualmente esta definido em: %d Balas",CofreOrg[org][dMP5c1]);
+                ShowPlayerDialog(playerid, 8562, DIALOG_STYLE_INPUT, "Definicao de MP5", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de AK47\nAtualmente esta definido em: %d Balas",CofreOrg[org][dAKc1]);
+                ShowPlayerDialog(playerid, 8563, DIALOG_STYLE_INPUT, "Definicao de AK47", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Rifle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dRiflec1]);
+                ShowPlayerDialog(playerid, 8564, DIALOG_STYLE_INPUT, "Definicao de Rifle", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+    if(dialogid == 8560)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec1] = definicao;
+            dSalvarEaglec1(org,definicao);
+            ShowPlayerDialog(playerid, 8550, DIALOG_STYLE_LIST, "Definicoes para Cargo 1", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+
+    if(dialogid == 8561)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc1] = definicao;
+            dSalvarShotc1(org,definicao);
+            ShowPlayerDialog(playerid, 8550, DIALOG_STYLE_LIST, "Definicoes para Cargo 1", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8562)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c1] = definicao;
+            dSalvarMP5c1(org,definicao);
+            ShowPlayerDialog(playerid, 8550, DIALOG_STYLE_LIST, "Definicoes para Cargo 1", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8563)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc1] = definicao;
+            dSalvarAKc1(org,definicao);
+            ShowPlayerDialog(playerid, 8550, DIALOG_STYLE_LIST, "Definicoes para Cargo 1", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8564)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec1] = definicao;
+            dSalvarRiflec1(org,definicao);
+            ShowPlayerDialog(playerid, 8550, DIALOG_STYLE_LIST, "Definicoes para Cargo 1", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+
+    if(dialogid == 8551)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Eagle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dEaglec2]);
+                ShowPlayerDialog(playerid, 8565, DIALOG_STYLE_INPUT, "Definicao de Eagle", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de ShotGun\nAtualmente esta definido em: %d Balas",CofreOrg[org][dShotc2]);
+                ShowPlayerDialog(playerid, 8566, DIALOG_STYLE_INPUT, "Definicao de ShotGun", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de MP5\nAtualmente esta definido em: %d Balas",CofreOrg[org][dMP5c2]);
+                ShowPlayerDialog(playerid, 8567, DIALOG_STYLE_INPUT, "Definicao de MP5", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de AK47\nAtualmente esta definido em: %d Balas",CofreOrg[org][dAKc2]);
+                ShowPlayerDialog(playerid, 8568, DIALOG_STYLE_INPUT, "Definicao de AK47", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Rifle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dRiflec2]);
+                ShowPlayerDialog(playerid, 8569, DIALOG_STYLE_INPUT, "Definicao de Rifle", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    if(dialogid == 8565)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec2] = definicao;
+            dSalvarEaglec2(org,definicao);
+            ShowPlayerDialog(playerid, 8551, DIALOG_STYLE_LIST, "Definicoes para Cargo 2", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8566)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc2] = definicao;
+            dSalvarShotc2(org,definicao);
+            ShowPlayerDialog(playerid, 8551, DIALOG_STYLE_LIST, "Definicoes para Cargo 2", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8567)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c2] = definicao;
+            dSalvarMP5c2(org,definicao);
+            ShowPlayerDialog(playerid, 8551, DIALOG_STYLE_LIST, "Definicoes para Cargo 2", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8568)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc2] = definicao;
+            dSalvarAKc2(org,definicao);
+            ShowPlayerDialog(playerid, 8551, DIALOG_STYLE_LIST, "Definicoes para Cargo 2", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8569)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec2] = definicao;
+            dSalvarRiflec2(org,definicao);
+            ShowPlayerDialog(playerid, 8551, DIALOG_STYLE_LIST, "Definicoes para Cargo 2", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8552)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Eagle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dEaglec3]);
+                ShowPlayerDialog(playerid, 8570, DIALOG_STYLE_INPUT, "Definicao de Eagle", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de ShotGun\nAtualmente esta definido em: %d Balas",CofreOrg[org][dShotc3]);
+                ShowPlayerDialog(playerid, 8571, DIALOG_STYLE_INPUT, "Definicao de ShotGun", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de MP5\nAtualmente esta definido em: %d Balas",CofreOrg[org][dMP5c3]);
+                ShowPlayerDialog(playerid, 8572, DIALOG_STYLE_INPUT, "Definicao de MP5", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de AK47\nAtualmente esta definido em: %d Balas",CofreOrg[org][dAKc3]);
+                ShowPlayerDialog(playerid, 8573, DIALOG_STYLE_INPUT, "Definicao de AK47", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Rifle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dRiflec3]);
+                ShowPlayerDialog(playerid, 8574, DIALOG_STYLE_INPUT, "Definicao de Rifle", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+
+    if(dialogid == 8570)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec3] = definicao;
+            dSalvarEaglec3(org,definicao);
+            ShowPlayerDialog(playerid, 8552, DIALOG_STYLE_LIST, "Definicoes para Cargo 3", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8571)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc3] = definicao;
+            dSalvarShotc3(org,definicao);
+            ShowPlayerDialog(playerid, 8552, DIALOG_STYLE_LIST, "Definicoes para Cargo 3", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8572)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c3] = definicao;
+            dSalvarMP5c3(org,definicao);
+            ShowPlayerDialog(playerid, 8552, DIALOG_STYLE_LIST, "Definicoes para Cargo 3", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8573)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc3] = definicao;
+            dSalvarAKc3(org,definicao);
+            ShowPlayerDialog(playerid, 8552, DIALOG_STYLE_LIST, "Definicoes para Cargo 3", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8574)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec3] = definicao;
+            dSalvarRiflec3(org,definicao);
+            ShowPlayerDialog(playerid, 8552, DIALOG_STYLE_LIST, "Definicoes para Cargo 3", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8554)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao", "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(listitem == 0)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Eagle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dEaglec5]);
+                ShowPlayerDialog(playerid, 8575, DIALOG_STYLE_INPUT, "Definicao de Eagle", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 1)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de ShotGun\nAtualmente esta definido em: %d Balas",CofreOrg[org][dShotc5]);
+                ShowPlayerDialog(playerid, 8576, DIALOG_STYLE_INPUT, "Definicao de ShotGun", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 2)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de MP5\nAtualmente esta definido em: %d Balas",CofreOrg[org][dMP5c5]);
+                ShowPlayerDialog(playerid, 8577, DIALOG_STYLE_INPUT, "Definicao de MP5", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 3)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de AK47\nAtualmente esta definido em: %d Balas",CofreOrg[org][dAKc5]);
+                ShowPlayerDialog(playerid, 8578, DIALOG_STYLE_INPUT, "Definicao de AK47", string, "Salvar", "Cancelar");
+                return true;
+            }
+            if(listitem == 4)
+            {
+                format(string,sizeof(string),"Defina a quantidade de Balas de Rifle\nAtualmente esta definido em: %d Balas",CofreOrg[org][dRiflec5]);
+                ShowPlayerDialog(playerid, 8579, DIALOG_STYLE_INPUT, "Definicao de Rifle", string, "Salvar", "Cancelar");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    if(dialogid == 8575)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Eagle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dEaglec5] = definicao;
+            dSalvarEaglec5(org,definicao);
+            ShowPlayerDialog(playerid, 8554, DIALOG_STYLE_LIST, "Definicoes para Cargo 5 e Lideres", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8576)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de ShotGun para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dShotc5] = definicao;
+            dSalvarShotc5(org,definicao);
+            ShowPlayerDialog(playerid, 8554, DIALOG_STYLE_LIST, "Definicoes para Cargo 5 e Lideres", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8577)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de MP5 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dMP5c5] = definicao;
+            dSalvarMP5c5(org,definicao);
+            ShowPlayerDialog(playerid, 8554, DIALOG_STYLE_LIST, "Definicoes para Cargo 5 e Lideres", "Balas de Eagle\nBalas de ShotGun\nBalas de MP\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8578)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de AK47 para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dAKc5] = definicao;
+            dSalvarAKc5(org,definicao);
+            ShowPlayerDialog(playerid, 8554, DIALOG_STYLE_LIST, "Definicoes para Cargo 5 e Lideres", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+    if(dialogid == 8579)
+    {
+        if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+        new org = GetPlayerOrg(playerid);
+        new definicao = strval(inputtext);
+        if(response >= 1)
+        {
+            if(definicao > 800)
+            {
+                SendClientMessage(playerid,COR_LIGHTRED,"[ERRO] Voce definiu um Valor muito alto");
+                return 1;
+            }
+            if(definicao < 1)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            format(string,sizeof(string),"Voce definiu balas de Rifle para: %d.",definicao);
+            SendClientMessage(playerid,COR_LIGHTBLUE,string);
+            CofreOrg[org][dRiflec5] = definicao;
+            dSalvarRiflec5(org,definicao);
+            ShowPlayerDialog(playerid, 8554, DIALOG_STYLE_LIST, "Definicoes para Cargo 5 e Lideres", "Balas de Eagle\nBalas de ShotGun\nBalas de MP5\nBalas de AK", "Selecionar", "Sair");
+        }
+        return true;
+    }
+
+    if(dialogid == 1333)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            return ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+        }
+        if(response >= 1)
+        {
+            format(string,sizeof(string),"O Saldo da Sua Organizacao e de R$%s\nQuantos Voce deseja Depositar ?",ConvertMoney(CofreOrg[org][Dinheiro]));
+            ShowPlayerDialog(playerid, 1999, DIALOG_STYLE_INPUT, "Cofre da Organizacao", string, "Depositar", "Cancelar");
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 1444)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            return ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+        }
+        if(response >= 1)
+        {
+            format(string,sizeof(string),"A Sua Organizacao tem %d de Materiais\nQuantos Voce deseja Depositar ?",CofreOrg[org][Materiais]);
+            ShowPlayerDialog(playerid, 2111, DIALOG_STYLE_INPUT, "Cofre da Organizacao", string, "Depositar", "Cancelar");
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 1555)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            return ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+        }
+        if(response >= 1)
+        {
+            format(string,sizeof(string),"A Sua Organizacao tem %d de Maconha\nQuantos Voce deseja Depositar ?",CofreOrg[org][Maconha]);
+            ShowPlayerDialog(playerid, 22221, DIALOG_STYLE_INPUT, "Cofre da Organizacao", string, "Depositar", "Cancelar");
+            return true;
+        }
+        return true;
+    }
+
+    if(dialogid == 1666)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            return ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+        }
+        if(response >= 1)
+        {
+            format(string,sizeof(string),"A Sua Organizacao tem %d de Cocaina\nQuantos Voce deseja Depositar ?",CofreOrg[org][Cocaina]);
+            ShowPlayerDialog(playerid, 2444, DIALOG_STYLE_INPUT, "Cofre da Organizacao", string, "Depositar", "Cancelar");
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 177)
+    {
+        if(!response)
+        {
+            GameTextForPlayer(playerid, "~b~Voce nao Vinculou nenhum Discord", 2500, 3);
+            MostrarTutorialConcluido(playerid);
+            return 1;
+        }
+        if(response >= 1)
+        {
+            if(strlen(inputtext) == 0)
+            {
+                GameTextForPlayer(playerid, "~b~Voce nao Cadastrou nenhum Discord", 2500, 3);
+                MostrarTutorialConcluido(playerid);
+                return 1;
+            }
+            VincularDiscord(playerid, inputtext);
+            MostrarTutorialConcluido(playerid);
+            return 1;
+        }
+        return 1;
+    }
+
+
+    if(dialogid == 15624)
+    {
+        if(!response)
+        {
+            new tvstring[500];
+            format(tvstring, sizeof(tvstring), "~b~Voce nao Cadastrou nenhum Email");
+            GameTextForPlayer(playerid, tvstring, 2500, 3);
+            return 1;
+        }
+        if(response >= 1)
+        {
+            if(strlen(inputtext) == 0)
+            {
+                new tvstring[500];
+                format(tvstring, sizeof(tvstring), "~b~Voce nao Cadastrou nenhum Email");
+                GameTextForPlayer(playerid, tvstring, 2500, 3);
+                return 1;
+            }
+            if(!InputEmail(playerid, inputtext))
+            {
+                new tvstring[500];
+                format(tvstring, sizeof(tvstring), "~w~E-mail ~g~Cadastrado.");
+                GameTextForPlayer(playerid, tvstring, 2500, 3);
+                strmid(PlayerInfo[playerid][pEmail],inputtext,0,strlen(inputtext), 128);
+            }
+            return 1;
+        }
+        return 1;
+    }
+
+    if(dialogid == 1777)
+    {
+        new org = GetPlayerOrg(playerid);
+        if(response == 0)
+        {
+            return ShowPlayerDialog(playerid, 8547, DIALOG_STYLE_LIST, "Definicoes da Organizacao",
+                "Definir Quantia Maconha\nPedido Materiais\nPedido Maconha\nSalarios\nDrogas/Dinheiro", "Selecionar", "Voltar");
+        }
+        if(response >= 1)
+        {
+            format(string,sizeof(string),"A Sua Organizacao tem %d de Crack\nQuantos Voce deseja Depositar ?",CofreOrg[org][Crack]);
+            ShowPlayerDialog(playerid, 2666, DIALOG_STYLE_INPUT, "Cofre da Organizacao", string, "Depositar", "Cancelar");
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 1999)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new depgrana = strval(inputtext);
+            if(GetPlayerMoney(playerid) < depgrana)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Voce nao tem tudo isso!");
+                return true;
+            }
+            if(depgrana < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(depgrana > 0)
+            {
+                if(GetPlayerMoney(playerid) >= depgrana)
+                {
+                    GivePlayerMoneyEx(playerid, -depgrana);
+                    DepositarGranaOrg(org,depgrana);
+                    format(string,sizeof(string),"Voce Depositou R$%s, o Novo Saldo e de R$%s",ConvertMoney(depgrana),ConvertMoney(CofreOrg[org][Dinheiro]));
+                    SendClientMessage(playerid,COR_AMARELO,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 1888)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new sacgrana = strval(inputtext);
+            if(sacgrana > CofreOrg[org][Dinheiro])
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Sua Organizacao nao tem tudo isso!");
+                return true;
+            }
+            if(PlayerInfo[playerid][pCargo] < 5 && PlayerInfo[playerid][pLider] < 1)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Somente Lider e Sub-Lider Podem Sacar Dinheiro");
+                return true;
+            }
+            if(sacgrana > 0)
+            {
+                if(sacgrana <= CofreOrg[org][Dinheiro])
+                {
+
+                    format(string,sizeof(string),"Mesmo sendo SUB ou Lider,nao e autorizado sacar dinheiro da HQ!",sacgrana,CofreOrg[org][Dinheiro]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2111)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new depmat = strval(inputtext);
+            new pMateriais = PlayerInfo[playerid][pMats];
+            if(pMateriais < depmat)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Voce nao tem tudo isso!");
+                return true;
+            }
+            if(depmat < 0)return SendClientMessage(playerid, COR_GRAD1, "Valor invalido!");
+            if(depmat > 0)
+            {
+                if(pMateriais >= depmat)
+                {
+                    PlayerInfo[playerid][pMats] = pMateriais-depmat;
+                    DepositarMaterialOrg(org,depmat);
+                    format(string,sizeof(string),"Voce Depositou %d de Materiais, o Novo Saldo de Materiais e de %d",depmat,CofreOrg[org][Materiais]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2000)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new sacmat = strval(inputtext);
+            if(sacmat > CofreOrg[org][Materiais])
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Sua Organizacao nao tem tudo isso!");
+                return true;
+            }
+            if(PlayerInfo[playerid][pCargo] < 5 && PlayerInfo[playerid][pLider] < 1)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Somente Lider e Sub-Lider Podem Sacar Materiais");
+                return true;
+            }
+            if(sacmat > 0)
+            {
+                if(sacmat <= CofreOrg[org][Materiais])
+                {
+                    format(string,sizeof(string),"Mesmo sendo SUB ou Lider,nao e autorizado sacar materiais da HQ!",sacmat,CofreOrg[org][Materiais]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 22221)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new depmac = strval(inputtext);
+            new ContarMaconha;
+            new slot;
+            for(new i=0; i<15; i++)
+            {
+                if(InventarioInfo[playerid][i][iSlot] == 1578)
+                {
+                    slot = i;
+                    ContarMaconha = InventarioInfo[playerid][i][iUnidades];
+                    SendClientMessage(playerid, -1, "Para Depositar Combine todas as unidades!");
+                    break;
+                }
+            }
+            new QuantidadeMaconha = ContarMaconha;
+            if(QuantidadeMaconha < depmac)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Voce nao tem tudo isso!");
+                return true;
+            }
+            if(depmac > 0)
+            {
+                if(QuantidadeMaconha >= depmac)
+                {
+                    InventarioInfo[playerid][slot][iUnidades] = QuantidadeMaconha-depmac;
+                    if(InventarioInfo[playerid][slot][iUnidades] <= 0)
+                    {
+                        InventarioInfo[playerid][slot][iSlot] = 0;
+                        InventarioInfo[playerid][slot][iUnidades] = 0;
+                    }
+                    DepositarMaconhaOrg(org,depmac);
+                    format(string,sizeof(string),"Voce Depositou %d de Maconha, o Novo Saldo de Maconha e de %d",depmac,CofreOrg[org][Maconha]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2333)
+    {
+        if(response == 0)
+        {
+            return true;
+        }
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new sacmac = strval(inputtext);
+            if(sacmac > CofreOrg[org][Maconha])
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Sua Organizacao nao tem tudo isso!");
+                return true;
+            }
+            if(PlayerInfo[playerid][pCargo] < 5 && PlayerInfo[playerid][pLider] < 1)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Somente Lider e Sub-Lider Podem Sacar Maconha");
+                return true;
+            }
+            if(sacmac > 0)
+            {
+                if(sacmac <= CofreOrg[org][Maconha])
+                {
+                    for(new i=0; i<15; i++)
+                    {
+                        if(InventarioInfo[playerid][i][iSlot] == 19382)
+                        {
+                            InventarioInfo[playerid][i][iSlot] = 1578;
+                            InventarioInfo[playerid][i][iUnidades] = sacmac;
+                            break;
+                        }
+                    }
+                    SacarMaconhaOrg(org,sacmac);
+                    format(string,sizeof(string),"Voce Sacou %d de Maconha, o Novo Saldo de Maconha e de %d",sacmac,CofreOrg[org][Maconha]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2444)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new depcoca = strval(inputtext);
+            new ContarCoca;
+            new slot;
+            for(new i=0; i<15; i++)
+            {
+                if(InventarioInfo[playerid][i][iSlot] == 1279)
+                {
+                    slot = i;
+                    ContarCoca += InventarioInfo[playerid][i][iUnidades];
+                    SendClientMessage(playerid, -1, "Para Depositar Combine todas as unidades!");
+                    break;
+                }
+            }
+            new QuantidadeCocaina = ContarCoca;
+            if(QuantidadeCocaina < depcoca)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Voce nao tem tudo isso!");
+                return true;
+            }
+            if(depcoca > 0)
+            {
+                if(QuantidadeCocaina >= depcoca)
+                {
+                    InventarioInfo[playerid][slot][iUnidades] = QuantidadeCocaina-depcoca;
+                    if(InventarioInfo[playerid][slot][iUnidades] <= 0)
+                    {
+                        InventarioInfo[playerid][slot][iSlot] = 0;
+                        InventarioInfo[playerid][slot][iUnidades] = 0;
+                    }
+                    DepositarCocainaOrg(org,depcoca);
+                    format(string,sizeof(string),"Voce Depositou %d de Cocaina, o Novo Saldo de Cocaina e de %d",depcoca,CofreOrg[org][Cocaina]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2555)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new saccoca = strval(inputtext);
+            if(saccoca > CofreOrg[org][Cocaina])
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Sua Organizacao nao tem tudo isso!");
+                return true;
+            }
+            if(PlayerInfo[playerid][pCargo] < 5 && PlayerInfo[playerid][pLider] < 1)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Somente Lider e Sub-Lider Podem Sacar Cocaina");
+                return true;
+            }
+            if(saccoca > 0)
+            {
+                if(saccoca <= CofreOrg[org][Cocaina])
+                {
+                    for(new i=0; i<15; i++)
+                    {
+                        if(InventarioInfo[playerid][i][iSlot] == 19382)
+                        {
+                            InventarioInfo[playerid][i][iSlot] = 1279;
+                            InventarioInfo[playerid][i][iUnidades] = saccoca;
+                            break;
+                        }
+                    }
+                    SacarCocainaOrg(org,saccoca);
+                    format(string,sizeof(string),"Voce Sacou %d de Cocaina, o Novo Saldo de Cocaina e de %d",saccoca,CofreOrg[org][Cocaina]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2666)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new depcrac = strval(inputtext);
+            new ContarCrack;
+            new slot;
+            for(new i=0; i<15; i++)
+            {
+                if(InventarioInfo[playerid][i][iSlot] == 1575)
+                {
+                    slot = i;
+                    ContarCrack += InventarioInfo[playerid][i][iUnidades];
+                    SendClientMessage(playerid, -1, "Para Depositar Combine todas as unidades!");
+                    break;
+                }
+            }
+            new QuantidadeCrack = ContarCrack;
+            if(QuantidadeCrack < depcrac)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Voce nao tem tudo isso!");
+                return true;
+            }
+            if(depcrac > 0)
+            {
+                if(QuantidadeCrack >= depcrac)
+                {
+                    InventarioInfo[playerid][slot][iUnidades] = QuantidadeCrack-depcrac;
+                    if(InventarioInfo[playerid][slot][iUnidades] <= 0)
+                    {
+                        InventarioInfo[playerid][slot][iSlot] = 0;
+                        InventarioInfo[playerid][slot][iUnidades] = 0;
+                    }
+                    DepositarCrackOrg(org,depcrac);
+                    format(string,sizeof(string),"Voce Depositou %d de Crack, o Novo Saldo de Crack e de %d",depcrac,CofreOrg[org][Crack]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+    if(dialogid == 2777)
+    {
+        if(response >= 1)
+        {
+            if(strfind(inputtext,"%",true) != -1) return SendClientMessage(playerid, COR_VERMELHO, "Voce nao pode utilizar caracteres especiais.");
+            new org = GetPlayerOrg(playerid);
+            new saccrac = strval(inputtext);
+            if(saccrac > CofreOrg[org][Crack])
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Sua Organizacao nao tem tudo isso!");
+                return true;
+            }
+            if(PlayerInfo[playerid][pCargo] < 555 && PlayerInfo[playerid][pCargo] < 444 && PlayerInfo[playerid][pLider] < 1)
+            {
+                SendClientMessage(playerid,COR_GRAD1,"Somente Lider e Sub-Lider Podem Sacar Crack");
+                return true;
+            }
+            if(saccrac > 0)
+            {
+                if(saccrac <= CofreOrg[org][Crack])
+                {
+                    for(new i=0; i<15; i++)
+                    {
+                        if(InventarioInfo[playerid][i][iSlot] == 19382)
+                        {
+                            InventarioInfo[playerid][i][iSlot] = 1575;
+                            InventarioInfo[playerid][i][iUnidades] = saccrac;
+                            break;
+                        }
+                    }
+                    SacarCrackOrg(org,saccrac);
+                    format(string,sizeof(string),"Voce Sacou %d de Crack, o Novo Saldo de Crack e de %d",saccrac,CofreOrg[org][Crack]);
+                    SendClientMessage(playerid,COR_GRAD1,string);
+                    return true;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
