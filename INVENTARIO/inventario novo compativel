@@ -1,5 +1,5 @@
 
-invText[playerid][0] = CreatePlayerTextDraw(playerid, 13.690, 143.110, "box");
+invText[playerid][0] = CreatePlayerTextDraw(playerid, 13.690, 143.110, "_");
 PlayerTextDrawLetterSize(playerid, invText[playerid][0], 0.4800, 18.8011);
 PlayerTextDrawTextSize(playerid, invText[playerid][0], 257.061, 0.000);
 PlayerTextDrawAlignment(playerid, invText[playerid][0], 1);
@@ -400,7 +400,7 @@ PlayerTextDrawFont(playerid, invText[playerid][6], 2);
 PlayerTextDrawSetProportional(playerid, invText[playerid][6], 1);
 PlayerTextDrawSetSelectable(playerid, invText[playerid][6], 1);
 
-invText[playerid][7] = CreatePlayerTextDraw(playerid, 258.100, 181.568, "box");
+invText[playerid][7] = CreatePlayerTextDraw(playerid, 258.100, 181.568, "_");
 PlayerTextDrawLetterSize(playerid, invText[playerid][7], 0.4800, 13.5892);
 PlayerTextDrawTextSize(playerid, invText[playerid][7], 352.495, 0.000);
 PlayerTextDrawAlignment(playerid, invText[playerid][7], 1);
