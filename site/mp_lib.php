@@ -7,7 +7,7 @@ function mpConfig(): array {
         throw new RuntimeException('Configuração privada do Mercado Pago não instalada.');
     }
     $config = require $path;
-    if (!is_array($config) || empty($config['access_token']) || empty($config['private_dir']) || empty($config['coins_dir']) || empty($config['base_url'])) {
+    if (!is_array($config) || empty($config['access_token']) || empty($config['webhook_secret']) || empty($config['private_dir']) || empty($config['coins_dir']) || empty($config['base_url'])) {
         throw new RuntimeException('Configuração do Mercado Pago incompleta.');
     }
     return $config;
