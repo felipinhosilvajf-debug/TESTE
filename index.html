@@ -781,12 +781,12 @@ document.addEventListener('keydown',function(e){
   if(mobile){
    stage.style.left=isAbout?'4vw':'6vw';
    stage.style.top=isAbout?'22vh':isHero?'70vh':'47vh';
-   stage.style.transform='translate3d(0,-50%,0) scale('+(isAbout?.66:isHero?.72:.56)+')';
+   stage.style.transform='translate3d(0,-50%,0) scale('+(isAbout ? .66 : isHero ? .72 : .56)+')';
    stage.style.opacity=isAbout?'.34':isHero?'.43':isStory?'.34':isAfterAbout?'.20':'.28';
   }else{
    stage.style.left=isHero?'39vw':isAbout?'-10vw':isStory?'-9vw':isAfterAbout?'-19vw':'-9vw';
    stage.style.top=isHero?'48vh':isAbout?'51vh':'50vh';
-   stage.style.transform='translate3d(0,-50%,0) scale('+(isHero?'.88':isAbout?'1.02':isStory?'.82':'.68')+')';
+   stage.style.transform='translate3d(0,-50%,0) scale('+(isHero ? '.88' : isAbout ? '1.02' : isStory ? '.82' : '.68')+')';
    stage.style.opacity=isHero?'.94':isAbout?'.96':isStory?'.78':isAfterAbout?'.36':'.68';
   }
   stage.style.visibility='visible';
