@@ -784,7 +784,7 @@ document.addEventListener('keydown',function(e){
    stage.style.transform='translate3d(0,-50%,0) scale('+(isAbout ? .66 : isHero ? .72 : .56)+')';
    stage.style.opacity=isAbout?'.34':isHero?'.43':isStory?'.34':isAfterAbout?'.20':'.28';
   }else{
-   stage.style.left=isHero?'39vw':isAbout?'-10vw':isStory?'-9vw':isAfterAbout?'-19vw':'-9vw';
+   stage.style.left=isHero?'43vw':isAbout?'-20vw':isStory?'-16vw':isAfterAbout?'-24vw':'-16vw';
    stage.style.top=isHero?'48vh':isAbout?'51vh':'50vh';
    stage.style.transform='translate3d(0,-50%,0) scale('+(isHero ? '.88' : isAbout ? '1.02' : isStory ? '.82' : '.68')+')';
    stage.style.opacity=isHero?'.94':isAbout?'.96':isStory?'.78':isAfterAbout?'.36':'.68';
@@ -812,7 +812,7 @@ header:after{content:"";position:absolute;left:0;bottom:-1px;width:28%;height:1p
 .hero{min-height:100svh;padding-top:74px;background:#060b12}
 .hero:before{background:linear-gradient(90deg,rgba(3,7,13,.96),rgba(3,7,13,.78) 42%,rgba(3,7,13,.18)),linear-gradient(0deg,#070b12,transparent 45%)}
 .hero:after{background:radial-gradient(ellipse at 76% 50%,rgba(37,217,242,.18),transparent 35%),linear-gradient(110deg,transparent 55%,rgba(37,217,242,.04))}
-.hero-content{max-width:620px;padding-top:105px}
+.hero-content{max-width:620px;padding-top:105px;z-index:5}
 .eyebrow{padding:9px 12px;border:1px solid rgba(37,217,242,.32);background:#07131bcc;font-size:9px;letter-spacing:2.8px}
 h1{font-size:clamp(76px,11vw,148px);line-height:.79;letter-spacing:-3px;margin:26px 0}
 h1 span{color:var(--cyan);text-shadow:0 0 34px #25d9f255}
@@ -826,7 +826,7 @@ h1 span{color:var(--cyan);text-shadow:0 0 34px #25d9f255}
 .story-scene{min-height:94vh;align-items:center;border-top:1px solid #ffffff10;background-color:#0b121c}
 .story-scene:before{filter:saturate(.72) contrast(1.15);transform:scale(1.1)}
 .story-scene:after{background:linear-gradient(90deg,rgba(3,7,13,.22),rgba(3,7,13,.78) 56%,rgba(3,7,13,.96)),linear-gradient(0deg,#070b12,transparent 55%)}
-.scene-content{width:min(1180px,90%);padding:120px 0 100px;margin-left:auto;margin-right:4%;max-width:54%}
+.scene-content{z-index:5;width:min(1180px,90%);padding:120px 0 100px;margin-left:auto;margin-right:4%;max-width:54%}
 .scene-number{color:var(--cyan);font-size:9px;letter-spacing:3.4px}
 .scene-title{font-size:clamp(76px,10vw,142px);line-height:.75;letter-spacing:-2px;margin:25px 0;text-shadow:0 10px 40px #0009}
 .scene-title em{color:var(--cyan);text-shadow:0 0 30px #25d9f244}
@@ -844,7 +844,7 @@ section:not(.hero):not(.story-scene){padding:112px 0}
 .about-rp{position:relative;min-height:100vh;display:flex;align-items:center;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 8% 50%,#12324170,transparent 44%),linear-gradient(110deg,#080e16,#0b121c 58%,#080e16)}
 .about-rp:before{content:"VB / CITY LIFE";position:absolute;left:3%;top:12%;font-family:"Barlow Condensed";font-size:clamp(65px,12vw,170px);font-weight:900;letter-spacing:-5px;color:#d7f8ff08;white-space:nowrap;pointer-events:none}
 .about-rp:after{content:"";position:absolute;left:0;top:12%;bottom:12%;width:2px;background:linear-gradient(transparent,var(--cyan),transparent);box-shadow:0 0 20px #25d9f266}
-.about-wrap{position:relative;z-index:2;width:min(1160px,90%);margin-left:auto;margin-right:4%;padding-left:0;max-width:58%}
+.about-wrap{position:relative;z-index:5;width:min(1160px,90%);margin-left:auto;margin-right:4%;padding-left:0;max-width:58%}
 .about-rp .section-title{max-width:650px}
 .about-rp .section-desc{max-width:570px}
 .features{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:38px}
@@ -881,7 +881,7 @@ section:not(.hero):not(.story-scene){padding:112px 0}
 .join h2{font-size:clamp(48px,6vw,76px);line-height:.86}
 footer{background:#05090f;border-top:1px solid #25d9f233;padding:38px 0}
 .foot{font-size:9px;letter-spacing:.7px}
-.car-scroll-stage{width:min(58vw,780px)!important;height:min(47vw,510px)!important;z-index:4!important}
+.car-scroll-stage{width:min(58vw,780px)!important;height:min(47vw,510px)!important;z-index:3!important}
 .car-scroll-stage .vb-car-3d{min-height:360px}
 .car-scroll-stage .car-aura{width:72%;background:#18cde82c;filter:blur(90px)}
 .car-scroll-stage .car-label{color:#a9f6ff;font-size:8px;letter-spacing:2.5px;text-shadow:0 2px 10px #000}
