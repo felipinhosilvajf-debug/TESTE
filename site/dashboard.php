@@ -72,6 +72,7 @@ main{padding:38px 0 70px}.eyebrow,.section-kicker{font-size:10px;font-weight:800
 <header class="topbar"><div class="shell topinner">
   <a class="brand" href="../index.html">BRASIL <span>VIRTUAL BOOST</span></a>
   <div class="topmeta">Central do cidadão · Área autenticada</div>
+  <a href="loja.php" style="padding:11px 15px;border:1px solid rgba(233,200,121,.55);border-radius:5px;color:#e9c879;font-size:10px;font-weight:900;letter-spacing:.7px">APOIAR O PROJETO ✦</a>
   <a class="logout" href="logout.php">SAIR DA CONTA ↗</a>
 </div></header>
 <main class="shell">
