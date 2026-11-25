@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090d18">
+<meta name="theme-color" content="#020912">
 <meta name="description" content="Entre no novo servidor de RPG SAMP para Android e PC. Escolha sua organização e escreva sua história.">
 <title>Virtual Boost — RP SAMP</title>
 <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
@@ -270,6 +270,92 @@ footer{background:#030604;border-top:1px solid #b7ff3222}
 @media(prefers-reduced-motion:reduce){.car-model,.car-wheel,.car-aura,.bullet-tracer{animation:none!important}.reveal3d{opacity:1;transform:none}}
 
 </style>
+
+<!-- EVOLUÇÃO VISUAL CYAN / BLACK + INTERAÇÕES -->
+<style>
+:root{--bg:#020912;--panel:#071522;--muted:#9db5c9;--text:#effaff;--green:#00e5ff;--cyan:#00e5ff;--line:rgba(0,229,255,.16)}
+html{scroll-padding-top:85px}
+body{background:#020912}
+header{background:rgba(2,9,18,.72);border-bottom-color:rgba(0,229,255,.18);box-shadow:0 8px 35px rgba(0,0,0,.2)}
+header.scrolled{background:rgba(2,9,18,.94);border-bottom-color:rgba(0,229,255,.38);box-shadow:0 10px 45px rgba(0,229,255,.10)}
+.brand span,.navlinks a:hover,.section-tag,.eyebrow,.scene-number,.ip,.stat strong,.org small,.tag{color:#00e5ff}
+.nav-cta,.primary,.copy,.play{background:linear-gradient(110deg,#00e5ff,#00a9d6);color:#001018;box-shadow:0 0 24px rgba(0,229,255,.26)}
+.hero{background:#020912}
+.hero:after{background:radial-gradient(circle at 78% 45%,rgba(0,229,255,.22),transparent 32%)}
+h1 span,.scene-title em{color:#00e5ff;text-shadow:0 0 34px rgba(0,229,255,.36)}
+.ip-card{position:relative;overflow:hidden;border-color:rgba(0,229,255,.58);background:linear-gradient(110deg,rgba(0,229,255,.10),rgba(3,13,25,.92) 45%,rgba(0,229,255,.06));box-shadow:0 0 35px rgba(0,229,255,.15),inset 0 0 24px rgba(0,229,255,.06);animation:ipFloat 4s ease-in-out infinite}
+.ip-card:before{content:"";position:absolute;inset:-1px;pointer-events:none;background:linear-gradient(105deg,transparent 20%,rgba(0,229,255,.18) 48%,transparent 72%);transform:translateX(-120%);animation:ipScan 4s ease-in-out infinite}
+.ip{position:relative;display:inline-block;letter-spacing:1.8px;animation:ipGlow 2.2s ease-in-out infinite}
+.ip:after{content:"";position:absolute;right:-12px;top:20%;width:5px;height:60%;background:#00e5ff;box-shadow:0 0 12px #00e5ff;animation:ipBlink .85s steps(2) infinite}
+.ip-label{position:relative;color:#8deeff}
+.copy{position:relative;z-index:1;border:1px solid rgba(255,255,255,.35);transition:transform .25s,box-shadow .25s,filter .25s}
+.copy:hover{transform:translateY(-4px) scale(1.05);filter:brightness(1.18);box-shadow:0 0 28px rgba(0,229,255,.55)}
+.btn,.nav-cta,.platform-tab,.download-close{position:relative;overflow:hidden;isolation:isolate;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,filter .28s}
+.btn:before,.nav-cta:before,.platform-tab:before{content:"";position:absolute;z-index:-1;inset:-60% auto -60% -45%;width:35%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:left .65s}
+.btn:hover:before,.nav-cta:hover:before,.platform-tab:hover:before{left:130%}
+.btn:hover,.nav-cta:hover{transform:translateY(-5px) scale(1.035);filter:brightness(1.12);box-shadow:0 12px 32px rgba(0,229,255,.3)}
+.btn:active,.nav-cta:active{transform:translateY(1px) scale(.98)}
+.secondary:hover{border-color:#00e5ff;box-shadow:0 0 25px rgba(0,229,255,.2)}
+.feature,.org,.shot,.video-side,.download-card,.device-stage{border-color:rgba(0,229,255,.17);background-color:#061421}
+.feature:hover,.org:hover{border-color:rgba(0,229,255,.55);box-shadow:0 18px 48px rgba(0,229,255,.12);transform:translateY(-8px) rotateX(2deg)}
+.org:after{background:rgba(0,229,255,.14)}
+.tag{background:rgba(0,229,255,.1)}
+.story-scene{background-color:#030d18}
+.scene-number:before{background:#00e5ff;box-shadow:0 0 14px #00e5ff}
+.scene-stamp{border-color:rgba(0,229,255,.35);box-shadow:inset 0 0 20px rgba(0,229,255,.05)}
+.stats,.orgs{background:#06111d}
+.join{background:linear-gradient(110deg,rgba(0,229,255,.15),transparent 65%),#061421;border-color:rgba(0,229,255,.22)}
+.download-cta,.download-link{background:linear-gradient(105deg,#00e5ff,#008fc4 58%,#075b88);border-color:rgba(0,229,255,.5);box-shadow:0 10px 30px rgba(0,190,230,.22)}
+.download-card{background:radial-gradient(circle at 100% 0,rgba(0,229,255,.16),transparent 38%),linear-gradient(145deg,#0b2131,#020b15 72%);border-color:rgba(0,229,255,.35)}
+.download-card:before{background:linear-gradient(90deg,#00e5ff,#007da8,#00e5ff)}
+.download-card h2 span,.platform-copy h3 span{background:linear-gradient(90deg,#00f0ff,#008fc4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.download-kicker,.download-size strong,.mobile-kicker{color:#00e5ff}
+.download-size{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.22)}
+.download-check{background:linear-gradient(135deg,#00e5ff,#008fc4)}
+.platform-tab.active{border-color:rgba(0,229,255,.48);background:linear-gradient(110deg,rgba(0,229,255,.18),rgba(0,112,160,.2));box-shadow:0 4px 22px rgba(0,190,230,.17)}
+.mobile-note{border-color:rgba(0,229,255,.2);background:rgba(0,229,255,.06)}
+.car-stage{position:absolute;z-index:1;right:2%;top:50%;width:min(52vw,680px);height:min(38vw,440px);transform:translateY(-42%);display:flex;align-items:center;justify-content:center;pointer-events:auto}
+.car-aura{position:absolute;width:68%;aspect-ratio:1;border-radius:50%;background:rgba(0,210,255,.18);filter:blur(70px);animation:carAuraPulse 3s ease-in-out infinite}
+.vb-car-3d{position:relative;width:100%;height:100%;min-height:340px;--poster-color:transparent;background:transparent;filter:drop-shadow(0 28px 30px rgba(0,0,0,.55))}
+.car-loading{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#00e5ff;font:800 11px Inter,sans-serif;letter-spacing:2px;text-shadow:0 0 15px rgba(0,229,255,.6)}
+.car-loading small{color:#9db5c9;font-size:9px;letter-spacing:1px}
+.car-loading-ring{width:42px;height:42px;border:2px solid rgba(0,229,255,.2);border-top-color:#00e5ff;border-radius:50%;animation:spinRing .8s linear infinite}
+.car-label{position:absolute;bottom:2%;left:50%;transform:translateX(-50%);white-space:nowrap;color:#8deeff;font-size:9px;letter-spacing:2.5px;text-shadow:0 0 14px rgba(0,229,255,.5)}
+.bullet-tracer{background:linear-gradient(90deg,transparent,#00e5ff 25%,#fff 50%,#00e5ff 75%,transparent);box-shadow:0 0 12px #00e5ff,0 0 28px rgba(0,229,255,.7)}
+@keyframes ipFloat{50%{transform:translateY(-4px)}}
+@keyframes ipScan{50%,100%{transform:translateX(120%)}}
+@keyframes ipGlow{50%{text-shadow:0 0 22px rgba(0,229,255,.95),0 0 38px rgba(0,229,255,.35)}}
+@keyframes ipBlink{50%{opacity:0}}
+@keyframes carAuraPulse{50%{transform:scale(1.16);opacity:.65}}
+@keyframes spinRing{to{transform:rotate(360deg)}}
+@media(max-width:900px){.car-stage{right:-5%;width:54vw;opacity:.82}.vb-car-3d{min-height:280px}}
+@media(max-width:760px){.car-stage{position:relative;top:auto;right:auto;transform:none;width:100%;height:290px;margin:-28px auto 0;opacity:.92}.vb-car-3d{min-height:260px}.hero{display:block;padding-top:85px}.hero-content{padding-top:40px}.car-label{bottom:0}.ip-card{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.ip-card,.ip,.ip:after,.car-aura,.car-loading-ring{animation:none!important}.btn,.nav-cta{transition:none}}
+</style>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script>
+/* Microinterações: botões magnéticos suaves e clique com onda de energia. */
+document.addEventListener('DOMContentLoaded',()=>{
+ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('.btn,.nav-cta,.copy,.platform-tab').forEach(el=>{
+   el.addEventListener('pointermove',e=>{
+    const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform='translate('+x*5+'px,'+y*5+'px) translateY(-2px)';
+   });
+   el.addEventListener('pointerleave',()=>el.style.transform='');
+   el.addEventListener('click',()=>{
+    el.classList.remove('energy-click');void el.offsetWidth;el.classList.add('energy-click');
+    setTimeout(()=>el.classList.remove('energy-click'),650);
+   });
+  });
+ }
+});
+</script>
+<style>
+.energy-click{animation:energyClick .58s ease-out!important}
+@keyframes energyClick{0%{filter:brightness(1);box-shadow:0 0 0 0 rgba(0,229,255,.65)}45%{filter:brightness(1.35);box-shadow:0 0 0 12px rgba(0,229,255,0)}100%{filter:brightness(1);box-shadow:0 0 0 20px rgba(0,229,255,0)}}
+</style>
+
 </head>
 <body>
 <canvas id="vbParticles" aria-hidden="true"></canvas>
@@ -291,10 +377,12 @@ footer{background:#030604;border-top:1px solid #b7ff3222}
   <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>🔗</span></button></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div>
-<div class="car-stage" aria-hidden="true">
- <div class="car-aura"></div><div class="car-model">
-  <div class="car-shadow"></div><div class="car-body"></div><div class="car-roof"></div><div class="car-window"></div><div class="car-hood"></div><div class="car-grille"></div><div class="car-light"></div><div class="car-wheel back"></div><div class="car-wheel front"></div>
- </div><div class="car-label">BRASIL ROLEPLAY • SAN ANDREAS</div>
+<div class="car-stage" aria-label="Veículo 3D Virtual Boost">
+ <div class="car-aura"></div>
+ <model-viewer class="vb-car-3d" src="/img/carro.glb" alt="Modelo 3D do carro Virtual Boost" auto-rotate auto-rotate-delay="0" rotation-per-second="22deg" camera-controls disable-zoom shadow-intensity="1.4" exposure="1.15" environment-image="neutral" loading="eager">
+  <div slot="poster" class="car-loading"><span class="car-loading-ring"></span><b>MODELO 3D VIRTUAL BOOST</b><small>Preparando veículo...</small></div>
+ </model-viewer>
+ <div class="car-label">BRASIL ROLEPLAY • SAN ANDREAS</div>
 </div>
 </section>
 
