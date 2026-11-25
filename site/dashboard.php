@@ -67,8 +67,12 @@ main{padding:38px 0 70px}.eyebrow,.section-kicker{font-size:10px;font-weight:800
 @media(max-width:760px){.id-card{grid-template-columns:105px 1fr;gap:16px;padding:17px}.portrait{height:125px;font-size:43px}.id-stamp{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);padding:14px 0 0}.stamp{max-width:210px;margin:auto}.id-fields{grid-template-columns:1fr 1fr}.content-grid{grid-template-columns:1fr}.pagehead{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.stats{grid-template-columns:1fr;gap:9px}.stat{padding:15px}.stat strong{font-size:26px}.topmeta{display:none}.id-card{grid-template-columns:1fr}.portrait{width:112px}.id-fields{grid-template-columns:1fr 1fr}.panel{padding:17px}.data-row{font-size:10px}}
 </style>
+<link rel="stylesheet" href="visual.css?v=1">
 </head>
 <body>
+<div class="vb-background" aria-hidden="true"><video autoplay muted loop playsinline preload="metadata" poster="/img/back.png"><source src="/img/video.mp4" type="video/mp4"></video></div>
+<canvas id="vbParticles" aria-hidden="true"></canvas>
+
 <header class="topbar"><div class="shell topinner">
   <a class="brand" href="../index.html">BRASIL <span>VIRTUAL BOOST</span></a>
   <div class="topmeta">Central do cidadão · Área autenticada</div>
@@ -121,5 +125,6 @@ main{padding:38px 0 70px}.eyebrow,.section-kicker{font-size:10px;font-weight:800
   </div>
   <div class="footer-note">BRASIL VIDA REAL · SISTEMA DE IDENTIFICAÇÃO DO CIDADÃO</div>
 </main>
+<script src="visual.js?v=1" defer></script>
 </body>
 </html>
