@@ -10,6 +10,10 @@ try {
 
     $paymentId = (string)($_GET['data.id'] ?? $_GET['id'] ?? $body['data']['id'] ?? '');
     if (!preg_match('/^[0-9]{1,24}$/', $paymentId)) exit;
+    if (!mpValidateWebhookSignature($config, $paymentId)) {
+        http_response_code(401);
+        exit;
+    }
 
     // Confirma os dados diretamente na API do Mercado Pago; não confia no corpo do webhook.
     $payment = mpApi('GET', 'https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId), $config['access_token']);
