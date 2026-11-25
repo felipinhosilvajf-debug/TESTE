@@ -8,7 +8,7 @@ try {
     $type = $_GET['type'] ?? $body['type'] ?? '';
     if ($type !== 'payment') exit;
 
-    $paymentId = (string)($_GET['data.id'] ?? $_GET['id'] ?? $body['data']['id'] ?? '');
+    $paymentId = (string)($_GET['data.id'] ?? $_GET['data_id'] ?? $_GET['id'] ?? $body['data']['id'] ?? '');
     if (!preg_match('/^[0-9]{1,24}$/', $paymentId)) exit;
     if (!mpValidateWebhookSignature($config, $paymentId)) {
         http_response_code(401);
