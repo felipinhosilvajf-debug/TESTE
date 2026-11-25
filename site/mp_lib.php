@@ -43,6 +43,24 @@ function mpApi(string $method, string $url, string $token, ?array $body = null):
     return $data;
 }
 
+function mpValidateWebhookSignature(array $config, string $dataId): bool {
+    $secret = (string)($config['webhook_secret'] ?? '');
+    $signature = (string)($_SERVER['HTTP_X_SIGNATURE'] ?? '');
+    $requestId = (string)($_SERVER['HTTP_X_REQUEST_ID'] ?? '');
+    if ($secret === '' || $signature === '' || $requestId === '' || $dataId === '') return false;
+
+    $parts = [];
+    foreach (explode(',', $signature) as $part) {
+        $pair = explode('=', trim($part), 2);
+        if (count($pair) === 2) $parts[trim($pair[0])] = trim($pair[1]);
+    }
+    if (empty($parts['ts']) || empty($parts['v1'])) return false;
+
+    $manifest = 'id:' . strtolower($dataId) . ';request-id:' . $requestId . ';ts:' . $parts['ts'] . ';';
+    $expected = hash_hmac('sha256', $manifest, $secret);
+    return hash_equals($expected, $parts['v1']);
+}
+
 function mpSafeNick(string $nick): string {
     $nick = trim($nick);
     if (!preg_match('/^[a-zA-Z0-9_\[\]\(\)\.\-@]{1,24}$/', $nick)) {
