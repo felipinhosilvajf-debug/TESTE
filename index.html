@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <audio id="backgroundMusic" src="https://www.dropbox.com/scl/fi/6m7dwc4nkhel827whb4mn/minhafavela.mp3?rlkey=zssy7gpncpyc8xyjx8jx8gx1l&st=jer7y7ks&dl=1" autoplay loop preload="auto"></audio>
 <header><div class="wrap nav">
   <a class="brand" href="#inicio"><span>VIRTUAL BOOST</span> RP</a>
-  <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a></nav>
+  <nav class="navlinks"><a href="#sobre">O SERVIDOR</a><a href="#vb-world-3d">MUNDO 3D</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a></nav>
   <a class="nav-cta" href="site/login.php">LOGAR 🔒</a>
   <button class="nav-cta" type="button" onclick="openDownloadCard()">JOGUE AGORA <span>📥</span></button>
 </div></header>
@@ -409,6 +409,29 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div class="scene-side-label">WRITE YOUR LEGACY</div>
   </section>
 </div>
+
+<section class="vb-world" id="vb-world-3d" aria-label="Experiência 3D Virtual Boost">
+  <div class="wrap vb-world-grid">
+    <div class="vb-world-copy">
+      <div class="section-tag">SAN ANDREAS • EXPERIÊNCIA IMERSIVA</div>
+      <h2>MAIS QUE UM JOGO.<br><span>UMA NOVA VIDA.</span></h2>
+      <p>Entre em uma cidade viva, encontre seu caminho e construa sua própria história. Explore, trabalhe, faça alianças e descubra tudo o que o roleplay pode oferecer no Virtual Boost.</p>
+      <div class="vb-world-points">
+        <div><b>01</b><span>Uma cidade para explorar</span></div>
+        <div><b>02</b><span>Histórias criadas por jogadores</span></div>
+        <div><b>03</b><span>Android e PC no mesmo universo</span></div>
+      </div>
+      <a class="btn primary" href="#organizacoes">ENCONTRE SEU LUGAR ↗</a>
+    </div>
+    <div class="vb-world-stage">
+      <div class="vb-world-orbit orbit-one"></div><div class="vb-world-orbit orbit-two"></div>
+      <div class="vb-world-glow"></div>
+      <model-viewer class="vb-planet-model" src="/site/planet/scene.gltf" alt="Planeta 3D da experiência Virtual Boost" auto-rotate auto-rotate-delay="0" rotation-per-second="12deg" disable-zoom interaction-prompt="none" shadow-intensity="0.45" exposure="1.12" environment-image="neutral" loading="eager"></model-viewer>
+      <div class="vb-world-hud"><span>VIRTUAL BOOST / WORLD 01</span><b>LOS SANTOS</b><small>YOUR STORY STARTS HERE</small></div>
+      <div class="vb-world-coordinate">34°03' N — 118°15' W</div>
+    </div>
+  </div>
+</section>
 
 <div class="stats"><div class="wrap stat-grid"><div class="stat"><strong>ANDROID</strong><span>Jogue pelo celular</span></div><div class="stat"><strong>PC</strong><span>Jogue pelo computador</span></div><div class="stat"><strong>ROLEPLAY</strong><span>Você escreve a história</span></div></div></div>
 
@@ -640,7 +663,7 @@ document.addEventListener('keydown',function(e){
     <div class="platform-panel active" id="panelPC" role="tabpanel" aria-labelledby="tabPC">
       <div class="device-stage pc-stage pc-image-slot" aria-label="Imagem ilustrativa do computador">
         <div class="device-glow"></div>
-        <img class="device-image notebook-image" src="/img/computador.png" alt="Notebook Virtual Boost">
+        <model-viewer class="device-model" src="/site/desktop_pc/scene.gltf" alt="Computador 3D para jogar Virtual Boost no PC" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="10deg" disable-zoom interaction-prompt="none" shadow-intensity="1.1" exposure="1.08" environment-image="neutral" loading="eager"></model-viewer>
         <span class="device-caption">WINDOWS • GTA SAN ANDREAS + SAMP</span>
       </div>
       <div class="platform-copy">
@@ -730,7 +753,7 @@ document.addEventListener('keydown',function(e){
  const panels=[
   document.querySelector('.hero'),
   ...story,
-  document.querySelector('.stats'),
+  document.querySelector('.vb-world'),\n  document.querySelector('.stats'),
   document.getElementById('sobre'),
   document.getElementById('organizacoes'),
   document.getElementById('midia'),
@@ -916,5 +939,32 @@ footer{background:#05090f;border-top:1px solid #25d9f233;padding:38px 0}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.feature,.org,.shot,.btn{transition:none!important}}
 </style>
-</body>
+<style id="virtualboost-3d-template">
+/* TEMPLATE 3D ADAPTADO — VIRTUAL BOOST ROLEPLAY */
+.vb-world{position:relative;overflow:hidden;isolation:isolate;padding:105px 0!important;background:radial-gradient(ellipse at 76% 50%,rgba(24,190,222,.12),transparent 38%),linear-gradient(115deg,#060d15,#0b1824 58%,#071019);border-top:1px solid #25d9f22a;border-bottom:1px solid #25d9f22a}
+.vb-world:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;background-image:linear-gradient(rgba(74,204,224,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(74,204,224,.12) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(90deg,transparent,#000 45%,#000)}
+.vb-world-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(380px,1.1fr);align-items:center;gap:35px}
+.vb-world-copy{position:relative;z-index:5}
+.vb-world-copy h2{font-family:"Barlow Condensed";font-size:clamp(54px,7vw,94px);line-height:.82;letter-spacing:-1.5px;margin:23px 0;text-transform:uppercase}
+.vb-world-copy h2 span{color:var(--cyan);text-shadow:0 0 28px #25d9f244}
+.vb-world-copy>p{max-width:500px;color:#bdcad7;font-size:14px;line-height:1.95}
+.vb-world-points{display:grid;gap:12px;margin:27px 0 30px}
+.vb-world-points>div{display:flex;align-items:center;gap:15px;color:#dce8ef;font-size:12px;letter-spacing:.4px}
+.vb-world-points b{font-family:"Barlow Condensed";font-size:23px;color:var(--cyan)}
+.vb-world-stage{position:relative;min-height:480px;display:grid;place-items:center;isolation:isolate}
+.vb-world-glow{position:absolute;width:55%;aspect-ratio:1;border-radius:50%;background:rgba(34,201,231,.18);filter:blur(70px);animation:vbGlow 5s ease-in-out infinite}
+.vb-planet-model{position:relative;z-index:2;width:100%;height:480px;background:transparent;--poster-color:transparent}
+.vb-world-orbit{position:absolute;z-index:1;width:88%;height:36%;border:1px solid rgba(73,221,241,.24);border-radius:50%;transform:rotate(-22deg);box-shadow:0 0 25px rgba(37,217,242,.06)}
+.orbit-two{width:74%;height:55%;transform:rotate(57deg);border-color:rgba(145,126,255,.2)}
+.vb-world-hud{position:absolute;z-index:3;right:2%;bottom:7%;display:grid;gap:5px;padding:14px 17px;border-left:2px solid var(--cyan);background:rgba(4,12,20,.78);backdrop-filter:blur(12px);box-shadow:0 12px 30px #0005}
+.vb-world-hud span,.vb-world-hud small{font-size:8px;letter-spacing:2px;color:#8fa8b9}
+.vb-world-hud b{font-family:"Barlow Condensed";font-size:23px;letter-spacing:1.5px;color:#eafcff}
+.vb-world-coordinate{position:absolute;z-index:3;left:3%;bottom:10%;font-size:8px;letter-spacing:2px;color:#80a8b9;writing-mode:vertical-rl}
+@keyframes vbGlow{50%{transform:scale(1.15);opacity:.68}}
+.device-model{position:relative;z-index:1;width:100%;height:245px;background:transparent;--poster-color:transparent}
+.device-stage:has(.device-model){overflow:hidden}
+@media(max-width:900px){.vb-world-grid{grid-template-columns:1fr;gap:8px}.vb-world-copy{max-width:680px}.vb-world-stage{min-height:390px}.vb-planet-model{height:390px}.vb-world-coordinate{left:5%}}
+@media(max-width:700px){.vb-world{padding:78px 0!important}.vb-world-grid{width:90%}.vb-world-copy h2{font-size:clamp(54px,15vw,78px)}.vb-world-stage{min-height:320px;margin-top:-10px}.vb-planet-model{height:320px}.vb-world-orbit{width:100%}.vb-world-hud{right:0;bottom:2%}.device-model{height:205px}}
+@media(prefers-reduced-motion:reduce){.vb-world-glow{animation:none}}
+</style>\n</body>
 </html>
