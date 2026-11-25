@@ -15,41 +15,58 @@ try {
         exit;
     }
 
-    // Confirma os dados diretamente na API do Mercado Pago; não confia no corpo do webhook.
+    // Sempre consulta o pagamento na API: o body do webhook não é fonte confiável.
     $payment = mpApi('GET', 'https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId), $config['access_token']);
-    if (($payment['status'] ?? '') !== 'approved') exit;
-
     $reference = (string)($payment['external_reference'] ?? '');
     $order = mpLoadOrder($config['private_dir'], $reference);
-    if (!$order || ($order['status'] ?? '') === 'credited') exit;
+    if (!$order) exit;
 
     $amount = (float)($payment['transaction_amount'] ?? 0);
     $currency = (string)($payment['currency_id'] ?? '');
-    if ($currency !== 'BRL' || abs($amount - (float)$order['amount']) > 0.001) exit;
-    if ((int)($order['coins'] ?? 0) < 1 || !isset($order['nick'])) exit;
+    if ($currency !== 'BRL' || abs($amount - (float)($order['amount'] ?? 0)) > 0.001) exit;
+    if ((int)($order['coins'] ?? 0) < 1 || empty($order['nick'])) exit;
 
-    $ordersDir = rtrim($config['private_dir'], '\\/') . DIRECTORY_SEPARATOR . 'orders';
+    $ordersDir = rtrim($config['private_dir'], '\\\\/') . DIRECTORY_SEPARATOR . 'orders';
     $lock = fopen($ordersDir . DIRECTORY_SEPARATOR . 'credits.lock', 'c');
     if (!$lock || !flock($lock, LOCK_EX)) throw new RuntimeException('Não foi possível bloquear a fila de créditos.');
     try {
-        // Releitura sob lock evita que duas notificações iguais creditem em paralelo.
         $order = mpLoadOrder($config['private_dir'], $reference);
-        if (!$order || ($order['status'] ?? '') === 'credited') exit;
-        $paymentFile = $ordersDir . DIRECTORY_SEPARATOR . 'payment-' . $paymentId . '.json';
-        if (is_file($paymentFile)) exit;
+        if (!$order) exit;
 
-        mpCreditAgendamento($config, (string)$order['nick'], (int)$order['coins']);
-        $order['status'] = 'credited';
+        $paymentStatus = (string)($payment['status'] ?? 'unknown');
+        // Não regride um pedido já creditado por causa de notificações atrasadas.
+        if (($order['status'] ?? '') !== 'credited') {
+            $order['status'] = $paymentStatus;
+        }
         $order['payment_id'] = $paymentId;
-        $order['credited_at'] = date(DATE_ATOM);
+        $order['status_detail'] = (string)($payment['status_detail'] ?? '');
+        $order['payment_method_id'] = (string)($payment['payment_method_id'] ?? '');
+        $order['payment_type_id'] = (string)($payment['payment_type_id'] ?? '');
+        $order['transaction_amount'] = $amount;
+        $order['currency'] = $currency;
+        $order['last_payment_update'] = date(DATE_ATOM);
+
+        if ($paymentStatus === 'approved' && ($order['status'] ?? '') !== 'credited') {
+            $paymentFile = $ordersDir . DIRECTORY_SEPARATOR . 'payment-' . $paymentId . '.json';
+            if (!is_file($paymentFile)) {
+                mpCreditAgendamento($config, (string)$order['nick'], (int)$order['coins']);
+                $order['status'] = 'credited';
+                $order['credited_at'] = date(DATE_ATOM);
+                mpWriteJsonAtomic($paymentFile, [
+                    'payment_id' => $paymentId,
+                    'reference' => $reference,
+                    'nick' => $order['nick'],
+                    'coins' => (int)$order['coins'],
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'status' => 'approved',
+                    'credited_at' => $order['credited_at'],
+                ]);
+            } else {
+                $order['status'] = 'credited';
+            }
+        }
         mpWriteJsonAtomic($ordersDir . DIRECTORY_SEPARATOR . $reference . '.json', $order);
-        mpWriteJsonAtomic($paymentFile, [
-            'payment_id' => $paymentId,
-            'reference' => $reference,
-            'nick' => $order['nick'],
-            'coins' => (int)$order['coins'],
-            'credited_at' => date(DATE_ATOM),
-        ]);
     } finally {
         flock($lock, LOCK_UN);
         fclose($lock);
