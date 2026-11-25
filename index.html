@@ -186,6 +186,89 @@ body::-webkit-scrollbar{
   height:0;
 }
 
+
+/* ===== VIRTUAL BOOST / BRASIL RP — CINEMATIC 3D REDESIGN ===== */
+:root{--bg:#050807;--panel:#0b1210;--muted:#a7b7ad;--text:#f5fff7;--green:#b7ff32;--cyan:#38e6a2;--line:rgba(190,255,210,.14);--gold:#ffd447}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:#050807;color:#f5fff7;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 80% 10%,rgba(40,180,105,.13),transparent 38%),linear-gradient(135deg,#050807,#07110c 55%,#050807)}
+header{position:fixed;background:rgba(4,10,7,.76);border-bottom:1px solid rgba(183,255,50,.2);backdrop-filter:blur(20px);transition:background .3s,box-shadow .3s}
+header.scrolled{background:rgba(4,10,7,.94);box-shadow:0 12px 45px #0009}
+.brand{letter-spacing:2px}.brand span,.navlinks a:hover{color:var(--green)}
+.nav-cta,.primary,.copy,.play{background:var(--green);color:#071007;border-radius:3px;box-shadow:0 0 28px #b7ff3233}
+.nav-cta:hover,.btn:hover,.copy:hover{transform:translateY(-4px) scale(1.025);filter:brightness(1.12);box-shadow:0 12px 35px #b7ff3244}
+.btn{border-radius:3px;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,filter .35s}
+.secondary{border-color:#b7ff3266}
+.hero{min-height:850px;background:#050807}
+.hero:before{background:linear-gradient(90deg,rgba(2,7,4,.97),rgba(2,7,4,.75) 44%,rgba(2,7,4,.1)),linear-gradient(0deg,#050807,transparent 45%)}
+.hero:after{background:radial-gradient(ellipse at 76% 58%,rgba(183,255,50,.17),transparent 34%)}
+.hero-content{max-width:650px;padding-top:120px}
+.eyebrow,.section-tag,.scene-number{color:var(--green);letter-spacing:3px}
+.dot{background:var(--green);box-shadow:0 0 18px var(--green)}
+h1{font-size:clamp(70px,11vw,145px);letter-spacing:-3px;text-shadow:0 10px 55px #000}
+h1 span,.scene-title em{color:var(--green);text-shadow:0 0 35px #b7ff3233}
+.hero p,.scene-copy{color:#c2d0c5}
+.ip-card{border-radius:3px;border-color:#b7ff3277;background:rgba(3,11,6,.82);box-shadow:0 20px 70px #0008,inset 0 0 30px #b7ff320b}
+.ip{color:var(--green);text-shadow:0 0 18px #b7ff3288}
+.story-scenes{background:#050807}
+.story-scene{min-height:100vh;border-color:#b7ff321c}
+.story-scene:after{background:linear-gradient(90deg,rgba(2,7,4,.92),rgba(2,7,4,.5) 55%,rgba(2,7,4,.08)),linear-gradient(0deg,#050807,transparent 60%)}
+.scene-title{font-size:clamp(70px,12vw,150px);letter-spacing:-2px}
+.scene-stamp{border-color:#b7ff3266;color:var(--green);background:#06100999}
+.stats{background:#08120b;border-color:#b7ff3225}
+.stat strong{color:var(--green);font-size:36px}
+section{padding:110px 0}
+.section-title,.feature h3,.org h3,.join h2{letter-spacing:-.5px}
+.features{gap:18px}
+.feature,.org,.video-side{border-radius:3px;background:linear-gradient(145deg,#111e15,#09100b);border:1px solid #b7ff3226;position:relative;overflow:hidden;transition:transform .45s,border-color .45s,box-shadow .45s}
+.feature:before,.org:before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:var(--green);transform:scaleY(0);transform-origin:bottom;transition:transform .4s}
+.feature:hover,.org:hover{transform:translateY(-9px) rotateX(2deg);border-color:#b7ff3288;box-shadow:0 25px 60px #0009,0 0 28px #b7ff3210}
+.feature:hover:before,.org:hover:before{transform:scaleY(1)}
+.orgs{background:linear-gradient(180deg,#08120b,#050807)}
+.org:after{background:#b7ff3215}
+.tag{background:#b7ff3218;color:var(--green);border-radius:2px}
+.gallery{gap:9px}
+.shot{border-radius:2px;outline:1px solid #b7ff3222;outline-offset:-1px}
+.shot img,.shot video{filter:saturate(.82);transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .5s}
+.shot:hover img,.shot:hover video{transform:scale(1.1);filter:saturate(1.2)}
+.video-main{border-radius:3px;outline:1px solid #b7ff3244;outline-offset:-1px}
+.join{background:linear-gradient(100deg,#b7ff321b,transparent 70%),#0a150d;border-color:#b7ff3233}
+footer{background:#030604;border-top:1px solid #b7ff3222}
+.download-card{border-radius:4px;border-color:#b7ff3255;background:radial-gradient(circle at 100% 0,#b7ff321b,transparent 40%),linear-gradient(145deg,#142117,#071009 75%)}
+.download-card:before{background:linear-gradient(90deg,#b7ff32,#38e6a2,#ffd447)}
+.download-link{background:var(--green);color:#081007;border-radius:3px}
+.download-size{background:#b7ff3210;border-color:#b7ff3233}
+.download-size strong{color:var(--green)}
+.platform-tab.active{border-color:#b7ff3266;background:#b7ff3218}
+#vbParticles{opacity:.5}
+.car-stage{position:absolute;z-index:1;right:-1%;top:18%;width:min(59vw,820px);height:560px;display:grid;place-items:center;perspective:1200px;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 88%,transparent)}
+.car-aura{position:absolute;width:66%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#b7ff3230,transparent 67%);filter:blur(12px);animation:carAura 4s ease-in-out infinite}
+.car-model{position:relative;width:540px;height:250px;max-width:90%;transform-style:preserve-3d;transform:rotateY(-25deg) rotateX(7deg);animation:carCruise 8s ease-in-out infinite}
+.car-body{position:absolute;left:4%;top:35%;width:91%;height:37%;border-radius:48% 35% 18% 20%;background:linear-gradient(160deg,#e9f2e7 0%,#8eaa91 17%,#1c3024 38%,#070d09 75%);border:2px solid #c4f5a866;box-shadow:inset 0 9px 12px #ffffff55,inset 0 -15px 20px #000b,0 25px 25px #000b;transform:translateZ(28px)}
+.car-roof{position:absolute;left:27%;top:12%;width:47%;height:38%;border-radius:65% 55% 12% 12%;background:linear-gradient(145deg,#b8d4c1,#182b20 45%,#050906 90%);border:3px solid #c9e5d155;transform:skewX(-12deg) translateZ(24px);box-shadow:inset 0 0 18px #9ee8c555}
+.car-window{position:absolute;left:32%;top:18%;width:38%;height:25%;background:linear-gradient(145deg,#9bc9c2aa,#0a1918 65%);clip-path:polygon(15% 0,100% 0,82% 100%,0 100%);transform:translateZ(34px)}
+.car-hood{position:absolute;right:0;top:42%;width:35%;height:23%;border-radius:8% 45% 22% 5%;background:linear-gradient(150deg,#e5f0df,#263e2b 42%,#080d09);transform:translateZ(39px) rotateY(-5deg)}
+.car-grille{position:absolute;right:4%;top:56%;width:13%;height:9%;border:2px solid #9db99e;background:repeating-linear-gradient(0deg,#0a100b 0 3px,#6d886e 4px 5px);transform:translateZ(45px)}
+.car-light{position:absolute;right:3%;top:47%;width:13%;height:5%;background:#e4ffd5;box-shadow:0 0 20px #d7ffb5,0 0 60px #b7ff32;transform:translateZ(48px);border-radius:8px}
+.car-wheel{position:absolute;top:61%;width:17%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#a9b5a9 0 10%,#18211b 12% 22%,#87928a 24% 31%,#090d0a 33% 65%,#303b32 67% 72%,#050705 74%);border:5px solid #080d09;box-shadow:0 0 0 2px #7c927d;transform:translateZ(52px);animation:wheelSpin 5s linear infinite}
+.car-wheel.front{right:13%}.car-wheel.back{left:17%}
+.car-shadow{position:absolute;left:12%;top:75%;width:75%;height:15%;border-radius:50%;background:#000;filter:blur(22px);transform:rotateX(70deg) translateZ(-25px)}
+.car-label{position:absolute;right:12%;bottom:8%;color:#d8f7d4;font:900 10px Inter,sans-serif;letter-spacing:4px;text-shadow:0 0 15px #b7ff3277}
+@keyframes carCruise{0%,100%{transform:rotateY(-25deg) rotateX(7deg) translateY(0)}50%{transform:rotateY(20deg) rotateX(4deg) translateY(-18px)}}
+@keyframes wheelSpin{to{filter:brightness(1.2)}}
+@keyframes carAura{50%{transform:scale(1.16);opacity:.65}}
+/* Cinematic bullet tracers, spawned on scroll */
+.bullet-tracer{position:fixed;z-index:40;left:-30vw;width:34vw;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,#fff6a8 65%,#b7ff32);box-shadow:0 0 8px #dfff9c,0 0 24px #b7ff32;transform:rotate(var(--angle));animation:tracerFly .72s cubic-bezier(.2,.7,.2,1) forwards}
+.bullet-tracer:after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-radius:50%;background:#fffbd2;box-shadow:0 0 12px #fff,0 0 25px #b7ff32}
+@keyframes tracerFly{0%{left:-35vw;opacity:0}12%{opacity:1}82%{opacity:1}100%{left:115vw;opacity:0}}
+.scroll-flash{animation:scrollFlash .38s ease-out}
+@keyframes scrollFlash{0%{filter:brightness(1.5)}100%{filter:brightness(1)}}
+.reveal3d{opacity:0;transform:perspective(1000px) translateY(65px) rotateX(9deg);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal3d.in-view{opacity:1;transform:perspective(1000px) translateY(0) rotateX(0)}
+@media(max-width:900px){.car-stage{right:-14%;top:33%;width:70vw;opacity:.65}.car-model{transform:scale(.8) rotateY(-25deg)}.hero-content{max-width:600px}}
+@media(max-width:650px){.car-stage{top:49%;right:-25%;width:100vw;height:330px;opacity:.38}.car-model{transform:scale(.58) rotateY(-25deg)}.hero{min-height:790px}.hero:before{background:linear-gradient(90deg,#020704ee,#02070488),linear-gradient(0deg,#050807,transparent 65%)}h1{font-size:clamp(65px,16vw,100px)}}
+@media(prefers-reduced-motion:reduce){.car-model,.car-wheel,.car-aura,.bullet-tracer{animation:none!important}.reveal3d{opacity:1;transform:none}}
+
 </style>
 </head>
 <body>
@@ -207,7 +290,13 @@ body::-webkit-scrollbar{
   <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
   <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>🔗</span></button></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
-</div></div></section>
+</div></div>
+<div class="car-stage" aria-hidden="true">
+ <div class="car-aura"></div><div class="car-model">
+  <div class="car-shadow"></div><div class="car-body"></div><div class="car-roof"></div><div class="car-window"></div><div class="car-hood"></div><div class="car-grille"></div><div class="car-light"></div><div class="car-wheel back"></div><div class="car-wheel front"></div>
+ </div><div class="car-label">BRASIL ROLEPLAY • SAN ANDREAS</div>
+</div>
+</section>
 
 <div class="story-scenes" aria-label="História de Virtual Boost">
   <section class="story-scene scene-one" id="cena-um">
@@ -410,6 +499,38 @@ document.addEventListener('keydown',function(e){
    });
  },{threshold:0.12,rootMargin:'-12% 0px -12% 0px'});
  panels.forEach(panel=>morphObserver.observe(panel));
+})();
+
+
+/* Header, reveal 3D e rastros de projéteis acionados pela rolagem */
+(function(){
+ const header=document.querySelector('header');
+ const updateHeader=()=>header&&header.classList.toggle('scrolled',window.scrollY>35);
+ window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
+ const revealTargets=document.querySelectorAll('.feature,.org,.shot,.stat,.video-main,.video-side,.scene-content,.join-inner');
+ revealTargets.forEach(el=>el.classList.add('reveal3d'));
+ if('IntersectionObserver'in window){
+  const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}}),{threshold:.12});
+  revealTargets.forEach(el=>io.observe(el));
+ }else revealTargets.forEach(el=>el.classList.add('in-view'));
+ let lastY=window.scrollY,lastShot=0;
+ window.addEventListener('scroll',()=>{
+  const y=window.scrollY,delta=Math.abs(y-lastY);lastY=y;
+  if(delta>18&&performance.now()-lastShot>105){
+   lastShot=performance.now();
+   const count=delta>100?3:2;
+   for(let i=0;i<count;i++){
+    const b=document.createElement('i');b.className='bullet-tracer';
+    b.style.top=(12+Math.random()*76)+'vh';
+    b.style.setProperty('--angle',(-8+Math.random()*16)+'deg');
+    b.style.animationDelay=(i*.075)+'s';
+    document.body.appendChild(b);setTimeout(()=>b.remove(),1000);
+   }
+   const active=document.elementFromPoint(innerWidth*.5,innerHeight*.55);
+   const section=active&&active.closest('section');
+   if(section){section.classList.remove('scroll-flash');void section.offsetWidth;section.classList.add('scroll-flash')}
+  }
+ },{passive:true});
 })();
 
 </script>
