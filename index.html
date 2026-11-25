@@ -373,6 +373,23 @@ document.addEventListener('DOMContentLoaded',()=>{
 <style>
 .energy-click{animation:energyClick .58s ease-out!important}
 @keyframes energyClick{0%{filter:brightness(1);box-shadow:0 0 0 0 rgba(0,229,255,.65)}45%{filter:brightness(1.35);box-shadow:0 0 0 12px rgba(0,229,255,0)}100%{filter:brightness(1);box-shadow:0 0 0 20px rgba(0,229,255,0)}}
+
+/* AJUSTES FINAIS DA ROleta 3D */
+.story-scenes{position:relative;height:300vh;background:#070a11;isolation:isolate}
+.story-wheel{position:sticky;top:0;height:100vh;min-height:620px;overflow:hidden;perspective:1500px;transform-style:preserve-3d;background:#070a11}
+.story-wheel .story-scene{position:absolute;inset:0;width:100%;height:100%;min-height:100%;display:flex;align-items:center;justify-content:flex-start;overflow:hidden;border:0;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity;transition:none}
+.story-wheel .scene-content{width:min(1160px,92%);margin:0 auto;padding:80px 0}
+.story-wheel .scene-two .scene-content{margin-left:auto;margin-right:4%;text-align:right}
+.story-wheel .scene-two .scene-number{justify-content:flex-end}
+.story-wheel .scene-two .scene-title,.story-wheel .scene-two .scene-copy{margin-left:auto;margin-right:0}
+.story-wheel .scene-two .scene-stamp{margin-left:auto}
+@media(max-width:760px){
+ .story-scenes{height:300vh}
+ .story-wheel{height:100svh;min-height:100svh}
+ .story-wheel .story-scene{height:100%;min-height:100%}
+ .story-wheel .scene-content{padding:70px 0}
+ .story-wheel .scene-two .scene-content{width:88%;margin:0 auto}
+}
 </style>
 
 </head>
