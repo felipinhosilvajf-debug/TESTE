@@ -377,13 +377,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>🔗</span></button></div>
   <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div>
-<div class="car-stage" aria-label="Veículo 3D Virtual Boost">
- <div class="car-aura"></div>
- <model-viewer class="vb-car-3d" src="/img/carro.glb" alt="Modelo 3D do carro Virtual Boost" auto-rotate auto-rotate-delay="0" rotation-per-second="22deg" camera-controls disable-zoom shadow-intensity="1.4" exposure="1.15" environment-image="neutral" loading="eager">
-  <div slot="poster" class="car-loading"><span class="car-loading-ring"></span><b>MODELO 3D VIRTUAL BOOST</b><small>Preparando veículo...</small></div>
- </model-viewer>
- <div class="car-label">BRASIL ROLEPLAY • SAN ANDREAS</div>
-</div>
+
 </section>
 
 <div class="story-scenes" aria-label="História de Virtual Boost">
@@ -457,6 +451,15 @@ document.addEventListener('DOMContentLoaded',()=>{
 </div></section>
 
 <section class="join" id="entrar"><div class="wrap join-inner"><div><div class="section-tag">A CIDADE ESTÁ TE ESPERANDO</div><h2>Não fique de fora.</h2><p>Copie o IP, entre no jogo e venha viver essa história.</p></div><div class="actions" style="margin:0"><button class="btn primary" onclick="copyIP()">COPIAR IP DO SERVIDOR</button></div></div></section>
+
+<!-- Corvette acompanha a rolagem entre o hero e a primeira cena -->
+<div class="car-stage car-scroll-stage" id="scrollCorvette" aria-label="Corvette 3D Virtual Boost">
+ <div class="car-aura"></div>
+ <model-viewer class="vb-car-3d" src="/img/3d/corvette.glb" alt="Chevrolet Corvette 3D" auto-rotate auto-rotate-delay="0" rotation-per-second="8deg" camera-controls disable-zoom shadow-intensity="1.35" exposure="1.12" environment-image="neutral" loading="eager">
+  <div slot="poster" class="car-loading"><span class="car-loading-ring"></span><b>CORVETTE • VIRTUAL BOOST</b><small>Carregando modelo 3D...</small></div>
+ </model-viewer>
+ <div class="car-label">CORVETTE • VIRTUAL BOOST ROLEPLAY</div>
+</div>
 </main>
 <footer><div class="wrap foot"><div class="brand">RP<span> VIRTUAL</span> BOOST</div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
 <script>
@@ -671,5 +674,82 @@ document.addEventListener('keydown',function(e){
     </div>
   </section>
 </div>
+
+<style id="corvette-scroll-style">
+/* Viagem do Corvette: direita no hero, esquerda na primeira cena. */
+.car-scroll-stage{
+ position:fixed!important;z-index:4!important;left:0;top:0;
+ width:min(49vw,700px)!important;height:min(42vw,470px)!important;
+ margin:0!important;right:auto!important;transform:translate3d(0,-50%,0) scale(1);
+ display:flex;align-items:center;justify-content:center;
+ opacity:1;visibility:visible;pointer-events:none;
+ will-change:left,top,transform,opacity;
+ transition:opacity .25s ease,filter .25s ease;
+}
+.car-scroll-stage .vb-car-3d{width:100%;height:100%;min-height:320px;pointer-events:auto}
+.car-scroll-stage .car-aura{width:62%;background:rgba(0,210,255,.2);filter:blur(76px)}
+.car-scroll-stage .car-label{bottom:0;font-size:8px;letter-spacing:2px}
+.hero-content{max-width:54%;z-index:2}
+.scene-one .scene-content{width:min(1160px,92%);max-width:54%;margin-left:auto;margin-right:3%;z-index:2}
+.scene-one:after{background:linear-gradient(90deg,rgba(3,6,12,.18),rgba(3,6,12,.58) 42%,rgba(3,6,12,.94)),linear-gradient(0deg,#070a11 0%,transparent 55%)}
+.scene-one .scene-title,.scene-one .scene-copy,.scene-one .scene-stamp{position:relative}
+@media(max-width:900px){
+ .car-scroll-stage{width:54vw!important;height:40vw!important}
+ .car-scroll-stage .vb-car-3d{min-height:270px}
+ .hero-content{max-width:57%}
+ .scene-one .scene-content{max-width:57%}
+}
+@media(max-width:700px){
+ .car-scroll-stage{width:78vw!important;height:280px!important;left:10vw;opacity:.5;z-index:1!important}
+ .car-scroll-stage .vb-car-3d{min-height:230px}
+ .car-scroll-stage .car-label{font-size:7px}
+ .hero-content{max-width:100%}
+ .scene-one .scene-content{max-width:100%;margin:0 auto;padding-top:290px}
+ .scene-one:after{background:linear-gradient(0deg,rgba(3,6,12,.97),rgba(3,6,12,.48) 68%,rgba(3,6,12,.2))}
+}
+@media(prefers-reduced-motion:reduce){.car-scroll-stage{transition:none!important}}
+</style>
+<script>
+/* A posição é interpolada pela rolagem: o carro cruza a tela e estaciona à esquerda. */
+(function(){
+ const car=document.getElementById('scrollCorvette');
+ const hero=document.querySelector('.hero');
+ const scene=document.getElementById('cena-um');
+ if(!car||!hero||!scene)return;
+ let raf=0;
+ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+ const mix=(a,b,t)=>a+(b-a)*t;
+ function paint(){
+  raf=0;
+  const y=window.scrollY||0;
+  const mobile=window.matchMedia('(max-width:700px)').matches;
+  const travel=Math.max(480,hero.offsetHeight*.92);
+  const p=clamp(y/travel,0,1);
+  const sceneEnd=scene.offsetTop+scene.offsetHeight-window.innerHeight*.55;
+  const fade=clamp((y-sceneEnd)/Math.max(220,window.innerHeight*.42),0,1);
+  if(mobile){
+   const left=mix(10,7,p);
+   const top=mix(68,48,p);
+   car.style.left=left+'vw';
+   car.style.top=top+'vh';
+   car.style.transform='translate3d(0,-50%,0) scale('+mix(.78,.58,p)+')';
+   car.style.opacity=String(.52*(1-fade));
+  }else{
+   const left=mix(52,1.5,p);
+   const top=mix(43,52,p);
+   car.style.left=left+'vw';
+   car.style.top=top+'vh';
+   car.style.transform='translate3d(0,-50%,0) scale('+mix(1,.78,p)+')';
+   car.style.opacity=String(1-fade);
+  }
+  car.style.visibility=fade>=1?'hidden':'visible';
+ }
+ function requestPaint(){if(!raf)raf=requestAnimationFrame(paint)}
+ window.addEventListener('scroll',requestPaint,{passive:true});
+ window.addEventListener('resize',requestPaint,{passive:true});
+ paint();
+})();
+</script>
+
 </body>
 </html>
