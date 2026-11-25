@@ -452,13 +452,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <section class="join" id="entrar"><div class="wrap join-inner"><div><div class="section-tag">A CIDADE ESTÁ TE ESPERANDO</div><h2>Não fique de fora.</h2><p>Copie o IP, entre no jogo e venha viver essa história.</p></div><div class="actions" style="margin:0"><button class="btn primary" onclick="copyIP()">COPIAR IP DO SERVIDOR</button></div></div></section>
 
-<!-- Corvette acompanha a rolagem entre o hero e a primeira cena -->
-<div class="car-stage car-scroll-stage" id="scrollCorvette" aria-label="Corvette 3D Virtual Boost">
+<!-- Garagem 3D: os veículos se alternam em cada seção até o rodapé. -->
+<div class="car-stage car-scroll-stage" id="scrollGarage" aria-label="Veículos 3D Virtual Boost">
  <div class="car-aura"></div>
- <model-viewer class="vb-car-3d" src="/img/3d/corvette.glb" alt="Chevrolet Corvette 3D" auto-rotate auto-rotate-delay="0" rotation-per-second="8deg" camera-controls disable-zoom shadow-intensity="1.35" exposure="1.12" environment-image="neutral" loading="eager">
-  <div slot="poster" class="car-loading"><span class="car-loading-ring"></span><b>CORVETTE • VIRTUAL BOOST</b><small>Carregando modelo 3D...</small></div>
- </model-viewer>
- <div class="car-label">CORVETTE • VIRTUAL BOOST ROLEPLAY</div>
+ <model-viewer class="vb-car-3d is-active" data-model="corvette" src="/img/3d/corvette.glb" alt="Chevrolet Corvette 3D" auto-rotate auto-rotate-delay="0" rotation-per-second="8deg" disable-zoom shadow-intensity="1.35" exposure="1.12" environment-image="neutral" loading="eager"></model-viewer>
+ <model-viewer class="vb-car-3d" data-model="bmw" src="/img/3d/2009_bmw.glb" alt="BMW 2009 3D" auto-rotate auto-rotate-delay="0" rotation-per-second="8deg" disable-zoom shadow-intensity="1.35" exposure="1.12" environment-image="neutral" loading="eager"></model-viewer>
+ <model-viewer class="vb-car-3d" data-model="ferrari" src="/img/3d/ferrari_1994.glb" alt="Ferrari 1994 3D" auto-rotate auto-rotate-delay="0" rotation-per-second="8deg" disable-zoom shadow-intensity="1.35" exposure="1.12" environment-image="neutral" loading="eager"></model-viewer>
+ <div class="car-label" id="garageCarLabel">CORVETTE • VIRTUAL BOOST ROLEPLAY</div>
 </div>
 </main>
 <footer><div class="wrap foot"><div class="brand">RP<span> VIRTUAL</span> BOOST</div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
@@ -676,17 +676,25 @@ document.addEventListener('keydown',function(e){
 </div>
 
 <style id="corvette-scroll-style">
-/* Viagem do Corvette: direita no hero, esquerda na primeira cena. */
+/* Garagem 3D fixa: o modelo troca com transição rápida a cada seção. */
 .car-scroll-stage{
  position:fixed!important;z-index:4!important;left:0;top:0;
- width:min(49vw,700px)!important;height:min(42vw,470px)!important;
+ width:min(47vw,660px)!important;height:min(40vw,440px)!important;
  margin:0!important;right:auto!important;transform:translate3d(0,-50%,0) scale(1);
  display:flex;align-items:center;justify-content:center;
  opacity:1;visibility:visible;pointer-events:none;
  will-change:left,top,transform,opacity;
- transition:opacity .25s ease,filter .25s ease;
+ transition:opacity .22s ease,filter .22s ease;
 }
-.car-scroll-stage .vb-car-3d{width:100%;height:100%;min-height:320px;pointer-events:auto}
+.car-scroll-stage .vb-car-3d{
+ position:absolute;inset:0;width:100%;height:100%;min-height:300px;
+ opacity:0;transform:translateX(34px) scale(.88);
+ transition:opacity .24s ease,transform .32s cubic-bezier(.2,.8,.2,1);
+ pointer-events:none;
+}
+.car-scroll-stage .vb-car-3d.is-active{
+ opacity:1;transform:translateX(0) scale(1);pointer-events:auto;
+}
 .car-scroll-stage .car-aura{width:62%;background:rgba(0,210,255,.2);filter:blur(76px)}
 .car-scroll-stage .car-label{bottom:0;font-size:8px;letter-spacing:2px}
 .hero-content{max-width:54%;z-index:2}
@@ -695,61 +703,99 @@ document.addEventListener('keydown',function(e){
 .scene-one .scene-title,.scene-one .scene-copy,.scene-one .scene-stamp{position:relative}
 @media(max-width:900px){
  .car-scroll-stage{width:54vw!important;height:40vw!important}
- .car-scroll-stage .vb-car-3d{min-height:270px}
+ .car-scroll-stage .vb-car-3d{min-height:250px}
  .hero-content{max-width:57%}
  .scene-one .scene-content{max-width:57%}
 }
 @media(max-width:700px){
- .car-scroll-stage{width:78vw!important;height:280px!important;left:10vw;opacity:.5;z-index:1!important}
- .car-scroll-stage .vb-car-3d{min-height:230px}
+ .car-scroll-stage{width:76vw!important;height:270px!important;left:12vw;opacity:.48;z-index:1!important}
+ .car-scroll-stage .vb-car-3d{min-height:220px}
  .car-scroll-stage .car-label{font-size:7px}
  .hero-content{max-width:100%}
  .scene-one .scene-content{max-width:100%;margin:0 auto;padding-top:290px}
  .scene-one:after{background:linear-gradient(0deg,rgba(3,6,12,.97),rgba(3,6,12,.48) 68%,rgba(3,6,12,.2))}
 }
-@media(prefers-reduced-motion:reduce){.car-scroll-stage{transition:none!important}}
+@media(prefers-reduced-motion:reduce){
+ .car-scroll-stage,.car-scroll-stage .vb-car-3d{transition:none!important}
+}
 </style>
 <script>
-/* A posição é interpolada pela rolagem: o carro cruza a tela e estaciona à esquerda. */
+/* A garagem acompanha todas as seções e troca de GLB com crossfade rápido. */
 (function(){
- const car=document.getElementById('scrollCorvette');
- const hero=document.querySelector('.hero');
- const scene=document.getElementById('cena-um');
- if(!car||!hero||!scene)return;
- let raf=0;
+ const stage=document.getElementById('scrollGarage');
+ if(!stage)return;
+ const viewers=[...stage.querySelectorAll('.vb-car-3d')];
+ const label=document.getElementById('garageCarLabel');
+ const panels=[...document.querySelectorAll('main > .hero, main > .story-scenes > .story-scene, main > .stats, main > section')];
+ const footer=document.querySelector('footer');
+ if(footer)panels.push(footer);
+ if(!viewers.length||!panels.length)return;
+ const sequence=[
+  {model:'corvette',name:'CORVETTE'},
+  {model:'bmw',name:'BMW 2009'},
+  {model:'ferrari',name:'FERRARI 1994'},
+  {model:'bmw',name:'BMW 2009'},
+  {model:'ferrari',name:'FERRARI 1994'},
+  {model:'bmw',name:'BMW 2009'},
+  {model:'ferrari',name:'FERRARI 1994'},
+  {model:'bmw',name:'BMW 2009'},
+  {model:'ferrari',name:'FERRARI 1994'}
+ ];
+ let raf=0,active=-1;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  const mix=(a,b,t)=>a+(b-a)*t;
+ function chooseModel(index){
+  const item=sequence[index%sequence.length];
+  const next=viewers.find(v=>v.dataset.model===item.model);
+  if(!next)return;
+  if(next!==viewers[active]) {
+   viewers.forEach(v=>v.classList.toggle('is-active',v===next));
+   active=viewers.indexOf(next);
+  }
+  if(label)label.textContent=item.name+' • VIRTUAL BOOST ROLEPLAY';
+ }
  function paint(){
   raf=0;
   const y=window.scrollY||0;
   const mobile=window.matchMedia('(max-width:700px)').matches;
-  const travel=Math.max(480,hero.offsetHeight*.92);
-  const p=clamp(y/travel,0,1);
-  const sceneEnd=scene.offsetTop+scene.offsetHeight-window.innerHeight*.55;
-  const fade=clamp((y-sceneEnd)/Math.max(220,window.innerHeight*.42),0,1);
+  const viewportAnchor=window.innerHeight*.48;
+  let current=0,best=Infinity;
+  panels.forEach((panel,i)=>{
+   const r=panel.getBoundingClientRect();
+   const distance=viewportAnchor<r.top?r.top-viewportAnchor:
+     viewportAnchor>r.bottom?viewportAnchor-r.bottom:0;
+   if(distance<best){best=distance;current=i;}
+  });
+  chooseModel(current);
+  const hero=panels[0];
+  const firstScene=panels[1];
+  const heroProgress=clamp(y/Math.max(480,hero.offsetHeight*.92),0,1);
+  const sceneMode=current===1;
+  const laterMode=current>=2;
   if(mobile){
-   const left=mix(10,7,p);
-   const top=mix(68,48,p);
-   car.style.left=left+'vw';
-   car.style.top=top+'vh';
-   car.style.transform='translate3d(0,-50%,0) scale('+mix(.78,.58,p)+')';
-   car.style.opacity=String(.52*(1-fade));
+   const left=sceneMode?7:10;
+   const top=mix(68,49,heroProgress);
+   stage.style.left=left+'vw';
+   stage.style.right='auto';
+   stage.style.top=top+'vh';
+   stage.style.transform='translate3d(0,-50%,0) scale('+(laterMode?.54:mix(.78,.62,heroProgress))+')';
+   stage.style.opacity=String(current===0?.48:current===1?.46:.34);
   }else{
-   const left=mix(52,1.5,p);
-   const top=mix(43,52,p);
-   car.style.left=left+'vw';
-   car.style.top=top+'vh';
-   car.style.transform='translate3d(0,-50%,0) scale('+mix(1,.78,p)+')';
-   car.style.opacity=String(1-fade);
+   const left=current===0?mix(52,51,heroProgress):sceneMode?1.5:mix(1.5,56,clamp((current-1)/1.4,0,1));
+   const top=current===0?43:sceneMode?52:50;
+   stage.style.left=left+'vw';
+   stage.style.right='auto';
+   stage.style.top=top+'vh';
+   stage.style.transform='translate3d(0,-50%,0) scale('+(current===0?1:sceneMode?.78:.64)+')';
+   stage.style.opacity=String(current===0||sceneMode?.96:.58);
   }
-  car.style.visibility=fade>=1?'hidden':'visible';
+  stage.style.visibility='visible';
  }
  function requestPaint(){if(!raf)raf=requestAnimationFrame(paint)}
  window.addEventListener('scroll',requestPaint,{passive:true});
  window.addEventListener('resize',requestPaint,{passive:true});
  paint();
-})();
-</script>
+})();</script>
 
 </body>
 </html>
