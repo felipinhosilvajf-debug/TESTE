@@ -392,6 +392,141 @@ document.addEventListener('DOMContentLoaded',()=>{
 }
 </style>
 
+
+<!-- CORRECAO RESPONSIVA: MENU E BOTOES NO MOBILE (sem alterar o layout desktop) -->
+<style id="mobile-navigation-fix">
+@media (max-width: 760px) {
+  header {
+    left: 0;
+    right: 0;
+    width: 100%;
+    overflow: visible;
+  }
+
+  header .wrap.nav {
+    width: min(92%, 560px);
+    max-width: 560px;
+    height: auto;
+    min-height: 0;
+    margin: 0 auto;
+    padding: 10px 0 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    justify-content: stretch;
+    gap: 8px;
+  }
+
+  header .brand {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 100%;
+    font-size: 24px;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+
+  header .navlinks {
+    display: none !important;
+  }
+
+  header .nav > .nav-cta {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    margin: 0;
+    padding: 9px 8px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.2;
+    font-size: clamp(9px, 2.7vw, 11px);
+    border-radius: 7px;
+  }
+
+  header .nav > button.nav-cta {
+    grid-column: 1 / -1;
+  }
+
+  .hero {
+    padding-top: 145px !important;
+  }
+
+  .hero-content {
+    padding-top: 16px !important;
+    min-width: 0;
+  }
+
+  .hero .actions {
+    width: min(100%, 360px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hero .actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 13px 14px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .ip-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ip {
+    min-width: 0;
+    font-size: clamp(19px, 5.8vw, 24px);
+    letter-spacing: .4px;
+  }
+
+  .copy {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 380px) {
+  header .wrap.nav {
+    width: 94%;
+    gap: 7px;
+    padding-top: 8px;
+  }
+
+  header .brand {
+    font-size: 22px;
+  }
+
+  header .nav > .nav-cta {
+    min-height: 42px;
+    padding: 8px 6px;
+    font-size: 9px;
+  }
+
+  .hero {
+    padding-top: 138px !important;
+  }
+
+  .hero .actions .btn {
+    font-size: 10px;
+  }
+}
+
+@media (hover: none) and (max-width: 760px) {
+  header .nav > .nav-cta,
+  .hero .actions .btn {
+    transform: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <canvas id="vbParticles" aria-hidden="true"></canvas>
