@@ -20,7 +20,26 @@ header{position:absolute;z-index:5;top:0;left:0;width:100%;border-bottom:1px sol
 
 
 /* CENAS DA CIDADE */
-.story-scenes{background:#070a11}
+.story-scenes{position:relative;height:300vh;background:#070a11;isolation:isolate}
+.story-wheel{position:sticky;top:0;height:100vh;min-height:620px;overflow:hidden;perspective:1500px;transform-style:preserve-3d;background:#070a11}
+.story-scene{position:absolute;inset:0;width:100%;height:100%;min-height:100%;display:flex;align-items:center;justify-content:flex-start;overflow:hidden;border:0;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity;transition:none}
+.story-scene:before{background-position:center 35%}
+.story-scene:after{background:linear-gradient(90deg,rgba(3,6,12,.82),rgba(3,6,12,.28) 58%,rgba(3,6,12,.10)),linear-gradient(0deg,#070a11 0%,transparent 55%)}
+.scene-content{position:relative;width:min(1160px,92%);margin:0 auto;padding:80px 0}
+.scene-two .scene-content{margin-left:auto;margin-right:4%;text-align:right}
+.scene-two .scene-number{justify-content:flex-end}
+.scene-two .scene-title,.scene-two .scene-copy{margin-left:auto;margin-right:0}
+.scene-two .scene-stamp{margin-left:auto}
+.story-scene .scene-side-label{z-index:2}
+@media(max-width:760px){
+ .story-scenes{height:300vh}
+ .story-wheel{min-height:100svh;height:100svh}
+ .story-scene{min-height:100%;height:100%}
+ .scene-content{padding:70px 0}
+ .scene-two .scene-content{width:88%;margin:0 auto}
+ .scene-title{font-size:clamp(58px,15vw,90px)}
+}
+
 .story-scene{position:relative;min-height:92vh;display:flex;align-items:flex-end;isolation:isolate;overflow:hidden;border-top:1px solid rgba(255,255,255,.08);background:#0a101b}
 .story-scene:before{content:"";position:absolute;z-index:-2;inset:0;background-image:var(--scene-image);background-position:center 35%;background-size:cover;transform:scale(1.06);transition:transform 1.2s ease;filter:saturate(.82) contrast(1.08)}
 .story-scene:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(3,6,12,.94),rgba(3,6,12,.52) 48%,rgba(3,6,12,.08)),linear-gradient(0deg,#070a11 0%,transparent 55%,rgba(3,6,12,.12))}
@@ -380,6 +399,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 </section>
 
 <div class="story-scenes" aria-label="História de Virtual Boost">
+  <div class="story-wheel" id="storyWheel">
   <section class="story-scene scene-one" id="cena-um">
     <div class="scene-content">
       <div class="scene-number">01 / A CIDADE NÃO PERDOA</div>
@@ -407,6 +427,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     </div>
     <div class="scene-side-label">WRITE YOUR LEGACY</div>
   </section>
+  </div>
 </div>
 
 <div class="stats"><div class="wrap stat-grid"><div class="stat"><strong>ANDROID</strong><span>Jogue pelo celular</span></div><div class="stat"><strong>PC</strong><span>Jogue pelo computador</span></div><div class="stat"><strong>ROLEPLAY</strong><span>Você escreve a história</span></div></div></div>
@@ -560,10 +581,46 @@ document.addEventListener('keydown',function(e){
 
 
 
+// Roleta 3D: as três cenas ocupam uma única área e avançam/recuam com a rolagem.
+(function(){
+ const section=document.querySelector('.story-scenes');
+ const wheel=document.getElementById('storyWheel');
+ const cards=[...document.querySelectorAll('.story-scene')];
+ if(!section||!wheel||cards.length!==3)return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let ticking=false;
+ function render(){
+  ticking=false;
+  const rect=section.getBoundingClientRect();
+  const travel=Math.max(1,section.offsetHeight-window.innerHeight);
+  const progress=Math.max(0,Math.min(2,(-rect.top)/travel*2));
+  cards.forEach((card,index)=>{
+   const angle=(index-progress)*120;
+   const radians=angle*Math.PI/180;
+   const depth=Math.cos(radians);
+   const side=Math.sin(radians);
+   const rotate=angle;
+   const translateX=side* Math.min(window.innerWidth*.30,360);
+   const translateZ=depth*260-260;
+   const opacity=Math.max(.10,Math.min(1,(depth+0.15)/1.15));
+   const scale=.78+Math.max(0,depth)*.22;
+   card.style.zIndex=String(Math.round((depth+1)*100));
+   card.style.opacity=String(reduced?(depth>.45?1:0):opacity);
+   card.style.pointerEvents=depth>.45?'auto':'none';
+   card.style.transform='translate3d('+translateX+'px,0,'+translateZ+'px) rotateY('+rotate+'deg) scale('+scale+')';
+   card.setAttribute('aria-hidden',String(depth<=.45));
+  });
+ }
+ function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(render)}}
+ window.addEventListener('scroll',onScroll,{passive:true});
+ window.addEventListener('resize',onScroll,{passive:true});
+ render();
+})(); 
+
 // Metamorfose das secoes inteiras conforme a rolagem.
 // Cada area entra como um painel 3D e se dissolve ao sair da tela.
 (function(){
- const panels=[...document.querySelectorAll('main > .hero, main > .story-scenes > .story-scene, main > .stats, main > section')];
+ const panels=[...document.querySelectorAll('main > .hero, main > .stats, main > section')];
  if(!panels.length)return;
  panels.forEach((panel,i)=>{
    panel.classList.add('morph-panel');
