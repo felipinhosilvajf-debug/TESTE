@@ -11,4 +11,7 @@ return [
     'private_dir' => 'C:\\inetpub\\private\\virtualboost-mp-data',
     'coins_dir' => 'C:\\inetpub\\wwwroot\\public\\scriptfiles\\Moedas Agendadas',
     'base_url' => 'https://virtualboost.online',
+    // Acesso exclusivo à página financeira independente (não publique estes dados).
+    'admin_user' => 'financeiro',
+    'admin_password_hash' => 'COLOQUE_AQUI_UM_HASH_GERADO_COM_PASSWORD_HASH',
 ];
