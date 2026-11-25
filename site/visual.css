@@ -1,0 +1,13 @@
+/* Identidade visual compartilhada — Virtual Boost RP */
+html{min-height:100%;background:#050b14}
+body{position:relative;isolation:isolate;background:#050b14!important}
+.vb-background{position:fixed;z-index:-1;inset:0;overflow:hidden;pointer-events:none;background:#050b14}
+.vb-background video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.34;filter:saturate(.82) contrast(1.08)}
+.vb-background:before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(115deg,rgba(3,8,17,.94),rgba(4,13,25,.78) 52%,rgba(3,8,17,.88)),linear-gradient(0deg,rgba(3,8,17,.8),transparent 60%)}
+.vb-background:after{content:"";position:absolute;z-index:2;inset:0;background:radial-gradient(ellipse at 14% 12%,rgba(39,215,255,.15),transparent 34%),radial-gradient(ellipse at 88% 78%,rgba(74,111,255,.12),transparent 36%),linear-gradient(rgba(70,180,220,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(70,180,220,.025) 1px,transparent 1px);background-size:auto,auto,42px 42px,42px 42px}
+#vbParticles{position:fixed;z-index:20;inset:0;width:100%;height:100%;pointer-events:none;opacity:.62}
+.login-wrap,.wrap,.shell,.topbar,main{position:relative;z-index:1}
+.login-wrap{filter:drop-shadow(0 24px 65px rgba(0,0,0,.3))}
+.card,.pack,.panel,.stat,.id-card{backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px)}
+@media(max-width:600px){.vb-background video{opacity:.25}#vbParticles{opacity:.42}}
+@media(prefers-reduced-motion:reduce){#vbParticles{display:none}.vb-background video{display:none}}
