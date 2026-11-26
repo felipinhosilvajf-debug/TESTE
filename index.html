@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#020912">
 <meta name="description" content="Entre no novo servidor de RPG SAMP para Android e PC. Escolha sua organização e escreva sua história.">
-<title>Virtual Boost — RP SAMP</title>
+<title>Virtual Boost | GTA SA:MP PC e MOBILE</title>
 <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +51,10 @@ header{position:absolute;z-index:5;top:0;left:0;width:100%;border-bottom:1px sol
 .scene-title em{font-style:normal;color:#5de1f0}
 .scene-copy{max-width:440px;color:#d0d6e1;font-size:14px;line-height:1.85}
 .scene-stamp{display:inline-block;margin-top:22px;padding:10px 14px;border:1px solid rgba(255,255,255,.28);background:rgba(4,8,15,.35);color:#fff;font-size:9px;font-weight:900;letter-spacing:2px}
-.scene-one{--scene-image:url('/img/cenas/arte3.jpeg');background-image:radial-gradient(circle at 75% 38%,rgba(23,155,191,.18),transparent 32%),linear-gradient(120deg,#121b2a,#070a11)}
-.scene-two{--scene-image:url('/img/cenas/arte1.jpeg');min-height:86vh;background-image:linear-gradient(120deg,#211a1a,#080b12)}
+.scene-one{--scene-image:url('/img/cenas/arte7.png');background-image:radial-gradient(circle at 75% 38%,rgba(23,155,191,.18),transparent 32%),linear-gradient(120deg,#121b2a,#070a11)}
+.scene-two{--scene-image:url('/img/cenas/arte5.png');min-height:86vh;background-image:linear-gradient(120deg,#211a1a,#080b12)}
 .scene-two:after{background:linear-gradient(90deg,rgba(3,6,12,.9),rgba(3,6,12,.38) 60%,rgba(3,6,12,.12)),linear-gradient(0deg,#070a11,transparent 55%)}
-.scene-three{--scene-image:url('/img/cenas/arte2.jpeg');min-height:86vh;background-image:linear-gradient(120deg,#1b1820,#080b12)}
+.scene-three{--scene-image:url('/img/cenas/arte6.png');min-height:86vh;background-image:linear-gradient(120deg,#1b1820,#080b12)}
 .scene-three:after{background:linear-gradient(90deg,rgba(3,6,12,.94),rgba(3,6,12,.48) 52%,rgba(3,6,12,.12)),linear-gradient(0deg,#070a11,transparent 55%)}
 .scene-side-label{position:absolute;right:4%;top:50%;writing-mode:vertical-rl;transform:translateY(-50%);color:rgba(255,255,255,.48);font-size:9px;letter-spacing:3px;font-weight:900}
 @media(max-width:760px){.story-scene{min-height:78vh;background-position:62% center}.scene-content{padding:85px 0 75px}.scene-title{font-size:clamp(58px,15vw,90px)}.scene-side-label{right:3%;font-size:7px}}
@@ -80,7 +80,7 @@ footer{padding:28px 0;color:#8792a6;font-size:10px}.foot{display:flex;justify-co
 .download-card{position:relative;width:min(560px,100%);max-height:min(90vh,850px);overflow:auto;padding:34px;border:1px solid rgba(91,190,255,.35);border-radius:18px;background:radial-gradient(circle at 100% 0,rgba(132,91,255,.2),transparent 38%),linear-gradient(145deg,#17243a,#0b1220 72%);box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 42px rgba(44,171,255,.13);transform:translateY(24px) scale(.96);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow-x:hidden}
 .download-modal.open .download-card{transform:translateY(0) scale(1)}
 .download-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:linear-gradient(90deg,#19d5e8,#6381ff,#a16bfa)}
-.download-close{position:absolute;right:15px;top:13px;width:35px;height:35px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.06);color:#fff;font-size:21px;cursor:pointer}
+.download-close{position:absolute;right:15px;top:-12px;width:35px;height:35px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.06);color:#fff;font-size:21px;cursor:pointer}
 .download-kicker{color:#65d9f2;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
 .download-card h2{font-family:"Barlow Condensed";font-size:clamp(38px,7vw,52px);line-height:.95;margin:12px 0;color:#fff;text-transform:uppercase}
 .download-card h2 span{background:linear-gradient(90deg,#35d7e8,#9c79ff);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -525,6 +525,40 @@ document.addEventListener('DOMContentLoaded',()=>{
     transform: none !important;
   }
 }
+.btn-plataforma {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borda sutil */
+  border-radius: 8px; /* Cantos arredondados */
+  background-color: rgba(0, 0, 0, 0.25); /* Fundo levemente mais escuro */
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efeito ao passar o mouse por cima */
+.btn-plataforma:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-plataforma i {
+  font-size: 18px;
+}
+
+.texto-gratuito {
+  color: #e2d9eb;
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  margin-left: 8px;
+}
+
 </style>
 
 </head>
@@ -544,10 +578,34 @@ document.addEventListener('DOMContentLoaded',()=>{
   <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/img/back.png" aria-hidden="true"><source src="/img/video.mp4" type="video/mp4">Seu navegador não suporta vídeo HTML5.</video>
   <div class="wrap"><div class="hero-content">
   <div class="eyebrow"><span class="dot"></span> NOVO SERVIDOR • ANDROID & PC</div>
-  <h1>GTA SAMP<br><span>SUA CIDADE.</span></h1>
+  <h1>GTA SA:MP<br><span>SUA CIDADE.</span></h1>
   <p>Entre em uma cidade cheia de possibilidades. Faça seu nome, encontre sua galera, conquiste seu espaço e viva o verdadeiro roleplay brasileiro — do seu jeito, no celular ou no computador.</p>
+  <!-- Adicione esta linha dentro da tag <head> do seu site para carregar os ícones -->
+<link rel="stylesheet" href="https://cloudflare.com">
+
+<div class="plataformas-container">
+  <!-- Botão PC (Windows) -->
+  <a href="#link-pc" class="btn-plataforma">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+    </svg>
+    <span>PC</span>
+  </a>
+
+  <!-- Botão Android -->
+  <a href="#link-android" class="btn-plataforma">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.523 15.3414C16.969 15.3414 16.519 14.8914 16.519 14.3374C16.519 13.7834 16.969 13.3334 17.523 13.3334C18.077 13.3334 18.527 13.7834 18.527 14.3374C18.527 14.8914 18.077 15.3414 17.523 15.3414ZM6.477 15.3414C5.923 15.3414 5.473 14.8914 5.473 14.3374C5.473 13.7834 5.923 13.3334 6.477 13.3334C7.031 13.3334 7.481 13.7834 7.481 14.3374C7.481 14.8914 7.031 15.3414 6.477 15.3414ZM17.882 9.2994L19.89 5.8214C20.002 5.6274 19.936 5.3794 19.742 5.2674C19.548 5.1554 19.3 5.2214 19.188 5.4154L17.155 8.9364C15.637 8.2434 13.882 7.8504 12 7.8504C10.118 7.8504 8.363 8.2434 6.845 8.9364L4.812 5.4154C4.7 5.2214 4.452 5.1554 4.258 5.2674C4.064 5.3794 3.998 5.6274 4.11 5.8214L6.118 9.2994C2.68 11.1684 0.344 14.6614 0 18.7504H24C23.656 14.6614 21.32 11.1684 17.882 9.2994Z"/>
+    </svg>
+    <span>ANDROID</span>
+  </a>
+
+  <span class="texto-gratuito">GRATUITO PARA JOGAR</span>
+</div>
+
+
   <div class="actions"><a class="btn primary" href="https://discord.com/invite/TGRYe5suyc" target="_blank">DISCORD <span>➜</span></a><button class="btn download-cta" type="button" onclick="openDownloadCard()">DOWNLOAD <span>🔗</span></button></div>
-  <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">163.245.202.163:7777</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
+  <div class="ip-card"><div><div class="ip-label">IP OFICIAL DO SERVIDOR</div><div class="ip" id="serverIp">PLAY.VIRTUALBOOST.ONLINE</div></div><button class="copy" id="copyBtn" onclick="copyIP()">COPIAR IP</button></div>
 </div></div>
 </section>
 
@@ -618,7 +676,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div class="shot"><img src="https://virtualboost.online/img/img_site/5.png" alt="Setup de computador"><span>ANDROID & PC</span></div>
   </div>
   <div class="video-box">
-    <a class="video-main" href="https://www.youtube.com/watch?v=GENGvWcZoO4" target="_blank" rel="noopener"><div><div class="play">▶</div><h3>VEJA O VIRTUAL BOOST</h3><p style="font-size:11px;color:#d5dbea">Clique para assistir o servidor no YouTube</p></div></a>
+    <a class="video-main" href="https://www.youtube.com/watch?v=ixl-KsMdTxc" target="_blank" rel="noopener"><div><div class="play">▶</div><h3>VEJA O VIRTUAL BOOST</h3><p style="font-size:11px;color:#d5dbea">Clique para assistir o servidor no YouTube</p></div></a>
     <div class="video-side"><div class="section-tag">SEU MOMENTO É AGORA</div><h3 class="section-title" style="font-size:36px">Chame os amigos.</h3><p>Monte sua história, encontre sua organização e faça parte da comunidade. O próximo capítulo depende de você.</p><button class="btn primary" type="button" onclick="openDownloadCard()">COMO COMEÇAR ↗</button></div>
   </div>
 </div></section>
@@ -628,7 +686,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <footer><div class="wrap foot"><div class="brand">RP<span> VIRTUAL</span> BOOST</div><div>Um projeto de comunidade. <strong>Respeite as regras e faça seu RP.</strong></div><div>© 2026 • TODOS OS DIREITOS RESERVADOS</div></div></footer>
 <script>
 function copyIP(){
- const ip='163.245.202.163:777';
+ const ip='PLAY.VIRTUALBOOST.ONLINE';
  const btns=document.querySelectorAll('.copy');
  const done=()=>{btns.forEach(b=>{b.textContent='COPIADO!';setTimeout(()=>b.textContent='COPIAR IP',1800)});};
  if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(ip).then(done).catch(()=>fallbackCopy(ip,done));}
@@ -874,5 +932,41 @@ document.addEventListener('keydown',function(e){
     </div>
   </section>
 </div>
+<script>
+  // 1. Bloqueia o clique com o botão direito do mouse
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+
+  // 2. Bloqueia atalhos de teclado (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+  document.addEventListener('keydown', function (e) {
+    // F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + I (Inspecionar)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + J (Console)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + C (Selecionar elemento)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + U (Ver código-fonte)
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+</script>
+
 </body>
 </html>
