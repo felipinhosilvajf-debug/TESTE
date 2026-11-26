@@ -1,0 +1,3245 @@
+Starting open.mp server (1.6.7.3218) from commit 3d20f3dc0e26917264cdc8585c65913e080a143c
+Loading component $CAPI.dll
+        Successfully loaded component C-API (1.6.7.3218) with UID 10467dd8d4c56fc6
+Loading component Actors.dll
+        Successfully loaded component Actors (1.6.7.3218) with UID c81ca021eae2ad5c
+Loading component Checkpoints.dll
+        Successfully loaded component Checkpoints (1.6.7.3218) with UID 44a937350d611dde
+Loading component Classes.dll
+        Successfully loaded component Classes (1.6.7.3218) with UID 8cfb3183976da208
+Loading component Console.dll
+        Successfully loaded component Console (1.6.7.3218) with UID bfa24e49d0c95ee4
+Loading component CustomModels.dll
+        Successfully loaded component CustomModels (1.6.7.3218) with UID 15e3cb1e7c77ffff
+Loading component Databases.dll
+        Successfully loaded component Databases (1.6.7.3218) with UID 80092e7eb5821a96
+Loading component Dialogs.dll
+        Successfully loaded component Dialogs (1.6.7.3218) with UID 44a111350d611dde
+Loading component GangZones.dll
+        Successfully loaded component GangZones (1.6.7.3218) with UID b3351d11ee8d8056
+Loading component LegacyConfig.dll
+        Successfully loaded component LegacyConfig (1.6.7.3218) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.dll
+        Successfully loaded component RakNetLegacyNetwork (1.6.7.3218) with UID ea9799fd79cf8442
+Loading component Menus.dll
+        Successfully loaded component Menus (1.6.7.3218) with UID 621e219eb97ee0b2
+Loading component NPCs.dll
+        Successfully loaded component NPCs (1.6.7.3218) with UID 3d0e59e87f4e90bc
+Loading component Objects.dll
+        Successfully loaded component Objects (1.6.7.3218) with UID 59f8415f72da6160
+Loading component Pawn.dll
+        Successfully loaded component Pawn (1.6.7.3218) with UID 78906cd9f19c36a6
+Loading component Pickups.dll
+        Successfully loaded component Pickups (1.6.7.3218) with UID cf304faa363dd971
+Loading component Recordings.dll
+        Successfully loaded component Recordings (1.6.7.3218) with UID 871144d399f5f613
+Loading component TextDraws.dll
+        Successfully loaded component TextDraws (1.6.7.3218) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.dll
+        Successfully loaded component TextLabels (1.6.7.3218) with UID a0c57ea80a009742
+Loading component Timers.dll
+        Successfully loaded component Timers (1.6.7.3218) with UID 2ad8124c5ea257a3
+Loading component Variables.dll
+        Successfully loaded component Variables (1.6.7.3218) with UID 75e121848bc01fa2
+Loading component Vehicles.dll
+        Successfully loaded component Vehicles (1.6.7.3218) with UID 3f1f62ee9e22ab19
+Loaded 22 component(s) from C:\inetpub\wwwroot\Server\components
+[2026-11-26T03:12:00-0300] [Info] Loading plugin: streamer
+[2026-11-26T03:12:00-0300] [Info]
+
+*** Streamer Plugin v2.9.4 by Incognito loaded ***
+
+[2026-11-26T03:12:00-0300] [Info] Loading plugin: sscanf
+[2026-11-26T03:12:00-0300] [Info]
+
+[2026-11-26T03:12:00-0300] [Info]  ===============================
+
+[2026-11-26T03:12:00-0300] [Info]       sscanf plugin loaded.
+
+[2026-11-26T03:12:00-0300] [Info]          Version:  2.8.3
+
+[2026-11-26T03:12:00-0300] [Info]   (c) 2018 Alex "Y_Less" Cole
+
+[2026-11-26T03:12:00-0300] [Info]  ===============================
+
+[2026-11-26T03:12:00-0300] [Info]
+[2026-11-26T03:12:00-0300] [Info]
+[2026-11-26T03:12:00-0300] [Info]          ==============================================================
+[2026-11-26T03:12:00-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          |    YYYYYYY       YYYYYYY    SSSSSSSSSSSSSSS  IIIIIIIIII    |
+[2026-11-26T03:12:01-0300] [Info]          |    Y:::::Y       Y:::::Y  SS:::::::::::::::S I::::::::I    |
+[2026-11-26T03:12:01-0300] [Info]          |    Y:::::Y       Y:::::Y S:::::SSSSSS::::::S I::::::::I    |
+[2026-11-26T03:12:01-0300] [Info]          |    Y::::::Y     Y::::::Y S:::::S     SSSSSSS II::::::II    |
+[2026-11-26T03:12:01-0300] [Info]          |    YYY:::::Y   Y:::::YYY S:::::S               I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |       Y:::::Y Y:::::Y    S:::::S               I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |        Y:::::Y:::::Y      S::::SSSS            I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |         Y:::::::::Y        SS::::::SSSSS       I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |          Y:::::::Y           SSS::::::::SS     I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |           Y:::::Y               SSSSSS::::S    I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |           Y:::::Y                    S:::::S   I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |           Y:::::Y                    S:::::S   I::::I      |
+[2026-11-26T03:12:01-0300] [Info]          |           Y:::::Y        SSSSSSS     S:::::S II::::::II    |
+[2026-11-26T03:12:01-0300] [Info]          |        YYYY:::::YYYY     S::::::SSSSSS:::::S I::::::::I    |
+[2026-11-26T03:12:01-0300] [Info]          |        Y:::::::::::Y     S:::::::::::::::SS  I::::::::I    |
+[2026-11-26T03:12:01-0300] [Info]          |        YYYYYYYYYYYYY      SSSSSSSSSSSSSSS    IIIIIIIIII    |
+[2026-11-26T03:12:01-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          |                      (c) 2021 MPL v1.1                     |
+[2026-11-26T03:12:01-0300] [Info]          |            Alex "Y_Less" Cole and contributors.            |
+[2026-11-26T03:12:01-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          |                                                            |
+[2026-11-26T03:12:01-0300] [Info]          ==============================================================
+[2026-11-26T03:12:01-0300] [Info]
+[2026-11-26T03:12:01-0300] [Info]
+[2026-11-26T03:12:01-0300] [Info]  ==========================================
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  |   Generating code, this may take a     |
+[2026-11-26T03:12:01-0300] [Info]  |  little bit of time.  Note that this   |
+[2026-11-26T03:12:01-0300] [Info]  |  code generation works best with the   |
+[2026-11-26T03:12:01-0300] [Info]  |     JIT plugin, which you are not      |
+[2026-11-26T03:12:01-0300] [Info]  |     currently using.  Get it here:     |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  |       https://git.io/jit-plugin        |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  |             Please wait...             |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  |             Done in 214ms!             |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  ==========================================
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  | Server:      open.mp 1.6.7.3218 (W)    |
+[2026-11-26T03:12:01-0300] [Info]  | Started:     26 Nov 2026 - 03:12:00    |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  | Compiler:    3.10.11 (Windows)         |
+[2026-11-26T03:12:01-0300] [Info]  | Includes:    open.mp v037030           |
+[2026-11-26T03:12:01-0300] [Info]  | Codepage:    <none>                    |
+[2026-11-26T03:12:01-0300] [Info]  | Built:       26 Nov 2026 - 03:11:42    |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  | YSI:         v05.10.0006               |
+[2026-11-26T03:12:01-0300] [Info]  | Master:      -1                        |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  | JIT:         <none>                    |
+[2026-11-26T03:12:01-0300] [Info]  | Crashdetect: <none>                    |
+[2026-11-26T03:12:01-0300] [Info]  |                                        |
+[2026-11-26T03:12:01-0300] [Info]  ==========================================
+[2026-11-26T03:12:01-0300] [Info]
+[2026-11-26T03:12:01-0300] [Info]
+[2026-11-26T03:12:01-0300] [Warning] Parameter count does not match specifier in `Script_Call`. callback: Iter_OnGameModeInit - fmat:  - count: 3)
+[2026-11-26T03:12:01-0300] [Info] Server Ligado: [26/11/2026 03:12:01]
+[2026-11-26T03:12:01-0300] [Warning] Vehicle created with respawn delay 0 which is undefined behaviour that might change in the future.
+[2026-11-26T03:12:01-0300] [Warning] SetTimer(Ex): There was a problem in creating the timer, "public StatsCar" doesn't exist in your script.
+[2026-11-26T03:12:01-0300] [Info] |____ Carregando Dados do Servidor ____|
+[2026-11-26T03:12:01-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:01-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:01-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:01-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:01-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:01-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:01-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:01-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:01-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:02-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:02-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:03-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:03-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:04-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:04-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:05-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:05-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:06-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:06-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:07-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:07-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:08-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:08-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:09-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:09-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:10-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:10-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:11-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:11-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:12-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:12-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:13-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:13-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:14-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:14-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:15-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:15-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:16-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:16-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:17-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:17-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 6, total: 5, format: {df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}Imovel a Venda
+{ffffff}ID: {df5454}%d
+{ffffff}Preco: R${228B22}%d
+{ffffff}Level Necessario: {df5454}%d
+{ffffff}Para comprar, Digite: /comprarcasa" < 2
+[2026-11-26T03:12:18-0300] [Info] Casas (309) Carregadas
+[2026-11-26T03:12:18-0300] [Info] Empresas (36) Carregadas
+[2026-11-26T03:12:18-0300] [Info] Fazendas (20) Carregadas
+[2026-11-26T03:12:18-0300] [Info] Organizacoes Todas Carregadas
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `printf`: "Plantacoes Carregado" < 1
+[2026-11-26T03:12:18-0300] [Info] Plantacoes Carregado
+[2026-11-26T03:12:18-0300] [Info] Total Carros (1199) Criados
+[2026-11-26T03:12:18-0300] [Info] Maximo de Jogadores (150) Slots Definido
+[2026-11-26T03:12:18-0300] [Error] String formatted incorrectly - parameter: 9, total: 8, format: {ffffff}ID: {df5454}%d
+{ffffff}Dono da Casa: {df5454}%s
+{ffffff}Preco do Aluguel: R${228B22}%d
+{ffffff}Level necessario: {df5454}%d
+{ffffff}Tipo de Casa: {df5454}%s
+{ffffff}Descricao: {df5454}%s
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{ffffff}ID: {df5454}%d
+{ffffff}Dono da Casa: {df5454}%s
+{ffffff}Preco do Aluguel: R${228B22}%d
+{ffffff}Level necessario: {df5454}%d
+{ffffff}Tipo de Casa: {df5454}%s
+{ffffff}Descricao: {df5454}%s" < 5
+[2026-11-26T03:12:18-0300] [Warning] Insufficient specifiers given to `format`: "{df5454}%s
+{ffffff}Dono: {df5454}%s
+{ffffff}Extorcao: {df5454}%s
+{ffffff}Taxa de Entrada: R${33ff00}%d
+
+{818689}Para Entrar, Aperte {00E5FF}F." < 5
+[2026-11-26T03:12:19-0300] [Info] Legacy Network started on port 7777
+[2026-11-26T03:12:21-0300] [Info] [VirtualBoost] VIRTUAL PHONE com WhatsApp carregado.
+[2026-11-26T03:12:21-0300] [Info] Filterscript 'celular_vb' loaded.
+[2026-11-26T03:12:21-0300] [Info] ====================================================
+[2026-11-26T03:12:21-0300] [Info]  [FS] Identidade do Cidadao v5.1 - Carregado
+[2026-11-26T03:12:21-0300] [Info] ====================================================
+[2026-11-26T03:12:21-0300] [Info] Filterscript 'ficha_cidadao' loaded.
