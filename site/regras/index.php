@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081222">
+<meta name="description" content="Regras oficiais do Virtual Boost Roleplay. Conheça as diretrizes da comunidade e do servidor.">
+<title>Regras | Virtual Boost Roleplay</title>
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081222;--panel:#10223b;--panel2:#142d4b;--text:#f5f8ff;--muted:#aab8cc;--blue:#2879e8;--cyan:#38d7f5;--violet:#8c75f5;--line:rgba(173,203,239,.15);--grad:linear-gradient(115deg,#2879e8,#38d7f5 58%,#8c75f5);--shadow:0 22px 70px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}a{color:inherit;text-decoration:none}.wrap{width:min(1160px,92%);margin:auto}
+header{position:fixed;z-index:20;inset:0 0 auto;background:rgba(7,17,32,.84);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font:900 29px "Barlow Condensed",sans-serif;letter-spacing:1px;white-space:nowrap}.brand strong{color:var(--cyan)}.navlinks{display:flex;align-items:center;gap:25px;color:#c4d0e1;font-size:11px;font-weight:800;letter-spacing:.7px}.navlinks a{transition:.2s}.navlinks a:hover,.navlinks a.current{color:var(--cyan)}.nav-actions{display:flex;gap:9px}.nav-actions a{padding:11px 14px;border-radius:7px;font-size:10px;font-weight:900;letter-spacing:.5px}.nav-shop{background:var(--grad);color:#061326}.nav-login{border:1px solid var(--line);background:rgba(255,255,255,.04)}.menu-toggle{display:none;background:none;border:1px solid var(--line);color:white;border-radius:7px;padding:9px 12px}
+.hero{position:relative;isolation:isolate;min-height:470px;display:flex;align-items:flex-end;padding:155px 0 65px;overflow:hidden;background:#091426}.hero-video{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}.hero:before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,rgba(5,13,26,.91),rgba(5,13,26,.66)),linear-gradient(0deg,var(--bg),transparent 68%)}.hero:after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 78% 48%,rgba(56,215,245,.17),transparent 38%)}.eyebrow,.tag{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2.3px;text-transform:uppercase}.eyebrow:before{content:"";width:25px;height:2px;background:var(--grad)}h1,h2,h3,p{margin-top:0}h1{font:900 clamp(58px,8vw,94px)/.88 "Barlow Condensed",sans-serif;text-transform:uppercase;margin:20px 0 15px}.gradient{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{max-width:620px;color:#c3cfdf;font-size:14px;line-height:1.9;margin:0}
+main{padding:75px 0 100px}.intro{max-width:720px;margin-bottom:32px}.intro h2{font:800 43px/.95 "Barlow Condensed",sans-serif;text-transform:uppercase;margin:12px 0}.intro p{color:var(--muted);font-size:13px;line-height:1.85}
+.rule-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.rule-card{position:relative;isolation:isolate;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding:32px;border:1px solid rgba(173,203,239,.2);border-radius:16px;background:linear-gradient(145deg,#142d4b,#09182c);box-shadow:var(--shadow);transition:transform .3s,border-color .3s,box-shadow .3s}.rule-card:before{content:"";position:absolute;z-index:-2;inset:0;background:var(--card-image) center/cover no-repeat;opacity:.42;transition:transform .6s,opacity .4s}.rule-card:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(5,14,27,.08),rgba(5,14,27,.95) 82%)}.rule-card:first-child{--card-image:url('/img/organizacoes/art2/arte2.jpg')}.rule-card:last-child{--card-image:url('/img/organizacoes/art2/arte5.png')}.rule-card:hover{transform:translateY(-6px);border-color:rgba(56,215,245,.65);box-shadow:0 25px 65px rgba(0,0,0,.45),0 0 30px rgba(56,215,245,.12)}.rule-card:hover:before{transform:scale(1.06);opacity:.58}.card-symbol{position:absolute;top:27px;left:30px;width:58px;height:58px;display:grid;place-items:center;border:1px solid rgba(56,215,245,.38);border-radius:14px;background:rgba(6,24,44,.68);color:var(--cyan);font-size:27px;box-shadow:0 8px 24px rgba(0,0,0,.2)}.card-kicker{color:var(--cyan);font-size:9px;font-weight:900;letter-spacing:2px}.rule-card h3{font:900 clamp(32px,4vw,46px)/.92 "Barlow Condensed",sans-serif;text-transform:uppercase;margin:10px 0}.rule-card p{max-width:460px;color:#c2cfdf;font-size:12px;line-height:1.8;margin:0 0 22px}.card-link{display:inline-flex;align-items:center;gap:12px;width:max-content;padding:12px 16px;border-radius:7px;background:var(--grad);color:#071326;font-size:10px;font-weight:900;letter-spacing:.7px}.card-link span{font-size:16px;transition:transform .2s}.rule-card:hover .card-link span{transform:translateX(4px)}
+.reader{margin-top:45px;padding:30px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,rgba(17,39,66,.94),rgba(8,22,40,.96));box-shadow:var(--shadow)}.reader[hidden]{display:none}.reader-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px}.reader-head h2{font:800 35px/.95 "Barlow Condensed",sans-serif;margin:9px 0}.reader-head p{color:var(--muted);font-size:11px;line-height:1.7;margin:0}.back-link{border:1px solid var(--line);border-radius:7px;padding:10px 13px;color:#dce8f7;font-size:10px;font-weight:800;white-space:nowrap}.tools{display:flex;gap:10px;margin:20px 0}.search{flex:1;min-width:0;padding:13px 15px;border:1px solid var(--line);border-radius:8px;outline:0;background:rgba(3,13,26,.6);color:white;font:inherit;font-size:12px}.search:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(56,215,245,.1)}.rule-list{display:grid;gap:10px}.rule-item{border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);overflow:hidden}.rule-item summary{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 18px;cursor:pointer;list-style:none;font-size:12px;font-weight:800}.rule-item summary::-webkit-details-marker{display:none}.rule-item summary:after{content:"+";color:var(--cyan);font-size:20px}.rule-item[open] summary:after{content:"−"}.rule-item .rule-body{padding:0 18px 18px;color:#b8c8da;font-size:12px;line-height:1.85}.rule-item .rule-body p{margin:0}.empty{color:var(--muted);font-size:12px;padding:20px;text-align:center}
+footer{padding:28px 0 24px;background:#050d19;border-top:1px solid var(--line)}.foot-top{display:flex;align-items:center;justify-content:space-between;gap:22px;padding-bottom:22px}.rating{display:flex;align-items:center;gap:12px;color:#b9c8da;font-size:9px;line-height:1.6;letter-spacing:.45px;text-transform:uppercase}.rating-mark{flex:none;width:43px;height:52px;display:grid;place-items:center;border:2px solid #dce6f4;border-radius:5px;color:white;font:900 22px "Barlow Condensed",sans-serif}.rating b{display:block;color:white;font-size:12px;letter-spacing:1px}.socials{display:flex;align-items:center;gap:10px}.socials a{width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.04);color:#dce8f7;transition:.2s}.socials a:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px);box-shadow:0 7px 20px rgba(56,215,245,.15)}.socials svg{width:17px;height:17px;fill:currentColor}.foot-bottom{display:flex;justify-content:space-between;gap:15px;padding-top:18px;border-top:1px solid var(--line);color:#8293aa;font-size:9px}.foot-bottom strong{color:#d7e3f3}
+@media(max-width:900px){.navlinks{gap:13px}.nav-actions .nav-shop{display:none}}
+@media(max-width:700px){.nav{height:68px}.menu-toggle{display:block}.navlinks{display:none;position:absolute;top:68px;left:4%;right:4%;padding:14px;border:1px solid var(--line);border-radius:10px;background:#0b1a2d;flex-direction:column;align-items:stretch;gap:0}.navlinks.open{display:flex}.navlinks a{padding:13px 8px;border-bottom:1px solid var(--line)}.navlinks a:last-child{border:0}.brand{font-size:25px}.nav-login{padding:10px}.hero{min-height:420px;padding:125px 0 45px}.hero p{font-size:12px}main{padding:55px 0 70px}.rule-cards{grid-template-columns:1fr;gap:15px}.rule-card{min-height:265px;padding:25px}.card-symbol{top:22px;left:24px}.reader{padding:20px 15px}.reader-head{display:block}.back-link{display:inline-flex;margin-top:15px}.tools{flex-direction:column}.foot-top{align-items:flex-start;flex-direction:column}.foot-bottom{flex-direction:column}.intro h2{font-size:38px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a class="brand" href="/"><strong>VIRTUAL BOOST</strong> RP</a>
+<button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" onclick="toggleMenu()">☰</button>
+<nav class="navlinks" id="navLinks"><a href="/">INÍCIO</a><a href="/#sobre">O SERVIDOR</a><a href="/#organizacoes">ORGANIZAÇÕES</a><a href="/#midia">MÍDIA</a><a class="current" href="/site/regras">REGRAS</a></nav>
+<div class="nav-actions"><a class="nav-shop" href="/site/loja.php">APOIE O PROJETO ✦</a><a class="nav-login" href="/site/login.php">MINHA CONTA ↗</a></div>
+</div></header>
+<section class="hero">
+<video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/img/back.png" aria-hidden="true"><source src="/img/video.mp4" type="video/mp4"></video>
+<div class="wrap"><div class="eyebrow">VIRTUAL BOOST ROLEPLAY • COMUNIDADE</div><h1>REGRAS DA <span class="gradient">CIDADE.</span></h1><p>Uma boa experiência começa com respeito. Consulte as diretrizes, conheça os limites de cada ambiente e ajude a manter o Virtual Boost uma cidade justa, organizada e divertida para todos.</p></div>
+</section>
+<main class="wrap">
+<div class="intro"><div class="tag">CENTRAL DE ORIENTAÇÕES</div><h2>Escolha a biblioteca de <span class="gradient">regras.</span></h2><p>As regras existem para manter o Roleplay saudável e garantir que todos tenham a mesma oportunidade de aproveitar o servidor. Selecione uma das bibliotecas para consultar os tópicos.</p></div>
+<div class="rule-cards">
+<a class="rule-card" href="?biblioteca=regras" aria-label="Consultar regras da comunidade"><span class="card-symbol">⚖</span><span class="card-kicker">CONVIVÊNCIA • RESPEITO • FAIR PLAY</span><h3>REGRAS DA<br>COMUNIDADE</h3><p>Diretrizes de convivência, comportamento, respeito entre jogadores e utilização dos espaços da comunidade.</p><span class="card-link">ACESSAR BIBLIOTECA <span>→</span></span></a>
+<a class="rule-card" href="?biblioteca=regras-do-servidor" aria-label="Consultar regras do servidor"><span class="card-symbol">🏙</span><span class="card-kicker">ROLEPLAY • SISTEMAS • JOGABILIDADE</span><h3>REGRAS DO<br>SERVIDOR</h3><p>Orientações para interpretar seu personagem, interagir na cidade e utilizar corretamente os sistemas do Virtual Boost.</p><span class="card-link">ACESSAR BIBLIOTECA <span>→</span></span></a>
+</div>
+<section class="reader" id="biblioteca" hidden>
+<div class="reader-head"><div><div class="tag">BIBLIOTECA VIRTUAL BOOST</div><h2 id="readerTitle">Regras</h2><p>Leia cada tópico com atenção. Em caso de dúvida, procure a equipe da comunidade.</p></div><a class="back-link" href="/site/regras">← VER AS DUAS BIBLIOTECAS</a></div>
+<div class="tools"><input class="search" id="ruleSearch" type="search" placeholder="Pesquisar uma regra ou palavra-chave..." aria-label="Pesquisar regras"></div>
+<div class="rule-list" id="ruleList"></div>
+</section>
+</main>
+<footer><div class="wrap">
+<div class="foot-top">
+<div class="rating"><span class="rating-mark">M</span><span><b>MATURE 17+ • M ESRB</b>Sangue e violência gráfica, violência intensa, humor adulto, nudez, linguagem forte, conteúdo sexual intenso, uso de drogas e álcool.</span></div>
+<div class="socials" aria-label="Redes sociais">
+<a href="https://discord.com/invite/TGRYe5suyc" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M19.7 5.3A18 18 0 0 0 15.3 4l-.5 1a16 16 0 0 0-5.6 0l-.5-1a18 18 0 0 0-4.4 1.3C1.5 9.4.7 13.4 1.1 17.3a18 18 0 0 0 5.4 2.7l1.2-2a11 11 0 0 1-1.9-.9l.5-.4a12.8 12.8 0 0 0 11.4 0l.5.4a11 11 0 0 1-1.9.9l1.2 2a18 18 0 0 0 5.4-2.7c.5-4.5-.8-8.5-3.2-12zM8.7 14.8c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+<a href="https://www.youtube.com/watch?v=ixl-KsMdTxc" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+</div>
+</div>
+<div class="foot-bottom"><span>© 2026 VIRTUAL BOOST • TODOS OS DIREITOS RESERVADOS</span><span>Projeto independente. Respeite as regras e faça seu RP.</span></div>
+</div></footer>
+<script>
+function toggleMenu(){const nav=document.getElementById('navLinks'),btn=document.querySelector('.menu-toggle');const open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));}
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>{document.getElementById('navLinks').classList.remove('open');document.querySelector('.menu-toggle').setAttribute('aria-expanded','false');}));
+const libraries={
+'regras':{title:'Regras da comunidade',items:[
+['Respeito e convivência','Trate todos os jogadores e membros da equipe com respeito. Ofensas, perseguição, discriminação, assédio e comportamento tóxico não são aceitos.'],
+['Uso dos canais oficiais','Utilize cada canal para sua finalidade, evite spam, divulgação não autorizada e mensagens que atrapalhem a comunicação da comunidade.'],
+['Nome, imagem e identidade','Não utilize nomes, imagens ou conteúdos destinados a enganar, intimidar ou se passar por outro jogador ou membro da equipe.'],
+['Trapaças e vantagens indevidas','É proibido utilizar programas, modificações ou qualquer recurso externo para obter vantagem injusta, prejudicar outros jogadores ou comprometer o servidor.'],
+['Denúncias e atendimento','Apresente denúncias de forma clara e verdadeira, com provas quando possível. Não falsifique evidências nem utilize os canais de suporte para ameaças ou acusações mal-intencionadas.'],
+['Privacidade e segurança','Não divulgue dados pessoais seus ou de terceiros. Nunca compartilhe senhas, códigos de acesso ou informações privadas.']
+]},
+'regras-do-servidor':{title:'Regras do servidor',items:[
+['Powergaming (PG)','Não force situações irreais ou ações que uma pessoa não conseguiria executar na vida real. Dê oportunidade para que os demais jogadores reajam às interações.'],
+['Metagaming (MG)','Não utilize informações obtidas fora do personagem dentro do Roleplay. Seu personagem só pode agir com base no que descobriu em jogo.'],
+['Deathmatch (DM)','Não agrida ou elimine outros jogadores sem contexto ou motivação válida dentro do Roleplay. Toda ação hostil deve ter desenvolvimento e justificativa.'],
+['Revenge Kill (RK)','Não retorne imediatamente para se vingar de quem derrotou seu personagem, nem utilize lembranças indevidas da situação anterior para obter vantagem.'],
+['Combat logging','Não desconecte, force o fechamento do jogo ou abandone uma situação ativa para evitar consequências de uma interação de Roleplay.'],
+['Valorização da vida','Seu personagem deve agir considerando riscos reais. Não provoque situações de perigo extremo sem motivo ou aja como se não pudesse sofrer consequências.'],
+['Abuso de bugs e exploits','Não explore falhas, duplicações, erros de sistemas ou mecânicas para obter vantagens. Comunique qualquer problema à equipe.'],
+['Interpretação e bom senso','Mantenha coerência com a história do personagem, respeite o contexto das cenas e evite atitudes que prejudiquem a experiência coletiva.'],
+['Organizações e atividades','Siga as orientações específicas de sua organização e as regras de cada atividade. Lideranças não podem utilizar seus cargos para benefício indevido.'],
+['Orientações da administração','As decisões da equipe devem ser respeitadas durante o atendimento. Caso discorde, utilize os canais apropriados para solicitar revisão com educação.']
+]}
+};
+const params=new URLSearchParams(location.search),selected=params.get('biblioteca'),reader=document.getElementById('biblioteca'),list=document.getElementById('ruleList'),search=document.getElementById('ruleSearch');
+function renderRules(){const lib=libraries[selected];if(!lib)return;const term=search.value.trim().toLocaleLowerCase('pt-BR');const items=lib.items.filter(item=>(item[0]+' '+item[1]).toLocaleLowerCase('pt-BR').includes(term));list.innerHTML=items.length?items.map((item,i)=>'<details class="rule-item"><summary>'+item[0]+'</summary><div class="rule-body"><p>'+item[1]+'</p></div></details>').join(''):'<div class="empty">Nenhuma regra encontrada para essa pesquisa.</div>';}
+if(libraries[selected]){reader.hidden=false;document.getElementById('readerTitle').textContent=libraries[selected].title;renderRules();search.addEventListener('input',renderRules);setTimeout(()=>reader.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+</script>
+</body>
+</html>
