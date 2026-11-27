@@ -31,7 +31,7 @@ footer{padding:30px 0;background:#060e1b;border-top:1px solid var(--line)}.foot{
 <header id="siteHeader"><div class="wrap nav">
 <a class="brand" href="#inicio" aria-label="Virtual Boost início"><strong>VIRTUAL BOOST</strong> RP</a>
 <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" onclick="toggleMenu()">☰</button>
-<nav class="navlinks" id="navLinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a><a href="/site/regras">REGRAS</a></nav>
+<nav class="navlinks" id="navLinks"><a href="#sobre">O SERVIDOR</a><a href="#organizacoes">ORGANIZAÇÕES</a><a href="#midia">MÍDIA</a><a href="#entrar">COMO JOGAR</a><a href="/site/regras.php">REGRAS</a></nav>
 <div class="nav-actions"><a class="nav-shop" href="site/loja.php">APOIE O PROJETO ✦</a><a class="nav-login" href="site/login.php">MINHA CONTA ↗</a></div>
 </div></header>
 <main>
@@ -106,6 +106,42 @@ function closeDownloadCard(){const modal=document.getElementById('downloadModal'
 function switchDownloadPlatform(platform){const android=platform==='android',tabPC=document.getElementById('tabPC'),tabAndroid=document.getElementById('tabAndroid'),panelPC=document.getElementById('panelPC'),panelAndroid=document.getElementById('panelAndroid');tabPC.classList.toggle('active',!android);tabAndroid.classList.toggle('active',android);tabPC.setAttribute('aria-selected',String(!android));tabAndroid.setAttribute('aria-selected',String(android));panelPC.hidden=android;panelAndroid.hidden=!android;}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDownloadCard();});
 window.addEventListener('scroll',()=>document.getElementById('siteHeader').classList.toggle('scrolled',window.scrollY>24),{passive:true});
+</script>
+<script src="visual.js?v=1" defer></script>
+<script>
+  // 1. Bloqueia o clique com o botão direito do mouse
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+
+  // 2. Bloqueia atalhos de teclado (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+  document.addEventListener('keydown', function (e) {
+    // F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + I (Inspecionar)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + J (Console)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + Shift + C (Selecionar elemento)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl + U (Ver código-fonte)
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+      e.preventDefault();
+      return false;
+    }
+  });
 </script>
 </body>
 </html>
